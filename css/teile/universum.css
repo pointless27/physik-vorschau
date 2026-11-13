@@ -398,7 +398,7 @@
     background: var(--uni-panel);
   }
   .uni-buehne { height: clamp(30rem, 80svh, 46rem); margin-left: -0.4rem; margin-right: -0.4rem; }
-  .uni-info { left: 0.6rem; right: 3.6rem; top: 0.6rem; width: auto; padding: 0.7rem 0.85rem 0.75rem; }
+  .uni-info { left: 0.6rem; right: 0.6rem; top: 0.6rem; width: auto; padding: 0.7rem 0.85rem 0.75rem; }
   .uni-titel { font-size: 1.3rem; }
   .uni-groesse { margin-bottom: 0.3rem; font-size: 0.82rem; }
   .uni-groesse .uni-hoch { display: none; }
@@ -416,18 +416,19 @@
     cursor: pointer;
   }
   .uni-info-offen .uni-mehr { margin-top: 0.4rem; }
-  .uni-leiter { right: 0.35rem; top: 0.8rem; bottom: 14rem; width: 2.4rem; }
-  .uni-strich { font-size: 0; }
-  .uni-leiter::before { inset: -0.5rem -0.2rem; }
-  .uni-strich::after { right: -0.6rem; }
-  .uni-station-name { display: none; }
+  /* Handy: keine Leiter (dafür der Schieber unten) und vom Maßstab nur der
+     weiße Balken mit Länge, ohne Textzeilen (Wunsch 2026-11-13) */
+  .uni-leiter { display: none; }
+  .uni-bildbreite, .uni-vergleich { display: none; }
+  .uni-anzeige { align-self: flex-start; padding: 0.4rem 0.6rem; }
+  .uni-mass { margin-bottom: 0; }
   .uni-unten { left: 0.6rem; right: 0.6rem; bottom: 0.6rem; flex-direction: column-reverse; align-items: stretch; gap: 0.5rem; }
   .uni-knoepfe { justify-content: space-between; }
   .uni-knopf { padding: 0.55rem 0.7rem; }
   .uni-knopf:nth-child(4) .uni-knopf-text { display: none; }
   .uni-anzeige { font-size: 0.75rem; }
   .uni-unten { max-width: none; }
-  .uni-hinweis { left: 50%; right: auto; transform: translateX(-50%); bottom: 13.6rem; font-size: 0.75rem; }
+  .uni-hinweis { left: 50%; right: auto; transform: translateX(-50%); bottom: 10.6rem; font-size: 0.75rem; }
 }
 @media (max-width: 26rem) {
   .uni-knopf .uni-knopf-text { display: none; }
