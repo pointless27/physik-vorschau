@@ -98,7 +98,8 @@
 
     var f1 = el("div", "deko-formel deko-formel-1");
     f1.innerHTML = "iħ ∂ψ/<span class=\"deko-luft\">∂t</span> = Ĥ<span class=\"deko-luft\">ψ</span>";
-    var f2 = el("div", "deko-formel deko-formel-2", "E = mc²");
+    var f2 = el("div", "deko-formel deko-formel-2");
+    f2.innerHTML = "E = mc<sup class=\"deko-nah\">2</sup>";   // <sup> statt ²: fehlte auf manchen Tablets
     var f3 = el("div", "deko-formel deko-formel-3");
     f3.innerHTML = "∂<sub>μ</sub>F<sup>μν</sup> = μ<sub class=\"deko-tief\">0</sub> J<sup>ν</sup>";
     f1.setAttribute("data-info", "schroedinger");

@@ -54,6 +54,7 @@
    in Caveat zu hoch und wirkte nicht wie ein Index) */
 .deko-formel .deko-tief { margin-left: 0.04em; position: relative; top: 0.12em; }
 .deko-luft { margin-left: 0.12em; }
+.deko-formel .deko-nah { margin-left: 0.03em; }   /* E = mc²: Hochzahl dicht am c */
 /* Formeln waagerecht mittig unter den Zeichnungen (deren Mitte liegt
    11,5rem neben der Inhaltsspalte), daher translateX(∓50 %).
    Formel 1 senkrecht mittig zwischen Wellenpaket (top 16vh, Höhe 8,3rem)

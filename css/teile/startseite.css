@@ -299,6 +299,11 @@
   line-height: 1.1;
 }
 .hero-bild .notiz-1 { left: -1rem; bottom: 5.5rem; }
+/* Hochzahlen als <sup> statt ² ³: manche Tablet-Browser zeigten die
+   Sonderzeichen in Caveat nicht (2026-11-13); etwas Luft rechts, damit
+   die schräge Handschrift nicht angeschnitten wird */
+.hero-bild .notiz sup { font-size: 0.62em; line-height: 0; margin-left: 0.05em; }
+.hero-bild .notiz { padding-right: 0.15em; }
 .hero-bild .notiz-2 { right: -0.5rem; top: 1.5rem; transform: rotate(5deg); }
 
 /* Startseite: "Jedes Thema auf zwei Ebenen" – Erklärung der vier Tabs.
