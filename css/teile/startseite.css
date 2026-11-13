@@ -471,7 +471,8 @@
 
 @media (max-width: 52rem) {
   .hero, .hero.erkunden { grid-template-columns: 1fr; padding-top: 1.5rem; }
-  .hero-bild { justify-self: center; width: min(100%, 26rem); order: -1; }
+  /* Handy: Sonnensystem unter dem Knopf „Direkt zu den Themen“ (Wunsch 2026-11-13) */
+  .hero-bild { justify-self: center; width: min(100%, 26rem); margin-top: 1rem; }
   .hero.erkunden .hero-bild,
   .hero.erkunden .planet-info { grid-column: 1; grid-row: auto; }
   .planet-info { padding: 1.2rem 1.15rem 1rem; }
