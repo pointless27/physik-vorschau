@@ -26,18 +26,20 @@
 .rand-deko > * { position: absolute; }
 .rand-deko svg { display: block; width: 100%; height: auto; overflow: visible; }
 
-.deko-welle    { width: 19rem; left: calc(50% - var(--breite-seite) / 2 - 21rem); top: 16vh; }
+.deko-welle    { width: calc(19 * var(--deko-e)); left: calc(50% - var(--breite-seite) / 2 - 21 * var(--deko-e)); top: 16vh; }
 /* Untere Zeichnungen mindestens 12rem über dem Fensterrand: so bleiben sie
    auch ganz unten auf der Seite über der Trennlinie der Fußzeile (~10rem) */
-.deko-feynman  { width: 15rem; left: calc(50% - var(--breite-seite) / 2 - 18rem); bottom: max(9vh, 12rem); }
+.deko-feynman  { width: calc(15 * var(--deko-e)); left: calc(50% - var(--breite-seite) / 2 - 18 * var(--deko-e)); bottom: max(9vh, 12rem); }
 /* Doppelspalt (Höhe 13,7rem) senkrecht mittig zwischen E = mc² (top 20vh,
    Höhe ca. 2rem) und der Maxwell-Formel (bottom max(11vh, 13rem), Höhe
-   ca. 2,5rem): Mitte = 60vh − 0,25rem − max(5,5vh, 6,5rem) */
-.deko-spalt    { width: 19rem; right: calc(50% - var(--breite-seite) / 2 - 21rem); top: calc(60vh - 7.1rem - max(5.5vh, 6.5rem)); }
+   ca. 2,5rem): Mitte = 60vh − 0,25rem − max(5,5vh, 6,5rem).
+   Alle Breiten und waagerechten Abstände der Deko in Deko-Einheiten
+   (--deko-e, variablen.css; 1rem bei breitem Fenster). */
+.deko-spalt    { width: calc(19 * var(--deko-e)); right: calc(50% - var(--breite-seite) / 2 - 21 * var(--deko-e)); top: calc(60vh - 0.25rem - 6.85 * var(--deko-e) - max(5.5vh, 6.5rem)); }
 
 .deko-formel {
   font-family: var(--schrift-hand);
-  font-size: 1.9rem;
+  font-size: calc(1.9 * var(--deko-e));
   line-height: 1;
   white-space: nowrap;
 }
@@ -57,9 +59,9 @@
    Formel 1 senkrecht mittig zwischen Wellenpaket (top 16vh, Höhe 8,3rem)
    und Feynman-Diagramm (bottom max(9vh, 12rem), Höhe 10,4rem):
    Mitte = 58vh − 1rem − max(9vh, 12rem)/2, minus halbe Formelhöhe. */
-.deko-formel-1 { left:  calc(50% - var(--breite-seite) / 2 - 11.5rem); top: calc(58vh - 2rem - max(4.5vh, 6rem)); transform: translateX(-50%) rotate(-5deg); }
-.deko-formel-2 { right: calc(50% - var(--breite-seite) / 2 - 11.5rem); top: 20vh;    transform: translateX(50%) rotate(4deg); }
-.deko-formel-3 { right: calc(50% - var(--breite-seite) / 2 - 11.5rem); bottom: max(11vh, 13rem); transform: translateX(50%) rotate(-3deg); }
+.deko-formel-1 { left:  calc(50% - var(--breite-seite) / 2 - 11.5 * var(--deko-e)); top: calc(58vh - 2 * var(--deko-e) - max(4.5vh, 6rem)); transform: translateX(-50%) rotate(-5deg); }
+.deko-formel-2 { right: calc(50% - var(--breite-seite) / 2 - 11.5 * var(--deko-e)); top: 20vh;    transform: translateX(50%) rotate(4deg); }
+.deko-formel-3 { right: calc(50% - var(--breite-seite) / 2 - 11.5 * var(--deko-e)); bottom: max(11vh, 13rem); transform: translateX(50%) rotate(-3deg); }
 
 .rand-deko .beschriftung {
   font-family: var(--schrift-hand);

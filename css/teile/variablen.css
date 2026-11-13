@@ -115,6 +115,7 @@
   --breite-seite:   74rem;   /* Gesamtbreite der Inhalte */
   --breite-text:    50rem;   /* Lesespalte auf Themenseiten */
   --breite-leiste:  17rem;   /* Seitenleiste auf Themenseiten */
+  --deko-e:         1rem;    /* Grundmaß der Rand-Deko (effekte.css), s. u. */
 
   /* HR-Diagramm (Modell hrspur in js/interaktiv.js): dunkle Tafel wie auf
      HR-Postern, in beiden Farbschemata gleich – deshalb nur hier.
@@ -206,6 +207,18 @@
   --uni-cmb-kalt:     #1d3fbf;
   --uni-cmb-mitte:    #e8e0c0;
   --uni-cmb-warm:     #e8501a;
+}
+
+/* Rand-Deko ganz sichtbar (Wunsch des Betreibers 2026-11-13): Die Deko
+   braucht neben der Inhaltsspalte je 21 Deko-Einheiten Platz. Zwischen
+   96rem (ab da erscheint sie) und 118rem Fensterbreite wird darum die
+   Inhaltsspalte schmaler (bis 64rem), und wo das nicht reicht (unter
+   108rem), schrumpft die Deko-Einheit selbst. */
+@media (min-width: 96rem) {
+  :root {
+    --breite-seite: clamp(64rem, 100vw - 44rem, 74rem);
+    --deko-e: min(1rem, (100vw - var(--breite-seite) - 2rem) / 42);
+  }
 }
 
 /* Dunkles Schema (data-theme setzt js/seite.js, siehe Dateikopf) */
