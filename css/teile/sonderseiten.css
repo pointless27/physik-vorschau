@@ -1,0 +1,79 @@
+/* =========================================================================
+   SONDERSEITEN
+   =========================================================================
+   Textseiten (Impressum, Datenschutz, Credits) und 404-Seite (Schwarzes Loch).
+   Eingebunden über css/stil.css – Reihenfolge dort nicht ändern. */
+
+/* Textseiten (<article class="artikel">): angenehme Lesebreite */
+.artikel { max-width: var(--breite-text); }
+.artikel ~ .weitere-themen,
+main > .weitere-themen { max-width: var(--breite-text); }
+
+/* 404-Seite (Easter Egg): Schwarzes Loch mit Akkretionsscheibe, das den
+   Titel hineinzieht (Buchstaben-Animation in 404.html). Aufbau des Lochs:
+   .loch-hinten (hintere Hälfte der Scheibe, durch die Lichtablenkung als
+   Ring um das Loch) → .loch-kern (Schatten) → .loch-vorne (vordere
+   Hälfte der flachen Scheibe, vor dem Kern). Leuchten hier als bewusste
+   Ausnahme – es ist ein Spaß-Element, keine Inhaltsseite. */
+.seite-404 { text-align: center; padding: 2rem 0 4rem; overflow-x: clip; }  /* fliegende Buchstaben: kein Seitwärts-Scrollen */
+.seite-404 h1 { margin: 0.5rem 0 0.75rem; }
+.seite-404 .untertitel { max-width: 34rem; margin: 0 auto 1.75rem; }
+.seite-404 .wege { display: flex; flex-wrap: wrap; gap: 0.75rem 1.5rem; justify-content: center; align-items: center; }
+.loch-buehne {
+  position: relative;
+  width: min(20rem, 78vw);
+  aspect-ratio: 1;
+  margin: 0 auto;
+  border: none;
+  padding: 0;
+  background: none;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.loch-buehne:focus-visible { outline: 2px solid var(--akzent); outline-offset: 6px; border-radius: 50%; }
+.loch-buehne > span { position: absolute; pointer-events: none; }
+.loch-kern {
+  inset: 31%;
+  border-radius: 50%;
+  background: var(--loch);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--akzent-2) 75%, transparent),   /* Photonenring */
+              0 0 18px 4px color-mix(in srgb, var(--akzent-2) 35%, transparent);
+  z-index: 2;
+}
+/* Drehende Scheibe: ::before dreht sich in der Ebene, der Behälter drückt
+   sie danach flach (scaleY) – sonst würde die Ellipse als Ganzes kreisen */
+.loch-ring::before, .loch-hinten::before, .loch-vorne::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: conic-gradient(from 0deg,
+    color-mix(in srgb, var(--akzent-2) 90%, transparent),
+    color-mix(in srgb, var(--akzent-2) 25%, transparent) 25%,
+    color-mix(in srgb, var(--akzent-2) 75%, transparent) 50%,
+    color-mix(in srgb, var(--akzent-2) 20%, transparent) 75%,
+    color-mix(in srgb, var(--akzent-2) 90%, transparent));
+  -webkit-mask-image: radial-gradient(circle closest-side, transparent 44%, #000 56%, #000 80%, transparent 100%);
+          mask-image: radial-gradient(circle closest-side, transparent 44%, #000 56%, #000 80%, transparent 100%);
+  filter: blur(1.5px);
+  animation: loch-drehen 9s linear infinite;
+}
+.loch-ring { inset: 24%; z-index: 1; opacity: 0.8; }        /* gelinstes Licht der Rückseite */
+.loch-hinten, .loch-vorne { inset: 0; transform: scaleY(0.22); }
+.loch-hinten { z-index: 1; }                               /* hinter dem Kern */
+.loch-vorne {                                              /* nur die vordere Hälfte, vor dem Kern */
+  z-index: 3;
+  -webkit-mask-image: linear-gradient(transparent 50%, #000 50%);
+          mask-image: linear-gradient(transparent 50%, #000 50%);
+}
+@keyframes loch-drehen { to { rotate: 360deg; } }
+.loch-text { display: inline-block; }
+.loch-text .buchstabe { display: inline-block; white-space: pre; }
+.loch-notiz {
+  font-family: var(--schrift-hand);
+  font-size: 1.35rem;
+  color: var(--text-schwach);
+  min-height: 1.6rem;
+  margin: 0.25rem 0 1rem;
+  transition: opacity 0.6s ease;
+}

@@ -1,0 +1,628 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="robots" content="noindex">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Reale Gase und die Van-der-Waals-Gleichung</title>
+  <meta name="description" content="Warum Gase sich bei hohem Druck und tiefer Temperatur nicht mehr ideal verhalten, wie die Van-der-Waals-Gleichung Eigenvolumen und Anziehung der Teilchen erfasst und wie daraus Verflüssigung und kritischer Punkt folgen.">
+
+  <link rel="stylesheet" href="../../css/stil.css">
+
+  <link rel="stylesheet" href="../../extern/katex/katex.min.css">
+  <script defer src="../../extern/katex/katex.min.js"></script>
+  <script defer src="../../extern/katex/contrib/auto-render.min.js" onload="starteFormeln()"></script>
+
+  <script src="../../js/daten.js"></script>
+  <script src="../../js/seite.js"></script>
+  <script src="../../js/effekte.js"></script>
+  <script type="application/json" id="symbole">
+  {
+    "p": "Druck",
+    "V_m": "Molvolumen V/n",
+    "T": "absolute Temperatur in Kelvin",
+    "R": "universelle Gaskonstante, 8,314 J/(mol K)",
+    "N_A": "Avogadro-Konstante, 6,022·10²³ pro mol",
+    "a": "Konstante des Binnendrucks (Anziehung), in Pa m⁶/mol²",
+    "b": "Eigenvolumen pro mol, in m³/mol",
+    "Z": "Kompressibilitätsfaktor pV_m/(RT)",
+    "r": "Abstand zweier Teilchen",
+    "r_0": "Gleichgewichtsabstand (Minimum des Potentials)",
+    "ε": "Tiefe des Potentialtopfs",
+    "σ": "Abstand, bei dem das Lennard-Jones-Potential null wird",
+    "A": "Konstante des abstoßenden Anteils",
+    "B": "Konstante des anziehenden Anteils",
+    "d": "Durchmesser eines Teilchens",
+    "T_k": "kritische Temperatur",
+    "p_k": "kritischer Druck",
+    "V_k": "kritisches Molvolumen",
+    "T_B": "Boyle-Temperatur",
+    "p_r": "reduzierter Druck p/p_k",
+    "V_r": "reduziertes Molvolumen V_m/V_k",
+    "T_r": "reduzierte Temperatur T/T_k",
+    "U": "innere Energie",
+    "E": "Energie",
+    "V_1": "Molvolumen der Flüssigkeit am Plateau bzw. Anfangsvolumen",
+    "V_2": "Molvolumen des Gases am Plateau bzw. Endvolumen",
+    "T_1": "Anfangstemperatur",
+    "T_2": "Endtemperatur",
+    "π": "Kreiszahl"
+  }
+  </script>
+</head>
+<body data-thema="reale-gase">
+  <main>
+    <article class="thema">
+      <header>
+        <h1>Reale Gase und die <span class="betont">Van-der-Waals-Gleichung</span></h1>
+        <p class="untertitel">Warum Gase flüssig werden können, obwohl das ideale Gas es nie tut.</p>
+      </header>
+
+      <div class="tabs">
+
+        <section class="tab" id="verstehen" data-titel="Verstehen">
+
+          <p>In einem Feuerzeug steckt Gas, und doch siehst du durch das
+            Plastik eine Flüssigkeit. Butan ist bei Zimmertemperatur ein Gas.
+            Im Feuerzeug steht es aber unter gut zwei bar Druck, und dann
+            wird es flüssig. Beim Drücken des Knopfes entweicht der Dampf, und
+            neuer Dampf verdunstet aus der Flüssigkeit nach.</p>
+
+          <p>Das ideale Gas aus dem letzten Thema kann das nicht. Seine Teilchen
+            sind Punkte ohne Größe, die sich nicht beachten. Egal, wie stark du
+            es zusammendrückst oder abkühlst, es bleibt ein Gas. Echte Teilchen
+            unterscheiden sich in zwei Punkten:</p>
+          <ul>
+            <li>Sie haben eine Größe. Bei starkem Zusammendrücken bleibt weniger
+              freier Platz zum Fliegen, und der Druck steigt stärker als beim
+              idealen Gas.</li>
+            <li>Sie ziehen sich schwach an. Ein Teilchen an der Wand wird von
+              seinen Nachbarn nach innen gezogen und schlägt weniger fest
+              zu. Der Druck ist dann kleiner als beim idealen Gas.</li>
+          </ul>
+
+          <p>Bei hoher Temperatur sind die Teilchen so schnell, dass die
+            Anziehung kaum etwas ausmacht. Kühlst du das Gas ab, werden sie
+            langsamer, und irgendwann halten sie sich gegenseitig fest. Es
+            bilden sich Tröpfchen, das Gas kondensiert. Beim Zusammendrücken
+            bleibt der Druck dann gleich, während immer mehr Gas zu Flüssigkeit
+            wird. Erst wenn alles flüssig ist, steigt er steil an, denn
+            Flüssigkeiten lassen sich kaum noch zusammendrücken.</p>
+
+          <figure class="abbildung">
+            <svg class="abb" viewBox="0 0 360 190" role="img" aria-label="Drei Zylinder mit Kolben: links Gas, in der Mitte Gas über Flüssigkeit, rechts nur Flüssigkeit, bei abnehmendem Volumen">
+<path class="achse" d="M15 20V150H105V20"/>
+<path class="achse" d="M19 40H101M60 40V8" style="stroke-width:3"/>
+<circle class="punkt kupfer" cx="41.7" cy="100.1" r="3"/>
+<circle class="punkt kupfer" cx="50.9" cy="105.6" r="3"/>
+<circle class="punkt kupfer" cx="68.8" cy="56" r="3"/>
+<circle class="punkt kupfer" cx="25.9" cy="127" r="3"/>
+<circle class="punkt kupfer" cx="43.2" cy="71.6" r="3"/>
+<circle class="punkt kupfer" cx="94.7" cy="93.3" r="3"/>
+<circle class="punkt kupfer" cx="83.6" cy="93.8" r="3"/>
+<circle class="punkt kupfer" cx="69.7" cy="63.9" r="3"/>
+<circle class="punkt kupfer" cx="69.4" cy="129.9" r="3"/>
+<circle class="punkt kupfer" cx="61.6" cy="118.2" r="3"/>
+<circle class="punkt kupfer" cx="72" cy="55.9" r="3"/>
+<circle class="punkt kupfer" cx="78.1" cy="104.4" r="3"/>
+<circle class="punkt kupfer" cx="46.1" cy="52.9" r="3"/>
+<circle class="punkt kupfer" cx="85.6" cy="93.5" r="3"/>
+<text x="60" y="172" text-anchor="middle">Gas</text>
+<path class="achse" d="M135 20V150H225V20"/>
+<path class="achse" d="M139 70H221M180 70V8" style="stroke-width:3"/>
+<rect class="flaeche" x="135" y="131" width="90" height="19"/>
+<circle class="punkt blau" cx="143" cy="142" r="3.5"/>
+<circle class="punkt blau" cx="154.5" cy="142" r="3.5"/>
+<circle class="punkt blau" cx="166" cy="142" r="3.5"/>
+<circle class="punkt blau" cx="177.5" cy="142" r="3.5"/>
+<circle class="punkt blau" cx="189" cy="142" r="3.5"/>
+<circle class="punkt blau" cx="200.5" cy="142" r="3.5"/>
+<circle class="punkt blau" cx="212" cy="142" r="3.5"/>
+<circle class="punkt kupfer" cx="195.3" cy="117.8" r="3"/>
+<circle class="punkt kupfer" cx="195" cy="119.6" r="3"/>
+<circle class="punkt kupfer" cx="172.6" cy="114.4" r="3"/>
+<circle class="punkt kupfer" cx="176.1" cy="120.2" r="3"/>
+<circle class="punkt kupfer" cx="206.5" cy="84.2" r="3"/>
+<circle class="punkt kupfer" cx="154.5" cy="89.3" r="3"/>
+<circle class="punkt kupfer" cx="212.6" cy="98.8" r="3"/>
+<text x="180" y="172" text-anchor="middle">Gas und Flüssigkeit</text>
+<path class="achse" d="M255 20V150H345V20"/>
+<path class="achse" d="M259 116H341M300 116V8" style="stroke-width:3"/>
+<rect class="flaeche" x="255" y="120" width="90" height="30"/>
+<circle class="punkt blau" cx="263" cy="142" r="3.5"/>
+<circle class="punkt blau" cx="274.5" cy="142" r="3.5"/>
+<circle class="punkt blau" cx="286" cy="142" r="3.5"/>
+<circle class="punkt blau" cx="297.5" cy="142" r="3.5"/>
+<circle class="punkt blau" cx="309" cy="142" r="3.5"/>
+<circle class="punkt blau" cx="320.5" cy="142" r="3.5"/>
+<circle class="punkt blau" cx="332" cy="142" r="3.5"/>
+<circle class="punkt blau" cx="263" cy="131" r="3.5"/>
+<circle class="punkt blau" cx="274.5" cy="131" r="3.5"/>
+<circle class="punkt blau" cx="286" cy="131" r="3.5"/>
+<circle class="punkt blau" cx="297.5" cy="131" r="3.5"/>
+<circle class="punkt blau" cx="309" cy="131" r="3.5"/>
+<circle class="punkt blau" cx="320.5" cy="131" r="3.5"/>
+<circle class="punkt blau" cx="332" cy="131" r="3.5"/>
+<text x="300" y="172" text-anchor="middle">Flüssigkeit</text>
+</svg>
+            <figcaption>Abb. 1: Ein Gas wird in einem Zylinder zusammengedrückt.
+              Zuerst bleibt es Gas, dann bildet sich Flüssigkeit, am Ende füllt
+              sie alles aus.</figcaption>
+          </figure>
+
+          <p>Es gibt eine Grenze: Oberhalb einer bestimmten Temperatur, der
+            <em>kritischen Temperatur</em>, entsteht beim Zusammendrücken nie mehr
+            ein Tropfen, egal wie hoch der Druck ist. Gas und Flüssigkeit lassen
+            sich dort nicht mehr unterscheiden. Bei Kohlendioxid liegt diese
+            Temperatur bei etwa $31\,{}^\circ\mathrm{C}$, bei Wasser bei
+            $374\,{}^\circ\mathrm{C}$.</p>
+
+          <div class="alltag">
+            <span class="titel">Aus dem Alltag</span>
+            <p>Ein CO₂-Feuerlöscher enthält flüssiges Kohlendioxid. Zimmertemperatur
+              liegt unter der kritischen Temperatur von 31 °C. Deshalb steht
+              in der Flasche flüssiges CO₂ neben Gas, und zwar unter dem
+              Dampfdruck von etwa 57 bar (der kritische Druck ist 74 bar). Öffnest du das Ventil, verdampft
+              die Flüssigkeit und entzieht der Umgebung Wärme. Am
+              Austrittshorn bildet sich Trockeneisschnee.</p>
+          </div>
+
+          <div class="merkkasten">
+            <span class="titel">Das Wichtigste in Kürze</span>
+            <p>Echte Gasteilchen haben ein Eigenvolumen und ziehen sich an. Das
+              erste macht den Druck bei hoher Dichte größer, das zweite
+              verkleinert ihn. Bei tiefer Temperatur gewinnt die Anziehung,
+              und das Gas kann verflüssigt werden. Oberhalb der kritischen
+              Temperatur geht das nicht mehr.</p>
+          </div>
+        </section>
+
+        <section class="tab" id="vertiefung" data-titel="Vertiefung">
+
+          <h2>Abweichungen vom idealen Gas</h2>
+
+          <p>Für das ideale Gas ist $pV_\mathrm{m}/(RT) = 1$ bei jedem Druck und
+            jeder Temperatur. Misst man diesen <em>Kompressibilitätsfaktor</em>
+            $Z = pV_\mathrm{m}/(RT)$ an echten Gasen, weicht er bei hoher Dichte
+            und tiefer Temperatur deutlich von eins ab. Dafür gibt es zwei
+            Ursachen, die das ideale Gas ausblendet: Die Teilchen haben ein
+            Eigenvolumen, und zwischen ihnen wirken Kräfte.</p>
+
+          <h2>Eigenvolumen</h2>
+
+          <p>Das Volumen $V_\mathrm{m}$ eines mol Gas ist nicht komplett frei: Die
+            Teilchen verdrängen sich gegenseitig. Den Teilchen steht nur das
+            Volumen $V_\mathrm{m} - b$ zur Verfügung, mit dem
+            <em>Eigenvolumen</em> $b$ pro mol. Für harte Kugeln ist $b$ das Vierfache
+            ihres Gesamtvolumens, $b = 4 N_\mathrm{A}\,\pi d^3/6$ ($d$: Durchmesser).
+            Statt $p V_\mathrm{m} = RT$ gilt dann
+            $p\,(V_\mathrm{m} - b) = RT$, und der Druck steigt für
+            $V_\mathrm{m} \to b$ ins Unendliche.</p>
+
+          <h2>Anziehung und Lennard-Jones-Potential</h2>
+
+          <p>Zwei neutrale Atome ziehen sich schwach an, weil sich ihre
+            Elektronenhüllen gegenseitig verformen (induzierte Dipole). Je leichter
+            sich die Hülle verschieben lässt (hohe Polarisierbarkeit), desto
+            stärker ist diese van-der-Waals-Anziehung. Rücken die Atome sehr dicht,
+            stößt sie das Überlappen der Hüllen kräftig ab. Das Lennard-Jones-Potential
+            fasst beides zusammen ("12-6-Potential"):</p>
+          $$ E(r) = \frac{A}{r^{12}} - \frac{B}{r^{6}} = 4\varepsilon\left[\left(\frac{\sigma}{r}\right)^{12} - \left(\frac{\sigma}{r}\right)^{6}\right] . $$
+          <p>Der abstoßende Anteil fällt mit $r^{-12}$ steil ab, der anziehende
+            mit $r^{-6}$ langsamer. Das Minimum liegt bei
+            $r_0 = 2^{1/6}\sigma \approx 1{,}12\,\sigma$ und hat die Tiefe
+            $-\varepsilon$ (Abb. 2). Das ist der Abstand, in dem die Teilchen in
+            einer Flüssigkeit etwa voneinander entfernt sind.</p>
+
+          <figure class="abbildung">
+            <svg class="abb" viewBox="0 0 360 225" role="img" aria-label="Lennard-Jones-Potential: steile Abstoßung bei kleinem Abstand, flache Anziehung bei großem Abstand, Minimum bei r0">
+<defs><marker id="pfeil-abb2-text" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto"><path class="punkt" d="M0 0L10 5L0 10z"/></marker><marker id="pfeil-abb2-blau" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto"><path class="punkt blau" d="M0 0L10 5L0 10z"/></marker><marker id="pfeil-abb2-kupfer" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto"><path class="punkt kupfer" d="M0 0L10 5L0 10z"/></marker></defs>
+<path class="achse" d="M40 90H348" marker-end="url(#pfeil-abb2-text)"/>
+<path class="achse" d="M40 205V12" marker-end="url(#pfeil-abb2-text)"/>
+<text x="340" y="82">r</text><text x="46" y="20">E<tspan dy="3" style="font-size:10px">pot</tspan></text>
+<path class="kurve blau" d="M54 23.2 L55 38.7 L56.1 52.2 L57.2 64 L58.2 74.1 L59.3 83 L60.3 90.6 L61.4 97.2 L62.5 102.8 L63.5 107.6 L64.6 111.7 L65.6 115.1 L66.7 118 L67.8 120.5 L68.8 122.4 L69.9 124 L70.9 125.3 L72 126.3 L73.1 127 L74.1 127.5 L75.2 127.8 L76.2 128 L77.3 128 L78.4 127.9 L79.4 127.6 L80.5 127.3 L81.5 126.9 L82.6 126.4 L83.7 125.9 L84.7 125.4 L85.8 124.8 L86.8 124.1 L87.9 123.5 L89 122.8 L90 122.1 L91.1 121.4 L92.1 120.7 L93.2 119.9 L94.2 119.2 L95.3 118.5 L96.4 117.8 L97.4 117.1 L98.5 116.4 L99.5 115.7 L100.6 115.1 L101.7 114.4 L102.7 113.7 L103.8 113.1 L104.8 112.5 L105.9 111.9 L107 111.3 L108 110.7 L109.1 110.1 L110.1 109.5 L111.2 109 L112.3 108.5 L113.3 107.9 L114.4 107.4 L115.4 107 L116.5 106.5 L117.6 106 L118.6 105.6 L119.7 105.1 L120.7 104.7 L121.8 104.3 L122.9 103.9 L123.9 103.5 L125 103.1 L126 102.7 L127.1 102.4 L128.2 102 L129.2 101.7 L130.3 101.4 L131.3 101.1 L132.4 100.8 L133.5 100.5 L134.5 100.2 L135.6 99.9 L136.6 99.6 L137.7 99.3 L138.8 99.1 L139.8 98.8 L140.9 98.6 L141.9 98.4 L143 98.1 L144.1 97.9 L145.1 97.7 L146.2 97.5 L147.2 97.3 L148.3 97.1 L149.4 96.9 L150.4 96.7 L151.5 96.6 L152.5 96.4 L153.6 96.2 L154.7 96.1 L155.7 95.9 L156.8 95.7 L157.8 95.6 L158.9 95.4 L160 95.3 L161 95.2 L162.1 95 L163.1 94.9 L164.2 94.8 L165.3 94.7 L166.3 94.5 L167.4 94.4 L168.4 94.3 L169.5 94.2 L170.6 94.1 L171.6 94 L172.7 93.9 L173.7 93.8 L174.8 93.7 L175.9 93.6 L176.9 93.5 L178 93.4 L179 93.4 L180.1 93.3 L181.1 93.2 L182.2 93.1 L183.3 93.1 L184.3 93 L185.4 92.9 L186.4 92.8 L187.5 92.8 L188.6 92.7 L189.6 92.6 L190.7 92.6 L191.7 92.5 L192.8 92.5 L193.9 92.4 L194.9 92.4 L196 92.3 L197 92.2 L198.1 92.2 L199.2 92.1 L200.2 92.1 L201.3 92.1 L202.3 92 L203.4 92 L204.5 91.9 L205.5 91.9 L206.6 91.8 L207.6 91.8 L208.7 91.8 L209.8 91.7 L210.8 91.7 L211.9 91.6 L212.9 91.6 L214 91.6 L215.1 91.5 L216.1 91.5 L217.2 91.5 L218.2 91.4 L219.3 91.4 L220.4 91.4 L221.4 91.4 L222.5 91.3 L223.5 91.3 L224.6 91.3 L225.7 91.2 L226.7 91.2 L227.8 91.2 L228.8 91.2 L229.9 91.1 L231 91.1 L232 91.1 L233.1 91.1 L234.1 91.1 L235.2 91 L236.3 91 L237.3 91 L238.4 91 L239.4 91 L240.5 90.9 L241.6 90.9 L242.6 90.9 L243.7 90.9 L244.7 90.9 L245.8 90.8 L246.9 90.8 L247.9 90.8 L249 90.8 L250 90.8 L251.1 90.8 L252.2 90.8 L253.2 90.7 L254.3 90.7 L255.3 90.7 L256.4 90.7 L257.5 90.7 L258.5 90.7 L259.6 90.7 L260.6 90.6 L261.7 90.6 L262.7 90.6"/>
+<path class="kurve kupfer schwach duenn" d="M68.9 18.1 L70.9 29.1 L72.9 38.3 L74.9 46 L76.9 52.5 L78.9 57.9 L80.9 62.5 L82.9 66.4 L84.9 69.7 L86.9 72.5 L88.9 74.9 L90.9 77 L92.9 78.7 L94.9 80.2 L96.9 81.5 L98.9 82.6 L100.9 83.5 L102.9 84.4 L104.9 85.1 L106.9 85.7 L108.9 86.2 L110.9 86.7 L112.9 87.1 L114.9 87.4 L116.9 87.7 L118.9 88 L120.9 88.2 L122.9 88.4 L124.9 88.6 L126.9 88.8 L128.9 88.9 L130.9 89 L132.9 89.1 L134.9 89.2 L136.9 89.3 L138.9 89.4 L140.9 89.4 L142.9 89.5 L144.9 89.6 L146.9 89.6 L148.9 89.6 L150.9 89.7 L152.9 89.7 L154.9 89.7 L156.9 89.8 L158.9 89.8 L160.9 89.8 L162.9 89.8 L164.8 89.8 L166.8 89.9 L168.8 89.9 L170.8 89.9 L172.8 89.9 L174.8 89.9 L176.8 89.9 L178.8 89.9 L180.8 89.9 L182.8 89.9 L184.8 89.9 L186.8 89.9 L188.8 90 L190.8 90 L192.8 90 L194.8 90 L196.8 90 L198.8 90 L200.8 90 L202.8 90 L204.8 90 L206.8 90 L208.8 90 L210.8 90 L212.8 90 L214.8 90 L216.8 90 L218.8 90 L220.8 90 L222.8 90 L224.8 90 L226.8 90 L228.8 90 L230.8 90 L232.8 90 L234.8 90 L236.8 90 L238.8 90 L240.8 90 L242.8 90 L244.8 90 L246.8 90 L248.8 90 L250.8 90 L252.8 90 L254.8 90 L256.8 90 L258.8 90 L260.8 90 L262.8 90" style="stroke-dasharray:4 4"/>
+<path class="kurve schwach duenn" d="M68.9 194.5 L70.9 186.2 L72.9 178.7 L74.9 171.8 L76.9 165.5 L78.9 159.8 L80.9 154.6 L82.9 149.9 L84.9 145.5 L86.9 141.5 L88.9 137.9 L90.9 134.5 L92.9 131.4 L94.9 128.6 L96.9 126 L98.9 123.5 L100.9 121.3 L102.9 119.3 L104.9 117.4 L106.9 115.6 L108.9 114 L110.9 112.5 L112.9 111.1 L114.9 109.8 L116.9 108.6 L118.9 107.5 L120.9 106.4 L122.9 105.4 L124.9 104.5 L126.9 103.7 L128.9 102.9 L130.9 102.2 L132.9 101.5 L134.9 100.8 L136.9 100.2 L138.9 99.7 L140.9 99.2 L142.9 98.7 L144.9 98.2 L146.9 97.8 L148.9 97.4 L150.9 97 L152.9 96.6 L154.9 96.3 L156.9 96 L158.9 95.7 L160.9 95.4 L162.9 95.1 L164.8 94.9 L166.8 94.6 L168.8 94.4 L170.8 94.2 L172.8 94 L174.8 93.8 L176.8 93.6 L178.8 93.5 L180.8 93.3 L182.8 93.2 L184.8 93 L186.8 92.9 L188.8 92.7 L190.8 92.6 L192.8 92.5 L194.8 92.4 L196.8 92.3 L198.8 92.2 L200.8 92.1 L202.8 92 L204.8 91.9 L206.8 91.8 L208.8 91.8 L210.8 91.7 L212.8 91.6 L214.8 91.6 L216.8 91.5 L218.8 91.4 L220.8 91.4 L222.8 91.3 L224.8 91.3 L226.8 91.2 L228.8 91.2 L230.8 91.1 L232.8 91.1 L234.8 91 L236.8 91 L238.8 91 L240.8 90.9 L242.8 90.9 L244.8 90.9 L246.8 90.8 L248.8 90.8 L250.8 90.8 L252.8 90.7 L254.8 90.7 L256.8 90.7 L258.8 90.7 L260.8 90.6 L262.8 90.6" style="stroke-dasharray:4 4"/>
+<path class="hilfslinie" d="M76.8 90V128H40"/>
+<circle class="punkt blau" cx="76.8" cy="128" r="3.5"/>
+<text x="76.8" y="82" text-anchor="middle">r₀</text>
+<text x="34" y="132" text-anchor="end">−ε</text>
+<text class="kupfer" x="100.8" y="40.6">Abstoßung ∝ 1/r¹²</text>
+<text x="161.5" y="126.9">Anziehung ∝ −1/r⁶</text>
+</svg>
+            <figcaption>Abb. 2: Das Lennard-Jones-Potential (blau) ist die
+              Summe aus dem steilen abstoßenden Anteil (orange gestrichelt)
+              und dem flachen anziehenden Anteil (grau gestrichelt). Die
+              $r$-Achse beginnt bei etwa $0{,}85\,\sigma$.</figcaption>
+          </figure>
+
+          <h2>Binnendruck</h2>
+
+          <p>Die Anziehung wirkt nach innen und verkleinert den Druck auf die
+            Wand. Ein Teilchen kurz vor der Wand wird von den Nachbarn
+            zurückgezogen. Wie stark, hängt von der Zahl der Nachbarn ab, also von
+            der Teilchendichte. Die Zahl der Teilchen, die gerade die Wand
+            treffen, ist ebenfalls proportional zur Dichte. Der Abzug
+            wächst daher mit dem Quadrat der Dichte und damit wie $1/V_\mathrm{m}^2$:
+            Der gemessene Druck $p$ ist um den <em>Binnendruck</em> $a/V_\mathrm{m}^2$
+            kleiner als der Druck $p_\text{ideal}$ eines idealen Gases im freien
+            Volumen:</p>
+          $$ p_\text{ideal} = p + \frac{a}{V_\mathrm{m}^2} . $$
+
+          <h2>Die Van-der-Waals-Gleichung</h2>
+
+          <p>Setzt man beide Korrekturen in die ideale Gasgleichung
+            $p_\text{ideal}\,(V_\mathrm{m} - b) = RT$ ein, folgt die
+            <em>Van-der-Waals-Gleichung</em> (1873):</p>
+          $$ \left(p + \frac{a}{V_\mathrm{m}^2}\right)\left(V_\mathrm{m} - b\right) = RT
+             \quad\Leftrightarrow\quad p = \frac{RT}{V_\mathrm{m} - b} - \frac{a}{V_\mathrm{m}^2} . $$
+          <p>Die Konstanten $a$ (in $\mathrm{Pa\,m^6/mol^2}$) und $b$ (in
+            $\mathrm{m^3/mol}$) hängen von der Gasart ab. Multipliziert man mit
+            $V_\mathrm{m}^2$, bekommt man eine kubische Gleichung für $V_\mathrm{m}$:
+            $pV_\mathrm{m}^3 - (pb + RT)V_\mathrm{m}^2 + aV_\mathrm{m} - ab = 0$.
+            Für $V_\mathrm{m} \gg b$ und kleine $a$ geht sie in das ideale Gas
+            über.</p>
+
+          <div class="tabelle-huelle">
+            <table>
+              <thead><tr><th>Gas</th><th>$a$ in $\mathrm{Pa\,m^6/mol^2}$</th><th>$b$ in $10^{-5}\,\mathrm{m^3/mol}$</th><th>$T_\mathrm{k}$ in $\mathrm{K}$</th><th>$p_\mathrm{k}$ in $\mathrm{bar}$</th></tr></thead>
+              <tbody>
+                <tr><td>Helium</td><td>$0{,}00346$</td><td>$2{,}38$</td><td>$5{,}2$</td><td>$2{,}3$</td></tr>
+                <tr><td>Argon</td><td>$0{,}1355$</td><td>$3{,}20$</td><td>$151$</td><td>$49$</td></tr>
+                <tr><td>Kohlendioxid</td><td>$0{,}3657$</td><td>$4{,}285$</td><td>$304$</td><td>$74$</td></tr>
+                <tr><td>Wasser</td><td>$0{,}5536$</td><td>$3{,}049$</td><td>$647$</td><td>$221$</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p>Die letzten beiden Spalten folgen aus $a$ und $b$ (siehe unten).
+            Helium hat fast keine Anziehung (kleines $a$), Wasser mit seinen
+            starken Wasserstoffbrücken das größte $a$.</p>
+
+          <h2>Isothermen und Phasenübergang</h2>
+
+          <p>Abb. 3 zeigt die Van-der-Waals-Isothermen in reduzierten Einheiten
+            (Erklärung im nächsten Abschnitt). Bei hoher Temperatur sehen sie
+            wie die Hyperbeln des idealen Gases aus. Bei tieferer Temperatur
+            bekommen sie eine S-Form: Auf einem Stück steigt der Druck bei
+            wachsendem Volumen, $\partial p/\partial V_\mathrm{m} \gt 0$. Dieses
+            Stück ist physikalisch unmöglich, denn eine kleine
+            Volumenschwankung würde sich selbst verstärken (instabil).</p>
+
+          <figure class="abbildung">
+            <svg class="abb" viewBox="0 0 360 225" role="img" aria-label="Van-der-Waals-Isothermen in reduzierten Einheiten für drei Temperaturen, mit Maxwell-Konstruktion und kritischem Punkt">
+<defs><marker id="pfeil-abb3-text" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto"><path class="punkt" d="M0 0L10 5L0 10z"/></marker><marker id="pfeil-abb3-blau" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto"><path class="punkt blau" d="M0 0L10 5L0 10z"/></marker><marker id="pfeil-abb3-kupfer" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto"><path class="punkt kupfer" d="M0 0L10 5L0 10z"/></marker></defs>
+<path class="achse" d="M40 190H345" marker-end="url(#pfeil-abb3-text)"/>
+<path class="achse" d="M40 202V12" marker-end="url(#pfeil-abb3-text)"/>
+<text x="338" y="208">V</text><text x="20" y="22">p</text>
+<path class="flaeche kupfer" d="M58.7 137 L58.7 137.1 L59.6 147.8 L60.5 156.5 L61.4 163.5 L62.3 169.1 L63.3 173.6 L64.2 177.1 L65.1 179.8 L66 181.8 L66.9 183.2 L67.8 184.1 L68.7 184.6 L69.6 184.8 L70.5 184.6 L71.4 184.3 L72.3 183.7 L73.2 182.9 L74.1 182 L75 181 L76 179.9 L76.9 178.7 L77.8 177.5 L78.7 176.2 L79.6 174.9 L80.5 173.5 L81.4 172.2 L82.3 170.8 L83.2 169.5 L84.1 168.1 L85 166.8 L85.9 165.4 L86.8 164.1 L87.8 162.8 L88.7 161.5 L89.6 160.3 L90.5 159.1 L91.4 157.8 L92.3 156.7 L93.2 155.5 L94.1 154.4 L95 153.3 L95.9 152.2 L96.8 151.2 L97.7 150.2 L98.6 149.2 L99.6 148.3 L100.5 147.3 L101.4 146.4 L102.3 145.6 L103.2 144.7 L104.1 143.9 L105 143.1 L105.9 142.3 L106.8 141.6 L107.7 140.9 L108.6 140.2 L109.5 139.5 L110.4 138.8 L111.4 138.2 L112.3 137.6 L113.2 137 Z"/>
+<path class="flaeche" d="M113.2 137 L113.2 137 L114.7 136.1 L116.2 135.2 L117.7 134.4 L119.2 133.6 L120.8 132.9 L122.3 132.2 L123.8 131.5 L125.3 130.9 L126.8 130.4 L128.4 129.9 L129.9 129.4 L131.4 128.9 L132.9 128.5 L134.4 128.1 L136 127.7 L137.5 127.4 L139 127.1 L140.5 126.8 L142 126.5 L143.6 126.3 L145.1 126.1 L146.6 125.9 L148.1 125.7 L149.6 125.6 L151.2 125.4 L152.7 125.3 L154.2 125.2 L155.7 125.1 L157.2 125 L158.8 125 L160.3 124.9 L161.8 124.9 L163.3 124.9 L164.8 124.8 L166.4 124.8 L167.9 124.8 L169.4 124.9 L170.9 124.9 L172.4 124.9 L174 125 L175.5 125 L177 125.1 L178.5 125.1 L180 125.2 L181.6 125.3 L183.1 125.4 L184.6 125.5 L186.1 125.6 L187.6 125.7 L189.2 125.8 L190.7 125.9 L192.2 126 L193.7 126.1 L195.2 126.2 L196.8 126.3 L198.3 126.5 L199.8 126.6 L201.3 126.7 L202.8 126.9 L204.4 127 L205.9 127.2 L207.4 127.3 L208.9 127.5 L210.4 127.6 L212 127.8 L213.5 127.9 L215 128.1 L216.5 128.2 L218 128.4 L219.6 128.5 L221.1 128.7 L222.6 128.9 L224.1 129 L225.6 129.2 L227.1 129.4 L228.7 129.5 L230.2 129.7 L231.7 129.9 L233.2 130 L234.7 130.2 L236.3 130.4 L237.8 130.6 L239.3 130.7 L240.8 130.9 L242.3 131.1 L243.9 131.2 L245.4 131.4 L246.9 131.6 L248.4 131.8 L249.9 131.9 L251.5 132.1 L253 132.3 L254.5 132.5 L256 132.6 L257.5 132.8 L259.1 133 L260.6 133.1 L262.1 133.3 L263.6 133.5 L265.1 133.7 L266.7 133.8 L268.2 134 L269.7 134.2 L271.2 134.3 L272.7 134.5 L274.3 134.7 L275.8 134.9 L277.3 135 L278.8 135.2 L280.3 135.4 L281.9 135.5 L283.4 135.7 L284.9 135.9 L286.4 136 L287.9 136.2 L289.5 136.4 L291 136.5 L292.5 136.7 L294 136.9 L295.5 137 L295.5 137 Z"/>
+<path class="hilfslinie" d="M58.7 137H295.5"/>
+<path class="hilfslinie" d="M58.7 190V137M295.5 190V137"/>
+<text class="klein" x="58.7" y="203" text-anchor="middle">V₁</text>
+<text class="klein" x="295.5" y="203" text-anchor="middle">V₂</text>
+<path class="kurve blau" d="M53.8 22 L55 63.6 L56.3 95.3 L57.5 119.4 L58.8 137.8 L60 151.7 L61.3 162.2 L62.5 170 L63.7 175.6 L65 179.6 L66.2 182.3 L67.5 183.9 L68.7 184.6 L69.9 184.8 L71.2 184.4 L72.4 183.6 L73.7 182.5 L74.9 181.2 L76.2 179.6 L77.4 178 L78.6 176.2 L79.9 174.4 L81.1 172.6 L82.4 170.7 L83.6 168.9 L84.8 167 L86.1 165.2 L87.3 163.4 L88.6 161.7 L89.8 159.9 L91.1 158.3 L92.3 156.7 L93.5 155.1 L94.8 153.6 L96 152.1 L97.3 150.7 L98.5 149.4 L99.8 148 L101 146.8 L102.2 145.6 L103.5 144.4 L104.7 143.3 L106 142.3 L107.2 141.3 L108.4 140.3 L109.7 139.4 L110.9 138.5 L112.2 137.7 L113.4 136.9 L114.7 136.1 L115.9 135.4 L117.1 134.7 L118.4 134 L119.6 133.4 L120.9 132.8 L122.1 132.3 L123.4 131.7 L124.6 131.2 L125.8 130.7 L127.1 130.3 L128.3 129.9 L129.6 129.5 L130.8 129.1 L132 128.7 L133.3 128.4 L134.5 128.1 L135.8 127.8 L137 127.5 L138.3 127.2 L139.5 127 L140.7 126.8 L142 126.6 L143.2 126.4 L144.5 126.2 L145.7 126 L146.9 125.9 L148.2 125.7 L149.4 125.6 L150.7 125.5 L151.9 125.4 L153.2 125.3 L154.4 125.2 L155.6 125.1 L156.9 125.1 L158.1 125 L159.4 125 L160.6 124.9 L161.9 124.9 L163.1 124.9 L164.3 124.8 L165.6 124.8 L166.8 124.8 L168.1 124.8 L169.3 124.9 L170.5 124.9 L171.8 124.9 L173 124.9 L174.3 125 L175.5 125 L176.8 125.1 L178 125.1 L179.2 125.2 L180.5 125.2 L181.7 125.3 L183 125.4 L184.2 125.4 L185.5 125.5 L186.7 125.6 L187.9 125.7 L189.2 125.8 L190.4 125.8 L191.7 125.9 L192.9 126 L194.1 126.1 L195.4 126.2 L196.6 126.3 L197.9 126.4 L199.1 126.5 L200.4 126.7 L201.6 126.8 L202.8 126.9 L204.1 127 L205.3 127.1 L206.6 127.2 L207.8 127.3 L209 127.5 L210.3 127.6 L211.5 127.7 L212.8 127.8 L214 128 L215.3 128.1 L216.5 128.2 L217.7 128.4 L219 128.5 L220.2 128.6 L221.5 128.8 L222.7 128.9 L224 129 L225.2 129.2 L226.4 129.3 L227.7 129.4 L228.9 129.6 L230.2 129.7 L231.4 129.8 L232.6 130 L233.9 130.1 L235.1 130.3 L236.4 130.4 L237.6 130.5 L238.9 130.7 L240.1 130.8 L241.3 131 L242.6 131.1 L243.8 131.2 L245.1 131.4 L246.3 131.5 L247.6 131.7 L248.8 131.8 L250 131.9 L251.3 132.1 L252.5 132.2 L253.8 132.4 L255 132.5 L256.2 132.7 L257.5 132.8 L258.7 132.9 L260 133.1 L261.2 133.2 L262.5 133.4 L263.7 133.5 L264.9 133.6 L266.2 133.8 L267.4 133.9 L268.7 134.1 L269.9 134.2 L271.1 134.3 L272.4 134.5 L273.6 134.6 L274.9 134.8 L276.1 134.9 L277.4 135 L278.6 135.2 L279.8 135.3 L281.1 135.5 L282.3 135.6 L283.6 135.7 L284.8 135.9 L286.1 136 L287.3 136.1 L288.5 136.3 L289.8 136.4 L291 136.5 L292.3 136.7 L293.5 136.8 L294.7 136.9 L296 137.1 L297.2 137.2 L298.5 137.3 L299.7 137.5 L301 137.6 L302.2 137.7"/>
+<path class="kurve kupfer" d="M63.7 22.7 L65 33.8 L66.2 43 L67.5 50.6 L68.7 56.9 L69.9 62 L71.2 66.3 L72.4 69.8 L73.7 72.7 L74.9 75.1 L76.2 77.1 L77.4 78.7 L78.6 80.1 L79.9 81.1 L81.1 82 L82.4 82.7 L83.6 83.3 L84.8 83.7 L86.1 84.1 L87.3 84.3 L88.6 84.5 L89.8 84.7 L91.1 84.8 L92.3 84.9 L93.5 84.9 L94.8 85 L96 85 L97.3 85 L98.5 85 L99.8 85 L101 85 L102.2 85 L103.5 85 L104.7 85 L106 85 L107.2 85.1 L108.4 85.1 L109.7 85.1 L110.9 85.2 L112.2 85.2 L113.4 85.3 L114.7 85.4 L115.9 85.5 L117.1 85.6 L118.4 85.7 L119.6 85.8 L120.9 85.9 L122.1 86.1 L123.4 86.2 L124.6 86.4 L125.8 86.5 L127.1 86.7 L128.3 86.9 L129.6 87 L130.8 87.2 L132 87.4 L133.3 87.6 L134.5 87.9 L135.8 88.1 L137 88.3 L138.3 88.5 L139.5 88.7 L140.7 89 L142 89.2 L143.2 89.5 L144.5 89.7 L145.7 90 L146.9 90.2 L148.2 90.5 L149.4 90.8 L150.7 91 L151.9 91.3 L153.2 91.6 L154.4 91.9 L155.6 92.1 L156.9 92.4 L158.1 92.7 L159.4 93 L160.6 93.3 L161.9 93.6 L163.1 93.9 L164.3 94.2 L165.6 94.4 L166.8 94.7 L168.1 95 L169.3 95.3 L170.5 95.6 L171.8 95.9 L173 96.2 L174.3 96.5 L175.5 96.8 L176.8 97.1 L178 97.4 L179.2 97.7 L180.5 98 L181.7 98.3 L183 98.6 L184.2 98.9 L185.5 99.2 L186.7 99.5 L187.9 99.8 L189.2 100.1 L190.4 100.4 L191.7 100.7 L192.9 101 L194.1 101.3 L195.4 101.6 L196.6 101.9 L197.9 102.2 L199.1 102.5 L200.4 102.8 L201.6 103.1 L202.8 103.4 L204.1 103.7 L205.3 104 L206.6 104.2 L207.8 104.5 L209 104.8 L210.3 105.1 L211.5 105.4 L212.8 105.7 L214 106 L215.3 106.2 L216.5 106.5 L217.7 106.8 L219 107.1 L220.2 107.4 L221.5 107.6 L222.7 107.9 L224 108.2 L225.2 108.5 L226.4 108.7 L227.7 109 L228.9 109.3 L230.2 109.5 L231.4 109.8 L232.6 110.1 L233.9 110.3 L235.1 110.6 L236.4 110.9 L237.6 111.1 L238.9 111.4 L240.1 111.7 L241.3 111.9 L242.6 112.2 L243.8 112.4 L245.1 112.7 L246.3 112.9 L247.6 113.2 L248.8 113.4 L250 113.7 L251.3 113.9 L252.5 114.2 L253.8 114.4 L255 114.7 L256.2 114.9 L257.5 115.2 L258.7 115.4 L260 115.6 L261.2 115.9 L262.5 116.1 L263.7 116.3 L264.9 116.6 L266.2 116.8 L267.4 117 L268.7 117.3 L269.9 117.5 L271.1 117.7 L272.4 118 L273.6 118.2 L274.9 118.4 L276.1 118.6 L277.4 118.9 L278.6 119.1 L279.8 119.3 L281.1 119.5 L282.3 119.7 L283.6 120 L284.8 120.2 L286.1 120.4 L287.3 120.6 L288.5 120.8 L289.8 121 L291 121.2 L292.3 121.4 L293.5 121.7 L294.7 121.9 L296 122.1 L297.2 122.3 L298.5 122.5 L299.7 122.7 L301 122.9 L302.2 123.1"/>
+<path class="kurve " d="M98.5 20.6 L99.8 22 L101 23.2 L102.2 24.4 L103.5 25.6 L104.7 26.7 L106 27.8 L107.2 28.9 L108.4 29.9 L109.7 30.9 L110.9 31.9 L112.2 32.8 L113.4 33.8 L114.7 34.7 L115.9 35.6 L117.1 36.5 L118.4 37.3 L119.6 38.2 L120.9 39 L122.1 39.9 L123.4 40.7 L124.6 41.5 L125.8 42.3 L127.1 43.1 L128.3 43.9 L129.6 44.6 L130.8 45.4 L132 46.1 L133.3 46.9 L134.5 47.6 L135.8 48.4 L137 49.1 L138.3 49.8 L139.5 50.5 L140.7 51.2 L142 51.9 L143.2 52.6 L144.5 53.3 L145.7 54 L146.9 54.6 L148.2 55.3 L149.4 55.9 L150.7 56.6 L151.9 57.2 L153.2 57.9 L154.4 58.5 L155.6 59.2 L156.9 59.8 L158.1 60.4 L159.4 61 L160.6 61.6 L161.9 62.3 L163.1 62.9 L164.3 63.5 L165.6 64 L166.8 64.6 L168.1 65.2 L169.3 65.8 L170.5 66.4 L171.8 66.9 L173 67.5 L174.3 68.1 L175.5 68.6 L176.8 69.2 L178 69.7 L179.2 70.3 L180.5 70.8 L181.7 71.4 L183 71.9 L184.2 72.4 L185.5 72.9 L186.7 73.5 L187.9 74 L189.2 74.5 L190.4 75 L191.7 75.5 L192.9 76 L194.1 76.5 L195.4 77 L196.6 77.5 L197.9 78 L199.1 78.4 L200.4 78.9 L201.6 79.4 L202.8 79.9 L204.1 80.3 L205.3 80.8 L206.6 81.3 L207.8 81.7 L209 82.2 L210.3 82.6 L211.5 83.1 L212.8 83.5 L214 83.9 L215.3 84.4 L216.5 84.8 L217.7 85.2 L219 85.7 L220.2 86.1 L221.5 86.5 L222.7 86.9 L224 87.4 L225.2 87.8 L226.4 88.2 L227.7 88.6 L228.9 89 L230.2 89.4 L231.4 89.8 L232.6 90.2 L233.9 90.6 L235.1 91 L236.4 91.3 L237.6 91.7 L238.9 92.1 L240.1 92.5 L241.3 92.9 L242.6 93.2 L243.8 93.6 L245.1 94 L246.3 94.3 L247.6 94.7 L248.8 95.1 L250 95.4 L251.3 95.8 L252.5 96.1 L253.8 96.5 L255 96.8 L256.2 97.2 L257.5 97.5 L258.7 97.8 L260 98.2 L261.2 98.5 L262.5 98.9 L263.7 99.2 L264.9 99.5 L266.2 99.8 L267.4 100.2 L268.7 100.5 L269.9 100.8 L271.1 101.1 L272.4 101.4 L273.6 101.8 L274.9 102.1 L276.1 102.4 L277.4 102.7 L278.6 103 L279.8 103.3 L281.1 103.6 L282.3 103.9 L283.6 104.2 L284.8 104.5 L286.1 104.8 L287.3 105.1 L288.5 105.4 L289.8 105.7 L291 105.9 L292.3 106.2 L293.5 106.5 L294.7 106.8 L296 107.1 L297.2 107.3 L298.5 107.6 L299.7 107.9 L301 108.2 L302.2 108.4"/>
+<circle class="punkt kupfer" cx="99.8" cy="85" r="4"/>
+<text class="kupfer halo" x="111.8" y="75">kritischer Punkt</text>
+<text class="klein blau" x="307.2" y="141.7">0,85 T<tspan dy="3" style="font-size:10px">k</tspan></text>
+<text class="klein" x="307.2" y="112.4">1,15 T<tspan dy="3" style="font-size:10px">k</tspan></text>
+<text class="klein kupfer" x="307.2" y="127.1">T<tspan dy="3" style="font-size:10px">k</tspan></text>
+</svg>
+            <figcaption>Abb. 3: Van-der-Waals-Isothermen in reduzierten
+              Einheiten ($p$ in Einheiten von $p_\mathrm{k}$, $V_\mathrm{m}$ in
+              Einheiten von $V_\mathrm{k}$). Auf der Isotherme $0{,}85\,T_\mathrm{k}$
+              ersetzt das waagerechte Plateau die S-Kurve, die beiden
+              farbigen Flächen sind gleich groß (Maxwell-Konstruktion).</figcaption>
+          </figure>
+
+          <p>Das Experiment zeigt statt der S-Kurve ein waagerechtes <em>Plateau</em>
+            bei einem festen Druck, dem Dampfdruck. Im Bereich $V_1 \lt V_\mathrm{m} \lt V_2$
+            koexistieren Flüssigkeit (Molvolumen $V_1$) und Gas ($V_2$). Beim
+            Zusammendrücken wächst der flüssige Anteil, der Druck bleibt gleich.
+            Die Höhe des Plateaus liefert die <em>Maxwell-Konstruktion</em>: Gas
+            und Flüssigkeit stehen im Gleichgewicht, wenn ihre freie Enthalpie pro
+            mol gleich ist. Integriert man entlang der S-Kurve, bedeutet das, dass
+            die Fläche der "Beule" über dem Plateau und die Fläche der "Mulde"
+            darunter gleich groß sind.
+            Für reduzierte Temperatur $0{,}85$ liegt das Plateau bei
+            $p = 0{,}505\,p_\mathrm{k}$.</p>
+
+          <p>Die Stücke der S-Kurve zwischen Plateau und den Extremwerten sind
+            noch stabil gegen kleine Störungen. Sie beschreiben <em>metastabile</em>
+            Zustände: übersättigten Dampf, der bei zu hohem Druck noch nicht
+            kondensiert hat, und überhitzte Flüssigkeit (Siedeverzug). Bei einer
+            Störung, etwa einem Keim, schlägt der Zustand schlagartig um.</p>
+
+          <h2>Der kritische Punkt</h2>
+
+          <p>Mit steigender Temperatur wird das Plateau kürzer und schrumpft
+            bei $T_\mathrm{k}$ zu einem Punkt, der auf der Isotherme
+            ein Sattelpunkt ist. Dort verschwinden Steigung und Krümmung:</p>
+          $$ \frac{\partial p}{\partial V_\mathrm{m}} = -\frac{RT}{(V_\mathrm{m} - b)^2} + \frac{2a}{V_\mathrm{m}^3} = 0, \qquad
+             \frac{\partial^2 p}{\partial V_\mathrm{m}^2} = \frac{2RT}{(V_\mathrm{m} - b)^3} - \frac{6a}{V_\mathrm{m}^4} = 0 . $$
+          <p>Löst man beide Gleichungen nach $RT$ auf und setzt sie gleich,
+            $\frac{2a(V_\mathrm{m} - b)^2}{V_\mathrm{m}^3} = \frac{3a(V_\mathrm{m} - b)^3}{V_\mathrm{m}^4}$,
+            folgt $2V_\mathrm{m} = 3(V_\mathrm{m} - b)$, also $V_\mathrm{m} = 3b$.
+            Einsetzen liefert die kritischen Größen:</p>
+          $$ V_\mathrm{k} = 3b, \qquad T_\mathrm{k} = \frac{8a}{27Rb}, \qquad p_\mathrm{k} = \frac{a}{27b^2} . $$
+          <p>Daraus ergibt sich für alle Van-der-Waals-Gase der gleiche Wert
+            $p_\mathrm{k}V_\mathrm{k}/(RT_\mathrm{k}) = 3/8 = 0{,}375$. Gemessen werden
+            für viele Gase etwa $0{,}27$ bis $0{,}29$ (Wasser $0{,}23$), die Gleichung ist also nur
+            qualitativ richtig. Misst man $T_\mathrm{k}$ und $p_\mathrm{k}$, lassen sich
+            $a$ und $b$ rückwärts bestimmen.</p>
+
+          <p>Oberhalb von $T_\mathrm{k}$ gibt es keinen Phasenübergang mehr:
+            Das Fluid lässt sich durch Druck nicht mehr verflüssigen und geht
+            kontinuierlich von gasartig zu flüssigkeitsartig über
+            (<em>überkritisches Fluid</em>). Es ist aber auch dann kein ideales
+            Gas, sondern hat bei hohem Druck hohe Dichte und Lösekraft. Das
+            nutzt man etwa beim Entkoffeinieren mit überkritischem CO₂.</p>
+
+          <p>Drückt man $p$, $V_\mathrm{m}$ und $T$ in Einheiten der kritischen
+            Werte aus, $p_\mathrm{r} = p/p_\mathrm{k}$ usw., fallen $a$ und $b$ heraus:</p>
+          $$ p_\mathrm{r} = \frac{8T_\mathrm{r}}{3V_\mathrm{r} - 1} - \frac{3}{V_\mathrm{r}^2} . $$
+          <p>Diese Gleichung gilt für alle Van-der-Waals-Gase (Satz der
+            übereinstimmenden Zustände). Die Isothermen in Abb. 3 sind
+            deshalb universell.</p>
+
+          <h2>Wann ist ein Gas ideal?</h2>
+
+          <p>Für große Molvolumen entwickelt man
+            $Z = V_\mathrm{m}/(V_\mathrm{m} - b) - a/(RTV_\mathrm{m})$ nach $1/V_\mathrm{m}$:</p>
+          $$ Z \approx 1 + \frac{1}{V_\mathrm{m}}\left(b - \frac{a}{RT}\right) . $$
+          <p>Der Eigenvolumen-Term ($+b$) hebt $Z$ über eins, der Anziehungs-Term
+            ($-a/RT$) senkt es. Bei der <em>Boyle-Temperatur</em>
+            $T_\mathrm{B} = a/(Rb) = \frac{27}{8}T_\mathrm{k}$ heben sich beide auf,
+            und das Gas verhält sich näherungsweise ideal (nur der lineare Term
+            verschwindet, höhere Terme bleiben).
+            Darunter gewinnt die Anziehung, darüber das Eigenvolumen.</p>
+
+          <div class="merkkasten">
+            <span class="titel">Merke</span>
+            <p>Van-der-Waals-Gleichung:
+              $\left(p + a/V_\mathrm{m}^2\right)\left(V_\mathrm{m} - b\right) = RT$.
+              $b$ steht für das Eigenvolumen, $a$ für die Anziehung. Unterhalb von
+              $T_\mathrm{k} = 8a/(27Rb)$ gibt es einen Gas-Flüssigkeits-Übergang
+              mit einem Plateau (Maxwell-Konstruktion), am kritischen Punkt
+              $V_\mathrm{k} = 3b$, $p_\mathrm{k} = a/(27b^2)$ verschwindet der
+              Unterschied.</p>
+          </div>
+        </section>
+
+        <section class="tab" id="beispiele" data-titel="Beispielrechnungen">
+
+          <div class="beispiel">
+            <h3>Beispiel 1: Ein mol Kohlendioxid auf engem Raum</h3>
+            <p><strong>Gegeben:</strong> Ein mol $\mathrm{CO_2}$ ist bei
+              $300\,\mathrm{K}$ in $1{,}0\,\mathrm{l}$ eingesperrt. Konstanten:
+              $a = 0{,}3657\,\mathrm{Pa\,m^6/mol^2}$,
+              $b = 4{,}285 \cdot 10^{-5}\,\mathrm{m^3/mol}$.<br>
+              <strong>Gesucht:</strong> der Druck nach der idealen Gasgleichung und nach
+              Van der Waals.</p>
+
+            <p><strong>1. Ideales Gas.</strong> Mit $V_\mathrm{m} = 1{,}0 \cdot 10^{-3}\,\mathrm{m^3/mol}$:
+              $$ p_\text{ideal} = \frac{RT}{V_\mathrm{m}} = \frac{8{,}3145\,\mathrm{J/(mol\,K)} \cdot 300\,\mathrm{K}}{1{,}0 \cdot 10^{-3}\,\mathrm{m^3/mol}} = 2{,}494 \cdot 10^6\,\mathrm{Pa} = 24{,}9\,\mathrm{bar} $$</p>
+
+            <p><strong>2. Eigenvolumen-Term.</strong>
+              $$ \frac{RT}{V_\mathrm{m} - b} = \frac{2494{,}3\,\mathrm{J/mol}}{(1{,}0 \cdot 10^{-3} - 4{,}285 \cdot 10^{-5})\,\mathrm{m^3/mol}} = 2{,}606 \cdot 10^6\,\mathrm{Pa} = 26{,}1\,\mathrm{bar} $$</p>
+
+            <p><strong>3. Binnendruck.</strong>
+              $$ \frac{a}{V_\mathrm{m}^2} = \frac{0{,}3657\,\mathrm{Pa\,m^6/mol^2}}{(1{,}0 \cdot 10^{-3}\,\mathrm{m^3/mol})^2} = 3{,}657 \cdot 10^5\,\mathrm{Pa} = 3{,}66\,\mathrm{bar} $$
+              Einheitencheck: $\mathrm{Pa\,m^6/mol^2} \big/ (\mathrm{m^3/mol})^2 = \mathrm{Pa}$ ✓</p>
+
+            <p><strong>4. Van-der-Waals-Druck.</strong>
+              $$ p = 26{,}06\,\mathrm{bar} - 3{,}66\,\mathrm{bar} = 22{,}4\,\mathrm{bar} $$
+              Der Kompressibilitätsfaktor ist $Z = 22{,}4/24{,}9 = 0{,}90$.</p>
+
+            <p><strong>Ergebnis und Plausibilität:</strong> Das reale Gas
+              drückt mit $22{,}4\,\mathrm{bar}$ um etwa $10\,\%$ weniger als das
+              ideale. Die Anziehung überwiegt hier das Eigenvolumen. Bei
+              $0{,}25\,\mathrm{l}$ wäre es noch viel deutlicher: $62\,\mathrm{bar}$ statt
+              $100\,\mathrm{bar}$, also $Z = 0{,}62$. Bei $300\,\mathrm{K}$, nur
+              knapp unter $T_\mathrm{k} = 304\,\mathrm{K}$, ist die Anziehung
+              eben besonders wichtig.</p>
+          </div>
+
+          <div class="beispiel">
+            <h3>Beispiel 2: Kritische Daten von Kohlendioxid</h3>
+            <p><strong>Gegeben:</strong> $a = 0{,}3657\,\mathrm{Pa\,m^6/mol^2}$ und
+              $b = 4{,}285 \cdot 10^{-5}\,\mathrm{m^3/mol}$.<br>
+              <strong>Gesucht:</strong> $V_\mathrm{k}$, $T_\mathrm{k}$, $p_\mathrm{k}$.</p>
+
+            <p><strong>1. Kritisches Molvolumen.</strong>
+              $$ V_\mathrm{k} = 3b = 1{,}286 \cdot 10^{-4}\,\mathrm{m^3/mol} = 128{,}6\,\mathrm{cm^3/mol} $$</p>
+
+            <p><strong>2. Kritische Temperatur.</strong>
+              $$ T_\mathrm{k} = \frac{8a}{27Rb} = \frac{8 \cdot 0{,}3657\,\mathrm{Pa\,m^6/mol^2}}{27 \cdot 8{,}3145\,\mathrm{J/(mol\,K)} \cdot 4{,}285 \cdot 10^{-5}\,\mathrm{m^3/mol}} = \frac{2{,}9256}{9{,}619 \cdot 10^{-3}}\,\mathrm{K} = 304{,}1\,\mathrm{K} $$
+              Einheitencheck: $\mathrm{Pa\,m^6/mol^2} / (\mathrm{J/(mol\,K)} \cdot \mathrm{m^3/mol}) = \mathrm{Pa\,m^3/J \cdot K} = \mathrm{K}$ ✓</p>
+
+            <p><strong>3. Kritischer Druck.</strong>
+              $$ p_\mathrm{k} = \frac{a}{27b^2} = \frac{0{,}3657\,\mathrm{Pa\,m^6/mol^2}}{27 \cdot (4{,}285 \cdot 10^{-5}\,\mathrm{m^3/mol})^2} = 7{,}38 \cdot 10^6\,\mathrm{Pa} = 73{,}8\,\mathrm{bar} $$</p>
+
+            <p><strong>Ergebnis und Plausibilität:</strong> $T_\mathrm{k} = 304{,}1\,\mathrm{K} = 31{,}0\,{}^\circ\mathrm{C}$
+              und $p_\mathrm{k} = 73{,}8\,\mathrm{bar}$. Die gemessenen Werte
+              sind $304{,}1\,\mathrm{K}$ und $73{,}8\,\mathrm{bar}$. Die Übereinstimmung ist
+              gut, weil die Konstanten $a$ und $b$ gerade aus den kritischen
+              Daten bestimmt wurden. Das kritische Molvolumen ist mit
+              $128{,}6\,\mathrm{cm^3/mol}$ dagegen deutlich größer als der gemessene
+              Wert von etwa $94\,\mathrm{cm^3/mol}$, das zeigt den Fehler
+              der Gleichung ($Z_\mathrm{k} = 0{,}375$ statt $0{,}27$).</p>
+          </div>
+
+          <div class="beispiel">
+            <h3>Beispiel 3: Größe eines CO₂-Moleküls aus dem Eigenvolumen</h3>
+            <p><strong>Gegeben:</strong> $b = 4{,}285 \cdot 10^{-5}\,\mathrm{m^3/mol}$ für
+              $\mathrm{CO_2}$. Für harte Kugeln mit Durchmesser $d$ ist
+              $b = 4 N_\mathrm{A}\,\pi d^3/6$.<br>
+              <strong>Gesucht:</strong> der Durchmesser $d$.</p>
+
+            <p><strong>1. Auflösen nach $d$.</strong>
+              $$ d^3 = \frac{6b}{4\pi N_\mathrm{A}} $$</p>
+
+            <p><strong>2. Zahlen einsetzen.</strong>
+              $$ d^3 = \frac{6 \cdot 4{,}285 \cdot 10^{-5}\,\mathrm{m^3/mol}}{4\pi \cdot 6{,}022 \cdot 10^{23}\,\mathrm{mol^{-1}}} = 3{,}40 \cdot 10^{-29}\,\mathrm{m^3} $$
+              $$ d = \sqrt[3]{3{,}40 \cdot 10^{-29}\,\mathrm{m^3}} = 3{,}2 \cdot 10^{-10}\,\mathrm{m} = 0{,}32\,\mathrm{nm} $$
+              Einheitencheck: $\mathrm{(m^3/mol)} / \mathrm{mol^{-1}} = \mathrm{m^3}$ ✓</p>
+
+            <p><strong>Ergebnis und Plausibilität:</strong> Ein $\mathrm{CO_2}$-Molekül
+              wird damit als Kugel mit $0{,}32\,\mathrm{nm}$ Durchmesser
+              beschrieben. Das passt zur Größenordnung von Atom- und
+              Molekülabmessungen ($0{,}1$ bis $0{,}5\,\mathrm{nm}$). Der Wert ist
+              ein Ersatzdurchmesser für das Modell, kein genaues Maß der echten
+              Molekülform (CO₂ ist ein gestrecktes Molekül).</p>
+          </div>
+        </section>
+
+        <section class="tab" id="aufgaben" data-titel="Aufgaben">
+
+          <p>Verwende $R = 8{,}3145\,\mathrm{J/(mol\,K)}$ und die Konstanten aus der
+            Tabelle der Vertiefung.</p>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 1
+              <span class="schwierigkeit" data-stufe="leicht">leicht</span>
+            </h3>
+            <p>Ein mol Argon steht bei $300\,\mathrm{K}$ in einem Volumen von
+              $0{,}50\,\mathrm{l}$. Berechne den Druck nach der idealen Gasgleichung
+              und nach Van der Waals sowie den Kompressibilitätsfaktor $Z$.</p>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>Ideal:
+                $$ p_\text{ideal} = \frac{RT}{V_\mathrm{m}} = \frac{8{,}3145 \cdot 300}{5{,}0 \cdot 10^{-4}}\,\mathrm{Pa} = 49{,}9\,\mathrm{bar} . $$
+                Van der Waals mit $a = 0{,}1355\,\mathrm{Pa\,m^6/mol^2}$ und
+                $b = 3{,}20 \cdot 10^{-5}\,\mathrm{m^3/mol}$:
+                $$ p = \frac{RT}{V_\mathrm{m} - b} - \frac{a}{V_\mathrm{m}^2}
+                     = \frac{2494{,}3}{4{,}68 \cdot 10^{-4}}\,\mathrm{Pa} - \frac{0{,}1355}{(5{,}0 \cdot 10^{-4})^2}\,\mathrm{Pa}
+                     = 53{,}3\,\mathrm{bar} - 5{,}4\,\mathrm{bar} = 47{,}9\,\mathrm{bar} . $$
+                $Z = 47{,}9/49{,}9 = 0{,}96$. Bei Argon (kleines $a$) bleibt die
+                Abweichung gering, und die Anziehung überwiegt das Eigenvolumen
+                nur leicht.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 2
+              <span class="schwierigkeit" data-stufe="leicht">leicht</span>
+            </h3>
+            <p>Berechne aus $a$ und $b$ von Argon die kritische Temperatur, den
+              kritischen Druck und das kritische Molvolumen.</p>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              $$ T_\mathrm{k} = \frac{8a}{27Rb} = \frac{8 \cdot 0{,}1355}{27 \cdot 8{,}3145 \cdot 3{,}20 \cdot 10^{-5}}\,\mathrm{K} = 151\,\mathrm{K} $$
+              $$ p_\mathrm{k} = \frac{a}{27b^2} = \frac{0{,}1355}{27 \cdot (3{,}20 \cdot 10^{-5})^2}\,\mathrm{Pa} = 4{,}9 \cdot 10^6\,\mathrm{Pa} = 49\,\mathrm{bar} $$
+              $$ V_\mathrm{k} = 3b = 9{,}6 \cdot 10^{-5}\,\mathrm{m^3/mol} = 96\,\mathrm{cm^3/mol} $$
+              <p>Argon lässt sich also erst unterhalb von $151\,\mathrm{K}$
+                ($-122\,{}^\circ\mathrm{C}$) verflüssigen.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 3
+              <span class="schwierigkeit" data-stufe="mittel">mittel</span>
+            </h3>
+            <p>Für Stickstoff misst man $T_\mathrm{k} = 126{,}2\,\mathrm{K}$ und
+              $p_\mathrm{k} = 33{,}9\,\mathrm{bar}$. Bestimme daraus die
+              Van-der-Waals-Konstanten $a$ und $b$ und das kritische Molvolumen.</p>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>Aus $T_\mathrm{k} = 8a/(27Rb)$ und $p_\mathrm{k} = a/(27b^2)$ folgt
+                durch Teilen $T_\mathrm{k}/p_\mathrm{k} = 8b/R$, also
+                $$ b = \frac{R\,T_\mathrm{k}}{8\,p_\mathrm{k}} = \frac{8{,}3145 \cdot 126{,}2}{8 \cdot 33{,}9 \cdot 10^5}\,\mathrm{m^3/mol} = 3{,}87 \cdot 10^{-5}\,\mathrm{m^3/mol} . $$
+                Aus $p_\mathrm{k}$ folgt $a = 27 b^2 p_\mathrm{k}$, mit $b = RT_\mathrm{k}/(8p_\mathrm{k})$ also
+                $$ a = \frac{27R^2T_\mathrm{k}^2}{64\,p_\mathrm{k}} = \frac{27 \cdot (8{,}3145 \cdot 126{,}2)^2}{64 \cdot 33{,}9 \cdot 10^5}\,\mathrm{Pa\,m^6/mol^2} = 0{,}137\,\mathrm{Pa\,m^6/mol^2} . $$
+                Das kritische Molvolumen ist $V_\mathrm{k} = 3b = 116\,\mathrm{cm^3/mol}$.
+                Die Einheiten sind passend: $\mathrm{J/(mol\,K) \cdot K / Pa} = \mathrm{m^3/mol}$ ✓.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 4
+              <span class="schwierigkeit" data-stufe="mittel">mittel</span>
+            </h3>
+            <p>Entwickle $Z$ für große $V_\mathrm{m}$ bis zur ersten Ordnung in
+              $1/V_\mathrm{m}$ und bestimme die Boyle-Temperatur $T_\mathrm{B}$, bei der
+              die lineare Korrektur verschwindet. Berechne $T_\mathrm{B}$ für
+              $\mathrm{CO_2}$ und vergleiche mit $T_\mathrm{k}$.</p>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>Aus der Van-der-Waals-Gleichung:
+                $Z = \dfrac{pV_\mathrm{m}}{RT} = \dfrac{V_\mathrm{m}}{V_\mathrm{m} - b} - \dfrac{a}{RTV_\mathrm{m}}$.
+                Mit $\dfrac{V_\mathrm{m}}{V_\mathrm{m} - b} = \dfrac{1}{1 - b/V_\mathrm{m}} \approx 1 + \dfrac{b}{V_\mathrm{m}}$
+                folgt
+                $$ Z \approx 1 + \frac{1}{V_\mathrm{m}}\left(b - \frac{a}{RT}\right) . $$
+                Die Klammer ist null bei $T_\mathrm{B} = a/(Rb)$.
+                Für $\mathrm{CO_2}$:
+                $$ T_\mathrm{B} = \frac{0{,}3657}{8{,}3145 \cdot 4{,}285 \cdot 10^{-5}}\,\mathrm{K} = 1026\,\mathrm{K} . $$
+                Das Verhältnis zu $T_\mathrm{k}$ ist $1026/304{,}1 = 3{,}37 \approx 27/8$ ✓.
+                Bei $300\,\mathrm{K}$ (weit unter $T_\mathrm{B}$) überwiegt die Anziehung,
+                $Z \lt 1$, wie in Beispiel 1. Die gemessene Boyle-Temperatur von
+                $\mathrm{CO_2}$ ist mit etwa $710\,\mathrm{K}$ deutlich niedriger,
+                der Van-der-Waals-Wert ist also grob.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 5
+              <span class="schwierigkeit" data-stufe="schwer">schwer</span>
+            </h3>
+            <p>Leite die reduzierte Van-der-Waals-Gleichung
+              $p_\mathrm{r} = \dfrac{8T_\mathrm{r}}{3V_\mathrm{r} - 1} - \dfrac{3}{V_\mathrm{r}^2}$
+              her. Zeige außerdem, dass $T_\mathrm{r} = 1$, $V_\mathrm{r} = 1$,
+              $p_\mathrm{r} = 1$ eine Lösung ist, und berechne damit den
+              Dampfdruck von $\mathrm{CO_2}$ bei $0{,}85\,T_\mathrm{k}$ aus dem
+              Plateauwert $p_\mathrm{r} = 0{,}505$ der Vertiefung.</p>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>Setze $p = p_\mathrm{r}p_\mathrm{k}$, $V_\mathrm{m} = V_\mathrm{r}V_\mathrm{k}$,
+                $T = T_\mathrm{r}T_\mathrm{k}$ mit $p_\mathrm{k} = a/(27b^2)$,
+                $V_\mathrm{k} = 3b$, $T_\mathrm{k} = 8a/(27Rb)$ in
+                $p = \dfrac{RT}{V_\mathrm{m} - b} - \dfrac{a}{V_\mathrm{m}^2}$:
+                $$ p_\mathrm{r}\frac{a}{27b^2} = \frac{R\,T_\mathrm{r}\,8a/(27Rb)}{3bV_\mathrm{r} - b} - \frac{a}{9b^2V_\mathrm{r}^2}
+                   = \frac{8a\,T_\mathrm{r}}{27b^2\,(3V_\mathrm{r} - 1)} - \frac{a}{9b^2V_\mathrm{r}^2} . $$
+                Multiplikation mit $27b^2/a$ gibt
+                $p_\mathrm{r} = \dfrac{8T_\mathrm{r}}{3V_\mathrm{r} - 1} - \dfrac{27}{9V_\mathrm{r}^2}$,
+                und $27/9 = 3$ liefert die Behauptung.
+                Probe: $8/(3 - 1) - 3 = 4 - 3 = 1$ ✓.</p>
+              <p>Dampfdruck: $T = 0{,}85 \cdot 304{,}1\,\mathrm{K} = 258{,}5\,\mathrm{K}$
+                ($-14{,}6\,{}^\circ\mathrm{C}$) und
+                $p = 0{,}505 \cdot 73{,}8\,\mathrm{bar} = 37{,}3\,\mathrm{bar}$.
+                Der gemessene Wert bei dieser Temperatur liegt bei etwa
+                $23\,\mathrm{bar}$. Das Modell überschätzt ihn deutlich, die
+                Gleichung ist nahe der Verflüssigung nur qualitativ gut.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 6
+              <span class="schwierigkeit" data-stufe="schwer">schwer</span>
+            </h3>
+            <p>Ein mol Argon ($a = 0{,}1355\,\mathrm{Pa\,m^6/mol^2}$) expandiert
+              in einem wärmeisolierten Behälter ohne Arbeitsleistung aus
+              $1{,}0\,\mathrm{l}$ in das Gesamtvolumen von $10\,\mathrm{l}$
+              (Überströmversuch von Gay-Lussac und Joule). Beim Van-der-Waals-Gas
+              ist die innere Energie eines mol
+              $U = \tfrac32 RT - a/V_\mathrm{m}$ (Anziehung macht die Energie
+              bei kleinem Volumen niedriger). Berechne die Temperaturänderung.
+              Was ergäbe sich für das ideale Gas?</p>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>Es wird weder Wärme ausgetauscht noch Arbeit verrichtet, also
+                bleibt $U$ erhalten:
+                $$ \tfrac32 RT_1 - \frac{a}{V_1} = \tfrac32 RT_2 - \frac{a}{V_2}
+                   \quad\Rightarrow\quad T_2 - T_1 = -\frac{2a}{3R}\left(\frac{1}{V_1} - \frac{1}{V_2}\right) . $$
+                $$ T_2 - T_1 = -\frac{2 \cdot 0{,}1355}{3 \cdot 8{,}3145}\left(\frac{1}{10^{-3}} - \frac{1}{10^{-2}}\right)\mathrm{K} = -0{,}01086 \cdot 900\,\mathrm{K} = -9{,}8\,\mathrm{K} . $$
+                Das Gas kühlt sich um etwa $9{,}8\,\mathrm{K}$ ab: Beim Auseinanderziehen
+                der Teilchen muss gegen die Anziehung Energie aufgebracht werden,
+                die aus der Bewegungsenergie kommt. Für das ideale Gas ($a = 0$)
+                bleibt die Temperatur unverändert, $\Delta T = 0$.
+                Die Einheiten stimmen: $\mathrm{Pa\,m^6/mol^2 \cdot mol/m^3 \big/ (J/(mol\,K))} = \mathrm{K}$ ✓.</p>
+            </details>
+          </div>
+
+        </section>
+
+      </div></article>
+  </main>
+</body>
+</html>

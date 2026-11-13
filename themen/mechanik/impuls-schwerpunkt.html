@@ -1,0 +1,662 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="robots" content="noindex">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Schwerpunkt und Impulserhaltung</title>
+  <meta name="description" content="Schwerpunkt, Impuls, Schwerpunktsystem, Impulserhaltung und Raketengleichung – verständlich erklärt, mit Herleitungen, Beispielrechnungen und Übungsaufgaben.">
+
+  <link rel="stylesheet" href="../../css/stil.css">
+
+  <link rel="stylesheet" href="../../extern/katex/katex.min.css">
+  <script defer src="../../extern/katex/katex.min.js"></script>
+  <script defer src="../../extern/katex/contrib/auto-render.min.js" onload="starteFormeln()"></script>
+
+  <script src="../../js/daten.js"></script>
+  <script src="../../js/seite.js"></script>
+  <script src="../../js/effekte.js"></script>
+  <script src="../../js/interaktiv.js"></script>
+  <script src="../../js/modelle/impuls-schwerpunkt.js"></script>
+  <script type="application/json" id="symbole">
+  {
+    "m": "Masse",
+    "m_1": "Masse von Körper 1",
+    "m_2": "Masse von Körper 2",
+    "m_i": "Masse des i-ten Teilchens",
+    "M": "Gesamtmasse",
+    "i": "Nummer des Teilchens",
+    "n": "Anzahl der Teilchen",
+    "K": "Massenverhältnis m₁/m₂",
+    "r": "Ortsvektor",
+    "r_1": "Ort von Körper 1",
+    "r_2": "Ort von Körper 2",
+    "r_i": "Ort des i-ten Teilchens",
+    "r_s": "Ort des Schwerpunkts",
+    "x": "x-Koordinate",
+    "x_s": "x-Koordinate des Schwerpunkts",
+    "y": "y-Koordinate",
+    "y_s": "y-Koordinate des Schwerpunkts",
+    "V": "Volumen",
+    "ρ": "Dichte",
+    "A": "Fläche",
+    "π": "Kreiszahl π ≈ 3,14159",
+    "φ": "Winkel (Polarkoordinate)",
+    "p": "Impuls",
+    "p_i": "Impuls des i-ten Teilchens",
+    "P": "Gesamtimpuls",
+    "P_i": "Gesamtimpuls vorher (initial)",
+    "P_f": "Gesamtimpuls nachher (final)",
+    "P_vorher": "Gesamtimpuls vorher",
+    "P_nachher": "Gesamtimpuls nachher",
+    "v": "Geschwindigkeit",
+    "v_i": "Geschwindigkeit des i-ten Teilchens",
+    "v_s": "Geschwindigkeit des Schwerpunkts",
+    "v_1": "Geschwindigkeit von Körper 1",
+    "v_2": "Geschwindigkeit von Körper 2",
+    "v_1,f": "Geschwindigkeit von Körper 1 nachher",
+    "v_2,f": "Geschwindigkeit von Körper 2 nachher",
+    "a": "Beschleunigung",
+    "a_i": "Beschleunigung des i-ten Teilchens",
+    "a_s": "Beschleunigung des Schwerpunkts",
+    "t": "Zeit",
+    "F": "Kraft",
+    "F_ext": "Summe der äußeren Kräfte",
+    "F_i": "äußere Kraft auf Teilchen i",
+    "F_ij": "innere Kraft von Teilchen i auf Teilchen j",
+    "F_ji": "Gegenkraft von Teilchen j auf Teilchen i",
+    "E": "kinetische Energie",
+    "E_kin": "kinetische Energie",
+    "g": "Fallbeschleunigung",
+    "M_i": "Startmasse der Rakete",
+    "M_f": "Endmasse der Rakete",
+    "R": "Massenausstoß pro Zeit",
+    "u": "Geschwindigkeit des ausgestoßenen Gases",
+    "v_rel": "Ausströmgeschwindigkeit relativ zur Rakete",
+    "v_f": "Endgeschwindigkeit der Rakete",
+    "t_B": "Brenndauer",
+    "a_Start": "Beschleunigung beim Start",
+    "a_Ende": "Beschleunigung bei Brennschluss",
+    "d": "Abstand Erde–Mond",
+    "M_E": "Erdmasse",
+    "M_M": "Mondmasse",
+    "m_P": "Masse des Eisläufers",
+    "m_B": "Masse des Medizinballs",
+    "v_P": "Geschwindigkeit des Eisläufers",
+    "v_B": "Geschwindigkeit des Medizinballs",
+    "E_P": "kinetische Energie des Eisläufers",
+    "E_B": "kinetische Energie des Medizinballs",
+    "x_P": "Weg der Person",
+    "x_B": "Weg des Boots",
+    "E_1": "kinetische Energie von Gleiter 1",
+    "E_2": "kinetische Energie von Gleiter 2"
+  }
+  </script>
+</head>
+<body data-thema="impuls-schwerpunkt">
+  <main>
+    <article class="thema">
+      <header>
+        <h1>Schwerpunkt und Impulserhaltung</h1>
+        <p class="untertitel">Wo die Masse eines Körpers „im Mittel“ sitzt, was
+          Impuls ist – und warum Raketen auch im leeren Weltall fliegen.</p>
+      </header>
+
+      <div class="tabs">
+
+        <section class="tab" id="verstehen" data-titel="Verstehen">
+
+          <p>Bisher haben wir Körper als Punkte behandelt. Ein Hammer, den man
+            durch die Luft wirbelt, ist aber kein Punkt – er dreht sich wild um
+            sich selbst. Und trotzdem gibt es an ihm einen Punkt, der ganz brav
+            einer Wurfparabel folgt, als wäre nichts: den
+            <em>Schwerpunkt</em>.</p>
+
+          <h2>Der Schwerpunkt</h2>
+
+          <p>Der Schwerpunkt ist der „Mittelpunkt der Masse“. Unterstützt man
+            einen Körper genau dort, balanciert er. Bei einer Wippe mit einem
+            leichten Kind und einem schweren Erwachsenen liegt er näher am
+            Erwachsenen – deshalb muss der Erwachsene weiter zur Mitte rücken,
+            damit die Wippe im Gleichgewicht ist. Bei einem Ring oder einem
+            Bumerang kann der Schwerpunkt sogar außerhalb des Körpers liegen.</p>
+
+          <p>Das Besondere: Für die Bewegung des Schwerpunkts zählen nur die
+            Kräfte von außen. Wie die Teile eines Körpers aneinander ziehen und
+            schieben, ändert an ihr nichts. Ein Feuerwerkskörper, der in der Luft
+            explodiert, verteilt seine Funken in alle Richtungen – ihr
+            gemeinsamer Schwerpunkt fliegt aber auf derselben Parabel weiter, als
+            wäre nichts passiert.</p>
+
+          <h2>Impuls: die „Wucht“ einer Bewegung</h2>
+
+          <p>Ein Tennisball mit 100 km/h und ein Lastwagen mit 10 km/h – welcher
+            ist schwerer aufzuhalten? Natürlich der Lastwagen. Die Physik fasst
+            diese „Wucht“ als <em>Impuls</em> zusammen: Masse mal
+            Geschwindigkeit. Der Impuls hat auch eine Richtung, er ist ein
+            Pfeil.</p>
+
+          <p>Und für ihn gilt ein mächtiger Erhaltungssatz: Solange keine Kraft
+            von außen wirkt, bleibt der Gesamtimpuls eines Systems gleich. Was
+            der eine Teil an Impuls gewinnt, verliert ein anderer. Stößt du dich
+            auf dem Eis von der Bande ab, bekommt die Erde einen winzigen
+            Gegenimpuls. Wirfst du auf Schlittschuhen einen schweren Ball nach
+            vorne, rollst du selbst nach hinten.</p>
+
+          <figure class="interaktiv" data-modell="rueckstoss">
+            <span class="titel">Zum Ausprobieren</span>
+            <figcaption>Ein Versuch aus der Vorlesung: Zwei Gleiter auf einer
+              Luftkissenbahn (fast reibungsfrei) werden von einer gespannten Feder
+              zusammengehalten. Brennt der Faden durch, fliegen sie auseinander.
+              Ändere die Massen: Der leichtere wird schneller, aber beide Impulse
+              bleiben gleich groß. Und der gemeinsame Schwerpunkt (gestrichelt)
+              bleibt, wo er war.</figcaption>
+          </figure>
+
+          <h2>Wie eine Rakete fliegt</h2>
+
+          <p>Eine Rakete stößt sich nicht an der Luft ab – im Weltall gibt es gar
+            keine. Sie wirft vielmehr ständig Gas mit hoher Geschwindigkeit nach
+            hinten. Das Gas bekommt Impuls nach hinten, also bekommt die Rakete
+            genau so viel Impuls nach vorne. Je schneller das Gas ausströmt und je
+            mehr Treibstoff sie im Verhältnis zu ihrer Leermasse mitnimmt, desto
+            schneller wird sie.</p>
+
+          <figure class="interaktiv" data-modell="rakete">
+            <span class="titel">Zum Ausprobieren</span>
+            <figcaption>Die Rakete verbrennt ihren Treibstoff (orange Füllung)
+              und wird dabei immer schneller – am Ende besonders schnell, weil sie
+              dann leicht ist. Erhöhe den Treibstoffanteil: Von 75 auf 90 %
+              Treibstoff steigt die Endgeschwindigkeit deutlich, aber nicht im
+              selben Verhältnis. Deshalb haben echte Raketen mehrere Stufen, die
+              leere Tanks abwerfen.</figcaption>
+          </figure>
+
+          <div class="merkkasten">
+            <span class="titel">Das Wichtigste in Kürze</span>
+            <ul>
+              <li>Der Schwerpunkt bewegt sich so, als säße die ganze Masse dort
+                und alle äußeren Kräfte griffen an ihm an.</li>
+              <li>Impuls = Masse × Geschwindigkeit, ein Pfeil in
+                Bewegungsrichtung.</li>
+              <li>Ohne äußere Kräfte bleibt der Gesamtimpuls erhalten – das
+                erklärt Rückstoß und Raketenantrieb.</li>
+            </ul>
+          </div>
+        </section>
+
+        <section class="tab" id="vertiefung" data-titel="Vertiefung">
+
+          <h2>Der Schwerpunkt</h2>
+
+          <h3>Zwei Massenpunkte</h3>
+
+          <p>Für zwei Massen $m_1$, $m_2$ an den Orten $\vec{r}_1$, $\vec{r}_2$
+            definiert man den Schwerpunkt $\vec{r}_\text{s}$ durch die
+            Bedingung, dass sich die mit den Massen gewichteten Abstände
+            aufheben:</p>
+
+          $$ m_1\,(\vec{r}_\text{s} - \vec{r}_1) + m_2\,(\vec{r}_\text{s} - \vec{r}_2) = 0 \quad\Longrightarrow\quad \vec{r}_\text{s} = \frac{m_1 \vec{r}_1 + m_2 \vec{r}_2}{m_1 + m_2} . $$
+
+          <p>Legt man den Ursprung in den Schwerpunkt, so ist
+            $m_1 \vec{r}_1 + m_2 \vec{r}_2 = 0$, also
+            $m_1 r_1 = m_2 r_2$: Der Schwerpunkt teilt die Verbindungslinie im
+            umgekehrten Verhältnis der Massen – das Hebelgesetz (Abb. 1).</p>
+
+          <figure class="abbildung">
+            <svg class="abb" viewBox="0 52 360 120" role="img"
+                 aria-label="Zwei Massen an einer Stange, unterstützt im Schwerpunkt">
+              <path class="achse" d="M20 145H340"/>
+              <path class="kurve" d="M70 110H290"/>
+              <polygon class="flaeche" points="216.7,113 203,145 230.4,145"/>
+              <path class="achse" d="M216.7 113L203 145H230.4Z"/>
+              <circle class="punkt kupfer" cx="70" cy="110" r="12"/>
+              <circle class="punkt blau" cx="290" cy="110" r="17"/>
+              <path class="hilfslinie" d="M70 72V96M216.7 72V100M290 72V92"/>
+              <path class="achse" d="M70 80H216.7M216.7 80H290"/>
+              <text x="143" y="72" text-anchor="middle">r<tspan dy="4" font-size="10">1</tspan></text>
+              <text x="253" y="72" text-anchor="middle">r<tspan dy="4" font-size="10">2</tspan></text>
+              <text class="kupfer" x="70" y="138" text-anchor="middle">m₁</text>
+              <text class="blau" x="290" y="142" text-anchor="middle">m₂ = 2 m₁</text>
+              <text x="216.7" y="162" text-anchor="middle" font-size="11">Schwerpunkt</text>
+            </svg>
+            <figcaption>Abb. 1: Der Schwerpunkt zweier Massen liegt dort, wo
+              $m_1 r_1 = m_2 r_2$ ist – hier bei doppelter Masse rechts also bei
+              einem Drittel des Abstands von $m_2$.</figcaption>
+          </figure>
+
+          <h3>Viele Massenpunkte und kontinuierliche Körper</h3>
+
+          <p>Allgemein, mit der Gesamtmasse $M = \sum_i m_i$:</p>
+
+          $$ \vec{r}_\text{s} = \frac{\sum_i m_i \vec{r}_i}{\sum_i m_i} = \frac{1}{M} \sum_{i=1}^{n} m_i \vec{r}_i . $$
+
+          <p>Für einen ausgedehnten Körper zerlegt man ihn in Massenelemente
+            $\mathrm{d}m$ und ersetzt die Summe durch ein Integral. Ist die
+            Dichte $\rho = M/V = \mathrm{d}m/\mathrm{d}V$ konstant (homogener
+            Körper), so ist</p>
+
+          $$ \vec{r}_\text{s} = \frac{1}{M} \int \vec{r}\,\mathrm{d}m = \frac{\rho}{M} \int_V \vec{r}\,\mathrm{d}V = \frac{1}{V} \int_V \vec{r}\,\mathrm{d}V , $$
+
+          <p>komponentenweise $x_\text{s} = \tfrac{1}{V}\int x\,\mathrm{d}V$
+            usw. Bei homogenen Körpern liegt der Schwerpunkt also im geometrischen
+            Mittelpunkt; jede Symmetrieachse geht durch ihn.</p>
+
+          <h2>Bewegung eines Systems: Newton für den Schwerpunkt</h2>
+
+          <p>Leitet man $M \vec{r}_\text{s} = \sum_i m_i \vec{r}_i$ nach der
+            Zeit ab (Massen konstant), erhält man</p>
+
+          $$ M \vec{v}_\text{s} = \sum_i m_i \vec{v}_i, \qquad M \vec{a}_\text{s} = \sum_i m_i \vec{a}_i = \sum_i \vec{F}_i . $$
+
+          <p>Die Kraft $\vec{F}_i$ auf Teilchen $i$ setzt sich aus äußeren
+            Kräften und den inneren Kräften der anderen Teilchen zusammen. Nach dem
+            dritten Axiom treten die inneren Kräfte paarweise mit
+            $\vec{F}_{ij} = -\vec{F}_{ji}$ auf und heben sich in der Summe auf.
+            Übrig bleibt</p>
+
+          $$ \vec{F}_\text{ext} = M\,\vec{a}_\text{s} . $$
+
+          <p>Der Schwerpunkt bewegt sich wie ein Massenpunkt der Masse $M$, an dem
+            die Summe aller äußeren Kräfte angreift. Innere Kräfte – Explosionen,
+            Muskeln, Federn zwischen den Teilen – spielen dafür keine Rolle.</p>
+
+          <h2>Impuls</h2>
+
+          <p>Der <em>Impuls</em> eines Körpers ist</p>
+
+          $$ \vec{p} = m\,\vec{v}, \qquad [p] = 1\,\mathrm{\frac{kg\,m}{s}} . $$
+
+          <p>Für konstante Masse ist
+            $\tfrac{\mathrm{d}\vec{p}}{\mathrm{d}t} = m\,\tfrac{\mathrm{d}\vec{v}}{\mathrm{d}t} = m\vec{a} = \vec{F}$,
+            sonst muss man die Produktregel beachten. Die kinetische Energie lässt
+            sich durch den Impuls ausdrücken:
+            $E_\text{kin} = \tfrac{1}{2} m v^2 = \tfrac{p^2}{2m}$.</p>
+
+          <p>Der Gesamtimpuls eines Teilchensystems ist</p>
+
+          $$ \vec{P} = \sum_{i=1}^{n} \vec{p}_i = \sum_i m_i \vec{v}_i = M\,\vec{v}_\text{s}, \qquad \frac{\mathrm{d}\vec{P}}{\mathrm{d}t} = M\,\vec{a}_\text{s} = \vec{F}_\text{ext} . $$
+
+          <h3>Das Schwerpunktsystem</h3>
+
+          <p>Im <em>Schwerpunktsystem</em> (SP) ruht der Schwerpunkt; der
+            Ursprung sitzt in ihm. Die Geschwindigkeiten im Laborsystem setzen sich
+            zusammen aus der Schwerpunktgeschwindigkeit und der Geschwindigkeit
+            relativ zum Schwerpunkt:
+            $\vec{v}_i = \vec{v}_\text{s} + \vec{v}_i^{\,(\text{SP})}$. Einsetzen
+            in $\vec{P} = M \vec{v}_\text{s}$ liefert</p>
+
+          $$ \sum_i m_i \vec{v}_i = M \vec{v}_\text{s} + \sum_i m_i \vec{v}_i^{\,(\text{SP})} \quad\Longrightarrow\quad \vec{P}^{(\text{SP})} = \sum_i m_i \vec{v}_i^{\,(\text{SP})} = 0 . $$
+
+          <p>Im Schwerpunktsystem ist der Gesamtimpuls also immer null. Für die
+            kinetische Energie zweier Massenpunkte folgt</p>
+
+          $$ E_\text{kin} = \tfrac{1}{2} m_1 (\vec{v}_\text{s} + \vec{v}_1^{\,(\text{SP})})^2 + \tfrac{1}{2} m_2 (\vec{v}_\text{s} + \vec{v}_2^{\,(\text{SP})})^2 = \tfrac{1}{2} M v_\text{s}^2 + E_\text{kin}^{(\text{SP})} + \underbrace{\left(m_1 \vec{v}_1^{\,(\text{SP})} + m_2 \vec{v}_2^{\,(\text{SP})}\right)}_{=\,0} \cdot \vec{v}_\text{s} . $$
+
+          <p>Die kinetische Energie zerfällt in die Energie der
+            Schwerpunktbewegung $\tfrac{1}{2} M v_\text{s}^2$ und die Energie der
+            Relativbewegung $E_\text{kin}^{(\text{SP})}$. Das wird bei den
+            <a href="stoesse.html">Stößen</a> wichtig: Nur
+            $E_\text{kin}^{(\text{SP})}$ kann bei einem Stoß in Wärme umgewandelt
+            werden.</p>
+
+          <h2>Impulserhaltung</h2>
+
+          <div class="merkkasten">
+            <span class="titel">Impulserhaltungssatz</span>
+            <p>Wirken auf ein System keine äußeren Kräfte, bleibt sein
+              Gesamtimpuls erhalten:</p>
+            $$ \vec{F}_\text{ext} = \frac{\mathrm{d}\vec{P}}{\mathrm{d}t} = 0 \quad\Longrightarrow\quad \vec{P}_\text{vorher} = \vec{P}_\text{nachher} . $$
+          </div>
+
+          <p>Einzelne Teilchen dürfen dabei ihren Impuls ändern, aber die
+            Änderungen summieren sich zu null: $\sum_i \Delta\vec{p}_i = 0$.
+            Gleichbedeutend: Der Schwerpunkt bewegt sich gleichförmig (oder ruht).
+            Der Impulserhaltungssatz gilt auch dann, wenn mechanische Energie in
+            Wärme übergeht – er ist in diesem Sinn robuster als der Energiesatz der
+            Mechanik.</p>
+
+          <p><strong>Experiment: Luftkissenbahn.</strong> Zwei Gleiter ruhen,
+            durch einen Faden gegen eine gespannte Feder zusammengehalten
+            ($\vec{P}_\text{i} = 0$). Wird der Faden durchtrennt, fliegen sie
+            auseinander, und es gilt</p>
+
+          $$ \vec{P}_\text{f} = m_1 \vec{v}_{1,\text{f}} + m_2 \vec{v}_{2,\text{f}} = 0 \quad\Longrightarrow\quad \frac{v_{2,\text{f}}}{v_{1,\text{f}}} = -\frac{m_1}{m_2} . $$
+
+          <p>Bei gleichen Massen sind die Geschwindigkeiten entgegengesetzt
+            gleich, für $m_1 = 2 m_2$ ist $2\,v_{1,\text{f}} = -v_{2,\text{f}}$,
+            allgemein für $m_1 = K m_2$: $K v_{1,\text{f}} = -v_{2,\text{f}}$
+            (Abb. 2).</p>
+
+          <figure class="abbildung">
+            <svg class="abb" viewBox="0 0 360 200" role="img"
+                 aria-label="Zwei Gleiter vor und nach dem Auseinanderstoßen durch eine Feder">
+              <path class="achse" d="M20 75H340M20 175H340"/>
+              <text x="20" y="22" font-size="11">vorher: beide in Ruhe, P = 0 (m₁ = 2 m₂)</text>
+              <rect class="wagen" x="122" y="50" width="40" height="25" rx="2"/>
+              <rect class="wagen" x="176" y="40" width="60" height="35" rx="2"/>
+              <path class="kurve kupfer duenn" d="M162 62l2.5 -5l3 10l3 -10l2.5 5"/>
+              <text x="142" y="67" text-anchor="middle" font-size="11">m₂</text>
+              <text x="206" y="62" text-anchor="middle" font-size="11">m₁</text>
+              <text x="20" y="112" font-size="11">nachher: m₁ v₁ + m₂ v₂ = 0</text>
+              <rect class="wagen" x="40" y="150" width="40" height="25" rx="2"/>
+              <rect class="wagen" x="250" y="140" width="60" height="35" rx="2"/>
+              <path class="kurve blau" d="M60 135H22"/>
+              <polygon class="punkt blau" points="14,135 22,131 22,139"/>
+              <path class="kurve blau" d="M280 128H302"/>
+              <polygon class="punkt blau" points="310,128 302,124 302,132"/>
+              <text class="blau" x="60" y="128">v₂</text>
+              <text class="blau" x="270" y="122" text-anchor="end">v₁ = −v₂ / 2</text>
+            </svg>
+            <figcaption>Abb. 2: Rückstoß auf der Luftkissenbahn. Der doppelt so
+              schwere Gleiter bewegt sich halb so schnell in die Gegenrichtung –
+              die Impulse sind entgegengesetzt gleich.</figcaption>
+          </figure>
+
+          <h2>Systeme mit veränderlicher Masse: die Rakete</h2>
+
+          <p>Eine Rakete der Masse $M$ fliegt (im Laborsystem, eindimensional) mit
+            der Geschwindigkeit $v$ und stößt Verbrennungsgas aus, das relativ zur
+            Rakete mit $v_\text{rel}$ nach hinten strömt. In der Zeit
+            $\mathrm{d}t$ ändert sich ihre Masse um $\mathrm{d}M \lt 0$; die
+            ausgestoßene Gasmasse $-\mathrm{d}M$ hat danach die Geschwindigkeit
+            $u = v + \mathrm{d}v - v_\text{rel}$. Rakete und Gas bilden ein
+            geschlossenes System, ohne äußere Kräfte ist der Impuls erhalten:</p>
+
+          $$ M v = (M + \mathrm{d}M)(v + \mathrm{d}v) + (-\mathrm{d}M)\,(v + \mathrm{d}v - v_\text{rel}) . $$
+
+          <p>Ausmultiplizieren und Vernachlässigen des Produkts
+            $\mathrm{d}M\,\mathrm{d}v$ liefert
+            $0 = M\,\mathrm{d}v + v_\text{rel}\,\mathrm{d}M$, also</p>
+
+          $$ M\,\mathrm{d}v = -v_\text{rel}\,\mathrm{d}M . $$
+
+          <p>Teilt man durch $\mathrm{d}t$ und nennt $R = -\mathrm{d}M/\mathrm{d}t \gt 0$
+            die Verbrennungsrate, erhält man die <em>erste Raketengleichung</em>:
+            Die Rakete erfährt die Schubkraft</p>
+
+          $$ M a = v_\text{rel}\,R . $$
+
+          <p>Integration von $\mathrm{d}v = -v_\text{rel}\,\mathrm{d}M/M$ von der
+            Anfangsmasse $M_\text{i}$ bis zur Endmasse $M_\text{f}$ ergibt die
+            <em>zweite Raketengleichung</em> (Ziolkowski-Gleichung):</p>
+
+          $$ v_\text{f} - v_\text{i} = -v_\text{rel} \ln\frac{M_\text{f}}{M_\text{i}} = v_\text{rel} \ln\frac{M_\text{i}}{M_\text{f}} . $$
+
+          <figure class="abbildung">
+            <svg class="abb" viewBox="0 0 360 210" role="img"
+                 aria-label="Geschwindigkeitsgewinn einer Rakete in Abhängigkeit vom Massenverhältnis, logarithmisch ansteigend">
+              <defs>
+                <marker id="pfeil-abb3" viewBox="0 0 10 10" refX="9" refY="5"
+                        markerWidth="7" markerHeight="7" orient="auto">
+                  <path d="M0 0L10 5L0 10z" fill="currentColor"/>
+                </marker>
+              </defs>
+              <path class="achse" d="M50 180H340" marker-end="url(#pfeil-abb3)"/>
+              <path class="achse" d="M50 180V22" marker-end="url(#pfeil-abb3)"/>
+              <polyline class="kurve blau" points="50,180 52.9,171.5 55.9,164.3 58.8,158 61.8,152.5 64.7,147.6 67.7,143.2 70.6,139.1 73.6,135.3 76.5,131.9 79.5,128.7 85.4,122.8 91.3,117.6 97.2,112.9 103.1,108.7 108.9,104.8 114.8,101.2 120.7,97.8 126.6,94.7 132.5,91.8 138.4,89.1 144.3,86.5 150.2,84 162,79.4 173.8,75.3 185.6,71.5 197.4,67.9 209.2,64.7 221,61.6 232.7,58.7 244.5,56 256.3,53.4 268.1,51 279.9,48.7 291.7,46.5 303.5,44.4 315.3,42.4 330,40"/>
+              <path class="hilfslinie" d="M64.7 180V147.6H50M94.2 180V115.2H50M182.6 180V72.4H50"/>
+              <text x="64.7" y="196" text-anchor="middle">2</text>
+              <text x="94.2" y="196" text-anchor="middle">4</text>
+              <text x="182.6" y="196" text-anchor="middle">10</text>
+              <text x="330" y="196" text-anchor="middle">20</text>
+              <text x="44" y="151" text-anchor="end" font-size="11">0,69</text>
+              <text x="44" y="119" text-anchor="end" font-size="11">1,39</text>
+              <text x="44" y="76" text-anchor="end" font-size="11">2,30</text>
+              <text x="44" y="44" text-anchor="end" font-size="11">3,00</text>
+              <text x="338" y="174" text-anchor="end" font-size="11">M<tspan dy="3" font-size="9">i</tspan><tspan dy="-3"> / M</tspan><tspan dy="3" font-size="9">f</tspan></text>
+              <text x="58" y="26">Δv / v<tspan dy="4" font-size="10">rel</tspan></text>
+            </svg>
+            <figcaption>Abb. 3: Geschwindigkeitsgewinn einer Rakete in Einheiten
+              der Ausströmgeschwindigkeit. Um $\Delta v = 3\,v_\text{rel}$ zu
+              erreichen, muss die Startmasse das $\mathrm{e}^3 \approx 20$-Fache der
+              Endmasse betragen – 95 % der Rakete sind Treibstoff.</figcaption>
+          </figure>
+
+          <p>Diese Rechnung zeigt auch, warum die Formel
+            $\vec{F} = \tfrac{\mathrm{d}}{\mathrm{d}t}(m\vec{v})$ mit Produktregel
+            für die Rakete allein nicht funktioniert: Man muss den Impuls des
+            ausgestoßenen Gases mitbilanzieren. Mit Schwerkraft kommt beim
+            senkrechten Start auf der rechten Seite noch $-M g$ hinzu (siehe
+            Aufgabe 6).</p>
+
+          <div class="merkkasten">
+            <span class="titel">Merke</span>
+            $$ \vec{r}_\text{s} = \frac{1}{M}\sum_i m_i \vec{r}_i, \qquad \vec{P} = M \vec{v}_\text{s}, \qquad \vec{F}_\text{ext} = \frac{\mathrm{d}\vec{P}}{\mathrm{d}t} = M \vec{a}_\text{s}, \qquad E_\text{kin} = \tfrac{1}{2} M v_\text{s}^2 + E_\text{kin}^{(\text{SP})} $$
+            $$ \text{Rakete:} \quad M a = v_\text{rel} R, \qquad \Delta v = v_\text{rel} \ln\frac{M_\text{i}}{M_\text{f}} $$
+          </div>
+        </section>
+
+        <section class="tab" id="beispiele" data-titel="Beispielrechnungen">
+
+          <div class="beispiel">
+            <h3>Beispiel 1: Wo liegt der Schwerpunkt von Erde und Mond?</h3>
+            <p><strong>Gegeben:</strong> $M_\text{E} = 5{,}97 \cdot 10^{24}\,\mathrm{kg}$,
+              $M_\text{M} = 7{,}35 \cdot 10^{22}\,\mathrm{kg}$, mittlerer Abstand
+              der Mittelpunkte $d = 3{,}84 \cdot 10^8\,\mathrm{m}$, Erdradius
+              $R = 6{,}37 \cdot 10^6\,\mathrm{m}$.<br>
+              <strong>Gesucht:</strong> Abstand des gemeinsamen Schwerpunkts vom
+              Erdmittelpunkt.</p>
+
+            <p><strong>1. Ansatz:</strong> Ursprung im Erdmittelpunkt, $x$-Achse
+              zum Mond:
+              $$ x_\text{s} = \frac{M_\text{E} \cdot 0 + M_\text{M}\,d}{M_\text{E} + M_\text{M}} = d\,\frac{M_\text{M}}{M_\text{E} + M_\text{M}} $$</p>
+
+            <p><strong>2. Zahlen:</strong>
+              $$ x_\text{s} = 3{,}84 \cdot 10^8\,\mathrm{m} \cdot \frac{7{,}35 \cdot 10^{22}}{6{,}04 \cdot 10^{24}} = 3{,}84 \cdot 10^8\,\mathrm{m} \cdot 0{,}0122 = 4{,}67 \cdot 10^6\,\mathrm{m} $$</p>
+
+            <p><strong>Ergebnis und Plausibilität:</strong> Der Schwerpunkt liegt
+              4670 km vom Erdmittelpunkt entfernt, also noch <em>innerhalb</em> der
+              Erde (73 % des Erdradius). Erde und Mond kreisen beide um diesen
+              Punkt; die Erde „eiert“ deshalb einmal im Monat um rund 4700 km hin
+              und her. Das Massenverhältnis 81 : 1 erklärt die Lage: Der
+              Schwerpunkt teilt den Abstand im Verhältnis 1 : 81.</p>
+          </div>
+
+          <div class="beispiel">
+            <h3>Beispiel 2: Rückstoß auf dem Eis</h3>
+            <p><strong>Gegeben:</strong> Ein Eisläufer ($m_\text{P} = 60\,\mathrm{kg}$)
+              steht still und wirft einen Medizinball ($m_\text{B} = 3{,}0\,\mathrm{kg}$)
+              waagerecht mit $v_\text{B} = 8{,}0\,\mathrm{m/s}$ nach vorne. Reibung
+              auf dem Eis vernachlässigen wir.<br>
+              <strong>Gesucht:</strong> Geschwindigkeit des Eisläufers danach;
+              Verteilung der kinetischen Energie.</p>
+
+            <p><strong>1. Impulserhaltung</strong> (vorher alles in Ruhe,
+              waagerecht keine äußeren Kräfte):
+              $$ 0 = m_\text{P} v_\text{P} + m_\text{B} v_\text{B} \quad\Rightarrow\quad v_\text{P} = -\frac{m_\text{B}}{m_\text{P}}\,v_\text{B} = -\frac{3{,}0\,\mathrm{kg}}{60\,\mathrm{kg}} \cdot 8{,}0\,\mathrm{\tfrac{m}{s}} = -0{,}40\,\mathrm{m/s} $$</p>
+
+            <p><strong>2. Energien:</strong>
+              $$ E_\text{B} = \tfrac{1}{2} \cdot 3{,}0\,\mathrm{kg} \cdot (8{,}0\,\mathrm{m/s})^2 = 96\,\mathrm{J}, \qquad E_\text{P} = \tfrac{1}{2} \cdot 60\,\mathrm{kg} \cdot (0{,}40\,\mathrm{m/s})^2 = 4{,}8\,\mathrm{J} $$</p>
+
+            <p><strong>Ergebnis und Plausibilität:</strong> Der Eisläufer rollt mit
+              0,40 m/s (gut 1 km/h) rückwärts. Die Impulse sind gleich groß, die
+              Energien aber nicht: Der Ball bekommt 95 % der Energie, weil
+              $E = p^2/(2m)$ bei gleichem Impuls umgekehrt proportional zur Masse
+              ist. Die gesamte Energie (101 J) stammt aus den Muskeln.</p>
+          </div>
+
+          <div class="beispiel">
+            <h3>Beispiel 3: Eine Rakete im Weltraum</h3>
+            <p><strong>Gegeben:</strong> Startmasse $M_\text{i} = 400\,\mathrm{t}$,
+              davon $300\,\mathrm{t}$ Treibstoff; Verbrennungsrate
+              $R = 2{,}0\,\mathrm{t/s}$; Ausströmgeschwindigkeit
+              $v_\text{rel} = 3{,}0\,\mathrm{km/s}$. Fern aller Himmelskörper,
+              also ohne Schwerkraft.<br>
+              <strong>Gesucht:</strong> Schubkraft, Beschleunigung zu Beginn und am
+              Ende, Brenndauer, Geschwindigkeitsgewinn.</p>
+
+            <p><strong>1. Schubkraft</strong> (erste Raketengleichung):
+              $$ F = v_\text{rel} R = 3000\,\mathrm{\tfrac{m}{s}} \cdot 2000\,\mathrm{\tfrac{kg}{s}} = 6{,}0 \cdot 10^6\,\mathrm{N} $$</p>
+
+            <p><strong>2. Beschleunigungen:</strong>
+              $$ a_\text{Start} = \frac{6{,}0 \cdot 10^6\,\mathrm{N}}{4{,}0 \cdot 10^5\,\mathrm{kg}} = 15\,\mathrm{m/s^2}, \qquad a_\text{Ende} = \frac{6{,}0 \cdot 10^6\,\mathrm{N}}{1{,}0 \cdot 10^5\,\mathrm{kg}} = 60\,\mathrm{m/s^2} $$</p>
+
+            <p><strong>3. Brenndauer:</strong>
+              $t_\text{B} = 300\,\mathrm{t} / (2{,}0\,\mathrm{t/s}) = 150\,\mathrm{s}$.</p>
+
+            <p><strong>4. Geschwindigkeitsgewinn</strong> (zweite
+              Raketengleichung):
+              $$ \Delta v = v_\text{rel} \ln\frac{M_\text{i}}{M_\text{f}} = 3{,}0\,\mathrm{\tfrac{km}{s}} \cdot \ln\frac{400}{100} = 3{,}0\,\mathrm{\tfrac{km}{s}} \cdot 1{,}386 = 4{,}2\,\mathrm{km/s} $$</p>
+
+            <p><strong>Ergebnis und Plausibilität:</strong> Die Beschleunigung
+              vervierfacht sich während des Flugs, weil die Masse auf ein Viertel
+              sinkt – am Ende sind es 6 g. Echte Raketen drosseln deshalb oft gegen
+              Brennschluss. Kontrolle mit einer groben Abschätzung: Die mittlere
+              Beschleunigung liegt zwischen 15 und 60 m/s², mal 150 s ergibt
+              2,3 bis 9 km/s; $4{,}2\,\mathrm{km/s}$ liegt dazwischen ✓.</p>
+          </div>
+        </section>
+
+        <section class="tab" id="aufgaben" data-titel="Aufgaben">
+
+          <p>Die Aufgaben sind nach Schwierigkeit sortiert. Wenn nichts anderes
+            gesagt ist, gilt $g = 9{,}81\,\mathrm{m/s^2}$, und Reibung wird
+            vernachlässigt.</p>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 1: Tennisball gegen Fußgänger
+              <span class="schwierigkeit" data-stufe="leicht">leicht</span>
+            </h3>
+            <p>Vergleiche Impuls und kinetische Energie eines Tennisballs
+              ($58\,\mathrm{g}$, $50\,\mathrm{m/s}$) mit denen eines Fußgängers
+              ($70\,\mathrm{kg}$, $1{,}4\,\mathrm{m/s}$).</p>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>Ball: $p = 0{,}058 \cdot 50\,\mathrm{kg\,m/s} = 2{,}9\,\mathrm{kg\,m/s}$,
+                $E = \tfrac{1}{2} \cdot 0{,}058 \cdot 50^2\,\mathrm{J} = 73\,\mathrm{J}$.
+                Fußgänger: $p = 98\,\mathrm{kg\,m/s}$,
+                $E = \tfrac{1}{2} \cdot 70 \cdot 1{,}4^2\,\mathrm{J} = 69\,\mathrm{J}$.
+                Fast dieselbe Energie, aber 34-mal so viel Impuls beim Fußgänger:
+                Um ihn aufzuhalten, braucht man einen 34-mal größeren Kraftstoß
+                $\int F\,\mathrm{d}t$. Impuls und Energie sind zwei verschiedene
+                Maße für „wie viel Bewegung“ in einem Körper steckt.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 2: Eine ungleiche Hantel
+              <span class="schwierigkeit" data-stufe="leicht">leicht</span>
+            </h3>
+            <p>An den Enden einer $60\,\mathrm{cm}$ langen, sehr leichten Stange
+              sitzen Gewichte von $2{,}0\,\mathrm{kg}$ und $5{,}0\,\mathrm{kg}$.
+              Wo muss man die Stange greifen, damit sie waagerecht balanciert?</p>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>Ursprung beim 2-kg-Gewicht:
+                $x_\text{s} = \frac{5{,}0 \cdot 0{,}60\,\mathrm{m}}{7{,}0} = 0{,}43\,\mathrm{m}$
+                – also $43\,\mathrm{cm}$ vom leichten und $17\,\mathrm{cm}$ vom
+                schweren Ende. Probe: $2{,}0 \cdot 43 = 86 \approx 5{,}0 \cdot 17 = 85$ ✓.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 3: Spaziergang im Ruderboot
+              <span class="schwierigkeit" data-stufe="mittel">mittel</span>
+            </h3>
+            <p>Eine Person ($70\,\mathrm{kg}$) geht in einem ruhenden Ruderboot
+              ($130\,\mathrm{kg}$) $4{,}0\,\mathrm{m}$ vom Bug zum Heck. Um wie
+              viel bewegt sich das Boot, wenn das Wasser keine Kraft ausübt? Wie
+              weit hat sich die Person gegenüber dem Ufer bewegt?</p>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>Ohne äußere Kräfte (waagerecht) bleibt der Schwerpunkt in Ruhe.
+                Bewegt sich die Person um $\Delta x_\text{P}$ und das Boot um
+                $\Delta x_\text{B}$ (beides gegenüber dem Ufer), gilt
+                $70\,\Delta x_\text{P} + 130\,\Delta x_\text{B} = 0$ und
+                $\Delta x_\text{P} - \Delta x_\text{B} = 4{,}0\,\mathrm{m}$
+                (Weg relativ zum Boot). Daraus
+                $$ \Delta x_\text{B} = -\frac{70 \cdot 4{,}0\,\mathrm{m}}{200} = -1{,}4\,\mathrm{m}, \qquad \Delta x_\text{P} = 2{,}6\,\mathrm{m} . $$
+                Das Boot rutscht 1,4 m nach vorn (entgegen der Gehrichtung), die
+                Person kommt gegenüber dem Ufer nur 2,6 m weit. Wer schon mal aus
+                einem kleinen Boot an Land springen wollte, kennt das.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 4: Die Feder zwischen zwei Gleitern
+              <span class="schwierigkeit" data-stufe="mittel">mittel</span>
+            </h3>
+            <p>Zwischen zwei ruhenden Gleitern ($m_1 = 0{,}20\,\mathrm{kg}$,
+              $m_2 = 0{,}30\,\mathrm{kg}$) ist eine Feder gespannt, die
+              $0{,}60\,\mathrm{J}$ speichert. Wie schnell sind die Gleiter, nachdem
+              die Feder sie auseinandergestoßen hat, und wie teilt sich die Energie
+              auf?</p>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>Impuls: $m_1 v_1 = -m_2 v_2$. Energie:
+                $\tfrac{1}{2} m_1 v_1^2 + \tfrac{1}{2} m_2 v_2^2 = E$. Einsetzen
+                von $v_2 = -m_1 v_1/m_2$:
+                $$ v_1^2 = \frac{2 E\,m_2}{m_1 (m_1 + m_2)} = \frac{2 \cdot 0{,}60 \cdot 0{,}30}{0{,}20 \cdot 0{,}50}\,\mathrm{\frac{m^2}{s^2}} = 3{,}6\,\mathrm{\frac{m^2}{s^2}}, \qquad |v_1| = 1{,}90\,\mathrm{m/s}, \quad |v_2| = 1{,}26\,\mathrm{m/s} $$
+                Energien: $E_1 = 0{,}36\,\mathrm{J}$, $E_2 = 0{,}24\,\mathrm{J}$ –
+                im Verhältnis $m_2 : m_1 = 3 : 2$. Der leichtere Gleiter bekommt
+                mehr Energie.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe" data-symbole='{"R": "Radius der Halbkreisscheibe", "r": "Abstand vom Mittelpunkt"}'>
+            <h3>Aufgabe 5: Schwerpunkt einer Halbkreisscheibe
+              <span class="schwierigkeit" data-stufe="schwer">schwer</span>
+            </h3>
+            <p>Eine dünne, homogene Halbkreisscheibe mit Radius $R$ liegt mit dem
+              Durchmesser auf der $x$-Achse, symmetrisch zur $y$-Achse. Berechne
+              die Lage des Schwerpunkts. Wie weit über dem Durchmesser liegt er für
+              $R = 30\,\mathrm{cm}$?</p>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>Aus Symmetriegründen ist $x_\text{s} = 0$. Für eine dünne,
+                homogene Scheibe tritt die Fläche an die Stelle des Volumens:
+                $y_\text{s} = \frac{1}{A}\int y\,\mathrm{d}A$ mit
+                $A = \tfrac{1}{2}\pi R^2$. In Polarkoordinaten ist
+                $y = r\sin\varphi$ und $\mathrm{d}A = r\,\mathrm{d}r\,\mathrm{d}\varphi$:
+                $$ \int y\,\mathrm{d}A = \int_0^\pi \int_0^R r \sin\varphi \cdot r\,\mathrm{d}r\,\mathrm{d}\varphi = \frac{R^3}{3} \int_0^\pi \sin\varphi\,\mathrm{d}\varphi = \frac{2R^3}{3} $$
+                $$ y_\text{s} = \frac{2R^3/3}{\pi R^2/2} = \frac{4R}{3\pi} \approx 0{,}424\,R $$
+                Für $R = 30\,\mathrm{cm}$: $y_\text{s} = 12{,}7\,\mathrm{cm}$.
+                Plausibel: weniger als $R/2$, weil nahe am Durchmesser mehr Fläche
+                liegt als oben am Bogen.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 6: Senkrechter Raketenstart
+              <span class="schwierigkeit" data-stufe="schwer">schwer</span>
+            </h3>
+            <p>Eine Rakete ($M_\text{i} = 50\,\mathrm{t}$,
+              $v_\text{rel} = 2{,}5\,\mathrm{km/s}$) startet senkrecht. Nimm $g$
+              als konstant an und vernachlässige den Luftwiderstand.</p>
+            <ol type="a">
+              <li>Welche Verbrennungsrate braucht sie mindestens, um überhaupt
+                abzuheben?</li>
+              <li>Stelle die Bewegungsgleichung mit Schwerkraft auf und leite
+                $\Delta v = v_\text{rel}\ln(M_\text{i}/M_\text{f}) - g\,t_\text{B}$
+                her.</li>
+              <li>Sie verbrennt mit $R = 300\,\mathrm{kg/s}$ zwei Drittel ihrer
+                Startmasse. Welche Geschwindigkeit hat sie bei Brennschluss? Wie
+                viel kostet die Schwerkraft?</li>
+            </ol>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p><strong>(a)</strong> Der Schub muss das Gewicht übertreffen:
+                $v_\text{rel} R \gt M_\text{i} g$, also
+                $R \gt 50\,000 \cdot 9{,}81 / 2500\,\mathrm{kg/s} = 196\,\mathrm{kg/s}$.</p>
+              <p><strong>(b)</strong> Zur Impulsbilanz kommt der Kraftstoß der
+                Schwerkraft $-M g\,\mathrm{d}t$ hinzu:
+                $M\,\mathrm{d}v = -v_\text{rel}\,\mathrm{d}M - M g\,\mathrm{d}t$.
+                Teilen durch $M$ und Integrieren über die Brenndauer:
+                $$ \Delta v = -v_\text{rel} \int_{M_\text{i}}^{M_\text{f}} \frac{\mathrm{d}M}{M} - g \int_0^{t_\text{B}} \mathrm{d}t = v_\text{rel} \ln\frac{M_\text{i}}{M_\text{f}} - g\,t_\text{B} . $$</p>
+              <p><strong>(c)</strong> $M_\text{f} = M_\text{i}/3$, verbrannt werden
+                $33{,}3\,\mathrm{t}$, $t_\text{B} = 33\,333/300\,\mathrm{s} = 111\,\mathrm{s}$:
+                $$ \Delta v = 2500\,\mathrm{\tfrac{m}{s}} \cdot \ln 3 - 9{,}81\,\mathrm{\tfrac{m}{s^2}} \cdot 111\,\mathrm{s} = 2747\,\mathrm{\tfrac{m}{s}} - 1090\,\mathrm{\tfrac{m}{s}} = 1{,}66\,\mathrm{km/s} $$
+                Die Schwerkraft „kostet“ 40 % des möglichen Geschwindigkeitsgewinns.</p>
+              <p><strong>Zum Nachdenken:</strong> Der Verlust $g\,t_\text{B}$ wächst
+                mit der Brenndauer. Deshalb brennen Startstufen so schnell wie
+                möglich – begrenzt nur dadurch, dass Rakete und Besatzung die
+                Beschleunigung aushalten müssen.</p>
+            </details>
+          </div>
+        </section>
+
+      </div></article>
+  </main>
+</body>
+</html>

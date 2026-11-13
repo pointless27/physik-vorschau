@@ -1,0 +1,198 @@
+/* =========================================================================
+   INTERAKTIVE GRAFIKEN
+   =========================================================================
+   Hülle, Regler, Knöpfe, Messwerte (js/interaktiv.js) und Sonderteile
+   einzelner Modelle (HR-Diagramm hrspur).
+   Eingebunden über css/stil.css – Reihenfolge dort nicht ändern. */
+
+/* Interaktive Grafiken (Aufbau: js/interaktiv.js). Die Hülle
+   <figure class="interaktiv" data-modell="…"> steht im HTML, Bühne, Regler
+   und Messwerte erzeugt das Skript. */
+.interaktiv {
+  margin: 2rem 0;
+  padding: 1.1rem 1.25rem 1rem;
+  background: var(--flaeche);
+  border: 1px solid var(--rand);
+  border-radius: var(--radius-l);
+  box-shadow: var(--schatten-s);
+}
+.interaktiv > .titel {
+  display: block;
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--akzent);
+  margin-bottom: 0.6rem;
+}
+.interaktiv figcaption {
+  margin-top: 0.9rem;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: var(--text-schwach);
+}
+.ia-flaeche svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  color: var(--text-schwach);
+  user-select: none;
+}
+.ia-diagramme {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+  gap: 0.6rem 1rem;
+  margin-top: 0.6rem;
+  padding-top: 0.6rem;
+  border-top: 1px solid var(--rand);
+}
+.ia-regler-gruppe {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
+  gap: 0.75rem 1.5rem;
+  margin: 1rem 0 0.2rem;
+}
+.ia-regler { display: block; font-size: 0.88rem; }
+.ia-regler-kopf {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.6rem;
+  color: var(--text-schwach);
+}
+.ia-regler output {
+  color: var(--text);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.ia-regler input[type="range"] {
+  display: block;
+  width: 100%;
+  margin: 0.35rem 0 0;
+  accent-color: var(--akzent);
+  cursor: pointer;
+}
+.ia-knoepfe, .ia-umschalter {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+}
+.ia-umschalter { margin: 0.9rem 0 0; }
+.ia-umschalter + .ia-umschalter { margin-top: 0.5rem; }
+.ia-gruppe-titel { align-self: center; min-width: 5.6rem; font-size: 0.85rem; color: var(--text-schwach); }
+.ia-knopf {
+  font: inherit;
+  font-size: 0.88rem;
+  font-weight: 600;
+  padding: 0.42rem 0.95rem;
+  border-radius: var(--radius-s);
+  border: 1px solid var(--rand-stark);
+  background: var(--flaeche);
+  color: var(--text);
+  cursor: pointer;
+  transition: border-color 0.15s ease, color 0.15s ease, background 0.15s ease;
+}
+.ia-knopf:hover { border-color: var(--akzent); color: var(--akzent); }
+.ia-knopf.haupt { background: var(--akzent); border-color: var(--akzent); color: var(--akzent-text); min-width: 8.5rem; }
+.ia-knopf.haupt:hover { color: var(--akzent-text); filter: brightness(1.1); }
+.ia-knopf[aria-pressed="true"] { background: var(--akzent-sanft); border-color: var(--akzent); color: var(--akzent); }
+.ia-werte {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr));
+  gap: 0.5rem;
+  margin: 1rem 0 0;
+}
+.ia-werte dd { font-variant-numeric: tabular-nums; }
+/* In den interaktiven Grafiken stehen in den Messwert-Namen Formelzeichen
+   und Einheiten (σ, ε, v₁′, cm²). Großschreibung würde sie verfälschen
+   (σ → Σ, cm → CM) – deshalb hier normale Schreibweise. */
+.ia-werte .kennzahl dt {
+  text-transform: none;
+  letter-spacing: 0.01em;
+  font-size: 0.74rem;
+  font-weight: 600;
+}
+.ia-status { margin: 0.8rem 0 0; font-size: 0.95rem; }
+/* 2×2-Matrix in einer Kennzahl (matrixlabor): Klammern als Ränder */
+.ia-matrix {
+  display: inline-grid;
+  grid-template-columns: auto auto;
+  gap: 0 0.8em;
+  padding: 0 0.45em;
+  border-left: 1.5px solid currentColor;
+  border-right: 1.5px solid currentColor;
+  border-radius: 0.5em;
+  text-align: right;
+}
+
+
+/* HR-Diagramm (hrspur): dunkle Tafel, Farben aus --hr-… in Abschnitt 1 */
+.abb .hr-himmel { fill: var(--hr-himmel); }
+.abb .hr-gitter { stroke: var(--hr-linie); stroke-width: 1; }
+.abb .hr-radius { fill: none; stroke: var(--hr-linie); stroke-width: 1; stroke-dasharray: 2 5; }
+.abb .hr-band { fill: none; stroke-linecap: round; stroke-linejoin: round; }
+.abb .hr-stop-o { stop-color: var(--hr-o); }
+.abb .hr-stop-b { stop-color: var(--hr-b); }
+.abb .hr-stop-a { stop-color: var(--hr-a); }
+.abb .hr-stop-f { stop-color: var(--hr-f); }
+.abb .hr-stop-g { stop-color: var(--hr-g); }
+.abb .hr-stop-k { stop-color: var(--hr-k); }
+.abb .hr-stop-m { stop-color: var(--hr-m); }
+.abb .hr-o { fill: var(--hr-o); }
+.abb .hr-b { fill: var(--hr-b); }
+.abb .hr-a { fill: var(--hr-a); }
+.abb .hr-f { fill: var(--hr-f); }
+.abb .hr-g { fill: var(--hr-g); }
+.abb .hr-k { fill: var(--hr-k); }
+.abb .hr-m { fill: var(--hr-m); }
+.abb .hr-punkt { stroke: var(--hr-himmel); stroke-width: 1; }
+.abb text.hr-zahl { fill: var(--hr-text-schwach); font-size: 11px; }
+.abb text.hr-name { fill: var(--hr-text); font-size: 11px; opacity: 0.85; }
+.abb text.hr-masse { fill: var(--hr-masse); font-size: 11px; font-weight: 600; }
+.abb text.hr-gebiet { fill: var(--hr-text); font-size: 12px; font-weight: 600; letter-spacing: 0.18em; opacity: 0.8; }
+.abb text.hr-achse { fill: var(--hr-titel); font-size: 13px; font-weight: 700; letter-spacing: 0.02em; }
+.abb text.hr-titel { fill: var(--hr-titel); font-weight: 700; }
+.abb text.hr-name, .abb text.hr-masse, .abb text.hr-titel { paint-order: stroke; stroke: var(--hr-himmel); stroke-width: 3px; stroke-linejoin: round; }
+.abb text.hr-klasse-hell { fill: var(--hr-spur); font-size: 11px; font-weight: 700; }
+.abb text.hr-klasse-dunkel { fill: var(--hr-himmel); font-size: 11px; font-weight: 700; }
+.abb .hr-spur { fill: none; stroke: var(--hr-spur); stroke-width: 2.6; stroke-linecap: round; stroke-linejoin: round; }
+.abb .hr-spur-glanz { fill: none; stroke: var(--hr-spur-glanz); stroke-width: 9; stroke-opacity: 0.28; stroke-linecap: round; stroke-linejoin: round; }
+.abb .hr-sprung { stroke-dasharray: 5 5; }
+.abb .hr-pfeil { fill: var(--hr-spur); }
+.abb .hr-heute { fill: none; stroke: var(--hr-titel); stroke-width: 2; }
+.abb .hr-loch { fill: var(--hr-loch); stroke: var(--hr-spur); stroke-width: 1.5; }
+.abb .hr-explosion { fill: var(--hr-titel); stroke: var(--hr-spur); stroke-width: 1; }
+.abb .hr-leitlinie { stroke: var(--hr-text-schwach); stroke-width: 1; }
+.abb .hr-marke circle { fill: var(--hr-spur); stroke: var(--hr-himmel); stroke-width: 1.5; }
+.abb .hr-marke text { fill: var(--hr-himmel); font-size: 11px; font-weight: 700; }
+.hr-tafel { margin-top: 0.9rem; }
+.hr-phasen {
+  list-style: none;
+  margin: 1.1rem 0 0;
+  padding: 0;
+  display: grid;
+  gap: 0.7rem;
+}
+.hr-phasen li {
+  display: grid;
+  grid-template-columns: 1.7rem 1fr;
+  gap: 0.7rem;
+  align-items: start;
+  font-size: 0.93rem;
+  line-height: 1.5;
+}
+.hr-phasen .nr {
+  display: grid;
+  place-items: center;
+  width: 1.6rem;
+  height: 1.6rem;
+  border-radius: 50%;
+  background: var(--hr-himmel);
+  color: var(--hr-spur);
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+.hr-phasen p { margin: 0; }
+.hr-phasen .dauer { color: var(--text-schwach); white-space: nowrap; }

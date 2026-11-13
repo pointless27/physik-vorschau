@@ -1,0 +1,600 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="robots" content="noindex">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Gedämpfte und erzwungene Schwingungen, Resonanz</title>
+  <meta name="description" content="Warum jede Schwingung abklingt, wie ein Antrieb sie am Laufen hält und warum bei der Eigenfrequenz ein kleiner Antrieb eine große Amplitude erzeugt: Dämpfung, Resonanzkurve und Güte.">
+
+  <link rel="stylesheet" href="../../css/stil.css">
+
+  <link rel="stylesheet" href="../../extern/katex/katex.min.css">
+  <script defer src="../../extern/katex/katex.min.js"></script>
+  <script defer src="../../extern/katex/contrib/auto-render.min.js" onload="starteFormeln()"></script>
+
+  <script src="../../js/daten.js"></script>
+  <script src="../../js/seite.js"></script>
+  <script src="../../js/effekte.js"></script>
+  <script type="application/json" id="symbole">
+  {
+    "x": "Auslenkung",
+    "t": "Zeit",
+    "m": "Masse",
+    "k": "Federkonstante",
+    "b": "Reibungskoeffizient (Kraft = −b v)",
+    "γ": "Abklingkonstante b/(2m)",
+    "ω_0": "Eigenkreisfrequenz der ungedämpften Schwingung",
+    "ω_d": "Kreisfrequenz der gedämpften Schwingung",
+    "ω": "Kreisfrequenz der Anregung",
+    "ω_Res": "Kreisfrequenz der Amplitudenresonanz",
+    "F_0": "Amplitude der Erregerkraft",
+    "F": "Erregerkraft",
+    "A": "Amplitude",
+    "A_1": "Anfangsamplitude des abklingenden Anteils",
+    "A_2": "Amplitude der stationären Schwingung",
+    "φ": "Phase der Auslenkung gegenüber der Kraft",
+    "φ_1": "Anfangsphase des abklingenden Anteils",
+    "δ": "logarithmisches Dekrement γT",
+    "Q": "Güte",
+    "T": "Periodendauer",
+    "τ": "Abklingzeit 1/γ",
+    "E": "Energie",
+    "ζ": "Dämpfungsgrad γ/ω_0",
+    "f": "Frequenz",
+    "z": "komplexe Auslenkung",
+    "C": "komplexe Amplitude",
+    "c": "Koeffizient",
+    "c_1": "Koeffizient des Kosinus-Anteils",
+    "c_2": "Koeffizient des Sinus-Anteils",
+    "λ": "Lösungsparameter der charakteristischen Gleichung",
+    "α": "Hilfsgröße √(γ² − ω_0²)",
+    "A_max": "maximale Amplitude",
+    "D": "Radikand (Nenner der Amplitude)",
+    "P": "Leistung",
+    "v_0": "Anfangsgeschwindigkeit",
+    "u": "Hilfsgröße ω²",
+    "θ": "Hilfswinkel",
+    "π": "Kreiszahl"
+  }
+  </script>
+</head>
+<body data-thema="erzwungene-schwingung">
+  <main>
+    <article class="thema">
+      <header>
+        <h1>Gedämpfte und erzwungene <span class="betont">Schwingungen</span>, Resonanz</h1>
+        <p class="untertitel">Warum Schwingungen abklingen, wie man sie am Laufen hält und warum der Takt entscheidet.</p>
+      </header>
+
+      <div class="tabs">
+
+        <section class="tab" id="verstehen" data-titel="Verstehen">
+
+          <p>Ein angestoßenes Pendel kommt irgendwann zur Ruhe. Luftwiderstand und
+            Reibung im Aufhängepunkt nehmen bei jedem Schwung ein Stück der Energie
+            weg. Die Schwingung wird <em>gedämpft</em>: Die Ausschläge nehmen
+            ab, und zwar nicht gleichmäßig, sondern jedes Mal um denselben Anteil.
+            Das Muster ist ein exponentielles Abklingen, und die Zeit, in der der
+            Ausschlag auf etwa ein Drittel sinkt, beschreibt die Stärke der
+            Dämpfung (Abb. 1).</p>
+
+          <figure class="abbildung">
+            <svg class="abb" viewBox="0 0 360 200" role="img" aria-label="Gedämpfte Schwingung: Kosinus mit exponentiell abfallender Hüllkurve, Periode etwas länger als ungedämpft">
+<defs><marker id="pfeil-abb2-text" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto"><path class="punkt" d="M0 0L10 5L0 10z"/></marker><marker id="pfeil-abb2-blau" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto"><path class="punkt blau" d="M0 0L10 5L0 10z"/></marker><marker id="pfeil-abb2-kupfer" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto"><path class="punkt kupfer" d="M0 0L10 5L0 10z"/></marker></defs>
+<path class="achse" d="M50 110H345" marker-end="url(#pfeil-abb2-text)"/>
+<path class="achse" d="M50 190V12" marker-end="url(#pfeil-abb2-text)"/>
+<text x="338" y="128">t / T</text><text x="56" y="16">x</text>
+<path class="kurve blau" d="M50 25 L50.5 25.7 L51 26.7 L51.4 28 L51.9 29.7 L52.4 31.6 L52.9 33.8 L53.3 36.3 L53.8 39.1 L54.3 42.1 L54.8 45.3 L55.2 48.7 L55.7 52.3 L56.2 56.1 L56.6 60.1 L57.1 64.2 L57.6 68.5 L58.1 72.8 L58.5 77.3 L59 81.8 L59.5 86.4 L60 91 L60.5 95.6 L60.9 100.3 L61.4 104.9 L61.9 109.4 L62.4 113.9 L62.8 118.4 L63.3 122.7 L63.8 127 L64.2 131.1 L64.7 135.1 L65.2 139 L65.7 142.6 L66.2 146.2 L66.6 149.5 L67.1 152.6 L67.6 155.5 L68 158.2 L68.5 160.7 L69 163 L69.5 165 L70 166.8 L70.4 168.3 L70.9 169.6 L71.4 170.6 L71.8 171.4 L72.3 172 L72.8 172.2 L73.3 172.3 L73.8 172.1 L74.2 171.6 L74.7 170.9 L75.2 170 L75.7 168.9 L76.1 167.5 L76.6 166 L77.1 164.2 L77.5 162.2 L78 160.1 L78.5 157.8 L79 155.3 L79.5 152.7 L79.9 150 L80.4 147.1 L80.9 144.1 L81.4 141.1 L81.8 137.9 L82.3 134.7 L82.8 131.4 L83.2 128.1 L83.7 124.7 L84.2 121.3 L84.7 118 L85.2 114.6 L85.6 111.3 L86.1 107.9 L86.6 104.7 L87.1 101.5 L87.5 98.4 L88 95.3 L88.5 92.4 L88.9 89.6 L89.4 86.9 L89.9 84.3 L90.4 81.8 L90.8 79.5 L91.3 77.3 L91.8 75.3 L92.3 73.4 L92.8 71.8 L93.2 70.2 L93.7 68.9 L94.2 67.7 L94.7 66.8 L95.1 65.9 L95.6 65.3 L96.1 64.9 L96.6 64.6 L97 64.6 L97.5 64.7 L98 65 L98.4 65.4 L98.9 66 L99.4 66.8 L99.9 67.8 L100.3 68.9 L100.8 70.1 L101.3 71.5 L101.8 73.1 L102.2 74.7 L102.7 76.5 L103.2 78.3 L103.7 80.3 L104.2 82.4 L104.6 84.6 L105.1 86.8 L105.6 89.1 L106 91.4 L106.5 93.8 L107 96.2 L107.5 98.7 L107.9 101.1 L108.4 103.6 L108.9 106 L109.4 108.5 L109.8 110.9 L110.3 113.3 L110.8 115.6 L111.3 117.9 L111.8 120.1 L112.2 122.3 L112.7 124.4 L113.2 126.4 L113.7 128.3 L114.1 130.1 L114.6 131.8 L115.1 133.4 L115.5 134.9 L116 136.3 L116.5 137.6 L117 138.7 L117.5 139.7 L117.9 140.6 L118.4 141.4 L118.9 142 L119.3 142.5 L119.8 142.8 L120.3 143 L120.8 143.1 L121.2 143.1 L121.7 142.9 L122.2 142.6 L122.7 142.2 L123.2 141.6 L123.6 141 L124.1 140.2 L124.6 139.3 L125 138.3 L125.5 137.2 L126 136.1 L126.5 134.8 L127 133.4 L127.4 132 L127.9 130.5 L128.4 129 L128.8 127.3 L129.3 125.7 L129.8 124 L130.3 122.3 L130.8 120.5 L131.2 118.7 L131.7 116.9 L132.2 115.1 L132.6 113.3 L133.1 111.6 L133.6 109.8 L134.1 108 L134.6 106.3 L135 104.7 L135.5 103 L136 101.4 L136.4 99.9 L136.9 98.4 L137.4 97 L137.9 95.7 L138.4 94.4 L138.8 93.2 L139.3 92.1 L139.8 91 L140.2 90.1 L140.7 89.2 L141.2 88.5 L141.7 87.8 L142.1 87.3 L142.6 86.8 L143.1 86.4 L143.6 86.1 L144.1 85.9 L144.5 85.8 L145 85.9 L145.5 86 L145.9 86.2 L146.4 86.4 L146.9 86.8 L147.4 87.3 L147.9 87.8 L148.3 88.5 L148.8 89.2 L149.3 89.9 L149.8 90.8 L150.2 91.7 L150.7 92.7 L151.2 93.7 L151.7 94.8 L152.1 95.9 L152.6 97 L153.1 98.2 L153.6 99.5 L154 100.7 L154.5 102 L155 103.3 L155.4 104.6 L155.9 105.9 L156.4 107.2 L156.9 108.5 L157.3 109.8 L157.8 111.1 L158.3 112.4 L158.8 113.6 L159.2 114.8 L159.7 116 L160.2 117.1 L160.7 118.2 L161.1 119.2 L161.6 120.2 L162.1 121.2 L162.6 122 L163.1 122.9 L163.5 123.6 L164 124.3 L164.5 125 L164.9 125.6 L165.4 126.1 L165.9 126.5 L166.4 126.9 L166.9 127.1 L167.3 127.4 L167.8 127.5 L168.3 127.6 L168.8 127.6 L169.2 127.6 L169.7 127.4 L170.2 127.2 L170.6 127 L171.1 126.7 L171.6 126.3 L172.1 125.8 L172.6 125.3 L173 124.8 L173.5 124.2 L174 123.5 L174.4 122.8 L174.9 122.1 L175.4 121.3 L175.9 120.5 L176.4 119.7 L176.8 118.8 L177.3 117.9 L177.8 117 L178.2 116.1 L178.7 115.1 L179.2 114.2 L179.7 113.2 L180.2 112.3 L180.6 111.3 L181.1 110.4 L181.6 109.4 L182 108.5 L182.5 107.6 L183 106.7 L183.5 105.9 L183.9 105 L184.4 104.2 L184.9 103.5 L185.4 102.7 L185.8 102 L186.3 101.4 L186.8 100.8 L187.3 100.2 L187.8 99.7 L188.2 99.2 L188.7 98.8 L189.2 98.4 L189.7 98 L190.1 97.8 L190.6 97.5 L191.1 97.4 L191.5 97.2 L192 97.2 L192.5 97.2 L193 97.2 L193.5 97.3 L193.9 97.4 L194.4 97.6 L194.9 97.8 L195.3 98.1 L195.8 98.4 L196.3 98.7 L196.8 99.1 L197.2 99.5 L197.7 100 L198.2 100.5 L198.7 101 L199.2 101.6 L199.6 102.2 L200.1 102.8 L200.6 103.4 L201.1 104.1 L201.5 104.7 L202 105.4 L202.5 106.1 L203 106.8 L203.4 107.5 L203.9 108.2 L204.4 108.9 L204.8 109.6 L205.3 110.2 L205.8 110.9 L206.3 111.6 L206.8 112.2 L207.2 112.9 L207.7 113.5 L208.2 114.1 L208.7 114.6 L209.1 115.2 L209.6 115.7 L210.1 116.2 L210.5 116.6 L211 117.1 L211.5 117.4 L212 117.8 L212.4 118.1 L212.9 118.4 L213.4 118.7 L213.9 118.9 L214.3 119 L214.8 119.2 L215.3 119.3 L215.8 119.3 L216.2 119.4 L216.7 119.4 L217.2 119.3 L217.7 119.2 L218.2 119.1 L218.6 118.9 L219.1 118.8 L219.6 118.5 L220.1 118.3 L220.5 118 L221 117.7 L221.5 117.4 L222 117 L222.4 116.6 L222.9 116.2 L223.4 115.8 L223.9 115.4 L224.3 114.9 L224.8 114.4 L225.3 114 L225.8 113.5 L226.2 113 L226.7 112.5 L227.2 112 L227.7 111.5 L228.1 110.9 L228.6 110.4 L229.1 109.9 L229.5 109.5 L230 109 L230.5 108.5 L231 108 L231.5 107.6 L231.9 107.1 L232.4 106.7 L232.9 106.3 L233.3 105.9 L233.8 105.6 L234.3 105.2 L234.8 104.9 L235.2 104.6 L235.7 104.4 L236.2 104.1 L236.7 103.9 L237.2 103.7 L237.6 103.6 L238.1 103.4 L238.6 103.3 L239 103.2 L239.5 103.2 L240 103.2 L240.5 103.2 L240.9 103.2 L241.4 103.3 L241.9 103.3 L242.4 103.4 L242.8 103.6 L243.3 103.7 L243.8 103.9 L244.3 104.1 L244.8 104.3 L245.2 104.6 L245.7 104.8 L246.2 105.1 L246.6 105.4 L247.1 105.7 L247.6 106 L248.1 106.3 L248.5 106.7 L249 107 L249.5 107.4 L250 107.7 L250.4 108.1 L250.9 108.5 L251.4 108.8 L251.9 109.2 L252.3 109.6 L252.8 109.9 L253.3 110.3 L253.8 110.7 L254.2 111 L254.7 111.4 L255.2 111.7 L255.7 112 L256.1 112.3 L256.6 112.6 L257.1 112.9 L257.6 113.2 L258 113.4 L258.5 113.6 L259 113.9 L259.5 114.1 L260 114.2 L260.4 114.4 L260.9 114.5 L261.4 114.7 L261.9 114.8 L262.3 114.8 L262.8 114.9 L263.3 115 L263.8 115 L264.2 115 L264.7 115 L265.2 114.9 L265.6 114.9 L266.1 114.8 L266.6 114.7 L267.1 114.6 L267.5 114.5 L268 114.3 L268.5 114.2 L269 114 L269.5 113.8 L269.9 113.6 L270.4 113.4 L270.9 113.2 L271.4 113 L271.8 112.7 L272.3 112.5 L272.8 112.2 L273.2 112 L273.7 111.7 L274.2 111.4 L274.7 111.2 L275.1 110.9 L275.6 110.6 L276.1 110.4 L276.6 110.1 L277.1 109.8 L277.5 109.6 L278 109.3 L278.5 109.1 L279 108.8 L279.4 108.6 L279.9 108.4 L280.4 108.2 L280.9 107.9 L281.3 107.7 L281.8 107.6 L282.3 107.4 L282.8 107.2 L283.2 107.1 L283.7 106.9 L284.2 106.8 L284.6 106.7 L285.1 106.6 L285.6 106.5 L286.1 106.5 L286.6 106.4 L287 106.4 L287.5 106.4 L288 106.4 L288.4 106.4 L288.9 106.4 L289.4 106.4 L289.9 106.5 L290.4 106.5 L290.8 106.6 L291.3 106.7 L291.8 106.8 L292.2 106.9 L292.7 107 L293.2 107.2 L293.7 107.3 L294.1 107.5 L294.6 107.6 L295.1 107.8 L295.6 108 L296 108.1 L296.5 108.3 L297 108.5 L297.5 108.7 L297.9 108.9 L298.4 109.1 L298.9 109.3 L299.4 109.5 L299.9 109.7 L300.3 109.9 L300.8 110.1 L301.3 110.3 L301.8 110.4 L302.2 110.6 L302.7 110.8 L303.2 111 L303.6 111.1 L304.1 111.3 L304.6 111.5 L305.1 111.6 L305.5 111.7 L306 111.9 L306.5 112 L307 112.1 L307.4 112.2 L307.9 112.3 L308.4 112.4 L308.9 112.4 L309.3 112.5 L309.8 112.6 L310.3 112.6 L310.8 112.6 L311.2 112.6 L311.7 112.6 L312.2 112.6 L312.7 112.6 L313.2 112.6 L313.6 112.6 L314.1 112.5 L314.6 112.5 L315.1 112.4 L315.5 112.3 L316 112.3 L316.5 112.2 L316.9 112.1 L317.4 112 L317.9 111.9 L318.4 111.8 L318.9 111.6 L319.3 111.5 L319.8 111.4 L320.3 111.3 L320.8 111.1 L321.2 111 L321.7 110.8 L322.2 110.7 L322.7 110.6 L323.1 110.4 L323.6 110.3 L324.1 110.1 L324.6 110 L325 109.8 L325.5 109.7 L326 109.6 L326.4 109.4 L326.9 109.3 L327.4 109.2 L327.9 109.1 L328.4 109 L328.8 108.9 L329.3 108.8 L329.8 108.7 L330.2 108.6 L330.7 108.5 L331.2 108.4 L331.7 108.3 L332.2 108.3 L332.6 108.2 L333.1 108.2 L333.6 108.1 L334.1 108.1 L334.5 108.1 L335 108.1"/>
+<path class="kurve kupfer duenn" d="M50 25 L52.4 27.6 L54.8 30.2 L57.1 32.6 L59.5 35 L61.9 37.4 L64.2 39.6 L66.6 41.8 L69 43.9 L71.4 45.9 L73.8 47.9 L76.1 49.8 L78.5 51.7 L80.9 53.5 L83.2 55.2 L85.6 56.9 L88 58.6 L90.4 60.2 L92.8 61.7 L95.1 63.2 L97.5 64.7 L99.9 66.1 L102.2 67.4 L104.6 68.7 L107 70 L109.4 71.2 L111.8 72.4 L114.1 73.6 L116.5 74.7 L118.9 75.8 L121.2 76.9 L123.6 77.9 L126 78.9 L128.4 79.9 L130.8 80.8 L133.1 81.7 L135.5 82.6 L137.9 83.4 L140.2 84.2 L142.6 85 L145 85.8 L147.4 86.6 L149.8 87.3 L152.1 88 L154.5 88.7 L156.9 89.3 L159.2 90 L161.6 90.6 L164 91.2 L166.4 91.8 L168.8 92.3 L171.1 92.9 L173.5 93.4 L175.9 93.9 L178.2 94.4 L180.6 94.9 L183 95.4 L185.4 95.8 L187.8 96.3 L190.1 96.7 L192.5 97.1 L194.9 97.5 L197.2 97.9 L199.6 98.3 L202 98.6 L204.4 99 L206.8 99.3 L209.1 99.6 L211.5 100 L213.9 100.3 L216.2 100.6 L218.6 100.9 L221 101.1 L223.4 101.4 L225.8 101.7 L228.1 101.9 L230.5 102.2 L232.9 102.4 L235.2 102.7 L237.6 102.9 L240 103.1 L242.4 103.3 L244.8 103.5 L247.1 103.7 L249.5 103.9 L251.9 104.1 L254.2 104.3 L256.6 104.5 L259 104.6 L261.4 104.8 L263.8 105 L266.1 105.1 L268.5 105.3 L270.9 105.4 L273.2 105.6 L275.6 105.7 L278 105.8 L280.4 106 L282.8 106.1 L285.1 106.2 L287.5 106.3 L289.9 106.4 L292.2 106.6 L294.6 106.7 L297 106.8 L299.4 106.9 L301.8 107 L304.1 107.1 L306.5 107.1 L308.9 107.2 L311.2 107.3 L313.6 107.4 L316 107.5 L318.4 107.6 L320.8 107.6 L323.1 107.7 L325.5 107.8 L327.9 107.8 L330.2 107.9 L332.6 108 L335 108" style="stroke-dasharray:4 4"/>
+<path class="kurve kupfer duenn" d="M50 195 L52.4 192.4 L54.8 189.8 L57.1 187.4 L59.5 185 L61.9 182.6 L64.2 180.4 L66.6 178.2 L69 176.1 L71.4 174.1 L73.8 172.1 L76.1 170.2 L78.5 168.3 L80.9 166.5 L83.2 164.8 L85.6 163.1 L88 161.4 L90.4 159.8 L92.8 158.3 L95.1 156.8 L97.5 155.3 L99.9 153.9 L102.2 152.6 L104.6 151.3 L107 150 L109.4 148.8 L111.8 147.6 L114.1 146.4 L116.5 145.3 L118.9 144.2 L121.2 143.1 L123.6 142.1 L126 141.1 L128.4 140.1 L130.8 139.2 L133.1 138.3 L135.5 137.4 L137.9 136.6 L140.2 135.8 L142.6 135 L145 134.2 L147.4 133.4 L149.8 132.7 L152.1 132 L154.5 131.3 L156.9 130.7 L159.2 130 L161.6 129.4 L164 128.8 L166.4 128.2 L168.8 127.7 L171.1 127.1 L173.5 126.6 L175.9 126.1 L178.2 125.6 L180.6 125.1 L183 124.6 L185.4 124.2 L187.8 123.7 L190.1 123.3 L192.5 122.9 L194.9 122.5 L197.2 122.1 L199.6 121.7 L202 121.4 L204.4 121 L206.8 120.7 L209.1 120.4 L211.5 120 L213.9 119.7 L216.2 119.4 L218.6 119.1 L221 118.9 L223.4 118.6 L225.8 118.3 L228.1 118.1 L230.5 117.8 L232.9 117.6 L235.2 117.3 L237.6 117.1 L240 116.9 L242.4 116.7 L244.8 116.5 L247.1 116.3 L249.5 116.1 L251.9 115.9 L254.2 115.7 L256.6 115.5 L259 115.4 L261.4 115.2 L263.8 115 L266.1 114.9 L268.5 114.7 L270.9 114.6 L273.2 114.4 L275.6 114.3 L278 114.2 L280.4 114 L282.8 113.9 L285.1 113.8 L287.5 113.7 L289.9 113.6 L292.2 113.4 L294.6 113.3 L297 113.2 L299.4 113.1 L301.8 113 L304.1 112.9 L306.5 112.9 L308.9 112.8 L311.2 112.7 L313.6 112.6 L316 112.5 L318.4 112.4 L320.8 112.4 L323.1 112.3 L325.5 112.2 L327.9 112.2 L330.2 112.1 L332.6 112 L335 112" style="stroke-dasharray:4 4"/>
+<text class="klein kupfer" x="202" y="63.2">Hüllkurve e<tspan dy="-4" style="font-size:8px">−γt</tspan></text>
+</svg>
+            <figcaption>Abb. 1: Gedämpfte Schwingung. Die Ausschläge liegen in
+              einer exponentiell abfallenden Hüllkurve (orange gestrichelt).</figcaption>
+          </figure>
+
+          <p>Bei sehr starker Dämpfung schwingt gar nichts mehr: Zieht man ein
+            Pendel in zähem Honig zur Seite, kriecht es langsam zur Ruhelage und
+            überschreitet sie nicht. Ein Stoßdämpfer im Auto liegt deutlich unter diesem
+            Grenzfall, etwa bei einem Drittel davon. Ein Rad, das über eine
+            Bodenwelle springt, federt ein- bis zweimal gedämpft nach und ruht
+            dann, statt minutenlang nachzuschwingen.</p>
+
+          <p>Wer die Schwingung am Leben halten will, muss ihr regelmäßig Energie
+            zuführen, wie beim Anschieben einer Schaukel. Hier zeigt sich etwas
+            Wichtiges: Es kommt auf den <em>Takt</em> an. Schiebst du im Rhythmus der
+            Schaukel, genügen kleine Stöße, um sie hoch zu bringen. Schiebst du im
+            falschen Takt, gelingt das kaum, weil der Schub manchmal gegen die
+            Bewegung wirkt. Der Antrieb ist am wirksamsten, wenn er mit der
+            <em>Eigenfrequenz</em> des Systems übereinstimmt. Das nennt man
+            <em>Resonanz</em>.</p>
+
+          <p>Wie scharf die Resonanz ausfällt, hängt von der Dämpfung ab (Abb. 2).
+            Bei schwacher Dämpfung ist der Gipfel hoch und schmal: Das System
+            reagiert stark, aber nur auf Frequenzen ganz nahe an der Eigenfrequenz.
+            Bei starker Dämpfung ist er niedrig und breit. Die <em>Güte</em> $Q$
+            misst, wie viele Schwingungen das System braucht, bis die Schwingung
+            deutlich abgeklungen ist, und zugleich, um welchen Faktor die Amplitude in
+            Resonanz über der ruhigen Auslenkung liegt.</p>
+
+          <figure class="abbildung">
+            <svg class="abb" viewBox="0 0 360 225" role="img" aria-label="Resonanzkurven: Amplitude einer erzwungenen Schwingung in Einheiten der statischen Auslenkung über der Anregungsfrequenz für drei Dämpfungen; je schwächer die Dämpfung, desto höher und schmaler der Gipfel">
+<defs><marker id="pfeil-abb1-text" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto"><path class="punkt" d="M0 0L10 5L0 10z"/></marker><marker id="pfeil-abb1-blau" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto"><path class="punkt blau" d="M0 0L10 5L0 10z"/></marker><marker id="pfeil-abb1-kupfer" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto"><path class="punkt kupfer" d="M0 0L10 5L0 10z"/></marker></defs>
+<path class="achse" d="M50 190H345" marker-end="url(#pfeil-abb1-text)"/>
+<path class="achse" d="M50 196V12" marker-end="url(#pfeil-abb1-text)"/>
+<text x="346" y="222" text-anchor="end">Anregungsfrequenz ω / ω<tspan dy="3" style="font-size:10px">0</tspan></text>
+<text x="56" y="14">Amplitude / statische Auslenkung</text>
+<path class="achse" d="M50 190v4"/><text class="klein" x="50" y="203" text-anchor="middle">0</text>
+<path class="achse" d="M121.2 190v4"/><text class="klein" x="121.2" y="203" text-anchor="middle">0,5</text>
+<path class="achse" d="M192.5 190v4"/><text class="klein" x="192.5" y="203" text-anchor="middle">1</text>
+<path class="achse" d="M263.8 190v4"/><text class="klein" x="263.8" y="203" text-anchor="middle">1,5</text>
+<path class="achse" d="M335 190v4"/><text class="klein" x="335" y="203" text-anchor="middle">2</text>
+<path class="achse" d="M50 190h-4"/><text class="klein" x="43" y="194" text-anchor="end">0</text>
+<path class="achse" d="M50 160h-4"/><text class="klein" x="43" y="164" text-anchor="end">2</text>
+<path class="achse" d="M50 130h-4"/><text class="klein" x="43" y="134" text-anchor="end">4</text>
+<path class="achse" d="M50 100h-4"/><text class="klein" x="43" y="104" text-anchor="end">6</text>
+<path class="achse" d="M50 70h-4"/><text class="klein" x="43" y="74" text-anchor="end">8</text>
+<path class="achse" d="M50 40h-4"/><text class="klein" x="43" y="44" text-anchor="end">10</text>
+<path class="kurve " d="M50 175 L50.7 175 L51.4 175 L52.1 175 L52.9 175 L53.6 175 L54.3 175 L55 175 L55.7 175 L56.4 175 L57.1 175 L57.8 175 L58.5 175 L59.3 174.9 L60 174.9 L60.7 174.9 L61.4 174.9 L62.1 174.9 L62.8 174.9 L63.5 174.9 L64.2 174.9 L65 174.9 L65.7 174.8 L66.4 174.8 L67.1 174.8 L67.8 174.8 L68.5 174.8 L69.2 174.8 L70 174.7 L70.7 174.7 L71.4 174.7 L72.1 174.7 L72.8 174.7 L73.5 174.6 L74.2 174.6 L74.9 174.6 L75.7 174.6 L76.4 174.5 L77.1 174.5 L77.8 174.5 L78.5 174.5 L79.2 174.4 L79.9 174.4 L80.6 174.4 L81.3 174.3 L82.1 174.3 L82.8 174.3 L83.5 174.2 L84.2 174.2 L84.9 174.2 L85.6 174.1 L86.3 174.1 L87.1 174.1 L87.8 174 L88.5 174 L89.2 173.9 L89.9 173.9 L90.6 173.9 L91.3 173.8 L92 173.8 L92.8 173.7 L93.5 173.7 L94.2 173.6 L94.9 173.6 L95.6 173.5 L96.3 173.5 L97 173.4 L97.7 173.4 L98.5 173.3 L99.2 173.3 L99.9 173.2 L100.6 173.2 L101.3 173.1 L102 173.1 L102.7 173 L103.4 172.9 L104.2 172.9 L104.9 172.8 L105.6 172.8 L106.3 172.7 L107 172.6 L107.7 172.6 L108.4 172.5 L109.1 172.4 L109.8 172.4 L110.6 172.3 L111.3 172.2 L112 172.1 L112.7 172.1 L113.4 172 L114.1 171.9 L114.8 171.8 L115.5 171.7 L116.3 171.7 L117 171.6 L117.7 171.5 L118.4 171.4 L119.1 171.3 L119.8 171.2 L120.5 171.1 L121.2 171 L122 170.9 L122.7 170.8 L123.4 170.7 L124.1 170.6 L124.8 170.5 L125.5 170.4 L126.2 170.3 L127 170.2 L127.7 170.1 L128.4 170 L129.1 169.9 L129.8 169.8 L130.5 169.6 L131.2 169.5 L131.9 169.4 L132.6 169.3 L133.4 169.2 L134.1 169 L134.8 168.9 L135.5 168.8 L136.2 168.6 L136.9 168.5 L137.6 168.4 L138.3 168.2 L139.1 168.1 L139.8 168 L140.5 167.8 L141.2 167.7 L141.9 167.5 L142.6 167.4 L143.3 167.2 L144.1 167.1 L144.8 166.9 L145.5 166.7 L146.2 166.6 L146.9 166.4 L147.6 166.3 L148.3 166.1 L149 165.9 L149.8 165.7 L150.5 165.6 L151.2 165.4 L151.9 165.2 L152.6 165.1 L153.3 164.9 L154 164.7 L154.7 164.5 L155.4 164.3 L156.2 164.2 L156.9 164 L157.6 163.8 L158.3 163.6 L159 163.4 L159.7 163.2 L160.4 163 L161.2 162.9 L161.9 162.7 L162.6 162.5 L163.3 162.3 L164 162.1 L164.7 161.9 L165.4 161.8 L166.1 161.6 L166.8 161.4 L167.6 161.2 L168.3 161.1 L169 160.9 L169.7 160.8 L170.4 160.6 L171.1 160.4 L171.8 160.3 L172.6 160.2 L173.3 160 L174 159.9 L174.7 159.8 L175.4 159.7 L176.1 159.6 L176.8 159.5 L177.5 159.4 L178.2 159.3 L179 159.2 L179.7 159.2 L180.4 159.1 L181.1 159.1 L181.8 159 L182.5 159 L183.2 159 L183.9 159 L184.7 159 L185.4 159.1 L186.1 159.1 L186.8 159.2 L187.5 159.2 L188.2 159.3 L188.9 159.4 L189.7 159.5 L190.4 159.6 L191.1 159.7 L191.8 159.9 L192.5 160 L193.2 160.2 L193.9 160.3 L194.6 160.5 L195.3 160.7 L196.1 160.9 L196.8 161.1 L197.5 161.3 L198.2 161.5 L198.9 161.7 L199.6 162 L200.3 162.2 L201.1 162.4 L201.8 162.7 L202.5 162.9 L203.2 163.2 L203.9 163.5 L204.6 163.7 L205.3 164 L206 164.3 L206.8 164.5 L207.5 164.8 L208.2 165.1 L208.9 165.3 L209.6 165.6 L210.3 165.9 L211 166.2 L211.7 166.4 L212.4 166.7 L213.2 167 L213.9 167.2 L214.6 167.5 L215.3 167.8 L216 168 L216.7 168.3 L217.4 168.6 L218.1 168.8 L218.9 169.1 L219.6 169.3 L220.3 169.6 L221 169.8 L221.7 170.1 L222.4 170.3 L223.1 170.6 L223.8 170.8 L224.6 171 L225.3 171.3 L226 171.5 L226.7 171.7 L227.4 171.9 L228.1 172.2 L228.8 172.4 L229.6 172.6 L230.3 172.8 L231 173 L231.7 173.2 L232.4 173.4 L233.1 173.6 L233.8 173.8 L234.5 174 L235.2 174.2 L236 174.4 L236.7 174.5 L237.4 174.7 L238.1 174.9 L238.8 175.1 L239.5 175.2 L240.2 175.4 L241 175.6 L241.7 175.7 L242.4 175.9 L243.1 176.1 L243.8 176.2 L244.5 176.4 L245.2 176.5 L245.9 176.7 L246.6 176.8 L247.4 177 L248.1 177.1 L248.8 177.2 L249.5 177.4 L250.2 177.5 L250.9 177.6 L251.6 177.8 L252.3 177.9 L253.1 178 L253.8 178.2 L254.5 178.3 L255.2 178.4 L255.9 178.5 L256.6 178.6 L257.3 178.7 L258 178.9 L258.8 179 L259.5 179.1 L260.2 179.2 L260.9 179.3 L261.6 179.4 L262.3 179.5 L263 179.6 L263.8 179.7 L264.5 179.8 L265.2 179.9 L265.9 180 L266.6 180.1 L267.3 180.2 L268 180.3 L268.7 180.4 L269.5 180.5 L270.2 180.6 L270.9 180.6 L271.6 180.7 L272.3 180.8 L273 180.9 L273.7 181 L274.4 181.1 L275.1 181.1 L275.9 181.2 L276.6 181.3 L277.3 181.4 L278 181.4 L278.7 181.5 L279.4 181.6 L280.1 181.7 L280.9 181.7 L281.6 181.8 L282.3 181.9 L283 181.9 L283.7 182 L284.4 182.1 L285.1 182.1 L285.8 182.2 L286.5 182.3 L287.3 182.3 L288 182.4 L288.7 182.5 L289.4 182.5 L290.1 182.6 L290.8 182.6 L291.5 182.7 L292.2 182.8 L293 182.8 L293.7 182.9 L294.4 182.9 L295.1 183 L295.8 183 L296.5 183.1 L297.2 183.1 L297.9 183.2 L298.7 183.3 L299.4 183.3 L300.1 183.4 L300.8 183.4 L301.5 183.5 L302.2 183.5 L302.9 183.6 L303.6 183.6 L304.4 183.6 L305.1 183.7 L305.8 183.7 L306.5 183.8 L307.2 183.8 L307.9 183.9 L308.6 183.9 L309.4 184 L310.1 184 L310.8 184 L311.5 184.1 L312.2 184.1 L312.9 184.2 L313.6 184.2 L314.3 184.3 L315.1 184.3 L315.8 184.3 L316.5 184.4 L317.2 184.4 L317.9 184.5 L318.6 184.5 L319.3 184.5 L320 184.6 L320.8 184.6 L321.5 184.6 L322.2 184.7 L322.9 184.7 L323.6 184.7 L324.3 184.8 L325 184.8 L325.7 184.8 L326.4 184.9 L327.2 184.9 L327.9 184.9 L328.6 185 L329.3 185 L330 185 L330.7 185.1 L331.4 185.1 L332.1 185.1 L332.9 185.2 L333.6 185.2 L334.3 185.2 L335 185.3"/>
+<path class="kurve kupfer" d="M50 175 L50.7 175 L51.4 175 L52.1 175 L52.9 175 L53.6 175 L54.3 175 L55 175 L55.7 175 L56.4 175 L57.1 175 L57.8 175 L58.5 174.9 L59.3 174.9 L60 174.9 L60.7 174.9 L61.4 174.9 L62.1 174.9 L62.8 174.9 L63.5 174.9 L64.2 174.9 L65 174.8 L65.7 174.8 L66.4 174.8 L67.1 174.8 L67.8 174.8 L68.5 174.7 L69.2 174.7 L70 174.7 L70.7 174.7 L71.4 174.7 L72.1 174.6 L72.8 174.6 L73.5 174.6 L74.2 174.6 L74.9 174.5 L75.7 174.5 L76.4 174.5 L77.1 174.5 L77.8 174.4 L78.5 174.4 L79.2 174.4 L79.9 174.3 L80.6 174.3 L81.3 174.3 L82.1 174.2 L82.8 174.2 L83.5 174.1 L84.2 174.1 L84.9 174.1 L85.6 174 L86.3 174 L87.1 173.9 L87.8 173.9 L88.5 173.8 L89.2 173.8 L89.9 173.8 L90.6 173.7 L91.3 173.7 L92 173.6 L92.8 173.6 L93.5 173.5 L94.2 173.4 L94.9 173.4 L95.6 173.3 L96.3 173.3 L97 173.2 L97.7 173.2 L98.5 173.1 L99.2 173 L99.9 173 L100.6 172.9 L101.3 172.8 L102 172.8 L102.7 172.7 L103.4 172.6 L104.2 172.5 L104.9 172.5 L105.6 172.4 L106.3 172.3 L107 172.2 L107.7 172.1 L108.4 172.1 L109.1 172 L109.8 171.9 L110.6 171.8 L111.3 171.7 L112 171.6 L112.7 171.5 L113.4 171.4 L114.1 171.3 L114.8 171.2 L115.5 171.1 L116.3 171 L117 170.9 L117.7 170.8 L118.4 170.7 L119.1 170.5 L119.8 170.4 L120.5 170.3 L121.2 170.2 L122 170 L122.7 169.9 L123.4 169.8 L124.1 169.6 L124.8 169.5 L125.5 169.4 L126.2 169.2 L127 169.1 L127.7 168.9 L128.4 168.8 L129.1 168.6 L129.8 168.4 L130.5 168.3 L131.2 168.1 L131.9 167.9 L132.6 167.7 L133.4 167.5 L134.1 167.4 L134.8 167.2 L135.5 167 L136.2 166.8 L136.9 166.5 L137.6 166.3 L138.3 166.1 L139.1 165.9 L139.8 165.7 L140.5 165.4 L141.2 165.2 L141.9 164.9 L142.6 164.7 L143.3 164.4 L144.1 164.1 L144.8 163.8 L145.5 163.6 L146.2 163.3 L146.9 163 L147.6 162.6 L148.3 162.3 L149 162 L149.8 161.6 L150.5 161.3 L151.2 160.9 L151.9 160.5 L152.6 160.2 L153.3 159.8 L154 159.3 L154.7 158.9 L155.4 158.5 L156.2 158 L156.9 157.6 L157.6 157.1 L158.3 156.6 L159 156.1 L159.7 155.5 L160.4 155 L161.2 154.4 L161.9 153.8 L162.6 153.2 L163.3 152.6 L164 151.9 L164.7 151.2 L165.4 150.5 L166.1 149.8 L166.8 149.1 L167.6 148.3 L168.3 147.5 L169 146.6 L169.7 145.7 L170.4 144.8 L171.1 143.9 L171.8 142.9 L172.6 141.9 L173.3 140.9 L174 139.8 L174.7 138.7 L175.4 137.6 L176.1 136.4 L176.8 135.2 L177.5 134 L178.2 132.7 L179 131.4 L179.7 130.1 L180.4 128.8 L181.1 127.4 L181.8 126.1 L182.5 124.8 L183.2 123.4 L183.9 122.2 L184.7 120.9 L185.4 119.8 L186.1 118.7 L186.8 117.7 L187.5 116.8 L188.2 116 L188.9 115.4 L189.7 115 L190.4 114.7 L191.1 114.6 L191.8 114.7 L192.5 115 L193.2 115.5 L193.9 116.1 L194.6 116.9 L195.3 117.9 L196.1 119 L196.8 120.2 L197.5 121.5 L198.2 122.9 L198.9 124.3 L199.6 125.8 L200.3 127.3 L201.1 128.9 L201.8 130.4 L202.5 132 L203.2 133.5 L203.9 135 L204.6 136.5 L205.3 137.9 L206 139.3 L206.8 140.7 L207.5 142 L208.2 143.3 L208.9 144.5 L209.6 145.7 L210.3 146.9 L211 148 L211.7 149.1 L212.4 150.2 L213.2 151.2 L213.9 152.1 L214.6 153.1 L215.3 154 L216 154.8 L216.7 155.7 L217.4 156.5 L218.1 157.2 L218.9 158 L219.6 158.7 L220.3 159.4 L221 160.1 L221.7 160.7 L222.4 161.3 L223.1 161.9 L223.8 162.5 L224.6 163.1 L225.3 163.6 L226 164.2 L226.7 164.7 L227.4 165.2 L228.1 165.6 L228.8 166.1 L229.6 166.5 L230.3 167 L231 167.4 L231.7 167.8 L232.4 168.2 L233.1 168.6 L233.8 168.9 L234.5 169.3 L235.2 169.7 L236 170 L236.7 170.3 L237.4 170.7 L238.1 171 L238.8 171.3 L239.5 171.6 L240.2 171.9 L241 172.1 L241.7 172.4 L242.4 172.7 L243.1 172.9 L243.8 173.2 L244.5 173.4 L245.2 173.7 L245.9 173.9 L246.6 174.1 L247.4 174.4 L248.1 174.6 L248.8 174.8 L249.5 175 L250.2 175.2 L250.9 175.4 L251.6 175.6 L252.3 175.8 L253.1 176 L253.8 176.2 L254.5 176.3 L255.2 176.5 L255.9 176.7 L256.6 176.8 L257.3 177 L258 177.2 L258.8 177.3 L259.5 177.5 L260.2 177.6 L260.9 177.8 L261.6 177.9 L262.3 178.1 L263 178.2 L263.8 178.3 L264.5 178.5 L265.2 178.6 L265.9 178.7 L266.6 178.8 L267.3 179 L268 179.1 L268.7 179.2 L269.5 179.3 L270.2 179.4 L270.9 179.6 L271.6 179.7 L272.3 179.8 L273 179.9 L273.7 180 L274.4 180.1 L275.1 180.2 L275.9 180.3 L276.6 180.4 L277.3 180.5 L278 180.6 L278.7 180.7 L279.4 180.8 L280.1 180.9 L280.9 180.9 L281.6 181 L282.3 181.1 L283 181.2 L283.7 181.3 L284.4 181.4 L285.1 181.4 L285.8 181.5 L286.5 181.6 L287.3 181.7 L288 181.8 L288.7 181.8 L289.4 181.9 L290.1 182 L290.8 182 L291.5 182.1 L292.2 182.2 L293 182.3 L293.7 182.3 L294.4 182.4 L295.1 182.5 L295.8 182.5 L296.5 182.6 L297.2 182.6 L297.9 182.7 L298.7 182.8 L299.4 182.8 L300.1 182.9 L300.8 182.9 L301.5 183 L302.2 183.1 L302.9 183.1 L303.6 183.2 L304.4 183.2 L305.1 183.3 L305.8 183.3 L306.5 183.4 L307.2 183.4 L307.9 183.5 L308.6 183.5 L309.4 183.6 L310.1 183.6 L310.8 183.7 L311.5 183.7 L312.2 183.8 L312.9 183.8 L313.6 183.9 L314.3 183.9 L315.1 184 L315.8 184 L316.5 184.1 L317.2 184.1 L317.9 184.1 L318.6 184.2 L319.3 184.2 L320 184.3 L320.8 184.3 L321.5 184.4 L322.2 184.4 L322.9 184.4 L323.6 184.5 L324.3 184.5 L325 184.5 L325.7 184.6 L326.4 184.6 L327.2 184.7 L327.9 184.7 L328.6 184.7 L329.3 184.8 L330 184.8 L330.7 184.8 L331.4 184.9 L332.1 184.9 L332.9 184.9 L333.6 185 L334.3 185 L335 185"/>
+<path class="kurve blau" d="M50 175 L50.7 175 L51.4 175 L52.1 175 L52.9 175 L53.6 175 L54.3 175 L55 175 L55.7 175 L56.4 175 L57.1 175 L57.8 175 L58.5 174.9 L59.3 174.9 L60 174.9 L60.7 174.9 L61.4 174.9 L62.1 174.9 L62.8 174.9 L63.5 174.9 L64.2 174.8 L65 174.8 L65.7 174.8 L66.4 174.8 L67.1 174.8 L67.8 174.8 L68.5 174.7 L69.2 174.7 L70 174.7 L70.7 174.7 L71.4 174.7 L72.1 174.6 L72.8 174.6 L73.5 174.6 L74.2 174.6 L74.9 174.5 L75.7 174.5 L76.4 174.5 L77.1 174.4 L77.8 174.4 L78.5 174.4 L79.2 174.3 L79.9 174.3 L80.6 174.3 L81.3 174.2 L82.1 174.2 L82.8 174.2 L83.5 174.1 L84.2 174.1 L84.9 174 L85.6 174 L86.3 174 L87.1 173.9 L87.8 173.9 L88.5 173.8 L89.2 173.8 L89.9 173.7 L90.6 173.7 L91.3 173.6 L92 173.6 L92.8 173.5 L93.5 173.5 L94.2 173.4 L94.9 173.4 L95.6 173.3 L96.3 173.2 L97 173.2 L97.7 173.1 L98.5 173.1 L99.2 173 L99.9 172.9 L100.6 172.9 L101.3 172.8 L102 172.7 L102.7 172.6 L103.4 172.6 L104.2 172.5 L104.9 172.4 L105.6 172.3 L106.3 172.2 L107 172.2 L107.7 172.1 L108.4 172 L109.1 171.9 L109.8 171.8 L110.6 171.7 L111.3 171.6 L112 171.5 L112.7 171.4 L113.4 171.3 L114.1 171.2 L114.8 171.1 L115.5 171 L116.3 170.9 L117 170.8 L117.7 170.7 L118.4 170.5 L119.1 170.4 L119.8 170.3 L120.5 170.2 L121.2 170 L122 169.9 L122.7 169.8 L123.4 169.6 L124.1 169.5 L124.8 169.3 L125.5 169.2 L126.2 169 L127 168.9 L127.7 168.7 L128.4 168.6 L129.1 168.4 L129.8 168.2 L130.5 168 L131.2 167.9 L131.9 167.7 L132.6 167.5 L133.4 167.3 L134.1 167.1 L134.8 166.9 L135.5 166.7 L136.2 166.4 L136.9 166.2 L137.6 166 L138.3 165.8 L139.1 165.5 L139.8 165.3 L140.5 165 L141.2 164.7 L141.9 164.5 L142.6 164.2 L143.3 163.9 L144.1 163.6 L144.8 163.3 L145.5 163 L146.2 162.7 L146.9 162.3 L147.6 162 L148.3 161.6 L149 161.2 L149.8 160.9 L150.5 160.5 L151.2 160.1 L151.9 159.6 L152.6 159.2 L153.3 158.7 L154 158.3 L154.7 157.8 L155.4 157.3 L156.2 156.8 L156.9 156.2 L157.6 155.6 L158.3 155 L159 154.4 L159.7 153.8 L160.4 153.1 L161.2 152.4 L161.9 151.7 L162.6 150.9 L163.3 150.2 L164 149.3 L164.7 148.5 L165.4 147.5 L166.1 146.6 L166.8 145.6 L167.6 144.5 L168.3 143.4 L169 142.2 L169.7 141 L170.4 139.7 L171.1 138.3 L171.8 136.9 L172.6 135.3 L173.3 133.7 L174 131.9 L174.7 130 L175.4 128.1 L176.1 125.9 L176.8 123.7 L177.5 121.2 L178.2 118.7 L179 115.9 L179.7 112.9 L180.4 109.7 L181.1 106.2 L181.8 102.5 L182.5 98.5 L183.2 94.3 L183.9 89.7 L184.7 84.9 L185.4 79.8 L186.1 74.5 L186.8 69 L187.5 63.4 L188.2 57.9 L188.9 52.7 L189.7 48.1 L190.4 44.2 L191.1 41.5 L191.8 40 L192.5 40 L193.2 41.5 L193.9 44.3 L194.6 48.4 L195.3 53.3 L196.1 58.8 L196.8 64.6 L197.5 70.6 L198.2 76.5 L198.9 82.3 L199.6 87.8 L200.3 93 L201.1 97.9 L201.8 102.5 L202.5 106.7 L203.2 110.7 L203.9 114.4 L204.6 117.8 L205.3 121 L206 124 L206.8 126.7 L207.5 129.3 L208.2 131.7 L208.9 133.9 L209.6 136 L210.3 138 L211 139.8 L211.7 141.6 L212.4 143.2 L213.2 144.7 L213.9 146.2 L214.6 147.6 L215.3 148.9 L216 150.1 L216.7 151.2 L217.4 152.3 L218.1 153.4 L218.9 154.4 L219.6 155.3 L220.3 156.2 L221 157.1 L221.7 157.9 L222.4 158.7 L223.1 159.5 L223.8 160.2 L224.6 160.9 L225.3 161.6 L226 162.2 L226.7 162.8 L227.4 163.4 L228.1 164 L228.8 164.5 L229.6 165 L230.3 165.5 L231 166 L231.7 166.5 L232.4 167 L233.1 167.4 L233.8 167.8 L234.5 168.2 L235.2 168.6 L236 169 L236.7 169.4 L237.4 169.8 L238.1 170.1 L238.8 170.4 L239.5 170.8 L240.2 171.1 L241 171.4 L241.7 171.7 L242.4 172 L243.1 172.3 L243.8 172.6 L244.5 172.8 L245.2 173.1 L245.9 173.4 L246.6 173.6 L247.4 173.8 L248.1 174.1 L248.8 174.3 L249.5 174.5 L250.2 174.8 L250.9 175 L251.6 175.2 L252.3 175.4 L253.1 175.6 L253.8 175.8 L254.5 176 L255.2 176.2 L255.9 176.3 L256.6 176.5 L257.3 176.7 L258 176.9 L258.8 177 L259.5 177.2 L260.2 177.3 L260.9 177.5 L261.6 177.6 L262.3 177.8 L263 177.9 L263.8 178.1 L264.5 178.2 L265.2 178.4 L265.9 178.5 L266.6 178.6 L267.3 178.8 L268 178.9 L268.7 179 L269.5 179.1 L270.2 179.3 L270.9 179.4 L271.6 179.5 L272.3 179.6 L273 179.7 L273.7 179.8 L274.4 179.9 L275.1 180 L275.9 180.1 L276.6 180.2 L277.3 180.3 L278 180.4 L278.7 180.5 L279.4 180.6 L280.1 180.7 L280.9 180.8 L281.6 180.9 L282.3 181 L283 181.1 L283.7 181.2 L284.4 181.2 L285.1 181.3 L285.8 181.4 L286.5 181.5 L287.3 181.6 L288 181.7 L288.7 181.7 L289.4 181.8 L290.1 181.9 L290.8 182 L291.5 182 L292.2 182.1 L293 182.2 L293.7 182.2 L294.4 182.3 L295.1 182.4 L295.8 182.4 L296.5 182.5 L297.2 182.6 L297.9 182.6 L298.7 182.7 L299.4 182.8 L300.1 182.8 L300.8 182.9 L301.5 182.9 L302.2 183 L302.9 183 L303.6 183.1 L304.4 183.2 L305.1 183.2 L305.8 183.3 L306.5 183.3 L307.2 183.4 L307.9 183.4 L308.6 183.5 L309.4 183.5 L310.1 183.6 L310.8 183.6 L311.5 183.7 L312.2 183.7 L312.9 183.8 L313.6 183.8 L314.3 183.9 L315.1 183.9 L315.8 184 L316.5 184 L317.2 184.1 L317.9 184.1 L318.6 184.1 L319.3 184.2 L320 184.2 L320.8 184.3 L321.5 184.3 L322.2 184.4 L322.9 184.4 L323.6 184.4 L324.3 184.5 L325 184.5 L325.7 184.5 L326.4 184.6 L327.2 184.6 L327.9 184.7 L328.6 184.7 L329.3 184.7 L330 184.8 L330.7 184.8 L331.4 184.8 L332.1 184.9 L332.9 184.9 L333.6 184.9 L334.3 185 L335 185"/>
+<text class="klein blau" x="202.5" y="43">Q = 10</text>
+<text class="klein kupfer" x="209.6" y="121">Q = 5</text>
+<text class="klein" x="235.2" y="164.5">Q = 2</text>
+<path class="hilfslinie" d="M50 175H340"/>
+</svg>
+            <figcaption>Abb. 2: Resonanzkurven für drei Dämpfungen. Auf der
+              senkrechten Achse steht die Amplitude relativ zu der Auslenkung, die
+              die Kraft bei sehr langsamem Antrieb erzeugen würde.</figcaption>
+          </figure>
+
+          <div class="alltag">
+            <span class="titel">Aus dem Alltag</span>
+            <p>Ein Radio wählt einen Sender, indem man einen Schwingkreis auf die
+              Frequenz des Senders abstimmt. Der Kreis reagiert nur auf Signale
+              nahe seiner Eigenfrequenz, andere Sender schwächt er ab. Auch der
+              Klang einer Gitarre beruht auf Resonanz: Der Korpus schwingt mit der
+              Saite mit und strahlt den Ton viel besser ab. In der Magnetresonanztomographie
+              regt man gezielt die Kernspins mit der Larmor-Frequenz an, die zum
+              Magnetfeld gehört. Und wenn Licht auf ein Atom fällt, treibt sein
+              schwingendes elektrisches Feld die Elektronenhülle an, am stärksten
+              nahe deren Eigenfrequenz.</p>
+          </div>
+
+          <div class="merkkasten">
+            <span class="titel">Das Wichtigste in Kürze</span>
+            <p>Reibung dämpft eine Schwingung exponentiell. Bei starker Dämpfung
+              gibt es keine Schwingung mehr. Ein periodischer Antrieb erzeugt eine
+              Schwingung mit seiner eigenen Frequenz, und die Amplitude ist am größten,
+              wenn der Antrieb mit der Eigenfrequenz übereinstimmt (Resonanz). Je
+              schwächer die Dämpfung, desto höher und schmaler ist der Resonanzgipfel.</p>
+          </div>
+        </section>
+
+        <section class="tab" id="vertiefung" data-titel="Vertiefung">
+
+          <h2>Die gedämpfte Schwingung</h2>
+
+          <p>Zur Rückstellkraft $-kx$ kommt eine Reibungskraft proportional zur
+            Geschwindigkeit, $-b\dot{x}$ (Stokes-Reibung, etwa in einer Flüssigkeit). Mit
+            $2\gamma = b/m$ und $\omega_0^2 = k/m$ lautet die Bewegungsgleichung</p>
+          $$ \ddot{x} + 2\gamma\,\dot{x} + \omega_0^2\,x = 0 . $$
+          <p>Der Ansatz $x = c\,\mathrm{e}^{\lambda t}$ liefert die charakteristische
+            Gleichung $\lambda^2 + 2\gamma\lambda + \omega_0^2 = 0$ mit den Lösungen
+            $\lambda = -\gamma \pm \sqrt{\gamma^2 - \omega_0^2}$. Das Verhalten hängt vom
+            Verhältnis von $\gamma$ zu $\omega_0$ ab, denn das Vorzeichen des
+            Radikanden entscheidet. Es gibt drei Fälle:</p>
+          <ul>
+            <li><strong>Schwache Dämpfung</strong> ($\gamma \lt \omega_0$): Der
+              Radikand ist negativ, $\lambda = -\gamma \pm \mathrm{i}\omega_\text{d}$, und die Lösung
+              ist eine abklingende Schwingung
+              $$ x(t) = A\,\mathrm{e}^{-\gamma t}\cos(\omega_\text{d} t + \varphi), \qquad \omega_\text{d} = \sqrt{\omega_0^2 - \gamma^2} . $$
+              Die Frequenz ist etwas kleiner als $\omega_0$. Die Hüllkurve fällt
+              mit der Abklingzeit $\tau = 1/\gamma$ auf $1/\mathrm{e}$ (Abb. 1).</li>
+            <li><strong>Starke Dämpfung</strong> ($\gamma \gt \omega_0$): Beide $\lambda$ sind
+              reell und negativ, mit $\alpha = \sqrt{\gamma^2 - \omega_0^2}$ ist
+              $x(t) = \mathrm{e}^{-\gamma t}\left(c_1\mathrm{e}^{\alpha t} + c_2\mathrm{e}^{-\alpha t}\right)$.
+              Die Auslenkung kriecht ohne Schwingung zur Ruhelage zurück, mit
+              höchstens einem Nulldurchgang.</li>
+            <li><strong>Aperiodischer Grenzfall</strong> ($\gamma = \omega_0$): Die
+              Nullstelle $\lambda = -\gamma$ ist doppelt, und eine zweite Lösung entsteht mit dem Ansatz
+              $x = c(t)\,\mathrm{e}^{-\gamma t}$, der $\ddot c = 0$ ergibt. Die allgemeine Lösung ist
+              $x(t) = (c_1 t + c_2)\,\mathrm{e}^{-\gamma t}$. Für $x(0) = 0$ und
+              $\dot{x}(0) = v_0$ erhält man $x = v_0\,t\,\mathrm{e}^{-\gamma t}$. Das System
+              kehrt am schnellsten zur Ruhe zurück, ohne zu überschwingen.</li>
+          </ul>
+          <p>In der Vorlesung heißt die gedämpfte Eigenfrequenz $\omega_1$ oder einfach $\omega$.
+            Hier steht $\omega_\text{d}$, damit sie nicht mit der Anregungsfrequenz $\omega$ der
+            erzwungenen Schwingung verwechselt wird.</p>
+          <p>Bei schwacher Dämpfung ist das Verhältnis zweier aufeinanderfolgender
+            Maxima konstant, $x(t+T)/x(t) = \mathrm{e}^{-\gamma T}$ mit $T = 2\pi/\omega_\text{d}$.
+            Das <em>logarithmische Dekrement</em> ist</p>
+          $$ \delta = \ln\frac{x(t)}{x(t+T)} = \gamma T . $$
+          <p>(In manchen Büchern heißt $\delta$ die Dämpfungskonstante, hier ist es das
+            Dekrement.) Die Energie ist proportional zum Quadrat der Amplitude und fällt
+            deshalb mit $\mathrm{e}^{-2\gamma t}$. Als Ergänzung dient die <em>Güte</em></p>
+          $$ Q = \frac{\omega_0}{2\gamma} . $$
+          <p>Für schwache Dämpfung laufen bis zum Abfall der Amplitude auf $1/\mathrm{e}$
+            ungefähr $Q/\pi$ Schwingungen ab, und es gilt $\delta \approx \pi/Q$. Große
+            Güte bedeutet geringe Dämpfung.</p>
+
+          <h2>Die erzwungene Schwingung</h2>
+
+          <p>Jetzt wirkt zusätzlich eine periodische Kraft
+            $F_0\cos\omega t$ mit der Anregungsfrequenz $\omega$ (nicht zu verwechseln mit
+            $\omega_0$ und $\omega_\text{d}$):</p>
+          $$ \ddot{x} + 2\gamma\,\dot{x} + \omega_0^2\,x = \frac{F_0}{m}\cos\omega t . $$
+          <p>Das ist eine inhomogene lineare Differentialgleichung. Ihre allgemeine Lösung ist
+            die Summe aus der Lösung der homogenen Gleichung und einer
+            speziellen Lösung. Bei schwacher Dämpfung lautet sie</p>
+          $$ x(t) = A_1\,\mathrm{e}^{-\gamma t}\cos(\omega_\text{d} t + \varphi_1) + A_2\cos(\omega t + \varphi) . $$
+          <p>Der erste Anteil klingt ab. Für Zeiten $t \lesssim 1/\gamma$ überlagern sich
+            beide Schwingungen mit $\omega_\text{d}$ und $\omega$, das ist der
+            <em>Einschwingvorgang</em>. Nach einigen Abklingzeiten bleibt nur der
+            <em>stationäre</em> Anteil, der mit der Anregungsfrequenz schwingt und von den
+            Anfangsbedingungen nicht mehr abhängt. Für seine Berechnung ist die
+            komplexe Form bequem: Man ersetzt $\cos\omega t$ durch
+            $\mathrm{e}^{\mathrm{i}\omega t}$ und setzt $z = C\,\mathrm{e}^{\mathrm{i}\omega t}$ mit komplexem $C$ ein:</p>
+          $$ \left(\omega_0^2 - \omega^2 + 2\mathrm{i}\gamma\omega\right) C = \frac{F_0}{m}
+             \quad\Rightarrow\quad C = \frac{F_0}{m}\cdot\frac{\omega_0^2 - \omega^2 - 2\mathrm{i}\gamma\omega}{D(\omega)},
+             \quad D(\omega) = (\omega_0^2 - \omega^2)^2 + (2\gamma\omega)^2 . $$
+          <p>Der Realteil von $z$ ist die gesuchte Auslenkung:</p>
+          $$ x(t) = \frac{F_0}{m}\left[c_1(\omega)\cos\omega t + c_2(\omega)\sin\omega t\right], \qquad
+             c_1 = \frac{\omega_0^2 - \omega^2}{D}, \quad c_2 = \frac{2\gamma\omega}{D} . $$
+          <p>Der Kosinus-Anteil schwingt in Phase mit der Kraft, der Sinus-Anteil
+            ist um eine Viertelperiode verschoben. Zusammengefasst ist
+            $x = A\cos(\omega t + \varphi)$ mit</p>
+          $$ A(\omega) = \frac{F_0/m}{\sqrt{(\omega_0^2 - \omega^2)^2 + 4\gamma^2\omega^2}}, \qquad
+             \tan\varphi = -\frac{2\gamma\omega}{\omega_0^2 - \omega^2}, \quad \varphi \in [-\pi, 0] . $$
+          <p>Die Phase $\varphi$ ist nie positiv, die Auslenkung hinkt der Kraft also hinterher
+            (wegen $c_2 \ge 0$). Drei Bereiche sind zu unterscheiden:</p>
+          <ul>
+            <li>Für $\omega \ll \omega_0$ folgt das System der Kraft statisch:
+              $A \approx F_0/k$ und $\varphi \approx 0$ (Auslenkung und Kraft
+              gleichphasig).</li>
+            <li>Bei $\omega = \omega_0$ ist $\varphi = -\pi/2$ (Auslenkung hinkt der
+              Kraft um eine Viertelperiode hinterher, die Geschwindigkeit ist
+              genau in Phase mit der Kraft) und $A = F_0/(2m\gamma\omega_0) = Q\,F_0/k$:
+              die Amplitude liegt um den Faktor $Q$ über der statischen
+              Auslenkung.</li>
+            <li>Für $\omega \gg \omega_0$ wird $A \approx F_0/(m\omega^2)$ klein
+              (Trägheit), und $\varphi \to -\pi$ (Auslenkung gegenphasig zur Kraft).</li>
+          </ul>
+          <p>Im Grenzfall $\gamma \to 0$ verschwindet $c_2$, und
+            $x \approx \dfrac{F_0/m}{\omega_0^2 - \omega^2}\cos\omega t$. Dann gilt scharf: gleichphasig
+            für $\omega \lt \omega_0$, gegenphasig für $\omega \gt \omega_0$. Mit Dämpfung läuft die
+            Phase dagegen stetig von $0$ bis $-\pi$ (Abb. 3).</p>
+
+          <figure class="abbildung">
+            <svg class="abb" viewBox="0 0 360 225" role="img" aria-label="Phase φ zwischen Anregung und Auslenkung über der Anregungsfrequenz: von null über minus 90 Grad bei ω0 bis minus 180 Grad, bei schwacher Dämpfung steiler">
+<defs><marker id="pfeil-abb3-text" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto"><path class="punkt" d="M0 0L10 5L0 10z"/></marker><marker id="pfeil-abb3-blau" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto"><path class="punkt blau" d="M0 0L10 5L0 10z"/></marker><marker id="pfeil-abb3-kupfer" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto"><path class="punkt kupfer" d="M0 0L10 5L0 10z"/></marker></defs>
+<path class="achse" d="M50 190H345" marker-end="url(#pfeil-abb3-text)"/>
+<path class="achse" d="M50 196V12" marker-end="url(#pfeil-abb3-text)"/>
+<text x="346" y="222" text-anchor="end">Anregungsfrequenz ω / ω<tspan dy="3" style="font-size:10px">0</tspan></text>
+<text x="56" y="14">Phase φ</text>
+<path class="achse" d="M50 190v4"/><text class="klein" x="50" y="203" text-anchor="middle">0</text>
+<path class="achse" d="M121.2 190v4"/><text class="klein" x="121.2" y="203" text-anchor="middle">0,5</text>
+<path class="achse" d="M192.5 190v4"/><text class="klein" x="192.5" y="203" text-anchor="middle">1</text>
+<path class="achse" d="M263.8 190v4"/><text class="klein" x="263.8" y="203" text-anchor="middle">1,5</text>
+<path class="achse" d="M335 190v4"/><text class="klein" x="335" y="203" text-anchor="middle">2</text>
+<path class="achse" d="M50 30h-4"/><text class="klein" x="43" y="34" text-anchor="end">0</text>
+<path class="achse" d="M50 110h-4"/><text class="klein" x="43" y="114" text-anchor="end">−π/2</text>
+<path class="achse" d="M50 190h-4"/><text class="klein" x="43" y="194" text-anchor="end">−π</text>
+<path class="hilfslinie" d="M50 110H340M192.5 190V30"/>
+<path transform="translate(0,220) scale(1,-1)" class="kurve " d="M50 190 L50.7 189.9 L51.4 189.7 L52.1 189.6 L52.9 189.5 L53.6 189.4 L54.3 189.2 L55 189.1 L55.7 189 L56.4 188.9 L57.1 188.7 L57.8 188.6 L58.5 188.5 L59.3 188.3 L60 188.2 L60.7 188.1 L61.4 188 L62.1 187.8 L62.8 187.7 L63.5 187.6 L64.2 187.4 L65 187.3 L65.7 187.2 L66.4 187 L67.1 186.9 L67.8 186.8 L68.5 186.6 L69.2 186.5 L70 186.4 L70.7 186.2 L71.4 186.1 L72.1 186 L72.8 185.8 L73.5 185.7 L74.2 185.6 L74.9 185.4 L75.7 185.3 L76.4 185.1 L77.1 185 L77.8 184.9 L78.5 184.7 L79.2 184.6 L79.9 184.4 L80.6 184.3 L81.3 184.1 L82.1 184 L82.8 183.8 L83.5 183.7 L84.2 183.5 L84.9 183.4 L85.6 183.2 L86.3 183.1 L87.1 182.9 L87.8 182.8 L88.5 182.6 L89.2 182.5 L89.9 182.3 L90.6 182.2 L91.3 182 L92 181.8 L92.8 181.7 L93.5 181.5 L94.2 181.4 L94.9 181.2 L95.6 181 L96.3 180.8 L97 180.7 L97.7 180.5 L98.5 180.3 L99.2 180.2 L99.9 180 L100.6 179.8 L101.3 179.6 L102 179.4 L102.7 179.2 L103.4 179.1 L104.2 178.9 L104.9 178.7 L105.6 178.5 L106.3 178.3 L107 178.1 L107.7 177.9 L108.4 177.7 L109.1 177.5 L109.8 177.3 L110.6 177.1 L111.3 176.9 L112 176.7 L112.7 176.4 L113.4 176.2 L114.1 176 L114.8 175.8 L115.5 175.5 L116.3 175.3 L117 175.1 L117.7 174.8 L118.4 174.6 L119.1 174.4 L119.8 174.1 L120.5 173.9 L121.2 173.6 L122 173.4 L122.7 173.1 L123.4 172.8 L124.1 172.6 L124.8 172.3 L125.5 172 L126.2 171.7 L127 171.5 L127.7 171.2 L128.4 170.9 L129.1 170.6 L129.8 170.3 L130.5 170 L131.2 169.7 L131.9 169.3 L132.6 169 L133.4 168.7 L134.1 168.4 L134.8 168 L135.5 167.7 L136.2 167.3 L136.9 167 L137.6 166.6 L138.3 166.2 L139.1 165.9 L139.8 165.5 L140.5 165.1 L141.2 164.7 L141.9 164.3 L142.6 163.9 L143.3 163.5 L144.1 163.1 L144.8 162.6 L145.5 162.2 L146.2 161.7 L146.9 161.3 L147.6 160.8 L148.3 160.3 L149 159.9 L149.8 159.4 L150.5 158.9 L151.2 158.4 L151.9 157.8 L152.6 157.3 L153.3 156.8 L154 156.2 L154.7 155.7 L155.4 155.1 L156.2 154.5 L156.9 153.9 L157.6 153.3 L158.3 152.7 L159 152.1 L159.7 151.4 L160.4 150.8 L161.2 150.1 L161.9 149.4 L162.6 148.7 L163.3 148 L164 147.3 L164.7 146.6 L165.4 145.9 L166.1 145.1 L166.8 144.3 L167.6 143.6 L168.3 142.8 L169 142 L169.7 141.1 L170.4 140.3 L171.1 139.5 L171.8 138.6 L172.6 137.7 L173.3 136.8 L174 136 L174.7 135 L175.4 134.1 L176.1 133.2 L176.8 132.3 L177.5 131.3 L178.2 130.3 L179 129.4 L179.7 128.4 L180.4 127.4 L181.1 126.4 L181.8 125.4 L182.5 124.4 L183.2 123.4 L183.9 122.4 L184.7 121.3 L185.4 120.3 L186.1 119.3 L186.8 118.2 L187.5 117.2 L188.2 116.2 L188.9 115.1 L189.7 114.1 L190.4 113.1 L191.1 112 L191.8 111 L192.5 110 L193.2 109 L193.9 108 L194.6 107 L195.3 106 L196.1 105 L196.8 104 L197.5 103 L198.2 102.1 L198.9 101.1 L199.6 100.2 L200.3 99.3 L201.1 98.3 L201.8 97.4 L202.5 96.5 L203.2 95.6 L203.9 94.8 L204.6 93.9 L205.3 93.1 L206 92.2 L206.8 91.4 L207.5 90.6 L208.2 89.8 L208.9 89 L209.6 88.3 L210.3 87.5 L211 86.8 L211.7 86.1 L212.4 85.4 L213.2 84.7 L213.9 84 L214.6 83.3 L215.3 82.6 L216 82 L216.7 81.3 L217.4 80.7 L218.1 80.1 L218.9 79.5 L219.6 78.9 L220.3 78.3 L221 77.8 L221.7 77.2 L222.4 76.7 L223.1 76.1 L223.8 75.6 L224.6 75.1 L225.3 74.6 L226 74.1 L226.7 73.6 L227.4 73.1 L228.1 72.7 L228.8 72.2 L229.6 71.8 L230.3 71.3 L231 70.9 L231.7 70.5 L232.4 70.1 L233.1 69.7 L233.8 69.3 L234.5 68.9 L235.2 68.5 L236 68.1 L236.7 67.7 L237.4 67.4 L238.1 67 L238.8 66.7 L239.5 66.3 L240.2 66 L241 65.6 L241.7 65.3 L242.4 65 L243.1 64.7 L243.8 64.4 L244.5 64.1 L245.2 63.8 L245.9 63.5 L246.6 63.2 L247.4 62.9 L248.1 62.6 L248.8 62.4 L249.5 62.1 L250.2 61.8 L250.9 61.6 L251.6 61.3 L252.3 61.1 L253.1 60.8 L253.8 60.6 L254.5 60.3 L255.2 60.1 L255.9 59.9 L256.6 59.6 L257.3 59.4 L258 59.2 L258.8 59 L259.5 58.7 L260.2 58.5 L260.9 58.3 L261.6 58.1 L262.3 57.9 L263 57.7 L263.8 57.5 L264.5 57.3 L265.2 57.1 L265.9 57 L266.6 56.8 L267.3 56.6 L268 56.4 L268.7 56.2 L269.5 56.1 L270.2 55.9 L270.9 55.7 L271.6 55.5 L272.3 55.4 L273 55.2 L273.7 55.1 L274.4 54.9 L275.1 54.7 L275.9 54.6 L276.6 54.4 L277.3 54.3 L278 54.1 L278.7 54 L279.4 53.8 L280.1 53.7 L280.9 53.6 L281.6 53.4 L282.3 53.3 L283 53.1 L283.7 53 L284.4 52.9 L285.1 52.7 L285.8 52.6 L286.5 52.5 L287.3 52.4 L288 52.2 L288.7 52.1 L289.4 52 L290.1 51.9 L290.8 51.8 L291.5 51.6 L292.2 51.5 L293 51.4 L293.7 51.3 L294.4 51.2 L295.1 51.1 L295.8 51 L296.5 50.9 L297.2 50.7 L297.9 50.6 L298.7 50.5 L299.4 50.4 L300.1 50.3 L300.8 50.2 L301.5 50.1 L302.2 50 L302.9 49.9 L303.6 49.8 L304.4 49.7 L305.1 49.6 L305.8 49.6 L306.5 49.5 L307.2 49.4 L307.9 49.3 L308.6 49.2 L309.4 49.1 L310.1 49 L310.8 48.9 L311.5 48.8 L312.2 48.7 L312.9 48.7 L313.6 48.6 L314.3 48.5 L315.1 48.4 L315.8 48.3 L316.5 48.2 L317.2 48.2 L317.9 48.1 L318.6 48 L319.3 47.9 L320 47.9 L320.8 47.8 L321.5 47.7 L322.2 47.6 L322.9 47.6 L323.6 47.5 L324.3 47.4 L325 47.3 L325.7 47.3 L326.4 47.2 L327.2 47.1 L327.9 47.1 L328.6 47 L329.3 46.9 L330 46.8 L330.7 46.8 L331.4 46.7 L332.1 46.6 L332.9 46.6 L333.6 46.5 L334.3 46.5 L335 46.4"/>
+<path transform="translate(0,220) scale(1,-1)" class="kurve kupfer" d="M50 190 L50.7 189.9 L51.4 189.9 L52.1 189.8 L52.9 189.8 L53.6 189.7 L54.3 189.7 L55 189.6 L55.7 189.6 L56.4 189.5 L57.1 189.5 L57.8 189.4 L58.5 189.4 L59.3 189.3 L60 189.3 L60.7 189.2 L61.4 189.2 L62.1 189.1 L62.8 189.1 L63.5 189 L64.2 189 L65 188.9 L65.7 188.9 L66.4 188.8 L67.1 188.8 L67.8 188.7 L68.5 188.7 L69.2 188.6 L70 188.5 L70.7 188.5 L71.4 188.4 L72.1 188.4 L72.8 188.3 L73.5 188.3 L74.2 188.2 L74.9 188.2 L75.7 188.1 L76.4 188 L77.1 188 L77.8 187.9 L78.5 187.9 L79.2 187.8 L79.9 187.8 L80.6 187.7 L81.3 187.6 L82.1 187.6 L82.8 187.5 L83.5 187.5 L84.2 187.4 L84.9 187.3 L85.6 187.3 L86.3 187.2 L87.1 187.2 L87.8 187.1 L88.5 187 L89.2 187 L89.9 186.9 L90.6 186.8 L91.3 186.8 L92 186.7 L92.8 186.6 L93.5 186.6 L94.2 186.5 L94.9 186.4 L95.6 186.4 L96.3 186.3 L97 186.2 L97.7 186.2 L98.5 186.1 L99.2 186 L99.9 185.9 L100.6 185.9 L101.3 185.8 L102 185.7 L102.7 185.6 L103.4 185.6 L104.2 185.5 L104.9 185.4 L105.6 185.3 L106.3 185.2 L107 185.2 L107.7 185.1 L108.4 185 L109.1 184.9 L109.8 184.8 L110.6 184.7 L111.3 184.6 L112 184.6 L112.7 184.5 L113.4 184.4 L114.1 184.3 L114.8 184.2 L115.5 184.1 L116.3 184 L117 183.9 L117.7 183.8 L118.4 183.7 L119.1 183.6 L119.8 183.5 L120.5 183.4 L121.2 183.2 L122 183.1 L122.7 183 L123.4 182.9 L124.1 182.8 L124.8 182.7 L125.5 182.5 L126.2 182.4 L127 182.3 L127.7 182.2 L128.4 182 L129.1 181.9 L129.8 181.8 L130.5 181.6 L131.2 181.5 L131.9 181.3 L132.6 181.2 L133.4 181 L134.1 180.9 L134.8 180.7 L135.5 180.6 L136.2 180.4 L136.9 180.2 L137.6 180.1 L138.3 179.9 L139.1 179.7 L139.8 179.5 L140.5 179.3 L141.2 179.1 L141.9 178.9 L142.6 178.7 L143.3 178.5 L144.1 178.3 L144.8 178.1 L145.5 177.9 L146.2 177.6 L146.9 177.4 L147.6 177.1 L148.3 176.9 L149 176.6 L149.8 176.4 L150.5 176.1 L151.2 175.8 L151.9 175.5 L152.6 175.2 L153.3 174.9 L154 174.6 L154.7 174.2 L155.4 173.9 L156.2 173.5 L156.9 173.2 L157.6 172.8 L158.3 172.4 L159 172 L159.7 171.6 L160.4 171.1 L161.2 170.7 L161.9 170.2 L162.6 169.7 L163.3 169.2 L164 168.7 L164.7 168.2 L165.4 167.6 L166.1 167 L166.8 166.4 L167.6 165.7 L168.3 165 L169 164.3 L169.7 163.6 L170.4 162.8 L171.1 162 L171.8 161.2 L172.6 160.3 L173.3 159.3 L174 158.4 L174.7 157.3 L175.4 156.3 L176.1 155.1 L176.8 153.9 L177.5 152.7 L178.2 151.4 L179 150 L179.7 148.5 L180.4 147 L181.1 145.4 L181.8 143.7 L182.5 142 L183.2 140.2 L183.9 138.2 L184.7 136.2 L185.4 134.1 L186.1 132 L186.8 129.7 L187.5 127.4 L188.2 125.1 L188.9 122.6 L189.7 120.2 L190.4 117.6 L191.1 115.1 L191.8 112.6 L192.5 110 L193.2 107.5 L193.9 104.9 L194.6 102.5 L195.3 100 L196.1 97.7 L196.8 95.4 L197.5 93.1 L198.2 91 L198.9 88.9 L199.6 86.9 L200.3 85 L201.1 83.1 L201.8 81.4 L202.5 79.7 L203.2 78.1 L203.9 76.6 L204.6 75.1 L205.3 73.7 L206 72.4 L206.8 71.2 L207.5 70 L208.2 68.9 L208.9 67.8 L209.6 66.8 L210.3 65.8 L211 64.9 L211.7 64 L212.4 63.1 L213.2 62.3 L213.9 61.6 L214.6 60.8 L215.3 60.1 L216 59.4 L216.7 58.8 L217.4 58.2 L218.1 57.6 L218.9 57 L219.6 56.5 L220.3 55.9 L221 55.4 L221.7 54.9 L222.4 54.5 L223.1 54 L223.8 53.6 L224.6 53.2 L225.3 52.8 L226 52.4 L226.7 52 L227.4 51.7 L228.1 51.3 L228.8 51 L229.6 50.6 L230.3 50.3 L231 50 L231.7 49.7 L232.4 49.4 L233.1 49.1 L233.8 48.9 L234.5 48.6 L235.2 48.4 L236 48.1 L236.7 47.9 L237.4 47.6 L238.1 47.4 L238.8 47.2 L239.5 47 L240.2 46.8 L241 46.5 L241.7 46.3 L242.4 46.2 L243.1 46 L243.8 45.8 L244.5 45.6 L245.2 45.4 L245.9 45.3 L246.6 45.1 L247.4 44.9 L248.1 44.8 L248.8 44.6 L249.5 44.5 L250.2 44.3 L250.9 44.2 L251.6 44 L252.3 43.9 L253.1 43.7 L253.8 43.6 L254.5 43.5 L255.2 43.3 L255.9 43.2 L256.6 43.1 L257.3 43 L258 42.9 L258.8 42.7 L259.5 42.6 L260.2 42.5 L260.9 42.4 L261.6 42.3 L262.3 42.2 L263 42.1 L263.8 42 L264.5 41.9 L265.2 41.8 L265.9 41.7 L266.6 41.6 L267.3 41.5 L268 41.4 L268.7 41.3 L269.5 41.2 L270.2 41.2 L270.9 41.1 L271.6 41 L272.3 40.9 L273 40.8 L273.7 40.8 L274.4 40.7 L275.1 40.6 L275.9 40.5 L276.6 40.4 L277.3 40.4 L278 40.3 L278.7 40.2 L279.4 40.2 L280.1 40.1 L280.9 40 L281.6 40 L282.3 39.9 L283 39.8 L283.7 39.8 L284.4 39.7 L285.1 39.6 L285.8 39.6 L286.5 39.5 L287.3 39.5 L288 39.4 L288.7 39.3 L289.4 39.3 L290.1 39.2 L290.8 39.2 L291.5 39.1 L292.2 39.1 L293 39 L293.7 39 L294.4 38.9 L295.1 38.9 L295.8 38.8 L296.5 38.8 L297.2 38.7 L297.9 38.7 L298.7 38.6 L299.4 38.6 L300.1 38.5 L300.8 38.5 L301.5 38.4 L302.2 38.4 L302.9 38.3 L303.6 38.3 L304.4 38.2 L305.1 38.2 L305.8 38.2 L306.5 38.1 L307.2 38.1 L307.9 38 L308.6 38 L309.4 38 L310.1 37.9 L310.8 37.9 L311.5 37.8 L312.2 37.8 L312.9 37.8 L313.6 37.7 L314.3 37.7 L315.1 37.6 L315.8 37.6 L316.5 37.6 L317.2 37.5 L317.9 37.5 L318.6 37.5 L319.3 37.4 L320 37.4 L320.8 37.4 L321.5 37.3 L322.2 37.3 L322.9 37.3 L323.6 37.2 L324.3 37.2 L325 37.2 L325.7 37.1 L326.4 37.1 L327.2 37.1 L327.9 37 L328.6 37 L329.3 37 L330 37 L330.7 36.9 L331.4 36.9 L332.1 36.9 L332.9 36.8 L333.6 36.8 L334.3 36.8 L335 36.8"/>
+<path transform="translate(0,220) scale(1,-1)" class="kurve blau" d="M50 190 L50.7 190 L51.4 190 L52.1 190 L52.9 189.9 L53.6 189.9 L54.3 189.9 L55 189.9 L55.7 189.9 L56.4 189.9 L57.1 189.8 L57.8 189.8 L58.5 189.8 L59.3 189.8 L60 189.8 L60.7 189.8 L61.4 189.8 L62.1 189.7 L62.8 189.7 L63.5 189.7 L64.2 189.7 L65 189.7 L65.7 189.7 L66.4 189.6 L67.1 189.6 L67.8 189.6 L68.5 189.6 L69.2 189.6 L70 189.6 L70.7 189.5 L71.4 189.5 L72.1 189.5 L72.8 189.5 L73.5 189.5 L74.2 189.5 L74.9 189.4 L75.7 189.4 L76.4 189.4 L77.1 189.4 L77.8 189.4 L78.5 189.4 L79.2 189.3 L79.9 189.3 L80.6 189.3 L81.3 189.3 L82.1 189.3 L82.8 189.3 L83.5 189.2 L84.2 189.2 L84.9 189.2 L85.6 189.2 L86.3 189.2 L87.1 189.1 L87.8 189.1 L88.5 189.1 L89.2 189.1 L89.9 189.1 L90.6 189.1 L91.3 189 L92 189 L92.8 189 L93.5 189 L94.2 189 L94.9 188.9 L95.6 188.9 L96.3 188.9 L97 188.9 L97.7 188.8 L98.5 188.8 L99.2 188.8 L99.9 188.8 L100.6 188.8 L101.3 188.7 L102 188.7 L102.7 188.7 L103.4 188.7 L104.2 188.6 L104.9 188.6 L105.6 188.6 L106.3 188.6 L107 188.5 L107.7 188.5 L108.4 188.5 L109.1 188.5 L109.8 188.4 L110.6 188.4 L111.3 188.4 L112 188.4 L112.7 188.3 L113.4 188.3 L114.1 188.3 L114.8 188.2 L115.5 188.2 L116.3 188.2 L117 188.2 L117.7 188.1 L118.4 188.1 L119.1 188.1 L119.8 188 L120.5 188 L121.2 188 L122 187.9 L122.7 187.9 L123.4 187.9 L124.1 187.8 L124.8 187.8 L125.5 187.7 L126.2 187.7 L127 187.7 L127.7 187.6 L128.4 187.6 L129.1 187.6 L129.8 187.5 L130.5 187.5 L131.2 187.4 L131.9 187.4 L132.6 187.3 L133.4 187.3 L134.1 187.2 L134.8 187.2 L135.5 187.1 L136.2 187.1 L136.9 187 L137.6 187 L138.3 186.9 L139.1 186.9 L139.8 186.8 L140.5 186.8 L141.2 186.7 L141.9 186.6 L142.6 186.6 L143.3 186.5 L144.1 186.4 L144.8 186.4 L145.5 186.3 L146.2 186.2 L146.9 186.1 L147.6 186.1 L148.3 186 L149 185.9 L149.8 185.8 L150.5 185.7 L151.2 185.6 L151.9 185.5 L152.6 185.4 L153.3 185.3 L154 185.2 L154.7 185.1 L155.4 185 L156.2 184.9 L156.9 184.8 L157.6 184.7 L158.3 184.5 L159 184.4 L159.7 184.2 L160.4 184.1 L161.2 183.9 L161.9 183.8 L162.6 183.6 L163.3 183.4 L164 183.2 L164.7 183.1 L165.4 182.8 L166.1 182.6 L166.8 182.4 L167.6 182.2 L168.3 181.9 L169 181.6 L169.7 181.4 L170.4 181.1 L171.1 180.7 L171.8 180.4 L172.6 180 L173.3 179.6 L174 179.2 L174.7 178.8 L175.4 178.3 L176.1 177.8 L176.8 177.2 L177.5 176.6 L178.2 175.9 L179 175.2 L179.7 174.3 L180.4 173.4 L181.1 172.4 L181.8 171.3 L182.5 170.1 L183.2 168.6 L183.9 167 L184.7 165.2 L185.4 163.1 L186.1 160.6 L186.8 157.7 L187.5 154.4 L188.2 150.4 L188.9 145.7 L189.7 140.2 L190.4 133.8 L191.1 126.5 L191.8 118.4 L192.5 110 L193.2 101.6 L193.9 93.7 L194.6 86.5 L195.3 80.3 L196.1 74.9 L196.8 70.4 L197.5 66.5 L198.2 63.2 L198.9 60.5 L199.6 58.1 L200.3 56 L201.1 54.2 L201.8 52.6 L202.5 51.2 L203.2 50 L203.9 48.9 L204.6 47.9 L205.3 47 L206 46.2 L206.8 45.5 L207.5 44.8 L208.2 44.2 L208.9 43.7 L209.6 43.2 L210.3 42.7 L211 42.2 L211.7 41.8 L212.4 41.4 L213.2 41.1 L213.9 40.7 L214.6 40.4 L215.3 40.1 L216 39.8 L216.7 39.6 L217.4 39.3 L218.1 39.1 L218.9 38.9 L219.6 38.7 L220.3 38.5 L221 38.3 L221.7 38.1 L222.4 37.9 L223.1 37.7 L223.8 37.6 L224.6 37.4 L225.3 37.3 L226 37.1 L226.7 37 L227.4 36.9 L228.1 36.8 L228.8 36.6 L229.6 36.5 L230.3 36.4 L231 36.3 L231.7 36.2 L232.4 36.1 L233.1 36 L233.8 35.9 L234.5 35.8 L235.2 35.7 L236 35.6 L236.7 35.6 L237.4 35.5 L238.1 35.4 L238.8 35.3 L239.5 35.3 L240.2 35.2 L241 35.1 L241.7 35.1 L242.4 35 L243.1 34.9 L243.8 34.9 L244.5 34.8 L245.2 34.8 L245.9 34.7 L246.6 34.6 L247.4 34.6 L248.1 34.5 L248.8 34.5 L249.5 34.4 L250.2 34.4 L250.9 34.3 L251.6 34.3 L252.3 34.3 L253.1 34.2 L253.8 34.2 L254.5 34.1 L255.2 34.1 L255.9 34 L256.6 34 L257.3 34 L258 33.9 L258.8 33.9 L259.5 33.9 L260.2 33.8 L260.9 33.8 L261.6 33.8 L262.3 33.7 L263 33.7 L263.8 33.7 L264.5 33.6 L265.2 33.6 L265.9 33.6 L266.6 33.5 L267.3 33.5 L268 33.5 L268.7 33.5 L269.5 33.4 L270.2 33.4 L270.9 33.4 L271.6 33.3 L272.3 33.3 L273 33.3 L273.7 33.3 L274.4 33.2 L275.1 33.2 L275.9 33.2 L276.6 33.2 L277.3 33.2 L278 33.1 L278.7 33.1 L279.4 33.1 L280.1 33.1 L280.9 33 L281.6 33 L282.3 33 L283 33 L283.7 33 L284.4 32.9 L285.1 32.9 L285.8 32.9 L286.5 32.9 L287.3 32.9 L288 32.8 L288.7 32.8 L289.4 32.8 L290.1 32.8 L290.8 32.8 L291.5 32.8 L292.2 32.7 L293 32.7 L293.7 32.7 L294.4 32.7 L295.1 32.7 L295.8 32.7 L296.5 32.7 L297.2 32.6 L297.9 32.6 L298.7 32.6 L299.4 32.6 L300.1 32.6 L300.8 32.6 L301.5 32.5 L302.2 32.5 L302.9 32.5 L303.6 32.5 L304.4 32.5 L305.1 32.5 L305.8 32.5 L306.5 32.5 L307.2 32.4 L307.9 32.4 L308.6 32.4 L309.4 32.4 L310.1 32.4 L310.8 32.4 L311.5 32.4 L312.2 32.4 L312.9 32.3 L313.6 32.3 L314.3 32.3 L315.1 32.3 L315.8 32.3 L316.5 32.3 L317.2 32.3 L317.9 32.3 L318.6 32.3 L319.3 32.2 L320 32.2 L320.8 32.2 L321.5 32.2 L322.2 32.2 L322.9 32.2 L323.6 32.2 L324.3 32.2 L325 32.2 L325.7 32.2 L326.4 32.1 L327.2 32.1 L327.9 32.1 L328.6 32.1 L329.3 32.1 L330 32.1 L330.7 32.1 L331.4 32.1 L332.1 32.1 L332.9 32.1 L333.6 32.1 L334.3 32 L335 32"/>
+<text class="klein blau" x="196.8" y="47.8">schwach gedämpft: steiler Sprung</text>
+<text class="klein" x="55.7" y="134.4">stark gedämpft: flach</text>
+</svg>
+            <figcaption>Abb. 3: Phase $\varphi$ der Auslenkung gegenüber der
+              Anregung (nach unten wächst $|\varphi|$). Der Übergang von $0$ nach $-\pi$ geschieht in einem
+              schmalen Bereich um $\omega = \omega_0$, umso schmaler, je schwächer die
+              Dämpfung ist. Die Kurven gehören zu $Q = 2$ (schwarz), $5$ (orange) und
+              $17$ (blau).</figcaption>
+          </figure>
+
+          <h2>Amplitudenresonanz</h2>
+
+          <p>Das Maximum der Amplitude liegt nicht genau bei $\omega_0$. Es liegt dort,
+            wo der Radikand $D(\omega) = (\omega_0^2 - \omega^2)^2 + 4\gamma^2\omega^2$
+            minimal ist. Mit $u = \omega^2$ ist $\mathrm{d}D/\mathrm{d}u = -2(\omega_0^2 - u) + 4\gamma^2 = 0$, also</p>
+          $$ \omega_\text{Res} = \sqrt{\omega_0^2 - 2\gamma^2}, \qquad
+             A_\text{max} = \frac{F_0/m}{2\gamma\sqrt{\omega_0^2 - \gamma^2}} . $$
+          <p>Die Resonanzfrequenz liegt also unter der gedämpften Eigenfrequenz:
+            $\omega_\text{Res} \lt \omega_\text{d} \lt \omega_0$. Für schwache Dämpfung
+            ($\gamma \ll \omega_0$) fallen alle drei fast zusammen, und
+            $A_\text{max} \approx Q\,F_0/k$. Gilt $\gamma^2 \gt \omega_0^2/2$,
+            gibt es keinen Gipfel mehr, $A$ fällt dann von $F_0/k$ monoton
+            ab. Ohne Reibung ($\gamma \to 0$) wächst die Amplitude bei
+            $\omega = \omega_0$ über alle Grenzen (Resonanzkatastrophe).</p>
+          <p>Dasselbe Modell beschreibt ein Atom im Licht: Die Elektronenhülle
+            schwingt gegen den Kern wie an einer Feder mit der Eigenfrequenz $\omega_0$,
+            und das elektrische Feld der Lichtwelle übt eine Kraft mit der
+            Frequenz $\omega$ aus. Auch die Kernspins in der Magnetresonanztomographie
+            folgen diesem Muster.</p>
+
+          <h2>Leistung und Leistungsresonanz</h2>
+
+          <p>Die Kraft $F = F_0\cos\omega t$ verrichtet an der Masse die Leistung
+            $P = F\dot{x}$. Im stationären Zustand ist
+            $\dot{x} = (F_0/m)\,\omega\,(-c_1\sin\omega t + c_2\cos\omega t)$, und mit
+            $\sin 2\theta = 2\sin\theta\cos\theta$ folgt</p>
+          $$ P(t) = -\frac{F_0^2}{2m}\,\omega c_1 \sin 2\omega t \;+\; \frac{F_0^2}{m}\,\omega c_2 \cos^2\omega t . $$
+          <p>Der erste Term schwingt mit doppelter Frequenz um null: Das System
+            nimmt Energie auf und gibt sie wieder ab (elastischer Anteil). Der zweite Term ist wegen
+            $c_2 \ge 0$ nie negativ: Das ist die Energie, die dauerhaft aufgenommen
+            und von der Reibung verbraucht wird (Absorption). Mittelt man über eine Periode
+            $T = 2\pi/\omega$, verschwindet der elastische Anteil, und es bleibt</p>
+          $$ \langle P\rangle = \frac{F_0^2}{2m}\,\omega c_2
+             = \frac{F_0^2\,\gamma\,\omega^2}{m\left[(\omega_0^2 - \omega^2)^2 + (2\gamma\omega)^2\right]} . $$
+          <p>Ohne Reibung ($\gamma = 0$) ist $\langle P\rangle = 0$: Im stationären
+            Zustand wird keine Leistung aufgenommen. Schreibt man
+            $\langle P\rangle = \dfrac{F_0^2}{4m\gamma}\cdot\dfrac{4\gamma^2\omega^2}{D(\omega)}$,
+            sieht man das Maximum sofort: Wegen $D \ge 4\gamma^2\omega^2$ ist der Bruch
+            höchstens $1$, und er ist genau dann $1$, wenn $\omega_0^2 - \omega^2 = 0$ gilt.
+            Die <em>Leistungsresonanz</em> liegt also exakt bei $\omega = \omega_0$, mit</p>
+          $$ \langle P\rangle_\text{max} = \frac{F_0^2}{4m\gamma} . $$
+          <p>Dort ist $\varphi = -\pi/2$: Die Geschwindigkeit ist in Phase mit der
+            Kraft, die Kraft wirkt also dauernd in Bewegungsrichtung. Für schwache
+            Dämpfung fällt $\langle P\rangle$ bei $\omega \approx \omega_0 \pm \gamma$ auf die Hälfte.
+            Die Halbwertsbreite ist daher $\Delta\omega \approx 2\gamma$, also
+            $\Delta\omega/\omega_0 = 1/Q$ (Abb. 2): je größer die Güte, desto selektiver
+            reagiert das System.</p>
+          <p>Resonanz macht aus einer kleinen Kraft eine große Wirkung, aber nur
+            solange die Dämpfung die Energie begrenzt. Ist sie zu schwach
+            dimensioniert, kann die Amplitude das System zerstören (Maschinen, Gläser;
+            bei Brücken spielen meist komplexere Selbsterregungen mit). Gegenmaßnahmen sind mehr Dämpfung oder eine
+            Verschiebung der Eigenfrequenz.</p>
+
+          <div class="merkkasten">
+            <span class="titel">Merke</span>
+            <p>$\ddot{x} + 2\gamma\dot{x} + \omega_0^2 x = (F_0/m)\cos\omega t$.
+              Schwache Dämpfung: $\omega_\text{d} = \sqrt{\omega_0^2 - \gamma^2}$,
+              Abklingen mit $\mathrm{e}^{-\gamma t}$, $\delta = \gamma T$. Stationäre
+              Lösung: $A(\omega) = (F_0/m)/\sqrt{(\omega_0^2 - \omega^2)^2 + 4\gamma^2\omega^2}$,
+              Phase $\varphi$ stetig von $0$ über $-\pi/2$ (bei $\omega_0$) nach $-\pi$.
+              Amplitudenresonanz bei $\omega_\text{Res} = \sqrt{\omega_0^2 - 2\gamma^2}$,
+              Leistungsresonanz exakt bei $\omega_0$ mit
+              $\langle P\rangle_\text{max} = F_0^2/(4m\gamma)$.</p>
+          </div>
+        </section>
+
+        <section class="tab" id="beispiele" data-titel="Beispielrechnungen">
+
+          <div class="beispiel">
+            <h3>Beispiel 1: Ein gedämpftes Federpendel</h3>
+            <p><strong>Gegeben:</strong> $m = 0{,}50\,\mathrm{kg}$, $k = 20\,\mathrm{N/m}$,
+              $b = 0{,}40\,\mathrm{kg/s}$.<br>
+              <strong>Gesucht:</strong> $\gamma$, $\omega_\text{d}$, $T_\text{d}$, $\tau$, $\delta$, $Q$ und der
+              Energieanteil, der nach einer Periode übrig ist.</p>
+
+            <p><strong>1. Abklingkonstante und Frequenzen.</strong>
+              $$ \gamma = \frac{b}{2m} = 0{,}40\,\mathrm{s^{-1}}, \quad
+                 \omega_0 = \sqrt{\frac km} = 6{,}32\,\mathrm{s^{-1}}, \quad
+                 \omega_\text{d} = \sqrt{\omega_0^2 - \gamma^2} = 6{,}31\,\mathrm{s^{-1}} $$
+              Einheitencheck: $\mathrm{kg/s \big/ kg} = \mathrm{s^{-1}}$ ✓</p>
+
+            <p><strong>2. Periodendauer, Abklingzeit, Güte.</strong>
+              $$ T_\text{d} = \frac{2\pi}{\omega_\text{d}} = 0{,}995\,\mathrm{s}, \quad
+                 \tau = \frac1\gamma = 2{,}5\,\mathrm{s}, \quad
+                 \delta = \gamma T_\text{d} = 0{,}40, \quad
+                 Q = \frac{\omega_0}{2\gamma} = 7{,}9 $$</p>
+
+            <p><strong>3. Energie nach einer Periode.</strong>
+              $$ \frac{E(T_\text{d})}{E(0)} = \mathrm{e}^{-2\gamma T_\text{d}} = \mathrm{e}^{-0{,}40 \cdot 2 \cdot 0{,}995} = 0{,}45 $$</p>
+
+            <p><strong>Ergebnis und Plausibilität:</strong> Die Frequenz ändert sich
+              durch die Dämpfung kaum ($6{,}31$ statt $6{,}32\,\mathrm{s^{-1}}$). Die Amplitude
+              ist nach $2{,}5\,\mathrm{s}$ (gut zweieinhalb Perioden) auf $37\,\%$ gefallen, und
+              pro Periode gehen $55\,\%$ der Energie verloren. Das passt zur
+              mäßigen Güte $Q \approx 8$, und $\delta \approx \pi/Q = 0{,}40$ stimmt mit $\gamma T_\text{d}$ überein.</p>
+          </div>
+
+          <div class="beispiel">
+            <h3>Beispiel 2: Resonanz desselben Pendels</h3>
+            <p><strong>Gegeben:</strong> Dasselbe System wird mit
+              $F_0 = 1{,}0\,\mathrm{N}$ periodisch angetrieben.<br>
+              <strong>Gesucht:</strong> Amplituden bei $\omega = \omega_0$ und $\omega = \omega_0/2$,
+              die statische Auslenkung und die mittlere aufgenommene Leistung in Resonanz.</p>
+
+            <p><strong>1. Statische Auslenkung.</strong>
+              $$ \frac{F_0}{k} = \frac{1{,}0\,\mathrm{N}}{20\,\mathrm{N/m}} = 0{,}050\,\mathrm{m} $$</p>
+
+            <p><strong>2. In Resonanz.</strong> Mit $\omega = \omega_0 = 6{,}32\,\mathrm{s^{-1}}$:
+              $$ A = \frac{F_0/m}{2\gamma\omega_0} = \frac{2{,}0\,\mathrm{m/s^2}}{2 \cdot 0{,}40\,\mathrm{s^{-1}} \cdot 6{,}32\,\mathrm{s^{-1}}} = 0{,}395\,\mathrm{m} $$
+              Einheitencheck: $\mathrm{m\,s^{-2}/s^{-2}} = \mathrm{m}$ ✓</p>
+
+            <p><strong>3. Bei halber Eigenfrequenz.</strong> $\omega = 3{,}16\,\mathrm{s^{-1}}$:
+              $$ A = \frac{2{,}0}{\sqrt{(40 - 10)^2 + 4 \cdot 0{,}16 \cdot 10}}\,\mathrm{m} = \frac{2{,}0}{30{,}1}\,\mathrm{m} = 0{,}066\,\mathrm{m} $$</p>
+
+            <p><strong>4. Mittlere Leistung in Resonanz.</strong>
+              $$ \langle P\rangle_\text{max} = \frac{F_0^2}{4m\gamma} = \frac{(1{,}0\,\mathrm{N})^2}{4 \cdot 0{,}50\,\mathrm{kg} \cdot 0{,}40\,\mathrm{s^{-1}}} = 1{,}25\,\mathrm{W} $$
+              Einheitencheck: $\mathrm{N^2/(kg\,s^{-1})} = \mathrm{kg\,m^2\,s^{-3}} = \mathrm{W}$ ✓</p>
+
+            <p><strong>Ergebnis und Plausibilität:</strong> In Resonanz ist die
+              Amplitude $0{,}395\,\mathrm{m}$, also $7{,}9$-mal die statische
+              Auslenkung $0{,}050\,\mathrm{m}$, genau die Güte $Q$. Bei der halben
+              Frequenz ist sie nur $0{,}066\,\mathrm{m}$, wenig über der statischen
+              Auslenkung ($1{,}33$-fach, wie $1/(1 - 1/4)$ erwarten lässt). Die
+              Resonanzfrequenz $\omega_\text{Res} = \sqrt{40 - 2 \cdot 0{,}16}\,\mathrm{s^{-1}} = 6{,}30\,\mathrm{s^{-1}}$ liegt
+              kaum unter $\omega_0$. Die aufgenommene Leistung ist dort mit $1{,}25\,\mathrm{W}$ gleich
+              $F_0^2/(2b)$, was zur Reibungsleistung $\tfrac12 b\,\omega_0^2 A^2$ passt.</p>
+          </div>
+
+          <div class="beispiel">
+            <h3>Beispiel 3: Stoßdämpfer</h3>
+            <p><strong>Gegeben:</strong> Ein Viertel eines Autos ($m = 300\,\mathrm{kg}$) auf einer Feder mit
+              $k = 2{,}0 \cdot 10^4\,\mathrm{N/m}$. Der Stoßdämpfer ist auf den Dämpfungsgrad
+              $\zeta = \gamma/\omega_0 = 0{,}3$ ausgelegt.<br>
+              <strong>Gesucht:</strong> Eigenfrequenz, kritischer Reibungskoeffizient, tatsächlicher
+              Koeffizient und Restamplitude nach einer Periode.</p>
+
+            <p><strong>1. Ungedämpft.</strong>
+              $$ \omega_0 = \sqrt{\frac{2{,}0 \cdot 10^4}{300}}\,\mathrm{s^{-1}} = 8{,}16\,\mathrm{s^{-1}}, \quad f_0 = 1{,}30\,\mathrm{Hz} $$</p>
+
+            <p><strong>2. Grenzfall und gewählte Dämpfung.</strong> Der Grenzfall
+              $\gamma = \omega_0$ entspricht $b_\text{krit} = 2m\omega_0 = 2\sqrt{km}$:
+              $$ b_\text{krit} = 2\sqrt{2{,}0 \cdot 10^4 \cdot 300}\,\mathrm{kg/s} = 4900\,\mathrm{kg/s}, \qquad
+                 b = 0{,}3 \cdot b_\text{krit} = 1470\,\mathrm{kg/s} $$</p>
+
+            <p><strong>3. Restamplitude nach einer Periode.</strong>
+              $\omega_\text{d} = \omega_0\sqrt{1 - \zeta^2} = 7{,}79\,\mathrm{s^{-1}}$,
+              $T_\text{d} = 0{,}806\,\mathrm{s}$.
+              $$ \frac{x(T_\text{d})}{x(0)} = \mathrm{e}^{-\gamma T_\text{d}} = \mathrm{e}^{-2{,}45 \cdot 0{,}806} = 0{,}14 $$
+              Einheitencheck: $\mathrm{s^{-1} \cdot s}$ ist dimensionslos ✓</p>
+
+            <p><strong>Ergebnis und Plausibilität:</strong> Nach einer Periode
+              ($0{,}8\,\mathrm{s}$) sind nur noch $14\,\%$ der Amplitude übrig, das Auto federt
+              nach einer Bodenwelle einmal nach und beruhigt sich. Bei $\zeta = 0$ würde
+              es endlos weiterschwingen, bei $\zeta \ge 1$ ginge es zu zäh zurück, und
+              der Fahrkomfort leidet. Reale Fahrwerke liegen bei etwa
+              $\zeta = 0{,}2$ bis $0{,}4$.</p>
+          </div>
+        </section>
+
+        <section class="tab" id="aufgaben" data-titel="Aufgaben">
+
+          <div class="aufgabe">
+            <h3>Aufgabe 1
+              <span class="schwierigkeit" data-stufe="leicht">leicht</span>
+            </h3>
+            <p>Ein Oszillator hat $\omega_0 = 10\,\mathrm{s^{-1}}$ und
+              $\gamma = 0{,}5\,\mathrm{s^{-1}}$. Berechne $Q$, die Abklingzeit der
+              Amplitude und wie viele Perioden in dieser Zeit ablaufen.</p>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>$Q = \omega_0/(2\gamma) = 10$. Die Amplitude fällt nach
+                $\tau = 1/\gamma = 2{,}0\,\mathrm{s}$ auf $1/\mathrm{e}$. Mit
+                $\omega_\text{d} = \sqrt{100 - 0{,}25}\,\mathrm{s^{-1}} = 9{,}99\,\mathrm{s^{-1}}$ ist
+                $T_\text{d} = 0{,}629\,\mathrm{s}$, also laufen in $\tau$ etwa
+                $2{,}0/0{,}629 = 3{,}2$ Perioden ab, ungefähr $Q/\pi = 3{,}2$ ✓.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 2
+              <span class="schwierigkeit" data-stufe="leicht">leicht</span>
+            </h3>
+            <p>Ein Körper ($m = 1{,}0\,\mathrm{kg}$) hängt an einer Feder mit
+              $k = 16\,\mathrm{N/m}$. Welcher Fall (schwach gedämpft, aperiodischer
+              Grenzfall, stark gedämpft) liegt vor für $b = 2\,\mathrm{kg/s}$,
+              $b = 8\,\mathrm{kg/s}$ und $b = 12\,\mathrm{kg/s}$?</p>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>$\omega_0 = 4\,\mathrm{s^{-1}}$ und $\gamma = b/(2m)$. Für
+                $b = 2\,\mathrm{kg/s}$ ist $\gamma = 1\,\mathrm{s^{-1}} \lt \omega_0$:
+                schwach gedämpft. Für $b = 8\,\mathrm{kg/s}$ ist
+                $\gamma = 4\,\mathrm{s^{-1}} = \omega_0$: aperiodischer Grenzfall.
+                Für $b = 12\,\mathrm{kg/s}$ ist $\gamma = 6\,\mathrm{s^{-1}} \gt \omega_0$:
+                stark gedämpft.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 3
+              <span class="schwierigkeit" data-stufe="mittel">mittel</span>
+            </h3>
+            <p>Ein Oszillator mit $m = 0{,}20\,\mathrm{kg}$, $k = 50\,\mathrm{N/m}$ und
+              $\gamma = 0{,}5\,\mathrm{s^{-1}}$ wird mit $F_0 = 0{,}50\,\mathrm{N}$ bei
+              seiner Eigenfrequenz angetrieben. Wie groß ist die Amplitude? Vergleiche
+              mit der statischen Auslenkung und der Güte. Wie groß ist die mittlere aufgenommene Leistung?</p>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>$\omega_0 = \sqrt{50/0{,}20}\,\mathrm{s^{-1}} = 15{,}8\,\mathrm{s^{-1}}$. Die
+                Amplitude bei $\omega = \omega_0$ ist
+                $$ A = \frac{F_0/m}{2\gamma\omega_0} = \frac{2{,}5\,\mathrm{m/s^2}}{2 \cdot 0{,}5 \cdot 15{,}8\,\mathrm{s^{-2}}} = 0{,}158\,\mathrm{m} . $$
+                Die statische Auslenkung ist $F_0/k = 0{,}010\,\mathrm{m}$. Das Verhältnis
+                $15{,}8$ ist die Güte $Q = \omega_0/(2\gamma) = 15{,}8$ ✓. Selbst
+                eine kleine Kraft von $0{,}5\,\mathrm{N}$ erzeugt $16\,\mathrm{cm}$
+                Ausschlag.</p>
+              <p>Die mittlere Leistung in Resonanz ist
+                $\langle P\rangle = F_0^2/(4m\gamma) = (0{,}50\,\mathrm{N})^2/(4 \cdot 0{,}20\,\mathrm{kg} \cdot 0{,}5\,\mathrm{s^{-1}}) = 0{,}625\,\mathrm{W}$.
+                Zur Kontrolle: Mit $b = 2m\gamma = 0{,}20\,\mathrm{kg/s}$ ist die Reibungsleistung
+                $\tfrac12 b\,\omega_0^2 A^2 = 0{,}5 \cdot 0{,}20 \cdot 250 \cdot 0{,}158^2\,\mathrm{W} = 0{,}625\,\mathrm{W}$ ✓.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 4
+              <span class="schwierigkeit" data-stufe="mittel">mittel</span>
+            </h3>
+            <p>Ein Schwingkreis hat die Eigenfrequenz $f_0 = 1{,}0\,\mathrm{MHz}$ und die
+              Güte $Q = 100$. Wie groß ist die Bandbreite? Reicht das, um zwei
+              Sender im Abstand von $9\,\mathrm{kHz}$ zu trennen? Welche Güte wäre
+              mindestens für eine Bandbreite von $4\,\mathrm{kHz}$ nötig?</p>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>$\Delta f = f_0/Q = 10^6/100\,\mathrm{Hz} = 10\,\mathrm{kHz}$. Das ist
+                breiter als der Senderabstand von $9\,\mathrm{kHz}$, ein Kreis mit
+                $Q = 100$ trennt die beiden Sender also nicht sauber. Für
+                $\Delta f = 4\,\mathrm{kHz}$ braucht man $Q = f_0/\Delta f = 250$.
+                Höhere Güte heißt schärfere Trennung. Allerdings werden dann auch
+                Frequenzanteile des Signals abgeschnitten, deshalb setzt man in
+                der Praxis mehrere Kreise ein.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 5
+              <span class="schwierigkeit" data-stufe="schwer">schwer</span>
+            </h3>
+            <p>Ein System mit $\omega_0 = 10\,\mathrm{s^{-1}}$ und $\gamma = 1\,\mathrm{s^{-1}}$ wird
+              mit $F_0/m = 1\,\mathrm{m/s^2}$ angetrieben. Berechne Amplitude $A$ und
+              Phase $\varphi$ der stationären Schwingung ($x = A\cos(\omega t + \varphi)$) bei
+              $\omega = 5$, $10$ und $15\,\mathrm{s^{-1}}$. Bei welchem $\omega$ ist die
+              Geschwindigkeit in Phase mit der Kraft?</p>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>Mit $A = (F_0/m)/\sqrt{(\omega_0^2 - \omega^2)^2 + 4\gamma^2\omega^2}$ und
+                $\varphi = -\mathrm{atan2}(2\gamma\omega,\,\omega_0^2 - \omega^2)$:</p>
+              <p>$\omega = 5$: $A = 1/\sqrt{75^2 + 100}\,\mathrm{m} = 0{,}0132\,\mathrm{m}$,
+                $\varphi = -\arctan(10/75) = -0{,}133\,\mathrm{rad}$.<br>
+                $\omega = 10$: $A = 1/(2 \cdot 1 \cdot 10)\,\mathrm{m} = 0{,}050\,\mathrm{m}$,
+                $\varphi = -\pi/2$.<br>
+                $\omega = 15$: $A = 1/\sqrt{125^2 + 900}\,\mathrm{m} = 0{,}0078\,\mathrm{m}$,
+                $\varphi = -\pi + \arctan(30/125) = -2{,}906\,\mathrm{rad}$.</p>
+              <p>Die Geschwindigkeit $\dot{x}$ eilt der Auslenkung um $\pi/2$ voraus,
+                also ist sie in Phase mit der Kraft, wenn die Auslenkung der Kraft um
+                $\pi/2$ hinterherhinkt: bei $\varphi = -\pi/2$, also $\omega = \omega_0 = 10\,\mathrm{s^{-1}}$.
+                Dann wirkt die Kraft immer in Bewegungsrichtung, die Energiezufuhr ist am
+                größten.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 6
+              <span class="schwierigkeit" data-stufe="schwer">schwer</span>
+            </h3>
+            <p>Leite die Resonanzfrequenz $\omega_\text{Res} = \sqrt{\omega_0^2 - 2\gamma^2}$ her und
+              berechne für $\omega_0 = 10\,\mathrm{s^{-1}}$ und $\gamma = 3\,\mathrm{s^{-1}}$
+              die Größen $\omega_\text{Res}$ und $A_\text{max}$ (mit $F_0/m = 1\,\mathrm{m/s^2}$). Ab welcher
+              Dämpfung verschwindet der Gipfel? Vergleiche außerdem $\langle P\rangle/m$ bei $\omega_\text{Res}$ und bei $\omega_0$.</p>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>Die Amplitude ist maximal, wenn der Radikand
+                $D(\omega) = (\omega_0^2 - \omega^2)^2 + 4\gamma^2\omega^2$ minimal ist.
+                Mit $u = \omega^2$ ist $\mathrm{d}D/\mathrm{d}u = -2(\omega_0^2 - u) + 4\gamma^2 = 0$,
+                also $u = \omega_0^2 - 2\gamma^2$ und $\omega_\text{Res} = \sqrt{\omega_0^2 - 2\gamma^2}$ ✓.
+                Einsetzen: $D = 4\gamma^2(\omega_0^2 - \gamma^2)$.</p>
+              <p>Zahlen: $\omega_\text{Res} = \sqrt{100 - 18}\,\mathrm{s^{-1}} = 9{,}06\,\mathrm{s^{-1}}$ und
+                $$ A_\text{max} = \frac{1}{2 \cdot 3 \cdot \sqrt{91}}\,\mathrm{m} = 0{,}0175\,\mathrm{m} , $$
+                etwas mehr als $A(\omega_0) = 1/(2 \cdot 3 \cdot 10)\,\mathrm{m} = 0{,}0167\,\mathrm{m}$.
+                Der Gipfel verschwindet, wenn $\omega_0^2 - 2\gamma^2 \le 0$, also ab
+                $\gamma \ge \omega_0/\sqrt2 = 7{,}07\,\mathrm{s^{-1}}$. Dann nimmt $A$ vom
+                statischen Wert $F_0/k$ an monoton ab.</p>
+              <p>Für die Leistung gilt $\langle P\rangle/m = (F_0/m)^2\,\gamma\omega^2/D$. Bei $\omega_0$ ist das
+                $1/(4\gamma) = 0{,}0833\,\mathrm{W/kg}$, bei $\omega_\text{Res}$ mit
+                $D = 18^2 + 4 \cdot 9 \cdot 82 = 3276\,\mathrm{s^{-4}}$ nur
+                $3 \cdot 82/3276\,\mathrm{W/kg} = 0{,}0751\,\mathrm{W/kg}$. Die Leistungsaufnahme ist also
+                bei $\omega_0$ am größten, die Amplitude dagegen bei $\omega_\text{Res}$.</p>
+            </details>
+          </div>
+
+        </section>
+
+      </div></article>
+  </main>
+</body>
+</html>

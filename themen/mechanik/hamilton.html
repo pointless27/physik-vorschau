@@ -1,0 +1,933 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="robots" content="noindex">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Der Hamilton-Formalismus</title>
+  <meta name="description" content="Legendre-Transformation, kanonische Gleichungen, Phasenraum, Poisson-Klammern, kanonische Transformationen, Satz von Liouville und Hamilton-Jacobi-Theorie – verständlich erklärt und mit Herleitungen, Beispielen und Aufgaben.">
+
+  <link rel="stylesheet" href="../../css/stil.css">
+
+  <link rel="stylesheet" href="../../extern/katex/katex.min.css">
+  <script defer src="../../extern/katex/katex.min.js"></script>
+  <script defer src="../../extern/katex/contrib/auto-render.min.js" onload="starteFormeln()"></script>
+
+  <script src="../../js/daten.js"></script>
+  <script src="../../js/seite.js"></script>
+  <script src="../../js/effekte.js"></script>
+  <script src="../../js/interaktiv.js"></script>
+  <script src="../../js/modelle/hamilton.js"></script>
+  <script type="application/json" id="symbole">
+  {
+    "n": "Anzahl der Freiheitsgrade",
+    "N": "Anzahl der Teilchen",
+    "i": "Nummer der Koordinate",
+    "t": "Zeit",
+    "t_0": "Anfangszeitpunkt",
+    "q": "generalisierte Koordinate",
+    "q_i": "i-te generalisierte Koordinate",
+    "q_j": "j-te generalisierte Koordinate",
+    "q_1": "erste generalisierte Koordinate",
+    "q_n": "n-te generalisierte Koordinate",
+    "p": "generalisierter (kanonischer) Impuls",
+    "p_i": "i-ter kanonischer Impuls",
+    "p_j": "j-ter kanonischer Impuls",
+    "p_1": "erster kanonischer Impuls",
+    "p_n": "n-ter kanonischer Impuls",
+    "L": "Lagrange-Funktion",
+    "H": "Hamilton-Funktion",
+    "E": "Energie",
+    "T": "kinetische Energie",
+    "V": "potentielle Energie",
+    "V_eff": "effektives Potential",
+    "S": "Wirkung",
+    "m": "Masse",
+    "r": "Abstand vom Zentrum",
+    "φ": "Winkel",
+    "p_r": "kanonischer Impuls zu r",
+    "p_φ": "kanonischer Impuls zu φ (Drehimpuls)",
+    "r_i": "Ort des i-ten Teilchens",
+    "δ": "Variation",
+    "f": "Ausgangsfunktion der Legendre-Transformation (bzw. Phasenraumfunktion)",
+    "g": "Legendre-Transformierte (bzw. Phasenraumfunktion)",
+    "h": "beliebige Phasenraumfunktion",
+    "x": "unabhängige Variable",
+    "y": "zweite Variable",
+    "u": "neue Variable u = ∂f/∂x",
+    "v": "neue Variable v = ∂f/∂y",
+    "x_0": "Stelle, an der die Steigung u erreicht wird",
+    "φ_0": "Anfangsphase",
+    "ϱ": "Dichte der Zustände im Phasenraum",
+    "δ_ij": "Kronecker-Delta (1 für i = j, sonst 0)",
+    "Q": "neue Koordinate",
+    "P": "neuer Impuls",
+    "Q_i": "i-te neue Koordinate",
+    "P_i": "i-ter neuer Impuls",
+    "Q_j": "j-te neue Koordinate",
+    "P_j": "j-ter neuer Impuls",
+    "Q_0": "Anfangswert der neuen Koordinate",
+    "K": "Hamilton-Funktion in den neuen Variablen",
+    "F": "erzeugende Funktion",
+    "F_1": "erzeugende Funktion vom Typ 1",
+    "F_2": "erzeugende Funktion vom Typ 2",
+    "c": "Konstante (Streckfaktor)",
+    "ω": "Kreisfrequenz",
+    "π": "Kreiszahl π ≈ 3,14159",
+    "T_ik": "Element der Jacobi-Matrix",
+    "x_k": "alte Phasenraumvariable",
+    "y_i": "neue Phasenraumvariable",
+    "W": "charakteristische Funktion (zeitunabhängiger Teil von S)",
+    "W_i": "Anteil der charakteristischen Funktion zu q_i",
+    "H_i": "Anteil der Hamilton-Funktion zu q_i",
+    "α": "Konstanten der Bewegung (neue Impulse)",
+    "α_i": "i-te Konstante der Bewegung",
+    "β": "Konstanten der Bewegung (neue Koordinaten)",
+    "β_i": "i-te Konstante (neue Koordinate)",
+    "I_i": "i-te Erhaltungsgröße",
+    "I_j": "j-te Erhaltungsgröße",
+    "ψ": "quantenmechanische Wellenfunktion",
+    "A_ij": "Element der Jacobi-Matrix am Fixpunkt",
+    "f_i": "i-te Komponente des Vektorfelds",
+    "x_j": "j-te Phasenraumkoordinate",
+    "v_k": "k-ter Eigenvektor",
+    "λ_k": "k-ter Eigenwert",
+    "λ_1,2": "Eigenwerte der Jacobi-Matrix",
+    "τ": "Spur der Jacobi-Matrix",
+    "A": "Amplitude",
+    "k": "Federkonstante",
+    "p_max": "größter Impuls",
+    "z": "Höhe (z-Achse nach oben)",
+    "e": "elektrische Ladung",
+    "ϕ": "elektrisches Potential",
+    "G": "Gravitationskonstante",
+    "M": "Masse des Zentralkörpers",
+    "M_⊙": "Sonnenmasse",
+    "r_0": "Radius der Kreisbahn",
+    "λ": "Streckfaktor",
+    "θ": "Integrationsvariable",
+    "T_0": "Schwingungsdauer bei kleiner Auslenkung",
+    "ω_0": "Kreisfrequenz bei kleiner Auslenkung"
+  }
+  </script>
+</head>
+<body data-thema="hamilton">
+  <main>
+    <article class="thema">
+      <header>
+        <h1>Der Hamilton-Formalismus</h1>
+        <p class="untertitel">Ort und Impuls als gleichberechtigte Partner: Die Mechanik
+          wird zu einer Strömung durch den Phasenraum – und damit zum Fundament von
+          Quantenmechanik, Statistischer Physik und Chaosforschung.</p>
+      </header>
+
+      <div class="tabs">
+
+        <section class="tab" id="verstehen" data-titel="Verstehen">
+
+          <p>Ein Foto von einer Schaukel verrät dir, wo sie gerade ist – aber nicht,
+            wohin sie als Nächstes schwingt. Hängt sie ganz außen, ist sie im
+            Umkehrpunkt und fällt gleich zurück. Hängt sie in der Mitte, kann sie
+            in voller Fahrt sein oder ruhig stillstehen. Um die Zukunft
+            vorherzusagen, brauchst du zwei Angaben: <em>wo</em> etwas ist und
+            <em>wie viel Schwung</em> es hat.</p>
+
+          <h2>Der Phasenraum: eine Landkarte aller Zustände</h2>
+
+          <p>William Rowan Hamilton schrieb 1834 die Mechanik so auf, dass Ort und
+            Impuls gleichberechtigt nebeneinanderstehen. Daraus entstand später eine
+            geniale Idee: Man trägt beide Angaben in ein Diagramm ein. Nach rechts die Lage (bei der Schaukel
+            der Winkel), nach oben der Schwung (genauer: der Impuls). Jeder Punkt in
+            diesem Diagramm ist ein vollständiger Zustand. Physiker nennen es den
+            <em>Phasenraum</em>.</p>
+
+          <p>Schwingt die Schaukel, wandert ihr Punkt im Phasenraum auf einer
+            geschlossenen Runde: Außen ist sie langsam, in der Mitte schnell, und
+            wenn sie zurückschwingt, wird der Impuls negativ. Eine kleine Schwingung
+            ist eine kleine Runde, eine große Schwingung eine große. Und wenn du so
+            kräftig anschubst, dass sich die Schaukel überschlägt, wird aus der Runde
+            eine Welle, die nie wieder umkehrt.</p>
+
+          <figure class="interaktiv" data-modell="phasenraum">
+            <span class="titel">Zum Ausprobieren</span>
+            <figcaption>Links ein Pendel (Länge 1 m, Masse 1 kg), rechts sein
+              Phasenraum. Die grauen Linien sind Linien gleicher Energie, die
+              orangefarbene Linie, die Separatrix, trennt Schwingen von Überschlagen.
+              Wähle Startwinkel und Anschubser, dann „Pendeln lassen“: Der Punkt
+              folgt seiner Energielinie. Probier aus, wie stark du bei 0° anschubsen
+              musst, damit sich das Pendel überschlägt.</figcaption>
+          </figure>
+
+          <h2>Energie als Höhenlinien</h2>
+
+          <p>Die Linien im Phasenraum erinnern an die Höhenlinien einer Wanderkarte –
+            und genau das sind sie. Hamilton beschreibt ein System durch eine einzige
+            Funktion, die in den meisten Fällen einfach die Gesamtenergie ist. Zwei
+            kurze Regeln sagen dann, wie der Zustand weiterwandert: immer entlang
+            der Höhenlinien, nie quer. Deshalb bleibt die Energie erhalten. Und weil
+            die Regeln von jedem Punkt aus genau einen Weg vorgeben, können sich zwei
+            Bahnen im Phasenraum niemals kreuzen.</p>
+
+          <div class="alltag">
+            <span class="titel">Aus dem Alltag</span>
+            <p>Denk an einen Wanderer, der sich vorgenommen hat, nie bergauf oder
+              bergab zu gehen. Er läuft immer genau auf einer Höhenlinie um den Berg
+              herum. Wo er startet, entscheidet, welche Runde er dreht – aber jede
+              Runde liegt fest. So bewegt sich ein Pendel durch seinen Phasenraum.</p>
+          </div>
+
+          <h2>Eine Wolke, die nicht schrumpft</h2>
+
+          <p>Jetzt wird es überraschend. Nimm nicht ein Pendel, sondern viele, die
+            alle fast gleich starten – eine kleine Wolke von Punkten im Phasenraum.
+            Mit der Zeit verformt sich die Wolke: Pendel mit großem Ausschlag
+            brauchen etwas länger für eine Runde, sie bleiben zurück, und die Wolke
+            wird zu einem langen, dünnen Band verzogen. Aber ihre <em>Fläche</em>
+            bleibt immer genau gleich. Die Punkte fließen wie Wasser, das man nicht
+            zusammendrücken kann. Das ist der <em>Satz von Liouville</em>.</p>
+
+          <figure class="interaktiv" data-modell="liouville">
+            <span class="titel">Zum Ausprobieren</span>
+            <figcaption>Eine Wolke aus vielen Pendeln mit leicht verschiedenen
+              Startzuständen (gestrichelt: am Anfang). Lass sie laufen und vergleiche
+              die Fläche am Anfang und jetzt. Schalte auf „Harmonischer Oszillator“
+              um: Dort brauchen alle gleich lang für eine Runde, und die Wolke dreht
+              sich, ohne sich zu verformen.</figcaption>
+          </figure>
+
+          <p>Dieser Satz hat praktische Folgen. In Teilchenbeschleunigern will man
+            einen Strahl möglichst dünn bündeln. Quetscht man ihn mit Magneten auf
+            engeren Raum, werden die Impulse der Teilchen unterschiedlicher – die
+            Fläche im Phasenraum lässt sich nicht einfach verkleinern. Und die
+            Fläche hat die Einheit Joule mal Sekunde, wie das Plancksche
+            Wirkungsquantum. Das ist kein Zufall: In der Quantenmechanik kann man
+            sich den Phasenraum grob in winzige Zellen dieser Größe eingeteilt
+            denken.</p>
+
+          <div class="merkkasten">
+            <span class="titel">Das Wichtigste in Kürze</span>
+            <ul>
+              <li>Ein Zustand besteht aus Lage und Impuls – zusammen ein Punkt im
+                Phasenraum.</li>
+              <li>Die Bewegung folgt den Linien gleicher Energie; Bahnen im
+                Phasenraum kreuzen sich nie.</li>
+              <li>Eine Wolke von Zuständen kann sich verformen, aber ihre Fläche
+                bleibt erhalten (Satz von Liouville).</li>
+              <li>Diese Sicht ist die Brücke zur Quantenmechanik, zur Statistischen
+                Physik und zur Chaosforschung.</li>
+            </ul>
+          </div>
+        </section>
+
+        <section class="tab" id="vertiefung" data-titel="Vertiefung">
+
+          <p>Der <a href="lagrange.html">Lagrange-Formalismus</a> beschreibt ein
+            System mit $n$ Freiheitsgraden durch $n$ Differentialgleichungen zweiter
+            Ordnung für die $q_i(t)$. Der Hamilton-Formalismus ersetzt sie durch
+            $2n$ Gleichungen erster Ordnung für die $q_i$ und die konjugierten
+            Impulse $p_i = \partial L/\partial\dot{q}_i$, die nun als unabhängige
+            Variablen gelten.</p>
+
+          <div class="tabelle-huelle">
+            <table>
+              <thead><tr><th></th><th>Newton</th><th>Lagrange</th><th>Hamilton</th></tr></thead>
+              <tbody>
+                <tr><td>Variablen</td><td>$\vec{r}_i$ (kartesisch)</td><td>$q_i$, $\dot{q}_i$</td><td>$q_i$, $p_i$</td></tr>
+                <tr><td>Gleichungen</td><td>$3N$, 2. Ordnung</td><td>$n$, 2. Ordnung</td><td>$2n$, 1. Ordnung</td></tr>
+                <tr><td>Stärken</td><td>anschaulich, alle Kräfte</td><td>Zwangskräfte entfallen, jedes Koordinatensystem</td><td>Phasenraum, Erhaltungsgrößen, Brücke zu QM und Statistik</td></tr>
+                <tr><td>Schwächen</td><td>Zwangs- und Scheinkräfte nötig</td><td>Lösung oft unanschaulich</td><td>Aufstellen umständlicher (erst $L$ nötig)</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h2 id="legendre">Die Legendre-Transformation</h2>
+
+          <p>Der Wechsel der Variablen von $\dot{q}$ zu $p = \partial L/\partial\dot{q}$
+            ist eine <em>Legendre-Transformation</em>. Die Idee: Eine Funktion $f(x)$
+            mit $f'' \ne 0$ (streng konvex oder konkav) ist auch durch die Schar
+            ihrer Tangenten festgelegt. Jede Tangente ist durch ihre Steigung
+            $u = f'(x)$ und ihren Achsenabschnitt bestimmt (Abb. 1).</p>
+
+          <figure class="abbildung">
+            <svg class="abb" viewBox="0 0 360 240" role="img"
+                 aria-label="Konvexe Kurve f von x mit zwei Tangenten; der Achsenabschnitt der Tangente mit Steigung u ist g von u">
+              <path class="achse" d="M30 196H345M40 236V8"/>
+              <text x="342" y="214" text-anchor="end">x</text>
+              <path class="hilfslinie" d="M40 172.2L272 73.6"/>
+              <path class="kurve blau duenn" d="M40 223.2L272 26"/>
+              <polyline class="kurve" points="40.0,155.2 48.0,155.0 56.0,154.5 64.0,153.7 72.0,152.5 80.0,150.9 88.0,149.1 96.0,146.9 104.0,144.3 112.0,141.4 120.0,138.2 128.0,134.6 136.0,130.7 144.0,126.5 152.0,121.9 160.0,116.9 168.0,111.7 176.0,106.1 184.0,100.1 192.0,93.8 200.0,87.2 208.0,80.2 216.0,72.9 224.0,65.3 232.0,57.3 240.0,48.9 248.0,40.3 256.0,31.3 264.0,21.9"/>
+              <path class="hilfslinie" d="M200 87.2V196"/>
+              <circle class="punkt" cx="200" cy="87.2" r="4"/>
+              <circle class="punkt kupfer" cx="40" cy="223.2" r="4"/>
+              <text x="200" y="212" text-anchor="middle">x₀</text>
+              <text x="246" y="62">f(x)</text>
+              <text class="blau" x="214" y="122" font-size="12">Steigung u</text>
+              <text class="kupfer" x="50" y="230" font-size="12">Achsenabschnitt g(u)</text>
+            </svg>
+            <figcaption>Abb. 1: Die Funktion $f(x) = \tfrac{1}{2}x^2 + 1{,}2$ und ihre
+              Tangente im Punkt $x_0 = 2$ (Steigung $u = f'(x_0) = 2$). Die Tangente
+              schneidet die senkrechte Achse bei $g(u) = f(x_0) - u x_0 = -0{,}8$.
+              Kennt man $g$ für alle Steigungen $u$, kennt man alle Tangenten und
+              damit $f$. Gestrichelt: die Tangente bei $x = 1$.</figcaption>
+          </figure>
+
+          <p>Formal: Für $f(x, y)$ mit $\mathrm{d}f = u\,\mathrm{d}x + v\,\mathrm{d}y$
+            und $u = \partial f/\partial x$ setzt man $g = f - ux$. Dann ist</p>
+
+          $$ \mathrm{d}g = \mathrm{d}f - u\,\mathrm{d}x - x\,\mathrm{d}u = v\,\mathrm{d}y - x\,\mathrm{d}u, \qquad \frac{\partial g}{\partial u} = -x, \quad \frac{\partial g}{\partial y} = v , $$
+
+          <p>und $g$ hängt natürlicherweise von $u$ und $y$ ab. Dieselbe Technik
+            verbindet in der Thermodynamik innere Energie, Enthalpie, freie Energie
+            und freie Enthalpie.</p>
+
+          <h2 id="kanonische-gleichungen">Hamilton-Funktion und kanonische Gleichungen</h2>
+
+          <p>Die Legendre-Transformation von $L$ bezüglich aller $\dot{q}_i$ ist –
+            bis auf das Vorzeichen – die <em>Hamilton-Funktion</em></p>
+
+          $$ H(q, p, t) = \sum_{i=1}^n p_i\,\dot{q}_i(q, p, t) - L\big(q, \dot{q}(q, p, t), t\big) . $$
+
+          <p>Dazu muss man $p_i = \partial L/\partial\dot{q}_i$ nach den $\dot{q}_i$
+            auflösen können, was
+            $\det\left( \partial^2 L/\partial\dot{q}_i\partial\dot{q}_j \right) \ne 0$
+            voraussetzt. Das totale Differential ist, mit
+            $\partial L/\partial q_i = \dot{p}_i$ (Lagrange-Gleichung) und weil sich
+            die Terme mit $\mathrm{d}\dot{q}_i$ wegheben,</p>
+
+          $$ \mathrm{d}H = \sum_i \left( \dot{q}_i\,\mathrm{d}p_i - \dot{p}_i\,\mathrm{d}q_i \right) - \frac{\partial L}{\partial t}\,\mathrm{d}t . $$
+
+          <p>Vergleich mit
+            $\mathrm{d}H = \sum_i \left( \frac{\partial H}{\partial q_i}\mathrm{d}q_i + \frac{\partial H}{\partial p_i}\mathrm{d}p_i \right) + \frac{\partial H}{\partial t}\mathrm{d}t$
+            ergibt die</p>
+
+          <div class="merkkasten">
+            <span class="titel">Hamiltonschen (kanonischen) Gleichungen</span>
+            $$ \dot{q}_i = \frac{\partial H}{\partial p_i}, \qquad \dot{p}_i = -\frac{\partial H}{\partial q_i}, \qquad \frac{\partial H}{\partial t} = -\frac{\partial L}{\partial t}, \qquad i = 1, \dots, n . $$
+            <p>$q_i$ und $p_i$ heißen <em>kanonisch konjugierte</em> Variablen. Bei
+              skleronomen Zwangsbedingungen und einem Potential $V(q)$ ist
+              $H = T + V = E$ (siehe
+              <a href="noether.html#hamilton-funktion">Symmetrien und
+              Erhaltungssätze</a>), und es gilt
+              $\mathrm{d}H/\mathrm{d}t = \partial H/\partial t$.</p>
+          </div>
+
+          <p><strong>Beispiel: Zentralpotential.</strong> Für ein Teilchen in der
+            Ebene mit $L = \tfrac{1}{2} m(\dot{r}^2 + r^2\dot{\varphi}^2) - V(r)$ ist
+            $p_r = m\dot{r}$, $p_\varphi = m r^2\dot{\varphi}$ und</p>
+
+          $$ H = \frac{p_r^2}{2m} + \frac{p_\varphi^2}{2 m r^2} + V(r), \qquad \dot{p}_\varphi = -\frac{\partial H}{\partial\varphi} = 0, \qquad \dot{p}_r = \frac{p_\varphi^2}{m r^3} - V'(r) . $$
+
+          <p>Der Winkel ist zyklisch, $p_\varphi$ ist eine Konstante, und die
+            Radialbewegung ist ein eindimensionales Problem im <em>effektiven
+            Potential</em> $V_\text{eff}(r) = V(r) + p_\varphi^2/(2mr^2)$. Im
+            Hamilton-Formalismus fällt eine zyklische Koordinate samt ihrem Impuls
+            vollständig aus der Rechnung heraus – ein Grund, warum man nach
+            Koordinaten mit möglichst vielen zyklischen Variablen sucht. (In der
+            Vorlesung wird dasselbe am Teilchen im Kreiskegel vorgeführt.)</p>
+
+          <p><strong>Herleitung aus dem Hamiltonschen Prinzip.</strong> Schreibt man
+            die Wirkung als $S = \int_{t_1}^{t_2} \left( \sum_i p_i\dot{q}_i - H \right) \mathrm{d}t$
+            und variiert $q$ und $p$ unabhängig (mit festen Endwerten), so ergibt
+            sich nach partieller Integration von $\int p_i\,\delta\dot{q}_i\,\mathrm{d}t$</p>
+
+          $$ \delta S = \int_{t_1}^{t_2} \sum_i \left[ \left( \dot{q}_i - \frac{\partial H}{\partial p_i} \right) \delta p_i - \left( \dot{p}_i + \frac{\partial H}{\partial q_i} \right) \delta q_i \right] \mathrm{d}t = 0 . $$
+
+          <p>Da $\delta q_i$ und $\delta p_i$ unabhängig sind, verschwinden beide
+            Klammern – das sind die kanonischen Gleichungen.</p>
+
+          <h2 id="phasenraum">Der Phasenraum</h2>
+
+          <p>Die $2n$ Variablen $(q, p)$ spannen den <em>Phasenraum</em> auf. Weil die
+            kanonischen Gleichungen von erster Ordnung sind, legt ein einziger Punkt
+            $(q(t_0), p(t_0))$ die ganze Bahn fest, und jedem Punkt ist ein
+            Geschwindigkeitsvektor $(\dot{q}, \dot{p})$ zugeordnet. Für ein nicht
+            explizit zeitabhängiges $H$ können sich zwei Phasenraumbahnen deshalb
+            nicht schneiden (für zeitabhängiges $H$ nimmt man $t$ als zusätzliche
+            Koordinate hinzu). Bei einem Freiheitsgrad und erhaltenem $H$ sind die
+            Bahnen gerade die Höhenlinien $H(q, p) = E$.</p>
+
+          <p><strong>Phasenporträt des Pendels.</strong> Mit dem Winkel $\varphi$ ab der
+            Ruhelage und $p_\varphi = m\ell^2\dot{\varphi}$ ist
+            $H = p_\varphi^2/(2m\ell^2) - m g\ell\cos\varphi$. Bei maximaler
+            Auslenkung $\varphi_0$ gilt</p>
+
+          $$ p_\varphi(\varphi) = \pm\, m\ell\sqrt{2 g\ell\,(\cos\varphi - \cos\varphi_0)} . $$
+
+          <figure class="abbildung">
+            <svg class="abb" viewBox="0 0 360 228" role="img"
+                 aria-label="Phasenporträt des Pendels: geschlossene Kurven um den Ursprung, Separatrix durch die Punkte bei plus und minus 180 Grad, wellige Kurven darüber und darunter">
+              <path class="gitter" d="M115 15V205M265 15V205M40 67.8H340M40 152.2H340"/>
+              <path class="achse" d="M40 110H340M40 15V205"/>
+              <polyline class="kurve duenn" points="40.0,50.9 47.5,50.6 55.0,50.0 62.5,48.9 70.0,47.4 77.5,45.7 85.0,43.7 92.5,41.5 100.0,39.2 107.5,36.9 115.0,34.6 122.5,32.4 130.0,30.3 137.5,28.3 145.0,26.5 152.5,25.0 160.0,23.7 167.5,22.6 175.0,21.9 182.5,21.4 190.0,21.3 197.5,21.4 205.0,21.9 212.5,22.6 220.0,23.7 227.5,25.0 235.0,26.5 242.5,28.3 250.0,30.3 257.5,32.4 265.0,34.6 272.5,36.9 280.0,39.2 287.5,41.5 295.0,43.7 302.5,45.7 310.0,47.4 317.5,48.9 325.0,50.0 332.5,50.6 340.0,50.9"/>
+              <polyline class="kurve duenn" points="40.0,169.1 47.5,169.4 55.0,170.0 62.5,171.1 70.0,172.6 77.5,174.3 85.0,176.3 92.5,178.5 100.0,180.8 107.5,183.1 115.0,185.4 122.5,187.6 130.0,189.7 137.5,191.7 145.0,193.5 152.5,195.0 160.0,196.3 167.5,197.4 175.0,198.1 182.5,198.6 190.0,198.7 197.5,198.6 205.0,198.1 212.5,197.4 220.0,196.3 227.5,195.0 235.0,193.5 242.5,191.7 250.0,189.7 257.5,187.6 265.0,185.4 272.5,183.1 280.0,180.8 287.5,178.5 295.0,176.3 302.5,174.3 310.0,172.6 317.5,171.1 325.0,170.0 332.5,169.4 340.0,169.1"/>
+              <polyline class="kurve kupfer" points="40.0,110.0 47.5,104.8 55.0,99.7 62.5,94.6 70.0,89.6 77.5,84.7 85.0,80.0 92.5,75.5 100.0,71.1 107.5,67.1 115.0,63.2 122.5,59.7 130.0,56.5 137.5,53.6 145.0,51.1 152.5,48.9 160.0,47.1 167.5,45.7 175.0,44.7 182.5,44.1 190.0,43.9 197.5,44.1 205.0,44.7 212.5,45.7 220.0,47.1 227.5,48.9 235.0,51.1 242.5,53.6 250.0,56.5 257.5,59.7 265.0,63.2 272.5,67.1 280.0,71.1 287.5,75.5 295.0,80.0 302.5,84.7 310.0,89.6 317.5,94.6 325.0,99.7 332.5,104.8 340.0,110.0"/>
+              <polyline class="kurve kupfer" points="40.0,110.0 47.5,115.2 55.0,120.3 62.5,125.4 70.0,130.4 77.5,135.3 85.0,140.0 92.5,144.5 100.0,148.9 107.5,152.9 115.0,156.8 122.5,160.3 130.0,163.5 137.5,166.4 145.0,168.9 152.5,171.1 160.0,172.9 167.5,174.3 175.0,175.3 182.5,175.9 190.0,176.1 197.5,175.9 205.0,175.3 212.5,174.3 220.0,172.9 227.5,171.1 235.0,168.9 242.5,166.4 250.0,163.5 257.5,160.3 265.0,156.8 272.5,152.9 280.0,148.9 287.5,144.5 295.0,140.0 302.5,135.3 310.0,130.4 317.5,125.4 325.0,120.3 332.5,115.2 340.0,110.0"/>
+              <polyline class="kurve blau duenn" points="250.5,110.0 250.1,106.2 249.1,102.4 247.5,98.7 245.2,95.0 242.4,91.5 238.9,88.1 234.9,84.9 230.5,81.9 225.5,79.1 220.2,76.7 214.6,74.7 208.7,73.1 202.6,71.9 196.3,71.1 190.0,70.9 183.7,71.1 177.4,71.9 171.3,73.1 165.4,74.7 159.8,76.7 154.5,79.1 149.5,81.9 145.1,84.9 141.1,88.1 137.6,91.5 134.8,95.0 132.5,98.7 130.9,102.4 129.9,106.2 129.5,110.0 129.9,113.8 130.9,117.6 132.5,121.3 134.8,125.0 137.6,128.5 141.1,131.9 145.1,135.1 149.5,138.1 154.5,140.9 159.8,143.3 165.4,145.3 171.3,146.9 177.4,148.1 183.7,148.9 190.0,149.1 196.3,148.9 202.6,148.1 208.7,146.9 214.6,145.3 220.2,143.3 225.5,140.9 230.5,138.1 234.9,135.1 238.9,131.9 242.4,128.5 245.2,125.0 247.5,121.3 249.1,117.6 250.1,113.8 250.5,110.0"/>
+              <polyline class="kurve blau duenn" points="224.5,110.0 224.3,107.6 223.8,105.2 222.8,102.9 221.5,100.7 219.9,98.5 217.9,96.5 215.6,94.5 213.1,92.8 210.3,91.2 207.3,89.9 204.0,88.7 200.7,87.8 197.2,87.2 193.6,86.8 190.0,86.6 186.4,86.8 182.8,87.2 179.3,87.8 176.0,88.7 172.7,89.9 169.7,91.2 166.9,92.8 164.4,94.5 162.1,96.5 160.1,98.5 158.5,100.7 157.2,102.9 156.2,105.2 155.7,107.6 155.5,110.0 155.7,112.4 156.2,114.8 157.2,117.1 158.5,119.3 160.1,121.5 162.1,123.5 164.4,125.5 166.9,127.2 169.7,128.8 172.7,130.1 176.0,131.3 179.3,132.2 182.8,132.8 186.4,133.2 190.0,133.4 193.6,133.2 197.2,132.8 200.7,132.2 204.0,131.3 207.3,130.1 210.3,128.8 213.1,127.2 215.6,125.5 217.9,123.5 219.9,121.5 221.5,119.3 222.8,117.1 223.8,114.8 224.3,112.4 224.5,110.0"/>
+              <polygon class="punkt blau" points="196,70.9 188,66.9 188,74.9"/>
+              <polygon class="punkt blau" points="184,149.1 192,145.1 192,153.1"/>
+              <polygon class="punkt" points="196,21.3 188,17.3 188,25.3"/>
+              <polygon class="punkt" points="184,198.7 192,194.7 192,202.7"/>
+              <circle class="punkt" cx="190" cy="110" r="3.5"/>
+              <circle class="ball" cx="40" cy="110" r="4.5"/>
+              <circle class="ball" cx="340" cy="110" r="4.5"/>
+              <text x="40" y="223" font-size="11" text-anchor="start">−180°</text>
+              <text x="190" y="223" font-size="11" text-anchor="middle">0°</text>
+              <text x="340" y="223" font-size="11" text-anchor="end">180°</text>
+              <text x="48" y="27" font-size="11">p</text>
+              <text x="334" y="104" font-size="11" text-anchor="end">φ</text>
+              <text class="kupfer halo" x="262" y="58" font-size="11">Separatrix</text>
+              <text class="blau" x="190" y="102" font-size="11" text-anchor="middle">Schwingen</text>
+              <text x="250" y="17" font-size="11">Überschlagen</text>
+            </svg>
+            <figcaption>Abb. 2: Phasenporträt des Pendels, berechnet aus
+              $H = \text{konst.}$ Innen (blau) Schwingungen um den
+              <em>elliptischen Fixpunkt</em> $\varphi = 0$, $p_\varphi = 0$ (Ruhelage
+              unten). Außen (schwarz) Überschläge, bei denen $\varphi$ ständig
+              wächst oder fällt. Dazwischen die Separatrix (kupfer) mit
+              $\dot{\varphi}(0) = 2\sqrt{g/\ell}$; sie läuft in unendlich langer Zeit
+              in die <em>hyperbolischen Fixpunkte</em> bei $\varphi = \pm 180°$
+              (Kreise, Pendel steht kopfüber still). Die Pfeile zeigen die
+              Laufrichtung: oben ($p \gt 0$) nach rechts.</figcaption>
+          </figure>
+
+          <h2 id="poisson-klammern">Poisson-Klammern</h2>
+
+          <p>Für zwei Funktionen $f(q, p, t)$ und $g(q, p, t)$ auf dem Phasenraum
+            definiert man die <em>Poisson-Klammer</em></p>
+
+          $$ [f, g] = \sum_{i=1}^n \left( \frac{\partial f}{\partial q_i}\frac{\partial g}{\partial p_i} - \frac{\partial f}{\partial p_i}\frac{\partial g}{\partial q_i} \right) $$
+
+          <p>(in vielen Büchern $\{f, g\}$ geschrieben, manchmal mit umgekehrtem
+            Vorzeichen). Mit den kanonischen Gleichungen gilt für jede Observable</p>
+
+          $$ \frac{\mathrm{d}f}{\mathrm{d}t} = [f, H] + \frac{\partial f}{\partial t}, \qquad \text{insbesondere} \quad \dot{q}_i = [q_i, H], \quad \dot{p}_i = [p_i, H] . $$
+
+          <p>Die Hamilton-Funktion „erzeugt“ also die Zeitentwicklung, und eine nicht
+            explizit zeitabhängige Größe ist genau dann erhalten, wenn
+            $[f, H] = 0$ (mehr dazu bei
+            <a href="noether.html#poisson">Symmetrien und Erhaltungssätze</a>).
+            Wichtige Eigenschaften:</p>
+
+          <ul>
+            <li>fundamentale Klammern: $[q_i, q_j] = [p_i, p_j] = 0$,
+              $[q_i, p_j] = \delta_{ij}$;</li>
+            <li>Antisymmetrie $[f, g] = -[g, f]$ und Linearität;</li>
+            <li>Produktregel $[fg, h] = f\,[g, h] + [f, h]\,g$;</li>
+            <li>Jacobi-Identität $[f, [g, h]] + [g, [h, f]] + [h, [f, g]] = 0$.</li>
+          </ul>
+
+          <p>In der kanonischen Quantisierung werden aus Observablen Operatoren und
+            aus Poisson-Klammern Kommutatoren: $[q, p] = 1$ wird zu
+            $[\hat{q}, \hat{p}] = \mathrm{i}\hbar$.</p>
+
+          <h2 id="kanonische-transformationen">Kanonische Transformationen</h2>
+
+          <p>Die Lagrange-Gleichungen behalten unter Punkttransformationen
+            $Q_i = Q_i(q, t)$ ihre Form. Im Hamilton-Formalismus darf man viel
+            allgemeiner Koordinaten und Impulse mischen,
+            $Q_i = Q_i(q, p, t)$, $P_i = P_i(q, p, t)$. Eine solche (umkehrbare)
+            Transformation heißt <em>kanonisch</em>, wenn es für <em>jedes</em> $H$
+            eine neue Funktion $K(Q, P, t)$ gibt, mit der die kanonischen Gleichungen
+            in der alten Form gelten. (Gilt das nur für bestimmte $H$, heißt sie
+            <em>kanonoid</em>.)</p>
+
+          <p>Weil die kanonischen Gleichungen aus dem Hamiltonschen Prinzip folgen,
+            genügt es, dass beide Integranden sich nur um eine totale
+            Zeitableitung unterscheiden:</p>
+
+          $$ \sum_i p_i\dot{q}_i - H = \sum_i P_i\dot{Q}_i - K + \frac{\mathrm{d}F}{\mathrm{d}t} . $$
+
+          <p>(Ein konstanter Faktor $c \ne 1$ vor der rechten Klammer ergibt eine
+            <em>erweitert kanonische</em> Transformation, die sich durch Umskalieren
+            auf $c = 1$ zurückführen lässt.) Die Funktion $F$ heißt
+            <em>Erzeugende</em>; je nachdem, welche Variablen unabhängig sind,
+            unterscheidet man vier Grundtypen. Die beiden wichtigsten:</p>
+
+          <div class="tabelle-huelle">
+            <table>
+              <thead><tr><th>Erzeugende</th><th>alte Impulse</th><th>neue Variablen</th><th>neue Hamilton-Funktion</th></tr></thead>
+              <tbody>
+                <tr><td>$F_1(q, Q, t)$</td><td>$p_i = \partial F_1/\partial q_i$</td><td>$P_i = -\partial F_1/\partial Q_i$</td><td>$K = H + \partial F_1/\partial t$</td></tr>
+                <tr><td>$F_2(q, P, t)$</td><td>$p_i = \partial F_2/\partial q_i$</td><td>$Q_i = \partial F_2/\partial P_i$</td><td>$K = H + \partial F_2/\partial t$</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <p>Für $F_2$ folgt das so: Mit $F_2 = \hat{F}_2(q, P, t) + \sum_j P_j Q_j$
+            und Koeffizientenvergleich bei $\dot{q}_i$ und $\dot{P}_i$ in der Bedingung
+            oben ergeben sich genau die Zeilen der Tabelle. $F_2 = \sum_i q_i P_i$
+            liefert die identische Transformation.</p>
+
+          <p><strong>Kriterien.</strong> Fasst man $\vec{x} = (q_1, \dots, q_n, p_1, \dots, p_n)$
+            zusammen, lauten die kanonischen Gleichungen
+            $\dot{\vec{x}} = \mathbb{J}\,\partial H/\partial\vec{x}$ mit
+            $\mathbb{J} = \begin{pmatrix} 0 & \mathbb{1} \\ -\mathbb{1} & 0 \end{pmatrix}$.
+            Eine zeitunabhängige Transformation $\vec{y}(\vec{x})$ mit Jacobi-Matrix
+            $\mathbb{T}$, $T_{ik} = \partial y_i/\partial x_k$, ist genau dann
+            kanonisch, wenn</p>
+
+          $$ \mathbb{T}\,\mathbb{J}\,\mathbb{T}^{\mathsf{T}} = \mathbb{J} \qquad \Longleftrightarrow \qquad [Q_i, P_j] = \delta_{ij}, \quad [Q_i, Q_j] = [P_i, P_j] = 0 $$
+
+          <p>(symplektische Bedingung). Poisson-Klammern sind unter kanonischen
+            Transformationen invariant, $[u, v]_{q,p} = [u, v]_{Q,P}$.</p>
+
+          <p><strong>Beispiel: Wirkungs- und Winkelvariablen des Oszillators.</strong>
+            Für $H = p^2/(2m) + \tfrac{1}{2} m\omega^2 q^2$ setzt man</p>
+
+          $$ q = \sqrt{\frac{2P}{m\omega}}\,\sin Q, \qquad p = \sqrt{2 m\omega P}\,\cos Q \qquad\Rightarrow\qquad K = \omega P . $$
+
+          <p>Man prüft $[q, p]_{Q,P} = \cos^2 Q + \sin^2 Q = 1$; die Erzeugende ist
+            $F_1 = \tfrac{1}{2} m\omega q^2\cot Q$. Jetzt ist $Q$ zyklisch:
+            $\dot{P} = 0$, $\dot{Q} = \omega$, also $Q = \omega t + Q_0$ – die ganze
+            Lösung in einer Zeile. $P = E/\omega$ ist die Fläche der Phasenellipse
+            geteilt durch $2\pi$ (Beispiel 1 und 3).</p>
+
+          <h2 id="liouville">Der Satz von Liouville</h2>
+
+          <p>Unter einer Variablentransformation ändert sich ein Volumenelement um
+            den Betrag der Funktionaldeterminante. Aus der symplektischen Bedingung
+            folgt $(\det\mathbb{T})^2 \det\mathbb{J} = \det\mathbb{J}$, also
+            $|\det\mathbb{T}| = 1$ (für symplektische Matrizen sogar
+            $\det\mathbb{T} = +1$): Das <em>Phasenraumvolumen</em>
+            $\int \mathrm{d}q_1 \cdots \mathrm{d}q_n\,\mathrm{d}p_1 \cdots \mathrm{d}p_n$
+            ist unter kanonischen Transformationen invariant. Die Zeitentwicklung
+            $(q(t_0), p(t_0)) \to (q(t), p(t))$ ist selbst eine kanonische
+            Transformation (erzeugt von $H$).</p>
+
+          <p>Für ein <em>Ensemble</em> vieler gleichartiger, nicht wechselwirkender
+            Systeme – etwa die gedachten Kopien eines Gases mit $N \approx 10^{23}$
+            Teilchen im $6N$-dimensionalen Phasenraum – beschreibt man den Zustand
+            durch eine Dichte $\varrho(q, p, t)$, normiert auf
+            $\int \varrho\,\mathrm{d}^{3N}q\,\mathrm{d}^{3N}p = 1$. Ein Gebiet von
+            Phasenpunkten behält sein Volumen, und keine Bahn kann es verlassen oder
+            betreten, weil sich Bahnen nicht schneiden. Also ist die Dichte entlang
+            jeder Bahn konstant:</p>
+
+          <div class="merkkasten">
+            <span class="titel">Satz von Liouville</span>
+            $$ \frac{\mathrm{d}\varrho}{\mathrm{d}t} = \frac{\partial\varrho}{\partial t} + [\varrho, H] = 0 . $$
+            <p>Die Phasenpunkte strömen wie eine inkompressible Flüssigkeit durch den
+              Phasenraum. Voraussetzung: Die Bewegung folgt den kanonischen
+              Gleichungen (keine Reibung).</p>
+          </div>
+
+          <p>Die Liouville-Gleichung ist der Ausgangspunkt der Statistischen
+            Physik: Eine stationäre Verteilung ($\partial\varrho/\partial t = 0$)
+            muss $[\varrho, H] = 0$ erfüllen, etwa $\varrho = \varrho(H)$ – so
+            entstehen die Gleichgewichtsverteilungen. In der Beschleunigerphysik
+            heißt das erhaltene Phasenraumvolumen eines Strahls <em>Emittanz</em>:
+            Ein schmalerer Strahl hat zwangsläufig eine breitere Impulsverteilung.
+            Mit Reibung schrumpfen Phasenraumvolumina dagegen, alle Bahnen eines
+            gedämpften Pendels laufen in einen Punkt.</p>
+
+          <h2 id="fixpunkte">Fixpunkte und ihre Stabilität</h2>
+
+          <p>Schreibt man die Bewegungsgleichungen als $\dot{\vec{x}} = \vec{f}(\vec{x})$,
+            sind <em>Fixpunkte</em> die Gleichgewichtslagen mit
+            $\vec{f}(\vec{x}^*) = 0$. In ihrer Nähe linearisiert man,
+            $\vec{x} = \vec{x}^* + \vec{v}$, $\dot{\vec{v}} = \mathbb{A}\vec{v}$ mit
+            $A_{ij} = (\partial f_i/\partial x_j)_{\vec{x}^*}$. Die Lösungen sind
+            Überlagerungen von $\vec{v}_k\,\mathrm{e}^{\lambda_k t}$ mit den Eigenwerten
+            $\lambda_k$. In zwei Dimensionen ist
+            $\lambda_{1,2} = \tfrac{1}{2}\left( \tau \pm \sqrt{\tau^2 - 4\Delta} \right)$
+            mit Spur $\tau$ und Determinante $\Delta$ von $\mathbb{A}$:</p>
+
+          <div class="tabelle-huelle">
+            <table>
+              <thead><tr><th>Bedingung</th><th>Eigenwerte</th><th>Fixpunkt</th></tr></thead>
+              <tbody>
+                <tr><td>$\Delta \lt 0$</td><td>reell, verschiedene Vorzeichen</td><td>Sattel (hyperbolisch)</td></tr>
+                <tr><td>$0 \lt 4\Delta \le \tau^2$, $\tau \lt 0$</td><td>reell, beide negativ</td><td>stabiler Knoten</td></tr>
+                <tr><td>$0 \lt 4\Delta \le \tau^2$, $\tau \gt 0$</td><td>reell, beide positiv</td><td>instabiler Knoten</td></tr>
+                <tr><td>$4\Delta \gt \tau^2$, $\tau \lt 0$ bzw. $\tau \gt 0$</td><td>komplex</td><td>stabile bzw. instabile Spirale</td></tr>
+                <tr><td>$\tau = 0$, $\Delta \gt 0$</td><td>rein imaginär</td><td>Zentrum (elliptisch)</td></tr>
+                <tr><td>$\Delta = 0$</td><td>ein Eigenwert null</td><td>Linie von Fixpunkten (entartet)</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <p>In Hamiltonschen Systemen ist $\mathrm{Spur}\,\mathbb{A} = \sum_i \left( \frac{\partial^2 H}{\partial q_i\partial p_i} - \frac{\partial^2 H}{\partial p_i\partial q_i} \right) = 0$
+            – das ist Liouville im Kleinen. In zwei Dimensionen bleiben deshalb nur
+            Zentrum und Sattel (Abb. 3); Knoten und Spiralen würden Fläche
+            vernichten oder erzeugen. Beim Pendel ist die Ruhelage unten ein
+            Zentrum, die Lage kopfüber ein Sattel.</p>
+
+          <figure class="abbildung">
+            <div class="abb-reihe">
+              <svg class="abb" viewBox="0 0 180 180" role="img"
+                   aria-label="Zentrum: geschlossene Ellipsen um den Fixpunkt">
+                <defs>
+                  <marker id="pfeil-abb3" viewBox="0 0 10 10" refX="8" refY="5"
+                          markerWidth="5" markerHeight="5" orient="auto">
+                    <path class="punkt blau" d="M0 0L10 5L0 10z"/>
+                  </marker>
+                </defs>
+                <ellipse class="kurve blau duenn" cx="90" cy="90" rx="26" ry="18"/>
+                <ellipse class="kurve blau duenn" cx="90" cy="90" rx="50" ry="34"/>
+                <ellipse class="kurve blau duenn" cx="90" cy="90" rx="74" ry="50"/>
+                <path class="kurve blau duenn" d="M86 72H96" marker-end="url(#pfeil-abb3)"/>
+                <path class="kurve blau duenn" d="M86 56H96" marker-end="url(#pfeil-abb3)"/>
+                <path class="kurve blau duenn" d="M86 40H96" marker-end="url(#pfeil-abb3)"/>
+                <circle class="punkt" cx="90" cy="90" r="3.5"/>
+                <text x="90" y="166" font-size="12" text-anchor="middle">Zentrum</text>
+              </svg>
+              <svg class="abb" viewBox="0 0 180 180" role="img"
+                   aria-label="Sattel: Hyperbeln, die sich dem Fixpunkt entlang einer Richtung nähern und entlang einer anderen entfernen">
+                <defs>
+                  <marker id="pfeil-abb3-s" viewBox="0 0 10 10" refX="8" refY="5"
+                          markerWidth="5" markerHeight="5" orient="auto">
+                    <path class="punkt" d="M0 0L10 5L0 10z"/>
+                  </marker>
+                  <marker id="pfeil-abb3-k" viewBox="0 0 10 10" refX="8" refY="5"
+                          markerWidth="5" markerHeight="5" orient="auto">
+                    <path class="punkt kupfer" d="M0 0L10 5L0 10z"/>
+                  </marker>
+                </defs>
+                <path class="kurve kupfer duenn" d="M150 150L96 96" marker-end="url(#pfeil-abb3-k)"/>
+                <path class="kurve kupfer duenn" d="M90 90L150 30" marker-end="url(#pfeil-abb3-k)"/>
+                <path class="kurve kupfer duenn" d="M90 90L30 150" marker-end="url(#pfeil-abb3-k)"/>
+                <path class="kurve kupfer duenn" d="M30 30L84 84" marker-end="url(#pfeil-abb3-k)"/>
+                <polyline class="kurve duenn" marker-end="url(#pfeil-abb3-s)" points="151.9,147.0 146.1,140.7 141.0,135.0 136.5,129.8 132.5,125.1 129.0,120.7 125.9,116.7 123.3,113.1 121.0,109.6 119.1,106.4 117.5,103.4 116.2,100.6 115.2,97.8 114.5,95.2 114.1,92.6 114.0,90.0 114.1,87.4 114.5,84.8 115.2,82.2 116.2,79.4 117.5,76.6 119.1,73.6 121.0,70.4 123.3,66.9 125.9,63.3 129.0,59.3 132.5,54.9 136.5,50.2 141.0,45.0 146.1,39.3 151.9,33.0"/>
+                <polyline class="kurve duenn" marker-end="url(#pfeil-abb3-s)" points="28.1,33.0 33.9,39.3 39.0,45.0 43.5,50.2 47.5,54.9 51.0,59.3 54.1,63.3 56.7,66.9 59.0,70.4 60.9,73.6 62.5,76.6 63.8,79.4 64.8,82.2 65.5,84.8 65.9,87.4 66.0,90.0 65.9,92.6 65.5,95.2 64.8,97.8 63.8,100.6 62.5,103.4 60.9,106.4 59.0,109.6 56.7,113.1 54.1,116.7 51.0,120.7 47.5,125.1 43.5,129.8 39.0,135.0 33.9,140.7 28.1,147.0"/>
+                <polyline class="kurve duenn" marker-end="url(#pfeil-abb3-s)" points="33.0,28.1 39.3,33.9 45.0,39.0 50.2,43.5 54.9,47.5 59.3,51.0 63.3,54.1 66.9,56.7 70.4,59.0 73.6,60.9 76.6,62.5 79.4,63.8 82.2,64.8 84.8,65.5 87.4,65.9 90.0,66.0 92.6,65.9 95.2,65.5 97.8,64.8 100.6,63.8 103.4,62.5 106.4,60.9 109.6,59.0 113.1,56.7 116.7,54.1 120.7,51.0 125.1,47.5 129.8,43.5 135.0,39.0 140.7,33.9 147.0,28.1"/>
+                <polyline class="kurve duenn" marker-end="url(#pfeil-abb3-s)" points="147.0,151.9 140.7,146.1 135.0,141.0 129.8,136.5 125.1,132.5 120.7,129.0 116.7,125.9 113.1,123.3 109.6,121.0 106.4,119.1 103.4,117.5 100.6,116.2 97.8,115.2 95.2,114.5 92.6,114.1 90.0,114.0 87.4,114.1 84.8,114.5 82.2,115.2 79.4,116.2 76.6,117.5 73.6,119.1 70.4,121.0 66.9,123.3 63.3,125.9 59.3,129.0 54.9,132.5 50.2,136.5 45.0,141.0 39.3,146.1 33.0,151.9"/>
+                <circle class="punkt" cx="90" cy="90" r="3.5"/>
+                <text x="90" y="174" font-size="12" text-anchor="middle">Sattel</text>
+              </svg>
+            </div>
+            <figcaption>Abb. 3: Die beiden Fixpunkttypen Hamiltonscher Systeme mit
+              einem Freiheitsgrad. Links ein Zentrum: geschlossene Bahnen, die Bewegung
+              bleibt in der Nähe (stabil). Rechts ein Sattel: Entlang einer Richtung
+              laufen Bahnen auf den Fixpunkt zu, entlang der anderen exponentiell weg
+              (instabil). Die kupfernen Geraden sind die Eigenrichtungen. Die Hyperbeln
+              sind exakt $uv = \text{konst.}$ mit $u \propto \mathrm{e}^{\lambda t}$,
+              $v \propto \mathrm{e}^{-\lambda t}$.</figcaption>
+          </figure>
+
+          <p>Ähnlich unterscheidet man periodische Bahnen: Bei stabilen bleiben
+            benachbarte Bahnen in der Nähe, bei instabilen entfernen sie sich
+            exponentiell. Letzteres ist der Kern von Chaos.</p>
+
+          <h2 id="hamilton-jacobi">Hamilton-Jacobi-Theorie</h2>
+
+          <p>Die radikalste kanonische Transformation macht <em>alle</em> neuen
+            Variablen konstant. Das gelingt mit $K = 0$, denn dann ist
+            $\dot{Q}_i = \dot{P}_i = 0$. Nach der Tabelle oben muss die Erzeugende
+            $S := F_2(q, P, t)$ dafür die <em>Hamilton-Jacobi-Gleichung</em>
+            erfüllen:</p>
+
+          <div class="merkkasten">
+            <span class="titel">Hamilton-Jacobi-Gleichung</span>
+            $$ H\!\left( q_1, \dots, q_n, \frac{\partial S}{\partial q_1}, \dots, \frac{\partial S}{\partial q_n}, t \right) + \frac{\partial S}{\partial t} = 0 . $$
+            <p>Eine nichtlineare partielle Differentialgleichung erster Ordnung für
+              $S(q, \alpha, t)$ mit $n$ Integrationskonstanten $\alpha_i$ (den neuen,
+              konstanten Impulsen). $S$ ist <em>Hamiltons Prinzipalfunktion</em>; längs
+              der Bahn ist $\mathrm{d}S/\mathrm{d}t = \sum_i p_i\dot{q}_i - H = L$, also
+              ist $S$ die Wirkung.</p>
+          </div>
+
+          <p>Statt $2n$ gewöhnlicher Differentialgleichungen löst man eine partielle.
+            Das lohnt sich, wenn sie <em>separiert</em>:</p>
+
+          <ol>
+            <li>$H(q, p, t)$ aufstellen.</li>
+            <li>$p_i$ durch $\partial S/\partial q_i$ ersetzen und die
+              Hamilton-Jacobi-Gleichung bilden.</li>
+            <li>Separieren (falls möglich) und $S(q, \alpha, t)$ durch
+              eindimensionale Integrale bestimmen.</li>
+            <li>Aus $\partial S/\partial\alpha_i = \beta_i = \text{konst.}$ die
+              $q_i(\alpha, \beta, t)$ und aus $p_i = \partial S/\partial q_i$ die
+              Impulse gewinnen; $\alpha_i$, $\beta_i$ aus den Anfangsbedingungen.</li>
+          </ol>
+
+          <p><strong>Harmonischer Oszillator.</strong> Für zeitunabhängiges $H$ führt
+            der Ansatz $S = W(q, E) - Et$ auf $H(q, \partial W/\partial q) = E$:</p>
+
+          $$ \frac{1}{2m}\left( \frac{\partial W}{\partial q} \right)^2 + \frac{m\omega^2}{2} q^2 = E \quad\Rightarrow\quad W = \int_0^q \sqrt{2mE - m^2\omega^2 q'^2}\,\mathrm{d}q' . $$
+
+          <p>Dann ist
+            $\beta = \frac{\partial S}{\partial E} = \int_0^q \frac{m\,\mathrm{d}q'}{\sqrt{2mE - m^2\omega^2 q'^2}} - t = \frac{1}{\omega}\arcsin\!\left( q\sqrt{\frac{m\omega^2}{2E}} \right) - t$,
+            aufgelöst</p>
+
+          $$ q(t) = \sqrt{\frac{2E}{m\omega^2}}\,\sin\big( \omega (t + \beta) \big) . $$
+
+          <p><strong>Integrabilität.</strong> Lässt sich die Hamilton-Jacobi-Gleichung
+            vollständig separieren (hinreichend ist zum Beispiel
+            $H = \sum_i H_i(q_i, p_i)$ mit $W = \sum_i W_i(q_i)$), wird die Bewegung
+            auf eindimensionale Integrale zurückgeführt: Das System ist
+            <em>integrabel</em> und nicht chaotisch. Allgemein gilt der Satz von
+            Liouville über integrable Systeme: Bei $n$ Freiheitsgraden genügen $n$
+            unabhängige Erhaltungsgrößen $I_i(q, p)$ mit $[I_i, I_j] = 0$; sind
+            ihre Niveauflächen zudem beschränkt, verläuft die Bewegung auf Tori (siehe
+            <a href="noether.html#poisson">Symmetrien und Erhaltungssätze</a>). Die
+            Hamilton-Jacobi-Gleichung ist außerdem die Brücke zur Wellenmechanik:
+            Schrödinger fand seine Gleichung, indem er $S$ als Phase einer Welle
+            $\psi \propto \mathrm{e}^{\mathrm{i}S/\hbar}$ deutete.</p>
+        </section>
+
+        <section class="tab" id="beispiele" data-titel="Beispielrechnungen">
+
+          <div class="beispiel" data-symbole='{"T": "Schwingungsdauer"}'>
+            <h3>Beispiel 1: Die Phasenellipse eines Federpendels</h3>
+            <p><strong>Gegeben:</strong> Eine Masse $m = 0{,}50\,\mathrm{kg}$ schwingt
+              an einer Feder ($k = 20\,\mathrm{N/m}$) mit der Amplitude
+              $A = 5{,}0\,\mathrm{cm}$ um die Ruhelage.<br>
+              <strong>Gesucht:</strong> Hamilton-Funktion, kanonische Gleichungen,
+              Halbachsen und Fläche der Phasenellipse; Vergleich mit Energie mal
+              Periode.</p>
+
+            <p><strong>1. Hamilton-Funktion:</strong> $L = \tfrac{1}{2} m\dot{q}^2 - \tfrac{1}{2} k q^2$,
+              $p = m\dot{q}$,
+              $$ H = p\dot{q} - L = \frac{p^2}{2m} + \frac{k}{2} q^2 . $$</p>
+
+            <p><strong>2. Kanonische Gleichungen:</strong>
+              $\dot{q} = \partial H/\partial p = p/m$,
+              $\dot{p} = -\partial H/\partial q = -kq$. Zusammen
+              $m\ddot{q} = -kq$, $\omega = \sqrt{k/m} = \sqrt{40}\,\mathrm{s^{-1}} = 6{,}32\,\mathrm{s^{-1}}$,
+              $T = 2\pi/\omega = 0{,}993\,\mathrm{s}$.</p>
+
+            <p><strong>3. Phasenellipse:</strong> $H = E$ ist die Ellipse
+              $\frac{q^2}{A^2} + \frac{p^2}{p_\text{max}^2} = 1$ mit
+              $$ E = \tfrac{1}{2} k A^2 = \tfrac{1}{2} \cdot 20\,\mathrm{N/m} \cdot (0{,}050\,\mathrm{m})^2 = 0{,}025\,\mathrm{J}, \qquad p_\text{max} = m\omega A = 0{,}50\,\mathrm{kg} \cdot 6{,}32\,\mathrm{s^{-1}} \cdot 0{,}050\,\mathrm{m} = 0{,}158\,\mathrm{kg\,m/s} . $$</p>
+
+            <p><strong>4. Fläche:</strong>
+              $$ \mathcal{A} = \pi A\,p_\text{max} = \pi \cdot 0{,}050\,\mathrm{m} \cdot 0{,}158\,\mathrm{kg\,m/s} = 0{,}0248\,\mathrm{J\,s}, \qquad E \cdot T = 0{,}025\,\mathrm{J} \cdot 0{,}993\,\mathrm{s} = 0{,}0248\,\mathrm{J\,s} . $$
+              Einheitencheck: $\mathrm{m} \cdot \mathrm{kg\,m/s} = \mathrm{kg\,m^2/s} = \mathrm{J\,s}$ ✓.</p>
+
+            <p><strong>Ergebnis und Plausibilität:</strong> Allgemein ist
+              $\mathcal{A} = \pi A \cdot m\omega A = 2\pi E/\omega = E\,T$. Die Fläche
+              hat die Einheit einer Wirkung und ist eine Invariante der Bewegung.
+              Zum Vergleich: $\mathcal{A}/h \approx 4 \cdot 10^{31}$ – Quanteneffekte
+              spielen für dieses Federpendel keine Rolle.</p>
+          </div>
+
+          <div class="beispiel" data-symbole='{"T": "Schwingungsdauer", "K": "vollständiges elliptisches Integral", "k": "Modul des elliptischen Integrals"}'>
+            <h3>Beispiel 2: Wie stark muss man ein Pendel anschubsen?</h3>
+            <p><strong>Gegeben:</strong> Ein Pendel mit $\ell = 1{,}0\,\mathrm{m}$
+              (Masse $m$ auf masseloser Stange), $g = 9{,}81\,\mathrm{m/s^2}$.<br>
+              <strong>Gesucht:</strong> (a) die Mindestgeschwindigkeit in der
+              Ruhelage für einen Überschlag, (b) die Periode bei $60°$ Amplitude im
+              Vergleich zur Kleinwinkel-Näherung.</p>
+
+            <p><strong>1. Separatrix:</strong> Die Bahn, die genau den Sattel bei
+              $\varphi = 180°$ erreicht, hat $H = m g\ell$ (Nullpunkt von $V$ auf
+              Höhe der Achse). In der Ruhelage:
+              $$ \frac{p^2}{2m\ell^2} - m g\ell = m g\ell \quad\Rightarrow\quad \dot{\varphi} = 2\sqrt{\frac{g}{\ell}}, \qquad v = \ell\dot{\varphi} = 2\sqrt{g\ell} = 2\sqrt{9{,}81\,\mathrm{m^2/s^2}} = 6{,}26\,\mathrm{m/s} . $$
+              Kontrolle mit dem Energiesatz: $\tfrac{1}{2} m v^2 = m g \cdot 2\ell$ ✓.
+              Einheitencheck: $\sqrt{\mathrm{m/s^2} \cdot \mathrm{m}} = \mathrm{m/s}$ ✓.</p>
+
+            <p><strong>2. Periode bei $60°$:</strong> Aus $H = E$ folgt mit
+              $k = \sin(\varphi_0/2)$ die exakte Periode
+              $T = \frac{4}{\omega_0} K(k)$, $\omega_0 = \sqrt{g/\ell}$, mit dem
+              vollständigen elliptischen Integral
+              $K(k) = \int_0^{\pi/2} \frac{\mathrm{d}\theta}{\sqrt{1 - k^2\sin^2\theta}}$.
+              Für $k = \sin 30° = 0{,}5$ ist $K = 1{,}6858$:
+              $$ T = \frac{4 \cdot 1{,}6858}{3{,}132\,\mathrm{s^{-1}}} = 2{,}153\,\mathrm{s}, \qquad T_0 = \frac{2\pi}{\omega_0} = 2{,}006\,\mathrm{s} . $$
+              Einheitencheck: $K$ ist dimensionslos, $1/\mathrm{s^{-1}} = \mathrm{s}$ ✓.</p>
+
+            <p><strong>Ergebnis und Plausibilität:</strong> Wer mit weniger als
+              $6{,}26\,\mathrm{m/s}$ anschubst, erhält eine Schwingung; darüber
+              einen Überschlag. Bei $60°$ ist die Periode 7 % länger als die
+              Kleinwinkel-Näherung – im Phasenraum braucht die größere Runde etwas
+              länger. Genau das verschert die Wolke im Liouville-Modell. Im
+              Phasenraum-Modell ($\ell = 1\,\mathrm{m}$) lässt sich beides
+              nachprüfen: Startwinkel $60°$ zeigt die Periode $2{,}15\,\mathrm{s}$,
+              und aus der Ruhelage gibt ein Startimpuls von $6{,}2$ noch eine
+              Schwingung, $6{,}3$ schon einen Überschlag.</p>
+          </div>
+
+          <div class="beispiel">
+            <h3>Beispiel 3: Wirkungs- und Winkelvariablen nachgerechnet</h3>
+            <p><strong>Gegeben:</strong> das Federpendel aus Beispiel 1
+              ($m = 0{,}50\,\mathrm{kg}$, $\omega = 6{,}32\,\mathrm{s^{-1}}$,
+              $E = 0{,}025\,\mathrm{J}$) und die Transformation
+              $q = \sqrt{2P/(m\omega)}\sin Q$, $p = \sqrt{2m\omega P}\cos Q$.<br>
+              <strong>Gesucht:</strong> Nachweis, dass sie kanonisch ist; neue
+              Hamilton-Funktion; Zahlenwert von $P$.</p>
+
+            <p><strong>1. Poisson-Klammer:</strong>
+              $$ [q, p]_{Q,P} = \frac{\partial q}{\partial Q}\frac{\partial p}{\partial P} - \frac{\partial q}{\partial P}\frac{\partial p}{\partial Q} = \sqrt{\frac{2P}{m\omega}}\cos Q \cdot \sqrt{\frac{m\omega}{2P}}\cos Q - \frac{\sin Q}{\sqrt{2m\omega P}} \cdot \left( -\sqrt{2m\omega P}\sin Q \right) = 1 $$ ✓</p>
+
+            <p><strong>2. Neue Hamilton-Funktion</strong> (zeitunabhängige
+              Transformation, also $K = H$):
+              $$ K = \frac{2m\omega P\cos^2 Q}{2m} + \frac{m\omega^2}{2}\,\frac{2P}{m\omega}\sin^2 Q = \omega P . $$
+              Damit $\dot{Q} = \partial K/\partial P = \omega$ und
+              $\dot{P} = -\partial K/\partial Q = 0$.</p>
+
+            <p><strong>3. Zahlenwert:</strong>
+              $$ P = \frac{E}{\omega} = \frac{0{,}025\,\mathrm{J}}{6{,}32\,\mathrm{s^{-1}}} = 3{,}95 \cdot 10^{-3}\,\mathrm{J\,s}, \qquad 2\pi P = 0{,}0248\,\mathrm{J\,s} . $$
+              Einheitencheck: $\mathrm{J}/\mathrm{s^{-1}} = \mathrm{J\,s}$, die Einheit einer Wirkung ✓.</p>
+
+            <p><strong>Ergebnis und Plausibilität:</strong> $2\pi P$ ist genau die
+              Ellipsenfläche aus Beispiel 1 ✓ – $P$ heißt deshalb
+              <em>Wirkungsvariable</em>, $Q$ <em>Winkelvariable</em>. In den neuen
+              Variablen läuft der Zustand mit konstanter Geschwindigkeit auf einem
+              Kreis. In der Quantenmechanik wird genau diese Wirkung quantisiert:
+              $P = (n + \tfrac{1}{2})\hbar$ gibt die Energieniveaus
+              $E = (n + \tfrac{1}{2})\hbar\omega$.</p>
+          </div>
+        </section>
+
+        <section class="tab" id="aufgaben" data-titel="Aufgaben">
+
+          <p>Die Aufgaben sind nach Schwierigkeit sortiert. Es gilt
+            $g = 9{,}81\,\mathrm{m/s^2}$; Reibung wird vernachlässigt. Die
+            Poisson-Klammer ist wie in der Vertiefung definiert,
+            $[q, p] = +1$.</p>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 1: Freier Fall nach Hamilton
+              <span class="schwierigkeit" data-stufe="leicht">leicht</span>
+            </h3>
+            <p>Ein Stein der Masse $m$ fällt senkrecht ($z$-Achse nach oben). Stelle
+              $H(z, p)$ und die kanonischen Gleichungen auf und löse sie für
+              $z(0) = h$, $p(0) = 0$. Wie sehen die Bahnen im Phasenraum aus?</p>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>$H = \dfrac{p^2}{2m} + m g z$;
+                $\dot{z} = p/m$, $\dot{p} = -mg$. Also $p(t) = -mgt$ und
+                $z(t) = h - \tfrac{1}{2} g t^2$. Die Phasenraumbahnen sind die
+                Parabeln $z = \dfrac{E}{mg} - \dfrac{p^2}{2m^2 g}$; mit $z$ nach rechts
+                und $p$ nach oben aufgetragen sind sie nach links geöffnet. Der
+                Zustandspunkt läuft auf ihnen von oben nach unten, denn
+                $\dot{p} = -mg$ ist immer negativ.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 2: Poisson-Klammern üben
+              <span class="schwierigkeit" data-stufe="leicht">leicht</span>
+            </h3>
+            <p>Berechne für einen Freiheitsgrad:</p>
+            <ol type="a">
+              <li>$[x, p^2/(2m)]$ und $[p, V(x)]$ – was bedeuten die Ergebnisse?</li>
+              <li>$[x p, x]$ und $[x p, p]$.</li>
+            </ol>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p><strong>(a)</strong> $[x, p^2/(2m)] = 1 \cdot p/m - 0 = p/m$: Das ist
+                $\dot{x}$ für $H = p^2/(2m) + V$.
+                $[p, V] = 0 - 1 \cdot V'(x) = -V'(x)$: das ist $\dot{p}$, die Kraft.</p>
+              <p><strong>(b)</strong> $[xp, x] = p \cdot 0 - x \cdot 1 = -x$ und
+                $[xp, p] = p \cdot 1 - x \cdot 0 = p$. Die Größe $xp$ erzeugt also
+                Streckungen: $x$ wird kleiner, $p$ größer, die Fläche bleibt gleich.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 3: Geladenes Teilchen im Magnetfeld
+              <span class="schwierigkeit" data-stufe="mittel">mittel</span>
+            </h3>
+            <p>Für eine Ladung $e$ im elektromagnetischen Feld ist
+              $L = \tfrac{1}{2} m\vec{v}^2 - e\phi + e\,\vec{v} \cdot \vec{A}$.</p>
+            <ol type="a">
+              <li>Bestimme den kanonischen Impuls $\vec{p}$. Ist er gleich $m\vec{v}$?</li>
+              <li>Zeige, dass $H = \dfrac{(\vec{p} - e\vec{A})^2}{2m} + e\phi$.</li>
+            </ol>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p><strong>(a)</strong> $\vec{p} = \partial L/\partial\vec{v} = m\vec{v} + e\vec{A}$.
+                Der kanonische Impuls ist nicht der kinetische Impuls $m\vec{v}$; er
+                hängt sogar von der Eichung von $\vec{A}$ ab.</p>
+              <p><strong>(b)</strong> $\vec{v} = (\vec{p} - e\vec{A})/m$, also
+                $$ H = \vec{p} \cdot \vec{v} - L = \frac{\vec{p} \cdot (\vec{p} - e\vec{A})}{m} - \frac{(\vec{p} - e\vec{A})^2}{2m} + e\phi - \frac{e\vec{A} \cdot (\vec{p} - e\vec{A})}{m} = \frac{(\vec{p} - e\vec{A})^2}{2m} + e\phi . $$
+                Zahlenmäßig ist das wieder $\tfrac{1}{2} m v^2 + e\phi$ – das
+                Magnetfeld leistet keine Arbeit. Die Ersetzung
+                $\vec{p} \to \vec{p} - e\vec{A}$ („minimale Kopplung“) übernimmt man
+                direkt in die Quantenmechanik.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe" data-symbole='{"k": "Kraftkonstante (k = GMm)"}'>
+            <h3>Aufgabe 4: Kreisbahn im effektiven Potential
+              <span class="schwierigkeit" data-stufe="mittel">mittel</span>
+            </h3>
+            <p>Ein Planet (Masse $m$) bewegt sich im Potential $V(r) = -k/r$ mit
+              $k = GMm$ (Hamilton-Funktion in Polarkoordinaten siehe Vertiefung).</p>
+            <ol type="a">
+              <li>Bei welchem Radius $r_0$ ist eine Kreisbahn möglich, wenn der
+                Drehimpuls $p_\varphi$ vorgegeben ist?</li>
+              <li>Prüfe mit den Erddaten: $v = 29{,}78\,\mathrm{km/s}$,
+                $r = 1{,}496 \cdot 10^{11}\,\mathrm{m}$,
+                $GM_\odot = 1{,}327 \cdot 10^{20}\,\mathrm{m^3/s^2}$.</li>
+            </ol>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p><strong>(a)</strong> Kreisbahn: $p_r = 0$ und $\dot{p}_r = 0$, also
+                $V_\text{eff}'(r_0) = 0$:
+                $\dfrac{k}{r_0^2} - \dfrac{p_\varphi^2}{m r_0^3} = 0$ ⇒
+                $r_0 = \dfrac{p_\varphi^2}{m k}$. Wegen
+                $V_\text{eff}''(r_0) = k/r_0^3 \gt 0$ ist sie stabil.</p>
+              <p><strong>(b)</strong> $p_\varphi = m r v$, $k = GMm$:
+                $$ r_0 = \frac{r^2 v^2}{GM} = \frac{(1{,}496 \cdot 10^{11}\,\mathrm{m})^2 \cdot (2{,}978 \cdot 10^4\,\mathrm{m/s})^2}{1{,}327 \cdot 10^{20}\,\mathrm{m^3/s^2}} = 1{,}496 \cdot 10^{11}\,\mathrm{m} $$ ✓
+                Die fast kreisförmige Erdbahn erfüllt die Bedingung, die Erdmasse
+                kürzt sich heraus.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 5: Kanonisch oder nicht?
+              <span class="schwierigkeit" data-stufe="schwer">schwer</span>
+            </h3>
+            <p>Prüfe für einen Freiheitsgrad mit der Poisson-Klammer, ob die
+              Transformationen kanonisch sind, und gib im kanonischen Fall eine
+              Erzeugende an:</p>
+            <ol type="a">
+              <li>$Q = p$, $P = -q$,</li>
+              <li>$Q = \lambda q$, $P = p/\lambda$ ($\lambda \gt 0$),</li>
+              <li>$Q = q$, $P = 2p$.</li>
+            </ol>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p><strong>(a)</strong>
+                $[Q, P] = \frac{\partial p}{\partial q}\frac{\partial(-q)}{\partial p} - \frac{\partial p}{\partial p}\frac{\partial(-q)}{\partial q} = 0 - (1)(-1) = 1$ ✓.
+                Erzeugende $F_1 = qQ$: $p = \partial F_1/\partial q = Q$ ✓,
+                $P = -\partial F_1/\partial Q = -q$ ✓. Ort und Impuls lassen sich
+                vertauschen – im Hamilton-Formalismus sind sie gleichberechtigt.</p>
+              <p><strong>(b)</strong> $[Q, P] = \lambda \cdot \tfrac{1}{\lambda} = 1$ ✓.
+                $F_2 = \lambda q P$: $p = \partial F_2/\partial q = \lambda P$ ✓,
+                $Q = \partial F_2/\partial P = \lambda q$ ✓. Streckt man den Ort,
+                muss man den Impuls stauchen – Fläche erhalten.</p>
+              <p><strong>(c)</strong> $[Q, P] = 2 \ne 1$: nicht kanonisch (nur
+                erweitert kanonisch mit $c = 1/2$, denn $p\dot{q} = \tfrac{1}{2} P\dot{Q}$). Mit $K = 2H$ blieben die
+                Gleichungen zwar richtig, aber Phasenraumflächen würden verdoppelt –
+                die Transformation ist keine Symmetrie des Phasenraums.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 6: Freier Fall mit Hamilton-Jacobi
+              <span class="schwierigkeit" data-stufe="schwer">schwer</span>
+            </h3>
+            <p>Löse den freien Fall aus Aufgabe 1 ($z$-Achse nach oben) mit der Hamilton-Jacobi-Methode:
+              Ansatz $S = W(z, E) - Et$, Integration für $W$, dann
+              $\beta = \partial S/\partial E$.</p>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>Hamilton-Jacobi-Gleichung:
+                $\dfrac{1}{2m}\left( \dfrac{\partial W}{\partial z} \right)^2 + m g z = E$,
+                also $\partial W/\partial z = \pm\sqrt{2m(E - mgz)}$. Mit dem oberen
+                Vorzeichen:
+                $$ W = -\frac{\sqrt{2m}}{mg} \cdot \frac{2}{3}\,(E - mgz)^{3/2} . $$
+                Dann
+                $$ \beta = \frac{\partial W}{\partial E} - t = -\frac{\sqrt{2m}}{mg}\sqrt{E - mgz} - t \quad\Rightarrow\quad \sqrt{E - mgz} = -\frac{mg}{\sqrt{2m}}\,(t + \beta) . $$
+                Quadrieren: $E - mgz = \tfrac{1}{2} m g^2 (t + \beta)^2$, also
+                $$ z(t) = \frac{E}{mg} - \tfrac{1}{2} g\,(t + \beta)^2 . $$
+                Mit $z(0) = h$, $p(0) = 0$: $\beta = 0$ und $E = mgh$, also
+                $z = h - \tfrac{1}{2} g t^2$ ✓. (Wegen
+                $\sqrt{\cdot} \ge 0$ beschreibt das obere Vorzeichen die Zeiten
+                $t \le -\beta$, also den Aufstieg; den Fall erhält man mit dem unteren
+                Vorzeichen. Nach dem Quadrieren stimmt die Bahn für alle Zeiten.)</p>
+              <p><strong>Zum Nachdenken:</strong> Für ein so einfaches Problem ist der
+                Aufwand übertrieben. Die Stärke der Methode zeigt sich bei Problemen,
+                die in passenden Koordinaten separieren – das Kepler-Problem in
+                Kugel- oder parabolischen Koordinaten etwa.</p>
+            </details>
+          </div>
+        </section>
+
+      </div></article>
+  </main>
+</body>
+</html>

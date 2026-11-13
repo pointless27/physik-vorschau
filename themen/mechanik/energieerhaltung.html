@@ -1,0 +1,658 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="robots" content="noindex">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Energieformen und Energieerhaltung</title>
+  <meta name="description" content="Potentielle und kinetische Energie, der Energieerhaltungssatz der Mechanik, das Federpendel und die Kraft als Gradient der potentiellen Energie – mit Beispielen und Aufgaben.">
+
+  <link rel="stylesheet" href="../../css/stil.css">
+
+  <link rel="stylesheet" href="../../extern/katex/katex.min.css">
+  <script defer src="../../extern/katex/katex.min.js"></script>
+  <script defer src="../../extern/katex/contrib/auto-render.min.js" onload="starteFormeln()"></script>
+
+  <script src="../../js/daten.js"></script>
+  <script src="../../js/seite.js"></script>
+  <script src="../../js/effekte.js"></script>
+  <script src="../../js/interaktiv.js"></script>
+  <script src="../../js/modelle/energieerhaltung.js"></script>
+  <script type="application/json" id="symbole">
+  {
+    "W": "Arbeit",
+    "F": "Kraft",
+    "r": "Ortsvektor",
+    "r_0": "Anfangsort",
+    "r_1": "Ort zum Zeitpunkt t₁",
+    "r_2": "Endpunkt des Wegs",
+    "t": "Zeit",
+    "t_0": "Anfangszeitpunkt",
+    "t_1": "späterer Zeitpunkt",
+    "v": "Geschwindigkeit",
+    "v_0": "Anfangsgeschwindigkeit",
+    "v_1": "Geschwindigkeit zum Zeitpunkt t₁",
+    "m": "Masse",
+    "g": "Fallbeschleunigung",
+    "h": "Höhe",
+    "h_0": "Starthöhe",
+    "z": "Höhe (z-Achse nach oben)",
+    "y": "y-Koordinate",
+    "e_x": "Einheitsvektor in x-Richtung",
+    "e_y": "Einheitsvektor in y-Richtung",
+    "e_z": "Einheitsvektor in z-Richtung",
+    "E": "Energie",
+    "E_ges": "Gesamtenergie",
+    "E_kin": "kinetische Energie",
+    "E_pot": "potentielle Energie",
+    "G": "Gravitationskonstante",
+    "M": "Masse des Zentralkörpers (z. B. Erde)",
+    "R": "Radius des Zentralkörpers",
+    "v_F": "Fluchtgeschwindigkeit",
+    "k": "Federkonstante",
+    "x": "Auslenkung aus der Ruhelage",
+    "x_i": "Anfangsauslenkung",
+    "x_f": "Endauslenkung",
+    "W_k": "Arbeit der Federkraft",
+    "A": "Amplitude (größte Auslenkung)",
+    "T": "Schwingungsdauer",
+    "π": "Kreiszahl π ≈ 3,14159",
+    "L": "Länge der Schaukelseile",
+    "θ": "Auslenkwinkel gegen die Senkrechte",
+    "Q": "durch Reibung in Wärme umgewandelte Energie",
+    "F_R": "Reibungskraft",
+    "μ_H": "Haftreibungszahl",
+    "μ_Gl": "Gleitreibungszahl"
+  }
+  </script>
+</head>
+<body data-thema="energieerhaltung">
+  <main>
+    <article class="thema">
+      <header>
+        <h1>Energieformen und Energieerhaltung</h1>
+        <p class="untertitel">Lageenergie, Bewegungsenergie und der Satz, dass
+          Energie nie verloren geht – nur ihre Form wechselt.</p>
+      </header>
+
+      <div class="tabs">
+
+        <section class="tab" id="verstehen" data-titel="Verstehen">
+
+          <p>Eine Achterbahn hat keinen Motor im Wagen. Ein Kettenlift zieht sie
+            einmal ganz nach oben – und danach saust sie über Hügel, durch
+            Senken und Loopings, bis sie wieder im Bahnhof ankommt. Woher nimmt
+            sie die ganze Zeit ihren Schwung? Die Antwort ist einer der
+            wichtigsten Sätze der Physik.</p>
+
+          <h2>Energie in verschiedenen Formen</h2>
+
+          <p>Oben auf dem Lifthügel steckt in der Achterbahn
+            <em>Lageenergie</em> (auch potentielle Energie): Sie könnte
+            herunterfallen und dabei etwas bewegen. Je höher und je schwerer,
+            desto mehr. Rauscht sie bergab, wird daraus
+            <em>Bewegungsenergie</em> (kinetische Energie): Je schneller sie ist,
+            desto mehr davon hat sie – bei doppeltem Tempo sogar viermal so viel.
+            Auch eine gespannte Feder speichert Energie, ebenso ein
+            zusammengedrücktes Trampolin.</p>
+
+          <h2>Energie geht nicht verloren</h2>
+
+          <p>Auf dem Weg nach unten wird Lageenergie in Bewegungsenergie
+            umgewandelt, beim nächsten Anstieg wieder zurück. Die Summe bleibt
+            dabei gleich. Das ist der <em>Energieerhaltungssatz</em>: Energie
+            kann weder erzeugt noch vernichtet werden, sie kann nur von einer
+            Form in eine andere übergehen.</p>
+
+          <p>Ganz ohne Verluste geht es aber nicht: Reibung und Luftwiderstand
+            wandeln bei jeder Fahrt einen Teil der Energie in Wärme um. Darum ist
+            jeder Hügel einer Achterbahn niedriger als der vorige, und darum
+            kommt eine Schaukel irgendwann zur Ruhe. „Verloren“ ist die Energie
+            dann aber nicht – sie steckt in leicht erwärmten Schienen, Rädern und
+            in der Luft. Nur zurückholen lässt sie sich nicht mehr so einfach.</p>
+
+          <figure class="interaktiv" data-modell="halfpipe">
+            <span class="titel">Zum Ausprobieren</span>
+            <figcaption>Eine Kugel rollt in einer Halfpipe hin und her. Die drei
+              Säulen zeigen, wie viel Lageenergie, Bewegungsenergie und Wärme
+              gerade im Spiel sind. Stell die Reibung auf „keine“: Die Kugel kommt
+              immer wieder genau auf die Starthöhe. Mit Reibung wächst die graue
+              Säule – aber zusammen ergeben die drei Säulen immer dieselbe Höhe
+              (gestrichelte Linie).</figcaption>
+          </figure>
+
+          <div class="alltag">
+            <span class="titel">Zum Nachmachen</span>
+            <p>Häng einen schweren Gegenstand als Pendel auf, zieh ihn bis an
+              deine Nasenspitze und lass ihn los – ohne Schwung zu geben. Bleib
+              ganz ruhig stehen: Er kommt zurück, berührt deine Nase aber nicht.
+              Er kann nie höher steigen als dort, wo er gestartet ist, denn dafür
+              bräuchte er mehr Energie, als er hat. (Im Hörsaal macht man das
+              gerne mit einer Abrissbirne.)</p>
+          </div>
+
+          <h2>Die Feder als Energiespeicher</h2>
+
+          <p>Ein Gewicht an einer Feder schwingt hin und her: Ganz außen ist die
+            Feder maximal gespannt und das Gewicht steht kurz still – alle
+            Energie steckt in der Feder. In der Mitte ist die Feder entspannt,
+            und das Gewicht ist am schnellsten. Diese ständige Umwandlung kannst
+            du hier beobachten.</p>
+
+          <figure class="interaktiv" data-modell="federpendel">
+            <span class="titel">Zum Ausprobieren</span>
+            <figcaption>Oben schwingt die Masse an der Feder, der orange Pfeil ist
+              die Kraft der Feder, der blaue die Geschwindigkeit. Unten zeigt die
+              Parabel, wie viel Energie in der Feder steckt; der Punkt wandert mit
+              der Masse auf ihr entlang. Der blaue Strich ist die Federenergie, der
+              orange darüber die Bewegungsenergie – zusammen reichen sie immer bis
+              zur gestrichelten Linie. Eine steifere Feder schwingt schneller.</figcaption>
+          </figure>
+
+          <div class="merkkasten">
+            <span class="titel">Das Wichtigste in Kürze</span>
+            <ul>
+              <li>Lageenergie hängt von der Höhe ab, Bewegungsenergie von der
+                Geschwindigkeit (mit dem Quadrat!).</li>
+              <li>Energie wird nie erzeugt oder vernichtet, nur umgewandelt.</li>
+              <li>Reibung wandelt Bewegungsenergie in Wärme um – die
+                Gesamtenergie bleibt trotzdem erhalten.</li>
+            </ul>
+          </div>
+        </section>
+
+        <section class="tab" id="vertiefung" data-titel="Vertiefung">
+
+          <h2>Potentielle Energie</h2>
+
+          <p>In einem konservativen Kraftfeld hängt die Arbeit nur von Anfangs-
+            und Endpunkt ab (siehe <a href="arbeit-leistung.html">Arbeit und
+            Leistung</a>). Man kann deshalb jedem Ort eine Zahl zuordnen, die
+            <em>potentielle Energie</em> $E_\text{pot}(\vec{r})$, so dass die
+            Arbeit der Feldkraft gerade ihre Abnahme ist:</p>
+
+          $$ W = \int_{\vec{r}_1}^{\vec{r}_2} \vec{F} \cdot \mathrm{d}\vec{r} = -\left(E_\text{pot}(\vec{r}_2) - E_\text{pot}(\vec{r}_1)\right) = -\Delta E_\text{pot} . $$
+
+          <p>Verrichtet die Feldkraft positive Arbeit ($W \gt 0$), nimmt die
+            potentielle Energie ab; muss man gegen die Feldkraft arbeiten
+            ($W \lt 0$), nimmt sie zu. Festgelegt sind nur Differenzen – wo
+            $E_\text{pot} = 0$ ist, darf man frei wählen (Referenzpunkt).</p>
+
+          <h3>Homogenes Schwerefeld</h3>
+
+          <p>Mit der $z$-Achse nach oben ist $\vec{F} = (0, 0, -m g)$. Hebt man
+            einen Körper von $z = 0$ auf $z = h$, verrichtet die Gewichtskraft</p>
+
+          $$ W = \int_0^h (-m g)\,\mathrm{d}z = -m g h = -\left(E_\text{pot}(h) - E_\text{pot}(0)\right) . $$
+
+          <p>Mit dem Referenzwert $E_\text{pot}(z = 0) = 0$ folgt
+            $E_\text{pot}(z) = m g z$.</p>
+
+          <h3>Anziehendes Zentralkraftfeld (Gravitation)</h3>
+
+          <p>Für die Gravitation der Erde,
+            $\vec{F} = -G M m\,\hat{r}/r^2$, ist $m g z$ nur in der Nähe der
+            Oberfläche brauchbar. Wählt man den Referenzpunkt im Unendlichen,
+            $E_\text{pot}(\infty) = 0$, so ist</p>
+
+          $$ E_\text{pot}(r) = -\int_\infty^r \left(-\frac{G M m}{r'^2}\right)\mathrm{d}r' = -\frac{G M m}{r} \lt 0 . $$
+
+          <p>Auf der Erdoberfläche ($r = R$) ist mit $g = G M/R^2$ also
+            $E_\text{pot}(R) = -m g R$. Die potentielle Energie ist überall
+            negativ und steigt nach außen gegen null an (Abb. 1): Bewegt sich der
+            Körper nach außen, ist $W \lt 0$ und $\Delta E_\text{pot} \gt 0$. Die
+            Anziehung zwischen Elektron und Atomkern (Coulomb-Kraft) hat dieselbe
+            Form; $r = \infty$ entspricht dort einem ionisierten Atom.</p>
+
+          <h3>Abstoßendes Zentralfeld</h3>
+
+          <p>Stoßen sich zwei Körper ab (gleichnamige Ladungen), ist
+            $E_\text{pot}(r) \gt 0$ mit $E_\text{pot}(\infty) = 0$: Beim
+            Auseinanderlaufen verrichtet das Feld positive Arbeit, die potentielle
+            Energie nimmt ab.</p>
+
+          <figure class="abbildung">
+            <svg class="abb" viewBox="0 0 360 215" role="img"
+                 aria-label="Potentielle Energie im Gravitationsfeld der Erde: negativ, nach außen gegen null ansteigend">
+              <defs>
+                <marker id="pfeil-abb1" viewBox="0 0 10 10" refX="9" refY="5"
+                        markerWidth="7" markerHeight="7" orient="auto">
+                  <path d="M0 0L10 5L0 10z" fill="currentColor"/>
+                </marker>
+              </defs>
+              <rect class="flaeche" x="15" y="40" width="45" height="165"/>
+              <path class="achse" d="M15 40H345" marker-end="url(#pfeil-abb1)"/>
+              <path class="achse" d="M15 205V15" marker-end="url(#pfeil-abb1)"/>
+              <text x="340" y="58" text-anchor="end">r</text>
+              <text x="22" y="18">E<tspan dy="4" font-size="10">pot</tspan></text>
+              <text x="37" y="120" text-anchor="middle" font-size="11" transform="rotate(-90 37 120)">Erde</text>
+              <path class="hilfslinie" d="M60 40V190H15"/>
+              <polyline class="kurve blau" points="60,190 64.5,176.4 69,165 73.5,155.4 78,147.1 82.5,140 87,133.8 91.5,128.2 96,123.3 100.5,118.9 105,115 109.5,111.4 114,108.2 118.5,105.2 123,102.5 127.5,100 132,97.7 136.5,95.6 141,93.6 145.5,91.7 150,90 159,86.9 168,84.1 177,81.7 186,79.5 195,77.5 204,75.7 213,74.1 222,72.6 231,71.2 240,70 258,67.8 276,65.9 294,64.2 312,62.7 330,61.4"/>
+              <text x="60" y="30" text-anchor="middle">R</text>
+              <text x="70" y="204">−G M m / R = −m g R</text>
+              <text class="blau" x="200" y="110">E<tspan dy="4" font-size="10">pot</tspan><tspan dy="-4"> = −G M m / r</tspan></text>
+            </svg>
+            <figcaption>Abb. 1: Potentielle Energie im Gravitationsfeld der Erde
+              mit $E_\text{pot}(\infty) = 0$, gezeichnet ab der Erdoberfläche
+              ($r = R$) bis $r = 7R$. Je weiter außen, desto flacher die Kurve –
+              die Gravitationskraft (die Steigung) nimmt ab.</figcaption>
+          </figure>
+
+          <h2>Kinetische Energie und Energiesatz der Mechanik</h2>
+
+          <p>Wir multiplizieren das zweite Newtonsche Axiom
+            $\vec{F} = m\,\mathrm{d}\vec{v}/\mathrm{d}t$ ($m$ konstant)
+            skalar mit $\vec{v}$ und integrieren über die Zeit von $t_0$ bis
+            $t_1$:</p>
+
+          $$ \int_{t_0}^{t_1} \vec{F} \cdot \vec{v}\,\mathrm{d}t = m \int_{t_0}^{t_1} \frac{\mathrm{d}\vec{v}}{\mathrm{d}t} \cdot \vec{v}\,\mathrm{d}t . \qquad (*) $$
+
+          <p><strong>Linke Seite:</strong> Mit $\vec{v}\,\mathrm{d}t = \mathrm{d}\vec{r}$
+            ist das die Arbeit, in einem konservativen Feld also</p>
+
+          $$ \int_{\vec{r}_0}^{\vec{r}_1} \vec{F} \cdot \mathrm{d}\vec{r} = E_\text{pot}(\vec{r}_0) - E_\text{pot}(\vec{r}_1) . \qquad (1) $$
+
+          <p><strong>Rechte Seite:</strong> Mit
+            $\tfrac{\mathrm{d}\vec{v}}{\mathrm{d}t}\,\mathrm{d}t = \mathrm{d}\vec{v}$
+            und $\vec{v} \cdot \mathrm{d}\vec{v} = \tfrac{1}{2}\,\mathrm{d}(v^2)$:</p>
+
+          $$ m \int_{\vec{v}_0}^{\vec{v}_1} \vec{v} \cdot \mathrm{d}\vec{v} = \tfrac{1}{2} m v_1^2 - \tfrac{1}{2} m v_0^2 . \qquad (2) $$
+
+          <p>Die Größe</p>
+
+          $$ E_\text{kin} = \tfrac{1}{2}\,m\,v^2 $$
+
+          <p>heißt <em>kinetische Energie</em>. Gleichung (2) allein, ohne die
+            Annahme eines konservativen Feldes, ist der <em>Arbeitssatz</em>:
+            $\Delta E_\text{kin} = W$ – die Arbeit aller Kräfte ändert die
+            kinetische Energie, und zwar mit gleichem Vorzeichen. Setzt man (1) und
+            (2) gleich, folgt</p>
+
+          $$ E_\text{pot}(\vec{r}_0) + E_\text{kin}(\vec{v}_0) = E_\text{pot}(\vec{r}_1) + E_\text{kin}(\vec{v}_1) = E_\text{ges} = \text{const} . $$
+
+          <div class="merkkasten">
+            <span class="titel">Energiesatz der Mechanik</span>
+            <p>Wirken nur konservative Kräfte, bleibt die mechanische
+              Gesamtenergie erhalten:</p>
+            $$ E_\text{ges} = E_\text{kin} + E_\text{pot} = \tfrac{1}{2} m v^2 + E_\text{pot}(\vec{r}) = \text{const} . $$
+          </div>
+
+          <p>In der realen Welt mit Reibung ist die <em>mechanische</em> Energie
+            nicht erhalten: Ein Teil wird in Wärme umgewandelt. Erweitert man die
+            Bilanz um diese innere Energie, gilt der Energiesatz wieder – das ist
+            der erste Hauptsatz der Thermodynamik.</p>
+
+          <figure class="abbildung">
+            <svg class="abb" viewBox="0 0 360 210" role="img"
+                 aria-label="Freier Fall: potentielle Energie nimmt linear mit der Höhe ab, kinetische Energie zu, die Summe bleibt konstant">
+              <defs>
+                <marker id="pfeil-abb2" viewBox="0 0 10 10" refX="9" refY="5"
+                        markerWidth="7" markerHeight="7" orient="auto">
+                  <path d="M0 0L10 5L0 10z" fill="currentColor"/>
+                </marker>
+              </defs>
+              <path class="achse" d="M50 180H335" marker-end="url(#pfeil-abb2)"/>
+              <path class="achse" d="M50 180V22" marker-end="url(#pfeil-abb2)"/>
+              <text x="336" y="198" text-anchor="end">z</text>
+              <text x="58" y="26">Energie</text>
+              <path class="kurve" d="M50 50H300"/>
+              <path class="kurve blau" d="M50 180L300 50"/>
+              <path class="kurve kupfer" d="M50 50L300 180"/>
+              <path class="hilfslinie" d="M300 50V180"/>
+              <text x="50" y="198" text-anchor="middle">0</text>
+              <text x="300" y="198" text-anchor="middle">h</text>
+              <text x="44" y="54" text-anchor="end">m g h</text>
+              <text x="175" y="42" text-anchor="middle">E<tspan dy="4" font-size="10">ges</tspan></text>
+              <text class="blau" x="150" y="90">E<tspan dy="4" font-size="10">pot</tspan><tspan dy="-4"> = m g z</tspan></text>
+              <text class="kupfer" x="70" y="88">E<tspan dy="4" font-size="10">kin</tspan></text>
+            </svg>
+            <figcaption>Abb. 2: Freier Fall aus der Höhe $h$ (von rechts nach
+              links lesen). Die potentielle Energie nimmt linear ab, die kinetische
+              im selben Maß zu, die Summe bleibt $m g h$. Am Boden ist
+              $\tfrac{1}{2} m v^2 = m g h$, also $v = \sqrt{2 g h}$ – dasselbe
+              Ergebnis wie in der Kinematik, aber ohne die Zeit zu
+              berechnen.</figcaption>
+          </figure>
+
+          <h2>Das Federpendel</h2>
+
+          <p>Eine Masse $m$ hängt an einer Feder mit Federkonstante $k$
+            (Gravitation und Reibung vernachlässigt, etwa auf einer
+            Luftkissenbahn). Lenkt man sie um $x$ aus der Ruhelage aus, zieht die
+            Feder nach dem Hookeschen Gesetz mit $F = -k x$ zurück. Die Arbeit
+            der Federkraft beim Auslenken von $x_\text{i}$ (initial) nach
+            $x_\text{f}$ (final) ist</p>
+
+          $$ W_k = \int_{x_\text{i}}^{x_\text{f}} (-k x)\,\mathrm{d}x = -\tfrac{1}{2}\,k\,(x_\text{f}^2 - x_\text{i}^2) . $$
+
+          <p>Beim Spannen ist $W_k \lt 0$ (man arbeitet gegen die Federkraft),
+            beim Entspannen $W_k \gt 0$. Mit $\Delta E_\text{pot} = -W_k$ und dem
+            Referenzpunkt $x = 0$ erhält man die potentielle Energie der Feder,
+            eine Parabel (Abb. 3):</p>
+
+          $$ E_\text{pot}(x) = \tfrac{1}{2}\,k\,x^2 . $$
+
+          <p>Ohne Reibung gilt
+            $E_\text{ges} = \tfrac{1}{2} k x^2 + \tfrac{1}{2} m v^2 = \text{const}$.
+            An den <em>Umkehrpunkten</em> $x = \pm A$ (maximale Dehnung bzw.
+            Stauchung) ist $v = 0$ und die gesamte Energie potentiell,
+            $E_\text{ges} = \tfrac{1}{2} k A^2$. Bei $x = 0$ ist $E_\text{pot} = 0$,
+            und die kinetische Energie ist maximal. Die Masse schwingt mit der
+            Schwingungsdauer $T = 2\pi\sqrt{m/k}$ – die Herleitung folgt bei den
+            Schwingungen. Mit Reibung verliert das Pendel bei jedem Hin- und
+            Rückweg die Arbeit der Reibungskraft, die Amplitude nimmt ab.</p>
+
+          <figure class="abbildung">
+            <svg class="abb" viewBox="0 0 360 215" role="img"
+                 aria-label="Parabel der Federenergie mit Gesamtenergie und Umkehrpunkten">
+              <path class="achse" d="M30 190H335M180 200V20"/>
+              <path class="kurve" d="M50 40Q180 340 310 40"/>
+              <path class="hilfslinie" d="M76 94H284M76 94V190M284 94V190"/>
+              <path class="kurve kupfer" d="M232 94V166"/>
+              <path class="kurve blau" d="M232 166V190"/>
+              <circle class="punkt" cx="232" cy="166" r="4"/>
+              <path class="kurve duenn" d="M212 184.5L252 147.5"/>
+              <text x="76" y="206" text-anchor="middle">−A</text>
+              <text x="284" y="206" text-anchor="middle">A</text>
+              <text x="330" y="206" text-anchor="end">x</text>
+              <text x="188" y="30">E</text>
+              <text x="74" y="86">E<tspan dy="4" font-size="10">ges</tspan></text>
+              <text class="kupfer" x="226" y="132" text-anchor="end">E<tspan dy="4" font-size="10">kin</tspan></text>
+              <text class="blau" x="238" y="186">E<tspan dy="4" font-size="10">pot</tspan></text>
+              <text x="268" y="166" font-size="11">Steigung = −F</text>
+              <text x="312" y="52">½ k x²</text>
+            </svg>
+            <figcaption>Abb. 3: Federpendel. Die potentielle Energie ist eine
+              Parabel. Bei gegebener Gesamtenergie (gestrichelt) bewegt sich die
+              Masse nur zwischen den Umkehrpunkten $\pm A$. An jeder Stelle ist der
+              Abstand zwischen Parabel und $E_\text{ges}$ die kinetische Energie
+              (orange). Die Steigung der Parabel ist die negative Kraft.</figcaption>
+          </figure>
+
+          <h2>Die Kraft aus der potentiellen Energie</h2>
+
+          <p>Aus $E_\text{pot} = -\int F\,\mathrm{d}x$ folgt umgekehrt in einer
+            Dimension</p>
+
+          $$ F(x) = -\frac{\mathrm{d}E_\text{pot}}{\mathrm{d}x} . $$
+
+          <p>Die Kraft ist also groß, wo sich die potentielle Energie stark
+            ändert, und sie zeigt immer „bergab“. Wo die Kurve waagerecht ist,
+            $\mathrm{d}E_\text{pot}/\mathrm{d}x = 0$, verschwindet die Kraft:
+            Dort liegt ein <em>Gleichgewicht</em> – stabil in einem Minimum (wie in
+            einer Mulde), instabil in einem Maximum (wie auf einer Kuppe). Beim
+            Federpendel: $F = -\mathrm{d}(\tfrac{1}{2} k x^2)/\mathrm{d}x = -k x$ ✓.</p>
+
+          <p>In drei Dimensionen tritt an die Stelle der Ableitung der
+            <em>Gradient</em>, gebildet mit dem Nabla-Operator:</p>
+
+          $$ \vec{F} = -\nabla E_\text{pot} = -\operatorname{grad} E_\text{pot}, \qquad \nabla = \begin{pmatrix} \partial/\partial x \\ \partial/\partial y \\ \partial/\partial z \end{pmatrix} = \hat{e}_x \frac{\partial}{\partial x} + \hat{e}_y \frac{\partial}{\partial y} + \hat{e}_z \frac{\partial}{\partial z} . $$
+
+          <p>Der Gradient macht aus dem Skalar $E_\text{pot}$ einen Vektor, der
+            in die Richtung des steilsten Anstiegs zeigt; die Kraft zeigt genau
+            entgegengesetzt. Mechanisches Gleichgewicht herrscht, wo
+            $\vec{F} = 0$, also $\nabla E_\text{pot} = 0$ ist.</p>
+
+          <div class="merkkasten">
+            <span class="titel">Merke</span>
+            $$ W = -\Delta E_\text{pot}, \qquad \Delta E_\text{kin} = W, \qquad E_\text{kin} + E_\text{pot} = \text{const}, \qquad \vec{F} = -\nabla E_\text{pot} $$
+            <p>Wichtige potentielle Energien: $m g z$ (homogenes Schwerefeld),
+              $-G M m/r$ (Gravitation, $E_\text{pot}(\infty) = 0$),
+              $\tfrac{1}{2} k x^2$ (Feder).</p>
+          </div>
+        </section>
+
+        <section class="tab" id="beispiele" data-titel="Beispielrechnungen">
+
+          <div class="beispiel">
+            <h3>Beispiel 1: Die Achterbahn</h3>
+            <p><strong>Gegeben:</strong> Ein Achterbahnwagen rollt aus der Ruhe
+              von einem $40\,\mathrm{m}$ hohen Lifthügel. Der tiefste Punkt der
+              folgenden Abfahrt liegt $2{,}0\,\mathrm{m}$ über dem Boden, danach
+              kommt ein Looping, dessen höchster Punkt $25\,\mathrm{m}$ hoch ist.
+              Reibung vernachlässigen wir.<br>
+              <strong>Gesucht:</strong> Geschwindigkeit im Tal und oben im
+              Looping.</p>
+
+            <p><strong>1. Energiesatz</strong> zwischen Start (Höhe $h_0$,
+              $v_0 = 0$) und einem Punkt der Höhe $h$:
+              $$ m g h_0 = m g h + \tfrac{1}{2} m v^2 \quad\Rightarrow\quad v = \sqrt{2 g\,(h_0 - h)} $$
+              Die Masse kürzt sich heraus.</p>
+
+            <p><strong>2. Im Tal</strong> ($h_0 - h = 38\,\mathrm{m}$):
+              $$ v = \sqrt{2 \cdot 9{,}81\,\mathrm{\tfrac{m}{s^2}} \cdot 38\,\mathrm{m}} = \sqrt{746\,\mathrm{m^2/s^2}} = 27{,}3\,\mathrm{m/s} = 98\,\mathrm{km/h} $$</p>
+
+            <p><strong>3. Oben im Looping</strong> ($h_0 - h = 15\,\mathrm{m}$):
+              $$ v = \sqrt{2 \cdot 9{,}81\,\mathrm{\tfrac{m}{s^2}} \cdot 15\,\mathrm{m}} = \sqrt{294\,\mathrm{m^2/s^2}} = 17{,}2\,\mathrm{m/s} = 62\,\mathrm{km/h} $$</p>
+
+            <p><strong>Ergebnis und Plausibilität:</strong> Knapp 100 km/h im Tal
+              sind typisch für große Achterbahnen dieser Höhe. Bemerkenswert: Für
+              die Geschwindigkeit ist die Form der Strecke egal, nur die
+              Höhendifferenz zählt – das zeigt die Stärke des Energiesatzes. In
+              Wirklichkeit ist der Wagen wegen Reibung und Luftwiderstand etwas
+              langsamer.</p>
+          </div>
+
+          <div class="beispiel">
+            <h3>Beispiel 2: Die Federpistole</h3>
+            <p><strong>Gegeben:</strong> Eine Spielzeugpistole hat eine Feder mit
+              $k = 250\,\mathrm{N/m}$, die um $6{,}0\,\mathrm{cm}$ zusammengedrückt
+              wird. Sie schießt eine Kugel mit $m = 10\,\mathrm{g}$ senkrecht nach
+              oben (Reibung und Höhe der Feder vernachlässigt).<br>
+              <strong>Gesucht:</strong> Abschussgeschwindigkeit und Steighöhe.</p>
+
+            <p><strong>1. Gespeicherte Energie:</strong>
+              $$ E = \tfrac{1}{2} k x^2 = \tfrac{1}{2} \cdot 250\,\mathrm{\tfrac{N}{m}} \cdot (0{,}060\,\mathrm{m})^2 = 125\,\mathrm{\tfrac{N}{m}} \cdot 0{,}0036\,\mathrm{m^2} = 0{,}45\,\mathrm{J} $$</p>
+
+            <p><strong>2. Abschussgeschwindigkeit</strong>
+              ($E = \tfrac{1}{2} m v_0^2$):
+              $$ v_0 = \sqrt{\frac{2E}{m}} = \sqrt{\frac{2 \cdot 0{,}45\,\mathrm{J}}{0{,}010\,\mathrm{kg}}} = \sqrt{90\,\mathrm{m^2/s^2}} = 9{,}5\,\mathrm{m/s} $$</p>
+
+            <p><strong>3. Steighöhe</strong> ($E = m g h$):
+              $$ h = \frac{E}{m g} = \frac{0{,}45\,\mathrm{J}}{0{,}010\,\mathrm{kg} \cdot 9{,}81\,\mathrm{m/s^2}} = 4{,}6\,\mathrm{m} $$
+              Einheitencheck: $\mathrm{J}/\mathrm{N} = \mathrm{N\,m}/\mathrm{N} = \mathrm{m}$ ✓</p>
+
+            <p><strong>Ergebnis und Plausibilität:</strong> Die Kugel fliegt
+              knapp 5 m hoch, das passt zu einem Spielzeug. Kontrolle über die
+              Kinematik: $h = v_0^2/(2g) = 90/19{,}62\,\mathrm{m} = 4{,}6\,\mathrm{m}$ ✓.
+              Doppelt so weit gespannt hieße viermal so hoch, weil die Energie mit
+              $x^2$ wächst.</p>
+          </div>
+
+          <div class="beispiel">
+            <h3>Beispiel 3: Fluchtgeschwindigkeit der Erde</h3>
+            <p><strong>Gegeben:</strong> Erdradius $R = 6{,}37 \cdot 10^6\,\mathrm{m}$,
+              $g = 9{,}81\,\mathrm{m/s^2}$. Luftwiderstand und Erdrotation
+              vernachlässigen wir.<br>
+              <strong>Gesucht:</strong> die kleinste Startgeschwindigkeit, mit der
+              ein Körper der Erde für immer entkommt.</p>
+
+            <p><strong>1. Bedingung:</strong> Der Körper soll gerade noch
+              $r \to \infty$ erreichen, dort mit $v = 0$. Mit
+              $E_\text{pot}(\infty) = 0$ ist dann $E_\text{ges} = 0$.</p>
+
+            <p><strong>2. Energiesatz</strong> zwischen Erdoberfläche und
+              Unendlich:
+              $$ \tfrac{1}{2} m v_\text{F}^2 - \frac{G M m}{R} = 0 \quad\Rightarrow\quad v_\text{F} = \sqrt{\frac{2 G M}{R}} = \sqrt{2 g R} $$
+              (mit $G M = g R^2$).</p>
+
+            <p><strong>3. Zahlen:</strong>
+              $$ v_\text{F} = \sqrt{2 \cdot 9{,}81\,\mathrm{\tfrac{m}{s^2}} \cdot 6{,}37 \cdot 10^6\,\mathrm{m}} = \sqrt{1{,}25 \cdot 10^8\,\mathrm{m^2/s^2}} = 1{,}12 \cdot 10^4\,\mathrm{m/s} = 11{,}2\,\mathrm{km/s} $$</p>
+
+            <p><strong>Ergebnis und Plausibilität:</strong> 11,2 km/s ist der
+              bekannte Wert der zweiten kosmischen Geschwindigkeit. Er hängt nicht
+              von der Masse ab – eine Raumsonde braucht dasselbe Tempo wie ein
+              Sandkorn. Hätte man naiv mit $m g h$ und $h \to \infty$ gerechnet,
+              wäre die Energie unendlich groß geworden; erst die richtige
+              potentielle Energie $-G M m/r$ liefert ein endliches Ergebnis.</p>
+          </div>
+        </section>
+
+        <section class="tab" id="aufgaben" data-titel="Aufgaben">
+
+          <p>Die Aufgaben sind nach Schwierigkeit sortiert. Wenn nichts anderes
+            gesagt ist, gilt $g = 9{,}81\,\mathrm{m/s^2}$, und Luftwiderstand
+            wird vernachlässigt.</p>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 1: Der fallende Apfel
+              <span class="schwierigkeit" data-stufe="leicht">leicht</span>
+            </h3>
+            <p>Ein Apfel fällt aus $3{,}0\,\mathrm{m}$ Höhe vom Baum. Wie schnell
+              ist er unten? Rechne mit dem Energiesatz.</p>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>$m g h = \tfrac{1}{2} m v^2 \Rightarrow
+                v = \sqrt{2 g h} = \sqrt{2 \cdot 9{,}81 \cdot 3{,}0}\,\mathrm{m/s} = 7{,}7\,\mathrm{m/s} \approx 28\,\mathrm{km/h}$.
+                Die Masse des Apfels spielt keine Rolle.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 2: Wie viel Schokolade ist ein Berg?
+              <span class="schwierigkeit" data-stufe="leicht">leicht</span>
+            </h3>
+            <p>Eine Bergsteigerin (mit Gepäck $75\,\mathrm{kg}$) steigt
+              $1000\,\mathrm{m}$ hoch. (a) Um wie viel nimmt ihre potentielle
+              Energie zu? (b) Eine Tafel Schokolade (100 g) liefert etwa
+              $2250\,\mathrm{kJ}$. Wie viele Tafeln entspricht das, wenn die
+              Muskeln nur 25 % der Nahrungsenergie in Hubarbeit umsetzen?</p>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p><strong>(a)</strong>
+                $\Delta E_\text{pot} = m g h = 75 \cdot 9{,}81 \cdot 1000\,\mathrm{J} = 736\,\mathrm{kJ}$.</p>
+              <p><strong>(b)</strong> Benötigte Nahrungsenergie
+                $736\,\mathrm{kJ}/0{,}25 = 2940\,\mathrm{kJ}$, also etwa
+                $1{,}3$ Tafeln. Rein physikalisch würde ein Drittel einer Tafel
+                reichen – der Rest wird zu Körperwärme.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 3: Die Schaukel
+              <span class="schwierigkeit" data-stufe="mittel">mittel</span>
+            </h3>
+            <p>Eine Schaukel hängt an $2{,}5\,\mathrm{m}$ langen Seilen. Ein Kind
+              wird um $40°$ ausgelenkt und losgelassen. (a) Wie schnell ist es
+              am tiefsten Punkt? (b) Wie schnell ist es dort, wenn es nur um $20°$
+              ausgelenkt wird? Warum ist das nicht halb so schnell?</p>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p><strong>(a)</strong> Der Höhenunterschied ist
+                $h = L\,(1 - \cos\theta) = 2{,}5\,\mathrm{m} \cdot (1 - 0{,}766) = 0{,}585\,\mathrm{m}$.
+                Energiesatz: $v = \sqrt{2 g h} = \sqrt{2 \cdot 9{,}81 \cdot 0{,}585}\,\mathrm{m/s} = 3{,}4\,\mathrm{m/s}$.
+                Die Seilkraft steht stets senkrecht zur Bewegung und verrichtet
+                keine Arbeit – deshalb darf man den Energiesatz einfach
+                anwenden.</p>
+              <p><strong>(b)</strong> $h = 2{,}5\,\mathrm{m} \cdot (1 - \cos 20°) = 0{,}151\,\mathrm{m}$,
+                $v = 1{,}7\,\mathrm{m/s}$ – fast genau die Hälfte. Für kleine Winkel
+                ist $1 - \cos\theta \approx \theta^2/2$, also $h \propto \theta^2$
+                und $v \propto \theta$: In dieser Näherung ist die Geschwindigkeit
+                tatsächlich proportional zum Winkel.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 4: Reibung in der Halfpipe
+              <span class="schwierigkeit" data-stufe="mittel">mittel</span>
+            </h3>
+            <p>Ein Skater ($60\,\mathrm{kg}$) startet aus der Ruhe auf
+              $3{,}0\,\mathrm{m}$ Höhe in einer Halfpipe und kommt auf der anderen
+              Seite nur noch $2{,}6\,\mathrm{m}$ hoch. Die Fahrstrecke dazwischen
+              ist $12\,\mathrm{m}$ lang. (a) Wie viel mechanische Energie ging in
+              Wärme über, welcher Anteil ist das? (b) Wie groß war die mittlere
+              Reibungskraft?</p>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p><strong>(a)</strong> An beiden Umkehrpunkten ist
+                $E_\text{kin} = 0$, also
+                $Q = m g\,\Delta h = 60 \cdot 9{,}81 \cdot 0{,}40\,\mathrm{J} = 235\,\mathrm{J}$;
+                das sind $0{,}40/3{,}0 = 13\,\%$ der Anfangsenergie.</p>
+              <p><strong>(b)</strong> Die Reibung verrichtet auf $12\,\mathrm{m}$
+                die Arbeit $-235\,\mathrm{J}$:
+                $\bar{F}_\text{R} = 235\,\mathrm{J} / 12\,\mathrm{m} = 20\,\mathrm{N}$
+                – etwa 3 % des Gewichts. Ginge bei jeder Fahrt derselbe Anteil
+                verloren, wäre nach fünf Fahrten nur noch die Hälfte der Energie
+                übrig ($0{,}87^5 \approx 0{,}49$).</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 5: Gegen eine Feder rutschen
+              <span class="schwierigkeit" data-stufe="schwer">schwer</span>
+            </h3>
+            <p>Ein Klotz ($m = 2{,}0\,\mathrm{kg}$) gleitet mit
+              $3{,}0\,\mathrm{m/s}$ über einen Boden mit $\mu_\text{Gl} = 0{,}20$
+              und trifft dabei auf eine Feder ($k = 500\,\mathrm{N/m}$), die er
+              zusammendrückt.</p>
+            <ol type="a">
+              <li>Wie weit wird die Feder zusammengedrückt? (Die Reibung wirkt nur
+                während des Zusammendrückens.)</li>
+              <li>Vergleiche mit dem reibungsfreien Fall.</li>
+              <li>Bleibt der Klotz an der Stelle größter Stauchung liegen
+                ($\mu_\text{H} = 0{,}30$)?</li>
+            </ol>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p><strong>(a)</strong> Energiebilanz: Die kinetische Energie wird zu
+                Federenergie und Reibungswärme,
+                $$ \tfrac{1}{2} m v^2 = \tfrac{1}{2} k x^2 + \mu_\text{Gl} m g x \quad\Rightarrow\quad 9{,}0\,\mathrm{J} = 250\,\mathrm{\tfrac{N}{m}}\,x^2 + 3{,}92\,\mathrm{N}\,x . $$
+                Die positive Lösung der quadratischen Gleichung:
+                $$ x = \frac{-3{,}92 + \sqrt{3{,}92^2 + 4 \cdot 250 \cdot 9{,}0}}{2 \cdot 250}\,\mathrm{m} = \frac{-3{,}92 + 94{,}95}{500}\,\mathrm{m} = 0{,}182\,\mathrm{m} $$</p>
+              <p><strong>(b)</strong> Ohne Reibung:
+                $x = v\sqrt{m/k} = 3{,}0 \cdot \sqrt{2{,}0/500}\,\mathrm{m} = 0{,}190\,\mathrm{m}$.
+                Die Reibung „frisst“ dabei
+                $3{,}92\,\mathrm{N} \cdot 0{,}182\,\mathrm{m} = 0{,}71\,\mathrm{J}$,
+                knapp 8 % der Energie.</p>
+              <p><strong>(c)</strong> Die Feder drückt mit
+                $k x = 500 \cdot 0{,}182\,\mathrm{N} = 91\,\mathrm{N}$, die
+                Haftreibung kann höchstens
+                $\mu_\text{H} m g = 0{,}30 \cdot 19{,}6\,\mathrm{N} = 5{,}9\,\mathrm{N}$
+                halten. Der Klotz wird also zurückgeschoben.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe" data-symbole='{"A": "Konstante der Abstoßung", "B": "Konstante der Anziehung", "x": "Abstand der Atome", "x_0": "Gleichgewichtsabstand"}'>
+            <h3>Aufgabe 6: Ein einfaches Molekülmodell
+              <span class="schwierigkeit" data-stufe="schwer">schwer</span>
+            </h3>
+            <p>Die potentielle Energie zweier Atome im Abstand $x$ werde
+              modelliert durch
+              $$ E_\text{pot}(x) = \frac{A}{x^2} - \frac{B}{x}, \qquad A = 1{,}0 \cdot 10^{-20}\,\mathrm{J\,nm^2}, \quad B = 1{,}0 \cdot 10^{-19}\,\mathrm{J\,nm} . $$</p>
+            <ol type="a">
+              <li>Bestimme die Kraft $F(x)$. Für welche $x$ ist sie anziehend,
+                für welche abstoßend?</li>
+              <li>Bei welchem Abstand $x_0$ liegt das Gleichgewicht? Ist es
+                stabil?</li>
+              <li>Wie viel Energie braucht man, um die Atome aus dem Gleichgewicht
+                vollständig zu trennen ($x \to \infty$)? Gib das Ergebnis auch in
+                Elektronvolt an ($1\,\mathrm{eV} = 1{,}602 \cdot 10^{-19}\,\mathrm{J}$).</li>
+            </ol>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p><strong>(a)</strong>
+                $$ F(x) = -\frac{\mathrm{d}E_\text{pot}}{\mathrm{d}x} = \frac{2A}{x^3} - \frac{B}{x^2} . $$
+                $F \gt 0$ (abstoßend, nach außen) für $x \lt 2A/B$, $F \lt 0$
+                (anziehend) für $x \gt 2A/B$.</p>
+              <p><strong>(b)</strong> $F(x_0) = 0 \Rightarrow x_0 = 2A/B = 0{,}20\,\mathrm{nm}$.
+                Stabil, weil die Kraft für $x \lt x_0$ nach außen und für
+                $x \gt x_0$ nach innen zeigt – ein Minimum von $E_\text{pot}$
+                (zweite Ableitung $6A/x_0^4 - 2B/x_0^3 = B^4/(8A^3) \gt 0$).</p>
+              <p><strong>(c)</strong>
+                $E_\text{pot}(x_0) = \frac{A B^2}{4A^2} - \frac{B^2}{2A} = -\frac{B^2}{4A} = -\frac{10^{-38}}{4 \cdot 10^{-20}}\,\mathrm{J} = -2{,}5 \cdot 10^{-19}\,\mathrm{J}$.
+                Bis $E_\text{pot}(\infty) = 0$ braucht man also
+                $2{,}5 \cdot 10^{-19}\,\mathrm{J} = 1{,}56\,\mathrm{eV}$ – die
+                Größenordnung typischer chemischer Bindungsenergien.</p>
+              <p><strong>Zum Nachdenken:</strong> In der Nähe des Minimums sieht
+                jede glatte Potentialkurve aus wie eine Parabel. Deshalb schwingen
+                Atome in Molekülen bei kleinen Auslenkungen wie ein Federpendel
+                (harmonischer Oszillator) – und bei großen nicht mehr
+                (anharmonischer Oszillator).</p>
+            </details>
+          </div>
+        </section>
+
+      </div></article>
+  </main>
+</body>
+</html>

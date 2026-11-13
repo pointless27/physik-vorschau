@@ -1,0 +1,1048 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="robots" content="noindex">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Differentialgleichungen in der Physik</title>
+  <meta name="description" content="Differentialgleichungen für den Physik-Einstieg: Ordnung und Anfangsbedingungen, Trennung der Variablen, lineare Gleichungen, Exponentialansatz, gedämpfte und erzwungene Schwingung, Euler-Verfahren. Mit Abbildungen, Beispielen und Aufgaben.">
+
+  <link rel="stylesheet" href="../../css/stil.css">
+
+  <link rel="stylesheet" href="../../extern/katex/katex.min.css">
+  <script defer src="../../extern/katex/katex.min.js"></script>
+  <script defer src="../../extern/katex/contrib/auto-render.min.js" onload="starteFormeln()"></script>
+
+  <script src="../../js/daten.js"></script>
+  <script src="../../js/seite.js"></script>
+  <script src="../../js/effekte.js"></script>
+  <script src="../../js/interaktiv.js"></script>
+  <script src="../../js/modelle/dgl-physik.js"></script>
+  <script type="application/json" id="symbole">
+  {
+    "t": "Zeit",
+    "x": "gesuchte Funktion, meist die Auslenkung",
+    "x_0": "Anfangswert von x",
+    "x_h": "allgemeine Lösung der homogenen Gleichung",
+    "x_p": "partikuläre Lösung (eine Lösung der vollen Gleichung)",
+    "x_n": "Näherungswert nach n Euler-Schritten",
+    "n": "Nummer des Schritts bzw. Ordnung der DGL",
+    "z": "Höhe (z-Achse nach oben)",
+    "z_0": "Anfangshöhe",
+    "v": "Geschwindigkeit",
+    "v_0": "Anfangsgeschwindigkeit",
+    "v_∞": "Endgeschwindigkeit",
+    "m": "Masse",
+    "g": "Fallbeschleunigung 9,81 m/s²",
+    "F": "Kraft",
+    "F_0": "Amplitude der antreibenden Kraft",
+    "F_R": "Reibungskraft",
+    "N": "Zahl der noch nicht zerfallenen Kerne",
+    "N_0": "Zahl der Kerne am Anfang",
+    "λ": "Zerfallskonstante bzw. Exponent im Exponentialansatz",
+    "λ_1": "erste Lösung der charakteristischen Gleichung",
+    "λ_2": "zweite Lösung der charakteristischen Gleichung",
+    "t_1/2": "Halbwertszeit",
+    "T": "Temperatur",
+    "T_0": "Anfangstemperatur",
+    "T_U": "Umgebungstemperatur",
+    "τ": "Zeitkonstante",
+    "u": "Abstand zur Umgebungstemperatur",
+    "b": "Reibungskoeffizient (Reibungskraft pro Geschwindigkeit)",
+    "k": "Federkonstante",
+    "γ": "Abklingkonstante, γ = b/(2m)",
+    "ω_0": "Eigenkreisfrequenz ohne Dämpfung",
+    "ω_d": "Kreisfrequenz der gedämpften Schwingung",
+    "A": "Amplitude",
+    "B": "zweiter Koeffizient im Ansatz",
+    "φ": "Phase",
+    "C": "Integrationskonstante",
+    "c_1": "erste Konstante der allgemeinen Lösung",
+    "c_2": "zweite Konstante der allgemeinen Lösung",
+    "C_1": "erste Integrationskonstante",
+    "C_2": "zweite Integrationskonstante",
+    "f": "rechte Seite der DGL (Störglied)",
+    "p": "Faktor der rechten Seite, der nur von x abhängt",
+    "h": "Faktor der rechten Seite, der nur von t abhängt",
+    "η": "Viskosität der Luft",
+    "r": "Radius des Tröpfchens",
+    "R": "elektrischer Widerstand",
+    "U": "Spannung am Kondensator",
+    "U_0": "Spannung der Batterie",
+    "μ": "Vorsilbe Mikro, ein Millionstel",
+    "π": "Kreiszahl 3,14159…"
+  }
+  </script>
+</head>
+<body data-thema="dgl-physik">
+  <main>
+    <article class="thema">
+      <header>
+        <h1>Differentialgleichungen in der Physik</h1>
+        <p class="untertitel">Die Naturgesetze sagen, wie schnell sich etwas
+          ändert. Wie man daraus den ganzen Verlauf bekommt: Zerfall,
+          Abkühlung, Fall mit Reibung und die gedämpfte Schwingung.</p>
+      </header>
+
+      <div class="tabs">
+
+        <section class="tab" id="verstehen" data-titel="Verstehen">
+
+          <p>Eine Tasse Kaffee kühlt ab. Wie schnell, hängt davon ab, wie heiß
+            sie gerade ist: Frisch eingeschenkt verliert sie in einer Minute
+            mehrere Grad, lauwarm kaum noch eines. Das physikalische Gesetz
+            sagt hier nicht direkt, welche Temperatur der Kaffee nach zehn
+            Minuten hat. Es sagt, wie schnell sich die Temperatur in jedem
+            Moment ändert. Eine solche Aussage über eine Änderungsrate ist eine
+            <strong>Differentialgleichung</strong> (kurz DGL). Fast alle
+            Grundgesetze der Physik haben diese Form. Auf dieser Seite lernst
+            du die Handgriffe, mit denen du die häufigsten davon löst. Du
+            solltest dafür ableiten und integrieren können, vor allem die
+            Exponentialfunktion.</p>
+
+          <h2 id="was-ist-eine-dgl">Was eine Differentialgleichung ist</h2>
+
+          <p>Eine gewöhnliche Gleichung wie $x^2 = 4$ hat Zahlen als Lösung.
+            Eine Differentialgleichung ist eine Gleichung für eine unbekannte
+            <em>Funktion</em> $x(t)$, in der auch Ableitungen dieser Funktion
+            vorkommen. Ein Beispiel ist das Zerfallsgesetz eines radioaktiven
+            Präparats:</p>
+
+          $$ \frac{\mathrm{d}N}{\mathrm{d}t} = -\lambda N $$
+
+          <p>In Worten: Pro Zeit zerfällt ein fester Bruchteil $\lambda$ der
+            noch vorhandenen Kerne $N$. Gesucht ist die Funktion $N(t)$, deren
+            Ableitung in jedem Moment $-\lambda$ mal ihr eigener Wert ist. Ob
+            eine Funktion die Gleichung löst, prüfst du durch Einsetzen. Für
+            $N(t) = N_0\,\mathrm{e}^{-\lambda t}$ ist
+            $\dot N = -\lambda N_0\,\mathrm{e}^{-\lambda t} = -\lambda N(t)$,
+            und zwar für jedes $t$.</p>
+
+          <p>Warum die Physik so spricht, zeigt das zweite
+            <a href="../mechanik/newton-axiome.html">Newtonsche Axiom</a>. Die
+            Kraft auf einen Körper hängt meist vom Ort und von der
+            Geschwindigkeit ab, und sie legt die Beschleunigung fest:</p>
+
+          $$ m\ddot x = F(x, \dot x, t) $$
+
+          <p>Das ist eine Gleichung für die Bahn $x(t)$, in der deren zweite
+            Ableitung steht. Das Gesetz beschreibt nur, was im nächsten
+            Augenblick passiert. Die ganze Bahn entsteht, wenn man diese
+            Augenblicke aneinanderhängt, und genau das leistet das Lösen der
+            DGL.</p>
+
+          <p>Die höchste vorkommende Ableitung heißt <strong>Ordnung</strong>
+            der DGL. Das Zerfallsgesetz ist von erster Ordnung, Newtons
+            Bewegungsgleichung von zweiter. Hängt die gesuchte Funktion nur von
+            einer Variablen ab (meist der Zeit), heißt die DGL
+            <em>gewöhnlich</em>. Kommen partielle Ableitungen nach Ort und Zeit
+            vor, ist sie <em>partiell</em>, wie die Wärmeleitungsgleichung auf
+            der Seite über <a href="differentialoperatoren.html#laplace">Gradient,
+            Divergenz und Rotation</a>. Hier geht es nur um gewöhnliche.</p>
+
+          <p>Eine DGL erster Ordnung kannst du zeichnen, ohne sie zu lösen.
+            Sie schreibt an jedem Punkt $(t, x)$ eine Steigung vor. Trägst du
+            an vielen Punkten kurze Striche mit dieser Steigung ein, entsteht
+            ein <strong>Richtungsfeld</strong>. Jede Lösung ist eine Kurve, die
+            überall den Strichen folgt (Abb. 1).</p>
+
+          <figure class="abbildung">
+            <svg class="abb" viewBox="0 0 400 245" role="img" aria-label="Richtungsfeld der Abkühlungsgleichung: an jedem Punkt ein kurzer Strich mit der vorgeschriebenen Steigung, dazu drei Lösungskurven, die bei 90, 50 und 5 Grad Celsius beginnen und sich alle der Raumtemperatur von 20 Grad nähern">
+            <defs>
+              <marker id="pfeil-abb1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+                <path d="M0 0L10 5L0 10z" fill="currentColor"/>
+              </marker>
+            </defs>
+            <path class="kurve schwach" d="M55.5 204.1L68.1 200.9M55.4 184.1L68.3 182.9M55.4 163.9L68.3 165.1M55.5 143.9L68.1 147.1M55.9 123.9L67.8 129.1M56.3 104.2L67.4 110.8M56.7 84.5L67 92.5M57.1 65L66.6 74M57.5 45.7L66.2 55.3M57.8 26.4L65.8 36.6M83.2 204.1L95.8 200.9M83 184.1L96 182.9M83 163.9L96 165.1M83.2 143.9L95.8 147.1M83.5 123.9L95.5 129.1M83.9 104.2L95.1 110.8M84.4 84.5L94.6 92.5M84.8 65L94.2 74M85.2 45.7L93.8 55.3M85.5 26.4L93.5 36.6M110.9 204.1L123.5 200.9M110.7 184.1L123.6 182.9M110.7 163.9L123.6 165.1M110.9 143.9L123.5 147.1M111.2 123.9L123.1 129.1M111.6 104.2L122.7 110.8M112 84.5L122.3 92.5M112.4 65L121.9 74M112.8 45.7L121.5 55.3M113.2 26.4L121.2 36.6M138.5 204.1L151.1 200.9M138.4 184.1L151.3 182.9M138.4 163.9L151.3 165.1M138.5 143.9L151.1 147.1M138.9 123.9L150.8 129.1M139.3 104.2L150.4 110.8M139.7 84.5L150 92.5M140.1 65L149.6 74M140.5 45.7L149.2 55.3M140.8 26.4L148.8 36.6M166.2 204.1L178.8 200.9M166 184.1L179 182.9M166 163.9L179 165.1M166.2 143.9L178.8 147.1M166.5 123.9L178.5 129.1M166.9 104.2L178.1 110.8M167.4 84.5L177.6 92.5M167.8 65L177.2 74M168.2 45.7L176.8 55.3M168.5 26.4L176.5 36.6M193.9 204.1L206.5 200.9M193.7 184.1L206.6 182.9M193.7 163.9L206.6 165.1M193.9 143.9L206.5 147.1M194.2 123.9L206.1 129.1M194.6 104.2L205.7 110.8M195 84.5L205.3 92.5M195.4 65L204.9 74M195.8 45.7L204.5 55.3M196.2 26.4L204.2 36.6M221.5 204.1L234.1 200.9M221.4 184.1L234.3 182.9M221.4 163.9L234.3 165.1M221.5 143.9L234.1 147.1M221.9 123.9L233.8 129.1M222.3 104.2L233.4 110.8M222.7 84.5L233 92.5M223.1 65L232.6 74M223.5 45.7L232.2 55.3M223.8 26.4L231.8 36.6M249.2 204.1L261.8 200.9M249 184.1L262 182.9M249 163.9L262 165.1M249.2 143.9L261.8 147.1M249.5 123.9L261.5 129.1M249.9 104.2L261.1 110.8M250.4 84.5L260.6 92.5M250.8 65L260.2 74M251.2 45.7L259.8 55.3M251.5 26.4L259.5 36.6M276.9 204.1L289.5 200.9M276.7 184.1L289.6 182.9M276.7 163.9L289.6 165.1M276.9 143.9L289.5 147.1M277.2 123.9L289.1 129.1M277.6 104.2L288.7 110.8M278 84.5L288.3 92.5M278.4 65L287.9 74M278.8 45.7L287.5 55.3M279.2 26.4L287.2 36.6M304.5 204.1L317.1 200.9M304.4 184.1L317.3 182.9M304.4 163.9L317.3 165.1M304.5 143.9L317.1 147.1M304.9 123.9L316.8 129.1M305.3 104.2L316.4 110.8M305.7 84.5L316 92.5M306.1 65L315.6 74M306.5 45.7L315.2 55.3M306.8 26.4L314.8 36.6M332.2 204.1L344.8 200.9M332 184.1L345 182.9M332 163.9L345 165.1M332.2 143.9L344.8 147.1M332.5 123.9L344.5 129.1M332.9 104.2L344.1 110.8M333.4 84.5L343.6 92.5M333.8 65L343.2 74M334.2 45.7L342.8 55.3M334.5 26.4L342.5 36.6M359.9 204.1L372.5 200.9M359.7 184.1L372.6 182.9M359.7 163.9L372.6 165.1M359.9 143.9L372.5 147.1M360.2 123.9L372.1 129.1M360.6 104.2L371.7 110.8M361 84.5L371.3 92.5M361.4 65L370.9 74M361.8 45.7L370.5 55.3M362.2 26.4L370.2 36.6"/>
+            <path class="hilfslinie" d="M48 174H380"/>
+            <path class="achse" d="M48 212H388" marker-end="url(#pfeil-abb1)"/>
+            <path class="achse" d="M48 212V12" marker-end="url(#pfeil-abb1)"/>
+            <text class="klein" x="48" y="227" text-anchor="middle">0</text>
+            <text class="klein" x="158.7" y="227" text-anchor="middle">20</text>
+            <text class="klein" x="269.3" y="227" text-anchor="middle">40</text>
+            <text class="klein" x="380" y="227" text-anchor="middle">60</text>
+            <text class="klein" x="42" y="216" text-anchor="end">0</text>
+            <text class="klein" x="42" y="178" text-anchor="end">20</text>
+            <text class="klein" x="42" y="140" text-anchor="end">40</text>
+            <text class="klein" x="42" y="102" text-anchor="end">60</text>
+            <text class="klein" x="42" y="64" text-anchor="end">80</text>
+            <text class="klein" x="42" y="26" text-anchor="end">100</text>
+            <text class="klein" x="386" y="240" text-anchor="end">t in min</text>
+            <text class="klein" x="56" y="18">T in °C</text>
+            <path class="kurve kupfer" d="M48 41L50.8 44.3L53.5 47.5L56.3 50.6L59.1 53.7L61.8 56.6L64.6 59.5L67.4 62.4L70.1 65.1L72.9 67.8L75.7 70.4L78.4 73L81.2 75.5L84 77.9L86.7 80.3L89.5 82.6L92.3 84.8L95 87L97.8 89.2L100.6 91.3L103.3 93.3L106.1 95.3L108.9 97.3L111.6 99.2L114.4 101L117.2 102.8L119.9 104.6L122.7 106.3L125.5 108L128.2 109.6L131 111.2L133.8 112.7L136.5 114.2L139.3 115.7L142.1 117.2L144.8 118.6L147.6 119.9L150.4 121.3L153.1 122.6L155.9 123.8L158.7 125.1L161.4 126.3L164.2 127.5L167 128.6L169.7 129.7L172.5 130.8L175.3 131.9L178 132.9L180.8 133.9L183.6 134.9L186.3 135.9L189.1 136.8L191.9 137.8L194.6 138.6L197.4 139.5L200.2 140.4L202.9 141.2L205.7 142L208.5 142.8L211.2 143.6L214 144.3L216.8 145.1L219.5 145.8L222.3 146.5L225.1 147.1L227.8 147.8L230.6 148.5L233.4 149.1L236.1 149.7L238.9 150.3L241.7 150.9L244.4 151.5L247.2 152L250 152.6L252.7 153.1L255.5 153.6L258.3 154.1L261 154.6L263.8 155.1L266.6 155.5L269.3 156L272.1 156.4L274.9 156.9L277.6 157.3L280.4 157.7L283.2 158.1L285.9 158.5L288.7 158.9L291.5 159.3L294.2 159.6L297 160L299.8 160.3L302.5 160.7L305.3 161L308.1 161.3L310.8 161.6L313.6 161.9L316.4 162.2L319.1 162.5L321.9 162.8L324.7 163.1L327.4 163.4L330.2 163.6L333 163.9L335.7 164.1L338.5 164.4L341.3 164.6L344 164.8L346.8 165.1L349.6 165.3L352.3 165.5L355.1 165.7L357.9 165.9L360.6 166.1L363.4 166.3L366.2 166.5L368.9 166.7L371.7 166.9L374.5 167L377.2 167.2L380 167.4"/>
+            <circle class="punkt" cx="48" cy="41" r="3.5"/>
+            <path class="kurve blau" d="M48 117L50.8 118.4L53.5 119.8L56.3 121.1L59.1 122.4L61.8 123.7L64.6 124.9L67.4 126.2L70.1 127.3L72.9 128.5L75.7 129.6L78.4 130.7L81.2 131.8L84 132.8L86.7 133.8L89.5 134.8L92.3 135.8L95 136.7L97.8 137.7L100.6 138.6L103.3 139.4L106.1 140.3L108.9 141.1L111.6 141.9L114.4 142.7L117.2 143.5L119.9 144.2L122.7 145L125.5 145.7L128.2 146.4L131 147.1L133.8 147.7L136.5 148.4L139.3 149L142.1 149.6L144.8 150.2L147.6 150.8L150.4 151.4L153.1 152L155.9 152.5L158.7 153L161.4 153.5L164.2 154.1L167 154.5L169.7 155L172.5 155.5L175.3 156L178 156.4L180.8 156.8L183.6 157.3L186.3 157.7L189.1 158.1L191.9 158.5L194.6 158.8L197.4 159.2L200.2 159.6L202.9 159.9L205.7 160.3L208.5 160.6L211.2 161L214 161.3L216.8 161.6L219.5 161.9L222.3 162.2L225.1 162.5L227.8 162.8L230.6 163.1L233.4 163.3L236.1 163.6L238.9 163.8L241.7 164.1L244.4 164.3L247.2 164.6L250 164.8L252.7 165L255.5 165.3L258.3 165.5L261 165.7L263.8 165.9L266.6 166.1L269.3 166.3L272.1 166.5L274.9 166.7L277.6 166.8L280.4 167L283.2 167.2L285.9 167.4L288.7 167.5L291.5 167.7L294.2 167.8L297 168L299.8 168.1L302.5 168.3L305.3 168.4L308.1 168.6L310.8 168.7L313.6 168.8L316.4 169L319.1 169.1L321.9 169.2L324.7 169.3L327.4 169.4L330.2 169.5L333 169.7L335.7 169.8L338.5 169.9L341.3 170L344 170.1L346.8 170.2L349.6 170.3L352.3 170.4L355.1 170.4L357.9 170.5L360.6 170.6L363.4 170.7L366.2 170.8L368.9 170.9L371.7 170.9L374.5 171L377.2 171.1L380 171.2"/>
+            <circle class="punkt" cx="48" cy="117" r="3.5"/>
+            <path class="kurve blau" d="M48 202.5L50.8 201.8L53.5 201.1L56.3 200.4L59.1 199.8L61.8 199.2L64.6 198.5L67.4 197.9L70.1 197.3L72.9 196.8L75.7 196.2L78.4 195.6L81.2 195.1L84 194.6L86.7 194.1L89.5 193.6L92.3 193.1L95 192.6L97.8 192.2L100.6 191.7L103.3 191.3L106.1 190.9L108.9 190.4L111.6 190L114.4 189.6L117.2 189.3L119.9 188.9L122.7 188.5L125.5 188.2L128.2 187.8L131 187.5L133.8 187.1L136.5 186.8L139.3 186.5L142.1 186.2L144.8 185.9L147.6 185.6L150.4 185.3L153.1 185L155.9 184.7L158.7 184.5L161.4 184.2L164.2 184L167 183.7L169.7 183.5L172.5 183.3L175.3 183L178 182.8L180.8 182.6L183.6 182.4L186.3 182.2L189.1 182L191.9 181.8L194.6 181.6L197.4 181.4L200.2 181.2L202.9 181L205.7 180.9L208.5 180.7L211.2 180.5L214 180.4L216.8 180.2L219.5 180L222.3 179.9L225.1 179.8L227.8 179.6L230.6 179.5L233.4 179.3L236.1 179.2L238.9 179.1L241.7 179L244.4 178.8L247.2 178.7L250 178.6L252.7 178.5L255.5 178.4L258.3 178.3L261 178.2L263.8 178.1L266.6 178L269.3 177.9L272.1 177.8L274.9 177.7L277.6 177.6L280.4 177.5L283.2 177.4L285.9 177.3L288.7 177.2L291.5 177.2L294.2 177.1L297 177L299.8 176.9L302.5 176.9L305.3 176.8L308.1 176.7L310.8 176.7L313.6 176.6L316.4 176.5L319.1 176.5L321.9 176.4L324.7 176.3L327.4 176.3L330.2 176.2L333 176.2L335.7 176.1L338.5 176.1L341.3 176L344 176L346.8 175.9L349.6 175.9L352.3 175.8L355.1 175.8L357.9 175.7L360.6 175.7L363.4 175.6L366.2 175.6L368.9 175.6L371.7 175.5L374.5 175.5L377.2 175.5L380 175.4"/>
+            <circle class="punkt" cx="48" cy="202.5" r="3.5"/>
+            <text class="klein halo" x="86.7" y="168">Umgebung 20 °C</text>
+            <text class="kupfer klein halo" x="70.1" y="52.4">heißer Kaffee</text>
+            <text class="blau klein halo" x="114.4" y="208.2">kaltes Getränk</text>
+            </svg>
+            <figcaption>Abb. 1: Richtungsfeld der Abkühlung
+              $\dot T = -(T - T_\text{U})/\tau$ mit
+              $T_\text{U} = 20\,{}^\circ\mathrm{C}$ und
+              $\tau = 20\,\mathrm{min}$. Jede Lösung folgt den grauen Strichen.
+              Welche Kurve gilt, entscheidet die Anfangstemperatur: Der heiße
+              Kaffee (orange) kühlt ab, das kalte Getränk erwärmt sich, und
+              alle nähern sich der Raumtemperatur.</figcaption>
+          </figure>
+
+          <h2 id="anfangsbedingungen">Anfangsbedingungen</h2>
+
+          <p>Abb. 1 zeigt auch, was einer DGL allein fehlt. Sie hat unendlich
+            viele Lösungen, für jeden Startwert eine. Beim Zerfallsgesetz ist
+            $N(t) = C\,\mathrm{e}^{-\lambda t}$ für jede Konstante $C$ eine
+            Lösung. Erst die <strong>Anfangsbedingung</strong> $N(0) = N_0$
+            legt $C = N_0$ fest. Die Lösung mit noch freier Konstante heißt
+            <em>allgemeine Lösung</em>, die mit festgelegter Konstante
+            <em>spezielle Lösung</em>.</p>
+
+          <p>Bei einer DGL zweiter Ordnung sind es zwei Konstanten. Beim
+            <a href="../mechanik/bewegung-1d.html">freien Fall</a> (z-Achse nach
+            oben) lautet die Bewegungsgleichung $\ddot z = -g$. Zweimal
+            integrieren gibt</p>
+
+          $$ \dot z(t) = -g t + C_1, \qquad z(t) = -\tfrac{1}{2} g t^2 + C_1 t + C_2 $$
+
+          <p>mit $C_1 = v_0$ und $C_2 = z_0$. Du musst also Ort und
+            Geschwindigkeit am Anfang kennen. Allgemein hat eine DGL $n$-ter
+            Ordnung $n$ freie Konstanten und braucht $n$
+            Anfangsbedingungen.</p>
+
+          <div class="alltag">
+            <span class="titel">Aus der Physik: Ort und Geschwindigkeit genügen</span>
+            <p>Dass Newtons Gleichung von zweiter Ordnung ist, hat eine
+              handfeste Folge. Kennst du in einem Moment Ort und Geschwindigkeit
+              eines Balls und alle Kräfte, die auf ihn wirken, dann ist seine
+              ganze weitere Bahn festgelegt. Die Beschleunigung musst du nicht
+              zusätzlich angeben, sie folgt aus der Gleichung selbst. Deshalb
+              beschreibt man den Zustand eines mechanischen Systems durch Orte
+              und Geschwindigkeiten (im
+              <a href="../mechanik/hamilton.html">Hamilton-Formalismus</a> durch
+              Orte und Impulse).</p>
+          </div>
+
+          <h2 id="trennung">Trennung der Variablen</h2>
+
+          <p>Viele Gleichungen erster Ordnung haben die Form
+            $\dot x = p(x)\cdot h(t)$: Die rechte Seite zerfällt in einen Faktor,
+            der nur von $x$ abhängt, und einen, der nur von $t$ abhängt. Dann
+            hilft ein Rezept, bei dem man mit $\mathrm{d}x$ und $\mathrm{d}t$
+            umgeht wie mit Zahlen (das lässt sich mathematisch sauber
+            begründen):</p>
+
+          <ol>
+            <li>alles mit $x$ auf eine Seite bringen, alles mit $t$ auf die
+              andere,</li>
+            <li>beide Seiten integrieren, am besten gleich von der
+              Anfangsbedingung aus,</li>
+            <li>nach $x$ auflösen.</li>
+          </ol>
+
+          <p>Beim Zerfallsgesetz sieht das so aus:</p>
+
+          $$ \frac{\mathrm{d}N}{N} = -\lambda\,\mathrm{d}t \;\;\Rightarrow\;\; \int_{N_0}^{N}\frac{\mathrm{d}N'}{N'} = -\lambda\int_0^t \mathrm{d}t' \;\;\Rightarrow\;\; \ln\frac{N}{N_0} = -\lambda t \;\;\Rightarrow\;\; N(t) = N_0\,\mathrm{e}^{-\lambda t} $$
+
+          <p>Nach der <strong>Halbwertszeit</strong>
+            $t_{1/2} = \ln 2/\lambda$ ist die Hälfte der Kerne übrig, nach zwei
+            Halbwertszeiten ein Viertel.</p>
+
+          <p>Die Abkühlung aus Abb. 1 folgt demselben Muster, wenn du statt
+            $T$ den Abstand zur Umgebung $u = T - T_\text{U}$ betrachtest. Weil
+            $T_\text{U}$ konstant ist, gilt $\dot u = \dot T = -u/\tau$, und das
+            ist wieder das Zerfallsgesetz:</p>
+
+          $$ T(t) = T_\text{U} + (T_0 - T_\text{U})\,\mathrm{e}^{-t/\tau} $$
+
+          <p>Die <strong>Zeitkonstante</strong> $\tau$ ist die Zeit, nach der
+            der Abstand zur Raumtemperatur auf $1/\mathrm{e} \approx 37\,\%$
+            geschrumpft ist.</p>
+
+          <p>Das dritte Standardbeispiel ist der Fall mit Reibung. Für sehr
+            kleine Teilchen wie Nebeltröpfchen oder Staub ist die Reibungskraft
+            der Luft proportional zur Geschwindigkeit, $F_\text{R} = -b\,v$
+            (<a href="../mechanik/stroemende-fluide.html#vertiefung">Stokessche
+            Reibung</a>). Mit der Fallrichtung als positiver Achse lautet
+            Newtons Gleichung</p>
+
+          $$ m\frac{\mathrm{d}v}{\mathrm{d}t} = mg - b v \qquad\text{bzw.}\qquad \frac{\mathrm{d}v}{g - v/\tau} = \mathrm{d}t \quad\text{mit}\quad \tau = \frac{m}{b} $$
+
+          <p>Integrieren von $v = 0$ bis $v$ und von $0$ bis $t$ gibt
+            $-\tau\ln\bigl(1 - v/(g\tau)\bigr) = t$, aufgelöst</p>
+
+          $$ v(t) = v_\infty\bigl(1 - \mathrm{e}^{-t/\tau}\bigr), \qquad v_\infty = g\tau = \frac{mg}{b} $$
+
+          <p>Am Anfang ist die Reibung null, und der Körper fällt frei mit
+            $v \approx g t$. Je schneller er wird, desto stärker bremst die
+            Luft, bis die Reibung die Gewichtskraft ausgleicht und er mit der
+            Endgeschwindigkeit $v_\infty$ weiterfällt (Abb. 2). Für ein
+            Wassertröpfchen im Nebel mit $10\,\mu\mathrm{m}$ Radius ergibt die
+            Stokes-Reibung $b = 6\pi\eta r$ eine Zeitkonstante von etwa
+            $1{,}2\,\mathrm{ms}$. Nach wenigen Millisekunden sinkt es mit
+            seiner Endgeschwindigkeit von etwa $1{,}2\,\mathrm{cm/s}$. Deshalb scheint Nebel zu schweben.</p>
+
+          <figure class="abbildung">
+            <svg class="abb" viewBox="0 0 400 235" role="img" aria-label="Geschwindigkeit beim Fall mit Reibung über der Zeit: die Kurve beginnt wie der freie Fall als Gerade, biegt ab und nähert sich der Endgeschwindigkeit; nach einer Zeitkonstante sind 63 Prozent erreicht">
+            <defs>
+              <marker id="pfeil-abb2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+                <path d="M0 0L10 5L0 10z" fill="currentColor"/>
+              </marker>
+            </defs>
+            <path class="hilfslinie" d="M46 57.6H380M112.8 200V110"/>
+            <path class="achse" d="M46 200H388" marker-end="url(#pfeil-abb2)"/>
+            <path class="achse" d="M46 200V12" marker-end="url(#pfeil-abb2)"/>
+            <path class="kurve kupfer duenn" d="M46 200L129.5 22"/>
+            <path class="kurve blau" d="M46 200L49.3 193.1L52.7 186.4L56 180.2L59.4 174.2L62.7 168.5L66 163.1L69.4 157.9L72.7 153.1L76.1 148.4L79.4 144L82.7 139.8L86.1 135.8L89.4 131.9L92.8 128.3L96.1 124.9L99.4 121.6L102.8 118.5L106.1 115.5L109.5 112.7L112.8 110L116.1 107.4L119.5 105L122.8 102.7L126.2 100.5L129.5 98.4L132.8 96.4L136.2 94.5L139.5 92.7L142.9 91L146.2 89.4L149.5 87.8L152.9 86.4L156.2 84.9L159.6 83.6L162.9 82.3L166.2 81.1L169.6 80L172.9 78.9L176.3 77.9L179.6 76.9L182.9 75.9L186.3 75L189.6 74.2L193 73.4L196.3 72.6L199.6 71.9L203 71.2L206.3 70.5L209.7 69.9L213 69.3L216.3 68.7L219.7 68.2L223 67.7L226.4 67.2L229.7 66.7L233 66.3L236.4 65.8L239.7 65.4L243.1 65.1L246.4 64.7L249.7 64.3L253.1 64L256.4 63.7L259.8 63.4L263.1 63.1L266.4 62.9L269.8 62.6L273.1 62.4L276.5 62.1L279.8 61.9L283.1 61.7L286.5 61.5L289.8 61.3L293.2 61.1L296.5 60.9L299.8 60.8L303.2 60.6L306.5 60.5L309.9 60.3L313.2 60.2L316.5 60.1L319.9 60L323.2 59.8L326.6 59.7L329.9 59.6L333.2 59.5L336.6 59.4L339.9 59.3L343.3 59.3L346.6 59.2L349.9 59.1L353.3 59L356.6 59L360 58.9L363.3 58.8L366.6 58.8L370 58.7L373.3 58.7L376.7 58.6L380 58.6"/>
+            <circle class="punkt" cx="112.8" cy="110" r="3.5"/>
+            <text class="klein" x="112.8" y="215" text-anchor="middle">τ</text>
+            <text class="klein" x="179.6" y="215" text-anchor="middle">2τ</text>
+            <text class="klein" x="246.4" y="215" text-anchor="middle">3τ</text>
+            <text class="klein" x="313.2" y="215" text-anchor="middle">4τ</text>
+            <text class="klein" x="380" y="215" text-anchor="middle">5τ</text>
+            <text class="klein" x="40" y="61.6" text-anchor="end">v∞</text>
+            <text class="klein" x="40" y="204" text-anchor="end">0</text>
+            <text class="klein" x="386" y="228" text-anchor="end">t</text>
+            <text class="klein" x="54" y="18">v</text>
+            <text class="kupfer klein halo" x="136.8" y="32">freier Fall: v = g t</text>
+            <text class="klein halo" x="119.8" y="124">63 %</text>
+            <text class="blau klein halo" x="259.8" y="73.6">mit Reibung</text>
+            </svg>
+            <figcaption>Abb. 2: Fall mit geschwindigkeitsproportionaler
+              Reibung. Die Geschwindigkeit (blau) startet wie beim freien Fall
+              (orange), biegt dann ab und nähert sich $v_\infty$. Nach einer
+              Zeitkonstante $\tau$ sind $1 - 1/\mathrm{e} \approx 63\,\%$
+              erreicht, nach $5\tau$ über $99\,\%$.</figcaption>
+          </figure>
+
+          <div class="alltag" data-symbole='{"c": "Konstante des Luftwiderstands (Kraft durch Geschwindigkeit zum Quadrat)"}'>
+            <span class="titel">Aus der Physik: der Fallschirmspringer</span>
+            <p>Für einen Menschen in Luft wächst die Reibung mit dem Quadrat
+              der Geschwindigkeit: $m\dot v = mg - c\,v^2$. Auch diese
+              Gleichung lässt sich trennen. Das Ergebnis ist
+              $v(t) = v_\infty\tanh(g t/v_\infty)$ mit
+              $v_\infty = \sqrt{mg/c}$, also wieder ein Anlaufen auf eine
+              Endgeschwindigkeit, nur mit einer anderen Kurvenform. Wie das
+              beim Öffnen des Schirms aussieht, zeigt das Modell auf der Seite
+              über <a href="../mechanik/kraefte.html">Kräfte im Alltag</a>.</p>
+          </div>
+
+          <h2 id="linear-erste-ordnung">Lineare Gleichungen erster Ordnung</h2>
+
+          <p>Abkühlung und Fall mit Reibung haben dieselbe Bauart. Bringst du
+            alle Terme mit der gesuchten Funktion nach links, steht da</p>
+
+          $$ \dot x + \frac{x}{\tau} = f(t) $$
+
+          <p>Die gesuchte Funktion und ihre Ableitung kommen nur in erster
+            Potenz vor, nicht als $x^2$, $\sqrt{x}$ oder $x\dot x$. Eine solche
+            Gleichung heißt <strong>linear</strong>. Die rechte Seite $f(t)$,
+            in der $x$ nicht vorkommt, heißt <strong>Störglied</strong> oder
+            Inhomogenität. Ist sie null, heißt die Gleichung
+            <strong>homogen</strong>, sonst <strong>inhomogen</strong>. Beim
+            Fall ist $x = v$ und $f = g$, bei der Abkühlung $x = T$ und
+            $f = T_\text{U}/\tau$.</p>
+
+          <p>Lineare Gleichungen löst man immer in zwei Teilen:</p>
+
+          $$ x(t) = x_\text{h}(t) + x_\text{p}(t) $$
+
+          <p>Dabei ist $x_\text{h}$ die allgemeine Lösung der homogenen
+            Gleichung (rechte Seite null), hier
+            $C\,\mathrm{e}^{-t/\tau}$. $x_\text{p}$ ist irgendeine einzelne
+            Lösung der vollen Gleichung, eine <strong>partikuläre
+            Lösung</strong>. Die Summe löst die volle Gleichung, denn beim
+            Einsetzen liefert $x_\text{h}$ links null und $x_\text{p}$ genau
+            $f(t)$. Ist $f$ konstant, probierst du eine Konstante: Mit
+            $\dot x_\text{p} = 0$ folgt $x_\text{p} = \tau f$. Beim Fall ist
+            das $\tau g = v_\infty$, die Endgeschwindigkeit. Aus $v(0) = 0$
+            folgt $C = -v_\infty$ und wieder
+            $v(t) = v_\infty(1 - \mathrm{e}^{-t/\tau})$. Die partikuläre Lösung
+            beschreibt hier den Endzustand, die homogene den Weg dorthin.</p>
+
+          <p>Für ein beliebiges Störglied führt die <em>Variation der
+            Konstanten</em> zum Ziel: Man ersetzt $C$ durch eine Funktion
+            $C(t)$ und setzt ein. Das Ergebnis ist</p>
+
+          $$ x(t) = \mathrm{e}^{-t/\tau}\left[x_0 + \int_0^t f(t')\,\mathrm{e}^{t'/\tau}\,\mathrm{d}t'\right] $$
+
+          <p>Durch Ableiten kannst du nachprüfen, dass es passt.</p>
+
+          <div class="alltag" data-symbole='{"C": "Kapazität des Kondensators"}'>
+            <span class="titel">Aus der Physik: einen Kondensator laden</span>
+            <p>Lädt eine Batterie mit der Spannung $U_0$ einen Kondensator der
+              Kapazität $C$ über einen Widerstand $R$, gilt für die Spannung am
+              Kondensator $RC\,\dot U + U = U_0$. Das ist dieselbe Gleichung
+              wie beim Fall mit Reibung, mit $\tau = RC$ und dem Endwert
+              $U_0$. Die Ladekurve sieht deshalb genau aus wie Abb. 2.</p>
+          </div>
+
+          <h2 id="exponentialansatz">Zweite Ordnung: der Exponentialansatz</h2>
+
+          <p>Hängt ein Körper der Masse $m$ an einer Feder mit der
+            Federkonstante $k$ (siehe <a href="../mechanik/kraefte.html">Kräfte
+            im Alltag</a>) und bremst ihn eine Reibung $-b\dot x$, lautet die
+            Bewegungsgleichung</p>
+
+          $$ m\ddot x = -kx - b\dot x \quad\Longrightarrow\quad \ddot x + 2\gamma\dot x + \omega_0^2\, x = 0, \qquad \gamma = \frac{b}{2m},\quad \omega_0 = \sqrt{\frac{k}{m}} $$
+
+          <p>Sie ist linear, homogen, und die Koeffizienten hängen nicht von
+            $t$ ab. Für solche Gleichungen gibt es ein Verfahren, das immer
+            funktioniert. Leitest du $\mathrm{e}^{\lambda t}$ ab, kommt nur ein
+            Faktor $\lambda$ hinzu, die Funktion selbst bleibt. Mit dem
+            <strong>Exponentialansatz</strong> $x = \mathrm{e}^{\lambda t}$ wird
+            deshalb jeder Term ein Vielfaches von $\mathrm{e}^{\lambda t}$:</p>
+
+          $$ \left(\lambda^2 + 2\gamma\lambda + \omega_0^2\right)\mathrm{e}^{\lambda t} = 0 $$
+
+          <p>Da $\mathrm{e}^{\lambda t}$ nie null wird, muss die Klammer
+            verschwinden. Aus der DGL ist eine quadratische Gleichung für
+            $\lambda$ geworden, die <strong>charakteristische
+            Gleichung</strong>:</p>
+
+          $$ \lambda^2 + 2\gamma\lambda + \omega_0^2 = 0 \quad\Longrightarrow\quad \lambda_{1,2} = -\gamma \pm \sqrt{\gamma^2 - \omega_0^2} $$
+
+          <p>Sie liefert zwei Lösungen $\mathrm{e}^{\lambda_1 t}$ und
+            $\mathrm{e}^{\lambda_2 t}$. Weil die DGL linear und homogen ist,
+            ist auch jede Kombination
+            $c_1\mathrm{e}^{\lambda_1 t} + c_2\mathrm{e}^{\lambda_2 t}$ eine
+            Lösung (<strong>Superpositionsprinzip</strong>). Das ist bereits
+            die allgemeine Lösung, mit zwei Konstanten für die zwei
+            Anfangsbedingungen.</p>
+
+          <p>Ohne Reibung ($\gamma = 0$) hat $\lambda^2 = -\omega_0^2$ keine
+            reelle Lösung, sondern $\lambda = \pm\mathrm{i}\,\omega_0$ mit der
+            imaginären Einheit $\mathrm{i}^2 = -1$. Die Brücke zu bekannten
+            Funktionen schlägt die <strong>Eulersche Formel</strong>
+            $\mathrm{e}^{\mathrm{i}\omega_0 t} = \cos\omega_0 t + \mathrm{i}\sin\omega_0 t$.
+            Bei einer reellen linearen DGL sind Real- und Imaginärteil einer
+            komplexen Lösung jeweils selbst Lösungen. Die reelle allgemeine
+            Lösung ist also</p>
+
+          $$ x(t) = c_1\cos\omega_0 t + c_2\sin\omega_0 t = A\cos(\omega_0 t + \varphi) $$
+
+          <p>eine Schwingung mit der Kreisfrequenz $\omega_0$ und der Periode
+            $2\pi/\omega_0$. Zur Probe: Zweimal ableiten gibt
+            $-\omega_0^2\,x$. Mehr zur Energie dieser Schwingung findest du bei
+            der <a href="../mechanik/energieerhaltung.html">Energieerhaltung</a>.</p>
+
+          <h2 id="daempfung">Gedämpfte Schwingung: drei Fälle</h2>
+
+          <p>Mit Reibung entscheidet das Vorzeichen unter der Wurzel, wie sich
+            das System verhält. Abb. 3 zeigt die drei Fälle für einen Körper,
+            der bei $x_0$ ohne Anfangsgeschwindigkeit losgelassen wird.</p>
+
+          <ul>
+            <li><strong>Schwingfall</strong> ($\gamma \lt \omega_0$, schwache
+              Dämpfung): Die Wurzel ist imaginär,
+              $\lambda_{1,2} = -\gamma \pm \mathrm{i}\,\omega_\text{d}$ mit
+              $\omega_\text{d} = \sqrt{\omega_0^2 - \gamma^2}$. Daraus wird
+              $$ x(t) = A\,\mathrm{e}^{-\gamma t}\cos(\omega_\text{d} t + \varphi) $$
+              Der Körper schwingt etwas langsamer als ohne Reibung, und die
+              Ausschläge schrumpfen mit $\mathrm{e}^{-\gamma t}$.</li>
+            <li><strong>Kriechfall</strong> ($\gamma \gt \omega_0$, starke
+              Dämpfung): zwei verschiedene, negative reelle $\lambda$. Die
+              Lösung $c_1\mathrm{e}^{\lambda_1 t} + c_2\mathrm{e}^{\lambda_2 t}$
+              kehrt ohne Schwingung zurück, und zwar umso langsamer, je stärker
+              die Dämpfung ist. Denn
+              $\lambda_1 = -\gamma + \sqrt{\gamma^2 - \omega_0^2}$ rückt für
+              großes $\gamma$ immer näher an null.</li>
+            <li><strong>Aperiodischer Grenzfall</strong>
+              ($\gamma = \omega_0$): Beide Lösungen fallen zusammen,
+              $\lambda_1 = \lambda_2 = -\gamma$. Der Ansatz liefert nur eine
+              Funktion, die zweite ist $t\,\mathrm{e}^{-\gamma t}$ (Einsetzen
+              bestätigt es):
+              $$ x(t) = (c_1 + c_2 t)\,\mathrm{e}^{-\gamma t} $$
+              So kehrt der Körper am schnellsten in die Ruhelage zurück, ohne
+              über sie hinauszuschwingen.</li>
+          </ul>
+
+          <figure class="abbildung">
+            <svg class="abb" viewBox="0 0 420 245" role="img" aria-label="Auslenkung über der Zeit für drei Dämpfungen: schwach gedämpft schwingt mit abklingender Hüllkurve um die Ruhelage, der aperiodische Grenzfall kehrt am schnellsten ohne Überschwingen zurück, der Kriechfall kriecht langsam zurück">
+            <defs>
+              <marker id="pfeil-abb3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+                <path d="M0 0L10 5L0 10z" fill="currentColor"/>
+              </marker>
+            </defs>
+            <path class="hilfslinie" d="M40 29.3L46 33.3L52 37L58 40.7L64 44.2L70 47.6L76 50.8L82 53.9L88 57L94 59.9L100 62.7L106 65.4L112 68L118 70.5L124 72.9L130 75.2L136 77.4L142 79.6L148 81.7L154 83.7L160 85.6L166 87.4L172 89.2L178 90.9L184 92.6L190 94.2L196 95.7L202 97.2L208 98.6L214 100L220 101.3L226 102.6L232 103.8L238 105L244 106.2L250 107.3L256 108.3L262 109.3L268 110.3L274 111.2L280 112.2L286 113L292 113.9L298 114.7L304 115.5L310 116.2L316 117L322 117.6L328 118.3L334 119L340 119.6L346 120.2L352 120.8L358 121.3L364 121.9L370 122.4L376 122.9L382 123.4L388 123.8L394 124.3L400 124.7"/>
+            <path class="hilfslinie" d="M40 242.6L46 238.6L52 234.9L58 231.2L64 227.7L70 224.3L76 221.1L82 217.9L88 214.9L94 212L100 209.2L106 206.5L112 203.9L118 201.4L124 199L130 196.7L136 194.5L142 192.3L148 190.2L154 188.2L160 186.3L166 184.5L172 182.7L178 180.9L184 179.3L190 177.7L196 176.2L202 174.7L208 173.3L214 171.9L220 170.6L226 169.3L232 168.1L238 166.9L244 165.7L250 164.6L256 163.6L262 162.6L268 161.6L274 160.6L280 159.7L286 158.9L292 158L298 157.2L304 156.4L310 155.7L316 154.9L322 154.2L328 153.6L334 152.9L340 152.3L346 151.7L352 151.1L358 150.6L364 150L370 149.5L376 149L382 148.5L388 148.1L394 147.6L400 147.2"/>
+            <path class="achse" d="M40 135.9H408" marker-end="url(#pfeil-abb3)"/>
+            <path class="achse" d="M40 215V8" marker-end="url(#pfeil-abb3)"/>
+            <path class="kurve" d="M40 30.5L41.2 30.7L42.4 31L43.6 31.4L44.8 32L46 32.6L47.2 33.3L48.4 34.1L49.6 34.9L50.8 35.6L52 36.4L53.2 37.3L54.4 38.1L55.6 38.9L56.8 39.7L58 40.5L59.2 41.3L60.4 42.1L61.6 42.9L62.8 43.7L64 44.5L65.2 45.3L66.4 46L67.6 46.8L68.8 47.6L70 48.3L71.2 49.1L72.4 49.8L73.6 50.5L74.8 51.3L76 52L77.2 52.7L78.4 53.4L79.6 54.1L80.8 54.8L82 55.5L83.2 56.2L84.4 56.9L85.6 57.6L86.8 58.2L88 58.9L89.2 59.5L90.4 60.2L91.6 60.8L92.8 61.5L94 62.1L95.2 62.8L96.4 63.4L97.6 64L98.8 64.6L100 65.2L101.2 65.8L102.4 66.4L103.6 67L104.8 67.6L106 68.2L107.2 68.8L108.4 69.3L109.6 69.9L110.8 70.5L112 71L113.2 71.6L114.4 72.1L115.6 72.7L116.8 73.2L118 73.8L119.2 74.3L120.4 74.8L121.6 75.3L122.8 75.9L124 76.4L125.2 76.9L126.4 77.4L127.6 77.9L128.8 78.4L130 78.9L131.2 79.4L132.4 79.8L133.6 80.3L134.8 80.8L136 81.3L137.2 81.7L138.4 82.2L139.6 82.7L140.8 83.1L142 83.6L143.2 84L144.4 84.5L145.6 84.9L146.8 85.3L148 85.8L149.2 86.2L150.4 86.6L151.6 87L152.8 87.5L154 87.9L155.2 88.3L156.4 88.7L157.6 89.1L158.8 89.5L160 89.9L161.2 90.3L162.4 90.7L163.6 91.1L164.8 91.4L166 91.8L167.2 92.2L168.4 92.6L169.6 92.9L170.8 93.3L172 93.7L173.2 94L174.4 94.4L175.6 94.8L176.8 95.1L178 95.5L179.2 95.8L180.4 96.1L181.6 96.5L182.8 96.8L184 97.2L185.2 97.5L186.4 97.8L187.6 98.1L188.8 98.5L190 98.8L191.2 99.1L192.4 99.4L193.6 99.7L194.8 100L196 100.3L197.2 100.6L198.4 100.9L199.6 101.2L200.8 101.5L202 101.8L203.2 102.1L204.4 102.4L205.6 102.7L206.8 103L208 103.3L209.2 103.5L210.4 103.8L211.6 104.1L212.8 104.4L214 104.6L215.2 104.9L216.4 105.2L217.6 105.4L218.8 105.7L220 106L221.2 106.2L222.4 106.5L223.6 106.7L224.8 107L226 107.2L227.2 107.5L228.4 107.7L229.6 107.9L230.8 108.2L232 108.4L233.2 108.7L234.4 108.9L235.6 109.1L236.8 109.3L238 109.6L239.2 109.8L240.4 110L241.6 110.2L242.8 110.5L244 110.7L245.2 110.9L246.4 111.1L247.6 111.3L248.8 111.5L250 111.7L251.2 112L252.4 112.2L253.6 112.4L254.8 112.6L256 112.8L257.2 113L258.4 113.2L259.6 113.3L260.8 113.5L262 113.7L263.2 113.9L264.4 114.1L265.6 114.3L266.8 114.5L268 114.7L269.2 114.8L270.4 115L271.6 115.2L272.8 115.4L274 115.6L275.2 115.7L276.4 115.9L277.6 116.1L278.8 116.2L280 116.4L281.2 116.6L282.4 116.7L283.6 116.9L284.8 117.1L286 117.2L287.2 117.4L288.4 117.6L289.6 117.7L290.8 117.9L292 118L293.2 118.2L294.4 118.3L295.6 118.5L296.8 118.6L298 118.8L299.2 118.9L300.4 119.1L301.6 119.2L302.8 119.4L304 119.5L305.2 119.6L306.4 119.8L307.6 119.9L308.8 120L310 120.2L311.2 120.3L312.4 120.5L313.6 120.6L314.8 120.7L316 120.8L317.2 121L318.4 121.1L319.6 121.2L320.8 121.4L322 121.5L323.2 121.6L324.4 121.7L325.6 121.8L326.8 122L328 122.1L329.2 122.2L330.4 122.3L331.6 122.4L332.8 122.6L334 122.7L335.2 122.8L336.4 122.9L337.6 123L338.8 123.1L340 123.2L341.2 123.3L342.4 123.4L343.6 123.6L344.8 123.7L346 123.8L347.2 123.9L348.4 124L349.6 124.1L350.8 124.2L352 124.3L353.2 124.4L354.4 124.5L355.6 124.6L356.8 124.7L358 124.8L359.2 124.9L360.4 125L361.6 125L362.8 125.1L364 125.2L365.2 125.3L366.4 125.4L367.6 125.5L368.8 125.6L370 125.7L371.2 125.8L372.4 125.9L373.6 125.9L374.8 126L376 126.1L377.2 126.2L378.4 126.3L379.6 126.4L380.8 126.4L382 126.5L383.2 126.6L384.4 126.7L385.6 126.8L386.8 126.8L388 126.9L389.2 127L390.4 127.1L391.6 127.2L392.8 127.2L394 127.3L395.2 127.4L396.4 127.4L397.6 127.5L398.8 127.6L400 127.7"/>
+            <path class="kurve kupfer" d="M40 30.5L41.2 30.7L42.4 31L43.6 31.6L44.8 32.4L46 33.3L47.2 34.4L48.4 35.7L49.6 37L50.8 38.5L52 40L53.2 41.7L54.4 43.4L55.6 45.2L56.8 47L58 48.8L59.2 50.7L60.4 52.6L61.6 54.5L62.8 56.5L64 58.4L65.2 60.3L66.4 62.3L67.6 64.2L68.8 66.1L70 68L71.2 69.9L72.4 71.7L73.6 73.6L74.8 75.4L76 77.1L77.2 78.9L78.4 80.6L79.6 82.3L80.8 84L82 85.6L83.2 87.2L84.4 88.7L85.6 90.2L86.8 91.7L88 93.2L89.2 94.6L90.4 95.9L91.6 97.3L92.8 98.6L94 99.8L95.2 101.1L96.4 102.3L97.6 103.4L98.8 104.6L100 105.7L101.2 106.7L102.4 107.8L103.6 108.8L104.8 109.7L106 110.7L107.2 111.6L108.4 112.5L109.6 113.3L110.8 114.2L112 115L113.2 115.7L114.4 116.5L115.6 117.2L116.8 117.9L118 118.6L119.2 119.2L120.4 119.9L121.6 120.5L122.8 121.1L124 121.6L125.2 122.2L126.4 122.7L127.6 123.2L128.8 123.7L130 124.2L131.2 124.6L132.4 125.1L133.6 125.5L134.8 125.9L136 126.3L137.2 126.7L138.4 127L139.6 127.4L140.8 127.7L142 128.1L143.2 128.4L144.4 128.7L145.6 129L146.8 129.2L148 129.5L149.2 129.8L150.4 130L151.6 130.3L152.8 130.5L154 130.7L155.2 130.9L156.4 131.1L157.6 131.3L158.8 131.5L160 131.7L161.2 131.9L162.4 132L163.6 132.2L164.8 132.3L166 132.5L167.2 132.6L168.4 132.8L169.6 132.9L170.8 133L172 133.1L173.2 133.3L174.4 133.4L175.6 133.5L176.8 133.6L178 133.7L179.2 133.8L180.4 133.9L181.6 134L182.8 134L184 134.1L185.2 134.2L186.4 134.3L187.6 134.3L188.8 134.4L190 134.5L191.2 134.5L192.4 134.6L193.6 134.6L194.8 134.7L196 134.8L197.2 134.8L198.4 134.9L199.6 134.9L200.8 134.9L202 135L203.2 135L204.4 135.1L205.6 135.1L206.8 135.1L208 135.2L209.2 135.2L210.4 135.2L211.6 135.3L212.8 135.3L214 135.3L215.2 135.4L216.4 135.4L217.6 135.4L218.8 135.4L220 135.5L221.2 135.5L222.4 135.5L223.6 135.5L224.8 135.5L226 135.5L227.2 135.6L228.4 135.6L229.6 135.6L230.8 135.6L232 135.6L233.2 135.6L234.4 135.7L235.6 135.7L236.8 135.7L238 135.7L239.2 135.7L240.4 135.7L241.6 135.7L242.8 135.7L244 135.7L245.2 135.8L246.4 135.8L247.6 135.8L248.8 135.8L250 135.8L251.2 135.8L252.4 135.8L253.6 135.8L254.8 135.8L256 135.8L257.2 135.8L258.4 135.8L259.6 135.8L260.8 135.8L262 135.8L263.2 135.8L264.4 135.9L265.6 135.9L266.8 135.9L268 135.9L269.2 135.9L270.4 135.9L271.6 135.9L272.8 135.9L274 135.9L275.2 135.9L276.4 135.9L277.6 135.9L278.8 135.9L280 135.9L281.2 135.9L282.4 135.9L283.6 135.9L284.8 135.9L286 135.9L287.2 135.9L288.4 135.9L289.6 135.9L290.8 135.9L292 135.9L293.2 135.9L294.4 135.9L295.6 135.9L296.8 135.9L298 135.9L299.2 135.9L300.4 135.9L301.6 135.9L302.8 135.9L304 135.9L305.2 135.9L306.4 135.9L307.6 135.9L308.8 135.9L310 135.9L311.2 135.9L312.4 135.9L313.6 135.9L314.8 135.9L316 135.9L317.2 135.9L318.4 135.9L319.6 135.9L320.8 135.9L322 135.9L323.2 135.9L324.4 135.9L325.6 135.9L326.8 135.9L328 135.9L329.2 135.9L330.4 135.9L331.6 135.9L332.8 135.9L334 135.9L335.2 135.9L336.4 135.9L337.6 135.9L338.8 135.9L340 135.9L341.2 135.9L342.4 135.9L343.6 135.9L344.8 135.9L346 135.9L347.2 135.9L348.4 135.9L349.6 135.9L350.8 135.9L352 135.9L353.2 135.9L354.4 135.9L355.6 135.9L356.8 135.9L358 135.9L359.2 135.9L360.4 135.9L361.6 135.9L362.8 135.9L364 135.9L365.2 135.9L366.4 135.9L367.6 135.9L368.8 135.9L370 135.9L371.2 135.9L372.4 135.9L373.6 135.9L374.8 135.9L376 135.9L377.2 135.9L378.4 135.9L379.6 135.9L380.8 135.9L382 135.9L383.2 135.9L384.4 135.9L385.6 135.9L386.8 135.9L388 135.9L389.2 135.9L390.4 135.9L391.6 135.9L392.8 135.9L394 135.9L395.2 135.9L396.4 135.9L397.6 135.9L398.8 135.9L400 135.9"/>
+            <path class="kurve blau" d="M40 30.5L41.2 30.7L42.4 31.1L43.6 31.7L44.8 32.6L46 33.7L47.2 35.1L48.4 36.7L49.6 38.5L50.8 40.6L52 42.8L53.2 45.3L54.4 47.9L55.6 50.7L56.8 53.7L58 56.8L59.2 60.1L60.4 63.6L61.6 67.1L62.8 70.8L64 74.6L65.2 78.4L66.4 82.4L67.6 86.4L68.8 90.5L70 94.7L71.2 98.9L72.4 103.1L73.6 107.4L74.8 111.6L76 115.8L77.2 120.1L78.4 124.3L79.6 128.5L80.8 132.6L82 136.7L83.2 140.7L84.4 144.6L85.6 148.5L86.8 152.3L88 155.9L89.2 159.5L90.4 163L91.6 166.3L92.8 169.5L94 172.6L95.2 175.6L96.4 178.4L97.6 181L98.8 183.6L100 185.9L101.2 188.1L102.4 190.1L103.6 192L104.8 193.7L106 195.2L107.2 196.6L108.4 197.8L109.6 198.8L110.8 199.7L112 200.3L113.2 200.9L114.4 201.2L115.6 201.4L116.8 201.4L118 201.2L119.2 200.9L120.4 200.4L121.6 199.8L122.8 199L124 198.1L125.2 197.1L126.4 195.9L127.6 194.5L128.8 193.1L130 191.5L131.2 189.8L132.4 188L133.6 186.2L134.8 184.2L136 182.1L137.2 179.9L138.4 177.7L139.6 175.4L140.8 173L142 170.5L143.2 168.1L144.4 165.5L145.6 163L146.8 160.4L148 157.8L149.2 155.1L150.4 152.5L151.6 149.9L152.8 147.2L154 144.6L155.2 142L156.4 139.4L157.6 136.9L158.8 134.4L160 131.9L161.2 129.5L162.4 127.1L163.6 124.8L164.8 122.5L166 120.3L167.2 118.2L168.4 116.2L169.6 114.2L170.8 112.3L172 110.5L173.2 108.8L174.4 107.2L175.6 105.7L176.8 104.3L178 103L179.2 101.8L180.4 100.7L181.6 99.6L182.8 98.7L184 97.9L185.2 97.2L186.4 96.7L187.6 96.2L188.8 95.8L190 95.5L191.2 95.4L192.4 95.3L193.6 95.4L194.8 95.5L196 95.7L197.2 96.1L198.4 96.5L199.6 97L200.8 97.6L202 98.3L203.2 99.1L204.4 100L205.6 100.9L206.8 101.9L208 103L209.2 104.1L210.4 105.3L211.6 106.6L212.8 107.9L214 109.3L215.2 110.7L216.4 112.1L217.6 113.6L218.8 115.2L220 116.7L221.2 118.3L222.4 119.9L223.6 121.5L224.8 123.1L226 124.8L227.2 126.4L228.4 128L229.6 129.7L230.8 131.3L232 132.9L233.2 134.5L234.4 136.1L235.6 137.6L236.8 139.1L238 140.6L239.2 142.1L240.4 143.5L241.6 144.9L242.8 146.2L244 147.5L245.2 148.8L246.4 150L247.6 151.1L248.8 152.2L250 153.2L251.2 154.2L252.4 155.1L253.6 156L254.8 156.8L256 157.5L257.2 158.1L258.4 158.7L259.6 159.3L260.8 159.7L262 160.1L263.2 160.5L264.4 160.7L265.6 160.9L266.8 161.1L268 161.2L269.2 161.2L270.4 161.1L271.6 161L272.8 160.8L274 160.6L275.2 160.3L276.4 160L277.6 159.5L278.8 159.1L280 158.6L281.2 158L282.4 157.4L283.6 156.8L284.8 156.1L286 155.4L287.2 154.6L288.4 153.8L289.6 153L290.8 152.1L292 151.2L293.2 150.3L294.4 149.4L295.6 148.4L296.8 147.5L298 146.5L299.2 145.5L300.4 144.5L301.6 143.5L302.8 142.4L304 141.4L305.2 140.4L306.4 139.4L307.6 138.4L308.8 137.4L310 136.4L311.2 135.4L312.4 134.5L313.6 133.5L314.8 132.6L316 131.7L317.2 130.9L318.4 130L319.6 129.2L320.8 128.4L322 127.6L323.2 126.9L324.4 126.2L325.6 125.6L326.8 124.9L328 124.4L329.2 123.8L330.4 123.3L331.6 122.8L332.8 122.4L334 122L335.2 121.6L336.4 121.3L337.6 121.1L338.8 120.8L340 120.6L341.2 120.5L342.4 120.4L343.6 120.3L344.8 120.3L346 120.3L347.2 120.3L348.4 120.4L349.6 120.6L350.8 120.7L352 120.9L353.2 121.1L354.4 121.4L355.6 121.7L356.8 122L358 122.4L359.2 122.8L360.4 123.2L361.6 123.6L362.8 124.1L364 124.6L365.2 125.1L366.4 125.6L367.6 126.2L368.8 126.7L370 127.3L371.2 127.9L372.4 128.5L373.6 129.1L374.8 129.7L376 130.3L377.2 130.9L378.4 131.6L379.6 132.2L380.8 132.8L382 133.5L383.2 134.1L384.4 134.7L385.6 135.3L386.8 135.9L388 136.5L389.2 137.1L390.4 137.7L391.6 138.3L392.8 138.8L394 139.3L395.2 139.9L396.4 140.4L397.6 140.8L398.8 141.3L400 141.7"/>
+            <text class="klein" x="160" y="150.9" text-anchor="middle">5</text>
+            <text class="klein" x="280" y="150.9" text-anchor="middle">10</text>
+            <text class="klein" x="34" y="34.5" text-anchor="end">1</text>
+            <text class="klein" x="34" y="139.9" text-anchor="end">0</text>
+            <text class="klein" x="34" y="192.6" text-anchor="end">−0,5</text>
+            <text class="klein" x="406" y="152.9" text-anchor="end">ω₀t</text>
+            <text class="klein" x="48" y="14">x / x₀</text>
+            <text class="blau klein halo" x="126.4" y="205.5">Schwingfall</text>
+            <text class="kupfer klein halo" x="102.4" y="104.3">Grenzfall</text>
+            <text class="klein halo" x="268" y="98">Kriechfall</text>
+            </svg>
+            <figcaption>Abb. 3: Auslenkung nach dem Loslassen bei $x_0$ für
+              drei Dämpfungen: $\gamma = 0{,}15\,\omega_0$ (blau),
+              $\gamma = \omega_0$ (orange) und $\gamma = 3\,\omega_0$ (dunkel).
+              Im Schwingfall schrumpfen die Ausschläge
+              innerhalb der gestrichelten Hüllkurve $\mathrm{e}^{-\gamma t}$.
+              Der Grenzfall (orange) erreicht die Ruhelage am schnellsten
+              ohne Überschwingen, der Kriechfall braucht viel länger.</figcaption>
+          </figure>
+
+          <p>Wie die Lage der beiden Lösungen $\lambda_1$, $\lambda_2$ mit der
+            Form der Bewegung zusammenhängt, kannst du im folgenden Modell
+            ausprobieren.</p>
+
+          <figure class="interaktiv" data-modell="daempfung">
+            <span class="titel">Zum Ausprobieren</span>
+            <figcaption>Dämpfungs-Labor: Oben die Auslenkung eines
+              Federschwingers, der bei $x_0$ losgelassen wird, unten die beiden
+              Lösungen der charakteristischen Gleichung in der komplexen
+              Zahlenebene. Ändere die Dämpfung mit dem Regler oder den Knöpfen.
+              Solange die beiden Punkte auf dem Halbkreis vom Radius
+              $\omega_0$ liegen, schwingt der Körper: Ihr Realteil $-\gamma$
+              bestimmt, wie schnell die Ausschläge abklingen, ihr Imaginärteil
+              die Frequenz. Im Grenzfall treffen sie sich auf der reellen
+              Achse, danach wandert einer von ihnen zurück Richtung null, und
+              die Bewegung wird wieder langsamer.</figcaption>
+          </figure>
+
+          <div class="alltag">
+            <span class="titel">Aus der Technik: Stoßdämpfer und Türschließer</span>
+            <p>Ein Auto auf seinen Federn ist ein gedämpfter Schwinger. Die
+              Stoßdämpfer sind so ausgelegt, dass die Karosserie nach einer
+              Bodenwelle kaum nachschwingt, aber auch nicht träge kriecht. Ist
+              ein Dämpfer verschlissen, wird $\gamma$ kleiner, und das Auto
+              schaukelt mehrmals nach (Beispiel 2). Türschließer und die Zeiger
+              alter Messgeräte stellt man nahe an den aperiodischen
+              Grenzfall: Die Tür soll nicht zurückfedern, der Zeiger nicht um
+              den Messwert pendeln.</p>
+          </div>
+
+          <h2 id="inhomogen">Mit äußerer Kraft: inhomogene Gleichungen</h2>
+
+          <p>Wirkt zusätzlich eine äußere Kraft $F(t)$, die nicht von $x$
+            abhängt, wird die Gleichung inhomogen:</p>
+
+          $$ \ddot x + 2\gamma\dot x + \omega_0^2\, x = \frac{F(t)}{m} $$
+
+          <p>Es gilt dasselbe Prinzip wie bei erster Ordnung:
+            $x = x_\text{h} + x_\text{p}$. Die homogene Lösung kennst du schon.
+            Für die partikuläre Lösung wählst du einen Ansatz von der Bauart
+            des Störglieds und bestimmst dessen Parameter durch
+            Einsetzen:</p>
+
+          <div class="tabelle-huelle">
+            <table>
+              <thead><tr><th>Störglied</th><th>Ansatz für $x_\text{p}$</th></tr></thead>
+              <tbody>
+                <tr><td>Konstante</td><td>Konstante</td></tr>
+                <tr><td>Polynom vom Grad $n$</td><td>Polynom vom Grad $n$</td></tr>
+                <tr><td>$\mathrm{e}^{ct}$</td><td>$A\,\mathrm{e}^{ct}$</td></tr>
+                <tr><td>$\cos\Omega t$ oder $\sin\Omega t$</td><td>$A\cos\Omega t + B\sin\Omega t$</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <p>Löst der Ansatz schon die homogene Gleichung, multipliziert man
+            ihn mit $t$. Am einfachsten ist eine konstante Kraft, etwa die
+            Gewichtskraft bei einer senkrecht hängenden Feder. Mit $x$ nach
+            unten gemessen von der entspannten Feder gilt
+            $\ddot x + \omega_0^2 x = g$. Der Ansatz $x_\text{p} = $ const gibt
+            $x_\text{p} = g/\omega_0^2 = mg/k$. Das ist die neue Ruhelage, in
+            der sich Federkraft und Gewicht ausgleichen. Die allgemeine Lösung
+            $x = mg/k + A\cos(\omega_0 t + \varphi)$ ist dieselbe Schwingung
+            wie ohne Gewicht, nur um die neue Ruhelage herum (Beispiel 3).</p>
+
+          <p>Ein periodischer Antrieb $F_0\cos\Omega t$ führt mit dem Ansatz
+            aus der letzten Tabellenzeile auf eine Schwingung mit der Frequenz
+            des Antriebs und der Amplitude</p>
+
+          $$ A(\Omega) = \frac{F_0/m}{\sqrt{\left(\omega_0^2 - \Omega^2\right)^2 + 4\gamma^2\Omega^2}} $$
+
+          <p>(Aufgabe 6). Die homogene Lösung klingt mit
+            $\mathrm{e}^{-\gamma t}$ ab. Nach dem Einschwingen bleibt nur die
+            partikuläre Lösung übrig: Der Körper schwingt im Takt des Antriebs,
+            egal wie er gestartet ist. Liegt $\Omega$ nahe bei $\omega_0$ und
+            ist die Dämpfung klein, wird der Nenner klein und die Amplitude
+            groß. Das ist die <strong>Resonanz</strong>.</p>
+
+          <h2 id="numerisch">Wenn nichts mehr geht: numerisch lösen</h2>
+
+          <p>Die meisten DGLs der Physik lassen sich nicht als Formel lösen,
+            etwa das Pendel bei großen Ausschlägen oder drei Körper, die sich
+            gegenseitig anziehen. Dann rechnet der Computer die Lösung Schritt
+            für Schritt aus. Die einfachste Idee stammt von Euler. Für
+            $\dot x = f(x, t)$ ersetzt du die Ableitung durch einen
+            Differenzenquotienten mit kleinem Zeitschritt $\Delta t$:</p>
+
+          $$ x(t + \Delta t) \approx x(t) + f\bigl(x(t), t\bigr)\,\Delta t $$
+
+          <p>Du gehst also ein Stück entlang der Tangente, berechnest am neuen
+            Punkt die neue Steigung und gehst weiter (Abb. 4). Jeder Schritt
+            macht einen kleinen Fehler, weil sich die Steigung unterwegs
+            ändert. Über eine feste Strecke summiert sich das zu einem Fehler,
+            der etwa proportional zu $\Delta t$ ist: halber Schritt, halber
+            Fehler (Aufgabe 5).</p>
+
+          <figure class="abbildung">
+            <svg class="abb" viewBox="0 0 400 235" role="img" aria-label="Euler-Verfahren beim Zerfallsgesetz: die exakte Exponentialkurve und daneben ein Streckenzug aus geraden Schritten, der jeweils mit der Steigung am Anfang des Schritts weitergeht und deshalb unter der exakten Kurve bleibt">
+            <defs>
+              <marker id="pfeil-abb4" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+                <path d="M0 0L10 5L0 10z" fill="currentColor"/>
+              </marker>
+            </defs>
+            <path class="achse" d="M46 200H388" marker-end="url(#pfeil-abb4)"/>
+            <path class="achse" d="M46 200V12" marker-end="url(#pfeil-abb4)"/>
+            <path class="kurve blau" d="M46 38.2L50.2 46.1L54.4 53.6L58.5 60.7L62.7 67.5L66.9 74L71.1 80.1L75.2 86L79.4 91.5L83.6 96.8L87.8 101.9L91.9 106.6L96.1 111.2L100.3 115.5L104.5 119.6L108.6 123.6L112.8 127.3L117 130.8L121.2 134.2L125.3 137.4L129.5 140.5L133.7 143.4L137.9 146.1L142 148.8L146.2 151.3L150.4 153.6L154.6 155.9L158.7 158.1L162.9 160.1L167.1 162L171.2 163.9L175.4 165.7L179.6 167.3L183.8 168.9L188 170.4L192.1 171.9L196.3 173.3L200.5 174.6L204.7 175.8L208.8 177L213 178.1L217.2 179.2L221.3 180.2L225.5 181.2L229.7 182.1L233.9 182.9L238.1 183.8L242.2 184.6L246.4 185.3L250.6 186L254.8 186.7L258.9 187.4L263.1 188L267.3 188.6L271.5 189.1L275.6 189.7L279.8 190.2L284 190.6L288.2 191.1L292.3 191.5L296.5 191.9L300.7 192.3L304.9 192.7L309 193.1L313.2 193.4L317.4 193.7L321.6 194L325.7 194.3L329.9 194.6L334.1 194.9L338.2 195.1L342.4 195.4L346.6 195.6L350.8 195.8L354.9 196L359.1 196.2L363.3 196.4L367.5 196.6L371.7 196.7L375.8 196.9L380 197"/>
+            <path class="kurve kupfer duenn" d="M46 38.2L87.8 119.1L129.5 159.5L171.2 179.8L213 189.9L254.8 194.9L296.5 197.5L338.2 198.7L380 199.4"/>
+            <circle class="punkt kupfer" cx="46" cy="38.2" r="3"/>
+            <circle class="punkt kupfer" cx="87.8" cy="119.1" r="3"/>
+            <circle class="punkt kupfer" cx="129.5" cy="159.5" r="3"/>
+            <circle class="punkt kupfer" cx="171.2" cy="179.8" r="3"/>
+            <circle class="punkt kupfer" cx="213" cy="189.9" r="3"/>
+            <circle class="punkt kupfer" cx="254.8" cy="194.9" r="3"/>
+            <circle class="punkt kupfer" cx="296.5" cy="197.5" r="3"/>
+            <circle class="punkt kupfer" cx="338.2" cy="198.7" r="3"/>
+            <circle class="punkt kupfer" cx="380" cy="199.4" r="3"/>
+            <path class="hilfslinie" d="M46 38.2H87.8V119.1"/>
+            <text class="klein halo" x="66.9" y="32.2" text-anchor="middle">Δt</text>
+            <text class="klein halo" x="92.8" y="70.5">Steigung · Δt</text>
+            <text class="klein" x="129.5" y="215" text-anchor="middle">1</text>
+            <text class="klein" x="213" y="215" text-anchor="middle">2</text>
+            <text class="klein" x="296.5" y="215" text-anchor="middle">3</text>
+            <text class="klein" x="380" y="215" text-anchor="middle">4</text>
+            <text class="klein" x="40" y="204" text-anchor="end">0</text>
+            <text class="klein" x="40" y="123.1" text-anchor="end">0,5</text>
+            <text class="klein" x="40" y="42.2" text-anchor="end">1</text>
+            <text class="klein" x="386" y="228" text-anchor="end">λt</text>
+            <text class="klein" x="54" y="18">N / N₀</text>
+            <text class="blau klein halo" x="150.4" y="143.6">exakt</text>
+            <text class="kupfer klein halo" x="204.7" y="111">Euler-Schritte, λΔt = 0,5</text>
+            </svg>
+            <figcaption>Abb. 4: Euler-Verfahren für das Zerfallsgesetz mit dem
+              groben Schritt $\lambda\Delta t = 0{,}5$. Jeder Schritt folgt der
+              Steigung am Anfang des Schritts (gestrichelt beim ersten). Weil
+              die Kurve nach oben gekrümmt ist, landet jeder Schritt zu tief:
+              Bei $\lambda t = 1$ liefert Euler $0{,}25$ statt
+              $\mathrm{e}^{-1} = 0{,}37$.</figcaption>
+          </figure>
+
+          <p>Eine Gleichung zweiter Ordnung teilst du dafür in zwei Gleichungen
+            erster Ordnung auf, indem du die Geschwindigkeit als eigene Größe
+            führst:</p>
+
+          $$ \dot x = v, \qquad \dot v = \frac{F(x, v, t)}{m} $$
+
+          <p>In jedem Schritt werden Ort und Geschwindigkeit fortgeschrieben.
+            Das Modell zum Fallschirmsprung auf der Seite über
+            <a href="../mechanik/kraefte.html">Kräfte im Alltag</a> rechnet
+            genau so, mit Schritten von einer hundertstel Sekunde. Für genaue
+            Rechnungen nimmt man bessere Verfahren wie Runge-Kutta, die die
+            Steigung an mehreren Stellen innerhalb eines Schritts
+            auswerten.</p>
+
+          <h2 id="ueberblick">Alles auf einen Blick</h2>
+
+          <div class="tabelle-huelle">
+            <table>
+              <thead><tr><th>Gleichung</th><th>Weg</th><th>Lösung</th></tr></thead>
+              <tbody>
+                <tr><td>$\dot x = -\lambda x$</td><td>Trennung der Variablen</td><td>$x_0\,\mathrm{e}^{-\lambda t}$</td></tr>
+                <tr><td>$\dot x + x/\tau = f$ ($f$ konstant)</td><td>homogen + partikulär</td><td>$\tau f + (x_0 - \tau f)\,\mathrm{e}^{-t/\tau}$</td></tr>
+                <tr><td>$\ddot x + 2\gamma\dot x + \omega_0^2 x = 0$</td><td>Exponentialansatz</td><td>$c_1\mathrm{e}^{\lambda_1 t} + c_2\mathrm{e}^{\lambda_2 t}$</td></tr>
+                <tr><td>dieselbe mit $F(t)/m$ rechts</td><td>Ansatz nach Art des Störglieds</td><td>$x_\text{h} + x_\text{p}$</td></tr>
+                <tr><td>beliebig</td><td>numerisch, z.&nbsp;B. Euler</td><td>Näherung Schritt für Schritt</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="merkkasten">
+            <span class="titel">Das Wichtigste in Kürze</span>
+            <p>Eine Differentialgleichung verknüpft eine gesuchte Funktion mit
+              ihren Ableitungen. Ihre Lösung ist eine Funktion, und eine
+              Gleichung n-ter Ordnung braucht n Anfangsbedingungen, in der
+              Mechanik Ort und Geschwindigkeit. Gleichungen erster Ordnung
+              löst man oft durch Trennung der Variablen. Bei linearen
+              Gleichungen ist die Lösung die Summe aus der allgemeinen Lösung
+              der homogenen Gleichung und einer partikulären Lösung. Bei
+              konstanten Koeffizienten macht der Exponentialansatz aus der DGL
+              eine algebraische Gleichung; ihre Lösungen entscheiden, ob ein
+              gedämpfter Schwinger schwingt, kriecht oder im Grenzfall am
+              schnellsten zur Ruhe kommt. Was sich nicht exakt lösen lässt,
+              rechnet man Schritt für Schritt numerisch.</p>
+          </div>
+        </section>
+
+        <section class="tab" id="vertiefung" data-titel="Vertiefung"></section>
+
+        <section class="tab" id="beispiele" data-titel="Beispielrechnungen">
+
+          <div class="beispiel" data-symbole='{"T_1": "gemessene Temperatur nach t_1", "t_1": "Zeitpunkt der Messung"}'>
+            <h3>Beispiel 1: Wann ist der Kaffee trinkbar?</h3>
+            <p><strong>Gegeben:</strong> Frisch eingeschenkter Kaffee hat
+              $T_0 = 85\,{}^\circ\mathrm{C}$, die Küche
+              $T_\text{U} = 20\,{}^\circ\mathrm{C}$. Nach
+              $t_1 = 10\,\mathrm{min}$ misst du $T_1 = 60\,{}^\circ\mathrm{C}$.
+              Die Abkühlung folgt $\dot T = -(T - T_\text{U})/\tau$.<br>
+              <strong>Gesucht:</strong> (a) die Zeitkonstante $\tau$, (b) wann
+              der Kaffee $45\,{}^\circ\mathrm{C}$ hat, (c) wie schnell er ganz am
+              Anfang abkühlt.</p>
+
+            <p><strong>1. Lösung der DGL</strong> (Trennung der Variablen,
+              siehe oben):
+              $$ T(t) = T_\text{U} + (T_0 - T_\text{U})\,\mathrm{e}^{-t/\tau} $$</p>
+
+            <p><strong>2. Zeitkonstante.</strong> Bei $t_1$ eingesetzt:
+              $$ \mathrm{e}^{-t_1/\tau} = \frac{T_1 - T_\text{U}}{T_0 - T_\text{U}} = \frac{40\,\mathrm{K}}{65\,\mathrm{K}} = 0{,}6154 $$
+              $$ \tau = \frac{t_1}{\ln(65/40)} = \frac{10\,\mathrm{min}}{0{,}4855} = 20{,}6\,\mathrm{min} $$
+              Temperaturdifferenzen in °C und in K sind gleich, das Verhältnis
+              ist dimensionslos.</p>
+
+            <p><strong>3. Zeitpunkt für $45\,{}^\circ\mathrm{C}$.</strong> Der
+              Abstand zur Umgebung muss von $65\,\mathrm{K}$ auf
+              $25\,\mathrm{K}$ sinken:
+              $$ t = \tau\ln\frac{65\,\mathrm{K}}{25\,\mathrm{K}} = 20{,}6\,\mathrm{min}\cdot 0{,}9555 = 19{,}7\,\mathrm{min} $$</p>
+
+            <p><strong>4. Anfangsrate.</strong> Direkt aus der DGL:
+              $$ \dot T(0) = -\frac{T_0 - T_\text{U}}{\tau} = -\frac{65\,\mathrm{K}}{20{,}6\,\mathrm{min}} = -3{,}16\,\mathrm{K/min} $$
+              Einheitencheck: Temperatur durch Zeit, passt zu einer
+              Änderungsrate.</p>
+
+            <p><strong>Ergebnis und Plausibilität:</strong> $\tau \approx
+              21\,\mathrm{min}$; trinkbar ist der Kaffee nach knapp
+              $20\,\mathrm{min}$. Hätte er die Anfangsrate von
+              $3{,}2\,\mathrm{K/min}$ behalten, wäre er nach $10\,\mathrm{min}$
+              um $32\,\mathrm{K}$ kälter gewesen. Gemessen sind nur
+              $25\,\mathrm{K}$, weil die Abkühlung mit sinkender Temperatur
+              langsamer wird. In den nächsten zehn Minuten schrumpft der
+              Abstand zur Umgebung wieder um den Faktor $0{,}615$, von
+              $40\,\mathrm{K}$ auf $24{,}6\,\mathrm{K}$. Nach
+              $20\,\mathrm{min}$ hat der Kaffee also $44{,}6\,{}^\circ\mathrm{C}$,
+              passend zu Schritt 3.</p>
+          </div>
+
+          <div class="beispiel" data-symbole='{"T_d": "Schwingungsdauer der gedämpften Schwingung", "b_G": "Reibungskoeffizient für den aperiodischen Grenzfall"}'>
+            <h3>Beispiel 2: Ein verschlissener Stoßdämpfer</h3>
+            <p><strong>Gegeben:</strong> Auf einem Rad eines Autos ruht die
+              Masse $m = 300\,\mathrm{kg}$, die Feder hat
+              $k = 3{,}0\cdot 10^4\,\mathrm{N/m}$. Der Dämpfer bremst mit
+              $F_\text{R} = -b\dot x$.<br>
+              <strong>Gesucht:</strong> (a) $\omega_0$ und die Periode ohne
+              Dämpfung, (b) das $b$ für den aperiodischen Grenzfall, (c) das
+              Verhalten bei einem stark verschlissenen Dämpfer mit
+              $b = 600\,\mathrm{kg/s}$.</p>
+
+            <p><strong>1. Eigenkreisfrequenz:</strong>
+              $$ \omega_0 = \sqrt{\frac{k}{m}} = \sqrt{\frac{3{,}0\cdot 10^4\,\mathrm{N/m}}{300\,\mathrm{kg}}} = \sqrt{100\,\mathrm{s^{-2}}} = 10\,\mathrm{s^{-1}} $$
+              mit $1\,\mathrm{N} = 1\,\mathrm{kg\,m/s^2}$. Periode:
+              $2\pi/\omega_0 = 0{,}628\,\mathrm{s}$.</p>
+
+            <p><strong>2. Grenzfall</strong> bei $\gamma = b/(2m) = \omega_0$:
+              $$ b_\text{G} = 2m\omega_0 = 2\cdot 300\,\mathrm{kg}\cdot 10\,\mathrm{s^{-1}} = 6000\,\mathrm{kg/s} $$
+              Einheitencheck: $b\dot x$ hat die Einheit
+              $\mathrm{kg/s}\cdot\mathrm{m/s} = \mathrm{N}$.</p>
+
+            <p><strong>3. Stark verschlissener Dämpfer:</strong>
+              $$ \gamma = \frac{600\,\mathrm{kg/s}}{2\cdot 300\,\mathrm{kg}} = 1{,}0\,\mathrm{s^{-1}} \lt \omega_0 $$
+              also Schwingfall. Die Lösungen der charakteristischen Gleichung
+              sind $\lambda_{1,2} = -1{,}0\,\mathrm{s^{-1}} \pm \mathrm{i}\cdot 9{,}95\,\mathrm{s^{-1}}$ mit
+              $$ \omega_\text{d} = \sqrt{\omega_0^2 - \gamma^2} = \sqrt{100 - 1}\,\mathrm{s^{-1}} = 9{,}95\,\mathrm{s^{-1}}, \qquad T_\text{d} = \frac{2\pi}{\omega_\text{d}} = 0{,}631\,\mathrm{s} $$</p>
+
+            <p><strong>4. Abklingen pro Schwingung:</strong>
+              $$ \mathrm{e}^{-\gamma T_\text{d}} = \mathrm{e}^{-1{,}0\,\mathrm{s^{-1}}\cdot 0{,}631\,\mathrm{s}} = \mathrm{e}^{-0{,}631} = 0{,}532 $$
+              Nach drei Schwingungen ist noch $0{,}532^3 = 0{,}150$, also
+              $15\,\%$ des ersten Ausschlags übrig.</p>
+
+            <p><strong>Ergebnis und Plausibilität:</strong> Mit dem
+              verschlissenen Dämpfer schaukelt das Auto nach einer Bodenwelle
+              deutlich mehrmals nach, etwa im Takt von
+              $0{,}63\,\mathrm{s}$. Die Dämpfung ist mit
+              $\gamma/\omega_0 = 0{,}1$ zehnmal kleiner als im Grenzfall
+              (intakte Dämpfer liegen etwa bei $0{,}2$ bis $0{,}3$). Die
+              Periode ändert sich durch die Dämpfung kaum (von $0{,}628$ auf
+              $0{,}631\,\mathrm{s}$), weil $\gamma^2$ klein gegen
+              $\omega_0^2$ ist.</p>
+          </div>
+
+          <div class="beispiel" data-symbole='{"x_max": "tiefster Punkt der Bewegung", "v_max": "größte Geschwindigkeit"}'>
+            <h3>Beispiel 3: Ein Gewicht an der Feder loslassen</h3>
+            <p><strong>Gegeben:</strong> Ein Körper mit $m = 0{,}50\,\mathrm{kg}$
+              hängt an einer entspannten Feder mit $k = 20\,\mathrm{N/m}$ und
+              wird aus der Ruhe losgelassen. $x$ wird nach unten gemessen, ab
+              dem Ende der entspannten Feder; Reibung wird vernachlässigt.<br>
+              <strong>Gesucht:</strong> $x(t)$, der tiefste Punkt, die Periode
+              und die größte Geschwindigkeit.</p>
+
+            <p><strong>1. Bewegungsgleichung:</strong>
+              $$ m\ddot x = mg - kx \quad\Longrightarrow\quad \ddot x + \omega_0^2\,x = g, \qquad \omega_0 = \sqrt{\frac{20\,\mathrm{N/m}}{0{,}50\,\mathrm{kg}}} = 6{,}32\,\mathrm{s^{-1}} $$</p>
+
+            <p><strong>2. Partikuläre Lösung:</strong> Ansatz
+              $x_\text{p} = $ const, also $\ddot x_\text{p} = 0$:
+              $$ x_\text{p} = \frac{g}{\omega_0^2} = \frac{mg}{k} = \frac{0{,}50\,\mathrm{kg}\cdot 9{,}81\,\mathrm{m/s^2}}{20\,\mathrm{N/m}} = 0{,}245\,\mathrm{m} $$</p>
+
+            <p><strong>3. Allgemeine Lösung und Anfangsbedingungen:</strong>
+              $$ x(t) = 0{,}245\,\mathrm{m} + c_1\cos\omega_0 t + c_2\sin\omega_0 t $$
+              Aus $x(0) = 0$ folgt $c_1 = -0{,}245\,\mathrm{m}$, aus
+              $\dot x(0) = c_2\,\omega_0 = 0$ folgt $c_2 = 0$:
+              $$ x(t) = 0{,}245\,\mathrm{m}\cdot\bigl(1 - \cos\omega_0 t\bigr) $$</p>
+
+            <p><strong>4. Kennzahlen:</strong> Tiefster Punkt bei
+              $\cos\omega_0 t = -1$: $x_\text{max} = 0{,}491\,\mathrm{m}$.
+              Periode $2\pi/\omega_0 = 0{,}993\,\mathrm{s}$. Die größte
+              Geschwindigkeit hat der Körper beim Durchgang durch die
+              Ruhelage:
+              $$ v_\text{max} = 0{,}245\,\mathrm{m}\cdot 6{,}32\,\mathrm{s^{-1}} = 1{,}55\,\mathrm{m/s} $$</p>
+
+            <p><strong>Ergebnis und Plausibilität:</strong> Der Körper schwingt
+              zwischen $0$ und $49\,\mathrm{cm}$ um die Ruhelage bei
+              $24{,}5\,\mathrm{cm}$, also doppelt so tief, wie er beim
+              langsamen Absenken hängen bliebe. Probe mit der
+              Energie: Am tiefsten Punkt ist die verlorene Lageenergie
+              $mg\cdot 0{,}491\,\mathrm{m} = 2{,}41\,\mathrm{J}$ ganz in der Feder
+              gespeichert, $\tfrac12 k\,(0{,}491\,\mathrm{m})^2 = 2{,}41\,\mathrm{J}$.
+              Einheitencheck: $\mathrm{m}\cdot\mathrm{s^{-1}} = \mathrm{m/s}$.</p>
+          </div>
+        </section>
+
+        <section class="tab" id="aufgaben" data-titel="Aufgaben">
+
+          <p>Die Aufgaben sind nach Schwierigkeit sortiert. Versuch es erst
+            selbst, die Lösungen sind zugeklappt. Reibung ist überall
+            proportional zur Geschwindigkeit angenommen; Größen ohne Einheit
+            sind reine Rechenübungen.</p>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 1: Lösung oder nicht?
+              <span class="schwierigkeit" data-stufe="leicht">leicht</span>
+            </h3>
+            <p>Gegeben ist die DGL $\ddot x = -4x$.</p>
+            <ol type="a">
+              <li>Welche Ordnung hat sie, und wie viele Konstanten enthält
+                ihre allgemeine Lösung?</li>
+              <li>Prüfe durch Einsetzen, welche Funktionen Lösungen sind:
+                $x_1 = 3\cos 2t$, $x_2 = \sin 4t$, $x_3 = \mathrm{e}^{2t}$,
+                $x_4 = 2\sin(2t + 1)$.</li>
+              <li>Finde die Lösung mit $x(0) = 1$ und $\dot x(0) = 4$.</li>
+            </ol>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>(a) Zweite Ordnung, die allgemeine Lösung hat zwei
+                Konstanten: $x = c_1\cos 2t + c_2\sin 2t$ (hier
+                $\omega_0 = 2$).</p>
+              <p>(b) $\ddot x_1 = -12\cos 2t = -4x_1$: Lösung.
+                $\ddot x_2 = -16\sin 4t = -16x_2$: keine Lösung.
+                $\ddot x_3 = 4\mathrm{e}^{2t} = +4x_3$: keine Lösung (falsches
+                Vorzeichen). $\ddot x_4 = -8\sin(2t + 1) = -4x_4$: Lösung.</p>
+              <p>(c) $x(0) = c_1 = 1$. $\dot x = -2c_1\sin 2t + 2c_2\cos 2t$,
+                also $\dot x(0) = 2c_2 = 4$ und $c_2 = 2$. Ergebnis:
+                $x(t) = \cos 2t + 2\sin 2t$.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 2: Iod in der Schilddrüse
+              <span class="schwierigkeit" data-stufe="leicht">leicht</span>
+            </h3>
+            <p>Das Isotop Iod-131 hat eine Halbwertszeit von
+              $t_{1/2} = 8{,}02\,\mathrm{d}$ (Tage).</p>
+            <ol type="a">
+              <li>Berechne die Zerfallskonstante $\lambda$.</li>
+              <li>Welcher Anteil ist nach $30\,\mathrm{d}$ noch vorhanden?</li>
+              <li>Nach welcher Zeit ist nur noch $1\,\%$ übrig?</li>
+            </ol>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>(a) Aus $N_0/2 = N_0\,\mathrm{e}^{-\lambda t_{1/2}}$ folgt
+                $\lambda = \ln 2/t_{1/2} = 0{,}6931/8{,}02\,\mathrm{d} = 0{,}0864\,\mathrm{d^{-1}}$.</p>
+              <p>(b) $N/N_0 = \mathrm{e}^{-0{,}0864\,\mathrm{d^{-1}}\cdot 30\,\mathrm{d}} = \mathrm{e}^{-2{,}593} = 0{,}075$,
+                also $7{,}5\,\%$. Probe: $30\,\mathrm{d}$ sind $3{,}74$
+                Halbwertszeiten, $0{,}5^{3{,}74} = 0{,}075$.</p>
+              <p>(c) $\mathrm{e}^{-\lambda t} = 0{,}01$ gibt
+                $t = \ln 100/\lambda = 4{,}605/0{,}0864\,\mathrm{d^{-1}} = 53\,\mathrm{d}$,
+                knapp sieben Halbwertszeiten ($0{,}5^7 = 0{,}8\,\%$).</p>
+            </details>
+          </div>
+
+          <div class="aufgabe" data-symbole='{"x_∞": "gesamter Weg bis zum Stillstand"}'>
+            <h3>Aufgabe 3: Ein Boot rollt aus
+              <span class="schwierigkeit" data-stufe="mittel">mittel</span>
+            </h3>
+            <p>Ein Boot ($m = 400\,\mathrm{kg}$) fährt mit
+              $v_0 = 5{,}0\,\mathrm{m/s}$, als der Motor ausgeht. Das Wasser
+              bremst mit $F_\text{R} = -b\,v$, $b = 80\,\mathrm{kg/s}$.</p>
+            <ol type="a">
+              <li>Stelle die DGL für $v(t)$ auf und löse sie.</li>
+              <li>Wie schnell ist das Boot nach $10\,\mathrm{s}$?</li>
+              <li>Bestimme den Weg $x(t)$ und den gesamten Weg bis zum
+                Stillstand.</li>
+              <li>Wann ist das Boot langsamer als $1\,\mathrm{cm/s}$?</li>
+            </ol>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>(a) $m\dot v = -bv$. Trennung:
+                $\mathrm{d}v/v = -(b/m)\,\mathrm{d}t$, also
+                $v(t) = v_0\,\mathrm{e}^{-t/\tau}$ mit
+                $\tau = m/b = 400\,\mathrm{kg}/(80\,\mathrm{kg/s}) = 5{,}0\,\mathrm{s}$.</p>
+              <p>(b) $v(10\,\mathrm{s}) = 5{,}0\,\mathrm{m/s}\cdot\mathrm{e}^{-2} = 0{,}68\,\mathrm{m/s}$.</p>
+              <p>(c) $x(t) = \int_0^t v_0\,\mathrm{e}^{-t'/\tau}\,\mathrm{d}t' = v_0\tau\,\bigl(1 - \mathrm{e}^{-t/\tau}\bigr)$.
+                Für $t \to \infty$ geht das gegen
+                $x_\infty = v_0\tau = 5{,}0\,\mathrm{m/s}\cdot 5{,}0\,\mathrm{s} = 25\,\mathrm{m}$.
+                Nach $10\,\mathrm{s}$ sind schon $21{,}6\,\mathrm{m}$
+                geschafft.</p>
+              <p>(d) $t = \tau\ln\bigl(v_0/(0{,}01\,\mathrm{m/s})\bigr) = 5{,}0\,\mathrm{s}\cdot\ln 500 = 31\,\mathrm{s}$.</p>
+              <p>Zum Nachdenken: Nach diesem Modell kommt das Boot nie ganz
+                zum Stehen, legt aber trotzdem nur einen endlichen Weg zurück.
+                In Wirklichkeit ist die Wasserreibung bei $5\,\mathrm{m/s}$
+                eher quadratisch in $v$, und ganz langsam treibt das Boot mit
+                Wind und Strömung.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 4: Drei charakteristische Gleichungen
+              <span class="schwierigkeit" data-stufe="mittel">mittel</span>
+            </h3>
+            <p>Löse jeweils mit $x(0) = 1$, $\dot x(0) = 0$ und gib an, ob
+              Schwingfall, Kriechfall oder aperiodischer Grenzfall
+              vorliegt:</p>
+            <ol type="a">
+              <li>$\ddot x + 5\dot x + 6x = 0$</li>
+              <li>$\ddot x + 4\dot x + 4x = 0$</li>
+              <li>$\ddot x + 2\dot x + 10x = 0$</li>
+            </ol>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>(a) $\lambda^2 + 5\lambda + 6 = (\lambda + 2)(\lambda + 3) = 0$,
+                $\lambda_1 = -2$, $\lambda_2 = -3$: Kriechfall
+                ($\gamma = 2{,}5 \gt \omega_0 = \sqrt 6 = 2{,}45$). Mit
+                $x = c_1\mathrm{e}^{-2t} + c_2\mathrm{e}^{-3t}$:
+                $c_1 + c_2 = 1$ und $-2c_1 - 3c_2 = 0$, also $c_1 = 3$,
+                $c_2 = -2$ und $x = 3\mathrm{e}^{-2t} - 2\mathrm{e}^{-3t}$.</p>
+              <p>(b) $\lambda^2 + 4\lambda + 4 = (\lambda + 2)^2$, doppelte
+                Lösung $\lambda = -2$: Grenzfall. Mit
+                $x = (c_1 + c_2 t)\,\mathrm{e}^{-2t}$: $c_1 = 1$,
+                $\dot x(0) = c_2 - 2c_1 = 0$, also $c_2 = 2$ und
+                $x = (1 + 2t)\,\mathrm{e}^{-2t}$.</p>
+              <p>(c) $\lambda = -1 \pm \sqrt{1 - 10} = -1 \pm 3\mathrm{i}$:
+                Schwingfall mit $\gamma = 1$, $\omega_\text{d} = 3$. Mit
+                $x = \mathrm{e}^{-t}(c_1\cos 3t + c_2\sin 3t)$: $c_1 = 1$,
+                $\dot x(0) = -c_1 + 3c_2 = 0$, also $c_2 = 1/3$ und
+                $x = \mathrm{e}^{-t}\bigl(\cos 3t + \tfrac13\sin 3t\bigr)$.</p>
+              <p>Probe für (a): $\dot x = -6\mathrm{e}^{-2t} + 6\mathrm{e}^{-3t}$
+                ist bei $t = 0$ null.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 5: Euler von Hand
+              <span class="schwierigkeit" data-stufe="schwer">schwer</span>
+            </h3>
+            <p>Betrachte $\dot x = -x$ mit $x(0) = 1$; die exakte Lösung ist
+              $\mathrm{e}^{-t}$.</p>
+            <ol type="a">
+              <li>Zeige, dass das Euler-Verfahren mit Schritt $\Delta t$ auf
+                $x_n = (1 - \Delta t)^n$ führt.</li>
+              <li>Berechne $x$ bei $t = 1$ für $\Delta t = 0{,}5$, $0{,}25$
+                und $0{,}1$ und jeweils den Fehler. Wie hängt er von
+                $\Delta t$ ab?</li>
+              <li>Was passiert bei $\Delta t = 2{,}5$?</li>
+            </ol>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>(a) Ein Schritt:
+                $x_{n+1} = x_n + (-x_n)\,\Delta t = (1 - \Delta t)\,x_n$. Mit
+                $x_0 = 1$ folgt $x_n = (1 - \Delta t)^n$.</p>
+              <p>(b) Exakt: $\mathrm{e}^{-1} = 0{,}3679$.</p>
+              <div class="tabelle-huelle">
+                <table>
+                  <thead><tr><th>$\Delta t$</th><th>Schritte</th><th>Euler</th><th>Fehler</th><th>Fehler / $\Delta t$</th></tr></thead>
+                  <tbody>
+                    <tr><td>$0{,}5$</td><td>2</td><td>$0{,}5^2 = 0{,}2500$</td><td>$0{,}118$</td><td>$0{,}24$</td></tr>
+                    <tr><td>$0{,}25$</td><td>4</td><td>$0{,}75^4 = 0{,}3164$</td><td>$0{,}051$</td><td>$0{,}21$</td></tr>
+                    <tr><td>$0{,}1$</td><td>10</td><td>$0{,}9^{10} = 0{,}3487$</td><td>$0{,}019$</td><td>$0{,}19$</td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <p>Der Fehler ist ungefähr proportional zu $\Delta t$ (das
+                Verhältnis nähert sich $\mathrm{e}^{-1}/2 = 0{,}18$). Für
+                eine Stelle mehr Genauigkeit braucht man zehnmal so viele
+                Schritte.</p>
+              <p>(c) Der Faktor pro Schritt ist $1 - 2{,}5 = -1{,}5$:
+                $x = 1;\ -1{,}5;\ 2{,}25;\ -3{,}375;\ \dots$ Die Näherung
+                springt hin und her und wächst, obwohl die wahre Lösung
+                abklingt. Das Verfahren ist <em>instabil</em>.</p>
+              <p>Zum Nachdenken: Damit die Näherung abklingt, muss
+                $|1 - \Delta t| \lt 1$ sein, also $\Delta t \lt 2$; ohne
+                Vorzeichenwechsel sogar $\Delta t \lt 1$. Der Zeitschritt muss
+                klein gegen die kürzeste Zeitkonstante des Problems sein.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe" data-symbole='{"A": "Koeffizient vor dem Kosinus im Ansatz", "f_0": "Antriebskraft pro Masse, F_0/m", "Δ": "Abkürzung ω_0² − Ω²", "W": "Abkürzung für den Nenner (ω_0² − Ω²)² + 4γ²Ω²"}'>
+            <h3>Aufgabe 6: Erzwungene Schwingung
+              <span class="schwierigkeit" data-stufe="schwer">schwer</span>
+            </h3>
+            <p>Ein gedämpfter Schwinger wird periodisch angetrieben:
+              $\ddot x + 2\gamma\dot x + \omega_0^2 x = f_0\cos\Omega t$ mit
+              $f_0 = F_0/m$.</p>
+            <ol type="a">
+              <li>Setze $x_\text{p} = A\cos\Omega t + B\sin\Omega t$ ein und
+                bestimme $A$ und $B$. Zeige, dass die Amplitude
+                $\sqrt{A^2 + B^2}$ der Formel im Text entspricht.</li>
+              <li>Berechne die Amplitude für $\omega_0 = 10\,\mathrm{s^{-1}}$,
+                $\gamma = 1{,}0\,\mathrm{s^{-1}}$, $f_0 = 1{,}0\,\mathrm{m/s^2}$
+                und $\Omega = 8$, $10$ und $12\,\mathrm{s^{-1}}$. Vergleiche
+                mit der Auslenkung $f_0/\omega_0^2$ bei konstanter Kraft.</li>
+              <li>Wie hängt die Bewegung bei $\Omega = \omega_0$ zeitlich mit
+                dem Antrieb zusammen?</li>
+            </ol>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>(a) $\dot x_\text{p} = -A\Omega\sin\Omega t + B\Omega\cos\Omega t$,
+                $\ddot x_\text{p} = -\Omega^2 x_\text{p}$. Einsetzen und nach
+                $\cos$ und $\sin$ sortieren; beide Vorfaktoren müssen
+                einzeln stimmen:
+                $$ \cos:\ (\omega_0^2 - \Omega^2)A + 2\gamma\Omega B = f_0, \qquad \sin:\ (\omega_0^2 - \Omega^2)B - 2\gamma\Omega A = 0 $$
+                Aus der zweiten Gleichung folgt
+                $B = 2\gamma\Omega A/\Delta$ mit
+                $\Delta = \omega_0^2 - \Omega^2$; eingesetzt in die erste und
+                mit $W = \Delta^2 + 4\gamma^2\Omega^2$:
+                $A = f_0\Delta/W$, $B = 2\gamma\Omega f_0/W$ und
+                $\sqrt{A^2 + B^2} = f_0\sqrt{\Delta^2 + 4\gamma^2\Omega^2}/W = f_0/\sqrt{W}$.</p>
+              <p>(b) Konstante Kraft: $f_0/\omega_0^2 = 1{,}0\,\mathrm{cm}$.</p>
+              <div class="tabelle-huelle">
+                <table>
+                  <thead><tr><th>$\Omega$ in $\mathrm{s^{-1}}$</th><th>$\omega_0^2 - \Omega^2$ in $\mathrm{s^{-2}}$</th><th>$2\gamma\Omega$ in $\mathrm{s^{-2}}$</th><th>Amplitude</th></tr></thead>
+                  <tbody>
+                    <tr><td>8</td><td>36</td><td>16</td><td>$1/\sqrt{1552}\,\mathrm{m} = 2{,}5\,\mathrm{cm}$</td></tr>
+                    <tr><td>10</td><td>0</td><td>20</td><td>$1/20\,\mathrm{m} = 5{,}0\,\mathrm{cm}$</td></tr>
+                    <tr><td>12</td><td>−44</td><td>24</td><td>$1/\sqrt{2512}\,\mathrm{m} = 2{,}0\,\mathrm{cm}$</td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <p>Bei Resonanz ist die Amplitude fünfmal so groß wie bei
+                konstanter Kraft; der Faktor ist $\omega_0/(2\gamma) = 5$.
+                Einheitencheck: $(\mathrm{m/s^2})/\mathrm{s^{-2}} = \mathrm{m}$.</p>
+              <p>(c) Bei $\Omega = \omega_0$ ist $\Delta = 0$, also $A = 0$
+                und $x_\text{p} = B\sin\omega_0 t$. Die Auslenkung läuft dem
+                Antrieb $\cos\omega_0 t$ um eine Viertelperiode hinterher. Dann
+                ist die Geschwindigkeit $\dot x_\text{p} = B\omega_0\cos\omega_0 t$
+                genau im Takt mit der Kraft, und der Antrieb schiebt immer in
+                Bewegungsrichtung.</p>
+              <p>Zum Nachdenken: Ohne Dämpfung ($\gamma = 0$) wird die
+                Amplitude bei $\Omega = \omega_0$ unendlich. Der Ansatz
+                versagt dann, weil $\cos\omega_0 t$ schon die homogene
+                Gleichung löst; nach der Regel im Text braucht man
+                $t\,(A\cos\omega_0 t + B\sin\omega_0 t)$, und die Amplitude
+                wächst linear mit der Zeit.</p>
+            </details>
+          </div>
+        </section>
+
+      </div></article>
+  </main>
+</body>
+</html>

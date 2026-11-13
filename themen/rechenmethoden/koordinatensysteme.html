@@ -1,0 +1,978 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="robots" content="noindex">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Krummlinige Koordinatensysteme</title>
+  <meta name="description" content="Polar-, Zylinder- und Kugelkoordinaten anschaulich: Koordinatenlinien, mitwandernde Einheitsvektoren, Skalenfaktoren, Flächen- und Volumenelement und die Jacobi-Determinante – mit Abbildungen, Beispielen und Aufgaben.">
+
+  <link rel="stylesheet" href="../../css/stil.css">
+
+  <link rel="stylesheet" href="../../extern/katex/katex.min.css">
+  <script defer src="../../extern/katex/katex.min.js"></script>
+  <script defer src="../../extern/katex/contrib/auto-render.min.js" onload="starteFormeln()"></script>
+
+  <script src="../../js/daten.js"></script>
+  <script src="../../js/seite.js"></script>
+  <script src="../../js/effekte.js"></script>
+  <script src="../../js/interaktiv.js"></script>
+  <script src="../../js/modelle/koordinatensysteme.js"></script>
+  <script type="application/json" id="symbole">
+  {
+    "x": "kartesische x-Koordinate",
+    "y": "kartesische y-Koordinate",
+    "z": "kartesische z-Koordinate (Höhe)",
+    "r": "Abstand vom Ursprung",
+    "R": "Radius",
+    "φ": "Azimutwinkel, gemessen von der x-Achse",
+    "ρ": "Abstand von der z-Achse (Zylinderkoordinaten)",
+    "ϑ": "Polarwinkel, gemessen von der z-Achse",
+    "u_1": "erste allgemeine Koordinate",
+    "u_2": "zweite allgemeine Koordinate",
+    "u_3": "dritte allgemeine Koordinate",
+    "u_i": "allgemeine Koordinate Nummer i",
+    "h_i": "Skalenfaktor der Koordinate u i",
+    "h_1": "Skalenfaktor der Koordinate u 1",
+    "h_2": "Skalenfaktor der Koordinate u 2",
+    "h_3": "Skalenfaktor der Koordinate u 3",
+    "e_ui": "Einheitsvektor in Richtung wachsender Koordinate u i",
+    "P": "betrachteter Punkt",
+    "π": "Kreiszahl 3,14159…",
+    "h_φ": "Skalenfaktor von φ",
+    "e_x": "Einheitsvektor in x-Richtung",
+    "e_y": "Einheitsvektor in y-Richtung",
+    "e_z": "Einheitsvektor in z-Richtung",
+    "e_r": "Einheitsvektor in Richtung wachsendem r",
+    "e_φ": "Einheitsvektor in Richtung wachsendem φ",
+    "e_ϑ": "Einheitsvektor in Richtung wachsendem ϑ",
+    "e_ρ": "Einheitsvektor in Richtung wachsendem ρ",
+    "a": "beliebiger Vektor bzw. Beschleunigung",
+    "a_r": "Komponente von a in Richtung e r",
+    "a_φ": "Komponente von a in Richtung e φ",
+    "v": "Geschwindigkeit",
+    "t": "Zeit",
+    "ω": "Winkelgeschwindigkeit",
+    "s": "Weglänge",
+    "A": "Fläche",
+    "V": "Volumen",
+    "J": "Jacobi-Matrix"
+  }
+  </script>
+</head>
+<body data-thema="koordinatensysteme">
+  <main>
+    <article class="thema">
+      <header>
+        <h1>Krummlinige Koordinatensysteme</h1>
+        <p class="untertitel">Polar-, Zylinder- und Kugelkoordinaten: wie man
+          Kreise, Rohre und Kugeln mit den passenden Koordinaten beschreibt –
+          und warum die Einheitsvektoren dabei mitwandern.</p>
+      </header>
+
+      <div class="tabs">
+
+        <section class="tab" id="verstehen" data-titel="Verstehen">
+
+          <p>Stell dir vor, du stehst auf einem Leuchtturm und willst einem
+            Boot sagen, wo ein anderes Schiff liegt. „4 km nach Osten und 3 km
+            nach Norden“ wäre korrekt – aber viel natürlicher ist „5 km
+            entfernt, in Richtung Nordost“. Du gibst also einen
+            <strong>Abstand</strong> und einen <strong>Winkel</strong> an.
+            Genau das sind Polarkoordinaten. Auch auf dem Globus benutzt
+            niemand $x$, $y$ und $z$, sondern Längen- und Breitengrade.</p>
+
+          <p>In der Physik ist es ebenso: Ein Planet kreist um die Sonne, ein
+            Strom fließt durch einen langen Draht, eine Ladung sitzt im
+            Zentrum. Wer hier kartesische Koordinaten benutzt, rechnet sich
+            unnötig schwer. Schon ein Kreis mit Radius $R$ sieht kartesisch
+            umständlich aus, $y = \pm\sqrt{R^2 - x^2}$, in Polarkoordinaten
+            dagegen einfach $r = R$. Diese Seite zeigt dir die drei wichtigsten
+            krummlinigen Koordinatensysteme und was beim Rechnen mit ihnen
+            anders ist. Du solltest die <a href="vektoren.html">Vektorrechnung</a>
+            kennen; für das letzte Kapitel hilft die Seite über
+            <a href="matrizen.html">Matrizen und Determinanten</a>.</p>
+
+          <h2 id="koordinatenlinien">Koordinaten, Koordinatenlinien, Koordinatenflächen</h2>
+
+          <p>Um einen Punkt im Raum festzulegen, brauchst du drei Zahlen – in
+            der Ebene zwei, in der Raumzeit vier. Welche drei Zahlen das sind,
+            ist deine Wahl. Allgemein nennen wir sie $u_1, u_2, u_3$. Jede
+            hängt von den kartesischen Koordinaten ab, und umgekehrt lässt sich
+            der Ortsvektor aus ihnen berechnen:</p>
+
+          $$ \vec r(u_1, u_2, u_3) = x(u_1, u_2, u_3)\,\hat e_x + y(u_1, u_2, u_3)\,\hat e_y + z(u_1, u_2, u_3)\,\hat e_z $$
+
+          <p>Hältst du zwei der drei Koordinaten fest und lässt nur die
+            dritte laufen, wandert der Punkt auf einer
+            <strong>Koordinatenlinie</strong>. Hältst du nur eine fest,
+            überstreicht er eine <strong>Koordinatenfläche</strong>. Bei
+            kartesischen Koordinaten sind alle Koordinatenlinien Geraden. Ist
+            mindestens eine davon gekrümmt, spricht man von
+            <strong>krummlinigen Koordinaten</strong> (Abb. 2).</p>
+
+          <div class="alltag">
+            <span class="titel">Beispiel: der Globus</span>
+            <p>Hältst du auf der Erde Länge und Höhe fest und änderst nur die
+              Breite, läufst du auf einem Längenkreis vom Nord- zum Südpol.
+              Hältst du Breite und Höhe fest, umrundest du die Erde auf einem
+              Breitenkreis. Beide Koordinatenlinien sind gekrümmt – Länge,
+              Breite und Höhe sind krummlinige Koordinaten.</p>
+          </div>
+
+          <h2 id="polarkoordinaten">Polarkoordinaten</h2>
+
+          <p>In der Ebene beschreibst du einen Punkt durch seinen Abstand $r$
+            vom Ursprung und den Winkel $\varphi$, den die Verbindungslinie mit
+            der $x$-Achse bildet – gezählt gegen den Uhrzeigersinn (Abb. 1).
+            Mit Kosinus und Sinus rechnest du in kartesische Koordinaten
+            um:</p>
+
+          $$ x = r\cos\varphi, \qquad y = r\sin\varphi, \qquad r \ge 0,\quad 0 \le \varphi \lt 2\pi $$
+
+          <figure class="abbildung">
+            <svg class="abb" viewBox="0 0 360 240" role="img"
+                 aria-label="Punkt P in der Ebene; der blaue Pfeil r vom Ursprung zu P hat den Winkel phi zur x-Achse; gestrichelt die Projektionen x = r cos phi und y = r sin phi und der Kreis mit Radius r">
+              <defs><marker id="pfeil-abb1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="currentColor"/></marker><marker id="pfeil-abb1-blau" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto"><path class="punkt blau" d="M0 0L10 5L0 10z"/></marker><marker id="pfeil-abb1-kupfer" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto"><path class="punkt kupfer" d="M0 0L10 5L0 10z"/></marker></defs>
+              <path class="achse" d="M34.8 205L342.8 205" marker-end="url(#pfeil-abb1)"/>
+              <path class="achse" d="M70 227L70 20.2" marker-end="url(#pfeil-abb1)"/>
+              <text x="338.4" y="224.8" text-anchor="end" font-style="italic">x</text>
+              <text x="80" y="28.6" text-anchor="start" font-style="italic">y</text>
+              <path class="hilfslinie" d="M246 205L245.9 198.9L245.6 192.7L245 186.6L244.3 180.5L243.3 174.4L242.2 168.4L240.8 162.4L239.2 156.5L237.4 150.6L235.4 144.8L233.2 139.1L230.8 133.4L228.2 127.8L225.4 122.4L222.4 117L219.3 111.7L215.9 106.6L212.4 101.5L208.7 96.6L204.8 91.9L200.8 87.2L196.6 82.7L192.3 78.4L187.8 74.2L183.1 70.2L178.4 66.3L173.5 62.6L168.4 59.1L163.3 55.7L158 52.6L152.6 49.6L147.2 46.8L141.6 44.2L135.9 41.8L130.2 39.6L124.4 37.6L118.5 35.8L112.6 34.2L106.6 32.8L100.6 31.7L94.5 30.7L88.4 30L82.3 29.4L76.1 29.1L70 29"/>
+              <path class="hilfslinie" d="M210.8 99.4L210.8 205"/>
+              <path class="hilfslinie" d="M210.8 99.4L70 99.4"/>
+              <path class="kurve kupfer" d="M118.4 205A48.4 48.4 0 0 0 108.7 176"/>
+              <text class="kupfer" x="130.5" y="189.8" text-anchor="middle" font-style="italic">φ</text>
+              <path class="kurve blau" d="M70 205L210.8 99.4" marker-end="url(#pfeil-abb1-blau)"/>
+              <text class="blau" x="132.4" y="146.2" text-anchor="middle" font-style="italic">r</text>
+              <circle class="punkt" cx="210.8" cy="99.4" r="3.5"/>
+              <text x="219.8" y="93.4" text-anchor="start">P</text>
+              <text x="210.8" y="223" text-anchor="middle"><tspan font-style="italic">x</tspan> = <tspan font-style="italic">r</tspan> cos <tspan font-style="italic">φ</tspan></text>
+              <text x="62" y="103.4" text-anchor="end"><tspan font-style="italic">y</tspan> =</text>
+              <text x="62" y="119.4" text-anchor="end"><tspan font-style="italic">r</tspan> sin <tspan font-style="italic">φ</tspan></text>
+              <text class="klein" x="138.2" y="35.6" text-anchor="start">Kreis r = 4</text>
+            </svg>
+            <figcaption>Abb. 1: Polarkoordinaten. Der Punkt $P$ hat den
+              Abstand $r = 4$ vom Ursprung und liegt unter dem Winkel
+              $\varphi \approx 37^\circ$. Seine kartesischen Koordinaten sind
+              die Schatten von $r$ auf die Achsen: $x = r\cos\varphi = 3{,}2$,
+              $y = r\sin\varphi = 2{,}4$.</figcaption>
+          </figure>
+
+          <p>Umgekehrt liefert Pythagoras den Abstand, und der Tangens den
+            Winkel:</p>
+
+          $$ r = \sqrt{x^2 + y^2}, \qquad \tan\varphi = \frac{y}{x} $$
+
+          <p>Vorsicht beim Winkel: Der Taschenrechner gibt für $\arctan$ nur
+            Werte zwischen $-90^\circ$ und $90^\circ$ aus. Die Punkte $(1, 1)$
+            und $(-1, -1)$ haben aber beide $y/x = 1$ – der erste liegt bei
+            $45^\circ$, der zweite bei $225^\circ$. Schau also immer nach, in
+            welchem Quadranten der Punkt liegt: Im 2. und 3. Quadranten
+            ($x \lt 0$) addierst du $180^\circ$, im 4. Quadranten (negatives
+            Ergebnis) $360^\circ$. Im Ursprung ist $\varphi$ gar nicht
+            festgelegt.</p>
+
+          <p>Die Koordinatenlinien sind Kreise um den Ursprung (hier ist $r$
+            fest) und Strahlen vom Ursprung nach außen (hier ist $\varphi$
+            fest). Sie schneiden sich überall im rechten Winkel – wie das
+            kartesische Gitter, nur gebogen.</p>
+
+          <figure class="abbildung">
+            <div class="abb-reihe">
+            <svg class="abb" viewBox="0 0 220 225" role="img"
+                 aria-label="Kartesisches Gitter: die Linie x = 2 ist eine senkrechte Gerade, die Linie y = 3 eine waagerechte Gerade; sie schneiden sich im Punkt P">
+              <defs><marker id="pfeil-abb2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="currentColor"/></marker><marker id="pfeil-abb2-blau" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto"><path class="punkt blau" d="M0 0L10 5L0 10z"/></marker><marker id="pfeil-abb2-kupfer" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto"><path class="punkt kupfer" d="M0 0L10 5L0 10z"/></marker></defs>
+              <path class="hilfslinie" d="M22 208.8L22 15.2"/>
+              <path class="hilfslinie" d="M13.2 200L206.8 200"/>
+              <path class="hilfslinie" d="M44 208.8L44 15.2"/>
+              <path class="hilfslinie" d="M13.2 178L206.8 178"/>
+              <path class="hilfslinie" d="M66 208.8L66 15.2"/>
+              <path class="hilfslinie" d="M13.2 156L206.8 156"/>
+              <path class="hilfslinie" d="M88 208.8L88 15.2"/>
+              <path class="hilfslinie" d="M13.2 134L206.8 134"/>
+              <path class="achse" d="M110 208.8L110 15.2"/>
+              <path class="achse" d="M13.2 112L206.8 112"/>
+              <path class="hilfslinie" d="M132 208.8L132 15.2"/>
+              <path class="hilfslinie" d="M13.2 90L206.8 90"/>
+              <path class="hilfslinie" d="M154 208.8L154 15.2"/>
+              <path class="hilfslinie" d="M13.2 68L206.8 68"/>
+              <path class="hilfslinie" d="M176 208.8L176 15.2"/>
+              <path class="hilfslinie" d="M13.2 46L206.8 46"/>
+              <path class="hilfslinie" d="M198 208.8L198 15.2"/>
+              <path class="hilfslinie" d="M13.2 24L206.8 24"/>
+              <path class="kurve blau" d="M154 208.8L154 15.2"/>
+              <path class="kurve kupfer" d="M13.2 46L206.8 46"/>
+              <circle class="punkt" cx="154" cy="46" r="3.5"/>
+              <text class="halo" x="162" y="39" text-anchor="start">P</text>
+              <text class="klein blau halo" x="159" y="191.2" text-anchor="start">x = 2</text>
+              <text class="klein kupfer halo" x="17.4" y="40" text-anchor="start">y = 3</text>
+            </svg>
+            <svg class="abb" viewBox="0 0 220 225" role="img"
+                 aria-label="Polargitter aus Kreisen um den Ursprung und Strahlen; die Linie r = 3 ist ein Kreis, die Linie phi = 60 Grad ein Strahl vom Ursprung; sie schneiden sich im Punkt P">
+              <circle class="hilfslinie" cx="110" cy="112" r="24"/>
+              <circle class="hilfslinie" cx="110" cy="112" r="48"/>
+              <circle class="hilfslinie" cx="110" cy="112" r="72"/>
+              <circle class="hilfslinie" cx="110" cy="112" r="96"/>
+              <path class="hilfslinie" d="M110 112L215.6 112"/>
+              <path class="hilfslinie" d="M110 112L201.5 59.2"/>
+              <path class="hilfslinie" d="M110 112L162.8 20.5"/>
+              <path class="hilfslinie" d="M110 112L110 6.4"/>
+              <path class="hilfslinie" d="M110 112L57.2 20.5"/>
+              <path class="hilfslinie" d="M110 112L18.5 59.2"/>
+              <path class="hilfslinie" d="M110 112L4.4 112"/>
+              <path class="hilfslinie" d="M110 112L18.5 164.8"/>
+              <path class="hilfslinie" d="M110 112L57.2 203.5"/>
+              <path class="hilfslinie" d="M110 112L110 217.6"/>
+              <path class="hilfslinie" d="M110 112L162.8 203.5"/>
+              <path class="hilfslinie" d="M110 112L201.5 164.8"/>
+              <path class="achse" d="M4.4 112L215.6 112"/>
+              <path class="achse" d="M110 217.6L110 6.4"/>
+              <circle class="kurve blau" cx="110" cy="112" r="72"/>
+              <path class="kurve kupfer" d="M110 112L162.8 20.5"/>
+              <circle class="punkt" cx="146" cy="49.6" r="3.5"/>
+              <text class="halo" x="154" y="53.6" text-anchor="start">P</text>
+              <text class="klein blau halo" x="49" y="169.3" text-anchor="end">r = 3</text>
+              <text class="klein kupfer halo" x="167.6" y="28.6" text-anchor="start">φ = 60°</text>
+            </svg>
+            </div>
+            <figcaption>Abb. 2: Koordinatenlinien durch einen Punkt $P$.
+              Links kartesisch: Auf der blauen Linie ist $x = 2$ fest, auf der
+              orangen $y = 3$ – beides Geraden. Rechts polar: Auf dem blauen
+              Kreis ist $r = 3$ fest, auf dem orangen Strahl
+              $\varphi = 60^\circ$. Der Kreis ist gekrümmt, deshalb heißen
+              Polarkoordinaten krummlinig.</figcaption>
+          </figure>
+
+          <h2 id="einheitsvektoren">Einheitsvektoren, die mitwandern</h2>
+
+          <p>Kartesisch zerlegst du jeden Vektor in Anteile längs
+            $\hat e_x$ und $\hat e_y$. In Polarkoordinaten nimmt man stattdessen
+            an jedem Punkt zwei Einheitsvektoren, die entlang der
+            Koordinatenlinien zeigen: $\hat e_r$ zeigt in die Richtung, in die
+            $r$ wächst – also vom Ursprung weg. $\hat e_\varphi$ zeigt in die
+            Richtung, in die $\varphi$ wächst – tangential zum Kreis, gegen den
+            Uhrzeigersinn. Kartesisch geschrieben:</p>
+
+          $$ \hat e_r = \begin{pmatrix} \cos\varphi \\ \sin\varphi \end{pmatrix}, \qquad \hat e_\varphi = \begin{pmatrix} -\sin\varphi \\ \cos\varphi \end{pmatrix} $$
+
+          <p>Beide haben die Länge 1 und stehen senkrecht aufeinander
+            (rechne $\hat e_r \cdot \hat e_\varphi$ nach). Ein beliebiger
+            Vektor lässt sich deshalb schreiben als
+            $\vec a = a_r\,\hat e_r + a_\varphi\,\hat e_\varphi$, und die
+            Komponenten bekommst du wie gewohnt mit dem Skalarprodukt:
+            $a_r = \vec a\cdot\hat e_r$, $a_\varphi = \vec a\cdot\hat e_\varphi$.
+            Der entscheidende Unterschied zu kartesischen Koordinaten:
+            <strong>$\hat e_r$ und $\hat e_\varphi$ hängen vom Ort ab</strong>
+            (Abb. 3). An jedem Punkt bilden sie ein anderes Paar.</p>
+
+          <figure class="abbildung">
+            <div class="abb-reihe">
+            <svg class="abb" viewBox="0 0 220 225" role="img"
+                 aria-label="Kartesische Einheitsvektoren e x (blau, nach rechts) und e y (orange, nach oben) an vier verschiedenen Punkten: überall gleich">
+              <defs><marker id="pfeil-abb3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="currentColor"/></marker><marker id="pfeil-abb3-blau" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto"><path class="punkt blau" d="M0 0L10 5L0 10z"/></marker><marker id="pfeil-abb3-kupfer" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto"><path class="punkt kupfer" d="M0 0L10 5L0 10z"/></marker></defs>
+              <path class="achse" d="M10 112L210 112"/>
+              <path class="achse" d="M110 10L110 214"/>
+              <path class="kurve blau" d="M179.6 79.5L209.6 79.5" marker-end="url(#pfeil-abb3-blau)"/>
+              <path class="kurve kupfer" d="M179.6 79.5L179.6 49.5" marker-end="url(#pfeil-abb3-kupfer)"/>
+              <circle class="punkt" cx="179.6" cy="79.5" r="3"/>
+              <path class="kurve blau" d="M74.2 60.9L104.2 60.9" marker-end="url(#pfeil-abb3-blau)"/>
+              <path class="kurve kupfer" d="M74.2 60.9L74.2 30.9" marker-end="url(#pfeil-abb3-kupfer)"/>
+              <circle class="punkt" cx="74.2" cy="60.9" r="3"/>
+              <path class="kurve blau" d="M49.3 162.9L79.3 162.9" marker-end="url(#pfeil-abb3-blau)"/>
+              <path class="kurve kupfer" d="M49.3 162.9L49.3 132.9" marker-end="url(#pfeil-abb3-kupfer)"/>
+              <circle class="punkt" cx="49.3" cy="162.9" r="3"/>
+              <path class="kurve blau" d="M140.3 155.3L170.3 155.3" marker-end="url(#pfeil-abb3-blau)"/>
+              <path class="kurve kupfer" d="M140.3 155.3L140.3 125.3" marker-end="url(#pfeil-abb3-kupfer)"/>
+              <circle class="punkt" cx="140.3" cy="155.3" r="3"/>
+              <text class="blau halo" x="213.6" y="93.5" text-anchor="start" font-style="italic">ê<tspan dy="4" font-size="10">x</tspan></text>
+              <text class="kupfer halo" x="175.6" y="47.5" text-anchor="end" font-style="italic">ê<tspan dy="4" font-size="10">y</tspan></text>
+            </svg>
+            <svg class="abb" viewBox="0 0 220 225" role="img"
+                 aria-label="Polare Einheitsvektoren e r (blau, vom Ursprung weg) und e phi (orange, senkrecht dazu gegen den Uhrzeigersinn) an denselben vier Punkten: ihre Richtung hängt vom Ort ab">
+              <path class="achse" d="M10 112L210 112"/>
+              <path class="achse" d="M110 10L110 214"/>
+              <path class="hilfslinie" d="M110 112L179.6 79.5"/>
+              <path class="kurve blau" d="M179.6 79.5L206.8 66.9" marker-end="url(#pfeil-abb3-blau)"/>
+              <path class="kurve kupfer" d="M179.6 79.5L166.9 52.4" marker-end="url(#pfeil-abb3-kupfer)"/>
+              <circle class="punkt" cx="179.6" cy="79.5" r="3"/>
+              <path class="hilfslinie" d="M110 112L74.2 60.9"/>
+              <path class="kurve blau" d="M74.2 60.9L57 36.3" marker-end="url(#pfeil-abb3-blau)"/>
+              <path class="kurve kupfer" d="M74.2 60.9L49.6 78.1" marker-end="url(#pfeil-abb3-kupfer)"/>
+              <circle class="punkt" cx="74.2" cy="60.9" r="3"/>
+              <path class="hilfslinie" d="M110 112L49.3 162.9"/>
+              <path class="kurve blau" d="M49.3 162.9L26.3 182.2" marker-end="url(#pfeil-abb3-blau)"/>
+              <path class="kurve kupfer" d="M49.3 162.9L68.6 185.9" marker-end="url(#pfeil-abb3-kupfer)"/>
+              <circle class="punkt" cx="49.3" cy="162.9" r="3"/>
+              <path class="hilfslinie" d="M110 112L140.3 155.3"/>
+              <path class="kurve blau" d="M140.3 155.3L157.5 179.8" marker-end="url(#pfeil-abb3-blau)"/>
+              <path class="kurve kupfer" d="M140.3 155.3L164.9 138" marker-end="url(#pfeil-abb3-kupfer)"/>
+              <circle class="punkt" cx="140.3" cy="155.3" r="3"/>
+              <text class="blau halo" x="214" y="75.5" text-anchor="middle" font-style="italic">ê<tspan dy="4" font-size="10">r</tspan></text>
+              <text class="kupfer halo" x="158.4" y="46.9" text-anchor="middle" font-style="italic">ê<tspan dy="4" font-size="10">φ</tspan></text>
+            </svg>
+            </div>
+            <figcaption>Abb. 3: Links die kartesischen Einheitsvektoren
+              $\hat e_x$ (blau) und $\hat e_y$ (orange) – an jedem Punkt
+              gleich. Rechts $\hat e_r$ (blau) und $\hat e_\varphi$ (orange) an
+              denselben Punkten: Sie drehen sich mit dem Winkel $\varphi$
+              mit.</figcaption>
+          </figure>
+
+          <p>Im Polar-Labor kannst du einen Punkt verschieben und zusehen, wie
+            sich seine Koordinatenlinien und Einheitsvektoren ändern.</p>
+
+          <figure class="interaktiv" data-modell="polarlabor">
+            <span class="titel">Zum Ausprobieren</span>
+            <figcaption>Zieh den Punkt $P$ mit der Maus oder dem Finger –
+              oder wähle ihn mit der Tab-Taste aus: Pfeiltasten hoch und runter
+              ändern $r$, links und rechts den Winkel $\varphi$. Blau siehst du
+              die Koordinatenlinie $r = \text{konst.}$ (Kreis), orange die
+              Linie $\varphi = \text{konst.}$ (Strahl), dazu die
+              Einheitsvektoren $\hat e_r$ und $\hat e_\varphi$. In der Ansicht
+              „Flächenstück“ siehst du, wie groß ein Stück mit festem
+              $\Delta r$ und $\Delta\varphi$ ist – probier es nahe am Ursprung
+              und weit außen.</figcaption>
+          </figure>
+
+          <p>Weil die Einheitsvektoren vom Ort abhängen, ändern sie sich, wenn
+            sich ein Körper bewegt. Läuft der Winkel mit der Zeit, dreht sich
+            $\hat e_r$ in Richtung $\hat e_\varphi$, und zwar umso schneller,
+            je schneller $\varphi$ wächst:
+            $\frac{\mathrm{d}\hat e_r}{\mathrm{d}t} = \dot\varphi\,\hat e_\varphi$
+            und $\frac{\mathrm{d}\hat e_\varphi}{\mathrm{d}t} = -\dot\varphi\,\hat e_r$.
+            Leitet man den Ortsvektor $\vec r = r\,\hat e_r$ nach der Zeit ab,
+            muss man deshalb auch $\hat e_r$ ableiten (Produktregel):</p>
+
+          $$ \vec v = \dot r\,\hat e_r + r\dot\varphi\,\hat e_\varphi, \qquad \vec a = \left(\ddot r - r\dot\varphi^2\right)\hat e_r + \left(r\ddot\varphi + 2\dot r\dot\varphi\right)\hat e_\varphi $$
+
+          <div class="alltag">
+            <span class="titel">Physik: die Kreisbewegung</span>
+            <p>Bei einer gleichförmigen
+              <a href="../mechanik/bewegung-3d.html">Kreisbewegung</a> ist
+              $r = R$ fest und $\dot\varphi = \omega$ konstant. Aus den Formeln
+              oben bleibt nur $\vec v = R\omega\,\hat e_\varphi$ – die
+              Geschwindigkeit zeigt tangential – und
+              $\vec a = -R\omega^2\,\hat e_r$: die Zentripetalbeschleunigung zum
+              Mittelpunkt. Der Term $2\dot r\dot\varphi$ taucht auf, wenn sich
+              etwas auf einer drehenden Scheibe nach außen bewegt; er gehört zur
+              <a href="../mechanik/scheinkraefte.html">Corioliskraft</a>.</p>
+          </div>
+
+          <h2 id="zylinderkoordinaten">Zylinderkoordinaten</h2>
+
+          <p>Nimmst du Polarkoordinaten für die $xy$-Ebene und behältst die
+            Höhe $z$ bei, erhältst du <strong>Zylinderkoordinaten</strong>
+            $(\rho, \varphi, z)$. Dabei ist $\rho$ der Abstand von der
+            $z$-Achse (nicht vom Ursprung!):</p>
+
+          $$ x = \rho\cos\varphi, \qquad y = \rho\sin\varphi, \qquad z = z $$
+
+          <figure class="abbildung">
+            <svg class="abb" viewBox="0 0 360 260" role="img"
+                 aria-label="Zylinderkoordinaten im Schrägbild: Punkt P auf einem getönten Zylindermantel mit Radius rho um die z-Achse; orange der Abstand rho von der z-Achse und der Winkel phi in der xy-Ebene, gestrichelt die Höhe z; an P die drei Einheitsvektoren e rho, e phi und e z">
+              <defs><marker id="pfeil-abb4" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="currentColor"/></marker><marker id="pfeil-abb4-blau" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto"><path class="punkt blau" d="M0 0L10 5L0 10z"/></marker><marker id="pfeil-abb4-kupfer" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto"><path class="punkt kupfer" d="M0 0L10 5L0 10z"/></marker></defs>
+              <path class="flaeche" d="M41.8 212L42 213.8L42.4 215.5L43.1 217.2L44.2 218.8L45.5 220.4L47.1 221.9L49 223.4L51.2 224.8L53.6 226.1L56.3 227.4L59.3 228.6L62.5 229.7L65.9 230.7L69.6 231.7L73.5 232.5L77.6 233.3L81.9 234L86.4 234.6L91.1 235.1L95.9 235.5L100.9 235.8L106 235.9L111.2 236L116.6 236.1L122 236L127.5 235.8L133.1 235.5L138.7 235.1L144.3 234.6L150 234L155.7 233.3L161.3 232.6L166.9 231.7L172.5 230.8L178 229.7L183.4 228.6L188.8 227.4L194 226.2L199.1 224.8L204.1 223.4L208.9 222L213.6 220.4L218.1 218.9L222.4 217.2L226.5 215.5L230.4 213.8L234.1 212.1L237.5 210.3L240.7 208.4L243.7 206.6L246.4 204.7L248.8 202.8L251 201L252.9 199.1L254.5 197.2L255.8 195.3L256.9 193.4L257.6 191.6L258 189.8L258.2 188L258.2 65.6L258 67.4L257.6 69.2L256.9 71L255.8 72.9L254.5 74.8L252.9 76.7L251 78.6L248.8 80.4L246.4 82.3L243.7 84.2L240.7 86L237.5 87.9L234.1 89.7L230.4 91.4L226.5 93.1L222.4 94.8L218.1 96.5L213.6 98L208.9 99.6L204.1 101L199.1 102.4L194 103.8L188.8 105L183.4 106.2L178 107.3L172.5 108.4L166.9 109.3L161.3 110.2L155.7 110.9L150 111.6L144.3 112.2L138.7 112.7L133.1 113.1L127.5 113.4L122 113.6L116.6 113.7L111.2 113.6L106 113.5L100.9 113.4L95.9 113.1L91.1 112.7L86.4 112.2L81.9 111.6L77.6 110.9L73.5 110.1L69.6 109.3L65.9 108.3L62.5 107.3L59.3 106.2L56.3 105L53.6 103.7L51.2 102.4L49 101L47.1 99.5L45.5 98L44.2 96.4L43.1 94.8L42.4 93.1L42 91.4L41.8 89.6Z"/>
+              <path class="hilfslinie" d="M258.2 188L258 186.2L257.6 184.5L256.9 182.8L255.8 181.2L254.5 179.6L252.9 178.1L251 176.6L248.8 175.2L246.4 173.9L243.7 172.6L240.7 171.4L237.5 170.3L234.1 169.3L230.4 168.3L226.5 167.5L222.4 166.7L218.1 166L213.6 165.4L208.9 164.9L204.1 164.5L199.1 164.2L194 164.1L188.8 164L183.4 163.9L178 164L172.5 164.2L166.9 164.5L161.3 164.9L155.7 165.4L150 166L144.3 166.7L138.7 167.4L133.1 168.3L127.5 169.2L122 170.3L116.6 171.4L111.2 172.6L106 173.8L100.9 175.2L95.9 176.6L91.1 178L86.4 179.6L81.9 181.1L77.6 182.8L73.5 184.5L69.6 186.2L65.9 187.9L62.5 189.7L59.3 191.6L56.3 193.4L53.6 195.3L51.2 197.2L49 199L47.1 200.9L45.5 202.8L44.2 204.7L43.1 206.6L42.4 208.4L42 210.2L41.8 212"/>
+              <path class="kurve blau duenn" d="M41.8 212L42 213.8L42.4 215.5L43.1 217.2L44.2 218.8L45.5 220.4L47.1 221.9L49 223.4L51.2 224.8L53.6 226.1L56.3 227.4L59.3 228.6L62.5 229.7L65.9 230.7L69.6 231.7L73.5 232.5L77.6 233.3L81.9 234L86.4 234.6L91.1 235.1L95.9 235.5L100.9 235.8L106 235.9L111.2 236L116.6 236.1L122 236L127.5 235.8L133.1 235.5L138.7 235.1L144.3 234.6L150 234L155.7 233.3L161.3 232.6L166.9 231.7L172.5 230.8L178 229.7L183.4 228.6L188.8 227.4L194 226.2L199.1 224.8L204.1 223.4L208.9 222L213.6 220.4L218.1 218.9L222.4 217.2L226.5 215.5L230.4 213.8L234.1 212.1L237.5 210.3L240.7 208.4L243.7 206.6L246.4 204.7L248.8 202.8L251 201L252.9 199.1L254.5 197.2L255.8 195.3L256.9 193.4L257.6 191.6L258 189.8L258.2 188"/>
+              <path class="kurve blau duenn" d="M113.9 113.7L119.3 113.6L124.8 113.5L130.3 113.2L135.9 112.9L141.6 112.4L147.2 111.9L152.9 111.3L158.5 110.5L164.2 109.7L169.8 108.8L175.3 107.8L180.8 106.8L186.2 105.6L191.5 104.4L196.6 103.1L201.7 101.7L206.6 100.3L211.3 98.8L215.9 97.2L220.3 95.6L224.5 94L228.5 92.3L232.3 90.5L235.9 88.7L239.2 86.9L242.3 85.1L245.1 83.2L247.7 81.4L250 79.5L252 77.6L253.7 75.7L255.2 73.8L256.4 72L257.3 70.1L257.9 68.3L258.2 66.5L258.1 64.7L257.8 62.9L257.3 61.2L256.4 59.6L255.2 58L253.7 56.4L252 54.9L249.9 53.5L247.6 52.1L245.1 50.8L242.2 49.6L239.1 48.4L235.8 47.4L232.2 46.4L228.4 45.5L224.4 44.7L220.2 43.9L215.8 43.3L211.2 42.8L206.5 42.3L201.6 42L196.5 41.7L191.4 41.6L186.1 41.5L180.7 41.6L175.2 41.7L169.7 42L164.1 42.3L158.4 42.8L152.8 43.3L147.1 43.9L141.5 44.7L135.8 45.5L130.2 46.4L124.7 47.4L119.2 48.4L113.8 49.6L108.5 50.8L103.4 52.1L98.3 53.5L93.4 54.9L88.7 56.4L84.1 58L79.7 59.6L75.5 61.2L71.5 62.9L67.7 64.7L64.1 66.5L60.8 68.3L57.7 70.1L54.9 72L52.3 73.8L50 75.7L48 77.6L46.3 79.5L44.8 81.4L43.6 83.2L42.7 85.1L42.1 86.9L41.8 88.7L41.9 90.5L42.2 92.3L42.7 94L43.6 95.6L44.8 97.2L46.3 98.8L48 100.3L50.1 101.7L52.4 103.1L54.9 104.4L57.8 105.6L60.9 106.8L64.2 107.8L67.8 108.8L71.6 109.7L75.6 110.5L79.8 111.3L84.2 111.9L88.8 112.4L93.5 112.9L98.4 113.2L103.5 113.5L108.6 113.6L113.9 113.7"/>
+              <path class="kurve blau duenn" d="M258.2 188L258.2 65.6"/>
+              <path class="kurve blau duenn" d="M41.8 212L41.8 89.6"/>
+              <path class="achse" d="M150 200L87.5 262.5" marker-end="url(#pfeil-abb4)"/>
+              <path class="achse" d="M150 200L320 200" marker-end="url(#pfeil-abb4)"/>
+              <path class="achse" d="M150 200L150 43.6" marker-end="url(#pfeil-abb4)"/>
+              <text x="79.5" y="268.5" text-anchor="end" font-style="italic">x</text>
+              <text x="318" y="218" text-anchor="end" font-style="italic">y</text>
+              <text x="160" y="49.6" text-anchor="start" font-style="italic">z</text>
+              <path class="kurve kupfer" d="M150 200L187.9 227.6"/>
+              <path class="hilfslinie" d="M187.9 227.6L187.9 139.2"/>
+              <path class="hilfslinie" d="M150 111.6L187.9 139.2"/>
+              <path class="kurve kupfer" d="M135.6 214.4L137 214.4L138.5 214.4L139.9 214.3L141.4 214.3L142.9 214.2L144.4 214.1L145.9 214L147.4 213.9L148.9 213.7L150.4 213.6L151.9 213.4L153.4 213.2L154.9 213L156.4 212.7L157.9 212.5L159.4 212.2L160.9 212L162.3 211.7L163.8 211.4L165.2 211.1"/>
+              <text class="kupfer halo" x="150.6" y="225.8" text-anchor="middle" font-style="italic">φ</text>
+              <text class="kupfer halo" x="174.8" y="232.6" text-anchor="middle" font-style="italic">ρ</text>
+              <text class="halo" x="195.9" y="187.4" text-anchor="start" font-style="italic">z</text>
+              <circle class="punkt" cx="187.9" cy="227.6" r="2.5"/>
+              <path class="kurve blau" d="M187.9 139.2L200 148" marker-end="url(#pfeil-abb4-blau)"/>
+              <text class="blau halo" x="204.6" y="156.4" text-anchor="middle" font-style="italic">ê<tspan dy="4" font-size="10">ρ</tspan></text>
+              <path class="kurve blau" d="M187.9 139.2L220 131.9" marker-end="url(#pfeil-abb4-blau)"/>
+              <text class="blau halo" x="232.5" y="134" text-anchor="middle" font-style="italic">ê<tspan dy="4" font-size="10">φ</tspan></text>
+              <path class="kurve blau" d="M187.9 139.2L187.9 106.9" marker-end="url(#pfeil-abb4-blau)"/>
+              <text class="blau halo" x="187.9" y="99.3" text-anchor="middle" font-style="italic">ê<tspan dy="4" font-size="10">z</tspan></text>
+              <circle class="punkt" cx="187.9" cy="139.2" r="3.5"/>
+              <text class="halo" x="177.9" y="143.2" text-anchor="end">P</text>
+              <text class="klein blau halo" x="57.9" y="92.9" text-anchor="start">Zylinder ρ = 3</text>
+            </svg>
+            <figcaption>Abb. 4: Zylinderkoordinaten. Der Punkt $P$ liegt auf
+              dem Zylindermantel $\rho = 3$ (getönt) – das ist die
+              Koordinatenfläche $\rho = \text{konst.}$ Orange der Abstand $\rho$
+              und der Winkel $\varphi$ in der $xy$-Ebene, gestrichelt die Höhe
+              $z$. An $P$ sitzen die Einheitsvektoren $\hat e_\rho$ (von der
+              Achse weg), $\hat e_\varphi$ (um die Achse herum) und $\hat e_z$
+              (nach oben).</figcaption>
+          </figure>
+
+          <p>Die Einheitsvektoren $\hat e_\rho$ und $\hat e_\varphi$ sind
+            dieselben wie in der Ebene, dazu kommt das feste $\hat e_z$. Die
+            Koordinatenflächen sind Zylindermäntel um die $z$-Achse
+            ($\rho$ fest), Halbebenen, die an der $z$-Achse beginnen
+            ($\varphi$ fest), und waagerechte Ebenen ($z$ fest). Zylinderkoordinaten
+            lohnen sich, wenn ein Problem um eine Achse herum symmetrisch ist:
+            Wasser in einem Rohr, das Magnetfeld um einen langen Draht, ein
+            Rad, das sich dreht.</p>
+
+          <h2 id="kugelkoordinaten">Kugelkoordinaten</h2>
+
+          <p>Bei Kugelsymmetrie – das Schwerefeld der Erde, das elektrische Feld
+            einer Punktladung, die Elektronen eines Atoms – beschreibt man einen
+            Punkt durch seinen Abstand $r$ vom Ursprung und zwei Winkel
+            (Abb. 5). Der <strong>Polarwinkel</strong> $\vartheta$ wird von der
+            $z$-Achse aus gemessen ($0$ am „Nordpol“, $\pi$ am „Südpol“), der
+            <strong>Azimutwinkel</strong> $\varphi$ wie bei den
+            Polarkoordinaten in der $xy$-Ebene:</p>
+
+          $$ x = r\sin\vartheta\cos\varphi, \qquad y = r\sin\vartheta\sin\varphi, \qquad z = r\cos\vartheta $$
+
+          <p>mit $r \ge 0$, $0 \le \vartheta \le \pi$ und
+            $0 \le \varphi \lt 2\pi$. Merkhilfe: $r\sin\vartheta$ ist der
+            Abstand von der $z$-Achse – der Schatten des Ortsvektors in der
+            $xy$-Ebene. Auf ihn wendest du dann die Polarkoordinaten an. Die
+            Umkehrung lautet $r = \sqrt{x^2 + y^2 + z^2}$,
+            $\cos\vartheta = z/r$ und, wie in der Ebene,
+            $\tan\varphi = y/x$.</p>
+
+          <figure class="abbildung">
+            <svg class="abb" viewBox="0 0 360 300" role="img"
+                 aria-label="Kugelkoordinaten im Schrägbild: orange der Pfeil r vom Ursprung zum Punkt P, der Polarwinkel theta von der z-Achse aus und der Azimutwinkel phi in der xy-Ebene; durch P laufen ein Längenkreis (blau) und ein Breitenkreis (orange); an P die Einheitsvektoren e r, e theta und e phi">
+              <defs><marker id="pfeil-abb5" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="currentColor"/></marker><marker id="pfeil-abb5-blau" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto"><path class="punkt blau" d="M0 0L10 5L0 10z"/></marker><marker id="pfeil-abb5-kupfer" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto"><path class="punkt kupfer" d="M0 0L10 5L0 10z"/></marker></defs>
+              <path class="hilfslinie" d="M111.5 206.5L119.2 206.4L127 206.1L135 205.6L143 205L151.1 204.1L159.1 203.1L167.1 202L175 200.6L182.8 199.1L190.5 197.5L197.9 195.7L205.1 193.7L212.1 191.7L218.7 189.5L225 187.2L230.9 184.9L236.5 182.4L241.6 179.9L246.3 177.3L250.5 174.7L254.2 172L257.4 169.3L260.1 166.7L262.2 164L263.8 161.3L264.9 158.7L265.4 156.1L265.3 153.6L264.7 151.1L263.5 148.8L261.7 146.5L259.4 144.3L256.6 142.3L253.2 140.3L249.4 138.5L245.1 136.9L240.3 135.4L235 134L229.4 132.9L223.4 131.9L217 131L210.2 130.4L203.2 129.9L196 129.6L188.5 129.5L180.8 129.6L173 129.9L165 130.4L157 131L148.9 131.9L140.9 132.9L132.9 134L125 135.4L117.2 136.9L109.5 138.5L102.1 140.3L94.9 142.3L87.9 144.3L81.3 146.5L75 148.8L69.1 151.1L63.5 153.6L58.4 156.1L53.7 158.7L49.5 161.3L45.8 164L42.6 166.7L39.9 169.3L37.8 172L36.2 174.7L35.1 177.3L34.6 179.9L34.7 182.4L35.3 184.9L36.5 187.2L38.3 189.5L40.6 191.7L43.4 193.7L46.8 195.7L50.6 197.5L54.9 199.1L59.7 200.6L65 202L70.6 203.1L76.6 204.1L83 205L89.8 205.6L96.8 206.1L104 206.4L111.5 206.5"/>
+              <path class="kurve blau duenn" d="M150 59.2L152.1 60.9L154.2 62.9L156.3 65.1L158.4 67.7L160.5 70.5L162.5 73.6L164.5 77L166.5 80.6L168.4 84.4L170.2 88.5L172 92.8L173.8 97.3L175.5 102L177.1 106.9L178.6 111.9L180.1 117.1L181.4 122.4L182.7 127.9L183.9 133.5L185 139.1L186.1 144.9L187 150.7L187.8 156.5L188.5 162.4L189.1 168.3L189.6 174.2L190 180.1L190.2 185.9L190.4 191.7L190.5 197.5L190.4 203.1L190.2 208.7L190 214.1L189.6 219.4L189.1 224.6L188.5 229.6L187.8 234.5L187 239.2L186.1 243.6L185 247.9L183.9 252L182.7 255.8L181.4 259.4L180.1 262.7L178.6 265.8L177.1 268.6L175.5 271.1L173.8 273.3L172 275.3L170.2 277L168.4 278.3L166.5 279.4L164.5 280.1L162.5 280.6L160.5 280.7L158.4 280.5L156.3 280.1L154.2 279.3L152.1 278.2L150 276.8"/>
+              <path class="kurve kupfer duenn" d="M120.5 127.5L126.4 127.5L132.4 127.2L138.5 126.9L144.6 126.4L150.8 125.8L157 125L163.1 124.1L169.2 123.1L175.1 121.9L181 120.6L186.7 119.3L192.2 117.8L197.5 116.2L202.6 114.5L207.4 112.8L212 111L216.2 109.1L220.2 107.2L223.7 105.2L227 103.2L229.8 101.1L232.3 99.1L234.3 97L236 95L237.2 92.9L238 90.9L238.4 89L238.3 87L237.8 85.1L236.9 83.3L235.6 81.6L233.8 79.9L231.7 78.3L229.1 76.9L226.1 75.5L222.8 74.2L219.2 73.1L215.1 72L210.8 71.1L206.2 70.4L201.3 69.7L196.2 69.2L190.8 68.9L185.2 68.7L179.5 68.6L173.6 68.7L167.6 68.9L161.5 69.2L155.4 69.7L149.2 70.4L143 71.1L136.9 72L130.8 73.1L124.9 74.2L119 75.5L113.3 76.9L107.8 78.3L102.5 79.9L97.4 81.6L92.6 83.3L88 85.1L83.8 87L79.8 89L76.3 90.9L73 92.9L70.2 95L67.7 97L65.7 99.1L64 101.1L62.8 103.2L62 105.2L61.6 107.2L61.7 109.1L62.2 111L63.1 112.8L64.4 114.5L66.2 116.2L68.3 117.8L70.9 119.3L73.9 120.6L77.2 121.9L80.8 123.1L84.9 124.1L89.2 125L93.8 125.8L98.7 126.4L103.8 126.9L109.2 127.2L114.8 127.5L120.5 127.5"/>
+              <path class="achse" d="M150 168L89.9 228.1" marker-end="url(#pfeil-abb5)"/>
+              <path class="achse" d="M150 168L306.4 168" marker-end="url(#pfeil-abb5)"/>
+              <path class="achse" d="M150 168L150 18.4" marker-end="url(#pfeil-abb5)"/>
+              <text x="81.9" y="234.1" text-anchor="end" font-style="italic">x</text>
+              <text x="304.4" y="186" text-anchor="end" font-style="italic">y</text>
+              <text x="160" y="24.4" text-anchor="start" font-style="italic">z</text>
+              <path class="hilfslinie" d="M181 120.6L181 190.6"/>
+              <path class="hilfslinie" d="M150 168L181 190.6"/>
+              <path class="kurve kupfer" d="M150 130.6L150.5 131L151 131.4L151.5 131.9L151.9 132.4L152.4 132.9L152.9 133.5L153.4 134.2L153.8 134.8L154.3 135.6L154.8 136.3L155.2 137.1L155.7 138L156.1 138.8L156.5 139.7L157 140.7L157.4 141.7L157.8 142.7L158.2 143.7L158.6 144.8L158.9 145.9L159.3 147L159.7 148.1L160 149.3L160.3 150.5L160.7 151.7"/>
+              <text class="kupfer halo" x="154" y="129.6" text-anchor="middle" font-style="italic">ϑ</text>
+              <path class="kurve kupfer" d="M138 180L139.2 180L140.4 180L141.6 180L142.8 179.9L144.1 179.8L145.3 179.8L146.6 179.7L147.8 179.6L149.1 179.4L150.3 179.3L151.6 179.1L152.8 179L154.1 178.8L155.3 178.6L156.6 178.4L157.8 178.2L159 178L160.3 177.7L161.5 177.5L162.6 177.2"/>
+              <text class="kupfer halo" x="150.5" y="190.9" text-anchor="middle" font-style="italic">φ</text>
+              <path class="kurve kupfer" d="M150 168L181 120.6"/>
+              <text class="kupfer halo" x="173" y="152.7" text-anchor="start" font-style="italic">r</text>
+              <path class="kurve blau" d="M181 120.6L190.2 106.6" marker-end="url(#pfeil-abb5-blau)"/>
+              <text class="blau halo" x="193.9" y="106" text-anchor="middle" font-style="italic">ê<tspan dy="4" font-size="10">r</tspan></text>
+              <path class="kurve blau" d="M181 120.6L188.7 151" marker-end="url(#pfeil-abb5-blau)"/>
+              <text class="blau halo" x="191.8" y="168.2" text-anchor="middle" font-style="italic">ê<tspan dy="4" font-size="10">ϑ</tspan></text>
+              <path class="kurve blau" d="M181 120.6L213.1 113.3" marker-end="url(#pfeil-abb5-blau)"/>
+              <text class="blau halo" x="225.9" y="115.4" text-anchor="middle" font-style="italic">ê<tspan dy="4" font-size="10">φ</tspan></text>
+              <circle class="punkt" cx="181" cy="120.6" r="3.5"/>
+              <text class="halo" x="172" y="116.6" text-anchor="end">P</text>
+              <text class="klein kupfer halo" x="96.6" y="77.3" text-anchor="start">Breitenkreis</text>
+              <text class="klein blau halo" x="186.6" y="269.8" text-anchor="start">Längenkreis</text>
+            </svg>
+            <figcaption>Abb. 5: Kugelkoordinaten. Der Pfeil $r$ führt zum
+              Punkt $P$; $\vartheta$ ist sein Winkel zur $z$-Achse, $\varphi$
+              der Winkel seines Schattens in der $xy$-Ebene. Durch $P$ laufen
+              ein Längenkreis ($\varphi$ fest, blau) und ein Breitenkreis
+              ($\vartheta$ fest, orange). Blau an $P$: die Einheitsvektoren
+              $\hat e_r$, $\hat e_\vartheta$ (nach „Süden“) und
+              $\hat e_\varphi$ (nach „Osten“).</figcaption>
+          </figure>
+
+          <p>Die drei Einheitsvektoren stehen wieder senkrecht aufeinander und
+            bilden in der Reihenfolge $\hat e_r, \hat e_\vartheta,
+            \hat e_\varphi$ ein Rechtssystem:</p>
+
+          $$ \hat e_r = \begin{pmatrix} \sin\vartheta\cos\varphi \\ \sin\vartheta\sin\varphi \\ \cos\vartheta \end{pmatrix}, \quad \hat e_\vartheta = \begin{pmatrix} \cos\vartheta\cos\varphi \\ \cos\vartheta\sin\varphi \\ -\sin\vartheta \end{pmatrix}, \quad \hat e_\varphi = \begin{pmatrix} -\sin\varphi \\ \cos\varphi \\ 0 \end{pmatrix} $$
+
+          <p>Die Koordinatenflächen sind Kugelschalen ($r$ fest), Kegel mit der
+            Spitze im Ursprung ($\vartheta$ fest) und wieder Halbebenen
+            ($\varphi$ fest).</p>
+
+          <div class="alltag">
+            <span class="titel">Breitengrad und Polarwinkel</span>
+            <p>Die geographische Länge ist genau der Winkel $\varphi$ (mit
+              Greenwich bei $\varphi = 0$ und Osten positiv). Die geographische
+              Breite wird aber vom Äquator aus gezählt, der Polarwinkel
+              $\vartheta$ vom Nordpol. Deshalb gilt
+              $\text{Breite} = 90^\circ - \vartheta$. Frankfurt liegt bei rund
+              $50^\circ$ nördlicher Breite, also bei
+              $\vartheta \approx 40^\circ$ (Beispiel 2).</p>
+          </div>
+
+          <h2 id="skalenfaktoren">Wie weit kommt man pro Schritt? Die Skalenfaktoren</h2>
+
+          <p>Ändert sich $x$ um $\mathrm{d}x$, wandert der Punkt um genau die
+            Strecke $\mathrm{d}x$. Bei krummlinigen Koordinaten ist das anders:
+            Drehst du den Winkel $\varphi$ um $\mathrm{d}\varphi$, legt der Punkt
+            auf dem Kreis den Bogen $r\,\mathrm{d}\varphi$ zurück – nahe am
+            Ursprung wenig, weit außen viel. Außerdem hat ein Winkel gar keine
+            Längeneinheit. Den Umrechnungsfaktor von „Koordinatenschritt“ zu
+            „zurückgelegter Strecke“ nennt man <strong>Skalenfaktor</strong>
+            $h_i$. Du findest ihn, indem du den Ortsvektor nach der Koordinate
+            ableitest: Der Vektor $\partial\vec r/\partial u_i$ zeigt längs der
+            Koordinatenlinie, seine Länge ist $h_i$, und geteilt durch $h_i$
+            ergibt er den Einheitsvektor:</p>
+
+          $$ h_i = \left|\frac{\partial\vec r}{\partial u_i}\right|, \qquad \hat e_{u_i} = \frac{1}{h_i}\,\frac{\partial\vec r}{\partial u_i} $$
+
+          <p>So bekommt man alle Einheitsvektoren oben, ohne sie zu raten. Für
+            Polarkoordinaten etwa ist
+            $\partial\vec r/\partial\varphi = (-r\sin\varphi,\ r\cos\varphi)$,
+            die Länge also $h_\varphi = r$, und nach dem Teilen bleibt
+            $\hat e_\varphi = (-\sin\varphi,\ \cos\varphi)$. Für ein kleines
+            Wegstück gilt dann, weil die Einheitsvektoren senkrecht
+            aufeinander stehen, ein Pythagoras mit Skalenfaktoren:</p>
+
+          $$ (\mathrm{d}s)^2 = h_1^2\,(\mathrm{d}u_1)^2 + h_2^2\,(\mathrm{d}u_2)^2 + h_3^2\,(\mathrm{d}u_3)^2 $$
+
+          <div class="tabelle-huelle">
+            <table>
+              <thead><tr><th>System</th><th>Skalenfaktoren</th><th>Wegelement $(\mathrm{d}s)^2$</th></tr></thead>
+              <tbody>
+                <tr><td>kartesisch $(x, y, z)$</td><td>$1,\ 1,\ 1$</td><td>$\mathrm{d}x^2 + \mathrm{d}y^2 + \mathrm{d}z^2$</td></tr>
+                <tr><td>polar $(r, \varphi)$</td><td>$1,\ r$</td><td>$\mathrm{d}r^2 + r^2\,\mathrm{d}\varphi^2$</td></tr>
+                <tr><td>Zylinder $(\rho, \varphi, z)$</td><td>$1,\ \rho,\ 1$</td><td>$\mathrm{d}\rho^2 + \rho^2\,\mathrm{d}\varphi^2 + \mathrm{d}z^2$</td></tr>
+                <tr><td>Kugel $(r, \vartheta, \varphi)$</td><td>$1,\ r,\ r\sin\vartheta$</td><td>$\mathrm{d}r^2 + r^2\,\mathrm{d}\vartheta^2 + r^2\sin^2\vartheta\,\mathrm{d}\varphi^2$</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <p>Der Skalenfaktor $h_\varphi = r\sin\vartheta$ der Kugel hat eine
+            anschauliche Bedeutung: Ein Breitenkreis hat den Radius
+            $r\sin\vartheta$. Am Äquator ist er so groß wie die Kugel, an den
+            Polen schrumpft er auf null – ein Grad Länge ist in Norwegen viel
+            kürzer als am Äquator.</p>
+
+          <h2 id="volumenelement">Flächen- und Volumenelemente</h2>
+
+          <p>Beim Integrieren zerlegt man eine Fläche oder einen Körper in
+            winzige Stücke. Kartesisch sind das Rechtecke
+            $\mathrm{d}A = \mathrm{d}x\,\mathrm{d}y$ und Quader
+            $\mathrm{d}V = \mathrm{d}x\,\mathrm{d}y\,\mathrm{d}z$. In
+            Polarkoordinaten entsteht beim Schritt $\mathrm{d}r$ und
+            $\mathrm{d}\varphi$ ein kleines, fast rechteckiges Stück mit den
+            Seiten $\mathrm{d}r$ und $r\,\mathrm{d}\varphi$ (Abb. 6). Bei
+            senkrechten Koordinatenlinien multipliziert man einfach die
+            Seitenlängen $h_i\,\mathrm{d}u_i$:</p>
+
+          $$ \mathrm{d}A = r\,\mathrm{d}r\,\mathrm{d}\varphi, \qquad \mathrm{d}V_\text{Zyl} = \rho\,\mathrm{d}\rho\,\mathrm{d}\varphi\,\mathrm{d}z, \qquad \mathrm{d}V_\text{Kugel} = r^2\sin\vartheta\,\mathrm{d}r\,\mathrm{d}\vartheta\,\mathrm{d}\varphi $$
+
+          <figure class="abbildung">
+            <svg class="abb" viewBox="0 0 360 250" role="img"
+                 aria-label="Zwei getönte Flächenstücke mit demselben Radiusschritt Delta r und demselben Winkelschritt Delta phi; das Stück weit außen ist viel breiter, weil seine Bogenlänge r Delta phi mit r wächst">
+              <defs><marker id="pfeil-abb6" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="currentColor"/></marker><marker id="pfeil-abb6-blau" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto"><path class="punkt blau" d="M0 0L10 5L0 10z"/></marker><marker id="pfeil-abb6-kupfer" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto"><path class="punkt kupfer" d="M0 0L10 5L0 10z"/></marker></defs>
+              <path class="achse" d="M40 225L345 225" marker-end="url(#pfeil-abb6)"/>
+              <path class="achse" d="M40 225L40 15" marker-end="url(#pfeil-abb6)"/>
+              <text x="340" y="243" text-anchor="end" font-style="italic">x</text>
+              <text x="50" y="22" text-anchor="start" font-style="italic">y</text>
+              <path class="hilfslinie" d="M40 225L285.3 135.7"/>
+              <path class="hilfslinie" d="M40 225L253.8 75.3"/>
+              <path class="flaeche" d="M105.4 201.2L132.7 191.3A98.6 98.6 0 0 0 120.8 168.4L97 185.1A69.6 69.6 0 0 1 105.4 201.2Z"/>
+              <path class="kurve blau" d="M105.4 201.2L132.7 191.3A98.6 98.6 0 0 0 120.8 168.4L97 185.1A69.6 69.6 0 0 1 105.4 201.2Z"/>
+              <path class="flaeche" d="M225.3 157.6L252.6 147.6A226.2 226.2 0 0 0 225.3 95.3L201.5 111.9A197.2 197.2 0 0 1 225.3 157.6Z"/>
+              <path class="kurve blau" d="M225.3 157.6L252.6 147.6A226.2 226.2 0 0 0 225.3 95.3L201.5 111.9A197.2 197.2 0 0 1 225.3 157.6Z"/>
+              <path class="kurve kupfer" d="M78.2 211.1A40.6 40.6 0 0 0 73.3 201.7"/>
+              <text class="kupfer halo" x="62.1" y="198.7" text-anchor="middle" font-style="italic">Δφ</text>
+              <text class="blau halo" x="244.9" y="168.6" text-anchor="middle" font-style="italic">Δr</text>
+              <text class="blau halo" x="250.8" y="121.3" text-anchor="start" font-style="italic">r Δφ</text>
+              <text class="blau halo" x="123" y="211.2" text-anchor="middle" font-style="italic">Δr</text>
+              <text class="blau halo" x="135.6" y="178.3" text-anchor="start" font-style="italic">r Δφ</text>
+              <text class="klein" x="164.9" y="212.9" text-anchor="middle">klein, nahe am Ursprung</text>
+              <text class="klein" x="193.1" y="66.5" text-anchor="middle">groß, weit außen</text>
+            </svg>
+            <figcaption>Abb. 6: Zwei Flächenstücke mit demselben
+              Radiusschritt $\Delta r$ und demselben Winkelschritt
+              $\Delta\varphi$. Weit außen ist der Bogen $r\,\Delta\varphi$ viel
+              länger, das Stück also größer: Seine Fläche ist ungefähr
+              $r\,\Delta r\,\Delta\varphi$.</figcaption>
+          </figure>
+
+          <p>Den Faktor vor den Differentialen – $r$, $\rho$ oder
+            $r^2\sin\vartheta$ – kann man auch ohne Skizze berechnen. Man
+            schreibt alle Ableitungen der kartesischen Koordinaten nach den
+            neuen Koordinaten in eine Matrix, die
+            <strong>Jacobi-Matrix</strong>. Ihre Spalten sind gerade die
+            Vektoren $\partial\vec r/\partial u_i$, also die Kanten des kleinen
+            Volumenstücks. Ihre Determinante, die
+            <strong>Funktionaldeterminante</strong>, ist der
+            <a href="matrizen.html#determinante">Volumenfaktor</a> – genau wie
+            die Determinante einer Matrix angibt, wie stark sie Flächen
+            streckt. Für Polarkoordinaten:</p>
+
+          $$ J = \begin{pmatrix} \frac{\partial x}{\partial r} & \frac{\partial x}{\partial\varphi} \\ \frac{\partial y}{\partial r} & \frac{\partial y}{\partial\varphi} \end{pmatrix} = \begin{pmatrix} \cos\varphi & -r\sin\varphi \\ \sin\varphi & r\cos\varphi \end{pmatrix}, \qquad \det J = r\cos^2\varphi + r\sin^2\varphi = r $$
+
+          <p>Für Kugelkoordinaten ergibt dieselbe Rechnung mit einer
+            $3\times 3$-Matrix $\det J = r^2\sin\vartheta$. Damit kannst du zum
+            Beispiel die Kreisfläche ausrechnen, ohne eine Wurzel zu
+            integrieren: Du summierst $r\,\mathrm{d}r\,\mathrm{d}\varphi$ über
+            $0 \le r \le R$ und $0 \le \varphi \lt 2\pi$ und erhältst
+            $\tfrac12 R^2\cdot 2\pi = \pi R^2$. Wie solche Integrale genau
+            funktionieren, zeigt die Seite über
+            <a href="kurvenintegrale.html">Kurven-, Flächen- und
+            Volumenintegrale</a>.</p>
+
+          <h2 id="ueberblick">Alles auf einen Blick</h2>
+
+          <div class="tabelle-huelle">
+            <table>
+              <thead><tr><th>System</th><th>Umrechnung</th><th>Volumen- bzw. Flächenelement</th><th>passt zu</th></tr></thead>
+              <tbody>
+                <tr><td>polar $(r, \varphi)$</td><td>$x = r\cos\varphi$, $y = r\sin\varphi$</td><td>$r\,\mathrm{d}r\,\mathrm{d}\varphi$</td><td>Kreisbahnen, Drehungen in der Ebene</td></tr>
+                <tr><td>Zylinder $(\rho, \varphi, z)$</td><td>wie polar, dazu $z$</td><td>$\rho\,\mathrm{d}\rho\,\mathrm{d}\varphi\,\mathrm{d}z$</td><td>Rohre, Drähte, Räder</td></tr>
+                <tr><td>Kugel $(r, \vartheta, \varphi)$</td><td>$x = r\sin\vartheta\cos\varphi$, $y = r\sin\vartheta\sin\varphi$, $z = r\cos\vartheta$</td><td>$r^2\sin\vartheta\,\mathrm{d}r\,\mathrm{d}\vartheta\,\mathrm{d}\varphi$</td><td>Planeten, Punktladungen, Atome</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="merkkasten">
+            <span class="titel">Das Wichtigste in Kürze</span>
+            <p>Wähle die Koordinaten passend zur Symmetrie des Problems: Kreise
+              und Achsen rufen nach Polar- oder Zylinderkoordinaten, Kugeln nach
+              Kugelkoordinaten. Die Einheitsvektoren dieser Systeme zeigen
+              entlang der Koordinatenlinien und hängen deshalb vom Ort ab –
+              bewegt sich ein Körper, ändern sie sich mit. Ein Schritt in einem
+              Winkel ist kein Schritt in Metern; der Skalenfaktor rechnet um.
+              Deshalb stehen in Flächen- und Volumenelementen zusätzliche
+              Faktoren, die man als Determinante der Jacobi-Matrix
+              berechnet.</p>
+          </div>
+        </section>
+
+        <section class="tab" id="vertiefung" data-titel="Vertiefung"></section>
+
+        <section class="tab" id="beispiele" data-titel="Beispielrechnungen">
+
+          <div class="beispiel" data-symbole='{"v": "Geschwindigkeit des Schiffs", "v_r": "Radialgeschwindigkeit (vom Leuchtturm weg)", "v_φ": "Geschwindigkeit quer zur Sichtlinie"}'>
+            <h3>Beispiel 1: Was das Radar sieht</h3>
+            <p><strong>Gegeben:</strong> Ein Leuchtturm steht im Ursprung,
+              die $x$-Achse zeigt nach Osten, die $y$-Achse nach Norden. Ein
+              Schiff liegt bei $(-3{,}0;\ 4{,}0)\,\mathrm{km}$ und fährt mit
+              $\vec v = (5{,}0;\ 5{,}0)\,\mathrm{m/s}$, also nach
+              Nordosten.<br>
+              <strong>Gesucht:</strong> die Polarkoordinaten des Schiffs und die
+              Zerlegung seiner Geschwindigkeit in einen Anteil längs der
+              Sichtlinie ($v_r$) und einen quer dazu ($v_\varphi$).</p>
+
+            <p><strong>1. Abstand:</strong>
+              $$ r = \sqrt{(-3{,}0\,\mathrm{km})^2 + (4{,}0\,\mathrm{km})^2} = \sqrt{25}\,\mathrm{km} = 5{,}0\,\mathrm{km} $$</p>
+
+            <p><strong>2. Winkel.</strong> Der Taschenrechner liefert
+              $\arctan\frac{4{,}0}{-3{,}0} = -53{,}13^\circ$. Das Schiff liegt aber
+              links oben, im 2. Quadranten ($x \lt 0$, $y \gt 0$). Also
+              $180^\circ$ addieren:
+              $$ \varphi = -53{,}13^\circ + 180^\circ = 126{,}87^\circ $$</p>
+
+            <p><strong>3. Einheitsvektoren</strong> am Ort des Schiffs, mit
+              $\cos\varphi = x/r = -0{,}6$ und $\sin\varphi = y/r = 0{,}8$:
+              $$ \hat e_r = \begin{pmatrix} -0{,}6 \\ 0{,}8 \end{pmatrix}, \qquad \hat e_\varphi = \begin{pmatrix} -0{,}8 \\ -0{,}6 \end{pmatrix} $$</p>
+
+            <p><strong>4. Komponenten</strong> per Skalarprodukt:
+              $$ v_r = \vec v\cdot\hat e_r = (5{,}0\cdot(-0{,}6) + 5{,}0\cdot 0{,}8)\,\mathrm{m/s} = 1{,}0\,\mathrm{m/s} $$
+              $$ v_\varphi = \vec v\cdot\hat e_\varphi = (5{,}0\cdot(-0{,}8) + 5{,}0\cdot(-0{,}6))\,\mathrm{m/s} = -7{,}0\,\mathrm{m/s} $$
+              Einheitencheck: Die Einheitsvektoren sind dimensionslos, die
+              Komponenten haben die Einheit von $\vec v$.</p>
+
+            <p><strong>Ergebnis und Plausibilität:</strong> Das Schiff ist
+              $5{,}0\,\mathrm{km}$ entfernt unter $126{,}9^\circ$ und entfernt
+              sich nur mit $1{,}0\,\mathrm{m/s}$ vom Leuchtturm, obwohl es mit
+              $|\vec v| = 7{,}07\,\mathrm{m/s}$ fährt. Der Großteil, $7{,}0\,\mathrm{m/s}$,
+              geht quer zur Sichtlinie, und zwar im Uhrzeigersinn
+              (negatives $v_\varphi$). Probe:
+              $\sqrt{1{,}0^2 + 7{,}0^2} = \sqrt{50} = 7{,}07$ – die Länge
+              bleibt, weil $\hat e_r$ und $\hat e_\varphi$ senkrechte
+              Einheitsvektoren sind. Ein Doppler-Radar misst übrigens nur $v_r$;
+              es würde das Schiff für fast stillstehend halten.</p>
+          </div>
+
+          <div class="beispiel" data-symbole='{"T": "Dauer einer Erdumdrehung (Sterntag)", "ω": "Winkelgeschwindigkeit der Erde", "R_E": "Erdradius"}'>
+            <h3>Beispiel 2: Frankfurt in Kugelkoordinaten</h3>
+            <p><strong>Gegeben:</strong> Frankfurt am Main liegt bei
+              $50{,}11^\circ$ nördlicher Breite und $8{,}68^\circ$ östlicher
+              Länge. Die Erde sei eine Kugel mit $R_E = 6371\,\mathrm{km}$, der
+              Ursprung im Erdmittelpunkt, die $z$-Achse zeige zum Nordpol, die
+              $x$-Achse zum Nullmeridian (Greenwich) am Äquator. Eine
+              Erdumdrehung dauert $T = 86\,164\,\mathrm{s}$ (ein Sterntag).<br>
+              <strong>Gesucht:</strong> (a) die Kugelkoordinaten und die
+              kartesischen Koordinaten von Frankfurt, (b) die Geschwindigkeit,
+              mit der Frankfurt durch die Erddrehung bewegt wird.</p>
+
+            <p><strong>1. Kugelkoordinaten.</strong> $r = R_E = 6371\,\mathrm{km}$,
+              die Länge ist direkt $\varphi = 8{,}68^\circ$, und der Polarwinkel
+              zählt vom Nordpol:
+              $$ \vartheta = 90^\circ - 50{,}11^\circ = 39{,}89^\circ $$</p>
+
+            <p><strong>2. Kartesisch.</strong> Mit $\sin\vartheta = 0{,}6413$,
+              $\cos\vartheta = 0{,}7673$, $\cos\varphi = 0{,}9885$,
+              $\sin\varphi = 0{,}1509$:
+              $$ x = r\sin\vartheta\cos\varphi = 6371\,\mathrm{km}\cdot 0{,}6413\cdot 0{,}9885 = 4039\,\mathrm{km} $$
+              $$ y = r\sin\vartheta\sin\varphi = 6371\,\mathrm{km}\cdot 0{,}6413\cdot 0{,}1509 = 617\,\mathrm{km} $$
+              $$ z = r\cos\vartheta = 6371\,\mathrm{km}\cdot 0{,}7673 = 4888\,\mathrm{km} $$
+              Probe: $\sqrt{4039^2 + 617^2 + 4888^2}\,\mathrm{km} = 6371\,\mathrm{km}$.</p>
+
+            <p><strong>3. Geschwindigkeit.</strong> Bei der Erddrehung
+              ändert sich nur $\varphi$, und zwar mit
+              $\omega = 2\pi/T = 7{,}292\cdot 10^{-5}\,\mathrm{s^{-1}}$. Der
+              Weg pro Winkelschritt ist der Skalenfaktor
+              $h_\varphi = r\sin\vartheta$ – der Radius des Breitenkreises:
+              $$ v = r\sin\vartheta\cdot\omega = 6{,}371\cdot 10^{6}\,\mathrm{m}\cdot 0{,}6413\cdot 7{,}292\cdot 10^{-5}\,\mathrm{s^{-1}} = 298\,\mathrm{m/s} $$
+              Einheitencheck: $\mathrm{m}\cdot\mathrm{s^{-1}} = \mathrm{m/s}$;
+              Winkel im Bogenmaß sind dimensionslos.</p>
+
+            <p><strong>Ergebnis und Plausibilität:</strong> Frankfurt liegt
+              bei $(4039;\ 617;\ 4888)\,\mathrm{km}$ und rast mit
+              $298\,\mathrm{m/s}$ – rund $1070\,\mathrm{km/h}$ – nach Osten,
+              in Richtung $\hat e_\varphi$. Am Äquator wären es
+              $465\,\mathrm{m/s}$, an den Polen null. Warum wir davon nichts merken, erklärt der Artikel
+              <a href="../alltag/erde-rast.html">Warum spüren wir nicht, dass die Erde rast?</a>
+              Dass $z$ größer ist als
+              $x$, passt: Frankfurt liegt nördlich von $45^\circ$, also näher
+              an der Achse als am Äquator.</p>
+          </div>
+
+          <div class="beispiel" data-symbole='{"R": "Radius der Torte", "H": "Höhe der Torte", "Δφ": "Öffnungswinkel des Stücks", "ρ": "Abstand von der Tortenmitte"}'>
+            <h3>Beispiel 3: Das Volumen eines Tortenstücks</h3>
+            <p><strong>Gegeben:</strong> Eine runde Torte mit dem Radius
+              $R = 13\,\mathrm{cm}$ und der Höhe $H = 8{,}0\,\mathrm{cm}$ wird
+              in 12 gleiche Stücke geschnitten.<br>
+              <strong>Gesucht:</strong> (a) die Jacobi-Determinante der
+              Zylinderkoordinaten, (b) das Volumen eines Stücks durch Integrieren
+              über $\mathrm{d}V$, (c) eine Probe mit der Formel für das
+              Zylindervolumen.</p>
+
+            <p><strong>1. Jacobi-Matrix.</strong> Aus
+              $x = \rho\cos\varphi$, $y = \rho\sin\varphi$, $z = z$ folgt
+              (Spalten: Ableitung nach $\rho$, $\varphi$, $z$)
+              $$ J = \begin{pmatrix} \cos\varphi & -\rho\sin\varphi & 0 \\ \sin\varphi & \rho\cos\varphi & 0 \\ 0 & 0 & 1 \end{pmatrix} $$</p>
+
+            <p><strong>2. Determinante</strong> durch Entwicklung nach der
+              dritten Zeile – dort steht nur die $1$ rechts unten:
+              $$ \det J = 1\cdot\begin{vmatrix} \cos\varphi & -\rho\sin\varphi \\ \sin\varphi & \rho\cos\varphi \end{vmatrix} = \rho\cos^2\varphi + \rho\sin^2\varphi = \rho $$
+              Also $\mathrm{d}V = \rho\,\mathrm{d}\rho\,\mathrm{d}\varphi\,\mathrm{d}z$.</p>
+
+            <p><strong>3. Integrieren.</strong> Ein Stück reicht über den
+              Winkel $\Delta\varphi = 2\pi/12 = \pi/6 = 0{,}5236$. Die Grenzen
+              hängen nicht voneinander ab, deshalb zerfällt das Integral in drei
+              einfache Faktoren:
+              $$ V = \int_0^{H}\!\mathrm{d}z\int_0^{\pi/6}\!\mathrm{d}\varphi\int_0^{R}\!\rho\,\mathrm{d}\rho = H\cdot\frac{\pi}{6}\cdot\frac{R^2}{2} $$
+              $$ V = 8{,}0\,\mathrm{cm}\cdot 0{,}5236\cdot\frac{(13\,\mathrm{cm})^2}{2} = 8{,}0\,\mathrm{cm}\cdot 0{,}5236\cdot 84{,}5\,\mathrm{cm^2} = 354\,\mathrm{cm^3} $$
+              Einheitencheck: $\mathrm{cm}\cdot\mathrm{cm^2} = \mathrm{cm^3}$;
+              der Winkel ist dimensionslos.</p>
+
+            <p><strong>4. Probe.</strong> Die ganze Torte hat
+              $\pi R^2 H = \pi\cdot 169\,\mathrm{cm^2}\cdot 8{,}0\,\mathrm{cm} = 4247\,\mathrm{cm^3}$,
+              ein Zwölftel davon sind $354\,\mathrm{cm^3}$.</p>
+
+            <p><strong>Ergebnis und Plausibilität:</strong> Ein Stück hat
+              $354\,\mathrm{cm^3}$, gut ein Drittel Liter. Der Faktor $\rho$
+              im Volumenelement sorgt dafür, dass die breiten Teile am Rand mehr
+              zählen als die schmale Spitze in der Mitte. Ohne ihn hätte man
+              $H\cdot\frac{\pi}{6}\cdot R = 54{,}5\,\mathrm{cm^2}$ erhalten –
+              schon die Einheit zeigt, dass das kein Volumen sein kann.</p>
+          </div>
+        </section>
+
+        <section class="tab" id="aufgaben" data-titel="Aufgaben">
+
+          <p>Die Aufgaben sind nach Schwierigkeit sortiert. Versuch es erst
+            selbst – die Lösungen sind zugeklappt. Winkel $\varphi$ werden wie
+            auf dieser Seite von der $x$-Achse aus gegen den Uhrzeigersinn
+            gezählt, $\vartheta$ von der $z$-Achse aus.</p>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 1: Hin und zurück
+              <span class="schwierigkeit" data-stufe="leicht">leicht</span>
+            </h3>
+            <ol type="a">
+              <li>Ein Punkt hat die Polarkoordinaten $r = 4$,
+                $\varphi = 150^\circ$. Berechne $x$ und $y$.</li>
+              <li>Bestimme die Polarkoordinaten des Punktes
+                $(-2;\ -2\sqrt3)$. Was liefert der Taschenrechner für
+                $\arctan(y/x)$, und warum ist das nicht der richtige
+                Winkel?</li>
+            </ol>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>(a) $x = 4\cos 150^\circ = 4\cdot(-\tfrac{\sqrt3}{2}) = -2\sqrt3 \approx -3{,}46$
+                und $y = 4\sin 150^\circ = 4\cdot\tfrac12 = 2$. Der Punkt liegt
+                links oben, wie es bei $150^\circ$ sein muss.</p>
+              <p>(b) $r = \sqrt{4 + 12} = 4$. Der Taschenrechner gibt
+                $\arctan\frac{-2\sqrt3}{-2} = \arctan\sqrt3 = 60^\circ$ aus –
+                denn das Verhältnis ist dasselbe wie beim Punkt
+                $(2;\ 2\sqrt3)$. Unser Punkt liegt aber links unten
+                (3. Quadrant), also ist $\varphi = 60^\circ + 180^\circ = 240^\circ$.
+                Probe: $4\cos 240^\circ = -2$, $4\sin 240^\circ = -2\sqrt3$.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 2: Zylinderkoordinaten und Koordinatenflächen
+              <span class="schwierigkeit" data-stufe="leicht">leicht</span>
+            </h3>
+            <ol type="a">
+              <li>Gib die Zylinderkoordinaten des Punktes $(0;\ -3;\ 2)$ an.</li>
+              <li>Welche Fläche im Raum beschreiben jeweils $\rho = 2$,
+                $\varphi = 45^\circ$ und $z = 1$? Was bleibt übrig, wenn alle
+                drei Bedingungen gleichzeitig gelten?</li>
+            </ol>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>(a) $\rho = \sqrt{0^2 + (-3)^2} = 3$; der Punkt liegt auf der
+                negativen $y$-Achse, also $\varphi = 270^\circ$ (hier versagt
+                $\tan\varphi = y/x$ ganz, weil $x = 0$); $z = 2$ bleibt.
+                Ergebnis: $(\rho, \varphi, z) = (3;\ 270^\circ;\ 2)$.</p>
+              <p>(b) $\rho = 2$: ein unendlich langer Zylindermantel mit Radius 2
+                um die $z$-Achse. $\varphi = 45^\circ$: eine Halbebene, die an der
+                $z$-Achse beginnt und zwischen $x$- und $y$-Achse liegt. $z = 1$:
+                die waagerechte Ebene in Höhe 1. Alle drei zusammen schneiden sich
+                in genau einem Punkt, nämlich
+                $(\sqrt2;\ \sqrt2;\ 1) \approx (1{,}41;\ 1{,}41;\ 1)$.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 3: Ein Dreibein auf der Kugel
+              <span class="schwierigkeit" data-stufe="mittel">mittel</span>
+            </h3>
+            <p>Betrachte den Punkt $P = (1;\ 1;\ \sqrt2)$.</p>
+            <ol type="a">
+              <li>Berechne seine Kugelkoordinaten $r$, $\vartheta$, $\varphi$.</li>
+              <li>Gib $\hat e_r$, $\hat e_\vartheta$ und $\hat e_\varphi$ an
+                diesem Punkt kartesisch an.</li>
+              <li>Prüfe, dass $\hat e_r\times\hat e_\vartheta = \hat e_\varphi$
+                gilt (Rechtssystem).</li>
+            </ol>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>(a) $r = \sqrt{1 + 1 + 2} = 2$, $\cos\vartheta = z/r = \sqrt2/2$,
+                also $\vartheta = 45^\circ$; $\tan\varphi = 1$ mit $x, y \gt 0$,
+                also $\varphi = 45^\circ$.</p>
+              <p>(b) Mit $\sin 45^\circ = \cos 45^\circ = \tfrac{\sqrt2}{2}$ und
+                $\sin\vartheta\cos\varphi = \tfrac12$:
+                $$ \hat e_r = \begin{pmatrix} \tfrac12 \\ \tfrac12 \\ \tfrac{\sqrt2}{2} \end{pmatrix}, \quad \hat e_\vartheta = \begin{pmatrix} \tfrac12 \\ \tfrac12 \\ -\tfrac{\sqrt2}{2} \end{pmatrix}, \quad \hat e_\varphi = \begin{pmatrix} -\tfrac{\sqrt2}{2} \\ \tfrac{\sqrt2}{2} \\ 0 \end{pmatrix} $$
+                Probe: $\hat e_r = \vec r/r = (1;\ 1;\ \sqrt2)/2$ – stimmt.</p>
+              <p>(c) Komponentenweise:
+                $$ \hat e_r\times\hat e_\vartheta = \begin{pmatrix} \tfrac12\cdot(-\tfrac{\sqrt2}{2}) - \tfrac{\sqrt2}{2}\cdot\tfrac12 \\ \tfrac{\sqrt2}{2}\cdot\tfrac12 - \tfrac12\cdot(-\tfrac{\sqrt2}{2}) \\ \tfrac12\cdot\tfrac12 - \tfrac12\cdot\tfrac12 \end{pmatrix} = \begin{pmatrix} -\tfrac{\sqrt2}{2} \\ \tfrac{\sqrt2}{2} \\ 0 \end{pmatrix} = \hat e_\varphi $$
+                $\hat e_r$ zeigt schräg nach oben außen, $\hat e_\vartheta$
+                schräg nach unten außen („nach Süden“), $\hat e_\varphi$
+                waagerecht („nach Osten“).</p>
+            </details>
+          </div>
+
+          <div class="aufgabe" data-symbole='{"T": "Umlaufdauer des Karussells", "R": "Abstand des Kindes von der Achse"}'>
+            <h3>Aufgabe 4: Das Karussell
+              <span class="schwierigkeit" data-stufe="mittel">mittel</span>
+            </h3>
+            <p>Ein Kind sitzt auf einem Karussell im Abstand
+              $R = 2{,}5\,\mathrm{m}$ von der Drehachse. Das Karussell dreht sich
+              gleichförmig einmal in $T = 6{,}0\,\mathrm{s}$.</p>
+            <ol type="a">
+              <li>Gib $r(t)$ und $\varphi(t)$ an und bestimme $\dot r$,
+                $\ddot r$, $\dot\varphi$, $\ddot\varphi$.</li>
+              <li>Berechne mit den Formeln für $\vec v$ und $\vec a$ in
+                Polarkoordinaten die Geschwindigkeit und die Beschleunigung des
+                Kindes. In welche Richtungen zeigen sie?</li>
+            </ol>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>(a) $r(t) = R$ (fest), also $\dot r = \ddot r = 0$.
+                $\varphi(t) = \omega t$ mit
+                $\omega = 2\pi/T = 2\pi/6{,}0\,\mathrm{s} = 1{,}047\,\mathrm{s^{-1}}$,
+                also $\dot\varphi = \omega$ und $\ddot\varphi = 0$.</p>
+              <p>(b) Einsetzen:
+                $$ \vec v = 0\cdot\hat e_r + R\omega\,\hat e_\varphi = 2{,}5\,\mathrm{m}\cdot 1{,}047\,\mathrm{s^{-1}}\,\hat e_\varphi = 2{,}62\,\mathrm{m/s}\;\hat e_\varphi $$
+                $$ \vec a = (0 - R\omega^2)\,\hat e_r + (0 + 0)\,\hat e_\varphi = -2{,}5\,\mathrm{m}\cdot(1{,}047\,\mathrm{s^{-1}})^2\,\hat e_r = -2{,}74\,\mathrm{m/s^2}\;\hat e_r $$
+                Die Geschwindigkeit zeigt tangential (in Drehrichtung), die
+                Beschleunigung zur Achse hin. Das sind etwa 28 % der
+                Fallbeschleunigung – das Kind spürt, wie es nach außen
+                gedrückt wird.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 5: Flächen ohne Wurzeln
+              <span class="schwierigkeit" data-stufe="schwer">schwer</span>
+            </h3>
+            <ol type="a">
+              <li>Berechne die Jacobi-Determinante der Polarkoordinaten selbst,
+                ausgehend von $x = r\cos\varphi$, $y = r\sin\varphi$.</li>
+              <li>Berechne mit $\mathrm{d}A = r\,\mathrm{d}r\,\mathrm{d}\varphi$
+                die Fläche eines Viertel-Kreisrings zwischen $r = 1\,\mathrm{cm}$
+                und $r = 2\,\mathrm{cm}$ (im ersten Quadranten).</li>
+              <li>Die Oberfläche einer Kugel mit Radius $R$ setzt sich aus
+                Stücken mit den Seiten $R\,\mathrm{d}\vartheta$ und
+                $R\sin\vartheta\,\mathrm{d}\varphi$ zusammen. Berechne damit die
+                Kugeloberfläche.</li>
+            </ol>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>(a) Spalten = Ableitungen nach $r$ und nach $\varphi$:
+                $$ \det\begin{pmatrix} \cos\varphi & -r\sin\varphi \\ \sin\varphi & r\cos\varphi \end{pmatrix} = r\cos^2\varphi - (-r\sin^2\varphi) = r $$</p>
+              <p>(b) Die Grenzen sind unabhängig, das Integral zerfällt:
+                $$ A = \int_0^{\pi/2}\!\mathrm{d}\varphi\int_{1\,\mathrm{cm}}^{2\,\mathrm{cm}}\!r\,\mathrm{d}r = \frac{\pi}{2}\cdot\frac{(2\,\mathrm{cm})^2 - (1\,\mathrm{cm})^2}{2} = \frac{3\pi}{4}\,\mathrm{cm^2} = 2{,}36\,\mathrm{cm^2} $$
+                Probe: Der ganze Ring hat $\pi(4 - 1)\,\mathrm{cm^2} = 3\pi\,\mathrm{cm^2}$,
+                ein Viertel davon passt.</p>
+              <p>(c) Ein Flächenstück ist
+                $\mathrm{d}A = R^2\sin\vartheta\,\mathrm{d}\vartheta\,\mathrm{d}\varphi$.
+                Über die ganze Kugel:
+                $$ A = R^2\int_0^{2\pi}\!\mathrm{d}\varphi\int_0^{\pi}\!\sin\vartheta\,\mathrm{d}\vartheta = R^2\cdot 2\pi\cdot\big[-\cos\vartheta\big]_0^{\pi} = R^2\cdot 2\pi\cdot 2 = 4\pi R^2 $$</p>
+              <p><strong>Zum Nachdenken:</strong> Warum steht in (c) der Faktor
+                $\sin\vartheta$? (Die Stücke werden zu den Polen hin immer
+                schmaler, weil die Breitenkreise dort kleiner sind – an den
+                Polen selbst ist $\sin\vartheta = 0$.)</p>
+            </details>
+          </div>
+
+          <div class="aufgabe" data-symbole='{"v_0": "Geschwindigkeit der Perle längs des Stabs", "ω": "Winkelgeschwindigkeit des Stabs"}'>
+            <h3>Aufgabe 6: Die Perle auf dem drehenden Stab
+              <span class="schwierigkeit" data-stufe="schwer">schwer</span>
+            </h3>
+            <p>Ein Stab dreht sich in der waagerechten Ebene mit
+              $\omega = 2{,}0\,\mathrm{s^{-1}}$ um eines seiner Enden. Eine
+              Perle wird so auf ihm nach außen geschoben, dass ihr Abstand von
+              der Drehachse gleichmäßig wächst: $r(t) = v_0 t$ mit
+              $v_0 = 0{,}50\,\mathrm{m/s}$. Zur Zeit $t = 0$ zeigt der Stab in
+              $x$-Richtung.</p>
+            <ol type="a">
+              <li>Berechne Geschwindigkeit und Beschleunigung der Perle zur
+                Zeit $t = 1{,}0\,\mathrm{s}$ in Polarkoordinaten, und ihre
+                Beträge.</li>
+              <li>Die Perle bewegt sich längs des Stabs gleichförmig. Trotzdem
+                hat ihre Beschleunigung einen Anteil in $\hat e_\varphi$-Richtung.
+                Woher kommt er, und wer übt die dazu nötige Kraft aus?</li>
+            </ol>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>(a) Ableitungen: $\dot r = v_0$, $\ddot r = 0$,
+                $\dot\varphi = \omega$, $\ddot\varphi = 0$. Bei
+                $t = 1{,}0\,\mathrm{s}$ ist $r = 0{,}50\,\mathrm{m}$.
+                $$ \vec v = \dot r\,\hat e_r + r\dot\varphi\,\hat e_\varphi = 0{,}50\,\mathrm{m/s}\;\hat e_r + 0{,}50\,\mathrm{m}\cdot 2{,}0\,\mathrm{s^{-1}}\,\hat e_\varphi = (0{,}50\,\hat e_r + 1{,}0\,\hat e_\varphi)\,\mathrm{m/s} $$
+                $$ \vec a = (\ddot r - r\dot\varphi^2)\,\hat e_r + (r\ddot\varphi + 2\dot r\dot\varphi)\,\hat e_\varphi = (-2{,}0\,\hat e_r + 2{,}0\,\hat e_\varphi)\,\mathrm{m/s^2} $$
+                mit $r\dot\varphi^2 = 0{,}50\,\mathrm{m}\cdot 4{,}0\,\mathrm{s^{-2}} = 2{,}0\,\mathrm{m/s^2}$
+                und $2\dot r\dot\varphi = 2\cdot 0{,}50\,\mathrm{m/s}\cdot 2{,}0\,\mathrm{s^{-1}} = 2{,}0\,\mathrm{m/s^2}$.
+                Beträge: $|\vec v| = \sqrt{0{,}25 + 1{,}0}\,\mathrm{m/s} = 1{,}12\,\mathrm{m/s}$,
+                $|\vec a| = \sqrt{4{,}0 + 4{,}0}\,\mathrm{m/s^2} = 2{,}83\,\mathrm{m/s^2}$.</p>
+              <p>(b) Der Anteil $2\dot r\dot\varphi$ hat zwei gleich große
+                Hälften. Erstens wandert die Perle nach außen, wo die
+                Bahngeschwindigkeit $r\omega$ größer ist – sie muss also quer zum
+                Stab ständig schneller werden. Zweitens dreht sich die Richtung
+                ihrer Geschwindigkeit längs des Stabs mit dem Stab mit
+                ($\dot r\,\mathrm{d}\hat e_r/\mathrm{d}t = \dot r\dot\varphi\,\hat e_\varphi$).
+                Die nötige Kraft übt der Stab aus, der seitlich gegen die Perle
+                drückt. Im mitdrehenden System des Stabs erscheint dieselbe Wirkung
+                als <a href="../mechanik/scheinkraefte.html">Corioliskraft</a>,
+                die die Perle gegen den Stab drückt.</p>
+              <p><strong>Zum Nachdenken:</strong> Wie sieht die Bahn der Perle
+                von oben aus? (Eine Spirale $r = v_0\varphi/\omega$, deren
+                Windungen gleichen Abstand $2\pi v_0/\omega = 1{,}57\,\mathrm{m}$
+                haben – eine archimedische Spirale.)</p>
+            </details>
+          </div>
+        </section>
+
+      </div></article>
+  </main>
+</body>
+</html>

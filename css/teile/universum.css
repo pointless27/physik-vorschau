@@ -1,0 +1,384 @@
+/* =========================================================================
+   INTERAKTIVES UNIVERSUM – 3D-Bühne (themen/universum/*.html)
+   =========================================================================
+   Dunkle Bühne mit WebGL-Leinwand (three.js) und HTML-Bedienelementen
+   darüber. Farben: --uni-* in variablen.css (in beiden Schemata gleich).
+   Aufbau der Bühne erzeugt js/universum/groessen.js. */
+
+.uni-main { max-width: 100rem; }
+.uni-main > .oberzeile,
+.uni-main > h1,
+.uni-main > .seitenkopf-text,
+.uni-lesetext { max-width: var(--breite-text); }
+.uni-lesetext { margin-top: 2.5rem; }
+
+.uni-buehne {
+  position: relative;
+  height: clamp(32rem, calc(100vh - 6rem), 62rem);
+  margin: 1.5rem 0 1rem;
+  border-radius: var(--radius-l);
+  overflow: hidden;
+  background: var(--uni-himmel-all);
+  color: var(--uni-text);
+  box-shadow: var(--schatten-m);
+  isolation: isolate;
+  z-index: 2;               /* über der Rand-Deko (z-index 1), die neben schmaler Spalte sitzt */
+  outline: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+.uni-buehne:focus-visible { box-shadow: 0 0 0 3px var(--uni-blau); }
+.uni-buehne:fullscreen { height: 100vh; border-radius: 0; margin: 0; }
+
+.uni-leinwand,
+.uni-leinwand canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+.uni-leinwand canvas { touch-action: none; cursor: grab; }
+.uni-leinwand canvas:active { cursor: grabbing; }
+
+.uni-ersatz {
+  position: absolute;
+  inset: auto 1.5rem 45% 1.5rem;
+  margin: 0;
+  text-align: center;
+  color: var(--uni-text-schwach);
+}
+.uni-bereit .uni-ersatz { display: none; }
+
+/* ----- Schilder an den 3D-Objekten (handschriftlich wie im Heft) ----- */
+.uni-schilder { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
+.uni-schild {
+  position: absolute;
+  left: 0;
+  top: 0;
+  visibility: hidden;
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  white-space: nowrap;
+  will-change: transform, opacity;
+}
+.uni-schild-punkt {
+  width: 6px;
+  height: 6px;
+  margin: -3px 0 0 -3px;
+  border-radius: 50%;
+  background: var(--uni-text);
+  box-shadow: 0 0 8px var(--uni-blau);
+}
+.uni-schild-text {
+  padding: 0.1rem 0.4rem 0.15rem;
+  border-radius: var(--radius-s);
+  background: color-mix(in srgb, var(--uni-himmel-all) 62%, transparent);
+  font-family: var(--schrift-hand);
+  font-size: 1.25rem;
+  line-height: 1;
+  color: var(--uni-text);
+  text-shadow: 0 0 3px var(--uni-himmel-all);
+  transform: translateY(-0.7rem);
+}
+.uni-schild.mass .uni-schild-punkt { display: none; }
+.uni-schild.mass .uni-schild-text { color: var(--uni-kupfer); transform: translate(-50%, -0.9rem); }
+.uni-schild.links .uni-schild-text { position: absolute; right: 0.75rem; }
+.uni-schild.hier .uni-schild-punkt { background: var(--uni-kupfer); animation: uni-puls 1.8s ease-out infinite; }
+.uni-schild.hier .uni-schild-text { color: var(--uni-kupfer); }
+@keyframes uni-puls {
+  0%   { box-shadow: 0 0 0 0 color-mix(in srgb, var(--uni-kupfer) 70%, transparent); }
+  100% { box-shadow: 0 0 0 16px color-mix(in srgb, var(--uni-kupfer) 0%, transparent); }
+}
+
+/* ----- Infotafel der aktuellen Station ----- */
+.uni-info {
+  position: absolute;
+  left: 1rem;
+  top: 1rem;
+  width: min(25rem, calc(100% - 14rem));
+  padding: 1rem 1.15rem 1.1rem;
+  background: var(--uni-panel);
+  border: 1px solid var(--uni-linie);
+  border-radius: var(--radius-m);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  transition: opacity 0.4s;
+}
+.uni-unterwegs .uni-info { opacity: 0.5; }
+.uni-oberzeile {
+  margin: 0 0 0.35rem;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--uni-blau);
+}
+.uni-titel {
+  margin: 0 0 0.3rem;
+  font-size: 1.7rem;
+  line-height: 1.15;
+  color: var(--uni-text);
+  min-height: 1.15em;
+}
+.uni-groesse {
+  margin: 0 0 0.65rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--uni-kupfer);
+  font-variant-numeric: tabular-nums;
+}
+.uni-hoch { font-weight: 400; color: var(--uni-text-schwach); white-space: nowrap; }
+.uni-text { margin: 0 0 0.65rem; font-size: 0.9rem; line-height: 1.5; color: var(--uni-text); }
+.uni-fakt {
+  margin: 0;
+  font-family: var(--schrift-hand);
+  font-size: 1.2rem;
+  line-height: 1.2;
+  color: var(--uni-violett);
+}
+.uni-fakt::before { content: "Wusstest du? "; color: var(--uni-kupfer); }
+.uni-link {
+  display: inline-block;
+  margin-top: 0.7rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--uni-blau);
+}
+.uni-link[hidden] { display: none; }
+.uni-mehr { display: none; }
+.uni-neu .uni-groesse,
+.uni-neu .uni-text,
+.uni-neu .uni-fakt { animation: uni-auf 0.5s ease both; }
+.uni-neu .uni-text { animation-delay: 0.08s; }
+.uni-neu .uni-fakt { animation-delay: 0.16s; }
+@keyframes uni-auf { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: none; } }
+
+/* ----- Leiter der Zehnerpotenzen (rechts) ----- */
+.uni-leiter {
+  position: absolute;
+  right: 1rem;
+  top: 1.4rem;
+  bottom: 1.7rem;
+  width: 3rem;
+}
+.uni-leiter::before {         /* dunkle Unterlage, damit die Leiter auch vor hellem Taghimmel lesbar ist */
+  content: "";
+  position: absolute;
+  inset: -0.7rem -0.35rem -0.7rem -1.9rem;
+  border-radius: var(--radius-m);
+  border: 1px solid var(--uni-linie);
+  background: var(--uni-panel);
+}
+.uni-schiene {
+  position: absolute;
+  inset: 0;
+  cursor: ns-resize;
+  touch-action: none;
+}
+.uni-schiene::before {
+  content: "";
+  position: absolute;
+  right: 1.15rem;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  border-radius: 2px;
+  background: linear-gradient(var(--uni-violett), var(--uni-blau) 55%, var(--uni-kupfer));
+  opacity: 0.45;
+}
+.uni-strich {
+  position: absolute;
+  right: 1.75rem;
+  transform: translateY(-50%);
+  font-size: 0.66rem;
+  line-height: 1;
+  color: var(--uni-text-schwach);
+  white-space: nowrap;
+  pointer-events: none;
+}
+.uni-strich::after {
+  content: "";
+  position: absolute;
+  right: -0.5rem;
+  top: 50%;
+  width: 0.35rem;
+  height: 1px;
+  background: var(--uni-text-schwach);
+}
+.uni-station {
+  position: absolute;
+  right: 0.86rem;
+  width: 0.68rem;
+  height: 0.68rem;
+  margin-top: -0.34rem;
+  padding: 0;
+  border-radius: 50%;
+  border: 1.5px solid var(--uni-text-schwach);
+  background: var(--uni-himmel-all);
+  cursor: pointer;
+  transition: transform 0.2s, border-color 0.2s, background 0.2s;
+}
+.uni-station::before { content: ""; position: absolute; inset: -0.45rem; }
+.uni-station:hover,
+.uni-station:focus-visible { border-color: var(--uni-blau); transform: scale(1.25); outline: none; }
+.uni-station.aktiv {
+  border-color: var(--uni-kupfer);
+  background: var(--uni-kupfer);
+  box-shadow: 0 0 10px var(--uni-kupfer);
+}
+.uni-station-name {
+  position: absolute;
+  right: 1.35rem;
+  top: 50%;
+  transform: translateY(-50%);
+  padding: 0.12rem 0.45rem;
+  border-radius: var(--radius-s);
+  background: var(--uni-panel);
+  border: 1px solid var(--uni-linie);
+  color: var(--uni-text);
+  font-size: 0.75rem;
+  font-weight: 600;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s;
+}
+.uni-station:hover .uni-station-name,
+.uni-station:focus-visible .uni-station-name { opacity: 1; z-index: 2; }
+.uni-zeiger {
+  position: absolute;
+  right: 0.55rem;
+  width: 1.3rem;
+  height: 2px;
+  margin-top: -1px;
+  border-radius: 2px;
+  background: var(--uni-kupfer);
+  box-shadow: 0 0 10px var(--uni-kupfer);
+  pointer-events: none;
+}
+
+/* ----- Unten: Knöpfe, Maßstab, Bildbreite ----- */
+.uni-unten {                  /* links unten: Maßstab und Bildbreite über den Knöpfen */
+  position: absolute;
+  left: 1rem;
+  bottom: 1rem;
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: flex-start;
+  gap: 0.5rem;
+  max-width: calc(100% - 7rem);
+  pointer-events: none;
+}
+.uni-unten > * { pointer-events: auto; }
+.uni-knoepfe { display: flex; flex-wrap: wrap; gap: 0.45rem; }
+.uni-knopf {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.5rem 0.8rem;
+  border-radius: var(--radius-s);
+  border: 1px solid var(--uni-linie);
+  background: var(--uni-panel);
+  color: var(--uni-text);
+  font: 600 0.85rem/1 var(--schrift-text);
+  cursor: pointer;
+  transition: border-color 0.2s, color 0.2s;
+}
+.uni-knopf svg {
+  width: 1rem;
+  height: 1rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.uni-knopf:hover,
+.uni-knopf:focus-visible { border-color: var(--uni-blau); color: var(--uni-blau); outline: none; }
+.uni-im-flug .uni-knopf:nth-child(3) { border-color: var(--uni-kupfer); color: var(--uni-kupfer); }
+.uni-anzeige {
+  padding: 0.45rem 0.6rem 0.35rem;
+  border-radius: var(--radius-m);
+  border: 1px solid var(--uni-linie);
+  background: var(--uni-panel);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+  font-size: 0.82rem;
+  color: var(--uni-text-schwach);
+  font-variant-numeric: tabular-nums;
+}
+.uni-mass { display: flex; flex-direction: column; align-items: flex-start; gap: 0.25rem; margin-bottom: 0.4rem; }
+.uni-mass-balken {
+  height: 0.45rem;
+  border: 2px solid var(--uni-text);
+  border-top: none;
+}
+.uni-mass-text { font-weight: 600; font-size: 0.85rem; color: var(--uni-text); }
+.uni-bildbreite,
+.uni-vergleich { margin: 0; }
+.uni-vergleich {
+  min-height: 1.35em;
+  font-family: var(--schrift-hand);
+  font-size: 1.15rem;
+  line-height: 1.2;
+  color: var(--uni-violett);
+}
+.uni-hinweis {
+  position: absolute;
+  right: 5.6rem;
+  bottom: 1rem;
+  margin: 0;
+  padding: 0.4rem 0.8rem;
+  border-radius: var(--radius-s);
+  background: var(--uni-panel);
+  border: 1px solid var(--uni-linie);
+  font-size: 0.8rem;
+  color: var(--uni-text);
+  white-space: nowrap;
+  pointer-events: none;
+  transition: opacity 0.8s;
+}
+.uni-benutzt .uni-hinweis { opacity: 0; }
+
+/* ----- Kleine Bildschirme ----- */
+@media (max-width: 52rem) {
+  .uni-buehne { height: clamp(30rem, 80svh, 46rem); margin-left: -0.4rem; margin-right: -0.4rem; }
+  .uni-info { left: 0.6rem; right: 3.6rem; top: 0.6rem; width: auto; padding: 0.7rem 0.85rem 0.75rem; }
+  .uni-titel { font-size: 1.3rem; }
+  .uni-groesse { margin-bottom: 0.3rem; font-size: 0.82rem; }
+  .uni-groesse .uni-hoch { display: none; }
+  .uni-text, .uni-fakt, .uni-link { display: none; }
+  .uni-info-offen .uni-text, .uni-info-offen .uni-fakt { display: block; }
+  .uni-info-offen .uni-link:not([hidden]) { display: inline-block; }
+  .uni-text { font-size: 0.85rem; }
+  .uni-mehr {
+    display: inline-block;
+    padding: 0;
+    border: none;
+    background: none;
+    color: var(--uni-blau);
+    font: 600 0.8rem var(--schrift-text);
+    cursor: pointer;
+  }
+  .uni-info-offen .uni-mehr { margin-top: 0.4rem; }
+  .uni-leiter { right: 0.35rem; top: 0.8rem; bottom: 10.8rem; width: 2.4rem; }
+  .uni-strich { font-size: 0; }
+  .uni-leiter::before { inset: -0.5rem -0.2rem; }
+  .uni-strich::after { right: -0.6rem; }
+  .uni-station-name { display: none; }
+  .uni-unten { left: 0.6rem; right: 0.6rem; bottom: 0.6rem; flex-direction: column-reverse; align-items: stretch; gap: 0.5rem; }
+  .uni-knoepfe { justify-content: space-between; }
+  .uni-knopf { padding: 0.55rem 0.7rem; }
+  .uni-knopf:nth-child(4) .uni-knopf-text { display: none; }
+  .uni-anzeige { font-size: 0.75rem; }
+  .uni-unten { max-width: none; }
+  .uni-hinweis { left: 50%; right: auto; transform: translateX(-50%); bottom: 10.4rem; font-size: 0.75rem; }
+}
+@media (max-width: 26rem) {
+  .uni-knopf .uni-knopf-text { display: none; }
+  .uni-knopf:nth-child(3) .uni-knopf-text { display: inline; }
+}

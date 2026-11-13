@@ -1,0 +1,675 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="robots" content="noindex">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Wärmekapazität und Wärmetransport</title>
+  <meta name="description" content="Wie viel Energie nötig ist, um etwas um ein Kelvin zu erwärmen, warum Gase zwei Wärmekapazitäten haben und wie Wärme durch Leitung, Konvektion und Strahlung wandert.">
+
+  <link rel="stylesheet" href="../../css/stil.css">
+
+  <link rel="stylesheet" href="../../extern/katex/katex.min.css">
+  <script defer src="../../extern/katex/katex.min.js"></script>
+  <script defer src="../../extern/katex/contrib/auto-render.min.js" onload="starteFormeln()"></script>
+
+  <script src="../../js/daten.js"></script>
+  <script src="../../js/seite.js"></script>
+  <script src="../../js/effekte.js"></script>
+  <script type="application/json" id="symbole">
+  {
+    "C": "Wärmekapazität",
+    "c": "spezifische Wärmekapazität",
+    "C_m": "molare Wärmekapazität",
+    "C_V": "Wärmekapazität bei konstantem Volumen",
+    "C_p": "Wärmekapazität bei konstantem Druck",
+    "Q": "Wärme",
+    "T": "absolute Temperatur in Kelvin",
+    "m": "Masse",
+    "n": "Stoffmenge in mol",
+    "M": "Molmasse",
+    "R": "universelle Gaskonstante, 8,314 J/(mol K)",
+    "k_B": "Boltzmann-Konstante",
+    "U": "innere Energie",
+    "H": "Enthalpie",
+    "p": "Druck",
+    "V": "Volumen",
+    "f": "Anzahl der Freiheitsgrade",
+    "γ": "Adiabatenexponent C_p/C_V",
+    "α": "thermischer Ausdehnungskoeffizient",
+    "κ": "Kompressibilität",
+    "x": "Abkürzung Θ/T",
+    "P": "Wärmestrom (Leistung)",
+    "λ": "Wärmeleitfähigkeit",
+    "A": "Fläche",
+    "d": "Dicke der Schicht",
+    "R_th": "Wärmewiderstand",
+    "ε": "Emissionsgrad",
+    "σ": "Stefan-Boltzmann-Konstante, 5,67·10⁻⁸ W/(m² K⁴)",
+    "t": "Zeit",
+    "N": "Teilchenzahl",
+    "g": "Hilfsfunktion x² eˣ/(eˣ−1)²",
+    "h": "Wärmeübergangskoeffizient",
+    "δ": "kleine Menge einer Prozessgröße (kein Differential einer Zustandsgröße)",
+    "T_1": "Anfangstemperatur bzw. Temperatur des ersten Körpers",
+    "T_2": "Temperatur des zweiten Körpers",
+    "T_m": "Mischungstemperatur",
+    "T_u": "Umgebungstemperatur",
+    "c_1": "spezifische Wärmekapazität des ersten Körpers",
+    "c_2": "spezifische Wärmekapazität des zweiten Körpers",
+    "m_1": "Masse des ersten Körpers",
+    "m_2": "Masse des zweiten Körpers",
+    "Q_V": "Wärme bei konstantem Volumen",
+    "Q_p": "Wärme bei konstantem Druck"
+  }
+  </script>
+</head>
+<body data-thema="waermekapazitaet">
+  <main>
+    <article class="thema">
+      <header>
+        <h1>Wärmekapazität und <span class="betont">Wärmetransport</span></h1>
+        <p class="untertitel">Wie viel Energie in einem Kelvin steckt und auf welchen Wegen Wärme von A nach B kommt.</p>
+      </header>
+
+      <div class="tabs">
+
+        <section class="tab" id="verstehen" data-titel="Verstehen">
+
+          <p>Stell einen Topf Wasser und eine leere Pfanne auf dieselbe Herdplatte.
+            Die Pfanne ist nach einer Minute zu heiß zum Anfassen, das Wasser
+            braucht viele Minuten, um warm zu werden. Beide bekommen gleich
+            viel Energie, aber Wasser nimmt für dieselbe Erwärmung viel mehr
+            davon auf. Diese Eigenschaft heißt <em>Wärmekapazität</em>: die
+            Energie, die man zuführen muss, um einen Körper um ein Kelvin
+            (oder ein Grad Celsius) zu erwärmen.</p>
+
+          <p>Bezieht man sie auf ein Kilogramm, spricht man von der
+            <em>spezifischen Wärmekapazität</em>. Wasser braucht dafür
+            $4{,}18\,\mathrm{kJ}$, Aluminium nur $0{,}90\,\mathrm{kJ}$ und
+            Kupfer $0{,}39\,\mathrm{kJ}$. Deshalb heizen sich Metalle in der Sonne
+            bei gleicher Masse stärker auf als Wasser.</p>
+
+          <div class="alltag">
+            <span class="titel">Aus dem Alltag</span>
+            <p>Das Meer speichert enorm viel Wärme und gibt sie langsam wieder ab.
+              Deshalb ist das Klima an der Küste milder als im Inland: Im
+              Sommer kühlt das Wasser, im Winter wärmt es. Auch die
+              Wärmflasche nutzt das. Ein Liter Wasser, der von $60\,{}^\circ\mathrm{C}$
+              auf $30\,{}^\circ\mathrm{C}$ abkühlt, gibt gut $125\,\mathrm{kJ}$ ab. Ein Heizlüfter
+              mit $2\,\mathrm{kW}$ braucht gut eine Minute, um so viel Wärme zu liefern.</p>
+          </div>
+
+          <p>Ändert sich der Aggregatzustand, steigt die Temperatur nicht
+            mehr. Schmelzendes Eis bleibt bei $0\,{}^\circ\mathrm{C}$,
+            kochendes Wasser bei $100\,{}^\circ\mathrm{C}$, obwohl weiter
+            Energie hineinfließt. Sie wird gebraucht, um die Teilchen
+            voneinander zu lösen. Abb. 1 zeigt das für ein Kilogramm Wasser:
+            Das Verdampfen schluckt mehr als das Fünffache der Energie, die
+            nötig ist, um das Wasser von null auf hundert Grad zu bringen.</p>
+
+          <figure class="abbildung">
+            <svg class="abb" viewBox="0 0 360 225" role="img" aria-label="Temperatur über zugeführter Wärme für ein Kilogramm Wasser von minus 20 bis 120 Grad: Anstieg, Schmelzplateau, Anstieg, langes Siedeplateau, Anstieg">
+<defs><marker id="pfeil-abb1-text" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto"><path class="punkt" d="M0 0L10 5L0 10z"/></marker><marker id="pfeil-abb1-blau" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto"><path class="punkt blau" d="M0 0L10 5L0 10z"/></marker><marker id="pfeil-abb1-kupfer" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto"><path class="punkt kupfer" d="M0 0L10 5L0 10z"/></marker></defs>
+<path class="achse" d="M50 190H348" marker-end="url(#pfeil-abb1-text)"/>
+<path class="achse" d="M50 190V12" marker-end="url(#pfeil-abb1-text)"/>
+<text x="52" y="20">T in °C</text>
+<text x="346" y="219" text-anchor="end">zugeführte Wärme Q in kJ</text>
+<path class="hilfslinie" d="M50 167H340"/><text class="klein" x="45" y="171" text-anchor="end">0</text>
+<path class="hilfslinie" d="M50 52H340"/><text class="klein" x="45" y="56" text-anchor="end">100</text>
+<path class="kurve blau" d="M50 190 L53.9 167 L84.7 167 L123.2 52 L331.3 52 L335 29"/>
+<path class="achse" d="M50 190v4"/><text class="klein" x="50" y="204" text-anchor="middle">0</text>
+<path class="achse" d="M142.2 190v4"/><text class="klein" x="142.2" y="204" text-anchor="middle">1000</text>
+<path class="achse" d="M234.5 190v4"/><text class="klein" x="234.5" y="204" text-anchor="middle">2000</text>
+<path class="achse" d="M326.7 190v4"/><text class="klein" x="326.7" y="204" text-anchor="middle">3000</text>
+<text class="klein" x="101.7" y="159">Schmelzen</text>
+<text class="klein kupfer" x="227.2" y="44" text-anchor="middle">Verdampfen</text>
+</svg>
+            <figcaption>Abb. 1: Ein Kilogramm Wasser wird mit konstanter
+              Leistung von $-20\,{}^\circ\mathrm{C}$ auf $120\,{}^\circ\mathrm{C}$ erwärmt.
+              Auf den beiden Plateaus ändert sich die Temperatur nicht.</figcaption>
+          </figure>
+
+          <p>Bei Gasen kommt eine Besonderheit dazu. Erwärmst du ein Gas in
+            einem festen Behälter, geht die ganze Energie in die Bewegung der
+            Teilchen. Darf es sich dabei ausdehnen, muss es auch noch den
+            Kolben wegschieben und braucht mehr Energie für dieselbe
+            Temperaturerhöhung. Gase haben deshalb zwei Wärmekapazitäten, eine
+            bei festem Volumen und eine bei festem Druck.</p>
+
+          <p>Schließlich muss die Wärme auch irgendwie wandern. Das geht auf drei
+            Wegen: durch <em>Wärmeleitung</em> (die Teilchen geben die Bewegung
+            an ihre Nachbarn weiter, so wie der Löffel in der Suppe warm wird),
+            durch <em>Konvektion</em> (ein strömendes Medium trägt die Wärme
+            mit, wie die Heizungsluft im Zimmer) und durch
+            <em>Strahlung</em> (Wärme kommt als Licht an, so wie bei der Sonne
+            oder einem Kaminfeuer). Eine Thermoskanne blockiert alle drei:
+            Zwischen den Wänden ist Vakuum (keine Leitung, keine Konvektion), und
+            die Wände sind verspiegelt (wenig Strahlung).</p>
+
+          <div class="merkkasten">
+            <span class="titel">Das Wichtigste in Kürze</span>
+            <p>Die Wärmekapazität sagt, wie viel Energie ein Kelvin
+              Erwärmung kostet. Wasser hat eine besonders hohe. Beim Schmelzen
+              und Verdampfen fließt Energie, ohne dass die Temperatur steigt.
+              Gase brauchen bei konstantem Druck mehr Energie als bei konstantem
+              Volumen, weil sie dabei auch Arbeit leisten. Wärme wandert durch
+              Leitung, Konvektion und Strahlung.</p>
+          </div>
+        </section>
+
+        <section class="tab" id="vertiefung" data-titel="Vertiefung">
+
+          <h2>Wärmekapazität und Kalorimetrie</h2>
+
+          <p>Die Wärmekapazität eines Körpers ist das Verhältnis aus zugeführter
+            Wärme und Temperaturänderung. Sie kann von $T$ abhängen:</p>
+          $$ C = \frac{\delta Q}{\mathrm{d}T}, \qquad Q = \int_{T_1}^{T_2} C(T)\,\mathrm{d}T
+             \;\;\overset{C = \text{const}}{=}\;\; C\,(T_2 - T_1) . $$
+          <p>Das $\delta$ erinnert daran, dass $Q$ eine Prozessgröße ist. Ohne
+            Angabe des Prozesses ist $C$ nicht festgelegt (siehe unten
+            $C_V$ und $C_p$). Auf die Masse bzw. Stoffmenge bezogen:</p>
+          $$ c = \frac{C}{m}, \qquad C_\mathrm{m} = \frac{C}{n} = c\,M . $$
+          <p>Die Einheiten sind $\mathrm{J/(kg\,K)}$ und $\mathrm{J/(mol\,K)}$.
+            Früher gab man die Wärme in Kalorien an: $1\,\mathrm{cal}$ erwärmt
+            ein Gramm Wasser um ein Kelvin,
+            $1\,\mathrm{cal} = 4{,}1868\,\mathrm{J}$.</p>
+
+          <p>In der <em>Kalorimetrie</em> bestimmt man $c$ durch Mischen. Zwei
+            Körper ($m_1$, $c_1$, $T_1$ und $m_2$, $c_2$, $T_2$) in einem
+            abgeschlossenen System geben insgesamt keine Energie nach außen ab.
+            Was der heiße abgibt, nimmt der kalte auf. Daraus folgt die
+            Mischungstemperatur</p>
+          $$ T_\mathrm{m} = \frac{m_1c_1T_1 + m_2c_2T_2}{m_1c_1 + m_2c_2} . $$
+
+          <p>Bei einem Phasenübergang (Schmelzen, Verdampfen) wird Wärme
+            ohne Temperaturänderung aufgenommen, die <em>latente Wärme</em>.
+            Für Wasser ist die spezifische Schmelzwärme
+            $334\,\mathrm{kJ/kg}$ und die Verdampfungswärme
+            $2256\,\mathrm{kJ/kg}$ (Abb. 1).</p>
+
+          <div class="tabelle-huelle">
+            <table>
+              <thead><tr><th>Stoff</th><th>$c$ in $\mathrm{kJ/(kg\,K)}$</th><th>$c\,M$ in $\mathrm{J/(mol\,K)}$</th></tr></thead>
+              <tbody>
+                <tr><td>Wasser (flüssig)</td><td>$4{,}18$</td><td>$75{,}3$</td></tr>
+                <tr><td>Eis</td><td>$2{,}09$</td><td>$37{,}7$</td></tr>
+                <tr><td>Aluminium</td><td>$0{,}897$</td><td>$24{,}2$</td></tr>
+                <tr><td>Eisen</td><td>$0{,}449$</td><td>$25{,}1$</td></tr>
+                <tr><td>Kupfer</td><td>$0{,}385$</td><td>$24{,}5$</td></tr>
+                <tr><td>Blei</td><td>$0{,}129$</td><td>$26{,}7$</td></tr>
+                <tr><td>Diamant</td><td>$0{,}509$</td><td>$6{,}1$</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p>Die Werte gelten bei Raumtemperatur. Auffällig: Alle Metalle
+            haben pro mol fast dieselbe Wärmekapazität, nur Diamant fällt heraus.
+            Das klärt der Abschnitt über Festkörper.</p>
+
+          <h2>Wärmekapazität bei konstantem Volumen und konstantem Druck</h2>
+
+          <p>Bei einem Gas hängt die zugeführte Wärme davon ab, was nebenbei
+            geschieht. Zwei Fälle sind wichtig.</p>
+          <p><strong>Konstantes Volumen.</strong> Dann ist die Volumenarbeit
+            null, und nach dem ersten Hauptsatz geht die Wärme komplett in die
+            innere Energie, $\delta Q_V = \mathrm{d}U$:</p>
+          $$ C_V = \left(\frac{\partial U}{\partial T}\right)_V . $$
+          <p><strong>Konstanter Druck.</strong> Hier gibt es die
+            Enthalpie $H = U + pV$ mit $\mathrm{d}H = \delta Q + V\,\mathrm{d}p$.
+            Bei $\mathrm{d}p = 0$ ist $\delta Q_p = \mathrm{d}H$:</p>
+          $$ C_p = \left(\frac{\partial H}{\partial T}\right)_p . $$
+
+          <p>Für das ideale Gas mit $f$ Freiheitsgraden ist
+            $U = \frac{f}{2}\,nRT$ (Gleichverteilungssatz), und mit
+            $pV = nRT$ wird $H = U + nRT = \frac{f+2}{2}\,nRT$. Daraus
+            folgt</p>
+          $$ C_V = \frac{f}{2}\,nR, \qquad C_p = \frac{f+2}{2}\,nR, \qquad
+             C_p - C_V = nR, \qquad \gamma = \frac{C_p}{C_V} = \frac{f+2}{f} . $$
+          <p>Die Differenz $nR$ hat eine anschauliche Bedeutung: Bei
+            konstantem Druck dehnt sich das Gas aus und verrichtet die Arbeit
+            $p\,\mathrm{d}V = nR\,\mathrm{d}T$. Diese Energie muss zusätzlich geliefert
+            werden. Die Beziehung $C_p - C_V = nR$ heißt Mayer-Relation. Für
+            beliebige Stoffe gilt allgemeiner
+            $C_p - C_V = TV\alpha^2/\kappa$ mit dem Volumenausdehnungskoeffizienten
+            $\alpha$ und der isothermen Kompressibilität $\kappa$. Für das ideale Gas
+            ($\alpha = 1/T$, $\kappa = 1/p$) ergibt das wieder $pV/T = nR$.</p>
+
+          <div class="tabelle-huelle">
+            <table>
+              <thead><tr><th>Gas</th><th>$f$</th><th>$C_{V,\mathrm{m}}$ in $\mathrm{J/(mol\,K)}$</th><th>$C_{p,\mathrm{m}}$ in $\mathrm{J/(mol\,K)}$</th><th>$\gamma$</th></tr></thead>
+              <tbody>
+                <tr><td>einatomig (He, Ar)</td><td>$3$</td><td>$12{,}47$</td><td>$20{,}79$</td><td>$1{,}67$</td></tr>
+                <tr><td>zweiatomig (N₂, O₂)</td><td>$5$</td><td>$20{,}79$</td><td>$29{,}10$</td><td>$1{,}40$</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p>Das stimmt gut mit Messwerten bei Zimmertemperatur
+            überein: Helium $12{,}5$, Stickstoff $20{,}8$ und Sauerstoff
+            $21{,}1\,\mathrm{J/(mol\,K)}$ für $C_{V,\mathrm{m}}$.</p>
+
+          <h2>Freiheitsgrade und die Grenzen der klassischen Rechnung</h2>
+
+          <p>Ein einatomiges Gas hat $f = 3$ Freiheitsgrade, die drei
+            Translationsrichtungen. Ein zweiatomiges Molekül kann zusätzlich um
+            zwei Achsen senkrecht zur Molekülachse rotieren (die Rotation um die
+            Achse selbst zählt nicht, die Atome sind Punkte). Das ergibt $f = 5$.
+            Bei hohen Temperaturen kommt die Schwingung der Atome gegeneinander
+            hinzu, sie zählt doppelt (kinetische und potentielle Energie), also
+            $f = 7$.</p>
+          <p>Aber: Das Experiment zeigt, dass diese Freiheitsgrade erst ab
+            bestimmten Temperaturen &bdquo;mitspielen&ldquo;. Bei Wasserstoff
+            ist $C_{V,\mathrm{m}}$ unterhalb von etwa $50\,\mathrm{K}$ nur
+            $\frac32 R$, steigt dann auf $\frac52 R$ und nähert sich bei
+            mehreren tausend Kelvin $\frac72 R$. Die Erklärung ist
+            quantenmechanisch: Energie wird nur in Portionen aufgenommen, und
+            wenn $k_\mathrm{B}T$ kleiner ist als die kleinste Portion eines
+            Freiheitsgrades, ist er &bdquo;eingefroren&ldquo;. Der
+            Gleichverteilungssatz gilt nur klassisch, also bei hohen
+            Temperaturen.</p>
+
+          <h2>Festkörper: Dulong-Petit und das Einstein-Modell</h2>
+
+          <p>Die Atome eines Festkörpers schwingen um ihre Gitterplätze. Pro
+            Atom sind das drei Raumrichtungen mit je kinetischer und potentieller
+            Energie, also $f = 6$ und $U = 3 N k_\mathrm{B} T = 3nRT$. Das gibt die
+            <em>Regel von Dulong-Petit</em>:</p>
+          $$ C_{V,\mathrm{m}} = 3R = 24{,}9\,\mathrm{J/(mol\,K)} . $$
+          <p>Die Tabelle bestätigt es näherungsweise für Aluminium, Eisen, Kupfer und Blei
+            (ebenso, dass bei Festkörpern $C_p \approx C_V$ ist, weil sie sich
+            kaum ausdehnen). Diamant fällt heraus: Seine Atome sind leicht und
+            durch starke Bindungen verbunden, deshalb sind die Schwingungen
+            erst bei sehr hohen Temperaturen voll angeregt.</p>
+
+          <p>Der dritte Hauptsatz verlangt, dass $C \to 0$ für $T \to 0$. Sonst
+            wäre die Entropieänderung $\int C\,\mathrm{d}T/T$ nicht endlich. Das
+            klassische $3R$ ist damit bei tiefen Temperaturen unmöglich.
+            Einstein beschrieb die Schwingungen quantenmechanisch als
+            Oszillatoren gleicher Frequenz. Mit $x = \Theta/T$ ($\Theta$:
+            charakteristische Temperatur des Stoffs) ergibt sich</p>
+          $$ C_{V,\mathrm{m}} = 3R\,\frac{x^2\,\mathrm{e}^{x}}{\left(\mathrm{e}^{x} - 1\right)^2} . $$
+          <p>Für $T \gg \Theta$ ist $x \ll 1$, und die Entwicklung
+            von $\mathrm{e}^x$ liefert wieder $3R$ (bis zur zweiten Ordnung
+            $3R\,(1 - x^2/12)$, siehe Aufgabe 5). Für $T \ll \Theta$ fällt die Kurve
+            exponentiell ab (Abb. 2). Gemessen fällt $C$ allerdings langsamer,
+            wie $T^3$. Das erklärt das genauere Debye-Modell, in dem ein ganzes
+            Spektrum von Frequenzen vorkommt.</p>
+
+          <figure class="abbildung">
+            <svg class="abb" viewBox="0 0 360 225" role="img" aria-label="Molare Wärmekapazität eines Festkörpers im Einstein-Modell in Einheiten von 3R über T durch Theta: steigt von null und nähert sich dem Dulong-Petit-Wert eins">
+<defs><marker id="pfeil-abb2-text" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto"><path class="punkt" d="M0 0L10 5L0 10z"/></marker><marker id="pfeil-abb2-blau" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto"><path class="punkt blau" d="M0 0L10 5L0 10z"/></marker><marker id="pfeil-abb2-kupfer" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto"><path class="punkt kupfer" d="M0 0L10 5L0 10z"/></marker></defs>
+<path class="achse" d="M50 190H340" marker-end="url(#pfeil-abb2-text)"/>
+<path class="achse" d="M50 190V12" marker-end="url(#pfeil-abb2-text)"/>
+<text x="60" y="20">C<tspan dy="3" style="font-size:10px">V,m</tspan><tspan dy="-3"> / 3R</tspan></text>
+<text x="338" y="222" text-anchor="end">T / Θ</text>
+<path class="hilfslinie" d="M50 40H335"/><text class="klein" x="45" y="44" text-anchor="end">1</text>
+<text class="klein kupfer" x="335" y="34" text-anchor="end">Dulong-Petit</text>
+<path class="kurve blau" d="M50 190 L52.9 190 L55.7 190 L58.5 189.7 L61.4 187.5 L64.2 181.5 L67.1 172 L70 160.4 L72.8 148.3 L75.7 136.7 L78.5 126.1 L81.3 116.5 L84.2 108.2 L87.1 100.9 L89.9 94.5 L92.8 89 L95.6 84.2 L98.5 80.1 L101.3 76.4 L104.2 73.2 L107 70.4 L109.8 67.9 L112.7 65.7 L115.6 63.7 L118.4 62 L121.2 60.4 L124.1 59 L127 57.7 L129.8 56.5 L132.6 55.5 L135.5 54.5 L138.3 53.7 L141.2 52.9 L144.1 52.1 L146.9 51.5 L149.8 50.8 L152.6 50.3 L155.4 49.7 L158.3 49.3 L161.1 48.8 L164 48.4 L166.8 48 L169.7 47.6 L172.6 47.3 L175.4 47 L178.2 46.7 L181.1 46.4 L183.9 46.1 L186.8 45.9 L189.7 45.7 L192.5 45.4 L195.3 45.2 L198.2 45 L201.1 44.8 L203.9 44.7 L206.8 44.5 L209.6 44.4 L212.4 44.2 L215.3 44.1 L218.2 43.9 L221 43.8 L223.8 43.7 L226.7 43.6 L229.6 43.5 L232.4 43.3 L235.3 43.2 L238.1 43.1 L241 43.1 L243.8 43 L246.6 42.9 L249.5 42.8 L252.3 42.7 L255.2 42.7 L258 42.6 L260.9 42.5 L263.8 42.4 L266.6 42.4 L269.5 42.3 L272.3 42.3 L275.1 42.2 L278 42.2 L280.9 42.1 L283.7 42 L286.5 42 L289.4 42 L292.2 41.9 L295.1 41.9 L297.9 41.8 L300.8 41.8 L303.6 41.7 L306.5 41.7 L309.4 41.7 L312.2 41.6 L315.1 41.6 L317.9 41.6 L320.7 41.5 L323.6 41.5 L326.4 41.5 L329.3 41.4 L332.1 41.4 L335 41.4"/>
+<path class="achse" d="M50 190v4"/><text class="klein" x="50" y="204" text-anchor="middle">0</text>
+<path class="achse" d="M145 190v4"/><text class="klein" x="145" y="204" text-anchor="middle">1</text>
+<path class="achse" d="M240 190v4"/><text class="klein" x="240" y="204" text-anchor="middle">2</text>
+<path class="achse" d="M335 190v4"/><text class="klein" x="335" y="204" text-anchor="middle">3</text>
+<path class="hilfslinie" d="M145 190V51.9H50"/><circle class="punkt blau" cx="145" cy="51.9" r="3.5"/>
+<text class="klein" x="153" y="65.9">0,92 bei T = Θ</text>
+</svg>
+            <figcaption>Abb. 2: Molare Wärmekapazität eines Festkörpers im
+              Einstein-Modell, in Einheiten von $3R$ über $T/\Theta$. Oberhalb
+              von $\Theta$ ist der Dulong-Petit-Wert fast erreicht.</figcaption>
+          </figure>
+
+          <h2>Wärmetransport</h2>
+
+          <p><strong>Leitung.</strong> In einem Material mit Temperaturgefälle
+            fließt Wärme vom Warmen zum Kalten. Der Wärmestrom (Energie pro Zeit)
+            durch eine Platte der Fläche $A$ und Dicke $d$ mit der
+            Temperaturdifferenz $\Delta T$ ist im stationären Fall</p>
+          $$ P = \lambda\,A\,\frac{\Delta T}{d} = \frac{\Delta T}{R_\text{th}}, \qquad R_\text{th} = \frac{d}{\lambda A} . $$
+          <p>Die <em>Wärmeleitfähigkeit</em> $\lambda$ hat die Einheit
+            $\mathrm{W/(m\,K)}$. Wie beim elektrischen Widerstand addieren sich
+            hintereinander liegende Schichten: $R_\text{th} = \sum d_i/(\lambda_i A)$
+            (Abb. 3).</p>
+
+          <div class="tabelle-huelle">
+            <table>
+              <thead><tr><th>Stoff</th><th>$\lambda$ in $\mathrm{W/(m\,K)}$</th></tr></thead>
+              <tbody>
+                <tr><td>Kupfer</td><td>$400$</td></tr>
+                <tr><td>Aluminium</td><td>$235$</td></tr>
+                <tr><td>Glas</td><td>$0{,}8$</td></tr>
+                <tr><td>Wasser</td><td>$0{,}6$</td></tr>
+                <tr><td>Holz</td><td>$0{,}15$</td></tr>
+                <tr><td>Styropor</td><td>$0{,}035$</td></tr>
+                <tr><td>ruhende Luft</td><td>$0{,}026$</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <figure class="abbildung">
+            <svg class="abb" viewBox="0 0 360 225" role="img" aria-label="Temperaturverlauf durch eine Doppelverglasung: in den beiden Glasscheiben fällt die Temperatur kaum, im Luftspalt fast um die gesamten 20 Kelvin">
+<defs><marker id="pfeil-abb3-text" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto"><path class="punkt" d="M0 0L10 5L0 10z"/></marker><marker id="pfeil-abb3-blau" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto"><path class="punkt blau" d="M0 0L10 5L0 10z"/></marker><marker id="pfeil-abb3-kupfer" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto"><path class="punkt kupfer" d="M0 0L10 5L0 10z"/></marker></defs>
+<rect class="flaeche" x="50.0" y="30" width="50.0" height="160"/>
+<rect class="flaeche" x="250.0" y="30" width="50.0" height="160"/>
+<path class="kurve kupfer" d="M50 40 L100 41.6 L250 188.4 L300 190"/>
+<path class="achse" d="M50.0 190H320.0" marker-end="url(#pfeil-abb3-text)"/>
+<path class="achse" d="M50.0 190V20"/>
+<text x="44.0" y="44" text-anchor="end">20 °C</text>
+<text x="44.0" y="194" text-anchor="end">0 °C</text>
+<text class="klein" x="75" y="205" text-anchor="middle">Glas</text>
+<text class="klein" x="175" y="205" text-anchor="middle">Luft (12 mm)</text>
+<text class="klein" x="275" y="205" text-anchor="middle">Glas</text>
+<text class="klein kupfer" x="206.2" y="77.5" text-anchor="middle">fast der ganze Abfall</text>
+<text x="58" y="20">T</text>
+</svg>
+            <figcaption>Abb. 3: Temperatur durch ein Doppelfenster (zwei
+              Scheiben à $4\,\mathrm{mm}$, Luftspalt $12\,\mathrm{mm}$, innen
+              $20\,{}^\circ\mathrm{C}$, außen $0\,{}^\circ\mathrm{C}$). Fast die gesamte
+              Differenz fällt im schlecht leitenden Luftspalt ab, die Scheiben
+              tragen kaum zum Widerstand bei. Idealisiert: ohne Konvektion und
+              Strahlung im Spalt.</figcaption>
+          </figure>
+
+          <p>Dass ruhende Luft so schlecht leitet, nutzt man bei Daunenjacken
+            und Dämmstoffen: Sie halten Luft fest und verhindern Konvektion.</p>
+
+          <p><strong>Konvektion.</strong> Hier transportiert ein strömendes Fluid
+            die Wärme mit. Die Strömung kann von außen erzwungen werden
+            (Ventilator) oder von selbst entstehen (warme Luft steigt auf).
+            Näherungsweise gilt für den Wärmeübergang an eine Oberfläche
+            $P = h\,A\,\Delta T$ mit einem Übergangskoeffizienten $h$,
+            der von Strömung und Geometrie abhängt. Eine einfache Formel
+            gibt es nicht.</p>
+
+          <p><strong>Strahlung.</strong> Jeder Körper strahlt Energie ab,
+            auch im Vakuum. Ein Körper der Fläche $A$ und Temperatur $T$ mit
+            Emissionsgrad $\varepsilon$ ($0 \le \varepsilon \le 1$) strahlt nach
+            Stefan-Boltzmann</p>
+          $$ P = \varepsilon\,\sigma\,A\,T^4, \qquad \sigma = 5{,}67 \cdot 10^{-8}\,\mathrm{W/(m^2\,K^4)} . $$
+          <p>Er nimmt aber auch Strahlung der Umgebung auf. Der Nettostrom an
+            eine Umgebung der Temperatur $T_\mathrm{u}$ ist
+            $P = \varepsilon\sigma A\,(T^4 - T_\mathrm{u}^4)$. Wegen $T^4$ wächst
+            die Strahlung bei hohen Temperaturen sehr schnell an. Die genauere
+            Herleitung (Planck) gehört in die Quantenstatistik.</p>
+
+          <div class="merkkasten">
+            <span class="titel">Merke</span>
+            <p>$C = \delta Q/\mathrm{d}T$, bei Gasen $C_V = (\partial U/\partial T)_V$ und
+              $C_p = (\partial H/\partial T)_p$. Ideales Gas:
+              $C_V = \frac f2 nR$, $C_p = C_V + nR$, $\gamma = (f+2)/f$. Festkörper
+              erreichen hoch genug den Wert $3R$ (Dulong-Petit), bei
+              $T \to 0$ geht $C$ gegen null. Wärmeleitung: $P = \lambda A\,\Delta T/d$,
+              Strahlung: $P = \varepsilon\sigma A T^4$.</p>
+          </div>
+        </section>
+
+        <section class="tab" id="beispiele" data-titel="Beispielrechnungen">
+
+          <div class="beispiel">
+            <h3>Beispiel 1: Mischungstemperatur mit einem Kupferstück</h3>
+            <p><strong>Gegeben:</strong> Ein Kupferstück ($m_1 = 0{,}150\,\mathrm{kg}$,
+              $c_1 = 385\,\mathrm{J/(kg\,K)}$, $T_1 = 100\,{}^\circ\mathrm{C}$) wird in
+              $0{,}250\,\mathrm{kg}$ Wasser ($c_2 = 4182\,\mathrm{J/(kg\,K)}$,
+              $T_2 = 20\,{}^\circ\mathrm{C}$) gelegt. Das Gefäß nimmt keine Wärme auf.<br>
+              <strong>Gesucht:</strong> die Endtemperatur.</p>
+
+            <p><strong>1. Energiebilanz.</strong> Abgegebene Wärme gleich
+              aufgenommene Wärme:
+              $$ m_1c_1\,(T_1 - T_\mathrm{m}) = m_2c_2\,(T_\mathrm{m} - T_2) $$</p>
+
+            <p><strong>2. Nach $T_\mathrm{m}$ auflösen.</strong>
+              $$ T_\mathrm{m} = \frac{m_1c_1T_1 + m_2c_2T_2}{m_1c_1 + m_2c_2} $$</p>
+
+            <p><strong>3. Zahlen einsetzen.</strong> Die Wärmekapazitäten sind
+              $m_1c_1 = 57{,}75\,\mathrm{J/K}$ und $m_2c_2 = 1045{,}5\,\mathrm{J/K}$.
+              $$ T_\mathrm{m} = \frac{57{,}75 \cdot 100 + 1045{,}5 \cdot 20}{57{,}75 + 1045{,}5}\,{}^\circ\mathrm{C}
+                 = \frac{26\,685}{1103{,}25}\,{}^\circ\mathrm{C} = 24{,}2\,{}^\circ\mathrm{C} $$
+              Einheitencheck: $\mathrm{(J/K) \cdot {}^\circ C / (J/K)} = {}^\circ\mathrm{C}$ ✓</p>
+
+            <p><strong>Ergebnis und Plausibilität:</strong> Die Mischung kommt auf
+              $24{,}2\,{}^\circ\mathrm{C}$. Das Wasser hat eine gut
+              $18$-mal größere Wärmekapazität als das Kupfer und bestimmt daher
+              die Endtemperatur, die nur wenig über seiner Anfangstemperatur liegt.
+              Das Kupfer gibt $57{,}75 \cdot 75{,}8\,\mathrm{J} = 4{,}38\,\mathrm{kJ}$ ab.</p>
+          </div>
+
+          <div class="beispiel">
+            <h3>Beispiel 2: Wasserkocher</h3>
+            <p><strong>Gegeben:</strong> Ein Wasserkocher hat die Leistung
+              $P = 2000\,\mathrm{W}$ und enthält $1{,}0\,\mathrm{kg}$ Wasser bei
+              $15\,{}^\circ\mathrm{C}$. Verluste werden vernachlässigt.<br>
+              <strong>Gesucht:</strong> die Zeit bis zum Sieden bei $100\,{}^\circ\mathrm{C}$ und die
+              Zeit, die es bräuchte, das Wasser dann ganz zu verdampfen.</p>
+
+            <p><strong>1. Wärme bis zum Sieden.</strong>
+              $$ Q = m c\,\Delta T = 1{,}0\,\mathrm{kg} \cdot 4182\,\mathrm{\tfrac{J}{kg\,K}} \cdot 85\,\mathrm{K} = 3{,}55 \cdot 10^5\,\mathrm{J} $$</p>
+
+            <p><strong>2. Zeit.</strong> Es gilt $Q = P\,t$:
+              $$ t = \frac{Q}{P} = \frac{3{,}55 \cdot 10^5\,\mathrm{J}}{2000\,\mathrm{W}} = 178\,\mathrm{s} \approx 3\,\mathrm{min} $$
+              Einheitencheck: $\mathrm{J/W} = \mathrm{s}$ ✓</p>
+
+            <p><strong>3. Verdampfen.</strong> Die Verdampfungswärme von
+              $1{,}0\,\mathrm{kg}$ ist $2{,}256 \cdot 10^6\,\mathrm{J}$, also
+              $$ t_\mathrm{V} = \frac{2{,}256 \cdot 10^6\,\mathrm{J}}{2000\,\mathrm{W}} = 1128\,\mathrm{s} \approx 19\,\mathrm{min} . $$</p>
+
+            <p><strong>Ergebnis und Plausibilität:</strong> Bis zum Sieden dauert
+              es etwa drei Minuten, was zu realen Kochern passt (mit Verlusten
+              eher dreieinhalb). Das Verdampfen dauert gut sechsmal länger. Ein Kocher
+              braucht deshalb eine Abschaltautomatik gegen Trockenlaufen, sonst
+              verkocht das Wasser nach etwa einer Viertelstunde.</p>
+          </div>
+
+          <div class="beispiel">
+            <h3>Beispiel 3: Stickstoff erwärmen, isochor und isobar</h3>
+            <p><strong>Gegeben:</strong> $2{,}0\,\mathrm{mol}$ Stickstoff (zweiatomig,
+              $f = 5$, ideales Gas) werden von $20\,{}^\circ\mathrm{C}$ auf
+              $120\,{}^\circ\mathrm{C}$ erwärmt, $\Delta T = 100\,\mathrm{K}$.<br>
+              <strong>Gesucht:</strong> die Wärme bei konstantem Volumen und bei konstantem
+              Druck, die geleistete Arbeit im zweiten Fall und $\gamma$.</p>
+
+            <p><strong>1. Isochor.</strong>
+              $$ Q_V = C_V\Delta T = \tfrac52\,nR\,\Delta T = 2{,}5 \cdot 2{,}0\,\mathrm{mol} \cdot 8{,}3145\,\mathrm{\tfrac{J}{mol\,K}} \cdot 100\,\mathrm{K} = 4157\,\mathrm{J} $$</p>
+
+            <p><strong>2. Isobar.</strong>
+              $$ Q_p = C_p\Delta T = \tfrac72\,nR\,\Delta T = 3{,}5 \cdot 2{,}0 \cdot 8{,}3145 \cdot 100\,\mathrm{J} = 5820\,\mathrm{J} $$</p>
+
+            <p><strong>3. Differenz.</strong>
+              $$ Q_p - Q_V = 1663\,\mathrm{J} = nR\,\Delta T $$
+              Das ist genau die Arbeit $p\,\Delta V = nR\,\Delta T$, die das Gas
+              beim Ausdehnen am Kolben verrichtet.</p>
+
+            <p><strong>4. Adiabatenexponent.</strong>
+              $$ \gamma = \frac{C_p}{C_V} = \frac{7/2}{5/2} = 1{,}40 $$</p>
+
+            <p><strong>Ergebnis und Plausibilität:</strong> Bei konstantem Druck
+              braucht dieselbe Erwärmung $5{,}8\,\mathrm{kJ}$ statt $4{,}2\,\mathrm{kJ}$.
+              Von der zusätzlichen Wärme geht alles in die Ausdehnungsarbeit, die
+              innere Energie steigt in beiden Fällen gleich um $4{,}2\,\mathrm{kJ}$.
+              Einheitencheck: $\mathrm{mol \cdot J/(mol\,K) \cdot K} = \mathrm{J}$ ✓. Der Wert $\gamma = 1{,}40$ entspricht dem gemessenen für Luft.</p>
+          </div>
+        </section>
+
+        <section class="tab" id="aufgaben" data-titel="Aufgaben">
+
+          <p>Verwende $c_\text{Wasser} = 4182\,\mathrm{J/(kg\,K)}$ und
+            $R = 8{,}3145\,\mathrm{J/(mol\,K)}$. Gase sind ideal.</p>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 1
+              <span class="schwierigkeit" data-stufe="leicht">leicht</span>
+            </h3>
+            <p>Eine Tasse mit $0{,}50\,\mathrm{kg}$ Tee kühlt von $100\,{}^\circ\mathrm{C}$
+              auf $60\,{}^\circ\mathrm{C}$ ab. Der Tee hat die Wärmekapazität von Wasser.</p>
+            <ol type="a">
+              <li>Welche Wärme gibt er ab?</li>
+              <li>Wie lange würde ein Tauchsieder mit $800\,\mathrm{W}$ brauchen,
+                um diese Wärme wieder zuzuführen (ohne Verluste)?</li>
+            </ol>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p><strong>a)</strong>
+                $$ Q = mc\,\Delta T = 0{,}50\,\mathrm{kg} \cdot 4182\,\mathrm{\tfrac{J}{kg\,K}} \cdot 40\,\mathrm{K} = 8{,}4 \cdot 10^4\,\mathrm{J} = 84\,\mathrm{kJ} . $$</p>
+              <p><strong>b)</strong>
+                $$ t = \frac{Q}{P} = \frac{83\,640\,\mathrm{J}}{800\,\mathrm{W}} = 105\,\mathrm{s} . $$</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 2
+              <span class="schwierigkeit" data-stufe="leicht">leicht</span>
+            </h3>
+            <p>Aluminium hat die spezifische Wärmekapazität
+              $0{,}897\,\mathrm{kJ/(kg\,K)}$ und die Molmasse $26{,}98\,\mathrm{g/mol}$.
+              Berechne die molare Wärmekapazität und vergleiche sie mit dem
+              Wert der Dulong-Petit-Regel.</p>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              $$ C_\mathrm{m} = c\,M = 897\,\mathrm{\tfrac{J}{kg\,K}} \cdot 0{,}02698\,\mathrm{\tfrac{kg}{mol}} = 24{,}2\,\mathrm{\tfrac{J}{mol\,K}} . $$
+              <p>Dulong-Petit: $3R = 3 \cdot 8{,}3145 = 24{,}9\,\mathrm{J/(mol\,K)}$. Die
+                Abweichung beträgt $3\,\%$, die Regel stimmt bei Raumtemperatur also
+                gut.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 3
+              <span class="schwierigkeit" data-stufe="mittel">mittel</span>
+            </h3>
+            <p>In $0{,}40\,\mathrm{kg}$ Wasser von $25\,{}^\circ\mathrm{C}$ werden $0{,}10\,\mathrm{kg}$
+              Eis von $0\,{}^\circ\mathrm{C}$ gegeben (Schmelzwärme
+              $334\,\mathrm{kJ/kg}$). Das Gefäß nimmt keine Wärme auf. Welche
+              Temperatur stellt sich ein? Wird das gesamte Eis schmelzen?</p>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>Zuerst prüfen, ob die Wärme des Wassers zum vollständigen Schmelzen
+                reicht. Beim Abkühlen auf $0\,{}^\circ\mathrm{C}$ gibt das Wasser
+                $0{,}40 \cdot 4182 \cdot 25\,\mathrm{J} = 41{,}8\,\mathrm{kJ}$ ab. Das
+                Schmelzen braucht $0{,}10 \cdot 334\,\mathrm{kJ} = 33{,}4\,\mathrm{kJ}$.
+                Es reicht, das Eis schmilzt komplett, und der Rest erwärmt die
+                gesamte Wassermenge von $0{,}50\,\mathrm{kg}$ (kalt entstandenes
+                Schmelzwasser inklusive).</p>
+              <p>Energiebilanz: Was das warme Wasser beim Abkühlen auf $T_\mathrm{m}$ abgibt, geht
+                in Schmelzen und Erwärmen des Schmelzwassers:
+                $$ 0{,}40\,\mathrm{kg} \cdot c\,(25\,{}^\circ\mathrm{C} - T_\mathrm{m}) = 0{,}10\,\mathrm{kg} \cdot 334\,000\,\mathrm{J/kg} + 0{,}10\,\mathrm{kg} \cdot c\,T_\mathrm{m} . $$
+                Aufgelöst:
+                $$ T_\mathrm{m} = \frac{0{,}40 \cdot 4182 \cdot 25 - 33\,400}{0{,}50 \cdot 4182}\,{}^\circ\mathrm{C} = \frac{41\,820 - 33\,400}{2091}\,{}^\circ\mathrm{C} = 4{,}0\,{}^\circ\mathrm{C} . $$
+                Das Gemisch hat $4{,}0\,{}^\circ\mathrm{C}$. Einheiten:
+                $\mathrm{J / (J/K)} = \mathrm{K}$ ✓.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 4
+              <span class="schwierigkeit" data-stufe="mittel">mittel</span>
+            </h3>
+            <ol type="a">
+              <li>Berechne $C_{V,\mathrm{m}}$, $C_{p,\mathrm{m}}$ und $\gamma$ für
+                Argon ($f = 3$).</li>
+              <li>Wie viel Wärme braucht $3{,}0\,\mathrm{mol}$ Sauerstoff
+                ($f = 5$), um bei konstantem Volumen um $10\,\mathrm{K}$ wärmer zu
+                werden? Und bei konstantem Druck?</li>
+            </ol>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p><strong>a)</strong>
+                $$ C_{V,\mathrm{m}} = \tfrac32 R = 12{,}47\,\mathrm{\tfrac{J}{mol\,K}}, \quad
+                   C_{p,\mathrm{m}} = \tfrac52 R = 20{,}79\,\mathrm{\tfrac{J}{mol\,K}}, \quad
+                   \gamma = \tfrac53 = 1{,}67 . $$</p>
+              <p><strong>b)</strong>
+                $$ Q_V = \tfrac52 nR\,\Delta T = 2{,}5 \cdot 3{,}0 \cdot 8{,}3145 \cdot 10\,\mathrm{J} = 624\,\mathrm{J}, $$
+                $$ Q_p = \tfrac72 nR\,\Delta T = 3{,}5 \cdot 3{,}0 \cdot 8{,}3145 \cdot 10\,\mathrm{J} = 873\,\mathrm{J} . $$
+                Die Differenz von $249\,\mathrm{J} = nR\,\Delta T$ ist die
+                Ausdehnungsarbeit.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 5
+              <span class="schwierigkeit" data-stufe="schwer">schwer</span>
+            </h3>
+            <p>Für Kupfer gilt im Einstein-Modell etwa $\Theta = 240\,\mathrm{K}$
+              (grober Wert, das Ergebnis liegt deshalb leicht unter dem Tabellenwert).</p>
+            <ol type="a">
+              <li>Berechne $C_{V,\mathrm{m}}$ bei $300\,\mathrm{K}$ und bei $100\,\mathrm{K}$
+                nach der Einstein-Formel.</li>
+              <li>Zeige, dass die Formel für $T \gg \Theta$ gegen $3R$ geht, und
+                bestimme die erste Korrektur.</li>
+              <li>Warum kann die Formel bei sehr tiefen Temperaturen nicht
+                stimmen, obwohl sie $C \to 0$ liefert?</li>
+            </ol>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p><strong>a)</strong> Mit $g(x) = x^2\mathrm{e}^x/(\mathrm{e}^x - 1)^2$:
+                Für $T = 300\,\mathrm{K}$ ist $x = 0{,}80$ und $g = 0{,}948$, also
+                $C_{V,\mathrm{m}} = 3R \cdot 0{,}948 = 23{,}7\,\mathrm{J/(mol\,K)}$.
+                Für $T = 100\,\mathrm{K}$ ist $x = 2{,}4$ und $g = 0{,}632$, also
+                $C_{V,\mathrm{m}} = 15{,}8\,\mathrm{J/(mol\,K)}$.</p>
+              <p><strong>b)</strong> Für kleines $x$ ist
+                $\mathrm{e}^x - 1 = x\,(1 + x/2 + x^2/6 + \dots)$, damit
+                $g = \dfrac{\mathrm{e}^x}{(1 + x/2 + x^2/6)^2}
+                \approx \dfrac{1 + x + x^2/2}{1 + x + x^2/4 + x^2/3}
+                \approx 1 - \dfrac{x^2}{12}$.
+                Für $x \to 0$ gilt $g \to 1$, also $C_{V,\mathrm{m}} \to 3R$.
+                Bei $300\,\mathrm{K}$ liefert die Näherung
+                $1 - 0{,}64/12 = 0{,}947$, passend zu $0{,}948$.</p>
+              <p><strong>c)</strong> Für $T \ll \Theta$ ist $g \approx x^2\mathrm{e}^{-x}$, die
+                Kurve fällt also exponentiell. Gemessen wird bei Festkörpern ein
+                Potenzgesetz $C \propto T^3$, das viel langsamer abfällt. Im Modell
+                schwingen alle Atome mit einer Frequenz. In Wirklichkeit gibt
+                es langwellige Schwingungen mit beliebig kleiner Anregungsenergie,
+                die auch bei tiefen Temperaturen noch angeregt werden (Debye-Modell).</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 6
+              <span class="schwierigkeit" data-stufe="schwer">schwer</span>
+            </h3>
+            <p>Ein Fenster hat $1{,}5\,\mathrm{m^2}$ Fläche. Innen herrschen $20\,{}^\circ\mathrm{C}$,
+              außen $0\,{}^\circ\mathrm{C}$. Übergangswiderstände an den Oberflächen werden
+              vernachlässigt.</p>
+            <ol type="a">
+              <li>Wärmestrom durch eine einzelne Glasscheibe
+                ($d = 4\,\mathrm{mm}$, $\lambda = 0{,}8\,\mathrm{W/(m\,K)}$).</li>
+              <li>Wärmestrom durch eine Doppelverglasung aus zwei solchen
+                Scheiben mit $12\,\mathrm{mm}$ ruhender Luft dazwischen
+                ($\lambda = 0{,}026\,\mathrm{W/(m\,K)}$). Wie groß ist die Temperaturdifferenz
+                über den Luftspalt?</li>
+              <li>Ein Mensch (Hautfläche $1{,}8\,\mathrm{m^2}$, Hauttemperatur
+                $33\,{}^\circ\mathrm{C}$, Emissionsgrad $0{,}98$) steht in einem Raum mit
+                Wandtemperatur $20\,{}^\circ\mathrm{C}$. Wie groß ist die Netto-Strahlungsleistung?</li>
+            </ol>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p><strong>a)</strong>
+                $$ P = \lambda A\,\frac{\Delta T}{d} = 0{,}8 \cdot 1{,}5 \cdot \frac{20}{0{,}004}\,\mathrm{W} = 6000\,\mathrm{W} . $$
+                Das ist unrealistisch viel, weil die Luftschichten an den
+                Scheibenoberflächen in Wirklichkeit den größten Widerstand liefern.
+                Es zeigt aber, wie gut Glas leitet.</p>
+              <p><strong>b)</strong> Reihenschaltung der Wärmewiderstände, bezogen auf
+                $1\,\mathrm{m^2}$:
+                $$ \frac{d_\text{Glas}}{\lambda_\text{Glas}} = \frac{0{,}004}{0{,}8}\,\mathrm{\tfrac{m^2K}{W}} = 0{,}005\,\mathrm{\tfrac{m^2K}{W}}, \qquad
+                   \frac{d_\text{Luft}}{\lambda_\text{Luft}} = \frac{0{,}012}{0{,}026}\,\mathrm{\tfrac{m^2K}{W}} = 0{,}462\,\mathrm{\tfrac{m^2K}{W}} . $$
+                Summe: $2 \cdot 0{,}005 + 0{,}462 = 0{,}4715\,\mathrm{m^2K/W}$. Damit
+                $$ P = A\,\frac{\Delta T}{\sum d/\lambda} = 1{,}5\,\mathrm{m^2} \cdot \frac{20\,\mathrm{K}}{0{,}4715\,\mathrm{m^2K/W}} = 64\,\mathrm{W} . $$
+                Das ist etwa $94$-mal weniger als bei der einzelnen Scheibe. Die
+                Temperaturdifferenz über den Luftspalt ist
+                $20\,\mathrm{K} \cdot 0{,}462/0{,}4715 = 19{,}6\,\mathrm{K}$, die beiden
+                Scheiben zusammen tragen nur $0{,}4\,\mathrm{K}$ bei (Abb. 3).</p>
+              <p><strong>c)</strong> Mit $T = 306{,}15\,\mathrm{K}$ und
+                $T_\mathrm{u} = 293{,}15\,\mathrm{K}$:
+                $$ P = \varepsilon\sigma A\,(T^4 - T_\mathrm{u}^4)
+                     = 0{,}98 \cdot 5{,}67 \cdot 10^{-8} \cdot 1{,}8 \cdot (306{,}15^4 - 293{,}15^4)\,\mathrm{W} = 140\,\mathrm{W} . $$
+                Die Einheiten stimmen:
+                $\mathrm{W/(m^2K^4) \cdot m^2 \cdot K^4} = \mathrm{W}$ ✓. Das ist
+                mehr als der Grundumsatz eines ruhenden Menschen (rund
+                $80\,\mathrm{W}$). Deshalb friert man unbekleidet bei $20\,{}^\circ\mathrm{C}$.
+                In Kleidung ist die Oberflächentemperatur außen viel niedriger und die
+                Strahlung entsprechend kleiner. Dazu kommen Konvektion
+                und Verdunstung.</p>
+            </details>
+          </div>
+
+        </section>
+
+      </div></article>
+  </main>
+</body>
+</html>

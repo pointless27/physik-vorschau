@@ -1,0 +1,479 @@
+/* =========================================================================
+   STARTSEITE
+   =========================================================================
+   Hero mit Sonnensystem (js/sonnensystem.js), „Jedes Thema auf zwei
+   Ebenen“, Zahlenleiste, Kachelraster, Bereichs-Karten.
+   Eingebunden über css/stil.css – Reihenfolge dort nicht ändern. */
+
+/* -------------------------------------------------------------------------
+   4. STARTSEITE
+   ------------------------------------------------------------------------- */
+.hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+  align-items: center;
+  gap: 2rem 3rem;
+  padding: 2.5rem 0 1rem;
+}
+
+.hero h1 {
+  font-size: clamp(2.2rem, 1.4rem + 3.2vw, 3.6rem);
+  margin: 0 0 1.1rem;
+}
+.hero-text {
+  color: var(--text-schwach);
+  font-size: clamp(1rem, 0.95rem + 0.3vw, 1.15rem);
+  max-width: 34rem;
+  margin: 0;
+}
+/* Einziger Knopf im Hero (Entscheidung 2026-11-12): springt zu #themen.
+   Flach im Akzent, der weiche blaue Schatten --schatten-l ist das
+   "Leuchten" – bewusst kein Glow-Fleck. */
+.hero-knopf {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  margin-top: 1.6rem;
+  padding: 0.75rem 1.35rem;
+  border-radius: var(--radius-m);
+  background: var(--akzent);
+  color: var(--akzent-text);
+  font-weight: 600;
+  font-size: 1rem;
+  text-decoration: none;
+  box-shadow: var(--schatten-l);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.hero-knopf svg { width: 1.05rem; height: 1.05rem; transition: transform 0.2s ease; }
+.hero-knopf:hover { transform: translateY(-2px); box-shadow: var(--schatten-l), var(--schatten-m); }
+.hero-knopf:hover svg { transform: translateY(2px); }
+.hero-knopf:focus-visible { outline: 2px solid var(--akzent); outline-offset: 3px; }
+
+/* Interaktives Sonnensystem rechts im Hero (Aufbau: js/sonnensystem.js) */
+.hero-bild {
+  position: relative;
+  color: var(--text-schwach);
+  justify-self: end;
+  width: min(100%, 34rem);
+  view-transition-name: sonnensystem;
+}
+.sonnensystem {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1;
+  overflow: hidden;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  /* leichte Neigung zur Maus (Winkel aus js/sonnensystem.js, max. ±4°) */
+  transform: perspective(1100px) rotateX(var(--kipp-x, 0deg)) rotateY(var(--kipp-y, 0deg));
+  transition: transform 0.6s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.hero.erkunden .sonnensystem { transform: none; }
+.sonnensystem .bahn {
+  fill: none;
+  stroke: currentColor;
+  stroke-opacity: 0.28;
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+  transition: stroke 0.2s ease, stroke-opacity 0.2s ease;
+}
+.sonnensystem .bahn.hover { stroke: var(--akzent); stroke-opacity: 0.75; }
+.sonnensystem .bahn.aktiv { stroke: var(--akzent); stroke-opacity: 1; stroke-width: 1.6; }
+.sonnensystem .bahn-treffer {
+  fill: none;
+  stroke: transparent;
+  stroke-width: 10;
+  vector-effect: non-scaling-stroke;
+  pointer-events: stroke;
+  cursor: pointer;
+}
+.sonnensystem .bahn-treffer-mond { stroke-width: 5; }
+.sonnensystem .guertel-treffer {
+  fill: none;
+  stroke: transparent;
+  stroke-width: 22;
+  pointer-events: stroke;
+  cursor: pointer;
+}
+.sonnensystem .treffer { fill: transparent; cursor: pointer; }
+.sonnensystem [tabindex]:focus { outline: none; }
+.sonnensystem .asteroiden {
+  fill: none;
+  stroke: currentColor;
+  stroke-opacity: 0.55;
+  stroke-width: 1.4;
+  stroke-linecap: round;
+  vector-effect: non-scaling-stroke;
+  transition: stroke 0.2s ease;
+}
+.sonnensystem .asteroiden-gross { stroke-width: 2.4; stroke-opacity: 0.7; }
+.sonnensystem .guertel.hover .asteroiden,
+.sonnensystem .guertel.aktiv .asteroiden { stroke: var(--akzent); stroke-opacity: 0.85; }
+.sonnensystem .koerper-name {
+  font-family: var(--schrift-text);
+  font-weight: 600;
+  fill: var(--text);
+  stroke: var(--hintergrund);
+  stroke-linejoin: round;
+  paint-order: stroke;
+  pointer-events: none;
+}
+
+.sonnensystem-tipp {
+  margin: 0.4rem 0 0;
+  text-align: center;
+  font-family: var(--schrift-hand);
+  font-size: 1.3rem;
+  line-height: 1.2;
+  color: var(--text-schwach);
+}
+
+/* Erkundungsmodus: Sonnensystem links, Faktenkasten rechts */
+.planet-info { display: none; view-transition-name: planet-info; }
+
+.hero.erkunden {
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+  align-items: start;
+}
+.hero.erkunden .hero-intro,
+.hero.erkunden .notiz,
+.hero.erkunden .sonnensystem-tipp { display: none; }
+.hero.erkunden .hero-bild {
+  grid-column: 1;
+  grid-row: 1;
+  justify-self: stretch;
+  width: 100%;
+}
+.hero.erkunden .planet-info {
+  display: block;
+  grid-column: 2;
+  grid-row: 1;
+}
+
+.planet-info {
+  position: relative;
+  background: var(--flaeche);
+  border: 1px solid var(--rand);
+  border-radius: var(--radius-l);
+  padding: 1.5rem 1.6rem 1.2rem;
+  box-shadow: var(--schatten-m);
+}
+.planet-info.neu > * { animation: info-rein 0.45s cubic-bezier(0.2, 0.7, 0.2, 1) both; }
+.planet-info.neu > :nth-child(3) { animation-delay: 0.04s; }
+.planet-info.neu > :nth-child(4) { animation-delay: 0.08s; }
+.planet-info.neu > :nth-child(5) { animation-delay: 0.12s; }
+.planet-info.neu > :nth-child(n+6) { animation-delay: 0.16s; }
+@keyframes info-rein {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: none; }
+}
+.planet-info h2 {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  margin: 0 2.5rem 0.5rem 0;
+  font-size: clamp(1.7rem, 1.3rem + 1.2vw, 2.2rem);
+}
+.info-punkt {
+  width: 1.1rem;
+  height: 1.1rem;
+  border-radius: 50%;
+  flex: none;
+}
+.info-kurz { color: var(--text-schwach); margin-bottom: 1.1rem; }
+.info-daten {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.5rem;
+  margin: 0 0 1.25rem;
+}
+.kennzahl {
+  background: var(--flaeche-2);
+  border-radius: var(--radius-m);
+  padding: 0.55rem 0.8rem;
+}
+.kennzahl dt {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-schwach);
+  hyphens: auto;               /* lange Wörter wie BAHNGESCHWINDIGKEIT am Handy */
+  overflow-wrap: anywhere;
+}
+.kennzahl dd {
+  margin: 0.1rem 0 0;
+  font-family: var(--schrift-titel);
+  font-weight: 600;
+  font-size: 1rem;
+  line-height: 1.3;
+}
+.planet-info h3 { font-size: 1.05rem; margin: 0 0 0.6rem; }
+.info-fakten {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.6rem;
+}
+.info-fakten li {
+  position: relative;
+  padding-left: 1.2rem;
+  font-size: 0.96rem;
+  line-height: 1.55;
+}
+.info-fakten li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.55em;
+  width: 0.45rem;
+  height: 0.45rem;
+  border-radius: 50%;
+  background: var(--akzent-2);
+}
+.info-links { margin-top: 1.2rem; }
+.info-links ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.3rem; }
+.info-links a { font-weight: 600; text-decoration: none; }
+.info-links a::before { content: "→ "; }
+.info-links a:hover { text-decoration: underline; }
+/* Schließen-Knopf: z-index nötig, weil die Einblend-Animation jedes Element
+   im Kasten zu einer eigenen Ebene macht – sonst läge die Überzeile darüber
+   und schluckte Klicks auf die Knopfmitte. */
+.planet-info .oberzeile { margin-right: 3rem; }
+.info-schliessen {
+  position: absolute;
+  z-index: 2;
+  top: 1rem;
+  right: 1rem;
+  width: 2.2rem;
+  height: 2.2rem;
+  border-radius: 50%;
+  border: 1px solid var(--rand);
+  background: var(--flaeche);
+  color: var(--text);
+  font-size: 1.25rem;
+  line-height: 1;
+  cursor: pointer;
+}
+.info-schliessen:hover { border-color: var(--akzent); color: var(--akzent); }
+.info-nav {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-top: 1.3rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--rand);
+}
+.info-nav button {
+  background: none;
+  border: 1px solid var(--rand);
+  border-radius: 2rem;
+  padding: 0.4rem 0.95rem;
+  color: var(--text);
+  font: inherit;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+.info-nav button:hover { border-color: var(--akzent); color: var(--akzent); }
+.info-fussnote {
+  margin: 0.9rem 0 0;
+  font-size: 0.78rem;
+  color: var(--text-schwach);
+}
+
+::view-transition-group(sonnensystem),
+::view-transition-group(planet-info) {
+  animation-duration: 0.5s;
+  animation-timing-function: cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+.hero-bild .notiz {
+  position: absolute;
+  font-family: var(--schrift-hand);
+  font-size: 1.35rem;
+  color: var(--text-schwach);
+  transform: rotate(-6deg);
+  line-height: 1.1;
+}
+.hero-bild .notiz-1 { left: -1rem; bottom: 5.5rem; }
+.hero-bild .notiz-2 { right: -0.5rem; top: 1.5rem; transform: rotate(5deg); }
+
+/* Startseite: "Jedes Thema auf zwei Ebenen" – Erklärung der vier Tabs.
+   Bewusst KEINE Links und kein Hover-Effekt: Sie soll nicht anklickbar
+   wirken. Oben fassen zwei handschriftliche Notizen die Reiter zusammen
+   ("für alle" | "fürs Studium"); schmal stehen die Notizen in den Karten. */
+.aufbau {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0 1rem;
+  margin-top: 1.25rem;
+}
+.aufbau-gruppe {
+  margin: 0 0 0.6rem;
+  padding: 0 0.2rem 0.15rem;
+  border-bottom: 1.5px solid var(--akzent-2);
+  font-family: var(--schrift-hand);
+  font-size: 1.3rem;
+  line-height: 1.2;
+  color: var(--akzent-2);
+  text-align: center;
+}
+.aufbau-gruppe-alle    { grid-column: 1; }
+.aufbau-gruppe-studium { grid-column: 2 / 5; }
+/* Jede Ebene hat ihre Farbe (Variablen --ebene-* in Abschnitt 1): Streifen
+   oben, Icon im getönten Quadrat, Fläche ganz leicht eingefärbt. */
+[data-ebene="verstehen"]  { --ebene: var(--ebene-verstehen); }
+[data-ebene="vertiefung"] { --ebene: var(--ebene-vertiefung); }
+[data-ebene="beispiele"]  { --ebene: var(--ebene-beispiele); }
+[data-ebene="aufgaben"]   { --ebene: var(--ebene-aufgaben); }
+.aufbau-ebene {
+  padding: 1.1rem 1.2rem 1.15rem;
+  border-radius: var(--radius-l);
+  background: var(--flaeche);
+  background: color-mix(in srgb, var(--ebene, var(--akzent)) 4%, var(--flaeche));
+  border: 1px solid var(--rand);
+  border-top: 3px solid var(--ebene, var(--akzent));
+  box-shadow: var(--schatten-s);
+}
+.aufbau-icon {
+  display: grid;
+  place-items: center;
+  width: 2.6rem;
+  height: 2.6rem;
+  margin-bottom: 0.75rem;
+  border-radius: var(--radius-s);
+  color: var(--ebene, var(--akzent));
+  background: var(--flaeche-2);
+  background: color-mix(in srgb, var(--ebene, var(--akzent)) 13%, var(--flaeche));
+}
+.aufbau-icon svg { width: 1.55rem; height: 1.55rem; }
+.aufbau-ebene h3 { margin: 0 0 0.4rem; font-size: 1.15rem; color: var(--text); }
+.aufbau-ebene p { margin: 0; color: var(--text-schwach); font-size: 0.93rem; line-height: 1.6; }
+.aufbau-notiz { display: none; }
+@media (max-width: 62rem) {
+  .aufbau { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
+  .aufbau-gruppe { display: none; }
+  .aufbau-notiz {
+    display: block;
+    margin: -0.3rem 0 0.35rem;
+    font-family: var(--schrift-hand);
+    font-size: 1.15rem;
+    line-height: 1.2;
+    color: var(--akzent-2);
+  }
+}
+@media (max-width: 34rem) {   /* Handy: kompakt 2 × 2, damit die Themen bald folgen */
+  .aufbau { gap: 0.6rem; }
+  .aufbau-ebene { padding: 0.8rem 0.85rem 0.9rem; }
+  .aufbau-icon { width: 2.1rem; height: 2.1rem; margin-bottom: 0.5rem; }
+  .aufbau-icon svg { width: 1.3rem; height: 1.3rem; }
+  .aufbau-ebene h3 { font-size: 1rem; overflow-wrap: anywhere; hyphens: auto; }
+  .aufbau-ebene p { font-size: 0.84rem; line-height: 1.5; }
+}
+
+/* Zahlenleiste (Startseite, Abschnitt "Themen") */
+.zahlenleiste {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 3rem;
+  margin-top: 1.25rem;
+  padding: 1rem 0;
+  border-top: 1px solid var(--rand);
+  border-bottom: 1px solid var(--rand);
+}
+.zahl b {
+  display: block;
+  font-family: var(--schrift-titel);
+  font-weight: 600;
+  font-size: 1.7rem;
+  line-height: 1.1;
+  color: var(--text);
+}
+.zahl span {
+  font-size: 0.82rem;
+  color: var(--text-schwach);
+  letter-spacing: 0.02em;
+}
+
+.abschnitt-text { color: var(--text-schwach); margin-top: 0; max-width: 46rem; }
+
+.gebiet-karte {
+  display: flex;
+  flex-direction: column;
+  padding: 1.35rem;
+  border-radius: var(--radius-l);
+  background: var(--flaeche);
+  border: 1px solid var(--rand);
+  box-shadow: var(--schatten-s);
+  text-decoration: none;
+  color: var(--text);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+.gebiet-karte:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--schatten-m);
+  border-color: var(--karten-farbe, var(--akzent));
+}
+/* Bereichs-Karten (Startseite, Themenübersicht) und die Links "Weitere
+   Bereiche": Farbe des Hauptzweigs (data-zweig setzt seite.js).
+   --karten-farbe nutzen auch Spotlight (Abschnitt 9) und das Icon beim
+   Überfahren. Bewusst nicht am <body> der Bereichsseite. */
+.gebiet-karte[data-zweig="methoden"],   .bereich-wechsel a[data-zweig="methoden"], .menue-eintrag[data-zweig="methoden"]   { --karten-farbe: var(--zweig-methoden); }
+.gebiet-karte[data-zweig="physik"],     .bereich-wechsel a[data-zweig="physik"], .menue-eintrag[data-zweig="physik"]     { --karten-farbe: var(--zweig-physik); }
+.gebiet-karte[data-zweig="mathematik"], .bereich-wechsel a[data-zweig="mathematik"], .menue-eintrag[data-zweig="mathematik"] { --karten-farbe: var(--zweig-mathematik); }
+.gebiet-karte[data-zweig="kosmos"],     .bereich-wechsel a[data-zweig="kosmos"], .menue-eintrag[data-zweig="kosmos"]     { --karten-farbe: var(--zweig-kosmos); }
+.gebiet-karte[data-zweig="alltagsphysik"], .bereich-wechsel a[data-zweig="alltagsphysik"], .menue-eintrag[data-zweig="alltagsphysik"] { --karten-farbe: var(--zweig-alltag); }
+.gebiet-karte .karten-icon,
+.bereich-wechsel .karten-icon,
+.menue-eintrag .karten-icon { transition: background 0.25s ease, color 0.25s ease; }
+.gebiet-karte[data-zweig]:hover .karten-icon,
+.bereich-wechsel a[data-zweig]:hover .karten-icon,
+.menue-eintrag[data-zweig]:hover .karten-icon {
+  color: var(--karten-farbe);
+  background: color-mix(in srgb, var(--karten-farbe) 13%, var(--flaeche));
+}
+
+/* Icon-Plakette oben in der Fachgebiets-Karte */
+.karten-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  margin-bottom: 0.9rem;
+  border-radius: 50%;
+  background: var(--akzent-sanft);
+  color: var(--akzent);
+}
+.karten-icon svg { width: 1.4rem; height: 1.4rem; }
+
+.gebiet-karte h3 {
+  margin: 0 0 0.4rem;
+  font-size: 1.2rem;
+}
+.gebiet-karte p {
+  margin: 0;
+  color: var(--text-schwach);
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+/* Themenzahl unten in der Karte (früher mit Fortschrittsbalken) */
+.fortschritt { margin-top: auto; padding-top: 1.1rem; }
+.fortschritt-text {
+  display: block;
+  font-size: 0.82rem;
+  color: var(--text-schwach);
+}
+
+@media (max-width: 52rem) {
+  .hero, .hero.erkunden { grid-template-columns: 1fr; padding-top: 1.5rem; }
+  .hero-bild { justify-self: center; width: min(100%, 26rem); order: -1; }
+  .hero.erkunden .hero-bild,
+  .hero.erkunden .planet-info { grid-column: 1; grid-row: auto; }
+  .planet-info { padding: 1.2rem 1.15rem 1rem; }
+  .hero-bild .notiz { display: none; }
+}

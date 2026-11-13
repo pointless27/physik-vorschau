@@ -1,0 +1,975 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="robots" content="noindex">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Strömende Fluide: Bernoulli und Viskosität</title>
+  <meta name="description" content="Wie Flüssigkeiten und Gase fließen: Kontinuitätsgleichung, Bernoulli-Gleichung, Viskosität, Hagen-Poiseuille-Gesetz, Stokessche Reibung und Reynolds-Zahl – mit Beispielrechnungen und Aufgaben.">
+
+  <link rel="stylesheet" href="../../css/stil.css">
+
+  <link rel="stylesheet" href="../../extern/katex/katex.min.css">
+  <script defer src="../../extern/katex/katex.min.js"></script>
+  <script defer src="../../extern/katex/contrib/auto-render.min.js" onload="starteFormeln()"></script>
+
+  <script src="../../js/daten.js"></script>
+  <script src="../../js/seite.js"></script>
+  <script src="../../js/effekte.js"></script>
+  <script src="../../js/interaktiv.js"></script>
+  <script src="../../js/modelle/stroemende-fluide.js"></script>
+  <script type="application/json" id="symbole">
+  {
+    "ρ": "Dichte",
+    "p": "Druck",
+    "v": "Strömungsgeschwindigkeit",
+    "r": "Ort (bzw. Abstand von der Rohrachse)",
+    "t": "Zeit",
+    "A": "Querschnittsfläche",
+    "x": "Ort entlang der Strömung",
+    "m": "Masse",
+    "j": "Massenstromdichte",
+    "A_1": "Querschnitt an Stelle 1",
+    "A_2": "Querschnitt an Stelle 2",
+    "v_1": "Geschwindigkeit an Stelle 1",
+    "v_2": "Geschwindigkeit an Stelle 2",
+    "V": "Volumen (mit Punkt: Volumenstrom)",
+    "V_1": "Volumen an Stelle 1",
+    "V_2": "Volumen an Stelle 2",
+    "W_1": "Arbeit an Stelle 1",
+    "x_1": "Weg an Stelle 1",
+    "p_1": "Druck an Stelle 1",
+    "p_2": "Druck an Stelle 2",
+    "g": "Fallbeschleunigung",
+    "h": "Höhe",
+    "h_1": "Höhe von Stelle 1",
+    "h_2": "Höhe von Stelle 2",
+    "p_0": "Gesamtdruck",
+    "p_s": "Staudruck",
+    "p_atm": "äußerer Luftdruck",
+    "p_unten": "Druck an der Unterseite",
+    "p_oben": "Druck an der Oberseite",
+    "F": "Kraft",
+    "F_R": "Reibungskraft",
+    "η": "Viskosität (Zähigkeit)",
+    "d": "Abstand der Platten",
+    "z": "Ort senkrecht zur Strömung",
+    "τ": "Schubspannung",
+    "τ_xz": "Schubspannung",
+    "G": "Schubmodul",
+    "γ": "Scherwinkel (mit Punkt: Scherrate)",
+    "R": "Radius des Rohrs",
+    "L": "Länge des Rohrs",
+    "π": "Kreiszahl π ≈ 3,14159",
+    "v_max": "größte Geschwindigkeit (in der Rohrmitte)",
+    "R_S": "Strömungswiderstand",
+    "v_∞": "Endgeschwindigkeit der sinkenden Kugel",
+    "ρ_Fl": "Dichte der Flüssigkeit",
+    "ρ_K": "Dichte der Kugel",
+    "A_K": "Querschnitt des Spritzenkolbens",
+    "d_1": "Durchmesser an Stelle 1",
+    "d_2": "Durchmesser an Stelle 2",
+    "H": "Höhe des Wasserspiegels",
+    "y": "Höhe des Lochs über dem Boden",
+    "T": "Höhe des Tischs"
+  }
+  </script>
+</head>
+<body data-thema="stroemende-fluide">
+  <main>
+    <article class="thema">
+      <header>
+        <h1>Strömende Fluide: Bernoulli und Viskosität</h1>
+        <p class="untertitel">Warum der Wasserstrahl schneller wird, wenn du den
+          Schlauch zudrückst, warum ein Sturm Dächer abdeckt und warum Honig so
+          langsam fließt.</p>
+      </header>
+
+      <div class="tabs">
+
+        <section class="tab" id="verstehen" data-titel="Verstehen">
+
+          <p>Beim Blumengießen kennst du den Trick: Drückst du das Ende des
+            Gartenschlauchs mit dem Daumen halb zu, spritzt das Wasser plötzlich
+            viel weiter. Es kommt nicht mehr Wasser aus dem Schlauch – aber
+            dasselbe Wasser muss durch eine kleinere Öffnung, und dafür muss es
+            schneller werden. Wie sich Flüssigkeiten und Gase bewegen, beschreibt
+            die Physik der <em>strömenden Fluide</em>.</p>
+
+          <h2>Was hineinfließt, muss auch hinausfließen</h2>
+
+          <p>Wasser lässt sich kaum zusammendrücken. Fließt es durch ein Rohr,
+            muss deshalb an jeder Stelle in jeder Sekunde gleich viel Wasser
+            vorbeikommen – sonst würde es sich irgendwo stauen. Wird das Rohr
+            enger, muss das Wasser dort schneller fließen, ist es weiter, fließt
+            es langsamer. Ein Fluss zeigt dasselbe: Wo er breit und tief ist,
+            zieht er gemächlich dahin, an Engstellen schießt er durch.</p>
+
+          <h2>Schnell heißt: wenig Druck</h2>
+
+          <p>Jetzt wird es überraschend. Wenn das Wasser in der Engstelle
+            schneller wird, muss es irgendetwas beschleunigen – und das ist der
+            Druck: Vor der Engstelle drückt das Wasser stärker als in ihr. In der
+            Engstelle selbst ist der Druck also <em>kleiner</em>. Diese Regel
+            fand Daniel Bernoulli 1738: Wo ein Fluid schneller strömt, ist sein
+            Druck geringer. Kleine Röhrchen auf dem Rohr machen den Druck
+            sichtbar – das Wasser steigt darin umso höher, je größer der Druck
+            ist:</p>
+
+          <figure class="interaktiv" data-modell="venturi">
+            <span class="titel">Zum Ausprobieren</span>
+            <figcaption>Ein waagerechtes Rohr mit 4 cm Durchmesser und einer
+              Engstelle; drei Steigrohre zeigen den Druck. Stell den Durchfluss
+              und die Weite der Engstelle ein und schau, wie die mittlere
+              Wassersäule absinkt. Mach die Engstelle richtig eng: Dann fällt der
+              Druck dort sogar unter den Luftdruck. Mit „Strömung zeigen“ siehst
+              du in Zeitlupe, wie die Wasserteilchen in der Engstelle
+              davonziehen.</figcaption>
+          </figure>
+
+          <div class="alltag">
+            <span class="titel">Aus dem Alltag</span>
+            <p>Fegt ein Sturm über ein flaches Dach, strömt die Luft oben sehr
+              schnell, unter dem Dach steht sie still. Oben ist der Druck deshalb
+              kleiner als darunter, und das Dach wird nach oben gedrückt – bei
+              starkem Sturm so stark, dass Dachziegel oder ganze Dächer
+              abheben. Nach demselben Prinzip saugt ein Parfümzerstäuber die
+              Flüssigkeit aus dem Fläschchen: Der schnelle Luftstrom über dem
+              Steigröhrchen erzeugt dort einen Unterdruck.</p>
+          </div>
+
+          <h2>Zäh und dünn: die Viskosität</h2>
+
+          <p>Honig fließt viel träger aus dem Glas als Wasser. Er ist
+            <em>zäher</em>, Physiker sagen: Er hat eine größere
+            <em>Viskosität</em>. Stell dir eine Flüssigkeit als Stapel dünner
+            Schichten vor, die aneinander vorbeigleiten. In zähen Flüssigkeiten
+            reiben die Schichten stärker aneinander. In einem Rohr bleibt die
+            Schicht direkt an der Wand haften, und jede weiter innen liegende
+            Schicht gleitet ein bisschen schneller. In der Mitte strömt die
+            Flüssigkeit deshalb am schnellsten:</p>
+
+          <figure class="interaktiv" data-modell="rohrstroemung">
+            <span class="titel">Zum Ausprobieren</span>
+            <figcaption>Ein Rohr von der Seite. Die Pfeile zeigen, wie schnell
+              die Flüssigkeit in jeder Schicht fließt. Wähle die Flüssigkeit,
+              ändere den Radius und den Druck, der die Flüssigkeit durchs Rohr
+              treibt. Halbiere einmal den Radius und beobachte den Durchfluss –
+              er schrumpft viel stärker, als du vermutlich erwartest.</figcaption>
+          </figure>
+
+          <p>Das hat Folgen für unseren Körper: Verengt sich eine Ader nur ein
+            wenig, fließt deutlich weniger Blut hindurch. Das Herz muss dann mit
+            mehr Druck pumpen, um die Organe trotzdem zu versorgen.</p>
+
+          <h2>Geordnet oder wild</h2>
+
+          <p>Dreh einen Wasserhahn ganz vorsichtig auf: Der Strahl ist glatt
+            und glasklar. Drehst du weiter auf, wird er plötzlich unruhig und
+            trüb. Genauso steigt der Rauch eines Räucherstäbchens erst als
+            glatter Faden auf und zerfasert dann in Wirbel. Fließt ein Fluid
+            langsam, gleiten die Schichten geordnet aneinander vorbei – die
+            Strömung ist <em>laminar</em>. Wird es zu schnell, bilden sich Wirbel,
+            und die Strömung wird <em>turbulent</em>. Wann das passiert, hängt
+            nicht nur von der Geschwindigkeit ab, sondern auch von der Größe des
+            Hindernisses und von der Zähigkeit des Fluids.</p>
+
+          <div class="merkkasten">
+            <span class="titel">Das Wichtigste in Kürze</span>
+            <ul>
+              <li>In einem Rohr fließt an jeder Stelle gleich viel durch. Wo es
+                enger ist, strömt das Fluid schneller.</li>
+              <li>Wo ein Fluid schneller strömt, ist sein Druck kleiner
+                (Bernoulli). Darauf beruhen Zerstäuber und Wasserstrahlpumpe, und
+                deshalb deckt Sturm Dächer ab.</li>
+              <li>Die Viskosität ist die innere Reibung eines Fluids. An einer
+                Wand bleibt das Fluid haften, in der Mitte eines Rohres fließt es
+                am schnellsten.</li>
+              <li>Ein halb so weites Rohr lässt bei gleichem Druck nur ein
+                Sechzehntel durch.</li>
+              <li>Langsame Strömungen sind geordnet (laminar), schnelle werden
+                wirbelig (turbulent).</li>
+            </ul>
+          </div>
+        </section>
+
+        <section class="tab" id="vertiefung" data-titel="Vertiefung">
+
+          <p>Die Strömungslehre heißt bei Flüssigkeiten
+            <em>Hydrodynamik</em>, bei Gasen <em>Aerodynamik</em>. Wir
+            beschreiben das Fluid nicht Teilchen für Teilchen, sondern durch
+            Felder: Dichte $\rho(\vec r, t)$, Druck $p(\vec r, t)$ und
+            Geschwindigkeit $\vec v(\vec r, t)$.</p>
+
+          <h2>Grundbegriffe</h2>
+
+          <ul>
+            <li><strong>Stromfeld:</strong> das Geschwindigkeitsfeld
+              $\vec v(\vec r, t)$ des Fluids.</li>
+            <li><strong>Stromlinie:</strong> eine Kurve, die an jedem Punkt
+              tangential zu $\vec v$ verläuft. In einer stationären Strömung
+              ist sie zugleich die Bahn eines Flüssigkeitselements.</li>
+            <li><strong>Stationäre Strömung:</strong> An jedem festen Ort ändert
+              sich nichts mit der Zeit, $\partial\vec v/\partial t = 0$. Ein
+              einzelnes Flüssigkeitselement kann trotzdem beschleunigen, etwa
+              wenn es in eine Engstelle einläuft.</li>
+            <li><strong>Ideale Flüssigkeit:</strong> inkompressibel
+              ($\rho = \text{const}$) und reibungsfrei – weder innere Reibung noch
+              Reibung an der Wand.</li>
+            <li><strong>Reale Flüssigkeit:</strong> mit innerer Reibung, also
+              Viskosität.</li>
+            <li><strong>Laminar</strong> heißt eine Strömung, deren Stromlinien
+              geordnet nebeneinander herlaufen, ohne sich zu kreuzen;
+              <strong>turbulent</strong> eine Strömung mit Wirbeln, deren
+              Stromfeld sich ständig unregelmäßig ändert.</li>
+          </ul>
+
+          <h2>Die Kontinuitätsgleichung</h2>
+
+          <p>Ein ideales Fluid ströme stationär durch ein Rohr, dessen
+            Querschnitt sich von $A_1$ auf $A_2$ verengt (Abb. 1). In der Zeit
+            $\Delta t$ schiebt sich an der Stelle 1 das Volumen
+            $\Delta V_1 = A_1 v_1 \Delta t$ durch den Querschnitt, an der Stelle 2
+            das Volumen $\Delta V_2 = A_2 v_2 \Delta t$. Weil das Fluid
+            inkompressibel ist und sich nirgends anstaut, müssen beide gleich
+            sein:</p>
+
+          $$ A_1\,v_1 = A_2\,v_2 = \dot V = \text{const} . $$
+
+          <p>Der <em>Volumenstrom</em> $\dot V$ (Einheit
+            $\mathrm{m^3/s}$) ist überall im Rohr derselbe; die Geschwindigkeit
+            ist umgekehrt proportional zum Querschnitt.</p>
+
+          <figure class="abbildung">
+            <svg class="abb" viewBox="0 0 360 180" role="img"
+                 aria-label="Rohr, das sich von einem großen auf einen kleinen Querschnitt verengt; links ein kurzes, rechts ein doppelt so langes Volumenstück gleicher Größe, die Geschwindigkeitspfeile verhalten sich wie eins zu zwei">
+              <path class="flaeche" d="M20 50H150C180 50 180 61.7 210 61.7H354V118.3H210C180 118.3 180 130 150 130H20Z"/>
+              <path class="kurve duenn" d="M20 50H150C180 50 180 61.7 210 61.7H354"/>
+              <path class="kurve duenn" d="M20 130H150C180 130 180 118.3 210 118.3H354"/>
+              <rect class="hilfslinie" x="50" y="50" width="30" height="80"/>
+              <rect class="hilfslinie" x="225" y="61.7" width="60" height="56.6"/>
+              <text x="65" y="94" font-size="11" text-anchor="middle">ΔV</text>
+              <text x="255" y="94" font-size="11" text-anchor="middle">ΔV</text>
+              <g class="pfeil blau">
+                <line x1="92" y1="90" x2="115" y2="90"/>
+                <polygon points="122,90 115,86.8 115,93.2"/>
+              </g>
+              <g class="pfeil blau">
+                <line x1="288" y1="90" x2="341" y2="90"/>
+                <polygon points="348,90 341,86.8 341,93.2"/>
+              </g>
+              <text class="blau" x="107" y="82" font-size="12" text-anchor="middle">v₁</text>
+              <text class="blau" x="318" y="82" font-size="12" text-anchor="middle">v₂</text>
+              <path class="achse" d="M50 40H80M50 36V44M80 36V44"/>
+              <text x="65" y="30" font-size="11" text-anchor="middle">Δx₁ = v₁Δt</text>
+              <path class="achse" d="M225 51H285M225 47V55M285 47V55"/>
+              <text x="255" y="41" font-size="11" text-anchor="middle">Δx₂ = v₂Δt</text>
+              <text x="65" y="150" font-size="12" text-anchor="middle">A₁</text>
+              <text x="255" y="138" font-size="12" text-anchor="middle">A₂ = A₁/2</text>
+            </svg>
+            <figcaption>Abb. 1: Kontinuität im Rohr. In derselben Zeit tritt
+              links und rechts dasselbe Volumen $\Delta V$ durch den Querschnitt.
+              Ist der Querschnitt halb so groß, muss das Volumenstück doppelt so
+              lang sein – das Fluid strömt doppelt so schnell. (Das Rohr ist
+              rund: Bei halbem Querschnitt ist es im Bild nur um den Faktor
+              $\sqrt 2$ niedriger.)</figcaption>
+          </figure>
+
+          <h3 id="massenstrom">Massenstromdichte und lokale Form</h3>
+
+          <p>Allgemeiner betrachtet man die Masse, die pro Zeit durch eine
+            Fläche $A$ tritt:
+            $\mathrm{d}m/\mathrm{d}t = \rho\,A\,\mathrm{d}x/\mathrm{d}t = \rho\,A\,v$.
+            Pro Fläche ergibt das die <em>Massenstromdichte</em></p>
+
+          $$ \vec j = \rho\,\vec v, \qquad [j] = 1\,\mathrm{\tfrac{kg}{m^2\,s}} . $$
+
+          <p>Für einen kleinen Quader mit Querschnitt $A$ zwischen $x$ und
+            $x + \Delta x$ gilt eine Massenbilanz: In der Zeit $\Delta t$ strömt
+            links $j(x)\,A\,\Delta t$ hinein und rechts $j(x+\Delta x)\,A\,\Delta t$
+            hinaus. Die Differenz ändert die Dichte im Quader:</p>
+
+          $$ \Delta\rho\;A\,\Delta x = \bigl[\,j(x) - j(x+\Delta x)\,\bigr]\,A\,\Delta t \qquad\Longrightarrow\qquad \frac{\partial \rho}{\partial t} = -\frac{\partial j}{\partial x} . $$
+
+          <p>Fließt rechts mehr hinaus als links hinein
+            ($\partial j/\partial x \gt 0$), nimmt die Dichte ab. In drei
+            Dimensionen wird daraus die <em>Kontinuitätsgleichung</em></p>
+
+          $$ \frac{\partial \rho}{\partial t} + \nabla\cdot\vec j = 0 . $$
+
+          <p>Sie drückt die Erhaltung der Masse aus. Für eine stationäre
+            Strömung ist $\partial\rho/\partial t = 0$, also
+            $\nabla\cdot\vec j = 0$. Ist das Fluid zusätzlich inkompressibel,
+            lässt sich das konstante $\rho$ herausziehen, und es bleibt
+            $\nabla\cdot\vec v = 0$: Das Stromfeld hat keine Quellen und Senken.
+            </p>
+
+          <h2>Die Bernoulli-Gleichung</h2>
+
+          <p>Wir betrachten wieder das ideale Fluid im Rohr, diesmal dürfen die
+            Stellen 1 und 2 auch verschieden hoch liegen ($h_1$, $h_2$). Das
+            Fluid hinter Stelle 1 schiebt mit der Kraft $p_1 A_1$ über die
+            Strecke $\Delta x_1$ und leistet die Arbeit
+            $W_1 = p_1 A_1 \Delta x_1 = p_1\,\Delta V$. An Stelle 2 muss das
+            Fluid gegen den Druck $p_2$ anschieben, dort wird die Arbeit
+            $p_2\,\Delta V$ abgegeben. Die Differenz dieser
+            <em>Verschiebearbeiten</em> ändert die Energie des Fluids: Im
+            Endeffekt ist ein Volumenstück $\Delta V$ der Masse
+            $\rho\,\Delta V$ von Stelle 1 nach Stelle 2 gewandert. Reibung gibt
+            es nicht, also gilt nach dem
+            <a href="energieerhaltung.html">Energiesatz</a></p>
+
+          $$ (p_1 - p_2)\,\Delta V = \tfrac12\,\rho\,\Delta V\,\bigl(v_2^2 - v_1^2\bigr) + \rho\,\Delta V\,g\,(h_2 - h_1) . $$
+
+          <p>Teilt man durch $\Delta V$ und sortiert nach den Stellen, steht auf
+            beiden Seiten dieselbe Größe:</p>
+
+          <div class="merkkasten">
+            <span class="titel">Bernoulli-Gleichung</span>
+            $$ p + \tfrac12\,\rho\,v^2 + \rho\,g\,h = \text{const} $$
+            <p>entlang einer Stromlinie in einer stationären Strömung eines
+              idealen (inkompressiblen, reibungsfreien) Fluids. Jeder Term ist
+              eine Energie pro Volumen und hat die Einheit eines Drucks:
+              $p$ heißt <em>statischer Druck</em>, $p_\text{s} = \tfrac12\rho v^2$
+              <em>Staudruck</em> oder dynamischer Druck. In einem waagerechten
+              Rohr ist der <em>Gesamtdruck</em> $p_0 = p + \tfrac12\rho v^2$
+              überall gleich.</p>
+          </div>
+
+          <p>Wo das Fluid schneller strömt, ist der statische Druck also
+            kleiner. Das zeigt das Vorlesungsexperiment mit einem waagerechten
+            Rohr mit Engstelle und Steigrohren (siehe das Modell im Tab
+            „Verstehen“): Ein Steigrohr misst den statischen Druck über die
+            Höhe der Wassersäule, $p - p_\text{atm} = \rho g h$. Über der
+            Engstelle steht das Wasser niedriger. Beim echten Rohr nehmen die
+            Säulen zusätzlich von Steigrohr zu Steigrohr in Strömungsrichtung
+            ab – das ist die Reibung, die die ideale Flüssigkeit nicht kennt
+            (siehe unten).
+            </p>
+
+          <p>Weitere Vorlesungsbeispiele beruhen auf demselben Effekt. Im
+            <em>Zerstäuber</em> und in der <em>Wasserstrahlpumpe</em> erzeugt
+            ein schneller Strahl in einer Düse einen statischen Unterdruck, der
+            Flüssigkeit bzw. Luft ansaugt (Aufgabe 3). Über ein gewölbtes Dach
+            oder eine Tragfläche strömt die Luft oben schneller als unten; der
+            Druckunterschied $\Delta p = p_\text{unten} - p_\text{oben}$ drückt
+            nach oben. Warum die Luft über der Tragfläche schneller ist, folgt
+            aus ihrer Form und ihrem Anstellwinkel. Die beliebte Erklärung, die
+            Luft müsse oben „gleichzeitig ankommen“, ist falsch – oben ist sie
+            sogar deutlich früher am Ende des Flügels.</p>
+
+          <h3 id="torricelli">Ausfluss aus einem Gefäß</h3>
+
+          <p>Ein weites, oben offenes Gefäß hat in der Tiefe $h$ unter dem
+            Wasserspiegel ein kleines Loch. Am Spiegel und im austretenden Strahl
+            herrscht Luftdruck, und das Wasser am Spiegel ist praktisch in Ruhe.
+            Bernoulli zwischen Spiegel und Loch liefert</p>
+
+          $$ p_\text{atm} + \rho\,g\,h = p_\text{atm} + \tfrac12\,\rho\,v^2 \qquad\Longrightarrow\qquad v = \sqrt{2\,g\,h} \qquad\text{(Torricelli)} . $$
+
+          <p>Das Wasser tritt so schnell aus, als wäre es die Höhe $h$ frei
+            gefallen. Wie weit die Strahlen aus verschieden hohen Löchern
+            spritzen, untersucht Aufgabe 6 (zum Druck in der Wassersäule siehe
+            <a href="ruhende-fluide.html">Ruhende Fluide</a>).</p>
+
+          <h2>Viskosität</h2>
+
+          <p>In realen Fluiden reiben benachbarte Schichten aneinander. Das
+            einfachste Modell: Zwischen zwei parallelen Platten im Abstand $d$
+            befindet sich eine Flüssigkeit (Abb. 2). Die untere Platte ruht, die
+            obere (Fläche $A$) wird mit der Geschwindigkeit $v$ gezogen. Die
+            Flüssigkeitsschicht direkt an einer Platte bewegt sich mit dieser
+            Platte (<em>Haftbedingung</em>), dazwischen stellt sich ein lineares
+            Geschwindigkeitsprofil ein. Um die obere Platte gleichmäßig zu ziehen,
+            braucht man die Kraft</p>
+
+          $$ F_\text{R} = \eta\,A\,\frac{v}{d} . $$
+
+          <figure class="abbildung">
+            <svg class="abb" viewBox="0 0 360 200" role="img"
+                 aria-label="Flüssigkeit zwischen einer ruhenden unteren und einer bewegten oberen Platte; die Geschwindigkeitspfeile wachsen linear von null an der unteren bis v an der oberen Platte">
+              <rect class="flaeche" x="40" y="50" width="260" height="120"/>
+              <rect class="wagen" x="40" y="42" width="260" height="8"/>
+              <rect class="wagen" x="40" y="170" width="260" height="8"/>
+              <line class="achse" x1="100" y1="50" x2="100" y2="170"/>
+              <line class="kurve blau" x1="100" y1="170" x2="220" y2="50"/>
+              <g class="pfeil blau">
+                <line x1="100" y1="150" x2="113" y2="150"/>
+                <polygon points="120,150 113,146.8 113,153.2"/>
+                <line x1="100" y1="130" x2="133" y2="130"/>
+                <polygon points="140,130 133,126.8 133,133.2"/>
+                <line x1="100" y1="110" x2="153" y2="110"/>
+                <polygon points="160,110 153,106.8 153,113.2"/>
+                <line x1="100" y1="90" x2="173" y2="90"/>
+                <polygon points="180,90 173,86.8 173,93.2"/>
+                <line x1="100" y1="70" x2="193" y2="70"/>
+                <polygon points="200,70 193,66.8 193,73.2"/>
+              </g>
+              <g class="pfeil kupfer">
+                <line x1="250" y1="28" x2="293" y2="28"/>
+                <polygon points="300,28 293,24.8 293,31.2"/>
+              </g>
+              <text class="kupfer" x="246" y="32" font-size="12" text-anchor="end">F, v</text>
+              <text x="44" y="32" font-size="11">bewegte Platte, Fläche A</text>
+              <text x="170" y="194" font-size="11" text-anchor="middle">ruhende Platte: v = 0</text>
+              <path class="achse" d="M26 50V170M22 50H30M22 170H30"/>
+              <text x="16" y="114" font-size="12" text-anchor="middle">d</text>
+              <text x="226" y="128" font-size="11">lineares Profil</text>
+              <text x="226" y="142" font-size="11">v(z) = v·z/d</text>
+            </svg>
+            <figcaption>Abb. 2: Scherströmung zwischen zwei Platten. Die
+              Schichten der Flüssigkeit gleiten aneinander vorbei; an jeder
+              Platte haftet das Fluid. Die Steigung des Profils ist die Scherrate
+              $\dot\gamma = v/d$.</figcaption>
+          </figure>
+
+          <p>Die Materialkonstante $\eta$ ist die (dynamische)
+            <em>Viskosität</em>. Ist das Profil nicht linear, gilt dasselbe
+            Gesetz lokal: Die Schubspannung zwischen zwei Schichten ist
+            proportional zum Geschwindigkeitsgefälle senkrecht zur Strömung,</p>
+
+          $$ \tau_{xz} = \frac{F_\text{R}}{A} = \eta\,\frac{\mathrm{d}v}{\mathrm{d}z} = \eta\,\dot\gamma, \qquad [\eta] = 1\,\mathrm{\tfrac{N\,s}{m^2}} = 1\,\mathrm{Pa\,s}, \qquad [\dot\gamma] = 1\,\mathrm{s^{-1}} . $$
+
+          <p>Der Vergleich mit der <a href="elastizitaet.html#scherung">Scherung
+            fester Körper</a> ist lehrreich: Beim Festkörper ist die Schubspannung
+            proportional zum Scherwinkel, $\tau = G\gamma$. Beim Fluid ist sie
+            proportional dazu, wie schnell sich der Scherwinkel ändert,
+            $\tau = \eta\dot\gamma$. Ein Fluid gibt einer Scherung deshalb
+            dauerhaft nach – es fließt.</p>
+
+          <p>Ist $\eta$ unabhängig von der Scherrate, heißt das Fluid
+            <em>newtonsch</em> (Wasser, Öl, Honig). Bei
+            <em>nicht-newtonschen</em> Fluiden hängt die Viskosität von der
+            Scherrate ab. <em>Scherverdünnende</em> Fluide werden bei schneller
+            Scherung dünnflüssiger – Ketchup, Wandfarbe oder Blut. Deshalb
+            klopft man auf die Ketchupflasche. <em>Scherverdickende</em> Fluide
+            werden dagegen zäher, etwa ein Brei aus Speisestärke und Wasser, auf
+            dem man bei schnellen Schritten sogar laufen kann.
+            </p>
+
+          <div class="tabelle-huelle">
+            <table>
+              <thead>
+                <tr><th>Fluid (20 °C)</th><th>Viskosität $\eta$ in $\mathrm{Pa\,s}$</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>Luft</td><td>$1{,}8 \cdot 10^{-5}$</td></tr>
+                <tr><td>Wasser</td><td>$1{,}0 \cdot 10^{-3}$</td></tr>
+                <tr><td>Olivenöl</td><td>$\approx 0{,}08$</td></tr>
+                <tr><td>Glycerin</td><td>$1{,}4$</td></tr>
+                <tr><td>Honig</td><td>$\approx 2$ bis $20$, je nach Sorte</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p>Die Viskosität hängt stark von der Temperatur ab: Bei
+            Flüssigkeiten nimmt sie beim Erwärmen ab (Honig im warmen Tee), bei
+            Gasen dagegen zu. Dass das Fluid an der Wand haftet, ist bei
+            gewöhnlichen Strömungen sehr gut erfüllt. In der Forschung
+            untersucht man aber auch Oberflächen, an denen ein Fluid
+            gleitet.</p>
+
+          <h2>Das Gesetz von Hagen-Poiseuille</h2>
+
+          <p>Eine reale Flüssigkeit fließe laminar und stationär durch ein Rohr
+            mit Radius $R$ und Länge $L$; zwischen den Enden liegt die
+            Druckdifferenz $\Delta p = p_1 - p_2$. Gesucht ist das
+            Geschwindigkeitsprofil $v(r)$. Dazu schneiden wir gedanklich einen
+            koaxialen Flüssigkeitszylinder mit Radius $r$ heraus (Abb. 3). Er
+            bewegt sich gleichförmig, also heben sich die Kräfte auf: Die
+            Druckkraft auf seine Stirnflächen, $\Delta p\,\pi r^2$, treibt ihn
+            an, die Reibung an seinem Mantel (Fläche $2\pi r L$) bremst ihn:</p>
+
+          $$ \Delta p\,\pi r^2 + \eta\,2\pi r L\,\frac{\mathrm{d}v}{\mathrm{d}r} = 0 \qquad\Longrightarrow\qquad \frac{\mathrm{d}v}{\mathrm{d}r} = -\frac{\Delta p}{2\eta L}\,r . $$
+
+          <p>(Die Geschwindigkeit nimmt nach außen ab, $\mathrm{d}v/\mathrm{d}r \lt 0$;
+            deshalb zeigt der Reibungsterm entgegen der Strömung.) Integrieren
+            und die Haftbedingung $v(R) = 0$ einsetzen ergibt ein
+            parabelförmiges Profil, im Raum ein Rotationsparaboloid:</p>
+
+          $$ v(r) = \frac{\Delta p}{4\eta L}\,\bigl(R^2 - r^2\bigr), \qquad v_\text{max} = v(0) = \frac{\Delta p\,R^2}{4\eta L} . $$
+
+          <figure class="abbildung">
+            <svg class="abb" viewBox="0 0 360 200" role="img"
+                 aria-label="Zwei Rohrabschnitte: links ein ideales Fluid mit überall gleich langen Geschwindigkeitspfeilen, rechts ein viskoses Fluid mit parabelförmigem Profil, in der Mitte am schnellsten und an der Wand null">
+              <text x="90" y="24" font-size="11" text-anchor="middle">ideal (ohne Reibung)</text>
+              <line class="kurve duenn" x1="15" y1="40" x2="165" y2="40"/>
+              <line class="kurve duenn" x1="15" y1="160" x2="165" y2="160"/>
+              <line class="achse" x1="40" y1="40" x2="40" y2="160"/>
+              <line class="kurve blau" x1="120" y1="40" x2="120" y2="160"/>
+              <g class="pfeil blau">
+                <line x1="40" y1="52" x2="113" y2="52"/>
+                <polygon points="120,52 113,48.8 113,55.2"/>
+                <line x1="40" y1="76" x2="113" y2="76"/>
+                <polygon points="120,76 113,72.8 113,79.2"/>
+                <line x1="40" y1="100" x2="113" y2="100"/>
+                <polygon points="120,100 113,96.8 113,103.2"/>
+                <line x1="40" y1="124" x2="113" y2="124"/>
+                <polygon points="120,124 113,120.8 113,127.2"/>
+                <line x1="40" y1="148" x2="113" y2="148"/>
+                <polygon points="120,148 113,144.8 113,151.2"/>
+              </g>
+              <text x="90" y="182" font-size="11" text-anchor="middle">überall gleich schnell</text>
+
+              <text x="270" y="24" font-size="11" text-anchor="middle">laminar, mit Viskosität</text>
+              <line class="kurve duenn" x1="195" y1="40" x2="345" y2="40"/>
+              <line class="kurve duenn" x1="195" y1="160" x2="345" y2="160"/>
+              <line class="achse" x1="215" y1="40" x2="215" y2="160"/>
+              <rect class="hilfslinie" x="215" y="76" width="125" height="48"/>
+              <path class="kurve blau" d="M215 40Q435 100 215 160"/>
+              <g class="pfeil blau">
+                <line x1="215" y1="52" x2="247.6" y2="52"/>
+                <polygon points="254.6,52 247.6,48.8 247.6,55.2"/>
+                <line x1="215" y1="76" x2="300.4" y2="76"/>
+                <polygon points="307.4,76 300.4,72.8 300.4,79.2"/>
+                <line x1="215" y1="100" x2="318" y2="100"/>
+                <polygon points="325,100 318,96.8 318,103.2"/>
+                <line x1="215" y1="124" x2="300.4" y2="124"/>
+                <polygon points="307.4,124 300.4,120.8 300.4,127.2"/>
+                <line x1="215" y1="148" x2="247.6" y2="148"/>
+                <polygon points="254.6,148 247.6,144.8 247.6,151.2"/>
+              </g>
+              <path class="achse" d="M352 100V124M348 100H356M348 124H356"/>
+              <text x="347" y="141" font-size="11" text-anchor="end" class="halo">r</text>
+              <text x="270" y="182" font-size="11" text-anchor="middle">an der Wand: v = 0</text>
+            </svg>
+            <figcaption>Abb. 3: Geschwindigkeitsprofil im Rohr. Links das
+              Kolbenprofil einer idealen Flüssigkeit, rechts das Parabelprofil
+              einer viskosen Flüssigkeit bei laminarer Strömung. Gestrichelt: der
+              gedachte Flüssigkeitszylinder mit Radius $r$, an dem das
+              Kräftegleichgewicht aufgestellt wird.</figcaption>
+          </figure>
+
+          <p>Den Volumenstrom erhält man, indem man über dünne Ringe mit
+            Fläche $2\pi r\,\mathrm{d}r$ summiert:</p>
+
+          $$ \dot V = \int_0^R v(r)\,2\pi r\,\mathrm{d}r = \frac{\pi\,\Delta p}{2\eta L}\int_0^R \bigl(R^2 - r^2\bigr)\,r\,\mathrm{d}r = \frac{\pi\,\Delta p}{2\eta L}\cdot\frac{R^4}{4} . $$
+
+          <div class="merkkasten">
+            <span class="titel">Gesetz von Hagen-Poiseuille</span>
+            $$ \dot V = \frac{\pi\,R^4}{8\,\eta\,L}\;\Delta p $$
+            <p>für laminare Strömung einer newtonschen Flüssigkeit durch ein
+              Rohr mit Radius $R$ und Länge $L$. In der Zeit $t$ fließt das
+              Volumen $V = \dot V t$. Die mittlere Geschwindigkeit
+              $\bar v = \dot V/(\pi R^2)$ ist halb so groß wie die in der Mitte
+              (Aufgabe 5).</p>
+          </div>
+
+          <p>Bemerkenswert ist die vierte Potenz des Radius: Ein halb so weites
+            Rohr lässt bei gleichem Druck nur $1/16$ durch. Schreibt man das
+            Gesetz als $\Delta p = R_\text{S}\,\dot V$ mit dem
+            Strömungswiderstand $R_\text{S} = 8\eta L/(\pi R^4)$, sieht es aus
+            wie das Ohmsche Gesetz – Druck entspricht der Spannung,
+            Volumenstrom dem Strom.</p>
+
+          <h2>Das Stokessche Gesetz</h2>
+
+          <p>Auch eine Kugel (Radius $R$), die sich langsam mit der
+            Geschwindigkeit $v$ durch ein viskoses Fluid bewegt, erfährt eine
+            Reibungskraft proportional zu $v$:</p>
+
+          $$ F_\text{R} = 6\pi\,\eta\,R\,v . $$
+
+          <p>Die Herleitung erfordert die vollständigen Strömungsgleichungen;
+            das Gesetz gilt nur für Kugeln und nur bei kleinen Reynolds-Zahlen
+            (siehe unten, etwa $\mathit{Re} \lesssim 1$). Für schnelle, große
+            Körper wie einen Fallschirmspringer wächst die Reibung dagegen mit
+            $v^2$ (siehe <a href="kraefte.html#luftreibung">Luftreibung</a>).
+            </p>
+
+          <p>Im <em>Kugelfallviskosimeter</em> aus der Vorlesung sinkt eine
+            Kugel der Dichte $\rho_\text{K}$ in einer Flüssigkeit der Dichte
+            $\rho_\text{Fl}$. Nach kurzer Zeit fällt sie gleichförmig mit
+            $v_\infty$: Gewichtskraft minus Auftrieb und Reibung sind dann im
+            Gleichgewicht,</p>
+
+          $$ \tfrac43\pi R^3\,\bigl(\rho_\text{K} - \rho_\text{Fl}\bigr)\,g = 6\pi\,\eta\,R\,v_\infty \qquad\Longrightarrow\qquad \eta = \frac{2\,\bigl(\rho_\text{K} - \rho_\text{Fl}\bigr)\,g\,R^2}{9\,v_\infty} . $$
+
+          <p>Misst man die Sinkgeschwindigkeit, kennt man die Viskosität
+            (Beispiel 3).</p>
+
+          <h2>Die Reynolds-Zahl</h2>
+
+          <p>Ob eine Strömung laminar bleibt oder turbulent wird, entscheidet
+            das Verhältnis von Trägheits- zu Reibungskräften. Grob abgeschätzt
+            ist die Trägheitskraft auf ein Fluidstück der Größe $L$ von der
+            Ordnung $\rho v^2 L^2$, die Reibungskraft von der Ordnung
+            $\eta\,(v/L)\,L^2 = \eta v L$. Ihr Verhältnis ist die
+            <em>Reynolds-Zahl</em></p>
+
+          $$ \mathit{Re} = \frac{\rho\,v\,L}{\eta} . $$
+
+          <p>Sie hat keine Einheit. $L$ ist eine charakteristische Länge: der
+            Durchmesser eines umströmten Körpers oder der Durchmesser des Rohres
+            (dann ist $v$ die mittlere Geschwindigkeit). In Rohren ist die
+            Strömung unterhalb von $\mathit{Re}_\text{krit} \approx 2300$
+            laminar, darüber wird sie turbulent. Im Vorlesungsexperiment
+            bleibt ein Tintenfaden in langsam strömendem Wasser glatt und
+            verwirbelt bei höherer Geschwindigkeit.</p>
+
+          <p>Die Reynolds-Zahl hat eine praktische Bedeutung: Zwei Strömungen
+            mit gleicher Geometrie und gleicher Reynolds-Zahl sehen gleich aus.
+            Deshalb kann man ein verkleinertes Modell im Windkanal oder im
+            Schlepptank untersuchen, wenn man $v$, $\rho$ oder $\eta$ so wählt,
+            dass $\mathit{Re}$ wie beim Original ist. Am anderen Ende der Skala
+            schwimmen Bakterien: Mit $L \approx 2\,\mu\mathrm{m}$ und
+            $v \approx 30\,\mu\mathrm{m/s}$ in Wasser ist
+            $\mathit{Re} \approx 6 \cdot 10^{-5}$. Trägheit spielt für sie keine Rolle –
+            hört ein Bakterium auf zu schwimmen, steht es praktisch sofort
+            still. Auch molekulare Motoren in Zellen arbeiten in dieser Welt der
+            Zähigkeit.
+            </p>
+
+          <div class="merkkasten">
+            <span class="titel">Merke</span>
+            <p>Kontinuität: $A v = \text{const}$, allgemein
+              $\partial\rho/\partial t + \nabla\cdot(\rho\vec v) = 0$.
+              Bernoulli (ideal, stationär):
+              $p + \tfrac12\rho v^2 + \rho g h = \text{const}$.
+              Viskosität: $\tau = \eta\,\mathrm{d}v/\mathrm{d}z$.
+              Hagen-Poiseuille: $\dot V = \pi R^4 \Delta p/(8\eta L)$.
+              Stokes: $F_\text{R} = 6\pi\eta R v$.
+              Reynolds-Zahl $\mathit{Re} = \rho v L/\eta$, im Rohr laminar bis
+              etwa 2300.</p>
+          </div>
+        </section>
+
+        <section class="tab" id="beispiele" data-titel="Beispielrechnungen">
+
+          <div class="beispiel">
+            <h3>Beispiel 1: Gartenschlauch mit Spritzdüse</h3>
+            <p><strong>Gegeben:</strong> Ein Gartenschlauch mit
+              $19\,\mathrm{mm}$ Innendurchmesser liefert $15\,\mathrm{L/min}$
+              Wasser ($\rho = 1000\,\mathrm{kg/m^3}$). Vorne sitzt eine Düse mit
+              $5{,}0\,\mathrm{mm}$ Öffnung, der Strahl tritt in die Luft
+              aus.<br>
+              <strong>Gesucht:</strong> Geschwindigkeit im Schlauch und in der
+              Düse, der Überdruck vor der Düse und die Höhe, die ein senkrecht
+              nach oben gerichteter Strahl erreicht (ohne Reibung).</p>
+
+            <p><strong>1. Volumenstrom in SI-Einheiten:</strong>
+              $$ \dot V = \frac{15 \cdot 10^{-3}\,\mathrm{m^3}}{60\,\mathrm{s}} = 2{,}50 \cdot 10^{-4}\,\mathrm{\tfrac{m^3}{s}} . $$</p>
+
+            <p><strong>2. Querschnitte:</strong>
+              $A_1 = \pi\,(9{,}5 \cdot 10^{-3}\,\mathrm{m})^2 = 2{,}835 \cdot 10^{-4}\,\mathrm{m^2}$,
+              $A_2 = \pi\,(2{,}5 \cdot 10^{-3}\,\mathrm{m})^2 = 1{,}963 \cdot 10^{-5}\,\mathrm{m^2}$.</p>
+
+            <p><strong>3. Geschwindigkeiten (Kontinuität):</strong>
+              $$ v_1 = \frac{\dot V}{A_1} = \frac{2{,}50 \cdot 10^{-4}\,\mathrm{m^3/s}}{2{,}835 \cdot 10^{-4}\,\mathrm{m^2}} = 0{,}882\,\mathrm{\tfrac{m}{s}}, \qquad v_2 = \frac{\dot V}{A_2} = 12{,}7\,\mathrm{\tfrac{m}{s}} . $$
+              Kontrolle: $A_1/A_2 = (19/5)^2 = 14{,}4$, und
+              $14{,}4 \cdot 0{,}882\,\mathrm{m/s} = 12{,}7\,\mathrm{m/s}$ ✓.</p>
+
+            <p><strong>4. Überdruck vor der Düse (Bernoulli, waagerecht):</strong>
+              Hinter der Düse herrscht Luftdruck, also
+              $$ p_1 - p_\text{atm} = \tfrac12\,\rho\,\bigl(v_2^2 - v_1^2\bigr) = \tfrac12 \cdot 1000\,\mathrm{\tfrac{kg}{m^3}} \cdot \bigl(162{,}1 - 0{,}78\bigr)\,\mathrm{\tfrac{m^2}{s^2}} = 8{,}07 \cdot 10^4\,\mathrm{Pa} \approx 0{,}81\,\mathrm{bar} . $$
+              Einheitencheck: $\mathrm{kg\,m^{-3} \cdot m^2\,s^{-2}} = \mathrm{kg\,m^{-1}\,s^{-2}} = \mathrm{N/m^2} = \mathrm{Pa}$ ✓.</p>
+
+            <p><strong>5. Steighöhe:</strong> Bernoulli zwischen Düse und
+              höchstem Punkt (dort $v = 0$, beide Male Luftdruck):
+              $$ h = \frac{v_2^2}{2g} = \frac{162{,}1\,\mathrm{m^2/s^2}}{2 \cdot 9{,}81\,\mathrm{m/s^2}} = 8{,}3\,\mathrm{m} . $$</p>
+
+            <p><strong>Ergebnis und Plausibilität:</strong> Im Schlauch fließt
+              das Wasser nur mit knapp $1\,\mathrm{m/s}$, aus der Düse schießt es
+              mit fast $13\,\mathrm{m/s}$ (46 km/h). Dafür genügen gut 0,8 bar
+              Überdruck – die Hauswasserleitung liefert typischerweise 3 bis
+              4 bar, der Rest geht als Reibung im Schlauch verloren. Ein Strahl
+              von gut 8 m Höhe ist eine obere Grenze; Luftwiderstand und
+              Zerstäuben des Strahls machen ihn in Wirklichkeit niedriger.
+              </p>
+          </div>
+
+          <div class="beispiel">
+            <h3>Beispiel 2: Wasser durch eine dünne Kanüle</h3>
+            <p><strong>Gegeben:</strong> Eine Spritze (Kolbendurchmesser
+              $10\,\mathrm{mm}$) mit einer Kanüle der Länge
+              $L = 25\,\mathrm{mm}$ und dem Innenradius $R = 0{,}15\,\mathrm{mm}$.
+              Wasser ($\eta = 1{,}0 \cdot 10^{-3}\,\mathrm{Pa\,s}$,
+              $\rho = 1000\,\mathrm{kg/m^3}$) soll mit
+              $0{,}10\,\mathrm{mL/s}$ hindurchfließen. Der Druckabfall in der
+              weiten Spritze selbst wird vernachlässigt.<br>
+              <strong>Gesucht:</strong> nötiger Überdruck, Kraft auf den Kolben,
+              Art der Strömung; Kraft bei einer Kanüle mit halbem Radius.</p>
+
+            <p><strong>1. Umrechnen:</strong>
+              $\dot V = 0{,}10\,\mathrm{mL/s} = 1{,}0 \cdot 10^{-7}\,\mathrm{m^3/s}$,
+              $R^4 = (1{,}5 \cdot 10^{-4}\,\mathrm{m})^4 = 5{,}06 \cdot 10^{-16}\,\mathrm{m^4}$.</p>
+
+            <p><strong>2. Überdruck (Hagen-Poiseuille nach $\Delta p$ aufgelöst):</strong>
+              $$ \Delta p = \frac{8\,\eta\,L\,\dot V}{\pi R^4} = \frac{8 \cdot 1{,}0 \cdot 10^{-3}\,\mathrm{Pa\,s} \cdot 0{,}025\,\mathrm{m} \cdot 1{,}0 \cdot 10^{-7}\,\mathrm{m^3/s}}{\pi \cdot 5{,}06 \cdot 10^{-16}\,\mathrm{m^4}} = 1{,}26 \cdot 10^4\,\mathrm{Pa} . $$
+              Einheitencheck: $\mathrm{Pa\,s \cdot m \cdot m^3\,s^{-1}}/\mathrm{m^4} = \mathrm{Pa}$ ✓.</p>
+
+            <p><strong>3. Kraft auf den Kolben:</strong>
+              $A_\text{K} = \pi\,(5{,}0 \cdot 10^{-3}\,\mathrm{m})^2 = 7{,}85 \cdot 10^{-5}\,\mathrm{m^2}$,
+              $$ F = \Delta p\,A_\text{K} = 1{,}26 \cdot 10^4\,\mathrm{Pa} \cdot 7{,}85 \cdot 10^{-5}\,\mathrm{m^2} = 0{,}99\,\mathrm{N} . $$</p>
+
+            <p><strong>4. Laminar? Reynolds-Zahl prüfen:</strong> mittlere
+              Geschwindigkeit
+              $\bar v = \dot V/(\pi R^2) = 1{,}0 \cdot 10^{-7}\,\mathrm{m^3/s}/(7{,}07 \cdot 10^{-8}\,\mathrm{m^2}) = 1{,}41\,\mathrm{m/s}$,
+              $$ \mathit{Re} = \frac{\rho\,\bar v\,2R}{\eta} = \frac{1000\,\mathrm{kg/m^3} \cdot 1{,}41\,\mathrm{m/s} \cdot 3{,}0 \cdot 10^{-4}\,\mathrm{m}}{1{,}0 \cdot 10^{-3}\,\mathrm{Pa\,s}} = 424 \lt 2300 . $$
+              Die Strömung ist laminar, Hagen-Poiseuille ist anwendbar ✓.</p>
+
+            <p><strong>5. Halber Radius:</strong> Wegen $\Delta p \propto 1/R^4$
+              steigt der nötige Druck auf das $2^4 = 16$-fache,
+              $\Delta p = 2{,}0 \cdot 10^5\,\mathrm{Pa}$, die Kraft auf
+              $16\,\mathrm{N}$. ($\mathit{Re}$ verdoppelt sich auf rund 850, die
+              Strömung bleibt laminar.)</p>
+
+            <p><strong>Ergebnis und Plausibilität:</strong> Etwa $1\,\mathrm{N}$
+              – die Gewichtskraft einer Tafel Schokolade (100 g) – reicht, um Wasser
+              zügig durch die dünne Kanüle zu drücken. Mit der halb so dicken
+              Kanüle braucht man schon die Gewichtskraft von 1,6 kg; das merkt jeder,
+              der eine sehr feine Spritze benutzt hat. Vernachlässigt haben wir
+              den Druck, der nötig ist, um das Wasser beim Eintritt in die Kanüle
+              zu beschleunigen: $\tfrac12\rho\bar v^2 \approx 1000\,\mathrm{Pa}$,
+              etwa 8 % des Ergebnisses.</p>
+          </div>
+
+          <div class="beispiel">
+            <h3>Beispiel 3: Das Kugelfallviskosimeter</h3>
+            <p><strong>Gegeben:</strong> Eine Stahlkugel (Durchmesser
+              $2{,}0\,\mathrm{mm}$, $\rho_\text{K} = 7850\,\mathrm{kg/m^3}$) sinkt
+              in Glycerin ($\rho_\text{Fl} = 1260\,\mathrm{kg/m^3}$). Zwischen
+              zwei Markierungen im Abstand $10{,}0\,\mathrm{cm}$ braucht sie
+              $9{,}8\,\mathrm{s}$.<br>
+              <strong>Gesucht:</strong> die Viskosität von Glycerin; Prüfung, ob
+              das Stokessche Gesetz anwendbar ist und ob die Kugel ihre
+              Endgeschwindigkeit schon erreicht hat.</p>
+
+            <p><strong>1. Sinkgeschwindigkeit:</strong>
+              $v_\infty = 0{,}100\,\mathrm{m}/9{,}8\,\mathrm{s} = 1{,}02 \cdot 10^{-2}\,\mathrm{m/s}$.</p>
+
+            <p><strong>2. Viskosität:</strong> Mit $R = 1{,}0 \cdot 10^{-3}\,\mathrm{m}$:
+              $$ \eta = \frac{2\,\bigl(\rho_\text{K} - \rho_\text{Fl}\bigr)\,g\,R^2}{9\,v_\infty} = \frac{2 \cdot 6590\,\mathrm{kg/m^3} \cdot 9{,}81\,\mathrm{m/s^2} \cdot 1{,}0 \cdot 10^{-6}\,\mathrm{m^2}}{9 \cdot 1{,}02 \cdot 10^{-2}\,\mathrm{m/s}} = 1{,}41\,\mathrm{Pa\,s} . $$
+              Einheitencheck: $\mathrm{kg\,m^{-3} \cdot m\,s^{-2} \cdot m^2}/(\mathrm{m\,s^{-1}}) = \mathrm{kg\,m^{-1}\,s^{-1}} = \mathrm{Pa\,s}$ ✓.</p>
+
+            <p><strong>3. Gilt Stokes?</strong> Reynolds-Zahl mit dem
+              Kugeldurchmesser:
+              $$ \mathit{Re} = \frac{\rho_\text{Fl}\,v_\infty\,2R}{\eta} = \frac{1260\,\mathrm{kg/m^3} \cdot 1{,}02 \cdot 10^{-2}\,\mathrm{m/s} \cdot 2{,}0 \cdot 10^{-3}\,\mathrm{m}}{1{,}41\,\mathrm{Pa\,s}} = 0{,}018 \ll 1 \;\checkmark $$</p>
+
+            <p><strong>4. Anlaufzeit:</strong> Ohne Auftrieb gerechnet nähert
+              sich die Kugel ihrer Endgeschwindigkeit mit der Zeitkonstante
+              $$ \tau = \frac{m}{6\pi\eta R} = \frac{\tfrac43\pi R^3 \rho_\text{K}}{6\pi\eta R} = \frac{2\,\rho_\text{K}\,R^2}{9\,\eta} = \frac{2 \cdot 7850\,\mathrm{kg/m^3} \cdot 1{,}0 \cdot 10^{-6}\,\mathrm{m^2}}{9 \cdot 1{,}41\,\mathrm{Pa\,s}} = 1{,}2 \cdot 10^{-3}\,\mathrm{s} . $$
+              Nach wenigen Millisekunden fällt sie gleichförmig; die
+              Messstrecke darf also schon kurz unter der Oberfläche beginnen.</p>
+
+            <p><strong>Ergebnis und Plausibilität:</strong>
+              $\eta \approx 1{,}4\,\mathrm{Pa\,s}$ – rund 1400-mal zäher als
+              Wasser, das passt zum Tabellenwert für Glycerin bei 20 °C. Die
+              kleine Reynolds-Zahl bestätigt, dass die Kugel langsam genug für
+              das Stokessche Gesetz ist. In Wasser würde dieselbe Kugel dagegen
+              so schnell sinken, dass Stokes nicht mehr gilt (Aufgabe zum
+              Nachrechnen: $v_\infty$ wäre nach Stokes über $10\,\mathrm{m/s}$,
+              $\mathit{Re}$ weit über 1).
+              </p>
+          </div>
+        </section>
+
+        <section class="tab" id="aufgaben" data-titel="Aufgaben">
+
+          <p>Wenn nichts anderes angegeben ist: $g = 9{,}81\,\mathrm{m/s^2}$,
+            Wasser $\rho = 1000\,\mathrm{kg/m^3}$ und
+            $\eta = 1{,}0 \cdot 10^{-3}\,\mathrm{Pa\,s}$, Luft
+            $\rho = 1{,}2\,\mathrm{kg/m^3}$. Reibung wird nur berücksichtigt,
+            wo es ausdrücklich verlangt ist.</p>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 1: Der Fluss an der Engstelle
+              <span class="schwierigkeit" data-stufe="leicht">leicht</span>
+            </h3>
+            <p>Ein Fluss ist $20\,\mathrm{m}$ breit und im Mittel
+              $2{,}0\,\mathrm{m}$ tief; er fließt mit $0{,}50\,\mathrm{m/s}$. An
+              einer Engstelle ist er nur noch $8{,}0\,\mathrm{m}$ breit, dafür
+              $2{,}5\,\mathrm{m}$ tief.</p>
+            <ol type="a">
+              <li>Wie viel Wasser fließt pro Sekunde vorbei?</li>
+              <li>Wie schnell fließt der Fluss an der Engstelle?</li>
+            </ol>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p><strong>(a)</strong>
+                $\dot V = A_1 v_1 = 20\,\mathrm{m} \cdot 2{,}0\,\mathrm{m} \cdot 0{,}50\,\mathrm{m/s} = 20\,\mathrm{m^3/s}$
+                – 20 Tonnen Wasser pro Sekunde.</p>
+              <p><strong>(b)</strong> $A_2 = 8{,}0\,\mathrm{m} \cdot 2{,}5\,\mathrm{m} = 20\,\mathrm{m^2}$,
+                also $v_2 = \dot V/A_2 = 1{,}0\,\mathrm{m/s}$: Der Querschnitt hat
+                sich halbiert, die Geschwindigkeit verdoppelt.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 2: Staudruck und Fahrtwind
+              <span class="schwierigkeit" data-stufe="leicht">leicht</span>
+            </h3>
+            <ol type="a">
+              <li>Wie groß ist der Staudruck des Fahrtwinds bei
+                $50\,\mathrm{km/h}$ und bei $100\,\mathrm{km/h}$?</li>
+              <li>Ein Flugzeug misst seine Geschwindigkeit mit einem Staurohr:
+                Es bestimmt den Unterschied zwischen Gesamtdruck und statischem
+                Druck. In Reiseflughöhe ($\rho = 0{,}55\,\mathrm{kg/m^3}$) zeigt
+                es $2{,}6\,\mathrm{kPa}$ an. Wie schnell fliegt das Flugzeug
+                relativ zur Luft?</li>
+            </ol>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p><strong>(a)</strong> $50\,\mathrm{km/h} = 13{,}9\,\mathrm{m/s}$:
+                $p_\text{s} = \tfrac12 \cdot 1{,}2\,\mathrm{kg/m^3} \cdot (13{,}9\,\mathrm{m/s})^2 = 116\,\mathrm{Pa}$.
+                Bei $100\,\mathrm{km/h} = 27{,}8\,\mathrm{m/s}$ ist er viermal so
+                groß, $463\,\mathrm{Pa}$ – immer noch weniger als ein
+                Zweihundertstel des Luftdrucks.</p>
+              <p><strong>(b)</strong> Der Unterschied ist genau der Staudruck,
+                $\tfrac12\rho v^2 = 2600\,\mathrm{Pa}$, also
+                $$ v = \sqrt{\frac{2 \cdot 2600\,\mathrm{Pa}}{0{,}55\,\mathrm{kg/m^3}}} = 97\,\mathrm{\tfrac{m}{s}} = 350\,\mathrm{\tfrac{km}{h}} . $$
+                Weil die dünne Luft in die Rechnung eingeht, muss das Flugzeug
+                die Luftdichte kennen. Mit der Dichte am Boden käme man nur auf
+                $240\,\mathrm{km/h}$. (Bei dieser Geschwindigkeit wird die Luft
+                vor dem Staurohr schon etwas zusammengedrückt; Bernoulli für
+                inkompressible Fluide ist dann nur noch auf etwa 1 % genau.)
+                </p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 3: Die Wasserstrahlpumpe
+              <span class="schwierigkeit" data-stufe="mittel">mittel</span>
+            </h3>
+            <p>In einem waagerechten Rohr mit $2{,}0\,\mathrm{cm}$ Durchmesser
+              fließt Wasser mit $1{,}5\,\mathrm{m/s}$ bei einem Druck von
+              $1{,}20\,\mathrm{bar}$. Eine Wasserstrahlpumpe soll in ihrer
+              Engstelle den Druck auf $0{,}20\,\mathrm{bar}$ senken, um dort Luft
+              aus einem Gefäß abzusaugen. Wie klein muss der Durchmesser der
+              Engstelle sein?</p>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>Bernoulli (waagerecht):
+                $\tfrac12\rho\,(v_2^2 - v_1^2) = p_1 - p_2 = 1{,}00 \cdot 10^5\,\mathrm{Pa}$, also
+                $$ v_2 = \sqrt{v_1^2 + \frac{2\,(p_1 - p_2)}{\rho}} = \sqrt{2{,}25 + 200}\;\mathrm{\tfrac{m}{s}} = 14{,}2\,\mathrm{\tfrac{m}{s}} . $$
+                Kontinuität: $d_2^2\,v_2 = d_1^2\,v_1$, also
+                $$ d_2 = d_1\,\sqrt{\frac{v_1}{v_2}} = 2{,}0\,\mathrm{cm} \cdot \sqrt{\frac{1{,}5}{14{,}2}} = 0{,}65\,\mathrm{cm} . $$
+                Eine Engstelle von gut 6 mm genügt. Ganz verschwinden kann der
+                Druck nicht: Bei etwa $0{,}023\,\mathrm{bar}$ (20 °C) beginnt
+                das Wasser zu sieden.
+                </p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 4: Eine Glasplatte auf Öl
+              <span class="schwierigkeit" data-stufe="mittel">mittel</span>
+            </h3>
+            <p>Eine Glasplatte ($20\,\mathrm{cm} \times 20\,\mathrm{cm}$) liegt
+              auf einem $0{,}50\,\mathrm{mm}$ dicken Film aus Olivenöl
+              ($\eta = 0{,}080\,\mathrm{Pa\,s}$) und wird mit konstant
+              $5{,}0\,\mathrm{cm/s}$ über einen Tisch gezogen.</p>
+            <ol type="a">
+              <li>Welche Kraft ist dafür nötig? Wie groß ist die Scherrate?</li>
+              <li>Wie ändert sich die Kraft bei doppelter Geschwindigkeit? Was
+                wäre anders, wenn statt Öl Ketchup oder ein Brei aus
+                Speisestärke unter der Platte läge?</li>
+            </ol>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p><strong>(a)</strong>
+                $$ F = \eta\,A\,\frac{v}{d} = 0{,}080\,\mathrm{Pa\,s} \cdot 0{,}040\,\mathrm{m^2} \cdot \frac{0{,}050\,\mathrm{m/s}}{5{,}0 \cdot 10^{-4}\,\mathrm{m}} = 0{,}32\,\mathrm{N} , $$
+                Scherrate $\dot\gamma = v/d = 100\,\mathrm{s^{-1}}$.</p>
+              <p><strong>(b)</strong> Öl ist newtonsch: Doppelte
+                Geschwindigkeit, doppelte Scherrate, doppelte Kraft
+                ($0{,}64\,\mathrm{N}$). Ketchup ist scherverdünnend – bei höherer
+                Scherrate sinkt seine Viskosität, die Kraft steigt weniger als
+                auf das Doppelte. Der Speisestärkebrei ist scherverdickend, die
+                Kraft steigt mehr als auf das Doppelte.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 5: Eine verengte Ader
+              <span class="schwierigkeit" data-stufe="schwer">schwer</span>
+            </h3>
+            <p>Wir beschreiben ein Blutgefäß vereinfacht als starres Rohr mit
+              laminarer Strömung einer newtonschen Flüssigkeit.</p>
+            <ol type="a">
+              <li>Zeige mit dem Gesetz von Hagen-Poiseuille, dass die mittlere
+                Geschwindigkeit $\bar v = \dot V/(\pi R^2)$ halb so groß ist wie
+                die Geschwindigkeit in der Mitte des Rohres.</li>
+              <li>Durch Ablagerungen schrumpft der Innenradius eines Gefäßes auf
+                einer bestimmten Länge um 20 %. Auf welchen Anteil sinkt der
+                Volumenstrom, wenn die Druckdifferenz über diesem Stück gleich
+                bleibt?</li>
+              <li>Um welchen Faktor müsste die Druckdifferenz steigen, damit
+                wieder gleich viel Blut fließt? Wie schnell fließt das Blut dann
+                im Mittel in der Verengung, verglichen mit vorher?</li>
+            </ol>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p><strong>(a)</strong>
+                $$ \bar v = \frac{\dot V}{\pi R^2} = \frac{\pi R^4 \Delta p}{8\eta L\,\pi R^2} = \frac{\Delta p\,R^2}{8\eta L} = \frac12\cdot\frac{\Delta p\,R^2}{4\eta L} = \frac{v_\text{max}}{2} . $$</p>
+              <p><strong>(b)</strong> $\dot V \propto R^4$:
+                $0{,}8^4 = 0{,}41$. Der Volumenstrom sinkt auf 41 %, also um mehr
+                als die Hälfte.</p>
+              <p><strong>(c)</strong> Die Druckdifferenz muss auf das
+                $1/0{,}41 = 2{,}4$-fache steigen. Bei gleichem $\dot V$ ist
+                $\bar v \propto 1/R^2$, also fließt das Blut in der Verengung
+                $1/0{,}8^2 = 1{,}56$-mal so schnell.</p>
+              <p><strong>Zum Nachdenken:</strong> Wegen der vierten Potenz kann
+                der Körper die Durchblutung einzelner Organe sehr wirksam
+                steuern: Ein Muskel um eine kleine Arterie muss deren Radius nur
+                um 19 % weiten, um den Blutfluss zu verdoppeln
+                ($2^{1/4} = 1{,}19$). Blut ist allerdings nicht newtonsch und
+                strömt pulsierend – das Modell gibt die Größenordnung, nicht die
+                genauen Werte.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 6: Wasserstrahlen aus einer Säule
+              <span class="schwierigkeit" data-stufe="schwer">schwer</span>
+            </h3>
+            <p>Ein weites Gefäß steht auf dem Boden, das Wasser steht
+              $H = 1{,}00\,\mathrm{m}$ hoch. In den Höhen $y = 25\,\mathrm{cm}$,
+              $50\,\mathrm{cm}$ und $75\,\mathrm{cm}$ über dem Boden sind kleine
+              Löcher, aus denen das Wasser waagerecht austritt. Die $y$-Achse
+              zeigt nach oben; der Wasserspiegel sinkt so langsam, dass $H$
+              konstant bleibt.</p>
+            <ol type="a">
+              <li>Mit welcher Geschwindigkeit tritt das Wasser aus den Löchern
+                aus?</li>
+              <li>Zeige: Der Strahl aus der Höhe $y$ trifft im Abstand
+                $x = 2\sqrt{(H - y)\,y}$ auf den Boden. Wie weit spritzen die
+                drei Strahlen?</li>
+              <li>Aus welcher Höhe spritzt das Wasser am weitesten?</li>
+              <li>Jetzt steht das Gefäß auf einem Tisch der Höhe $T$. Aus
+                welchem Loch spritzt das Wasser nun am weitesten (gemessen auf
+                dem Fußboden)?</li>
+            </ol>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p><strong>(a)</strong> Torricelli mit der Tiefe $H - y$ unter dem
+                Spiegel: $v = \sqrt{2g\,(H - y)}$. Das ergibt
+                $3{,}84\,\mathrm{m/s}$, $3{,}13\,\mathrm{m/s}$ und
+                $2{,}21\,\mathrm{m/s}$ – je tiefer das Loch, desto schneller.</p>
+              <p><strong>(b)</strong> Der Strahl ist ein waagerechter Wurf aus
+                der Höhe $y$. Die Fallzeit ist $t = \sqrt{2y/g}$, also
+                $$ x = v\,t = \sqrt{2g\,(H - y)}\cdot\sqrt{\frac{2y}{g}} = 2\sqrt{(H - y)\,y} . $$
+                Für $y = 25\,\mathrm{cm}$: $x = 2\sqrt{0{,}75 \cdot 0{,}25}\,\mathrm{m} = 0{,}87\,\mathrm{m}$;
+                für $50\,\mathrm{cm}$: $1{,}00\,\mathrm{m}$; für $75\,\mathrm{cm}$
+                wieder $0{,}87\,\mathrm{m}$. Der unterste Strahl ist zwar am
+                schnellsten, fällt aber am kürzesten.</p>
+              <p><strong>(c)</strong> $(H - y)\,y$ ist eine nach unten offene
+                Parabel in $y$ mit dem Maximum bei $y = H/2$. Aus halber Höhe
+                spritzt das Wasser am weitesten, und zwar genau $x = H$.</p>
+              <p><strong>(d)</strong> Die Fallhöhe ist jetzt $y + T$, also
+                $x = 2\sqrt{(H - y)(y + T)}$. Das Maximum liegt bei
+                $y = (H - T)/2$. Ist der Tisch mindestens so hoch wie die
+                Wassersäule ($T \geq H$), liegt dieser Wert bei oder unter dem
+                Gefäßboden – dann spritzt das <em>unterste</em> Loch am
+                weitesten.</p>
+              <p><strong>Zum Nachdenken:</strong> Im Vorlesungsversuch (siehe
+                <a href="ruhende-fluide.html">Ruhende Fluide</a>) spritzten die
+                unteren Strahlen am weitesten. Nach (d) ist das kein
+                Widerspruch – es kommt darauf an, wie hoch die Säule steht und
+                wo man die Weite misst.</p>
+            </details>
+          </div>
+        </section>
+
+      </div></article>
+  </main>
+</body>
+</html>

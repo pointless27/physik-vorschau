@@ -1,0 +1,144 @@
+/* =========================================================================
+   TABELLEN, CODE, FORMELN, ABBILDUNGEN
+   =========================================================================
+   Statische Abbildungen (inline-SVG, .abb) und die Bildelemente, die
+   auch die interaktiven Grafiken benutzen (.pfeil, .ball, .strahl …).
+   Eingebunden über css/stil.css – Reihenfolge dort nicht ändern. */
+
+/* -------------------------------------------------------------------------
+   7. TABELLEN, CODE, FORMELN
+   ------------------------------------------------------------------------- */
+.tabelle-huelle { overflow-x: auto; margin: 1.5rem 0; }
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  background: var(--flaeche);
+  border-radius: var(--radius-m);
+  overflow: hidden;
+  box-shadow: var(--schatten-s);
+  font-size: 0.97rem;
+}
+th, td {
+  border-bottom: 1px solid var(--rand);
+  padding: 0.65rem 0.9rem;
+  text-align: left;
+}
+th {
+  background: var(--flaeche-2);
+  font-size: 0.85rem;
+  letter-spacing: 0.02em;
+}
+tbody tr:last-child td { border-bottom: none; }
+
+code {
+  background: var(--code-bg);
+  padding: 0.12rem 0.4rem;
+  border-radius: 0.3rem;
+  font-size: 0.9em;
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+}
+
+.katex-display {
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 0.35rem 0;
+}
+
+/* Abbildungen (inline-SVG) auf Themenseiten.
+   Farben kommen aus CSS-Variablen, damit sie im Dunkelmodus mitwechseln:
+   .kurve = Haupt-Linie, .blau/.kupfer = Akzente, .flaeche = getönte Fläche */
+.abbildung {
+  margin: 1.75rem 0;
+  padding: 1.1rem 1.2rem 0.9rem;
+  background: var(--flaeche);
+  border: 1px solid var(--rand);
+  border-radius: var(--radius-l);
+}
+.abbildung svg {
+  display: block;
+  width: 100%;
+  max-width: 32rem;
+  height: auto;
+  margin: 0 auto;
+  color: var(--text-schwach);
+  overflow: visible;
+}
+.abb-reihe {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
+  gap: 0.75rem;
+}
+.abbildung figcaption {
+  margin-top: 0.7rem;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: var(--text-schwach);
+}
+.abb text { fill: currentColor; font-family: var(--schrift-text); font-size: 13px; }
+.abb .achse { fill: none; stroke: currentColor; stroke-width: 1.3; }
+.abb .hilfslinie { fill: none; stroke: currentColor; stroke-width: 1; stroke-dasharray: 3 4; }
+.abb .kurve {
+  fill: none;
+  stroke: var(--text);
+  stroke-width: 2.2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.abb .kurve.blau   { stroke: var(--akzent); }
+.abb .kurve.kupfer { stroke: var(--akzent-2); }
+.abb text.blau     { fill: var(--akzent); font-weight: 600; }
+.abb text.kupfer   { fill: var(--akzent-2); font-weight: 600; }
+.abb .flaeche { fill: var(--akzent); fill-opacity: 0.14; }
+.abb .flaeche.kupfer { fill: var(--akzent-2); }
+.abb .punkt   { fill: var(--text); }
+.abb .punkt.kupfer { fill: var(--akzent-2); }
+.abb .punkt.blau   { fill: var(--akzent); }
+
+/* Bildelemente der interaktiven Grafiken */
+.abb text.klein  { font-size: 11px; }
+.abb text.ia-titel { font-size: 12px; font-weight: 600; fill: var(--text); }
+.abb .gitter { stroke: var(--rand); stroke-width: 1; }
+.abb .gitter.bild { stroke: var(--akzent); stroke-opacity: 0.3; }
+.abb .figur { fill: var(--akzent-2); fill-opacity: 0.8; }
+.abb .figur.vorher { fill: none; stroke: var(--text-schwach); stroke-width: 1.2; stroke-dasharray: 3 3; }
+.abb .kurve.schwach { stroke: var(--text-schwach); stroke-opacity: 0.35; stroke-width: 1.6; }
+.abb .kurve.duenn { stroke-width: 1.5; }
+.abb .kurve.band { stroke-width: 9px; stroke-opacity: 0.16; stroke-linecap: round; }
+.abb .spur { fill: none; stroke: var(--text-schwach); stroke-opacity: 0.55; stroke-width: 1.4; }
+.abb .pfeil { color: var(--text-schwach); }
+.abb .pfeil.blau   { color: var(--akzent); }
+.abb .pfeil.kupfer { color: var(--akzent-2); }
+.abb .pfeil line { stroke: currentColor; stroke-width: 2.4; stroke-linecap: round; }
+.abb .pfeil.duenn line { stroke-width: 1.3; }
+.abb .pfeil polygon { fill: currentColor; }
+.abb .pfeil.text { color: var(--text); }
+/* Vektor-Labor: ziehbare Pfeilspitzen und Symbol für „zeigt heraus/hinein“ */
+.abb .griff {
+  fill: var(--akzent); fill-opacity: 0.12;
+  stroke: var(--akzent); stroke-opacity: 0.55; stroke-width: 1.2; stroke-dasharray: 3 3;
+  cursor: grab; touch-action: none;
+}
+.abb .griff.kupfer { fill: var(--akzent-2); stroke: var(--akzent-2); }
+.abb .griff.zieht { cursor: grabbing; fill-opacity: 0.25; }
+.abb .griff:focus { outline: none; }
+.abb .griff:focus-visible { stroke-opacity: 1; stroke-width: 2; stroke-dasharray: none; fill-opacity: 0.25; }
+.abb .zeiger { fill: var(--flaeche); stroke: var(--text); stroke-width: 1.6; }
+.abb .schatten { stroke: var(--akzent-2); stroke-width: 10; stroke-opacity: 0.45; }
+.abb .ball { fill: var(--akzent-2); stroke: var(--flaeche); stroke-width: 1.5; }
+.abb .wagen, .abb .turm { fill: var(--flaeche-2); stroke: var(--text); stroke-width: 1.3; }
+.abb .rad { fill: var(--text); }
+.abb .strobo { fill: var(--akzent); fill-opacity: 0.55; }
+.abb .pfosten, .abb .person { fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+.abb .laterne { fill: var(--akzent-2); fill-opacity: 0.6; }
+.abb .ball.blau { fill: var(--akzent); }
+.abb text.auf-ball { fill: var(--flaeche); font-weight: 700; }
+/* Beschriftung, die Linien kreuzen darf: schmaler Rand in Hintergrundfarbe */
+.abb text.halo { paint-order: stroke; stroke: var(--flaeche); stroke-width: 3px; stroke-linejoin: round; }
+.abb .balken { fill: var(--akzent); }
+.abb .balken.kupfer { fill: var(--akzent-2); }
+.abb .balken.grau { fill: var(--text-schwach); fill-opacity: 0.55; }
+/* Sternleichen: Strahlkegel des Pulsars, Schwarzes Loch (in beiden Schemata schwarz, Rand orange) */
+.abb .strahl { fill: var(--akzent); fill-opacity: 0.38; stroke: var(--akzent); stroke-width: 1; }
+.abb .strahl.hinten { fill-opacity: 0.16; stroke-opacity: 0.4; }
+.abb .loch { fill: var(--loch); stroke: var(--akzent-2); stroke-width: 2.5; }

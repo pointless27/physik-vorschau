@@ -1,0 +1,876 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="robots" content="noindex">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Symmetrien und Erhaltungssätze</title>
+  <meta name="description" content="Zyklische Koordinaten, Hamilton-Funktion und das Noether-Theorem: warum aus Symmetrien Energie-, Impuls- und Drehimpulserhaltung folgen – verständlich erklärt und mit Herleitungen, Beispielen und Aufgaben.">
+
+  <link rel="stylesheet" href="../../css/stil.css">
+
+  <link rel="stylesheet" href="../../extern/katex/katex.min.css">
+  <script defer src="../../extern/katex/katex.min.js"></script>
+  <script defer src="../../extern/katex/contrib/auto-render.min.js" onload="starteFormeln()"></script>
+
+  <script src="../../js/daten.js"></script>
+  <script src="../../js/seite.js"></script>
+  <script src="../../js/effekte.js"></script>
+  <script src="../../js/interaktiv.js"></script>
+  <script src="../../js/modelle/noether.js"></script>
+  <script type="application/json" id="symbole">
+  {
+    "L": "Lagrange-Funktion",
+    "q": "generalisierte Koordinate",
+    "q_i": "i-te generalisierte Koordinate",
+    "q_j": "j-te generalisierte Koordinate",
+    "q_k": "k-te generalisierte Koordinate",
+    "q_l": "l-te generalisierte Koordinate",
+    "t": "Zeit",
+    "p": "generalisierter Impuls",
+    "p_i": "Impuls des i-ten Teilchens",
+    "p_j": "generalisierter Impuls zu q_j",
+    "p_k": "generalisierter Impuls zu q_k",
+    "i": "Nummer des Teilchens",
+    "j": "Nummer der Koordinate",
+    "m": "Masse",
+    "m_1": "Masse des Wagens",
+    "m_2": "Masse des Pendelkörpers",
+    "m_i": "Masse des i-ten Teilchens",
+    "m_jl": "Element der Massenmatrix",
+    "g": "Fallbeschleunigung",
+    "x": "x-Koordinate",
+    "y": "y-Koordinate",
+    "z": "z-Koordinate",
+    "x_1": "Ort des Wagens",
+    "x_2": "Ort des Pendelkörpers",
+    "φ": "Winkel",
+    "φ_0": "Anfangsauslenkung",
+    "k": "Konstante",
+    "p_x": "Impuls in x-Richtung",
+    "p_y": "Impuls in y-Richtung",
+    "p_z": "Impuls in z-Richtung",
+    "p_x1": "generalisierter Impuls zu x₁",
+    "p_φ": "generalisierter Impuls zu φ (Drehimpuls)",
+    "p_r": "generalisierter Impuls zu r",
+    "p_θ": "generalisierter Impuls zu θ",
+    "H": "Hamilton-Funktion",
+    "E": "Energie",
+    "T": "kinetische Energie",
+    "V": "potentielle Energie",
+    "V_ij": "Wechselwirkungsenergie der Teilchen i und j",
+    "r": "Abstand vom Zentrum",
+    "r_0": "Anfangsabstand",
+    "ω": "Winkelgeschwindigkeit",
+    "r_i": "Ort des i-ten Teilchens",
+    "r_j": "Ort des j-ten Teilchens",
+    "I": "Erhaltungsgröße",
+    "I_1": "erste Erhaltungsgröße",
+    "I_n": "n-te Erhaltungsgröße",
+    "I_i": "i-te Erhaltungsgröße",
+    "I_j": "j-te Erhaltungsgröße",
+    "α": "Parameter der Transformation",
+    "ψ_j": "Richtung der infinitesimalen Transformation von q_j",
+    "ψ_i": "Richtung der infinitesimalen Verschiebung von Teilchen i",
+    "δ_jk": "Kronecker-Delta (1 für j = k, sonst 0)",
+    "F": "Funktion im Eichterm dF/dt",
+    "f": "Funktion f(q, t) der Eichtransformation",
+    "N": "Anzahl der Teilchen",
+    "b": "fester Verschiebungsvektor",
+    "P": "Gesamtimpuls",
+    "n": "Einheitsvektor der Drehachse",
+    "v": "Geschwindigkeit des bewegten Bezugssystems",
+    "M": "Gesamtmasse",
+    "R": "Ort des Schwerpunkts",
+    "A": "vom Fahrstrahl überstrichene Fläche",
+    "L_x": "x-Komponente des Drehimpulses",
+    "L_y": "y-Komponente des Drehimpulses",
+    "L_z": "z-Komponente des Drehimpulses",
+    "M_z": "z-Komponente des Drehmoments",
+    "F_x": "x-Komponente der Kraft",
+    "F_y": "y-Komponente der Kraft",
+    "k_1": "Federkonstante in x-Richtung",
+    "k_2": "Federkonstante in y-Richtung",
+    "π": "Kreiszahl π ≈ 3,14159",
+    "G": "Gravitationskonstante",
+    "r_1": "Abstand im erdnächsten Punkt",
+    "r_2": "Abstand im erdfernsten Punkt",
+    "v_1": "Geschwindigkeit im erdnächsten Punkt",
+    "v_2": "Geschwindigkeit im erdfernsten Punkt",
+    "ρ": "Abstand von der z-Achse (Zylinderkoordinate)",
+    "ψ_z": "Verschiebung in z-Richtung pro Parameter",
+    "ψ_φ": "Drehung pro Parameter",
+    "u": "Geschwindigkeit der Galilei-Transformation",
+    "ψ": "Verschiebung der Transformation",
+    "θ": "Winkel der Perle auf dem Ring",
+    "θ_0": "Startwinkel",
+    "θ_1": "Umkehrwinkel",
+    "U": "effektives Potential",
+    "c": "cos θ (Abkürzung)",
+    "c_0": "cos θ₀",
+    "c_1": "Kosinus des zweiten Umkehrwinkels"
+  }
+  </script>
+</head>
+<body data-thema="noether">
+  <main>
+    <article class="thema">
+      <header>
+        <h1>Symmetrien und Erhaltungssätze</h1>
+        <p class="untertitel">Warum Energie, Impuls und Drehimpuls erhalten bleiben: Hinter
+          jedem Erhaltungssatz steckt eine Symmetrie – eine der tiefsten Einsichten der
+          Physik, gefunden von Emmy Noether.</p>
+      </header>
+
+      <div class="tabs">
+
+        <section class="tab" id="verstehen" data-titel="Verstehen">
+
+          <p>Stell dir vor, du lässt einen Ball fallen – heute, morgen oder in
+            hundert Jahren. Er fällt jedes Mal gleich. Du kannst den Versuch in Berlin
+            machen oder in Tokio, du kannst dich dabei nach Norden oder nach Süden
+            drehen: Die Physik ist überall und zu jeder Zeit dieselbe. Das klingt so
+            selbstverständlich, dass man es kaum erwähnen möchte. Und doch folgt
+            daraus etwas Handfestes: die großen Erhaltungssätze der Physik.</p>
+
+          <h2>Symmetrie: etwas ändern, ohne dass sich etwas ändert</h2>
+
+          <p>Eine Kugel sieht nach jeder Drehung gleich aus – sie ist
+            <em>drehsymmetrisch</em>. Ein unendlich langer, gerader Tunnel sieht
+            nach jedem Schritt geradeaus gleich aus – er ist
+            <em>verschiebungssymmetrisch</em>. In der Physik meint Symmetrie dasselbe,
+            nur für die Naturgesetze: Man verschiebt, dreht oder wartet, und die
+            Gesetze bleiben, wie sie sind.</p>
+
+          <p>1918 bewies die Mathematikerin Emmy Noether in Göttingen einen Satz,
+            der diese Symmetrien mit Erhaltungsgrößen verknüpft: <em>Zu jeder
+            kontinuierlichen Symmetrie gehört eine Größe, die sich nie ändert.</em></p>
+
+          <div class="tabelle-huelle">
+            <table>
+              <thead><tr><th>Die Physik ändert sich nicht, wenn man …</th><th>… dann bleibt erhalten:</th></tr></thead>
+              <tbody>
+                <tr><td>den Versuch später macht</td><td>die Energie</td></tr>
+                <tr><td>den Versuch woanders aufbaut</td><td>der Impuls</td></tr>
+                <tr><td>den Versuch in eine andere Richtung dreht</td><td>der Drehimpuls</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h2>Wenn die Symmetrie fehlt</h2>
+
+          <p>Spannend wird es, wenn eine Symmetrie <em>nicht</em> vorhanden ist.
+            Ein Puck gleitet in einer langen Rinne: Entlang der Rinne sieht alles
+            gleich aus, quer dazu nicht. Also bleibt nur der Impuls entlang der Rinne
+            erhalten, der quer dazu schwappt hin und her. In einer runden Schüssel
+            ist es umgekehrt: Verschieben ändert die Schüssel, Drehen um ihre Mitte
+            nicht – hier bleibt der Drehimpuls erhalten, der Impuls nicht.</p>
+
+          <figure class="interaktiv" data-modell="symmetrielabor">
+            <span class="titel">Zum Ausprobieren</span>
+            <figcaption>Ein Puck gleitet reibungsfrei durch eine Landschaft, von oben
+              gesehen. Die gestrichelten Linien sind Höhenlinien, der blaue Pfeil
+              zeigt den Impuls, der orangefarbene die Kraft. Wähle eine Landschaft und
+              schau in den Diagrammen, ob der Impuls in x-Richtung und der Drehimpuls
+              um die Mitte konstant bleiben. Ändere auch die Startrichtung: Die
+              Antwort hängt nur von der Form der Landschaft ab.</figcaption>
+          </figure>
+
+          <div class="alltag">
+            <span class="titel">Aus dem Alltag</span>
+            <p>Eine Eiskunstläuferin zieht bei der Pirouette die Arme an und dreht
+              sich schneller. Das Eis ist glatt und übt kaum ein Drehmoment aus –
+              rund um ihre Drehachse sieht für sie alles gleich aus. Deshalb bleibt
+              ihr Drehimpuls erhalten, und kleinere Arme bedeuten mehr Tempo. Mehr
+              dazu bei der <a href="drehbewegung.html">Drehbewegung</a>.</p>
+          </div>
+
+          <p>Auch die Energieerhaltung kann verloren gehen: Wenn ein Kind auf der
+            Schaukel im richtigen Takt die Beine streckt und anzieht, ändert es die
+            „Regeln“ der Schaukel mit der Zeit – und schwingt immer höher. Ohne
+            zeitliche Symmetrie keine Energieerhaltung.</p>
+
+          <h2>Warum das so wichtig ist</h2>
+
+          <p>Erhaltungsgrößen sind Abkürzungen. Man muss eine Bewegung nicht im
+            Detail ausrechnen, um zu wissen, wie schnell ein Pendel unten ist oder
+            wie schnell ein Komet in Sonnennähe fliegt. Noethers Satz zeigt
+            außerdem, woher diese Abkürzungen kommen – und er funktioniert weit über
+            die Mechanik hinaus. In der Teilchenphysik sucht man zuerst nach den
+            Symmetrien, und die Erhaltungsgrößen (etwa die elektrische Ladung) folgen
+            von selbst.</p>
+
+          <div class="merkkasten">
+            <span class="titel">Das Wichtigste in Kürze</span>
+            <ul>
+              <li>Eine Symmetrie bedeutet: Eine Verschiebung, Drehung oder Wartezeit
+                ändert die Gesetze eines Systems nicht.</li>
+              <li>Zu jeder solchen kontinuierlichen Symmetrie gehört eine
+                Erhaltungsgröße (Noether-Theorem).</li>
+              <li>Zeit → Energie, Ort → Impuls, Richtung → Drehimpuls.</li>
+              <li>Fehlt eine Symmetrie, etwa weil eine Rinne nur in einer Richtung
+                gleich aussieht, bleibt nur ein Teil erhalten.</li>
+            </ul>
+          </div>
+        </section>
+
+        <section class="tab" id="vertiefung" data-titel="Vertiefung">
+
+          <p>Die Lagrange-Gleichungen sind Differentialgleichungen zweiter Ordnung;
+            für jeden Freiheitsgrad braucht man zwei Integrationen. Jede bekannte
+            Beziehung $I(q, \dot{q}, t) = \text{konst.}$, die für alle Lösungen gilt –
+            ein <em>erstes Integral</em> oder eine <em>Erhaltungsgröße</em> –,
+            erspart eine davon. Dieses Kapitel zeigt, wie man solche Größen findet.
+            Grundlage ist der <a href="lagrange.html">Lagrange-Formalismus</a>.</p>
+
+          <h2 id="zyklisch">Generalisierte Impulse und zyklische Koordinaten</h2>
+
+          <p>Zu jeder generalisierten Koordinate $q_j$ gehört der
+            <em>generalisierte</em> (auch <em>kanonische</em> oder
+            <em>konjugierte</em>) <em>Impuls</em></p>
+
+          $$ p_j = \frac{\partial L}{\partial\dot{q}_j} . $$
+
+          <p>Das Produkt $q_j p_j$ hat immer die Einheit einer Wirkung,
+            $\mathrm{J\,s} = \mathrm{kg\,m^2/s}$. Ist $q_j$ ein Winkel, so ist $p_j$
+            also ein Drehimpuls, kein Impuls im engeren Sinn.</p>
+
+          <p>Eine Koordinate heißt <em>zyklisch</em>, wenn sie in $L$ nicht
+            vorkommt, $\partial L/\partial q_j = 0$ (ihre Geschwindigkeit
+            $\dot{q}_j$ darf vorkommen). Dann lautet ihre Lagrange-Gleichung
+            $\frac{\mathrm{d}}{\mathrm{d}t}\,p_j = 0$:</p>
+
+          <div class="merkkasten">
+            <span class="titel">Merke</span>
+            <p>Der zu einer zyklischen Koordinate konjugierte Impuls ist eine
+              Erhaltungsgröße.</p>
+          </div>
+
+          <ul>
+            <li><strong>Wurf:</strong>
+              $L = \tfrac{1}{2} m (\dot{x}^2 + \dot{y}^2 + \dot{z}^2) - m g z$
+              ($z$-Achse nach oben). $x$ und $y$ sind zyklisch, also bleiben
+              $p_x = m\dot{x}$ und $p_y = m\dot{y}$ erhalten.</li>
+            <li><strong>Pendel:</strong>
+              $L = \tfrac{1}{2} m \ell^2 \dot{\varphi}^2 + m g \ell\cos\varphi$.
+              $\varphi$ ist nicht zyklisch, der Drehimpuls
+              $p_\varphi = m\ell^2\dot{\varphi}$ um den Aufhängepunkt ändert sich
+              – die Schwerkraft übt ein Drehmoment aus.</li>
+            <li><strong>Rollpendel</strong> (Wagen auf Schiene mit Pendel, siehe
+              <a href="lagrange.html#rollpendel">Lagrange-Formalismus</a>): Die
+              Wagenposition $x_1$ ist zyklisch, erhalten ist der horizontale
+              Gesamtimpuls
+              $p_{x_1} = (m_1 + m_2)\dot{x}_1 + m_2\ell\dot{\varphi}\cos\varphi$
+              (Beispiel 1).</li>
+          </ul>
+
+          <p>Ob eine Koordinate zyklisch ist, hängt von der Wahl der Koordinaten ab.
+            Im Zentralpotential ist in kartesischen Koordinaten keine zyklisch, in
+            Polarkoordinaten ist es der Winkel. Die Kunst besteht darin, Koordinaten
+            zu finden, die zur Symmetrie des Problems passen.</p>
+
+          <h2 id="hamilton-funktion">Die Hamilton-Funktion und die Energie</h2>
+
+          <p>Hängt $L$ nicht explizit von der Zeit ab, $\partial L/\partial t = 0$,
+            so folgt mit den Lagrange-Gleichungen</p>
+
+          $$ \frac{\mathrm{d}L}{\mathrm{d}t} = \sum_j \left( \frac{\partial L}{\partial q_j}\dot{q}_j + \frac{\partial L}{\partial\dot{q}_j}\ddot{q}_j \right) = \sum_j \left( \dot{p}_j \dot{q}_j + p_j \ddot{q}_j \right) = \frac{\mathrm{d}}{\mathrm{d}t} \sum_j p_j \dot{q}_j . $$
+
+          <p>Also ist die <em>Hamilton-Funktion</em></p>
+
+          $$ H = \sum_j p_j \dot{q}_j - L, \qquad \frac{\mathrm{d}H}{\mathrm{d}t} = -\frac{\partial L}{\partial t}, $$
+
+          <p>eine Erhaltungsgröße, sobald $L$ nicht explizit zeitabhängig ist. Ist
+            sie auch die Energie? Bei skleronomen Zwangsbedingungen
+            ($\partial\vec{r}_i/\partial t = 0$) ist
+            $T = \tfrac{1}{2}\sum_{j,l} m_{jl}(q)\,\dot{q}_j\dot{q}_l$ eine
+            homogene quadratische Funktion der $\dot{q}_j$, und nach dem
+            Eulerschen Satz gilt $\sum_j \dot{q}_j\,\partial T/\partial\dot{q}_j = 2T$.
+            Hängt $V$ nicht von den Geschwindigkeiten ab, wird daraus</p>
+
+          $$ H = 2T - (T - V) = T + V = E . $$
+
+          <div class="merkkasten">
+            <span class="titel">Merke</span>
+            <ul>
+              <li>$\partial L/\partial t = 0$ ⇒ $H$ ist erhalten.</li>
+              <li>Holonom-skleronome Zwangsbedingungen und ein Potential $V(q)$ ⇒
+                $H = T + V = E$.</li>
+              <li>Bei rheonomen Zwangsbedingungen kann $H$ erhalten sein, obwohl
+                $H \ne E$ und $E$ sich ändert.</li>
+            </ul>
+          </div>
+
+          <p>Das Standardbeispiel für den letzten Punkt ist eine Perle auf einem
+            geraden Draht, der in der Ebene mit fester Winkelgeschwindigkeit $\omega$
+            um einen Endpunkt gedreht wird ($\varphi = \omega t$, rheonom). Mit
+            $V = 0$ ist</p>
+
+          $$ L = \tfrac{1}{2} m \left( \dot{r}^2 + r^2\omega^2 \right) = E, \qquad H = p_r\dot{r} - L = \tfrac{1}{2} m \left( \dot{r}^2 - r^2\omega^2 \right) . $$
+
+          <p>$L$ hängt nicht von $t$ ab, also ist $H$ erhalten. Die Energie wächst
+            dagegen: Die Perle wird nach außen geschleudert, $r(t) = r_0\cosh\omega t$
+            bei Start aus der Ruhe relativ zum Draht, und der Antrieb des Drahtes
+            leistet über die Zwangskraft reale Arbeit (Abb. 1, Beispiel 2).</p>
+
+          <figure class="abbildung">
+            <svg class="abb" viewBox="0 0 360 215" role="img"
+                 aria-label="Energie und Hamilton-Funktion einer Perle auf einem gedrehten Draht über der Zeit: die Energie wächst steil, die Hamilton-Funktion bleibt konstant negativ">
+              <path class="gitter" d="M46 159.3H332M46 100.7H332M46 27.3H332M46 188.7H332"/>
+              <path class="achse" d="M46 174H334M46 196V14"/>
+              <text x="40" y="163" font-size="11" text-anchor="end">1</text>
+              <text x="40" y="104" font-size="11" text-anchor="end">5</text>
+              <text x="40" y="31" font-size="11" text-anchor="end">10</text>
+              <text x="40" y="178" font-size="11" text-anchor="end">0</text>
+              <text x="40" y="192" font-size="11" text-anchor="end">−1</text>
+              <text x="140.7" y="210" font-size="11" text-anchor="middle">0,5</text>
+              <text x="235.3" y="210" font-size="11" text-anchor="middle">1</text>
+              <text x="330" y="210" font-size="11" text-anchor="end">1,5 = ωt</text>
+              <polyline class="kurve kupfer" points="46.0,159.3 50.7,159.3 55.5,159.3 60.2,159.2 64.9,159.0 69.7,158.9 74.4,158.7 79.1,158.4 83.9,158.1 88.6,157.8 93.3,157.5 98.1,157.1 102.8,156.6 107.5,156.1 112.3,155.6 117.0,155.0 121.7,154.4 126.5,153.7 131.2,153.0 135.9,152.2 140.7,151.4 145.4,150.5 150.1,149.5 154.9,148.5 159.6,147.4 164.3,146.3 169.1,145.1 173.8,143.8 178.5,142.5 183.3,141.0 188.0,139.5 192.7,137.9 197.5,136.2 202.2,134.4 206.9,132.5 211.7,130.5 216.4,128.4 221.1,126.2 225.9,123.9 230.6,121.4 235.3,118.8 240.1,116.1 244.8,113.2 249.5,110.2 254.3,107.0 259.0,103.7 263.7,100.1 268.5,96.4 273.2,92.5 277.9,88.4 282.7,84.1 287.4,79.5 292.1,74.7 296.9,69.7 301.6,64.4 306.3,58.8 311.1,53.0 315.8,46.8 320.5,40.3 325.3,33.5 330.0,26.3"/>
+              <path class="kurve blau" d="M46 188.7H330"/>
+              <text class="kupfer" x="215" y="80" font-size="12">Energie E</text>
+              <text class="blau" x="150" y="185" font-size="12">Hamilton-Funktion H</text>
+              <text x="54" y="22" font-size="11">in Einheiten von ½ m r₀² ω²</text>
+            </svg>
+            <figcaption>Abb. 1: Perle auf einem Draht, der mit konstanter
+              Winkelgeschwindigkeit $\omega$ gedreht wird, Start bei $r_0$ in Ruhe
+              relativ zum Draht. Exakt gilt $E = \tfrac{1}{2} m r_0^2\omega^2\cosh(2\omega t)$
+              und $H = -\tfrac{1}{2} m r_0^2\omega^2$. Die Energie wächst, weil der
+              Motor Arbeit verrichtet; die Hamilton-Funktion bleibt konstant, weil
+              die Lagrange-Funktion nicht explizit von der Zeit abhängt.</figcaption>
+          </figure>
+
+          <h2 id="symmetrietransformation">Eichtransformationen und Symmetrietransformationen</h2>
+
+          <p>Die Lagrange-Funktion ist nicht eindeutig. Addiert man die totale
+            Zeitableitung einer Funktion $f(q, t)$,</p>
+
+          $$ L'(q, \dot{q}, t) = L(q, \dot{q}, t) + \frac{\mathrm{d}}{\mathrm{d}t} f(q, t), $$
+
+          <p>so ändern sich die Bewegungsgleichungen nicht (<em>mechanische
+            Eichtransformation</em>): Wegen
+            $\frac{\mathrm{d}f}{\mathrm{d}t} = \sum_l \frac{\partial f}{\partial q_l}\dot{q}_l + \frac{\partial f}{\partial t}$
+            ist
+            $\frac{\partial}{\partial q_j}\frac{\mathrm{d}f}{\mathrm{d}t} = \frac{\mathrm{d}}{\mathrm{d}t}\frac{\partial f}{\partial q_j} = \frac{\mathrm{d}}{\mathrm{d}t}\frac{\partial}{\partial\dot{q}_j}\frac{\mathrm{d}f}{\mathrm{d}t}$,
+            und die Zusatzterme heben sich in der Lagrange-Gleichung weg. ($f$ darf
+            nicht von $\dot{q}$ abhängen.) Eine Koordinatentransformation, die $L$
+            bis auf eine solche totale Zeitableitung unverändert lässt, heißt
+            <em>Symmetrietransformation</em>.</p>
+
+          <h2 id="noether-theorem">Das Noether-Theorem</h2>
+
+          <p>Wir betrachten eine Schar umkehrbarer Transformationen, die stetig
+            differenzierbar von einem Parameter $\alpha$ abhängt und für
+            $\alpha = 0$ die Identität ist,</p>
+
+          $$ q_j \to q_j'(q, t, \alpha), \qquad q_j'(q, t, 0) = q_j, \qquad \psi_j(q, t) := \left.\frac{\partial q_j'}{\partial\alpha}\right|_{\alpha = 0} , $$
+
+          <p>zum Beispiel Verschiebungen $\vec{r} \to \vec{r} + \alpha\vec{b}$ oder
+            Drehungen um den Winkel $\alpha$. Die Transformation sei eine Symmetrie:</p>
+
+          $$ L(q', \dot{q}', t) = L(q, \dot{q}, t) + \frac{\mathrm{d}}{\mathrm{d}t} F(q, t, \alpha) \quad \text{für alle } \alpha . $$
+
+          <p>Leitet man nach $\alpha$ ab und setzt $\alpha = 0$, so steht links mit
+            $\partial\dot{q}_j'/\partial\alpha = \dot{\psi}_j$ und der
+            Lagrange-Gleichung $\partial L/\partial q_j = \dot{p}_j$</p>
+
+          $$ \sum_j \left( \frac{\partial L}{\partial q_j}\psi_j + \frac{\partial L}{\partial\dot{q}_j}\dot{\psi}_j \right) = \sum_j \left( \dot{p}_j\psi_j + p_j\dot{\psi}_j \right) = \frac{\mathrm{d}}{\mathrm{d}t}\sum_j p_j\psi_j , $$
+
+          <p>rechts $\frac{\mathrm{d}}{\mathrm{d}t}\,\partial F/\partial\alpha|_{\alpha=0}$.
+            Die Differenz hat die Zeitableitung null:</p>
+
+          <div class="merkkasten">
+            <span class="titel">Noether-Theorem</span>
+            <p>Ist $L$ unter einer stetigen, einparametrigen Schar von
+              Transformationen bis auf eine totale Zeitableitung
+              $\frac{\mathrm{d}}{\mathrm{d}t}F$ invariant, so ist</p>
+            $$ I(q, \dot{q}, t) = \sum_j \frac{\partial L}{\partial\dot{q}_j}\,\psi_j - \left.\frac{\partial F}{\partial\alpha}\right|_{\alpha = 0} $$
+            <p>eine Erhaltungsgröße. Ist $L$ exakt invariant ($F = 0$), entfällt der
+              zweite Term.</p>
+          </div>
+
+          <p>Zyklische Koordinaten sind der einfachste Fall: Ist $q_k$ zyklisch,
+            ist $q_k \to q_k + \alpha$ eine Symmetrie mit $\psi_j = \delta_{jk}$, und
+            $I = p_k$. Das Theorem funktioniert aber in jeder Koordinatenwahl.
+            (In der Vorlesung wird mit der Umkehrtransformation $q(q', t, \alpha)$
+            gerechnet; dadurch kehrt sich das Vorzeichen von $I$ um, was für eine
+            Erhaltungsgröße keine Rolle spielt.) Ohne Einschränkung lässt sich
+            $F(q, t, 0) = 0$ wählen. Verschiebungen der Zeit, $t \to t + \alpha$,
+            erfasst diese Form des Theorems nicht, weil sie nur die $q_j$
+            transformiert; die zugehörige Erhaltungsgröße, die Energie, folgt
+            stattdessen direkt aus $\partial L/\partial t = 0$ (siehe
+            <a href="#hamilton-funktion">Hamilton-Funktion</a>).</p>
+
+          <h2 id="abgeschlossenes-system">Die Erhaltungssätze des abgeschlossenen Systems</h2>
+
+          <p>Für $N$ Teilchen, die nur paarweise über Potentiale wechselwirken, die
+            vom Abstand abhängen,</p>
+
+          $$ L = \sum_i \frac{m_i}{2}\dot{\vec{r}}_i^{\,2} - \sum_{i \lt j} V_{ij}\big(|\vec{r}_i - \vec{r}_j|\big) , $$
+
+          <p>liefert das Noether-Theorem vier Sätze (Abb. 2):</p>
+
+          <ol>
+            <li><strong>Zeitverschiebung → Energie.</strong> $L$ hängt nicht
+              explizit von $t$ ab, also ist $H = T + V = E$ erhalten (voriger
+              Abschnitt).</li>
+            <li><strong>Verschiebung → Impuls.</strong>
+              $\vec{r}_i \to \vec{r}_i + \alpha\vec{b}$ für alle Teilchen ändert keine
+              Geschwindigkeit und keinen Abstand. Mit $\vec{\psi}_i = \vec{b}$ ist
+              $I = \sum_i \vec{p}_i \cdot \vec{b} = \vec{P} \cdot \vec{b}$. Da
+              $\vec{b}$ beliebig ist, bleibt der Gesamtimpuls $\vec{P}$ erhalten.</li>
+            <li><strong>Drehung → Drehimpuls.</strong> Eine Drehung um die
+              Einheitsachse $\hat{n}$ um den Winkel $\alpha$ verschiebt
+              infinitesimal $\vec{r}_i$ um $\alpha\,\hat{n} \times \vec{r}_i$ und
+              ändert weder Beträge der Geschwindigkeiten noch Abstände. Mit
+              $\vec{\psi}_i = \hat{n} \times \vec{r}_i$ ist
+              $I = \sum_i \vec{p}_i \cdot (\hat{n} \times \vec{r}_i) = \hat{n} \cdot \sum_i \vec{r}_i \times \vec{p}_i = \hat{n} \cdot \vec{L}$:
+              Der Gesamtdrehimpuls ist erhalten.</li>
+            <li><strong>Galilei-Transformation → Schwerpunktsatz.</strong>
+              $\vec{r}_i \to \vec{r}_i + \alpha\vec{v}\,t$ (Wechsel in ein gleichförmig
+              bewegtes Bezugssystem) ändert die Abstände nicht, aber die kinetische
+              Energie: $L' = L + \frac{\mathrm{d}}{\mathrm{d}t}F$ mit
+              $F = \alpha\sum_i m_i\vec{r}_i \cdot \vec{v} + \tfrac{1}{2}\alpha^2 M v^2 t$.
+              Mit $\vec{\psi}_i = \vec{v}t$ und
+              $\partial F/\partial\alpha|_0 = M\vec{R} \cdot \vec{v}$ folgt
+              $I = (\vec{P}t - M\vec{R}) \cdot \vec{v}$. Also ist
+              $M\vec{R} - \vec{P}t$ konstant: Der Schwerpunkt $\vec{R}$ bewegt sich
+              geradlinig gleichförmig. Dass man im gleichförmig bewegten Zug (oder
+              auf der rasenden Erde) nichts von der Bewegung merkt, ist dieselbe
+              Symmetrie – siehe den Artikel
+              <a href="../alltag/erde-rast.html">Warum spüren wir nicht,
+              dass die Erde rast?</a></li>
+          </ol>
+
+          <figure class="abbildung">
+            <div class="abb-reihe">
+              <svg class="abb" viewBox="0 0 200 150" role="img"
+                   aria-label="Ein Dreieck aus drei Teilchen wird verschoben: die verschobene Kopie ist gestrichelt">
+                <defs>
+                  <marker id="pfeil-abb2-k" viewBox="0 0 10 10" refX="8" refY="5"
+                          markerWidth="5" markerHeight="5" orient="auto">
+                    <path class="punkt kupfer" d="M0 0L10 5L0 10z"/>
+                  </marker>
+                </defs>
+                <path class="kurve duenn" d="M50 105L110 80L95 130Z"/>
+                <path class="hilfslinie" d="M105 70L165 45L150 95Z"/>
+                <circle class="ball" cx="50" cy="105" r="6"/>
+                <circle class="ball" cx="110" cy="80" r="6"/>
+                <circle class="ball" cx="95" cy="130" r="6"/>
+                <circle class="punkt" cx="105" cy="70" r="3.5"/>
+                <circle class="punkt" cx="165" cy="45" r="3.5"/>
+                <circle class="punkt" cx="150" cy="95" r="3.5"/>
+                <path class="kurve kupfer duenn" d="M54 101L98 73" marker-end="url(#pfeil-abb2-k)"/>
+                <text class="kupfer" x="58" y="80" font-size="12">α b</text>
+                <text x="100" y="18" font-size="12" text-anchor="middle">Verschieben → Impuls</text>
+              </svg>
+              <svg class="abb" viewBox="0 0 200 150" role="img"
+                   aria-label="Das Dreieck wird um einen Punkt gedreht: die gedrehte Kopie ist gestrichelt">
+                <defs>
+                  <marker id="pfeil-abb2-k2" viewBox="0 0 10 10" refX="8" refY="5"
+                          markerWidth="5" markerHeight="5" orient="auto">
+                    <path class="punkt kupfer" d="M0 0L10 5L0 10z"/>
+                  </marker>
+                </defs>
+                <path class="kurve duenn" d="M110 110L150 80L125 60Z"/>
+                <path class="hilfslinie" d="M98.3 86.3L117.9 40.4L86.3 35.5Z"/>
+                <circle class="ball" cx="110" cy="110" r="6"/>
+                <circle class="ball" cx="150" cy="80" r="6"/>
+                <circle class="ball" cx="125" cy="60" r="6"/>
+                <circle class="punkt" cx="98.3" cy="86.3" r="3.5"/>
+                <circle class="punkt" cx="117.9" cy="40.4" r="3.5"/>
+                <circle class="punkt" cx="86.3" cy="35.5" r="3.5"/>
+                <path class="hilfslinie" d="M60 120L110 110M60 120L98.3 86.3"/>
+                <path class="kurve kupfer duenn" d="M110 110A51 51 0 0 0 99.9 88.2" marker-end="url(#pfeil-abb2-k2)"/>
+                <circle class="punkt" cx="60" cy="120" r="3"/>
+                <text class="kupfer" x="116" y="100" font-size="12">α</text>
+                <text x="100" y="18" font-size="12" text-anchor="middle">Drehen → Drehimpuls</text>
+              </svg>
+            </div>
+            <figcaption>Abb. 2: Verschiebt man ein abgeschlossenes System als Ganzes
+              (links) oder dreht man es um einen beliebigen Punkt (rechts), ändern
+              sich weder die Abstände der Teilchen noch die Beträge ihrer
+              Geschwindigkeiten. Die Lagrange-Funktion bleibt gleich – daraus folgen
+              Impuls- und Drehimpulserhaltung.</figcaption>
+          </figure>
+
+          <div class="tabelle-huelle">
+            <table>
+              <thead><tr><th>Symmetrie</th><th>Transformation</th><th>Erhaltungsgröße</th><th>Anzahl</th></tr></thead>
+              <tbody>
+                <tr><td>Homogenität der Zeit</td><td>$t \to t + \alpha$</td><td>Energie $E$</td><td>1</td></tr>
+                <tr><td>Homogenität des Raumes</td><td>$\vec{r}_i \to \vec{r}_i + \alpha\vec{b}$</td><td>Impuls $\vec{P}$</td><td>3</td></tr>
+                <tr><td>Isotropie des Raumes</td><td>Drehung um $\hat{n}$</td><td>Drehimpuls $\vec{L}$</td><td>3</td></tr>
+                <tr><td>Galilei-Invarianz</td><td>$\vec{r}_i \to \vec{r}_i + \alpha\vec{v}t$</td><td>$M\vec{R} - \vec{P}t$</td><td>3</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <p>Ein abgeschlossenes System hat also zehn Erhaltungsgrößen, die schon
+            aus der Struktur von Raum und Zeit folgen. Äußere Felder brechen einen
+            Teil davon. Im Zentralfeld der Sonne etwa ist von den räumlichen
+            Symmetrien nur noch die Drehung um die Sonne übrig (die Zeitverschiebung
+            bleibt, also auch die Energie): Der Drehimpuls des Planeten bleibt erhalten,
+            sein Impuls nicht. Geometrisch ist das der Flächensatz von
+            <a href="kepler.html">Kepler</a> (Abb. 3): Mit
+            $p_\varphi = m r^2\dot{\varphi}$ überstreicht der Fahrstrahl pro Zeit die
+            konstante Fläche $\mathrm{d}A/\mathrm{d}t = p_\varphi/(2m)$.</p>
+
+          <figure class="abbildung">
+            <svg class="abb" viewBox="0 0 360 225" role="img"
+                 aria-label="Ellipsenbahn um die Sonne mit zwei gleich großen, in gleicher Zeit überstrichenen Flächen: eine kurze breite in Sonnennähe und eine lange schmale in Sonnenferne">
+              <path class="flaeche" d="M266.0 115.0L295.1 159.2L297.6 155.6L300.0 151.7L302.1 147.7L304.1 143.4L305.8 139.0L307.3 134.4L308.5 129.7L309.3 124.8L309.8 119.9L310.0 115.0L309.8 110.1L309.3 105.2L308.5 100.3L307.3 95.6L305.8 91.0L304.1 86.6L302.1 82.3L300.0 78.3L297.6 74.4L295.1 70.8Z"/>
+              <path class="flaeche" d="M266.0 115.0L91.1 102.7L90.9 103.9L90.7 105.1L90.5 106.3L90.4 107.6L90.3 108.8L90.2 110.1L90.1 111.3L90.0 112.5L90.0 113.8L90.0 115.0L90.0 116.2L90.0 117.5L90.1 118.7L90.2 119.9L90.3 121.2L90.4 122.4L90.5 123.7L90.7 124.9L90.9 126.1L91.1 127.3Z"/>
+              <ellipse class="kurve" cx="200" cy="115" rx="110" ry="88"/>
+              <circle class="punkt kupfer" cx="266" cy="115" r="8"/>
+              <text class="kupfer" x="240" y="140" text-anchor="middle" font-size="12">Sonne</text>
+              <text x="296" y="48" font-size="12">schnell</text>
+              <text x="34" y="80" font-size="12">langsam</text>
+              <text x="180" y="218" font-size="12" text-anchor="middle">gleiche Zeit → gleiche Fläche</text>
+            </svg>
+            <figcaption>Abb. 3: Flächensatz als Folge der Drehsymmetrie. Die
+              Bahn (Exzentrizität 0,6) und die Flächen sind aus der Kepler-Gleichung
+              berechnet: Beide getönten Flächen werden in derselben Zeit
+              überstrichen. In Sonnennähe ist der Fahrstrahl kurz, also muss der
+              Planet schneller sein.</figcaption>
+          </figure>
+
+          <h2 id="poisson">Erhaltungsgrößen im Hamilton-Formalismus</h2>
+
+          <p>Im <a href="hamilton.html">Hamilton-Formalismus</a> sind $q$ und $p$
+            unabhängige Variablen. Für jede Größe $f(q, p, t)$ – eine
+            <em>Observable</em> – folgt aus den kanonischen Gleichungen
+            $\dot{q}_i = \partial H/\partial p_i$,
+            $\dot{p}_i = -\partial H/\partial q_i$</p>
+
+          $$ \frac{\mathrm{d}f}{\mathrm{d}t} = \sum_i \left( \frac{\partial f}{\partial q_i}\frac{\partial H}{\partial p_i} - \frac{\partial f}{\partial p_i}\frac{\partial H}{\partial q_i} \right) + \frac{\partial f}{\partial t} = [f, H] + \frac{\partial f}{\partial t} $$
+
+          <p>mit der <em>Poisson-Klammer</em> $[f, g]$ (oft auch $\{f, g\}$
+            geschrieben). Eine nicht explizit zeitabhängige Größe ist also genau dann
+            erhalten, wenn ihre Poisson-Klammer mit $H$ verschwindet,
+            $[f, H] = 0$. Insbesondere gilt
+            $\mathrm{d}H/\mathrm{d}t = \partial H/\partial t = -\partial L/\partial t$.
+            Aus der Jacobi-Identität folgt der <em>Satz von Poisson</em>: Sind $f$ und
+            $g$ erhalten, so auch $[f, g]$ (Aufgabe 5).</p>
+
+          <p><strong>Wozu so viele Erhaltungsgrößen?</strong> Sie erlauben
+            Aussagen über eine Bewegung, ohne sie ganz zu lösen, und sie sind eine
+            scharfe Kontrolle numerischer Rechnungen: Driftet in einer Simulation
+            die Energie, ist die Schrittweite zu groß. Und sie entscheiden darüber,
+            ob ein System überhaupt „lösbar“ ist. Nach dem <em>Satz von Liouville
+            über integrable Systeme</em> genügen für ein Hamiltonsches System mit
+            $n$ Freiheitsgraden $n$ unabhängige Erhaltungsgrößen $I_1, \dots, I_n$,
+            deren Poisson-Klammern untereinander verschwinden
+            ($[I_i, I_j] = 0$, „in Involution“). Dann lässt sich die Bewegung
+            durch Integrale bestimmen, sie verläuft auf Tori im Phasenraum und ist
+            nicht chaotisch. Das Kepler-Problem ($H$, $L_z$, $\vec{L}^2$) ist so ein
+            Fall; das Doppelpendel mit nur einer Erhaltungsgröße ($H$) bei zwei
+            Freiheitsgraden ist es nicht – es kann chaotisch werden.</p>
+        </section>
+
+        <section class="tab" id="beispiele" data-titel="Beispielrechnungen">
+
+          <div class="beispiel">
+            <h3>Beispiel 1: Rollpendel mit zwei Erhaltungssätzen</h3>
+            <p><strong>Gegeben:</strong> Ein Wagen ($m_1 = 2{,}0\,\mathrm{kg}$) rollt
+              reibungsfrei auf einer waagerechten Schiene, an ihm hängt ein Pendel
+              ($m_2 = 0{,}50\,\mathrm{kg}$, $\ell = 0{,}80\,\mathrm{m}$). Alles ruht,
+              das Pendel ist um $\varphi_0 = -40°$ ausgelenkt (also nach links,
+              $x_2 \lt x_1$) und wird losgelassen.<br>
+              <strong>Gesucht:</strong> die Geschwindigkeiten von Wagen und
+              Pendelkugel, wenn das Pendel durch die tiefste Lage geht.</p>
+
+            <p><strong>1. Erhaltungsgrößen:</strong> $x_1$ ist zyklisch, und $L$
+              hängt nicht von $t$ ab (Lagrange-Funktion siehe
+              <a href="lagrange.html#rollpendel">Lagrange-Formalismus</a>):
+              $$ p_{x_1} = (m_1 + m_2)\dot{x}_1 + m_2\ell\dot{\varphi}\cos\varphi = 0 \quad \text{(Start aus der Ruhe)}, $$
+              $$ E = \tfrac{1}{2}(m_1 + m_2)\dot{x}_1^2 + m_2\ell\dot{x}_1\dot{\varphi}\cos\varphi + \tfrac{1}{2} m_2\ell^2\dot{\varphi}^2 - m_2 g\ell\cos\varphi = -m_2 g\ell\cos\varphi_0 . $$</p>
+
+            <p><strong>2. Impulssatz bei $\varphi = 0$:</strong>
+              $\dot{x}_1 = -k\dot{\varphi}$ mit
+              $k = \dfrac{m_2\ell}{m_1 + m_2} = \dfrac{0{,}50 \cdot 0{,}80}{2{,}5}\,\mathrm{m} = 0{,}16\,\mathrm{m}$.</p>
+
+            <p><strong>3. Energiesatz bei $\varphi = 0$:</strong> Einsetzen und
+              mit $(m_1 + m_2)k^2 = m_2\ell k$ vereinfachen:
+              $$ T = \tfrac{1}{2} m_2\ell\,(\ell - k)\,\dot{\varphi}^2 = m_2 g\ell\,(1 - \cos\varphi_0) \quad\Rightarrow\quad \dot{\varphi}^2 = \frac{2 g\,(1 - \cos\varphi_0)}{\ell - k} $$
+              $$ \dot{\varphi}^2 = \frac{2 \cdot 9{,}81\,\mathrm{m/s^2} \cdot 0{,}2340}{0{,}64\,\mathrm{m}} = 7{,}17\,\mathrm{s^{-2}}, \qquad \dot{\varphi} = +2{,}68\,\mathrm{s^{-1}} . $$
+              Das Pluszeichen gilt, weil $\varphi$ von $-40°$ auf $0$ wächst.
+              Einheitencheck: $\mathrm{m\,s^{-2}}/\mathrm{m} = \mathrm{s^{-2}}$ ✓.</p>
+
+            <p><strong>4. Geschwindigkeiten:</strong>
+              $$ \dot{x}_1 = -0{,}16\,\mathrm{m} \cdot 2{,}68\,\mathrm{s^{-1}} = -0{,}43\,\mathrm{m/s}, \qquad \dot{x}_2 = \dot{x}_1 + \ell\dot{\varphi} = -0{,}43\,\mathrm{m/s} + 2{,}14\,\mathrm{m/s} = 1{,}71\,\mathrm{m/s} . $$</p>
+
+            <p><strong>Ergebnis und Plausibilität:</strong> Wagen und Kugel
+              bewegen sich gegenläufig, der Gesamtimpuls bleibt null:
+              $2{,}0 \cdot (-0{,}43) + 0{,}50 \cdot 1{,}71 = 0$ ✓. Bei festgehaltenem
+              Wagen wäre die Kugel mit $\sqrt{2g\ell(1 - \cos\varphi_0)} = 1{,}92\,\mathrm{m/s}$
+              etwas schneller – ein Teil der Energie steckt jetzt im Wagen. Probe:
+              $\tfrac{1}{2} \cdot 2{,}0 \cdot 0{,}43^2 + \tfrac{1}{2} \cdot 0{,}50 \cdot 1{,}71^2 = 0{,}92\,\mathrm{J} = m_2 g\ell(1 - \cos\varphi_0)$ ✓.</p>
+          </div>
+
+          <div class="beispiel" data-symbole='{"R": "Radius des Rings"}'>
+            <h3>Beispiel 2: Die Perle auf dem gedrehten Draht</h3>
+            <p><strong>Gegeben:</strong> Ein gerader Draht dreht sich in einer
+              waagerechten Ebene mit $n = 60\,\mathrm{U/min}$ um einen Endpunkt. Eine
+              Perle startet bei $r_0 = 0{,}10\,\mathrm{m}$ in Ruhe relativ zum Draht
+              und gleitet reibungsfrei nach außen. Der Draht ist
+              $0{,}50\,\mathrm{m}$ lang.<br>
+              <strong>Gesucht:</strong> Zeit bis zum Drahtende, Energie und
+              Hamilton-Funktion (je pro Masse) am Anfang und am Ende.</p>
+
+            <p><strong>1. Bewegungsgleichung</strong> aus
+              $L = \tfrac{1}{2} m (\dot{r}^2 + r^2\omega^2)$:
+              $\ddot{r} = \omega^2 r$, mit den Anfangswerten
+              $r(t) = r_0\cosh(\omega t)$ und $\dot{r} = r_0\omega\sinh(\omega t)$.
+              Hier $\omega = 2\pi \cdot 1\,\mathrm{s^{-1}} = 6{,}283\,\mathrm{s^{-1}}$.</p>
+
+            <p><strong>2. Zeit bis zum Ende:</strong>
+              $\cosh(\omega t) = 0{,}50/0{,}10 = 5$, also
+              $$ t = \frac{\operatorname{arcosh} 5}{\omega} = \frac{2{,}292}{6{,}283\,\mathrm{s^{-1}}} = 0{,}365\,\mathrm{s} . $$</p>
+
+            <p><strong>3. Geschwindigkeit am Ende:</strong>
+              $\dot{r} = 0{,}10\,\mathrm{m} \cdot 6{,}283\,\mathrm{s^{-1}} \cdot \sinh(2{,}292) = 0{,}6283\,\mathrm{m/s} \cdot 4{,}899 = 3{,}08\,\mathrm{m/s}$;
+              quer zum Draht $r\omega = 0{,}50\,\mathrm{m} \cdot 6{,}283\,\mathrm{s^{-1}} = 3{,}14\,\mathrm{m/s}$.
+              Einheitencheck: $\mathrm{m} \cdot \mathrm{s^{-1}} = \mathrm{m/s}$ ✓.</p>
+
+            <p><strong>4. Energie und Hamilton-Funktion pro Masse:</strong>
+              $$ \frac{E}{m} = \tfrac{1}{2}\left( \dot{r}^2 + r^2\omega^2 \right): \qquad \text{Anfang } \tfrac{1}{2}(0{,}628\,\mathrm{m/s})^2 = 0{,}197\,\mathrm{J/kg}, \qquad \text{Ende } \tfrac{1}{2}(9{,}47 + 9{,}87)\,\mathrm{m^2/s^2} = 9{,}67\,\mathrm{J/kg} $$
+              $$ \frac{H}{m} = \tfrac{1}{2}\left( \dot{r}^2 - r^2\omega^2 \right): \qquad \text{Anfang } -0{,}197\,\mathrm{J/kg}, \qquad \text{Ende } \tfrac{1}{2}(9{,}47 - 9{,}87)\,\mathrm{m^2/s^2} = -0{,}20\,\mathrm{J/kg} $$
+              Einheitencheck: $\mathrm{m^2/s^2} = \mathrm{kg\,m^2\,s^{-2}}/\mathrm{kg} = \mathrm{J/kg}$ ✓.</p>
+
+            <p><strong>Ergebnis und Plausibilität:</strong> Nach gut einer
+              Drittelsekunde fliegt die Perle mit $\sqrt{2 \cdot 9{,}67}\,\mathrm{m/s} = 4{,}4\,\mathrm{m/s}$
+              vom Draht. Ihre Energie ist auf das 49-Fache gestiegen
+              ($\cosh(2\omega t) = 2\cdot 5^2 - 1 = 49$ ✓) – geliefert vom Motor, der den
+              Draht mit fester Drehzahl hält. $H$ bleibt (bis auf Rundung) konstant,
+              ist aber nicht die Energie. Im mitdrehenden System ist $H$ die Summe aus
+              kinetischer Energie der Radialbewegung und dem Zentrifugalpotential
+              $-\tfrac{1}{2} m\omega^2 r^2$ (siehe
+              <a href="scheinkraefte.html">Scheinkräfte</a>).</p>
+          </div>
+
+          <div class="beispiel">
+            <h3>Beispiel 3: Wie schnell ändert sich der Drehimpuls in der ovalen Mulde?</h3>
+            <p><strong>Gegeben:</strong> Ein Puck ($m = 1{,}0\,\mathrm{kg}$) gleitet
+              in einer Mulde mit
+              $H = \frac{p_x^2 + p_y^2}{2m} + \tfrac{1}{2} k_1 x^2 + \tfrac{1}{2} k_2 y^2$,
+              $k_1 = 1{,}0\,\mathrm{N/m}$, $k_2 = 4{,}0\,\mathrm{N/m}$. Momentan ist er
+              bei $x = 0{,}50\,\mathrm{m}$, $y = 0{,}20\,\mathrm{m}$.<br>
+              <strong>Gesucht:</strong> $\mathrm{d}L_z/\mathrm{d}t$ über die
+              Poisson-Klammer, Vergleich mit dem Drehmoment.</p>
+
+            <p><strong>1. Poisson-Klammer</strong> mit $L_z = x p_y - y p_x$:
+              $$ [L_z, H] = \frac{\partial L_z}{\partial x}\frac{\partial H}{\partial p_x} + \frac{\partial L_z}{\partial y}\frac{\partial H}{\partial p_y} - \frac{\partial L_z}{\partial p_x}\frac{\partial H}{\partial x} - \frac{\partial L_z}{\partial p_y}\frac{\partial H}{\partial y} $$
+              $$ = p_y\frac{p_x}{m} - p_x\frac{p_y}{m} + y\,k_1 x - x\,k_2 y = (k_1 - k_2)\,x y . $$</p>
+
+            <p><strong>2. Zahlen:</strong>
+              $$ \frac{\mathrm{d}L_z}{\mathrm{d}t} = (1{,}0 - 4{,}0)\,\mathrm{N/m} \cdot 0{,}50\,\mathrm{m} \cdot 0{,}20\,\mathrm{m} = -0{,}30\,\mathrm{N\,m} . $$</p>
+
+            <p><strong>3. Kontrolle mit dem Drehmoment:</strong>
+              $\vec{F} = (-k_1 x, -k_2 y) = (-0{,}50, -0{,}80)\,\mathrm{N}$,
+              $M_z = x F_y - y F_x = 0{,}50 \cdot (-0{,}80) - 0{,}20 \cdot (-0{,}50)\,\mathrm{N\,m} = -0{,}30\,\mathrm{N\,m}$ ✓.
+              Einheitencheck: $\mathrm{N/m} \cdot \mathrm{m} \cdot \mathrm{m} = \mathrm{N\,m}$, die Einheit des Drehimpulses pro Zeit
+              ($\mathrm{kg\,m^2\,s^{-1}}/\mathrm{s} = \mathrm{N\,m}$) ✓.</p>
+
+            <p><strong>Ergebnis und Plausibilität:</strong> Die Klammer verschwindet
+              genau dann für alle Lagen, wenn $k_1 = k_2$ – dann ist die Mulde rund,
+              also drehsymmetrisch, und $L_z$ erhalten. Das ist die Aussage des
+              Noether-Theorems in der Sprache der Poisson-Klammern. Im
+              Symmetrie-Labor („Verstehen“) ist die ovale Mulde der Fall
+              $k_2 = 4 k_1$.</p>
+          </div>
+        </section>
+
+        <section class="tab" id="aufgaben" data-titel="Aufgaben">
+
+          <p>Die Aufgaben sind nach Schwierigkeit sortiert. Reibung wird
+            vernachlässigt; $g = 9{,}81\,\mathrm{m/s^2}$.</p>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 1: Was bleibt erhalten?
+              <span class="schwierigkeit" data-stufe="leicht">leicht</span>
+            </h3>
+            <p>Ob die Energie und welche Komponenten von Impuls und Drehimpuls
+              erhalten bleiben, entscheidet allein die Symmetrie. Gib sie an für</p>
+            <ol type="a">
+              <li>einen Ball im homogenen Schwerefeld ($z$-Achse nach oben),</li>
+              <li>eine Ladung im Feld eines unendlich langen, geraden, gleichmäßig
+                geladenen Drahts entlang der $z$-Achse,</li>
+              <li>ein Teilchen im Schwerefeld zweier gleich schwerer, fest
+                montierter Kugeln.</li>
+            </ol>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p><strong>(a)</strong> $V = mgz$ ist unabhängig von $x$, $y$ und
+                ändert sich bei Drehung um jede senkrechte Achse nicht: $p_x$, $p_y$,
+                $L_z$ (um jede senkrechte Achse) und $E$.</p>
+              <p><strong>(b)</strong> Symmetrisch unter Verschiebung entlang des
+                Drahts und Drehung um ihn: $p_z$, $L_z$ und $E$.</p>
+              <p><strong>(c)</strong> Nur Drehungen um die Verbindungsachse der
+                Kugeln lassen die Anordnung unverändert: der Drehimpuls um diese
+                Achse und $E$.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe" data-symbole='{"M": "Erdmasse"}'>
+            <h3>Aufgabe 2: Satellit auf Ellipsenbahn
+              <span class="schwierigkeit" data-stufe="leicht">leicht</span>
+            </h3>
+            <p>Ein Satellit fliegt im erdnächsten Punkt seiner Bahn
+              ($r_1 = 7000\,\mathrm{km}$ vom Erdmittelpunkt) mit
+              $v_1 = 8{,}0\,\mathrm{km/s}$. Der erdfernste Punkt liegt bei
+              $r_2 = 8980\,\mathrm{km}$. Welche Koordinate ist in
+              $L = \tfrac{1}{2} m (\dot{r}^2 + r^2\dot{\varphi}^2) + GMm/r$ zyklisch,
+              und wie schnell ist der Satellit im erdfernsten Punkt?</p>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>$\varphi$ ist zyklisch, also ist $p_\varphi = m r^2\dot{\varphi}$
+                erhalten. In den beiden Scheitelpunkten steht die Geschwindigkeit
+                senkrecht auf dem Fahrstrahl, $v = r\dot{\varphi}$:
+                $$ r_1 v_1 = r_2 v_2 \quad\Rightarrow\quad v_2 = \frac{7000\,\mathrm{km}}{8980\,\mathrm{km}} \cdot 8{,}0\,\mathrm{km/s} = 6{,}24\,\mathrm{km/s} . $$
+                Probe mit dem Energiesatz ($GM = 3{,}986 \cdot 10^5\,\mathrm{km^3/s^2}$):
+                $\tfrac{1}{2} v^2 - GM/r$ ergibt bei $r_1$
+                $32{,}0 - 56{,}9 = -24{,}9\,\mathrm{km^2/s^2}$ und bei $r_2$
+                $19{,}5 - 44{,}4 = -24{,}9\,\mathrm{km^2/s^2}$ ✓.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe" data-symbole='{"b": "Steigungsparameter der Schraube (Ganghöhe geteilt durch 2π)"}'>
+            <h3>Aufgabe 3: Schraubensymmetrie
+              <span class="schwierigkeit" data-stufe="mittel">mittel</span>
+            </h3>
+            <p>Ein Teilchen bewegt sich in einem Potential, das in
+              Zylinderkoordinaten die Form $V(\rho,\ \varphi - z/b)$ hat – es sieht
+              aus wie ein Gewinde mit der Ganghöhe $2\pi b$.</p>
+            <ol type="a">
+              <li>Schreibe die Lagrange-Funktion auf. Ist $\varphi$ oder $z$
+                zyklisch?</li>
+              <li>Finde eine einparametrige Transformation, die $L$ invariant lässt,
+                und bestimme die zugehörige Erhaltungsgröße.</li>
+              <li>Was ergibt sich, wenn $V$ nur von $\rho$ abhängt?</li>
+            </ol>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p><strong>(a)</strong>
+                $L = \tfrac{1}{2} m (\dot{\rho}^2 + \rho^2\dot{\varphi}^2 + \dot{z}^2) - V(\rho, \varphi - z/b)$.
+                Weder $\varphi$ noch $z$ ist zyklisch, $L$ hängt von beiden ab.</p>
+              <p><strong>(b)</strong> Drehen und gleichzeitig Verschieben – eine
+                Schraubung: $\varphi \to \varphi + \alpha$, $z \to z + b\alpha$.
+                Dann bleibt $\varphi - z/b$ gleich, und $T$ ändert sich nicht. Mit
+                $\psi_\varphi = 1$, $\psi_z = b$:
+                $$ I = p_\varphi \cdot 1 + p_z \cdot b = m\rho^2\dot{\varphi} + b\,m\dot{z} = L_z + b\,p_z . $$</p>
+              <p><strong>(c)</strong> Dann sind $\varphi$ und $z$ einzeln zyklisch,
+                und $L_z$ und $p_z$ sind getrennt erhalten. Das Gewinde bricht beide
+                Symmetrien, lässt aber ihre Kombination übrig – genau wie eine
+                Schraube in der Mutter, die sich nur drehen kann, wenn sie sich
+                zugleich verschiebt.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 4: Noether mit Eichterm
+              <span class="schwierigkeit" data-stufe="mittel">mittel</span>
+            </h3>
+            <p>Ein freies Teilchen hat $L = \tfrac{1}{2} m\dot{x}^2$. Betrachte die
+              Galilei-Transformation $x \to x + \alpha u t$.</p>
+            <ol type="a">
+              <li>Zeige: $L$ ändert sich nur um eine totale Zeitableitung, und
+                bestimme $F(x, t, \alpha)$.</li>
+              <li>Welche Erhaltungsgröße folgt? Deute sie.</li>
+              <li>Zahlenwerte: $m = 2{,}0\,\mathrm{kg}$; bei $t = 0$ ist
+                $x = 1{,}0\,\mathrm{m}$, $\dot{x} = 3{,}0\,\mathrm{m/s}$. Wie groß ist die
+                Erhaltungsgröße, und wo ist das Teilchen bei
+                $t = 2{,}0\,\mathrm{s}$?</li>
+            </ol>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p><strong>(a)</strong> $\dot{x}' = \dot{x} + \alpha u$, also
+                $$ L' = \tfrac{1}{2} m (\dot{x} + \alpha u)^2 = L + \alpha m u\dot{x} + \tfrac{1}{2}\alpha^2 m u^2 = L + \frac{\mathrm{d}}{\mathrm{d}t}\left( \alpha m u x + \tfrac{1}{2}\alpha^2 m u^2 t \right) . $$</p>
+              <p><strong>(b)</strong> $\psi = ut$, $\partial F/\partial\alpha|_0 = m u x$:
+                $I = p\,u t - m u x$. Da $u$ beliebig ist, ist $m x - p t$ erhalten:
+                $x(t) = x(0) + (p/m)\,t$ – das Teilchen bewegt sich gleichförmig. Das
+                ist der Schwerpunktsatz für ein einzelnes Teilchen.</p>
+              <p><strong>(c)</strong> $m x - p t = 2{,}0\,\mathrm{kg} \cdot 1{,}0\,\mathrm{m} = 2{,}0\,\mathrm{kg\,m}$
+                (bei $t = 0$). Mit $p = 6{,}0\,\mathrm{kg\,m/s}$ (ebenfalls erhalten):
+                $x(2{,}0\,\mathrm{s}) = (2{,}0 + 6{,}0 \cdot 2{,}0)/2{,}0\,\mathrm{m} = 7{,}0\,\mathrm{m}$ ✓
+                ($1{,}0\,\mathrm{m} + 3{,}0\,\mathrm{m/s} \cdot 2{,}0\,\mathrm{s}$).</p>
+            </details>
+          </div>
+
+          <div class="aufgabe" data-symbole='{"f": "beliebige Phasenraumfunktion", "g": "beliebige Phasenraumfunktion", "h": "beliebige Phasenraumfunktion"}'>
+            <h3>Aufgabe 5: Drehimpuls-Klammern und der Satz von Poisson
+              <span class="schwierigkeit" data-stufe="schwer">schwer</span>
+            </h3>
+            <ol type="a">
+              <li>Berechne für ein Teilchen die Poisson-Klammer
+                $[L_x, L_y]$ mit $L_x = y p_z - z p_y$, $L_y = z p_x - x p_z$.</li>
+              <li>Zeige mit der Jacobi-Identität
+                $[f, [g, h]] + [g, [h, f]] + [h, [f, g]] = 0$: Sind $f$ und $g$
+                (nicht explizit zeitabhängig) erhalten, so ist es auch $[f, g]$.</li>
+              <li>Ein Teilchen bewegt sich in einem Potential, für das $L_x$ und
+                $L_y$ erhalten sind. Was folgt für $L_z$ – und für das Potential?</li>
+            </ol>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p><strong>(a)</strong> Nur Ableitungen nach Variablen, die in beiden
+                vorkommen, tragen bei: $z$ in $L_x$ (über $-z p_y$) und $p_z$ in $L_y$
+                (über $-x p_z$) bzw. $p_z$ in $L_x$ und $z$ in $L_y$:
+                $$ [L_x, L_y] = \frac{\partial L_x}{\partial z}\frac{\partial L_y}{\partial p_z} - \frac{\partial L_x}{\partial p_z}\frac{\partial L_y}{\partial z} = (-p_y)(-x) - (y)(p_x) = x p_y - y p_x = L_z . $$</p>
+              <p><strong>(b)</strong> Mit $h = H$ und $[f, H] = [g, H] = 0$:
+                $[H, [f, g]] = -[f, [g, H]] - [g, [H, f]] = 0 - 0$, also
+                $[[f, g], H] = 0$.</p>
+              <p><strong>(c)</strong> Nach (a) und (b) ist dann auch
+                $L_z = [L_x, L_y]$ erhalten – der ganze Drehimpulsvektor. Das
+                Potential ist also unter Drehungen um zwei Achsen und damit um jede
+                Achse invariant: ein Zentralpotential $V(r)$.</p>
+              <p><strong>Zum Nachdenken:</strong> In der Quantenmechanik werden aus
+                Poisson-Klammern Kommutatoren, $[L_x, L_y] = \mathrm{i}\hbar L_z$.
+                Dieselbe Algebra bestimmt dort die erlaubten Drehimpulswerte.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe" data-symbole='{"R": "Radius des Rings"}'>
+            <h3>Aufgabe 6: Wie hoch steigt die Perle auf dem Ring?
+              <span class="schwierigkeit" data-stufe="schwer">schwer</span>
+            </h3>
+            <p>Die Perle auf dem drehenden Ring (Radius $R$, Winkelgeschwindigkeit
+              $\omega$, Winkel $\theta$ vom tiefsten Punkt, siehe
+              <a href="lagrange.html">Lagrange-Formalismus</a>, Beispiel 2) hat
+              $L = \tfrac{1}{2} m R^2 (\dot{\theta}^2 + \omega^2\sin^2\theta) + m g R\cos\theta$.</p>
+            <ol type="a">
+              <li>Bestimme $H$. Ist $H$ erhalten? Ist $H$ die Energie?</li>
+              <li>Die Perle wird bei $\theta_0$ in Ruhe relativ zum Ring losgelassen.
+                Zeige, dass der zweite Umkehrpunkt bei
+                $\cos\theta_1 = \dfrac{2g}{R\omega^2} - \cos\theta_0$ liegt.</li>
+              <li>Zahlen: $R = 0{,}25\,\mathrm{m}$, $n = 80\,\mathrm{U/min}$,
+                $\theta_0 = 20°$.</li>
+            </ol>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p><strong>(a)</strong> $p_\theta = m R^2\dot{\theta}$,
+                $$ H = p_\theta\dot{\theta} - L = \tfrac{1}{2} m R^2\dot{\theta}^2 - \tfrac{1}{2} m R^2\omega^2\sin^2\theta - m g R\cos\theta . $$
+                $L$ hängt nicht explizit von $t$ ab, also ist $H$ erhalten. Die
+                Energie wäre
+                $E = \tfrac{1}{2} m R^2 (\dot{\theta}^2 + \omega^2\sin^2\theta) - m g R\cos\theta \ne H$;
+                sie ändert sich, weil der Antrieb des Rings Arbeit leistet.</p>
+              <p><strong>(b)</strong> An Umkehrpunkten ist $\dot{\theta} = 0$, also
+                $U(\theta) := -\tfrac{1}{2} R^2\omega^2\sin^2\theta - g R\cos\theta$
+                gleich $U(\theta_0)$. Mit $c = \cos\theta$:
+                $$ \tfrac{1}{2} R^2\omega^2 (c^2 - c_0^2) - g R\,(c - c_0) = 0 \quad\Rightarrow\quad (c - c_0)\left[ \tfrac{1}{2} R^2\omega^2 (c + c_0) - g R \right] = 0 , $$
+                also neben $c = c_0$ die Lösung $c_1 = 2g/(R\omega^2) - c_0$.</p>
+              <p><strong>(c)</strong> $\omega = 8{,}378\,\mathrm{s^{-1}}$,
+                $2g/(R\omega^2) = 2 \cdot 9{,}81/17{,}55 = 1{,}118$;
+                $\cos\theta_1 = 1{,}118 - 0{,}940 = 0{,}179$, also
+                $\theta_1 = 79{,}7°$. Die Perle pendelt zwischen $20°$ und $79{,}7°$.
+                Die Mitte dieses Bereichs liegt bei $49{,}9°$, nicht bei der Ruhelage
+                $56{,}0°$: Die Energielandschaft ist schief. Nachprüfen lässt sich das
+                im Modell „Perle auf dem drehenden Ring“ auf der Seite
+                <a href="lagrange.html">Lagrange-Formalismus</a>.</p>
+            </details>
+          </div>
+        </section>
+
+      </div></article>
+  </main>
+</body>
+</html>

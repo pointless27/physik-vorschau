@@ -1,0 +1,703 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="robots" content="noindex">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Elastische und inelastische Stöße</title>
+  <meta name="description" content="Kraftstoß, reduzierte Masse, elastische und inelastische Stöße in einer und zwei Dimensionen, Schwerpunktsystem und Streuexperimente – mit Herleitungen, Beispielen und Aufgaben.">
+
+  <link rel="stylesheet" href="../../css/stil.css">
+
+  <link rel="stylesheet" href="../../extern/katex/katex.min.css">
+  <script defer src="../../extern/katex/katex.min.js"></script>
+  <script defer src="../../extern/katex/contrib/auto-render.min.js" onload="starteFormeln()"></script>
+
+  <script src="../../js/daten.js"></script>
+  <script src="../../js/seite.js"></script>
+  <script src="../../js/effekte.js"></script>
+  <script src="../../js/interaktiv.js"></script>
+  <script src="../../js/modelle/stoesse.js"></script>
+  <script type="application/json" id="symbole">
+  {
+    "F": "Kraft",
+    "p": "Impuls",
+    "t": "Zeit",
+    "m": "Masse",
+    "n": "Anzahl der Teilchen",
+    "v": "Geschwindigkeit",
+    "p_i": "Impuls vorher (initial)",
+    "p_f": "Impuls nachher (final)",
+    "v_i": "Geschwindigkeit vorher",
+    "v_f": "Geschwindigkeit nachher",
+    "P": "Gesamtimpuls",
+    "Q": "beim Stoß in Wärme und Verformung umgewandelte Energie",
+    "m_1": "Masse von Teilchen 1",
+    "m_2": "Masse von Teilchen 2",
+    "v_1": "Geschwindigkeit von Teilchen 1",
+    "v_2": "Geschwindigkeit von Teilchen 2",
+    "v_1,i": "Geschwindigkeit von Teilchen 1 vorher",
+    "v_1,f": "Geschwindigkeit von Teilchen 1 nachher",
+    "v_2,i": "Geschwindigkeit von Teilchen 2 vorher",
+    "v_2,f": "Geschwindigkeit von Teilchen 2 nachher",
+    "p_1,i": "Impuls von Teilchen 1 vorher",
+    "p_1,f": "Impuls von Teilchen 1 nachher",
+    "p_2,i": "Impuls von Teilchen 2 vorher",
+    "p_2,f": "Impuls von Teilchen 2 nachher",
+    "p_2,f,x": "x-Komponente des Impulses von Teilchen 2 nachher",
+    "p_2,f,y": "y-Komponente des Impulses von Teilchen 2 nachher",
+    "E": "kinetische Energie",
+    "E_kin": "kinetische Energie",
+    "E_1,kin": "kinetische Energie von Teilchen 1",
+    "E_2,kin": "kinetische Energie von Teilchen 2",
+    "F_12": "Kraft von Teilchen 1 auf Teilchen 2",
+    "v_s": "Geschwindigkeit des Schwerpunkts",
+    "v_rel": "Relativgeschwindigkeit der Teilchen",
+    "μ": "reduzierte Masse",
+    "v_gem": "gemeinsame Geschwindigkeit nach dem Stoß",
+    "x": "x-Koordinate",
+    "y": "y-Koordinate",
+    "z": "Höhe (z-Achse nach oben)",
+    "θ_1": "Ablenkwinkel von Teilchen 1",
+    "θ_2": "Ablenkwinkel von Teilchen 2",
+    "A": "Massenzahl des gestoßenen Kerns",
+    "E_vorher": "kinetische Energie vor dem Unfall",
+    "E_nachher": "kinetische Energie nach dem Unfall",
+    "M": "Masse des Pendelkörpers",
+    "V": "Geschwindigkeit des Pendels direkt nach dem Einschlag",
+    "g": "Fallbeschleunigung",
+    "h": "Steighöhe des Pendels"
+  }
+  </script>
+</head>
+<body data-thema="stoesse">
+  <main>
+    <article class="thema">
+      <header>
+        <h1>Elastische und inelastische Stöße</h1>
+        <p class="untertitel">Was passiert, wenn Körper zusammenprallen – vom
+          Billardtisch über den Auffahrunfall bis zum Atomkern.</p>
+      </header>
+
+      <div class="tabs">
+
+        <section class="tab" id="verstehen" data-titel="Verstehen">
+
+          <p>Eine Billardkugel trifft eine ruhende Kugel genau in der Mitte – und
+            bleibt schlagartig liegen, während die andere davonrollt, als hätte
+            sie den ganzen Schwung übernommen. Beim Kugelstoßpendel auf dem
+            Schreibtisch („Newton-Wiege“) schwingt außen eine Kugel an, und auf der
+            anderen Seite fliegt genau eine Kugel weg. Hinter diesen Kunststücken
+            stecken nur zwei Regeln.</p>
+
+          <h2>Zwei Erhaltungssätze</h2>
+
+          <p>Bei einem Stoß üben zwei Körper für einen kurzen Moment große Kräfte
+            aufeinander aus. Weil diese Kräfte nach dem dritten Newtonschen Gesetz
+            gleich groß und entgegengesetzt sind, bleibt der <em>Gesamtimpuls</em>
+            immer erhalten – bei jedem Stoß, ohne Ausnahme.</p>
+
+          <p>Mit der Energie ist es anders. Prallen zwei Billardkugeln
+            aufeinander, federn sie fast perfekt zurück: Die Bewegungsenergie
+            bleibt erhalten. Das nennt man einen <em>elastischen</em> Stoß.
+            Prallen dagegen zwei Autos aufeinander, verbeulen sie sich. Ein Teil
+            der Bewegungsenergie wird zu Verformung und Wärme – ein
+            <em>inelastischer</em> Stoß. Bleiben die Körper sogar aneinander
+            hängen, etwa zwei Knetkugeln, ist er <em>vollständig inelastisch</em>,
+            und es geht so viel Bewegungsenergie verloren wie überhaupt
+            möglich.</p>
+
+          <figure class="interaktiv" data-modell="stosslabor">
+            <span class="titel">Zum Ausprobieren</span>
+            <figcaption>Zwei Gleiter auf einer Luftkissenbahn. Mit der Stoßzahl
+              stellst du ein, wie elastisch der Stoß ist: 1 wie Stahlfedern, 0 wie
+              Knete. Probier gleiche Massen elastisch (der erste bleibt stehen),
+              dann einen leichten Gleiter gegen einen schweren (er prallt zurück).
+              Die graue Säule links zeigt den Gesamtimpuls – sie ändert sich nie.
+              Die graue Säule rechts ist die Energie, die in Wärme
+              übergeht.</figcaption>
+          </figure>
+
+          <h2>Länger bremsen tut weniger weh</h2>
+
+          <p>Bei einem Aufprall muss sich der Impuls eines Körpers ändern – um
+            wie viel, steht fest. Wie stark die Kraft dabei ist, hängt aber davon
+            ab, wie lange der Stoß dauert. Verteilt man die Impulsänderung auf eine
+            längere Zeit, wird die Kraft kleiner. Genau das tun Knautschzonen,
+            Airbags, Turnmatten und die Knie, die man beim Springen beugt: Sie
+            machen den Stoß länger und damit sanfter.</p>
+
+          <h2>Stöße in der Ebene</h2>
+
+          <p>Treffen sich zwei Kugeln nicht genau mittig, fliegen sie schräg
+            auseinander. Billardspieler kennen eine erstaunliche Regel: Bei
+            gleichen Kugeln laufen die beiden nach dem Stoß immer im rechten Winkel
+            auseinander – egal, wie dünn die Kugel getroffen wurde.</p>
+
+          <figure class="interaktiv" data-modell="billard">
+            <span class="titel">Zum Ausprobieren</span>
+            <figcaption>Kugel 1 (orange) trifft die ruhende Kugel 2 (blau).
+              Verändere den Versatz: Kugel 2 läuft immer entlang der Linie durch
+              die beiden Mittelpunkte im Moment der Berührung (dünne Linie) davon.
+              Bei gleichen Massen bilden die beiden Bahnen einen rechten Winkel.
+              Mach Kugel 2 schwerer oder leichter und beobachte, wie sich der
+              Winkel ändert.</figcaption>
+          </figure>
+
+          <p>Dieselben Regeln gelten bis hinunter zu den kleinsten Teilchen:
+            Physiker schießen Neutronen oder Röntgenlicht auf Proben und schließen
+            aus der Art, wie sie abprallen, auf den Aufbau von Atomen und
+            Molekülen.</p>
+
+          <div class="merkkasten">
+            <span class="titel">Das Wichtigste in Kürze</span>
+            <ul>
+              <li>Bei jedem Stoß bleibt der Gesamtimpuls erhalten.</li>
+              <li>Elastisch: Auch die Bewegungsenergie bleibt erhalten.
+                Inelastisch: Ein Teil wird zu Wärme und Verformung.</li>
+              <li>Dieselbe Impulsänderung in längerer Zeit bedeutet eine kleinere
+                Kraft – das Prinzip jeder Knautschzone.</li>
+            </ul>
+          </div>
+        </section>
+
+        <section class="tab" id="vertiefung" data-titel="Vertiefung">
+
+          <h2>Stoß und Kraftstoß</h2>
+
+          <p>Bei einem <em>Stoß</em> üben zwei Körper für kurze Zeit Kräfte
+            aufeinander aus, nach dem dritten Axiom entgegengesetzt gleich. Aus
+            $\vec{F} = \mathrm{d}\vec{p}/\mathrm{d}t$ folgt
+            $\mathrm{d}\vec{p} = \vec{F}\,\mathrm{d}t$ und integriert über die
+            Stoßdauer</p>
+
+          $$ \vec{p}_\text{f} - \vec{p}_\text{i} = \int_{t_\text{i}}^{t_\text{f}} \vec{F}\,\mathrm{d}t = \bar{\vec{F}}\,\Delta t . $$
+
+          <p>Das Integral heißt <em>Kraftstoß</em>; $\bar{\vec{F}}$ ist die
+            mittlere Kraft während der Stoßdauer $\Delta t$. Der genaue Verlauf
+            $F(t)$ ist meist unbekannt, die Impulsänderung (die Fläche unter der
+            Kurve, Abb. 1) aber nicht.</p>
+
+          <figure class="abbildung">
+            <svg class="abb" viewBox="0 0 360 210" role="img"
+                 aria-label="Verlauf der Kraft während eines Stoßes und gleich große Rechteckfläche der mittleren Kraft">
+              <defs>
+                <marker id="pfeil-abb1" viewBox="0 0 10 10" refX="9" refY="5"
+                        markerWidth="7" markerHeight="7" orient="auto">
+                  <path d="M0 0L10 5L0 10z" fill="currentColor"/>
+                </marker>
+              </defs>
+              <polygon class="flaeche" points="50,180 99,179.9 106,179.7 113,179.3 120,178.3 127,176.1 134,171.9 141,164.5 148,152.8 155,136.1 162,115.1 169,92 176,70.7 183,55.5 190,50 197,55.5 204,70.7 211,92 218,115.1 225,136.1 232,152.8 239,164.5 246,171.9 253,176.1 260,178.3 267,179.3 274,179.7 281,179.9 330,180"/>
+              <polyline class="kurve blau" points="50,180 99,179.9 106,179.7 113,179.3 120,178.3 127,176.1 134,171.9 141,164.5 148,152.8 155,136.1 162,115.1 169,92 176,70.7 183,55.5 190,50 197,55.5 204,70.7 211,92 218,115.1 225,136.1 232,152.8 239,164.5 246,171.9 253,176.1 260,178.3 267,179.3 274,179.7 281,179.9 330,180"/>
+              <path class="hilfslinie" d="M120 180V124.7H260V180"/>
+              <path class="achse" d="M40 180H340" marker-end="url(#pfeil-abb1)"/>
+              <path class="achse" d="M50 190V22" marker-end="url(#pfeil-abb1)"/>
+              <text x="336" y="198" text-anchor="end">t</text>
+              <text x="58" y="28">F(t)</text>
+              <text x="264" y="120">F̄</text>
+              <path class="achse" d="M120 196H260"/>
+              <text x="190" y="208" text-anchor="middle" font-size="11">Δt</text>
+              <text class="blau" x="215" y="62">Fläche = Δp</text>
+            </svg>
+            <figcaption>Abb. 1: Kraftverlauf bei einem Stoß. Die Fläche unter der
+              Kurve ist die Impulsänderung. Das gestrichelte Rechteck mit der
+              mittleren Kraft $\bar{F}$ über die Dauer $\Delta t$ hat dieselbe
+              Fläche. Halbe Stoßdauer bei gleichem $\Delta p$ heißt doppelte
+              mittlere Kraft.</figcaption>
+          </figure>
+
+          <p><strong>Beispiel: Ball prallt vom Boden ab.</strong> Ein Ball trifft
+            mit $\vec{v}_\text{i}$ senkrecht auf und springt (ideal elastisch) mit
+            $\vec{v}_\text{f} = -\vec{v}_\text{i}$ zurück. Die Impulsänderung
+            ist</p>
+
+          $$ \Delta\vec{p} = m\,(\vec{v}_\text{f} - \vec{v}_\text{i}) = 2\,m\,\vec{v}_\text{f} . $$
+
+          <p>Auf den Boden wird also der <em>doppelte</em> Impuls übertragen –
+            doppelt so viel wie bei einem Körper, der liegen bleibt.</p>
+
+          <p><strong>Mehrfachstöße.</strong> Treffen in der Zeit $\Delta t$
+            $n$ Teilchen auf eine Wand und überträgt jedes den Impuls $\Delta p$,
+            so ist der gesamte Impulsübertrag $n\,\Delta p$ und die mittlere
+            Kraft auf die Wand</p>
+
+          $$ \bar{F} = \frac{n}{\Delta t}\,\Delta p = \frac{n}{\Delta t}\,m\,\Delta v . $$
+
+          <p>Auf diese Weise erklärt die kinetische Gastheorie den Druck eines
+            Gases: Er ist die mittlere Kraft pro Fläche aus unzähligen
+            Molekülstößen.</p>
+
+          <h2>Stoß zweier Teilchen und reduzierte Masse</h2>
+
+          <p>Während des Stoßes wirkt auf Teilchen 1 die Kraft $\vec{F}_{12}$, auf
+            Teilchen 2 die Gegenkraft $-\vec{F}_{12}$. Für die
+            Relativgeschwindigkeit folgt</p>
+
+          $$ \frac{\mathrm{d}}{\mathrm{d}t}(\vec{v}_1 - \vec{v}_2) = \frac{\vec{F}_{12}}{m_1} + \frac{\vec{F}_{12}}{m_2} = \vec{F}_{12} \left(\frac{1}{m_1} + \frac{1}{m_2}\right) = \frac{\vec{F}_{12}}{\mu}, \qquad \mu = \frac{m_1 m_2}{m_1 + m_2} . $$
+
+          <p>Die Relativbewegung zweier Teilchen verhält sich also wie die
+            Bewegung eines einzigen Teilchens mit der <em>reduzierten Masse</em>
+            $\mu$ – aus einem Zweikörperproblem wird ein Einkörperproblem. Für
+            $m_1 = m_2$ ist $\mu = m_1/2$, für $m_1 \gg m_2$ ist $\mu \approx m_2$:
+            Die reduzierte Masse ist immer kleiner als die kleinere der beiden
+            Massen.</p>
+
+          <p>Mit $\vec{v}_\text{s} = (m_1 \vec{v}_1 + m_2 \vec{v}_2)/(m_1 + m_2)$
+            ergibt sich die kinetische Energie im Schwerpunktsystem (siehe
+            <a href="impuls-schwerpunkt.html">Schwerpunkt und Impulserhaltung</a>)
+            zu</p>
+
+          $$ E_\text{kin}^{(\text{SP})} = \tfrac{1}{2} m_1 v_1^2 + \tfrac{1}{2} m_2 v_2^2 - \tfrac{1}{2}(m_1 + m_2)\,v_\text{s}^2 = \tfrac{1}{2}\,\mu\,v_\text{rel}^2, \qquad v_\text{rel} = |\vec{v}_1 - \vec{v}_2| . $$
+
+          <h2>Impuls und Energie bei Stößen</h2>
+
+          <p>Wir betrachten ein abgeschlossenes System: Die Gesamtmasse ist
+            konstant, es wirken keine äußeren Kräfte, die Teile dürfen aber
+            Kräfte aufeinander ausüben. Dann ist</p>
+
+          $$ \frac{\mathrm{d}\vec{P}}{\mathrm{d}t} = 0 \quad\Longleftrightarrow\quad \vec{p}_{1,\text{i}} + \vec{p}_{2,\text{i}} = \vec{p}_{1,\text{f}} + \vec{p}_{2,\text{f}} . $$
+
+          <p>Die Gesamtenergie bleibt ebenfalls erhalten, aber ein Teil $Q$ der
+            kinetischen Energie kann in innere Energie (Wärme,
+            Verformungsarbeit) übergehen:</p>
+
+          $$ \tfrac{1}{2} m_1 v_{1,\text{i}}^2 + \tfrac{1}{2} m_2 v_{2,\text{i}}^2 = \tfrac{1}{2} m_1 v_{1,\text{f}}^2 + \tfrac{1}{2} m_2 v_{2,\text{f}}^2 + Q . $$
+
+          <ul>
+            <li>$Q = 0$: <em>elastischer</em> Stoß,</li>
+            <li>$Q \gt 0$: <em>inelastischer</em> Stoß, dem System wird
+              kinetische Energie entzogen,</li>
+            <li>$Q \lt 0$: <em>superelastischer</em> Stoß, dem System wird
+              kinetische Energie zugeführt (etwa durch eine Explosion oder eine
+              gespannte Feder).</li>
+          </ul>
+
+          <h2>Elastischer zentraler Stoß in einer Dimension</h2>
+
+          <h3>Stoß auf einen ruhenden Körper</h3>
+
+          <p>Körper 2 ruhe ($v_{2,\text{i}} = 0$). Impuls- und Energiesatz
+            lauten</p>
+
+          $$ m_1 v_{1,\text{i}} = m_1 v_{1,\text{f}} + m_2 v_{2,\text{f}}, \qquad \tfrac{1}{2} m_1 v_{1,\text{i}}^2 = \tfrac{1}{2} m_1 v_{1,\text{f}}^2 + \tfrac{1}{2} m_2 v_{2,\text{f}}^2 . $$
+
+          <p>Umgestellt:
+            $m_1 (v_{1,\text{i}} - v_{1,\text{f}}) = m_2 v_{2,\text{f}}$ und
+            $m_1 (v_{1,\text{i}} - v_{1,\text{f}})(v_{1,\text{i}} + v_{1,\text{f}}) = m_2 v_{2,\text{f}}^2$.
+            Teilt man die zweite durch die erste Gleichung, folgt
+            $v_{2,\text{f}} = v_{1,\text{i}} + v_{1,\text{f}}$, und damit</p>
+
+          $$ v_{1,\text{f}} = \frac{m_1 - m_2}{m_1 + m_2}\,v_{1,\text{i}}, \qquad v_{2,\text{f}} = \frac{2 m_1}{m_1 + m_2}\,v_{1,\text{i}} . $$
+
+          <p>$v_{1,\text{f}}$ kann positiv oder negativ sein, je nach
+            Massenverhältnis; $v_{2,\text{f}}$ ist immer positiv – der gestoßene
+            Körper bewegt sich in Richtung des stoßenden. Auf Körper 2 wird der
+            Bruchteil</p>
+
+          $$ \frac{E_{2,\text{kin}}^{(\text{f})}}{E_{1,\text{kin}}^{(\text{i})}} = \frac{\tfrac{1}{2} m_2 v_{2,\text{f}}^2}{\tfrac{1}{2} m_1 v_{1,\text{i}}^2} = \frac{4 m_1 m_2}{(m_1 + m_2)^2} = \frac{4\mu^2}{m_1 m_2} $$
+
+          <p>der kinetischen Energie übertragen. Spezialfälle (Abb. 2):</p>
+          <ol>
+            <li>$m_1 = m_2$: $v_{1,\text{f}} = 0$, $v_{2,\text{f}} = v_{1,\text{i}}$
+              – vollständiger Austausch (Billard, Newton-Wiege).</li>
+            <li>$m_1 \ll m_2$ ($\mu \approx m_1$): $v_{1,\text{f}} \approx -v_{1,\text{i}}$,
+              $v_{2,\text{f}} \approx 0$ – Reflexion wie an einer Wand.</li>
+            <li>$m_2 \ll m_1$ ($\mu \approx m_2$): $v_{1,\text{f}} \approx v_{1,\text{i}}$,
+              $v_{2,\text{f}} \approx 2\,v_{1,\text{i}}$ – der leichte Körper
+              fliegt mit doppelter Geschwindigkeit davon.</li>
+          </ol>
+
+          <figure class="abbildung">
+            <svg class="abb" viewBox="0 0 360 212" role="img"
+                 aria-label="Geschwindigkeiten nach einem elastischen Stoß und übertragener Energieanteil in Abhängigkeit vom Massenverhältnis">
+              <path class="gitter" d="M50 50H330M50 90H330M50 170H330"/>
+              <path class="achse" d="M50 130H330M50 182V40"/>
+              <path class="hilfslinie" d="M190 40V182"/>
+              <polyline class="kurve kupfer" points="50,90.8 57,91 64,91.2 71,91.6 78,92 85,92.5 92,93.1 99,93.8 106,94.7 113,95.9 120,97.3 127,98.9 134,100.9 141,103.3 148,106.1 155,109.2 162,112.8 169,116.7 176,120.9 183,125.4 190,130 197,134.6 204,139.1 211,143.3 218,147.2 225,150.8 232,153.9 239,156.7 246,159.1 253,161.1 260,162.7 267,164.1 274,165.3 281,166.2 288,166.9 295,167.5 302,168 309,168.4 316,168.8 323,169 330,169.2"/>
+              <polyline class="kurve blau" points="50,50.8 57,51 64,51.2 71,51.6 78,52 85,52.5 92,53.1 99,53.8 106,54.7 113,55.9 120,57.3 127,58.9 134,60.9 141,63.3 148,66.1 155,69.2 162,72.8 169,76.7 176,80.9 183,85.4 190,90 197,94.6 204,99.1 211,103.3 218,107.2 225,110.8 232,113.9 239,116.7 246,119.1 253,121.1 260,122.7 267,124.1 274,125.3 281,126.2 288,126.9 295,127.5 302,128 309,128.4 316,128.8 323,129 330,129.2"/>
+              <polyline class="kurve" points="50,128.4 57,128 64,127.5 71,126.9 78,126.2 85,125.2 92,124.1 99,122.7 106,121.1 113,119.1 120,116.8 127,114.1 134,111.1 141,107.8 148,104.3 155,100.8 162,97.4 169,94.4 176,92 183,90.5 190,90 197,90.5 204,92 211,94.4 218,97.4 225,100.8 232,104.3 239,107.8 246,111.1 253,114.1 260,116.8 267,119.1 274,121.1 281,122.7 288,124.1 295,125.2 302,126.2 309,126.9 316,127.5 323,128 330,128.4" stroke-dasharray="5 4"/>
+              <text x="44" y="54" text-anchor="end" font-size="11">2</text>
+              <text x="44" y="94" text-anchor="end" font-size="11">1</text>
+              <text x="44" y="134" text-anchor="end" font-size="11">0</text>
+              <text x="44" y="174" text-anchor="end" font-size="11">−1</text>
+              <text x="50" y="198" text-anchor="middle" font-size="11">0,01</text>
+              <text x="120" y="198" text-anchor="middle" font-size="11">0,1</text>
+              <text x="190" y="198" text-anchor="middle" font-size="11">1</text>
+              <text x="260" y="198" text-anchor="middle" font-size="11">10</text>
+              <text x="330" y="198" text-anchor="middle" font-size="11">100</text>
+              <text x="330" y="210" text-anchor="end" font-size="11">m₂ / m₁ (logarithmisch)</text>
+              <text class="blau" x="60" y="44">v₂,f / v₁,i</text>
+              <text class="kupfer" x="60" y="84">v₁,f / v₁,i</text>
+              <text x="244" y="104">Energieanteil</text>
+            </svg>
+            <figcaption>Abb. 2: Elastischer Stoß auf einen ruhenden Körper.
+              Geschwindigkeiten nach dem Stoß (in Einheiten von $v_{1,\text{i}}$)
+              und übertragener Energieanteil (gestrichelt) über dem
+              Massenverhältnis. Bei gleichen Massen ($m_2/m_1 = 1$) wird die
+              gesamte Energie übertragen.</figcaption>
+          </figure>
+
+          <h3>Allgemeiner Fall</h3>
+
+          <p>Bewegen sich beide Körper vor dem Stoß, liefert dieselbe Rechnung</p>
+
+          $$ v_{1,\text{f}} = \frac{m_1 - m_2}{m_1 + m_2}\,v_{1,\text{i}} + \frac{2 m_2}{m_1 + m_2}\,v_{2,\text{i}}, \qquad v_{2,\text{f}} = \frac{2 m_1}{m_1 + m_2}\,v_{1,\text{i}} + \frac{m_2 - m_1}{m_1 + m_2}\,v_{2,\text{i}} . $$
+
+          <h2>Elastischer Stoß in zwei Dimensionen</h2>
+
+          <p>Körper 1 stoße mit dem Impuls $\vec{p}_{1,\text{i}} = (p_{1,\text{i}}, 0)$
+            auf den ruhenden Körper 2 und werde unter dem Winkel $\theta_1$
+            abgelenkt, Körper 2 fliege unter $\theta_2$ davon. Die $x$- und
+            $y$-Richtungen sind unabhängig, der Impuls bleibt komponentenweise
+            erhalten:</p>
+
+          $$ p_{1,\text{i}} = p_{1,\text{f}}\cos\theta_1 + p_{2,\text{f}}\cos\theta_2, \qquad 0 = p_{1,\text{f}}\sin\theta_1 - p_{2,\text{f}}\sin\theta_2 . $$
+
+          <p>Mit $E = p^2/2m$ lautet der Energiesatz
+            $\frac{p_{1,\text{i}}^2}{2 m_1} = \frac{p_{1,\text{f}}^2}{2 m_1} + \frac{p_{2,\text{f}}^2}{2 m_2}$.
+            Setzt man $p_{1,\text{f}}^2 = (p_{1,\text{i}} - p_{2,\text{f},x})^2 + p_{2,\text{f},y}^2$
+            ein und ordnet nach den Komponenten von $\vec{p}_{2,\text{f}}$, so
+            folgt mit der reduzierten Masse</p>
+
+          $$ \left(p_{2,\text{f},x} - \mu\,v_{1,\text{i}}\right)^2 + p_{2,\text{f},y}^2 = \left(\mu\,v_{1,\text{i}}\right)^2 . $$
+
+          <p>Das ist eine Kreisgleichung: Die Spitze von $\vec{p}_{2,\text{f}}$
+            liegt auf einem Kreis mit Mittelpunkt $(\mu v_{1,\text{i}}, 0)$ und
+            Radius $\mu v_{1,\text{i}}$. Welcher Punkt auf dem Kreis erreicht wird,
+            hängt davon ab, wie genau die Kugeln sich treffen. Für gleiche Massen
+            ist $\mu v_{1,\text{i}} = p_{1,\text{i}}/2$: Der Kreis hat
+            $\vec{p}_{1,\text{i}}$ als Durchmesser. Nach dem Satz des Thales stehen
+            $\vec{p}_{1,\text{f}}$ und $\vec{p}_{2,\text{f}}$ dann senkrecht
+            aufeinander (Abb. 3) – die 90°-Regel des Billards.</p>
+
+          <figure class="abbildung">
+            <svg class="abb" viewBox="0 0 360 240" role="img"
+                 aria-label="Impulsdiagramm des elastischen Stoßes gleicher Massen: Thaleskreis über dem Anfangsimpuls">
+              <circle class="hilfslinie" cx="200" cy="130" r="100"/>
+              <path class="kurve kupfer" d="M100 130L291 130"/>
+              <polygon class="punkt kupfer" points="300,130 291,125.5 291,134.5"/>
+              <path class="kurve blau" d="M100 130L242.2 212.1"/>
+              <polygon class="punkt blau" points="250,216.6 239.9,216 244.4,208.2"/>
+              <path class="kurve" d="M250 216.6L295.5 137.8"/>
+              <polygon class="punkt" points="300,130 291.6,135.6 299.4,140.1"/>
+              <path class="achse" d="M241.3 211.6L246.3 202.9L255 207.9"/>
+              <circle class="punkt" cx="200" cy="130" r="3"/>
+              <circle class="punkt" cx="100" cy="130" r="3"/>
+              <text class="kupfer" x="200" y="122" text-anchor="middle">p₁,i</text>
+              <text class="blau" x="150" y="190" text-anchor="end">p₂,f</text>
+              <text x="282" y="186">p₁,f</text>
+              <text x="200" y="146" text-anchor="middle" font-size="11">Mittelpunkt μ v₁,i</text>
+            </svg>
+            <figcaption>Abb. 3: Impulsdiagramm für gleiche Massen. Wegen
+              $\vec{p}_{1,\text{i}} = \vec{p}_{1,\text{f}} + \vec{p}_{2,\text{f}}$
+              bilden die drei Impulse ein Dreieck; die Spitze von
+              $\vec{p}_{2,\text{f}}$ liegt auf dem Thaleskreis über
+              $\vec{p}_{1,\text{i}}$, also ist der Winkel zwischen
+              $\vec{p}_{1,\text{f}}$ und $\vec{p}_{2,\text{f}}$ ein rechter.</figcaption>
+          </figure>
+
+          <h2>Elastischer Stoß im Schwerpunktsystem</h2>
+
+          <p>Im Schwerpunktsystem ist der Gesamtimpuls vor und nach dem Stoß null:
+            $\vec{p}_{1,\text{i}}^{\,(\text{SP})} = -\vec{p}_{2,\text{i}}^{\,(\text{SP})}$,
+            $\vec{p}_{1,\text{f}}^{\,(\text{SP})} = -\vec{p}_{2,\text{f}}^{\,(\text{SP})}$.
+            Für die Energie gilt</p>
+
+          $$ \frac{1}{2}\left(\frac{1}{m_1} + \frac{1}{m_2}\right)\left(p_\text{i}^{(\text{SP})}\right)^2 = \frac{1}{2\mu}\left(p_\text{i}^{(\text{SP})}\right)^2 = \frac{1}{2\mu}\left(p_\text{f}^{(\text{SP})}\right)^2 + Q . $$
+
+          <p>Beim elastischen Stoß ($Q = 0$) ist also
+            $|\vec{p}_{1,\text{i}}^{\,(\text{SP})}| = |\vec{p}_{1,\text{f}}^{\,(\text{SP})}|$
+            und ebenso für Teilchen 2: Im Schwerpunktsystem behält jeder
+            Stoßpartner Betrag des Impulses und kinetische Energie, die
+            Impulsvektoren werden nur gedreht. Alle Stoßwinkel und
+            Energieverteilungen im Laborsystem ergeben sich aus dieser Drehung
+            plus der Schwerpunktbewegung.</p>
+
+          <h2>Vollständig inelastischer Stoß</h2>
+
+          <p><strong>Experiment.</strong> Auf der Luftkissenbahn trägt Gleiter 1
+            eine Nadel, Gleiter 2 einen Klumpen Wachs. Gleiter 1 stößt mit $v_1$
+            auf den ruhenden Gleiter 2, die beiden bleiben verbunden. Man beobachtet
+            die gemeinsame Geschwindigkeit $v_\text{gem} = v_1/2$ für
+            $m_1 = m_2$, $v_\text{gem} = v_1/3$ für $m_1 = m_2/2$ und
+            $v_\text{gem} = 2 v_1/3$ für $m_1 = 2 m_2$.</p>
+
+          <p>Das folgt allein aus der Impulserhaltung:</p>
+
+          $$ m_1 \vec{v}_{1,\text{i}} + m_2 \vec{v}_{2,\text{i}} = (m_1 + m_2)\,\vec{v}_\text{f} \quad\Longrightarrow\quad \vec{v}_\text{f} = \frac{m_1 \vec{v}_{1,\text{i}} + m_2 \vec{v}_{2,\text{i}}}{m_1 + m_2} = \vec{v}_\text{s} . $$
+
+          <p>Nach dem Stoß bewegen sich beide mit der (unveränderten)
+            Schwerpunktgeschwindigkeit. Die umgewandelte Energie ist</p>
+
+          $$ Q = \tfrac{1}{2} m_1 v_1^2 + \tfrac{1}{2} m_2 v_2^2 - \tfrac{1}{2}(m_1 + m_2)\,v_\text{s}^2 = \frac{1}{2}\,\frac{m_1 m_2}{m_1 + m_2}\,(v_1 - v_2)^2 = \tfrac{1}{2}\,\mu\,v_\text{rel}^2 . $$
+
+          <div class="merkkasten">
+            <span class="titel">Merke: vollständig inelastischer Stoß</span>
+            <p>$Q$ ist genau die kinetische Energie im Schwerpunktsystem vor dem
+              Stoß: Sie wird komplett in innere Energie (Verformung, Wärme)
+              umgewandelt. Die Energie der Schwerpunktbewegung bleibt erhalten,
+              weil der Impuls erhalten bleibt – mehr kann kein Stoß
+              „vernichten“.</p>
+          </div>
+
+          <h2>Stöße als Messmethode: Streuexperimente</h2>
+
+          <p>Auf mikroskopischer Skala sind Stöße das wichtigste Werkzeug, um in
+            Materie hineinzuschauen. Man schießt Teilchen auf eine Probe und misst
+            mit einem Detektor, in welche Richtungen und mit welchen Energien sie
+            gestreut werden. Aus dem Streumuster lassen sich Größe, Dichte und
+            innere Struktur der streuenden Objekte erschließen – etwa von Mizellen
+            (kleinen Molekülkugeln) in Wasser.</p>
+
+          <ul>
+            <li><strong>Röntgenstrahlung:</strong> Die Photonen werden an der
+              Elektronenhülle der Atome gestreut – man sieht, wo die Elektronen
+              sitzen.</li>
+            <li><strong>Neutronen:</strong> Sie werden an den Atomkernen gestreut
+              und reagieren empfindlich auf verschiedene Isotope desselben
+              Elements, etwa Wasserstoff und Deuterium.</li>
+          </ul>
+        </section>
+
+        <section class="tab" id="beispiele" data-titel="Beispielrechnungen">
+
+          <div class="beispiel">
+            <h3>Beispiel 1: Wie bremst man Neutronen?</h3>
+            <p><strong>Gegeben:</strong> In einem Kernreaktor müssen schnelle
+              Neutronen (Masse $m$) abgebremst werden. Sie stoßen elastisch auf
+              ruhende Kerne der Masse $A\,m$.<br>
+              <strong>Gesucht:</strong> Der Anteil der Energie, den ein Neutron
+              bei einem zentralen Stoß verliert, für Wasserstoff ($A = 1$),
+              Deuterium ($A = 2$), Kohlenstoff ($A = 12$) und Blei ($A = 207$).</p>
+
+            <p><strong>1. Formel:</strong> Übertragener Anteil beim zentralen
+              elastischen Stoß auf ein ruhendes Ziel,
+              $$ \frac{\Delta E}{E} = \frac{4 m_1 m_2}{(m_1 + m_2)^2} = \frac{4 A m^2}{(1 + A)^2 m^2} = \frac{4A}{(1 + A)^2} $$</p>
+
+            <p><strong>2. Zahlen:</strong>
+              $$ A = 1: \; \frac{4}{4} = 100\,\%, \qquad A = 2: \; \frac{8}{9} = 89\,\%, \qquad A = 12: \; \frac{48}{169} = 28\,\%, \qquad A = 207: \; \frac{828}{208^2} = 1{,}9\,\% $$</p>
+
+            <p><strong>Ergebnis und Plausibilität:</strong> Leichte Kerne bremsen
+              am besten – deshalb verwendet man Wasser oder Graphit als
+              „Moderator“, während Neutronen an Blei fast ohne Energieverlust
+              abprallen. Das passt zu den Spezialfällen: gleiche Massen tauschen die
+              Energie komplett aus, ein sehr schwerer Stoßpartner wirkt wie eine
+              Wand. (Bei nicht zentralen Stößen ist der Verlust kleiner; im
+              Mittel über alle Winkel ist es bei Wasserstoff die Hälfte.)</p>
+          </div>
+
+          <div class="beispiel">
+            <h3>Beispiel 2: Auffahrunfall</h3>
+            <p><strong>Gegeben:</strong> Ein Auto ($m_1 = 1200\,\mathrm{kg}$)
+              fährt mit $50\,\mathrm{km/h}$ auf ein stehendes Auto
+              ($m_2 = 1500\,\mathrm{kg}$) auf; die beiden verkeilen sich.
+              Bremsen und Reibung während des kurzen Stoßes vernachlässigen
+              wir.<br>
+              <strong>Gesucht:</strong> Geschwindigkeit direkt nach dem Stoß und
+              die in Verformung umgewandelte Energie.</p>
+
+            <p><strong>1. Impulserhaltung</strong> ($v_1 = 13{,}9\,\mathrm{m/s}$,
+              $v_2 = 0$):
+              $$ v_\text{f} = \frac{m_1 v_1}{m_1 + m_2} = \frac{1200\,\mathrm{kg} \cdot 13{,}9\,\mathrm{m/s}}{2700\,\mathrm{kg}} = 6{,}17\,\mathrm{m/s} = 22\,\mathrm{km/h} $$</p>
+
+            <p><strong>2. Umgewandelte Energie</strong> mit
+              $\mu = \frac{1200 \cdot 1500}{2700}\,\mathrm{kg} = 667\,\mathrm{kg}$:
+              $$ Q = \tfrac{1}{2}\,\mu\,v_\text{rel}^2 = \tfrac{1}{2} \cdot 667\,\mathrm{kg} \cdot (13{,}9\,\mathrm{m/s})^2 = 64\,\mathrm{kJ} $$</p>
+
+            <p><strong>3. Kontrolle über die Energiebilanz:</strong>
+              $E_\text{vorher} = \tfrac{1}{2} \cdot 1200 \cdot 13{,}9^2\,\mathrm{J} = 116\,\mathrm{kJ}$,
+              $E_\text{nachher} = \tfrac{1}{2} \cdot 2700 \cdot 6{,}17^2\,\mathrm{J} = 51\,\mathrm{kJ}$,
+              Differenz $64\,\mathrm{kJ}$ ✓.</p>
+
+            <p><strong>Ergebnis und Plausibilität:</strong> Gut die Hälfte der
+              Bewegungsenergie (genau $m_2/(m_1 + m_2) = 56\,\%$) steckt danach in
+              verbeultem Blech. 64 kJ entsprechen einem Sturz eines Autos aus etwa
+              5 m Höhe ($64\,000/(1200 \cdot 9{,}81)\,\mathrm{m} = 5{,}4\,\mathrm{m}$) –
+              ein heftiger Unfall, für den die Knautschzonen gebaut sind.</p>
+          </div>
+
+          <div class="beispiel">
+            <h3>Beispiel 3: Das ballistische Pendel</h3>
+            <p><strong>Gegeben:</strong> Ein Geschoss ($m = 10\,\mathrm{g}$)
+              bleibt in einem ruhenden, an Fäden aufgehängten Holzklotz
+              ($M = 2{,}0\,\mathrm{kg}$) stecken. Der Klotz schwingt danach
+              $h = 12\,\mathrm{cm}$ hoch.<br>
+              <strong>Gesucht:</strong> Geschwindigkeit des Geschosses.</p>
+
+            <p><strong>1. Nach dem Stoß</strong> gilt für Klotz mit Geschoss der
+              Energiesatz (die Fäden verrichten keine Arbeit):
+              $$ V = \sqrt{2 g h} = \sqrt{2 \cdot 9{,}81\,\mathrm{\tfrac{m}{s^2}} \cdot 0{,}12\,\mathrm{m}} = 1{,}53\,\mathrm{m/s} $$</p>
+
+            <p><strong>2. Während des Stoßes</strong> gilt nur die
+              Impulserhaltung (vollständig inelastisch):
+              $$ m v = (m + M)\,V \quad\Rightarrow\quad v = \frac{m + M}{m}\,V = \frac{2{,}01\,\mathrm{kg}}{0{,}010\,\mathrm{kg}} \cdot 1{,}53\,\mathrm{\tfrac{m}{s}} = 308\,\mathrm{m/s} $$</p>
+
+            <p><strong>Ergebnis und Plausibilität:</strong> 300 m/s ist typisch für
+              ein Geschoss aus einer Kleinkaliberwaffe. Die Methode ist raffiniert:
+              Eine sehr schnelle Bewegung wird über die Impulserhaltung in eine
+              langsame, gut messbare übersetzt. Den Energiesatz darf man über den
+              Stoß hinweg aber nicht anwenden – von den 476 J des Geschosses
+              bleiben nur 2,4 J als Schwingungsenergie übrig, 99,5 % werden zu
+              Wärme und Verformung des Holzes.</p>
+          </div>
+        </section>
+
+        <section class="tab" id="aufgaben" data-titel="Aufgaben">
+
+          <p>Die Aufgaben sind nach Schwierigkeit sortiert. Wenn nichts anderes
+            gesagt ist, gilt $g = 9{,}81\,\mathrm{m/s^2}$, und äußere Kräfte
+            während der kurzen Stoßdauer werden vernachlässigt.</p>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 1: Ball gegen die Wand
+              <span class="schwierigkeit" data-stufe="leicht">leicht</span>
+            </h3>
+            <p>Ein Tennisball ($58\,\mathrm{g}$) fliegt mit $20\,\mathrm{m/s}$
+              senkrecht gegen eine Wand und prallt mit gleichem Tempo zurück. Der
+              Kontakt dauert $5{,}0\,\mathrm{ms}$. Wie groß sind Impulsänderung
+              und mittlere Kraft?</p>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>$|\Delta p| = 2 m v = 2 \cdot 0{,}058 \cdot 20\,\mathrm{kg\,m/s} = 2{,}3\,\mathrm{kg\,m/s}$,
+                $\bar{F} = \Delta p/\Delta t = 2{,}32/0{,}0050\,\mathrm{N} = 460\,\mathrm{N}$
+                – etwa 800-mal das Gewicht des Balls.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 2: Knete auf der Luftkissenbahn
+              <span class="schwierigkeit" data-stufe="leicht">leicht</span>
+            </h3>
+            <p>Ein Gleiter ($0{,}20\,\mathrm{kg}$, $0{,}50\,\mathrm{m/s}$) stößt
+              auf einen gleich schweren ruhenden Gleiter, beide bleiben durch Knete
+              aneinander haften. Wie schnell sind sie danach, und welcher Anteil
+              der kinetischen Energie wird umgewandelt?</p>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>$v_\text{f} = \frac{0{,}20 \cdot 0{,}50}{0{,}40}\,\mathrm{m/s} = 0{,}25\,\mathrm{m/s}$.
+                Vorher $E = \tfrac{1}{2} \cdot 0{,}20 \cdot 0{,}25\,\mathrm{J} = 25\,\mathrm{mJ}$,
+                nachher $\tfrac{1}{2} \cdot 0{,}40 \cdot 0{,}0625\,\mathrm{J} = 12{,}5\,\mathrm{mJ}$:
+                Genau die Hälfte wird umgewandelt. Kontrolle:
+                $Q = \tfrac{1}{2}\mu v^2$ mit $\mu = 0{,}10\,\mathrm{kg}$ ergibt
+                $12{,}5\,\mathrm{mJ}$ ✓.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 3: Leicht gegen schwer
+              <span class="schwierigkeit" data-stufe="mittel">mittel</span>
+            </h3>
+            <p>Eine Kugel ($m_1 = 0{,}10\,\mathrm{kg}$, $2{,}0\,\mathrm{m/s}$) stößt
+              zentral und elastisch auf eine ruhende Kugel
+              ($m_2 = 0{,}30\,\mathrm{kg}$). Berechne beide Geschwindigkeiten
+              danach und prüfe Impuls- und Energieerhaltung. Welcher Anteil der
+              Energie wird übertragen?</p>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>$$ v_{1,\text{f}} = \frac{0{,}10 - 0{,}30}{0{,}40} \cdot 2{,}0\,\mathrm{m/s} = -1{,}0\,\mathrm{m/s}, \qquad v_{2,\text{f}} = \frac{0{,}20}{0{,}40} \cdot 2{,}0\,\mathrm{m/s} = 1{,}0\,\mathrm{m/s} $$
+                Impuls: vorher $0{,}20$, nachher
+                $0{,}10 \cdot (-1{,}0) + 0{,}30 \cdot 1{,}0 = 0{,}20\,\mathrm{kg\,m/s}$ ✓.
+                Energie: vorher $0{,}20\,\mathrm{J}$, nachher
+                $0{,}05 + 0{,}15 = 0{,}20\,\mathrm{J}$ ✓.
+                Übertragen: $0{,}15/0{,}20 = 75\,\%$, wie
+                $4 m_1 m_2/(m_1 + m_2)^2 = 0{,}12/0{,}16$.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 4: Hagel auf dem Dach
+              <span class="schwierigkeit" data-stufe="mittel">mittel</span>
+            </h3>
+            <p>Auf jeden Quadratmeter eines Flachdachs treffen pro Sekunde 500
+              Hagelkörner zu je $2{,}0\,\mathrm{g}$ mit $15\,\mathrm{m/s}$. Wie groß
+              ist die mittlere Kraft pro Quadratmeter, wenn die Körner (a) liegen
+              bleiben, (b) elastisch zurückprallen? Vergleiche mit dem Gewicht des
+              Hagels, der in 10 Minuten liegen bleibt.</p>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p><strong>(a)</strong> $\bar{F} = \frac{n}{\Delta t}\,m\,\Delta v = 500\,\mathrm{s^{-1}} \cdot 0{,}0020\,\mathrm{kg} \cdot 15\,\mathrm{m/s} = 15\,\mathrm{N}$
+                pro Quadratmeter. <strong>(b)</strong> Doppelter Impulsübertrag:
+                $30\,\mathrm{N}$.</p>
+              <p>In 10 Minuten bleiben $500 \cdot 600 \cdot 2\,\mathrm{g} = 600\,\mathrm{kg}$
+                Hagel pro Quadratmeter liegen – Gewicht $5{,}9\,\mathrm{kN}$, also
+                viel mehr als die Kraft der Aufschläge. (Das wäre allerdings ein
+                Jahrhundertunwetter: 600 kg Eis pro Quadratmeter sind eine über einen
+                halben Meter dicke Schicht.)</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 5: Die 90°-Regel beim Billard
+              <span class="schwierigkeit" data-stufe="schwer">schwer</span>
+            </h3>
+            <p>Eine Billardkugel trifft mit $5{,}0\,\mathrm{m/s}$ eine gleich schwere
+              ruhende Kugel; der Stoß ist elastisch, Rotation der Kugeln
+              vernachlässigen wir.</p>
+            <ol type="a">
+              <li>Zeige ohne Komponenten, nur mit Vektoren, dass die Kugeln im
+                rechten Winkel auseinanderlaufen (sofern beide sich danach
+                bewegen).</li>
+              <li>Die gestoßene Kugel läuft unter $30°$ zur ursprünglichen Richtung.
+                Wie schnell sind beide Kugeln, und unter welchem Winkel läuft die
+                stoßende Kugel weiter?</li>
+            </ol>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p><strong>(a)</strong> Gleiche Massen kürzen sich:
+                $\vec{v}_1 = \vec{v}_1' + \vec{v}_2'$ (Impuls) und
+                $v_1^2 = v_1'^2 + v_2'^2$ (Energie). Quadriert man die erste
+                Gleichung, ist
+                $v_1^2 = v_1'^2 + v_2'^2 + 2\,\vec{v}_1' \cdot \vec{v}_2'$. Mit der
+                zweiten folgt $\vec{v}_1' \cdot \vec{v}_2' = 0$ – die Vektoren stehen
+                senkrecht (oder einer ist null, beim zentralen Stoß).</p>
+              <p><strong>(b)</strong> Die drei Geschwindigkeiten bilden ein
+                rechtwinkliges Dreieck mit Hypotenuse $v_1 = 5{,}0\,\mathrm{m/s}$:
+                $$ v_2' = v_1 \cos 30° = 4{,}3\,\mathrm{m/s}, \qquad v_1' = v_1 \sin 30° = 2{,}5\,\mathrm{m/s} $$
+                Die stoßende Kugel läuft unter $60°$ zur anderen Seite weiter.</p>
+              <p><strong>Zum Nachdenken:</strong> Echte Billardkugeln rollen und
+                rotieren; durch Effet (Drall) kann man die Bahn der weißen Kugel
+                nach dem Stoß noch verändern. Der Winkel direkt nach dem Stoß ist
+                trotzdem fast 90°.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 6: Tennisball auf Basketball
+              <span class="schwierigkeit" data-stufe="schwer">schwer</span>
+            </h3>
+            <p>Ein Tennisball ($m_2 = 58\,\mathrm{g}$) liegt auf einem Basketball
+              ($m_1 = 0{,}60\,\mathrm{kg}$), beide fallen gemeinsam aus
+              $h = 1{,}0\,\mathrm{m}$ Höhe. Der Basketball prallt elastisch vom
+              Boden ab und stößt dann – noch fast an derselben Stelle – elastisch
+              und zentral mit dem Tennisball zusammen, der noch nach unten fliegt.</p>
+            <ol type="a">
+              <li>Mit welcher Geschwindigkeit fliegt der Tennisball nach oben
+                weg?</li>
+              <li>Wie hoch steigt er? Welcher Grenzwert ergibt sich für
+                $m_2 \ll m_1$?</li>
+            </ol>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p><strong>(a)</strong> Beide kommen mit
+                $v = \sqrt{2 g h} = 4{,}43\,\mathrm{m/s}$ unten an. $z$-Achse nach
+                oben: Nach dem Bodenkontakt hat der Basketball $+v$, der Tennisball
+                noch $-v$. Allgemeine Stoßformel für Körper 2:
+                $$ v_{2,\text{f}} = \frac{2 m_1}{m_1 + m_2}\,v + \frac{m_2 - m_1}{m_1 + m_2}\,(-v) = \frac{3 m_1 - m_2}{m_1 + m_2}\,v = \frac{1{,}80 - 0{,}058}{0{,}658} \cdot 4{,}43\,\mathrm{m/s} = 2{,}65 \cdot 4{,}43\,\mathrm{m/s} = 11{,}7\,\mathrm{m/s} $$</p>
+              <p><strong>(b)</strong> $h' = v_{2,\text{f}}^2/(2g) = 2{,}65^2 \cdot h = 7{,}0\,\mathrm{m}$.
+                Für $m_2 \ll m_1$ ist $v_{2,\text{f}} \to 3v$ und $h' \to 9h$.
+                Anschaulich: Im Bezugssystem des Basketballs kommt der Tennisball
+                mit $2v$ an und prallt mit $2v$ zurück, dazu kommt die
+                Geschwindigkeit $v$ des Basketballs.</p>
+              <p><strong>Zum Nachdenken:</strong> Woher kommt die Energie? Der
+                Basketball gibt einen Teil seiner Energie ab und springt danach
+                weniger hoch. In echt sind die Stöße nicht ganz elastisch, aber
+                einige Meter schafft der Tennisball trotzdem – ein eindrucksvoller
+                Versuch für draußen.</p>
+            </details>
+          </div>
+        </section>
+
+      </div></article>
+  </main>
+</body>
+</html>

@@ -1,0 +1,652 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="robots" content="noindex">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Ruhende Fluide: Druck und Auftrieb</title>
+  <meta name="description" content="Druck in Flüssigkeiten und Gasen: hydrostatischer Druck, Manometer, barometrische Höhenformel, Auftrieb und Archimedisches Prinzip, Oberflächenspannung – mit Beispielrechnungen und Aufgaben.">
+
+  <link rel="stylesheet" href="../../css/stil.css">
+
+  <link rel="stylesheet" href="../../extern/katex/katex.min.css">
+  <script defer src="../../extern/katex/katex.min.js"></script>
+  <script defer src="../../extern/katex/contrib/auto-render.min.js" onload="starteFormeln()"></script>
+
+  <script src="../../js/daten.js"></script>
+  <script src="../../js/seite.js"></script>
+  <script src="../../js/effekte.js"></script>
+  <script src="../../js/interaktiv.js"></script>
+  <script src="../../js/modelle/ruhende-fluide.js"></script>
+  <script type="application/json" id="symbole">
+  {
+    "p": "Druck",
+    "F": "Kraft",
+    "A": "Fläche",
+    "ρ": "Dichte",
+    "m": "Masse",
+    "V": "Volumen",
+    "g": "Fallbeschleunigung",
+    "h": "Tiefe bzw. Höhe der Flüssigkeitssäule",
+    "p_1": "Druck an der Oberseite",
+    "p_2": "Druck an der Unterseite",
+    "p_atm": "äußerer Luftdruck",
+    "p_G": "Druck im Gasbehälter",
+    "F_A": "Auftriebskraft",
+    "ρ_Fl": "Dichte der Flüssigkeit",
+    "ρ_K": "Dichte des Körpers",
+    "h_1": "Tiefe der Oberseite",
+    "h_2": "Tiefe der Unterseite",
+    "m_Fl": "Masse der verdrängten Flüssigkeit",
+    "V_eingetaucht": "eingetauchtes Volumen",
+    "p_0": "Luftdruck am Erdboden",
+    "ρ_0": "Luftdichte am Erdboden",
+    "H": "Skalenhöhe der Atmosphäre",
+    "R_E": "Erdradius",
+    "γ": "Oberflächenspannung",
+    "E": "Oberflächenenergie",
+    "L": "Länge des Bügels (Rands)",
+    "r": "Radius",
+    "π": "Kreiszahl π ≈ 3,14159",
+    "w": "Massenanteil von Gold",
+    "ρ_Au": "Dichte von Gold",
+    "ρ_Ag": "Dichte von Silber",
+    "ρ_W": "Dichte von Wasser",
+    "m_W": "Masse des verdrängten Wassers",
+    "ρ_L": "Dichte der Luft",
+    "ρ_He": "Dichte von Helium"
+  }
+  </script>
+</head>
+<body data-thema="ruhende-fluide">
+  <main>
+    <article class="thema">
+      <header>
+        <h1>Ruhende Fluide: Druck und Auftrieb</h1>
+        <p class="untertitel">Warum es beim Tauchen in den Ohren drückt, warum
+          ein Stahlschiff schwimmt und warum Wasserläufer nicht untergehen – alles
+          eine Frage des Drucks.</p>
+      </header>
+
+      <div class="tabs">
+
+        <section class="tab" id="verstehen" data-titel="Verstehen">
+
+          <p>Tauch im Schwimmbad bis zum Grund des Sprungbeckens, und du spürst
+            es sofort in den Ohren: Es drückt. Das Wasser über dir hat Gewicht,
+            und dieses Gewicht lastet auf allem, was darunter ist – auch auf
+            deinem Trommelfell. Flüssigkeiten und Gase fasst man unter dem
+            Begriff <em>Fluide</em> zusammen. Ihre wichtigste Eigenschaft ist
+            der <em>Druck</em>: die Kraft, mit der sie auf jede Fläche
+            drücken.</p>
+
+          <h2>Je tiefer, desto mehr Druck</h2>
+
+          <p>Je tiefer du tauchst, desto mehr Wasser liegt über dir – und desto
+            größer wird der Druck. Pro 10 Meter Wassertiefe kommt etwa 1 bar
+            dazu. Das ist ungefähr so viel, als würde auf jedem Quadratzentimeter
+            deiner Haut ein Kilogramm liegen. Dabei drückt das Wasser nicht nur
+            von oben, sondern von allen Seiten gleich stark. Ein Luftballon, den
+            ein Taucher mit hinunternimmt, wird deshalb ringsum
+            zusammengepresst:</p>
+
+          <figure class="interaktiv" data-modell="tauchgang">
+            <span class="titel">Zum Ausprobieren</span>
+            <figcaption>Ein Taucher nimmt einen Luftballon mit ins Meer. Stell
+              die Tiefe ein oder drück „Abtauchen“. Rechts steht der
+              Gesamtdruck aus Luft und Wasser; der gestrichelte Kreis zeigt, wie
+              groß der Ballon an der Oberfläche war (die Temperatur bleibt dabei
+              gleich).</figcaption>
+          </figure>
+
+          <p>Übrigens leben wir selbst am Grund eines Ozeans – eines Ozeans aus
+            Luft. Die Luft über uns drückt mit rund 1 bar, so viel wie 10 m
+            Wasser. Wir merken es nur nicht, weil unser Körper von innen genauso
+            stark dagegenhält.</p>
+
+          <div class="alltag">
+            <span class="titel">Aus dem Alltag</span>
+            <p>Nimm eine verschlossene Chipstüte mit auf eine Bergtour oder in
+              ein Flugzeug: Oben ist sie prall aufgebläht. Die Luft in der Tüte
+              hat noch den Druck vom Tal, draußen ist der Luftdruck aber
+              gesunken. In 3000 m Höhe ist er schon fast ein Drittel kleiner.</p>
+          </div>
+
+          <h2>Warum Schiffe schwimmen</h2>
+
+          <p>Ein Stein sinkt, ein Holzklotz schwimmt, ein riesiges Schiff aus
+            Stahl auch. Der Grund ist der <em>Auftrieb</em>: Unten auf einen
+            Körper drückt das Wasser stärker als oben, weil es dort tiefer ist.
+            Archimedes fand vor über 2000 Jahren heraus, wie groß diese Kraft ist:
+            genau so groß wie das Gewicht des Wassers, das der Körper zur Seite
+            drängt. Ein Schiff ist innen hohl. Würde man es ganz untertauchen,
+            verdrängte es Wasser, das viel mehr wiegt als das ganze Schiff.
+            Deshalb sinkt es nur so weit ein, bis das verdrängte Wasser genau so
+            viel wiegt wie das Schiff – dann schwimmt es.</p>
+
+          <figure class="interaktiv" data-modell="auftrieb">
+            <span class="titel">Zum Ausprobieren</span>
+            <figcaption>Ein Würfel mit 10 cm Kantenlänge in einem Becken. Wähle
+              Körper und Flüssigkeit. Der kupferne Pfeil ist die Gewichtskraft,
+              der blaue der Auftrieb. Überrascht? Im Toten Meer kann man auf dem
+              Wasser liegen – und in Quecksilber schwimmt sogar Stahl.</figcaption>
+          </figure>
+
+          <h2>Die Haut des Wassers</h2>
+
+          <p>Ein Wasserläufer flitzt über einen Teich, ohne einzusinken, und eine
+            vorsichtig aufgelegte Büroklammer schwimmt auf dem Wasser, obwohl sie
+            aus Metall ist. Die Wasseroberfläche wirkt wie eine gespannte, dünne
+            Haut. Diese <em>Oberflächenspannung</em> entsteht, weil sich die
+            Wasserteilchen gegenseitig anziehen. Deshalb sind kleine Tropfen
+            rund, und deshalb kriecht Wasser in einem dünnen Röhrchen oder einem
+            Stück Küchenpapier nach oben.</p>
+
+          <div class="merkkasten">
+            <span class="titel">Das Wichtigste in Kürze</span>
+            <ul>
+              <li>Druck ist Kraft pro Fläche. In Fluiden wirkt er in alle
+                Richtungen gleich.</li>
+              <li>Im Wasser steigt der Druck alle 10 m um etwa 1 bar. Der
+                Luftdruck sinkt nach oben hin, in 5,5 km Höhe ist er etwa
+                halbiert.</li>
+              <li>Auftrieb: Ein Körper wird um das Gewicht der verdrängten
+                Flüssigkeit leichter. Ist er weniger dicht als die Flüssigkeit,
+                schwimmt er.</li>
+              <li>Die Oberflächenspannung macht Tropfen rund und lässt leichte
+                Dinge auf dem Wasser liegen.</li>
+            </ul>
+          </div>
+        </section>
+
+        <section class="tab" id="vertiefung" data-titel="Vertiefung">
+
+          <h2>Druck</h2>
+
+          <p>Fluide – Flüssigkeiten und Gase – können im Ruhezustand keine
+            Scherkräfte aufnehmen (vgl. <a href="elastizitaet.html">feste
+            Körper</a>). Auf jede Fläche wirkt deshalb nur eine Normalkraft. Ihr
+            Betrag pro Fläche ist der <em>Druck</em></p>
+
+          $$ p = \frac{F}{A}, \qquad [p] = 1\,\mathrm{\tfrac{N}{m^2}} = 1\,\mathrm{Pa}, \qquad 1\,\mathrm{bar} = 10^5\,\mathrm{Pa} . $$
+
+          <p>Der mittlere Luftdruck auf Meereshöhe beträgt
+            $1\,\mathrm{atm} = 1{,}013\,\mathrm{bar} = 760\,\mathrm{Torr}$
+            ($1\,\mathrm{Torr} \approx 1\,\mathrm{mmHg}$). Weitere wichtige Größe
+            ist die Dichte $\rho = m/V$.</p>
+
+          <h2>Hydrostatischer Druck</h2>
+
+          <p>Man denke sich in einer ruhenden Flüssigkeit ein Testvolumen mit
+            Grundfläche $A$ und Höhe $h$ (Abb. 1). Es ist selbst Flüssigkeit und
+            bleibt in Ruhe, also heben sich die Kräfte auf. Von oben drückt
+            $p_1 A$, von unten $p_2 A$, dazu kommt das Gewicht
+            $m g = \rho A h g$:</p>
+
+          $$ p_2 A = p_1 A + \rho A h g \qquad\Longrightarrow\qquad p_2 = p_1 + \rho g h . $$
+
+          <p>Der Druck nimmt nach unten linear zu. Vorausgesetzt ist eine
+            konstante Dichte, also eine <em>inkompressible</em> Flüssigkeit –
+            für Wasser eine sehr gute Näherung (siehe
+            <a href="elastizitaet.html#kompression">Kompressionsmodul</a>).
+            Bemerkenswert ist, was in der Formel fehlt: Die Form des Gefäßes
+            spielt keine Rolle. Das zeigt das Vorlesungsexperiment mit
+            <em>kommunizierenden Röhren</em>: Darin steht die
+            Flüssigkeit deshalb überall gleich hoch, egal wie verschieden die
+            Röhren geformt sind.</p>
+
+          <figure class="abbildung">
+            <svg class="abb" viewBox="0 0 360 230" role="img"
+                 aria-label="Gefäß mit Flüssigkeit; darin ein gedachtes Testvolumen mit den Kräften von oben, von unten und seinem Gewicht">
+              <rect class="flaeche" x="100" y="40" width="160" height="170"/>
+              <path class="kurve blau duenn" d="M100 40H260"/>
+              <path class="kurve duenn" d="M100 20V210H260V20"/>
+              <rect class="hilfslinie" x="160" y="90" width="40" height="60"/>
+              <g class="pfeil blau">
+                <line x1="180" y1="64" x2="180" y2="81"/>
+                <polygon points="180,88 176.8,81 183.2,81"/>
+              </g>
+              <g class="pfeil kupfer">
+                <line x1="180" y1="110" x2="180" y2="127"/>
+                <polygon points="180,134 176.8,127 183.2,127"/>
+              </g>
+              <g class="pfeil blau">
+                <line x1="180" y1="178" x2="180" y2="159"/>
+                <polygon points="180,152 176.8,159 183.2,159"/>
+              </g>
+              <text class="blau" x="188" y="76" font-size="12">p₁·A</text>
+              <text class="kupfer" x="188" y="124" font-size="12">m·g</text>
+              <text class="blau" x="188" y="176" font-size="12">p₂·A</text>
+              <path class="achse" d="M222 90V150M218 90H226M218 150H226"/>
+              <text x="230" y="124" font-size="12">h</text>
+              <text x="106" y="34" font-size="11">Oberfläche</text>
+            </svg>
+            <figcaption>Abb. 1: Gedachtes Testvolumen (gestrichelt) in einer
+              ruhenden Flüssigkeit. Damit es in Ruhe bleibt, muss die Druckkraft
+              von unten um das Gewicht des Volumens größer sein als die von
+              oben.</figcaption>
+          </figure>
+
+          <p>Im Vorlesungsexperiment hat eine Wassersäule Löcher in
+            verschiedener Höhe: Aus den tiefer gelegenen spritzt das Wasser mit
+            mehr Druck heraus. Wie weit die Strahlen fliegen, untersucht
+            Aufgabe 6 im Thema <a href="stroemende-fluide.html">Strömende
+            Fluide</a>.</p>
+
+          <h3 id="manometer">Das Manometer</h3>
+
+          <p>Auf demselben Prinzip beruht das Flüssigkeitsmanometer, ein
+            U-förmiges Rohr (Abb. 2). Ein Schenkel ist mit dem Gas verbunden, der
+            andere zur Luft hin offen. Ist der Gasdruck $p_\text{G}$ größer als
+            der äußere Luftdruck, wird die Flüssigkeit auf der Gasseite
+            hinuntergedrückt. In gleicher Höhe herrscht in der ruhenden
+            Flüssigkeit überall derselbe Druck; daraus folgt</p>
+
+          $$ p_\text{G} - p_\text{atm} = \rho\,g\,\Delta h . $$
+
+          <figure class="abbildung">
+            <svg class="abb" viewBox="0 0 360 220" role="img"
+                 aria-label="U-Rohr-Manometer: links an einen Gasbehälter angeschlossen, rechts offen; die Flüssigkeit steht rechts um Delta h höher">
+              <rect class="wagen" x="30" y="66" width="80" height="48" rx="4"/>
+              <text x="70" y="88" font-size="12" text-anchor="middle">Gas</text>
+              <text x="70" y="104" font-size="12" text-anchor="middle">p<tspan dy="4" font-size="10">G</tspan></text>
+              <polygon class="flaeche" points="150,150 164,150 164,190 216,190 216,110 230,110 230,204 150,204"/>
+              <path class="kurve duenn" d="M110 84H164V190H216V30"/>
+              <path class="kurve duenn" d="M110 96H150V204H230V30"/>
+              <path class="kurve blau duenn" d="M150 150H164M216 110H230"/>
+              <path class="hilfslinie" d="M164 150H262M230 110H262"/>
+              <path class="achse" d="M254 110V150M250 110H258M250 150H258"/>
+              <text x="262" y="134" font-size="12">Δh</text>
+              <g class="pfeil kupfer">
+                <line x1="223" y1="6" x2="223" y2="21"/>
+                <polygon points="223,28 219.8,21 226.2,21"/>
+              </g>
+              <text class="kupfer" x="234" y="20" font-size="12">p<tspan dy="4" font-size="10">atm</tspan></text>
+            </svg>
+            <figcaption>Abb. 2: U-Rohr-Manometer. Der Gasdruck $p_\text{G}$
+              drückt die Flüssigkeit im linken Schenkel hinunter; der
+              Höhenunterschied $\Delta h$ misst den Überdruck gegenüber der
+              Luft.</figcaption>
+          </figure>
+
+          <h2>Luftdruck und barometrische Höhenformel</h2>
+
+          <p>Für eine dünne Schicht der Dicke $\mathrm{d}h$ gilt auch in Gasen
+            $\mathrm{d}p = -\rho\,g\,\mathrm{d}h$ (Minus, weil der Druck mit der
+            Höhe abnimmt). Anders als Flüssigkeiten sind Gase aber
+            <em>kompressibel</em>: Ihre Dichte hängt vom Druck ab. Bei konstanter
+            Temperatur ist sie proportional zum Druck,
+            $\rho = \rho_0\,p/p_0$ ($\rho_0$, $p_0$ am Boden). Eingesetzt und
+            getrennt:</p>
+
+          $$ \frac{\mathrm{d}p}{p} = -\frac{\rho_0\,g}{p_0}\,\mathrm{d}h \qquad\Longrightarrow\qquad p(h) = p_0\,\exp\!\left(-\frac{\rho_0\,g\,h}{p_0}\right) = p_0\,\mathrm{e}^{-h/H} . $$
+
+          <div class="merkkasten">
+            <span class="titel">Barometrische Höhenformel</span>
+            <p>In einer Atmosphäre mit überall gleicher Temperatur fällt der
+              Druck exponentiell mit der Höhe. Die <em>Skalenhöhe</em>
+              $H = p_0/(\rho_0 g)$ beträgt für Luft
+              $101\,325\,\mathrm{Pa}/(1{,}225\,\mathrm{kg/m^3} \cdot 9{,}81\,\mathrm{m/s^2}) \approx 8{,}4\,\mathrm{km}$:
+              Alle 8,4 km sinkt der Druck auf den $1/\mathrm{e}$-ten Teil.</p>
+          </div>
+
+          <p>Die echte Atmosphäre wird nach oben kälter (bis etwa 11 km um rund
+            6,5 K pro km). Kalte Luft ist dichter, der Druck fällt deshalb etwas
+            schneller, als die Formel sagt (Beispiel 2). Als Faustregel ist sie
+            trotzdem gut (Abb. 3).
+            </p>
+
+          <figure class="abbildung">
+            <svg class="abb" viewBox="0 0 360 230" role="img"
+                 aria-label="Luftdruck über der Höhe nach der barometrischen Höhenformel mit Markierungen für Zugspitze, Mount Everest und Reiseflughöhe">
+              <path class="gitter" d="M60 157.5H340M60 115H340M60 72.5H340M60 30H340"/>
+              <polyline class="kurve blau" points="330.0,200.0 299.8,191.5 273.0,183.0 249.2,174.5 228.0,166.0 209.2,157.5 192.5,149.0 177.7,140.5 164.5,132.0 152.9,123.5 142.5,115.0 133.2,106.5 125.1,98.0 117.8,89.5 111.3,81.0 105.6,72.5 100.5,64.0 96.0,55.5 91.9,47.0 88.4,38.5 85.2,30.0"/>
+              <path class="achse" d="M60 200H342M60 200V22"/>
+              <path class="hilfslinie" d="M60 174.8H250M60 124.8H154.5M60 106.5H133.2"/>
+              <circle class="punkt kupfer" cx="250" cy="174.8" r="3.5"/>
+              <circle class="punkt kupfer" cx="154.5" cy="124.8" r="3.5"/>
+              <circle class="punkt kupfer" cx="133.2" cy="106.5" r="3.5"/>
+              <text x="256" y="170" font-size="11">Zugspitze</text>
+              <text x="160" y="121" font-size="11">Mount Everest</text>
+              <text x="139" y="102" font-size="11">Reiseflughöhe</text>
+              <text x="54" y="204" font-size="11" text-anchor="end">0</text>
+              <text x="54" y="161" font-size="11" text-anchor="end">5</text>
+              <text x="54" y="119" font-size="11" text-anchor="end">10</text>
+              <text x="54" y="76" font-size="11" text-anchor="end">15</text>
+              <text x="54" y="34" font-size="11" text-anchor="end">20</text>
+              <text x="66" y="18" font-size="11">Höhe in km</text>
+              <text x="126.6" y="216" font-size="11" text-anchor="middle">250</text>
+              <text x="193.2" y="216" font-size="11" text-anchor="middle">500</text>
+              <text x="259.9" y="216" font-size="11" text-anchor="middle">750</text>
+              <text x="326.5" y="216" font-size="11" text-anchor="middle">1000</text>
+              <text x="340" y="50" font-size="11" text-anchor="end">Druck in hPa</text>
+            </svg>
+            <figcaption>Abb. 3: Luftdruck nach der barometrischen Höhenformel
+              (Skalenhöhe 8,4 km). Auf der Zugspitze herrschen etwa 710 hPa, auf
+              dem Mount Everest gut ein Drittel des Bodendrucks, in der
+              Reiseflughöhe von Flugzeugen (11 km) etwa ein Viertel.</figcaption>
+          </figure>
+
+          <h2>Auftrieb und Archimedisches Prinzip</h2>
+
+          <p>Ein Quader der Höhe $h$ und Grundfläche $A$ sei vollständig
+            eingetaucht, seine Oberseite in der Tiefe $h_1$, die Unterseite in
+            $h_2 = h_1 + h$. Die seitlichen Druckkräfte heben sich auf. Von oben
+            drückt $(p_\text{atm} + \rho_\text{Fl} g h_1)A$, von unten
+            $(p_\text{atm} + \rho_\text{Fl} g h_2)A$. Die Differenz zeigt nach oben:</p>
+
+          $$ F_\text{A} = \rho_\text{Fl}\,g\,(h_2 - h_1)\,A = \rho_\text{Fl}\,g\,V = m_\text{Fl}\,g . $$
+
+          <div class="merkkasten">
+            <span class="titel">Archimedisches Prinzip</span>
+            <p>Ein Körper in einem Fluid erfährt eine nach oben gerichtete
+              Auftriebskraft, die gleich der Gewichtskraft des verdrängten Fluids
+              ist. Für $\rho_\text{K} \gt \rho_\text{Fl}$ sinkt er, für
+              $\rho_\text{K} = \rho_\text{Fl}$ schwebt er, für
+              $\rho_\text{K} \lt \rho_\text{Fl}$ steigt er auf.</p>
+          </div>
+
+          <p>Das Ergebnis gilt für jede Körperform (man kann sie aus beliebig
+            schmalen Quadern zusammensetzen) und ist unabhängig vom Material des
+            Körpers: Es zählt nur, wie viel Fluid er verdrängt. Ein
+            <em>schwimmender</em> Körper taucht so weit ein, bis der Auftrieb
+            seines eingetauchten Teils sein Gewicht trägt:</p>
+
+          $$ \rho_\text{Fl}\,g\,V_\text{eingetaucht} = \rho_\text{K}\,g\,V \qquad\Longrightarrow\qquad \frac{V_\text{eingetaucht}}{V} = \frac{\rho_\text{K}}{\rho_\text{Fl}} . $$
+
+          <p>Eis ($917\,\mathrm{kg/m^3}$) in Meerwasser ($1025\,\mathrm{kg/m^3}$)
+            liegt zu 89 % unter der Oberfläche. Auch in Luft gibt es Auftrieb –
+            darauf beruhen Ballone (Aufgabe 4).</p>
+
+          <h2>Oberflächenspannung</h2>
+
+          <p>Ein Molekül im Inneren einer Flüssigkeit wird von seinen Nachbarn
+            ringsum angezogen, eines an der Oberfläche nur von innen. Moleküle an
+            der Oberfläche haben deshalb eine höhere Energie; jedes zusätzliche
+            Stück Oberfläche kostet Arbeit. Wie jedes System strebt die
+            Flüssigkeit ein Energieminimum an – also eine möglichst kleine
+            Oberfläche. Die Energie pro Fläche ist die
+            <em>Oberflächenspannung</em> $\gamma$:</p>
+
+          $$ \Delta E = \gamma\,\Delta A, \qquad [\gamma] = 1\,\mathrm{\tfrac{J}{m^2}} = 1\,\mathrm{\tfrac{N}{m}} . $$
+
+          <p>Messen lässt sie sich mit einem Drahtbügel der Breite $L$, in dem
+            eine Flüssigkeitslamelle hängt. Die Lamelle hat zwei Oberflächen,
+            deshalb zieht sie mit $F = 2\gamma L$, also $\gamma = F/(2L)$. Für
+            Wasser ist $\gamma = 0{,}073\,\mathrm{N/m}$ bei 20 °C. Folgen der
+            Oberflächenspannung sind die Kugelform kleiner Tropfen (die Kugel hat
+            bei gegebenem Volumen die kleinste Oberfläche), das Benetzen und
+            Entnetzen von Oberflächen (der Randwinkel eines Tropfens ergibt sich
+            aus einem Kräftegleichgewicht am Rand) und die Kapillarkräfte, die
+            Wasser in dünnen Röhrchen steigen lassen (Aufgabe 6).
+            </p>
+
+          <div class="merkkasten">
+            <span class="titel">Merke</span>
+            <p>Hydrostatischer Druck: $p = p_0 + \rho g h$ (inkompressibel).
+              Barometrische Höhenformel: $p = p_0\,\mathrm{e}^{-\rho_0 g h/p_0}$
+              (isotherm). Auftrieb: $F_\text{A} = \rho_\text{Fl}\,g\,V$, Eintauchanteil
+              eines schwimmenden Körpers $\rho_\text{K}/\rho_\text{Fl}$.
+              Oberflächenspannung: $\Delta E = \gamma\,\Delta A$.</p>
+          </div>
+        </section>
+
+        <section class="tab" id="beispiele" data-titel="Beispielrechnungen">
+
+          <div class="beispiel">
+            <h3>Beispiel 1: Druck auf den Ohren</h3>
+            <p><strong>Gegeben:</strong> Süßwasser
+              ($\rho = 1000\,\mathrm{kg/m^3}$), Luftdruck
+              $p_0 = 1013\,\mathrm{hPa}$; Fläche eines Trommelfells etwa
+              $60\,\mathrm{mm^2}$.<br>
+              <strong>Gesucht:</strong> Gesamtdruck in $10\,\mathrm{m}$ Tiefe und
+              die Kraft auf das Trommelfell in $2\,\mathrm{m}$ Tiefe, wenn man
+              keinen Druckausgleich macht.</p>
+            <p><strong>1. Druck in 10 m Tiefe:</strong>
+              $$ p = p_0 + \rho g h = 1{,}013 \cdot 10^5\,\mathrm{Pa} + 1000\,\mathrm{\tfrac{kg}{m^3}} \cdot 9{,}81\,\mathrm{\tfrac{m}{s^2}} \cdot 10\,\mathrm{m} = 1{,}994 \cdot 10^5\,\mathrm{Pa} \approx 2\,\mathrm{bar} . $$
+              Einheitencheck: $\mathrm{kg\,m^{-3} \cdot m\,s^{-2} \cdot m} = \mathrm{N/m^2} = \mathrm{Pa}$ ✓.</p>
+
+            <p><strong>2. Überdruck in 2 m Tiefe:</strong> Im Mittelohr herrscht
+              ohne Druckausgleich noch der Luftdruck, es zählt also nur der
+              Wasserdruck,
+              $\Delta p = \rho g h = 1000\,\mathrm{kg/m^3} \cdot 9{,}81\,\mathrm{m/s^2} \cdot 2\,\mathrm{m} = 1{,}96 \cdot 10^4\,\mathrm{Pa}$.</p>
+
+            <p><strong>3. Kraft:</strong>
+              $F = \Delta p\,A = 1{,}96 \cdot 10^4\,\mathrm{Pa} \cdot 60 \cdot 10^{-6}\,\mathrm{m^2} = 1{,}2\,\mathrm{N}$.</p>
+
+            <p><strong>Ergebnis und Plausibilität:</strong> In 10 m Tiefe herrscht
+              der doppelte Luftdruck. Schon in 2 m Tiefe drückt auf das winzige
+              Trommelfell eine Kraft, als läge ein Gewicht von 120 g darauf –
+              kein Wunder, dass es wehtut. Beim Druckausgleich gelangt Luft
+              über die Ohrtrompete ins Mittelohr, und die Kräfte auf beiden Seiten
+              gleichen sich aus.</p>
+          </div>
+
+          <div class="beispiel">
+            <h3>Beispiel 2: Luftdruck auf Zugspitze und Everest</h3>
+            <p><strong>Gegeben:</strong> $p_0 = 101\,325\,\mathrm{Pa}$,
+              $\rho_0 = 1{,}225\,\mathrm{kg/m^3}$ auf Meereshöhe; Zugspitze
+              $2962\,\mathrm{m}$, Mount Everest $8849\,\mathrm{m}$.<br>
+              <strong>Gesucht:</strong> Luftdruck auf beiden Gipfeln nach der
+              barometrischen Höhenformel.</p>
+
+            <p><strong>1. Skalenhöhe:</strong>
+              $$ H = \frac{p_0}{\rho_0\,g} = \frac{101\,325\,\mathrm{Pa}}{1{,}225\,\mathrm{kg/m^3} \cdot 9{,}81\,\mathrm{m/s^2}} = 8432\,\mathrm{m} . $$
+              Einheitencheck: $\mathrm{Pa}/(\mathrm{kg\,m^{-3}\,m\,s^{-2}}) = \mathrm{kg\,m^{-1}s^{-2}}/(\mathrm{kg\,m^{-2}\,s^{-2}}) = \mathrm{m}$ ✓.</p>
+
+            <p><strong>2. Zugspitze:</strong>
+              $p = 101\,325\,\mathrm{Pa} \cdot \mathrm{e}^{-2962/8432} = 101\,325\,\mathrm{Pa} \cdot 0{,}704 = 713\,\mathrm{hPa}$.</p>
+
+            <p><strong>3. Mount Everest:</strong>
+              $p = 101\,325\,\mathrm{Pa} \cdot \mathrm{e}^{-8849/8432} = 101\,325\,\mathrm{Pa} \cdot 0{,}350 = 355\,\mathrm{hPa}$.</p>
+
+            <p><strong>Ergebnis und Plausibilität:</strong> Auf der Zugspitze ist
+              der Luftdruck um rund 30 % kleiner, auf dem Everest beträgt er nur
+              noch ein gutes Drittel – jeder Atemzug enthält entsprechend weniger
+              Sauerstoff. Gemessen werden auf dem Everest etwa $330\,\mathrm{hPa}$
+              bis $340\,\mathrm{hPa}$, etwas weniger als berechnet: Die Luft wird
+              nach oben kälter und damit dichter, als unsere isotherme Rechnung
+              annimmt.
+              </p>
+          </div>
+
+          <div class="beispiel">
+            <h3>Beispiel 3: Die Krone des Königs</h3>
+            <p><strong>Gegeben:</strong> Der Legende nach sollte Archimedes
+              prüfen, ob die Krone von König Hieron aus reinem Gold ist. Nehmen wir
+              an, sie wiegt an Land $1{,}000\,\mathrm{kg}$, ganz in Wasser
+              getaucht zeigt die Waage nur noch $0{,}940\,\mathrm{kg}$ an. Gold:
+              $19{,}3\,\mathrm{g/cm^3}$, Silber: $10{,}5\,\mathrm{g/cm^3}$.<br>
+              <strong>Gesucht:</strong> Dichte der Krone und Goldanteil.</p>
+
+            <p><strong>1. Volumen aus dem Auftrieb:</strong> Der scheinbare
+              Gewichtsverlust entspricht der Masse des verdrängten Wassers,
+              $m_\text{W} = 1{,}000\,\mathrm{kg} - 0{,}940\,\mathrm{kg} = 0{,}060\,\mathrm{kg}$,
+              also
+              $V = m_\text{W}/\rho_\text{W} = 0{,}060\,\mathrm{kg}/(1000\,\mathrm{kg/m^3}) = 6{,}0 \cdot 10^{-5}\,\mathrm{m^3} = 60\,\mathrm{cm^3}$.
+              Einheitencheck: $\mathrm{kg}/(\mathrm{kg\,m^{-3}}) = \mathrm{m^3}$ ✓.</p>
+
+            <p><strong>2. Dichte:</strong>
+              $\rho = 1000\,\mathrm{g}/60\,\mathrm{cm^3} = 16{,}7\,\mathrm{g/cm^3}$
+              – deutlich weniger als Gold.</p>
+
+            <p><strong>3. Goldanteil:</strong> Ist $w$ der Massenanteil Gold, so
+              addieren sich die Volumina:
+              $$ \frac{1}{\rho} = \frac{w}{\rho_\text{Au}} + \frac{1 - w}{\rho_\text{Ag}} \quad\Longrightarrow\quad w = \frac{1/16{,}7 - 1/10{,}5}{1/19{,}3 - 1/10{,}5} = 0{,}81 . $$</p>
+
+            <p><strong>Ergebnis und Plausibilität:</strong> Die Krone besteht nur
+              zu 81 % aus Gold, der Goldschmied hat also rund ein Fünftel
+              Silber untergemischt. Die Methode ist genial einfach: Für das
+              Volumen eines beliebig verschnörkelten Körpers genügt eine Waage und
+              ein Eimer Wasser.</p>
+          </div>
+        </section>
+
+        <section class="tab" id="aufgaben" data-titel="Aufgaben">
+
+          <p>Wenn nichts anderes angegeben ist: $g = 9{,}81\,\mathrm{m/s^2}$,
+            Wasser $\rho = 1000\,\mathrm{kg/m^3}$, Meerwasser
+            $\rho = 1025\,\mathrm{kg/m^3}$, Luft $\rho = 1{,}20\,\mathrm{kg/m^3}$,
+            Luftdruck $p_0 = 1013\,\mathrm{hPa}$.</p>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 1: Das Bullauge
+              <span class="schwierigkeit" data-stufe="leicht">leicht</span>
+            </h3>
+            <p>Ein kreisrundes Bullauge mit $20\,\mathrm{cm}$ Durchmesser sitzt in
+              einem Forschungs-U-Boot in $100\,\mathrm{m}$ Tiefe. Innen herrscht
+              normaler Luftdruck. Mit welcher Kraft drückt das Meer auf die
+              Scheibe?</p>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>Es zählt nur der Überdruck,
+                $\Delta p = \rho g h = 1025 \cdot 9{,}81 \cdot 100\,\mathrm{Pa} = 1{,}01 \cdot 10^6\,\mathrm{Pa}$
+                (rund 10 bar). Fläche $A = \pi (0{,}10\,\mathrm{m})^2 = 0{,}0314\,\mathrm{m^2}$,
+                Kraft $F = \Delta p\,A = 3{,}2 \cdot 10^4\,\mathrm{N}$ – so viel wie
+                das Gewicht eines Lkw-Anhängers mit $3{,}2\,\mathrm{t}$.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 2: Manometer und Blutdruck
+              <span class="schwierigkeit" data-stufe="leicht">leicht</span>
+            </h3>
+            <p>Ein Wassermanometer zeigt an einer Gasleitung einen
+              Höhenunterschied von $\Delta h = 12\,\mathrm{cm}$.</p>
+            <ol type="a">
+              <li>Wie groß ist der Überdruck in der Leitung? Wie groß wäre
+                $\Delta h$ bei einem Quecksilbermanometer
+                ($\rho = 13\,534\,\mathrm{kg/m^3}$)?</li>
+              <li>Der Blutdruck wird traditionell in Millimetern Quecksilbersäule
+                angegeben. Wie viel Pascal Überdruck sind 120 mmHg?</li>
+            </ol>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p><strong>(a)</strong>
+                $\Delta p = \rho g \Delta h = 1000 \cdot 9{,}81 \cdot 0{,}12\,\mathrm{Pa} = 1{,}18 \cdot 10^3\,\mathrm{Pa} = 11{,}8\,\mathrm{hPa}$.
+                Quecksilber ist 13,5-mal dichter, also
+                $\Delta h = 120\,\mathrm{mm}/13{,}5 = 8{,}9\,\mathrm{mm}$ – deshalb
+                nimmt man für große Drücke Quecksilber, für kleine Wasser.</p>
+              <p><strong>(b)</strong>
+                $\Delta p = 13\,534 \cdot 9{,}81 \cdot 0{,}120\,\mathrm{Pa} = 1{,}59 \cdot 10^4\,\mathrm{Pa} = 159\,\mathrm{hPa}$
+                – rund ein Sechstel des Luftdrucks.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 3: Der Holzwürfel
+              <span class="schwierigkeit" data-stufe="mittel">mittel</span>
+            </h3>
+            <p>Ein Würfel aus Fichtenholz ($\rho = 450\,\mathrm{kg/m^3}$) mit
+              $10\,\mathrm{cm}$ Kantenlänge schwimmt in Wasser.</p>
+            <ol type="a">
+              <li>Wie tief taucht er ein?</li>
+              <li>Welche Masse muss man oben auf ihn legen, damit er gerade ganz
+                untertaucht?</li>
+            </ol>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p><strong>(a)</strong> Eintauchanteil
+                $\rho_\text{K}/\rho_\text{Fl} = 0{,}45$, also $4{,}5\,\mathrm{cm}$
+                unter Wasser, $5{,}5\,\mathrm{cm}$ darüber.</p>
+              <p><strong>(b)</strong> Ganz eingetaucht trägt der Auftrieb
+                $\rho_\text{W} V g = 1{,}0\,\mathrm{kg} \cdot g$, der Würfel wiegt
+                $0{,}45\,\mathrm{kg} \cdot g$. Die Zusatzmasse ist
+                $(\rho_\text{W} - \rho_\text{K})V = 550\,\mathrm{kg/m^3} \cdot 10^{-3}\,\mathrm{m^3} = 0{,}55\,\mathrm{kg}$.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 4: Der Heliumballon
+              <span class="schwierigkeit" data-stufe="mittel">mittel</span>
+            </h3>
+            <p>Helium hat bei Raumbedingungen die Dichte
+              $0{,}17\,\mathrm{kg/m^3}$. Ein Ballon soll eine Kamera von
+              $1{,}0\,\mathrm{kg}$ tragen; die leere Ballonhülle wiegt
+              $0{,}20\,\mathrm{kg}$. Welches Volumen und welchen Radius muss der
+              (kugelförmige) Ballon mindestens haben?</p>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>Der Auftrieb in Luft muss das Gewicht von Helium, Hülle und
+                Kamera tragen:
+                $\rho_\text{L} V g = \rho_\text{He} V g + m g$ mit
+                $m = 1{,}2\,\mathrm{kg}$. Also
+                $$ V = \frac{m}{\rho_\text{L} - \rho_\text{He}} = \frac{1{,}2\,\mathrm{kg}}{1{,}03\,\mathrm{kg/m^3}} = 1{,}17\,\mathrm{m^3}, \qquad r = \sqrt[3]{\frac{3V}{4\pi}} = 0{,}65\,\mathrm{m} . $$
+                Ein Ballon von rund 1,3 m Durchmesser – jeder Kubikmeter Helium
+                trägt nur gut ein Kilogramm.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 5: Die halbe Atmosphäre
+              <span class="schwierigkeit" data-stufe="schwer">schwer</span>
+            </h3>
+            <ol type="a">
+              <li>In welcher Höhe ist der Luftdruck nach der barometrischen
+                Höhenformel ($H = 8{,}43\,\mathrm{km}$) auf die Hälfte gesunken?</li>
+              <li>Begründe: Der Luftdruck in einer Höhe $h$ ist gleich dem Gewicht
+                der gesamten Luftsäule über einem Quadratmeter oberhalb von $h$.
+                Welcher Anteil der Masse der Atmosphäre liegt deshalb unterhalb
+                der Höhe aus (a)?</li>
+              <li>Wie groß ist die Masse der gesamten Erdatmosphäre?
+                ($R_\text{E} = 6371\,\mathrm{km}$)</li>
+            </ol>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p><strong>(a)</strong> $\mathrm{e}^{-h/H} = 1/2$, also
+                $h = H \ln 2 = 8{,}43\,\mathrm{km} \cdot 0{,}693 = 5{,}8\,\mathrm{km}$.
+                (In der realen, nach oben kälteren Atmosphäre liegt die
+                500-hPa-Fläche bei etwa 5,5 km.)
+                </p>
+              <p><strong>(b)</strong> Integriert man $\mathrm{d}p = -\rho g\,\mathrm{d}h$
+                von $h$ bis ins Unendliche (wo $p = 0$), erhält man
+                $p(h) = g\int_h^\infty \rho\,\mathrm{d}h'$ – genau das Gewicht der
+                Luft darüber pro Fläche. Bei halbem Druck liegt also die Hälfte
+                der Luft darüber, die andere Hälfte darunter: Die halbe
+                Atmosphäre steckt in den untersten 6 km.</p>
+              <p><strong>(c)</strong> Am Boden trägt jeder Quadratmeter
+                $p_0/g = 1{,}013 \cdot 10^5/9{,}81\,\mathrm{kg} = 1{,}03 \cdot 10^4\,\mathrm{kg}$
+                Luft. Mal Erdoberfläche $4\pi R_\text{E}^2 = 5{,}10 \cdot 10^{14}\,\mathrm{m^2}$
+                ergibt $5{,}3 \cdot 10^{18}\,\mathrm{kg}$ – weniger als ein
+                Millionstel der Erdmasse.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 6: Wasser steigt im Röhrchen
+              <span class="schwierigkeit" data-stufe="schwer">schwer</span>
+            </h3>
+            <p>Taucht man ein dünnes Glasröhrchen (Innenradius $r$) in Wasser,
+              steigt das Wasser darin über den äußeren Wasserspiegel. Wasser
+              benetzt Glas vollständig, die Oberfläche zieht also entlang des
+              ganzen Randes senkrecht nach oben ($\gamma = 0{,}073\,\mathrm{N/m}$).</p>
+            <ol type="a">
+              <li>Stelle das Kräftegleichgewicht für die angehobene Wassersäule
+                auf und zeige: $h = 2\gamma/(\rho g r)$.</li>
+              <li>Wie hoch steigt Wasser bei $r = 0{,}5\,\mathrm{mm}$ und bei
+                $r = 20\,\mu\mathrm{m}$ (typisch für die Wasserleitbahnen von
+                Pflanzen)?</li>
+            </ol>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p><strong>(a)</strong> Entlang des Randes (Länge $2\pi r$) zieht
+                die Oberfläche mit $F = 2\pi r\gamma$ nach oben. Dem steht das
+                Gewicht der Säule $\rho\,\pi r^2 h\,g$ entgegen. Gleichsetzen:
+                $$ 2\pi r \gamma = \rho\,\pi r^2 h\,g \qquad\Longrightarrow\qquad h = \frac{2\gamma}{\rho\,g\,r} . $$</p>
+              <p><strong>(b)</strong> $r = 0{,}5\,\mathrm{mm}$:
+                $h = 2 \cdot 0{,}073/(1000 \cdot 9{,}81 \cdot 5 \cdot 10^{-4})\,\mathrm{m} = 3{,}0\,\mathrm{cm}$.
+                $r = 20\,\mu\mathrm{m}$: $h = 0{,}74\,\mathrm{m}$ – je dünner das
+                Röhrchen, desto höher.</p>
+              <p><strong>Zum Nachdenken:</strong> Mammutbäume werden über 100 m
+                hoch. Die Kapillarität allein reicht dafür also bei Weitem nicht.
+                Tatsächlich zieht die Verdunstung an den Blättern das Wasser
+                nach oben – der zusammenhängende Wasserfaden hält dabei Zug aus
+                wie ein Seil.</p>
+            </details>
+          </div>
+        </section>
+
+      </div></article>
+  </main>
+</body>
+</html>

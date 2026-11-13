@@ -1,0 +1,531 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="robots" content="noindex">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Thermodynamische Potentiale und Maxwell-Relationen</title>
+  <meta name="description" content="Warum es mehrere Energiegrößen gibt (innere Energie, Enthalpie, freie Energie, freie Enthalpie), wie sie durch Legendre-Transformation zusammenhängen und was die Maxwell-Relationen leisten.">
+
+  <link rel="stylesheet" href="../../css/stil.css">
+
+  <link rel="stylesheet" href="../../extern/katex/katex.min.css">
+  <script defer src="../../extern/katex/katex.min.js"></script>
+  <script defer src="../../extern/katex/contrib/auto-render.min.js" onload="starteFormeln()"></script>
+
+  <script src="../../js/daten.js"></script>
+  <script src="../../js/seite.js"></script>
+  <script src="../../js/effekte.js"></script>
+  <script type="application/json" id="symbole">
+  {
+    "U": "innere Energie",
+    "S": "Entropie",
+    "V": "Volumen",
+    "T": "absolute Temperatur",
+    "p": "Druck",
+    "H": "Enthalpie",
+    "F": "freie Energie (Helmholtz)",
+    "G": "freie Enthalpie (Gibbs-Energie)",
+    "n": "Stoffmenge",
+    "R": "universelle Gaskonstante, 8,314 J/(mol K)",
+    "a": "Binnendruck-Konstante des van-der-Waals-Gases",
+    "b": "Eigenvolumen-Konstante des van-der-Waals-Gases",
+    "x": "unabhängige Variable",
+    "u": "Steigung f'(x), neue Variable",
+    "f": "Funktion von x",
+    "W": "Arbeit",
+    "Q": "Wärme",
+    "α": "Ausdehnungskoeffizient",
+    "κ": "isotherme Kompressibilität",
+    "C_V": "Wärmekapazität bei konstantem Volumen",
+    "C_p": "Wärmekapazität bei konstantem Druck",
+    "V_1": "Anfangsvolumen",
+    "V_2": "Endvolumen",
+    "p_1": "Anfangsdruck",
+    "p_2": "Enddruck",
+    "T_m": "Schmelztemperatur",
+    "T_b": "Siedetemperatur",
+    "c": "Lichtgeschwindigkeit",
+    "σ": "Stefan-Boltzmann-Konstante",
+    "δ": "kleine Menge einer Prozessgröße",
+    "w": "Steigung der zweiten Transformation",
+    "y": "Funktionswert",
+    "ϵ": "Energiedichte U/V"
+  }
+  </script>
+</head>
+<body data-thema="potentiale">
+  <main>
+    <article class="thema">
+      <header>
+        <h1>Thermodynamische <span class="betont">Potentiale</span> und Maxwell-Relationen</h1>
+        <p class="untertitel">Welche Energie man betrachtet, hängt davon ab, was man im Experiment festhält.</p>
+      </header>
+
+      <div class="tabs">
+
+        <section class="tab" id="verstehen" data-titel="Verstehen">
+
+          <p>Eine Kugel rollt in einer Schüssel nach unten, bis sie am tiefsten
+            Punkt liegen bleibt. In der Mechanik ist das die Energie: Das
+            System sucht ihr Minimum. In der Thermodynamik ist es etwas
+            komplizierter, denn die Energie allein genügt nicht, auch die
+            Unordnung (Entropie) zählt. Eis schmilzt über $0\,{}^\circ\mathrm{C}$, obwohl das
+            Schmelzen Energie kostet. Dafür gewinnt das Wasser Unordnung, und ab
+            einer gewissen Temperatur überwiegt dieser Gewinn.</p>
+
+          <p>Die Größe, die dabei die Rolle der Schüssel übernimmt, hängt
+            von den Bedingungen ab. Ein Eisklotz im Wärmebad des Zimmers steht unter dem
+            festen Luftdruck und hat die Temperatur der Umgebung. Dann sucht das
+            System das Minimum der <em>freien Enthalpie</em>, die man so aufschreibt:
+            $G = U + pV - TS$. Sie berücksichtigt drei Dinge: die Energie,
+            die Arbeit gegen den Luftdruck und den Wert der Unordnung bei der
+            gegebenen Temperatur. In einem Behälter mit festem Volumen
+            und fester Temperatur ist es wieder eine andere Größe, die
+            <em>freie Energie</em>. Alle diese Größen heißen
+            <em>thermodynamische Potentiale</em>.</p>
+
+          <figure class="abbildung">
+            <svg class="abb" viewBox="0 0 360 225" role="img" aria-label="Freie Enthalpie-Differenz zwischen Wasser und Eis über der Temperatur: Gerade, die bei 273 Kelvin null kreuzt; darunter schmilzt Eis nicht, darüber schmilzt es">
+<defs><marker id="pfeil-abb1-text" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto"><path class="punkt" d="M0 0L10 5L0 10z"/></marker><marker id="pfeil-abb1-blau" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto"><path class="punkt blau" d="M0 0L10 5L0 10z"/></marker><marker id="pfeil-abb1-kupfer" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto"><path class="punkt kupfer" d="M0 0L10 5L0 10z"/></marker></defs>
+<path class="achse" d="M50 105H345" marker-end="url(#pfeil-abb1-text)"/>
+<path class="achse" d="M50 205V12" marker-end="url(#pfeil-abb1-text)"/>
+<text x="338" y="99">T</text>
+<text x="56" y="9">ΔG in J/mol</text>
+<path class="kurve kupfer" d="M75.9 18.3 L81.1 22 L86.3 25.8 L91.5 29.5 L96.6 33.3 L101.8 37 L107 40.7 L112.2 44.5 L117.4 48.2 L122.5 52 L127.7 55.7 L132.9 59.4 L138.1 63.2 L143.3 66.9 L148.5 70.7 L153.6 74.4 L158.8 78.1 L164 81.9 L169.2 85.6 L174.4 89.4 L179.5 93.1 L184.7 96.8 L189.9 100.6 L195.1 104.3 L200.3 108.1 L205.5 111.8 L210.6 115.5 L215.8 119.3 L221 123 L226.2 126.8 L231.4 130.5 L236.5 134.2 L241.7 138 L246.9 141.7 L252.1 145.5 L257.3 149.2 L262.5 152.9 L267.6 156.7 L272.8 160.4 L278 164.2 L283.2 167.9 L288.4 171.6 L293.5 175.4 L298.7 179.1 L303.9 182.9 L309.1 186.6 L314.3 190.3 L319.5 194.1 L324.6 197.8 L329.8 201.6 L335 205.3"/>
+<path class="hilfslinie" d="M196 205V30"/>
+<circle class="punkt kupfer" cx="196" cy="105" r="4"/>
+<text class="klein" x="196" y="121" text-anchor="middle">273 K</text>
+<path class="achse" d="M75.9 105v4"/><text class="klein" x="75.9" y="121" text-anchor="middle">250</text>
+<path class="achse" d="M335 105v4"/><text class="klein" x="335" y="121" text-anchor="middle">300</text>
+<text class="blau halo" x="127.7" y="34">Eis bleibt Eis (ΔG &gt; 0)</text>
+<text class="kupfer halo" x="215.8" y="185">Eis schmilzt (ΔG &lt; 0)</text>
+</svg>
+            <figcaption>Abb. 1: Der Unterschied $\Delta G = G_\text{Wasser} - G_\text{Eis}$ der freien Enthalpie
+              fällt linear mit der Temperatur. Bei $273\,\mathrm{K}$
+              ist er null, darüber ist Wasser stabiler, darunter Eis.</figcaption>
+          </figure>
+
+          <p>Der Wechsel von der Energie zu den anderen Potentialen ist keine
+            Willkür. Man wählt das Potential, bei dem genau die Größen
+            als Variable vorkommen, die man im Experiment kontrolliert. Der
+            mathematische Trick dahinter heißt <em>Legendre-Transformation</em>.
+            Und weil die Potentiale aus derselben Quelle stammen,
+            hängen ihre Ableitungen zusammen. Daraus entstehen die
+            <em>Maxwell-Relationen</em>: Sie verbinden Größen, die schwer
+            zu messen sind (etwa wie sich die Entropie mit dem Volumen ändert), mit solchen,
+            die leicht zu messen sind (wie sich der Druck mit der
+            Temperatur ändert).</p>
+
+          <div class="alltag">
+            <span class="titel">Aus dem Alltag</span>
+            <p>Dass Eis in einem Getränk schmilzt und dabei das Getränk kühlt,
+              ist die freie Enthalpie in Aktion. Weil das Getränk
+              wärmer ist als $0\,{}^\circ\mathrm{C}$, überwiegt der Gewinn an Unordnung den
+              Energieaufwand, und das Eis schmilzt von selbst. Dabei nimmt es
+              Wärme aus dem Getränk. Eine chemische Reaktion läuft bei gleichbleibender
+              Temperatur und gleichem Druck genauso nur in die Richtung ab,
+              in der die freie Enthalpie sinkt.</p>
+          </div>
+
+          <div class="merkkasten">
+            <span class="titel">Das Wichtigste in Kürze</span>
+            <p>Das Gleichgewicht ist das Minimum eines Potentials. Welches, hängt
+              davon ab, was festgehalten wird: Bei konstanter Temperatur und
+              konstantem Druck ist es die freie Enthalpie. Ein Prozess läuft
+              von selbst ab, wenn sie sinkt. Die Maxwell-Relationen verbinden
+              schwer messbare Größen mit leicht messbaren.</p>
+          </div>
+        </section>
+
+        <section class="tab" id="vertiefung" data-titel="Vertiefung">
+
+          <h2>Fundamentalgleichung und natürliche Variablen</h2>
+
+          <p>Für quasistatische Änderungen mit nur Volumenarbeit ersetzt man
+            im ersten Hauptsatz $\delta Q$ durch $T\,\mathrm{d}S$ und $\delta W$
+            durch $-p\,\mathrm{d}V$. Das ergibt die <em>Fundamentalgleichung</em></p>
+          $$ \mathrm{d}U = T\,\mathrm{d}S - p\,\mathrm{d}V . $$
+          <p>Sie sagt: Die innere Energie ist eine Funktion von $S$ und $V$,
+            $U = U(S,V)$, und die anderen Größen folgen als Ableitungen:</p>
+          $$ T = \left(\frac{\partial U}{\partial S}\right)_V, \qquad p = -\left(\frac{\partial U}{\partial V}\right)_S . $$
+          <p>$S$ und $V$ sind die <em>natürlichen Variablen</em> von $U$. Kennt
+            man $U(S,V)$, kennt man alle Gleichgewichtseigenschaften. Der
+            Index an der Klammer gibt an, welche Größe bei der Ableitung konstant
+            gehalten wird. Er ist nötig, weil $\partial U/\partial V$ etwas anderes
+            bedeutet, wenn man $S$ festhält, als wenn man $T$ festhält.</p>
+
+          <p>Im Experiment kontrolliert man aber selten die Entropie.
+            Temperatur und Druck sind leichter einzustellen. Man möchte also
+            die Variable $S$ durch $T$ ersetzen, ohne Information zu verlieren.</p>
+
+          <h2>Legendre-Transformation</h2>
+
+          <p>Die Legendre-Transformation ersetzt die Variable $x$ einer
+            Funktion $f(x)$ durch die Steigung $u = \mathrm{d}f/\mathrm{d}x$.
+            Für eine konvexe Funktion definiert man</p>
+          $$ f^*(u) = x\,u - f(x), \qquad x = x(u)\ \text{aus}\ u = f'(x) . $$
+          <p>Anschaulich ist $-f^*(u)$ der Achsenabschnitt der Tangente mit der
+            Steigung $u$ (Abb. 2). Weil die Tangente alle Information über die
+            Kurve trägt, geht nichts verloren: Es gilt $f^{**} = f$. Aus
+            $\mathrm{d}f^* = x\,\mathrm{d}u + u\,\mathrm{d}x - \mathrm{d}f = x\,\mathrm{d}u$ folgt
+            $\mathrm{d}f^*/\mathrm{d}u = x$. Beispiel: Für $f(x) = x^2 + 1$ ist
+            $u = 2x$ und $f^*(u) = u^2/4 - 1$. Bei $u = 3$ ist $f^* = 1{,}25$, und
+            die Tangente schneidet die $y$-Achse bei $-1{,}25$.</p>
+
+          <figure class="abbildung">
+            <svg class="abb" viewBox="0 0 360 225" role="img" aria-label="Parabel f(x) = x² + 1 mit Tangente der Steigung 3 bei x = 1,5; der Achsenabschnitt der Tangente bei x = 0 ist minus f-Stern von u gleich minus 1,25">
+<defs><marker id="pfeil-abb2-text" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto"><path class="punkt" d="M0 0L10 5L0 10z"/></marker><marker id="pfeil-abb2-blau" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto"><path class="punkt blau" d="M0 0L10 5L0 10z"/></marker><marker id="pfeil-abb2-kupfer" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto"><path class="punkt kupfer" d="M0 0L10 5L0 10z"/></marker></defs>
+<path class="achse" d="M20 170H345" marker-end="url(#pfeil-abb2-text)"/>
+<path class="achse" d="M180 205V12" marker-end="url(#pfeil-abb2-text)"/>
+<text x="338" y="186">x</text><text x="188" y="22">y</text>
+<path class="kurve blau" d="M104 30 L105.9 35.5 L107.8 40.9 L109.7 46.2 L111.6 51.3 L113.5 56.2 L115.4 61.1 L117.3 65.8 L119.2 70.3 L121.1 74.7 L123 79 L124.9 83.1 L126.8 87.1 L128.7 91 L130.6 94.7 L132.5 98.2 L134.4 101.7 L136.3 105 L138.2 108.1 L140.1 111.1 L142 114 L143.9 116.7 L145.8 119.3 L147.7 121.8 L149.6 124.1 L151.5 126.2 L153.4 128.3 L155.3 130.2 L157.2 131.9 L159.1 133.5 L161 135 L162.9 136.3 L164.8 137.5 L166.7 138.6 L168.6 139.5 L170.5 140.2 L172.4 140.9 L174.3 141.4 L176.2 141.7 L178.1 141.9 L180 142 L181.9 141.9 L183.8 141.7 L185.7 141.4 L187.6 140.9 L189.5 140.2 L191.4 139.5 L193.3 138.6 L195.2 137.5 L197.1 136.3 L199 135 L200.9 133.5 L202.8 131.9 L204.7 130.2 L206.6 128.3 L208.5 126.2 L210.4 124.1 L212.3 121.8 L214.2 119.3 L216.1 116.7 L218 114 L219.9 111.1 L221.8 108.1 L223.7 105 L225.6 101.7 L227.5 98.2 L229.4 94.7 L231.3 91 L233.2 87.1 L235.1 83.1 L237 79 L238.9 74.7 L240.8 70.3 L242.7 65.8 L244.6 61.1 L246.5 56.2 L248.4 51.3 L250.3 46.2 L252.2 40.9 L254.1 35.5 L256 30"/>
+<path class="kurve kupfer" d="M168.6 230.2L256 37"/>
+<circle class="punkt kupfer" cx="237" cy="79" r="4"/>
+<circle class="punkt" cx="180" cy="205" r="3.5"/>
+<path class="hilfslinie" d="M237 170V79"/>
+<text class="klein" x="237" y="184" text-anchor="middle">x</text>
+
+<text class="kupfer" x="246.5" y="74">Steigung u = 3</text>
+<text class="klein" x="188" y="221">Achsenabschnitt −f*(u) = −1,25</text>
+</svg>
+            <figcaption>Abb. 2: Legendre-Transformation von
+              $f(x) = x^2 + 1$. Die Tangente an der Stelle $x = 1{,}5$ hat die
+              Steigung $u = 3$ und schneidet die $y$-Achse bei $-f^*(u) = -1{,}25$.</figcaption>
+          </figure>
+
+          <h2>Die vier Potentiale</h2>
+
+          <p>Wendet man diese Transformation auf $U(S,V)$ an, erhält man je
+            nach Wahl der neuen Variablen vier Potentiale:</p>
+          <div class="tabelle-huelle">
+            <table>
+              <thead><tr><th>Potential</th><th>Definition</th><th>Differential</th><th>natürliche Variablen</th></tr></thead>
+              <tbody>
+                <tr><td>innere Energie $U$</td><td></td><td>$\mathrm{d}U = T\,\mathrm{d}S - p\,\mathrm{d}V$</td><td>$S, V$</td></tr>
+                <tr><td>Enthalpie $H$</td><td>$U + pV$</td><td>$\mathrm{d}H = T\,\mathrm{d}S + V\,\mathrm{d}p$</td><td>$S, p$</td></tr>
+                <tr><td>freie Energie $F$</td><td>$U - TS$</td><td>$\mathrm{d}F = -S\,\mathrm{d}T - p\,\mathrm{d}V$</td><td>$T, V$</td></tr>
+                <tr><td>freie Enthalpie $G$</td><td>$U - TS + pV$</td><td>$\mathrm{d}G = -S\,\mathrm{d}T + V\,\mathrm{d}p$</td><td>$T, p$</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p>Aus den Differentialen lassen sich Größen ablesen, zum Beispiel
+            $S = -(\partial G/\partial T)_p$ und $V = (\partial G/\partial p)_T$ oder
+            $p = -(\partial F/\partial V)_T$.</p>
+
+          <p>Die Potentiale haben anschauliche Bedeutungen:</p>
+          <ul>
+            <li><strong>Enthalpie:</strong> Bei konstantem Druck ist
+              $\mathrm{d}H = \delta Q$. Die Enthalpie ist die Wärme bei konstantem
+              Druck.</li>
+            <li><strong>Freie Energie:</strong> Bei konstanter Temperatur ist
+              $\mathrm{d}F = \delta W$ (reversibel). Die vom System maximal
+              abgebbare Arbeit ist deshalb $-\Delta F$.</li>
+            <li><strong>Freie Enthalpie:</strong> Bei konstantem $T$ und $p$ ist sie
+              das Maß für das Gleichgewicht: Ein System ist im Gleichgewicht, wenn $G$
+              minimal ist, und ein Prozess läuft von selbst ab, wenn $\Delta G \lt 0$.
+              Für Phasenübergänge und chemische Reaktionen ist $G$ die
+              wichtigste Größe.</li>
+          </ul>
+          <p>Das Minimumsprinzip folgt aus dem zweiten Hauptsatz: Im
+            abgeschlossenen System ist $S$ maximal. Hält man stattdessen $T$ und $p$ fest, ist das
+            Potential $G$ minimal, weil das Wärmebad die Entropie der Umgebung
+            mitzählt. Für den Phasenübergang ist
+            $\Delta G = \Delta H - T\Delta S$: Beim Schmelzen kostet die Energie
+            $\Delta H \gt 0$, aber die Unordnung wächst um $\Delta S \gt 0$. Bei
+            $T_\mathrm{m} = \Delta H/\Delta S$ halten sich beide die Waage (Abb. 1).
+            Für Eis ist $\Delta H = 6{,}01\,\mathrm{kJ/mol}$ und
+            $\Delta S = 22{,}0\,\mathrm{J/(mol\,K)}$, also $T_\mathrm{m} = 273\,\mathrm{K}$.</p>
+
+          <h2>Maxwell-Relationen</h2>
+
+          <p>Weil $U$ eine Zustandsgröße ist, sind die gemischten zweiten
+            Ableitungen vertauschbar:</p>
+          $$ \frac{\partial}{\partial V}\left(\frac{\partial U}{\partial S}\right) = \frac{\partial}{\partial S}\left(\frac{\partial U}{\partial V}\right)
+             \quad\Rightarrow\quad \left(\frac{\partial T}{\partial V}\right)_S = -\left(\frac{\partial p}{\partial S}\right)_V . $$
+          <p>Dasselbe macht man mit $H$, $F$ und $G$. Es ergeben sich vier
+            <em>Maxwell-Relationen</em>:</p>
+          $$ \left(\frac{\partial T}{\partial V}\right)_S = -\left(\frac{\partial p}{\partial S}\right)_V, \qquad
+             \left(\frac{\partial T}{\partial p}\right)_S = \left(\frac{\partial V}{\partial S}\right)_p, $$
+          $$ \left(\frac{\partial S}{\partial V}\right)_T = \left(\frac{\partial p}{\partial T}\right)_V, \qquad
+             \left(\frac{\partial S}{\partial p}\right)_T = -\left(\frac{\partial V}{\partial T}\right)_p . $$
+          <p>Der Nutzen: Eine Ableitung der Entropie lässt sich nicht direkt
+            messen, aber $(\partial p/\partial T)_V$ oder $(\partial V/\partial T)_p$
+            kann man aus der Zustandsgleichung ablesen.</p>
+
+          <h2>Anwendungen</h2>
+
+          <p><strong>Energie aus der Zustandsgleichung.</strong> Aus $\mathrm{d}U = T\,\mathrm{d}S - p\,\mathrm{d}V$
+            und der dritten Maxwell-Relation folgt</p>
+          $$ \left(\frac{\partial U}{\partial V}\right)_T = T\left(\frac{\partial p}{\partial T}\right)_V - p . $$
+          <p>Für das ideale Gas ($p = nRT/V$) ist die rechte Seite null: Die
+            Energie hängt nicht vom Volumen ab. Für das
+            van-der-Waals-Gas ($p = nRT/(V - nb) - an^2/V^2$) ist
+            $T(\partial p/\partial T)_V = nRT/(V - nb)$, und es bleibt
+            $(\partial U/\partial V)_T = an^2/V^2$. Beim Auseinanderziehen der
+            Teilchen steigt die Energie, weil man gegen die Anziehung
+            arbeiten muss.</p>
+
+          <p><strong>Wärmekapazitäten.</strong> Es gilt $C_V = T(\partial S/\partial T)_V$
+            und $C_p = T(\partial S/\partial T)_p$. Mit den Maxwell-Relationen folgt
+            für beliebige Stoffe $C_p - C_V = TV\alpha^2/\kappa_T$ (Herleitung
+            als Übung: $S(T,V)$ differenzieren und die dritte Maxwell-Relation
+            einsetzen) mit dem Ausdehnungskoeffizienten
+            $\alpha = \frac1V(\partial V/\partial T)_p$ und der isothermen
+            Kompressibilität $\kappa_T = -\frac1V(\partial V/\partial p)_T$.</p>
+
+          <p><strong>Strahlung.</strong> Für Strahlung ist die Energiedichte
+            $\epsilon = U/V$ mit dem Druck verknüpft: $p = \epsilon/3$. Setzt man
+            das in die Energiegleichung ein, ergibt sich
+            $\epsilon = T(\partial p/\partial T)_V - p$, also
+            $3p = T(\partial p/\partial T)_V - p$ und damit
+            $T(\partial p/\partial T)_V = 4p$. Trennung der Variablen liefert
+            $p \propto T^4$ und damit auch $\epsilon \propto T^4$. Das ist das
+            Stefan-Boltzmann-Gesetz, hier allein aus Thermodynamik gewonnen.</p>
+
+          <div class="merkkasten">
+            <span class="titel">Merke</span>
+            <p>$\mathrm{d}U = T\,\mathrm{d}S - p\,\mathrm{d}V$. Legendre-Transformation
+              ersetzt eine Variable durch ihre konjugierte Größe:
+              $H(S,p)$, $F(T,V)$, $G(T,p)$. Bei konstantem $T$ und $p$ ist $G$ im
+              Gleichgewicht minimal, $\Delta G = \Delta H - T\Delta S$. Die vier
+              Maxwell-Relationen folgen aus der Vertauschbarkeit der zweiten
+              Ableitungen.</p>
+          </div>
+        </section>
+
+        <section class="tab" id="beispiele" data-titel="Beispielrechnungen">
+
+          <div class="beispiel">
+            <h3>Beispiel 1: Schmilzt Eis bei minus und bei plus zehn Grad?</h3>
+            <p><strong>Gegeben:</strong> Beim Schmelzen von Eis ist
+              $\Delta H = 6010\,\mathrm{J/mol}$ und $\Delta S = 22{,}0\,\mathrm{J/(mol\,K)}$
+              (beide als konstant angenommen).<br>
+              <strong>Gesucht:</strong> $\Delta G$ bei $263{,}15\,\mathrm{K}$ und
+              $283{,}15\,\mathrm{K}$ sowie die Schmelztemperatur.</p>
+
+            <p><strong>1. Schmelztemperatur.</strong> Bei $\Delta G = 0$:
+              $$ T_\mathrm{m} = \frac{\Delta H}{\Delta S} = \frac{6010\,\mathrm{J/mol}}{22{,}0\,\mathrm{J/(mol\,K)}} = 273\,\mathrm{K} $$</p>
+
+            <p><strong>2. Bei $-10\,{}^\circ\mathrm{C}$.</strong>
+              $$ \Delta G = \Delta H - T\Delta S = 6010 - 263{,}15 \cdot 22{,}0\,\mathrm{J/mol} = +221\,\mathrm{J/mol} $$</p>
+
+            <p><strong>3. Bei $+10\,{}^\circ\mathrm{C}$.</strong>
+              $$ \Delta G = 6010 - 283{,}15 \cdot 22{,}0\,\mathrm{J/mol} = -219\,\mathrm{J/mol} $$
+              Einheitencheck: $\mathrm{J/mol} - \mathrm{K \cdot J/(mol\,K)} = \mathrm{J/mol}$ ✓</p>
+
+            <p><strong>Ergebnis und Plausibilität:</strong> Bei $-10\,{}^\circ\mathrm{C}$ ist
+              $\Delta G \gt 0$, das Schmelzen läuft nicht von selbst ab, bei
+              $+10\,{}^\circ\mathrm{C}$ ist $\Delta G \lt 0$, Eis schmilzt. Die Werte sind
+              klein im Vergleich zu $\Delta H$: Energiebeitrag und
+              Entropiebeitrag heben sich fast auf, und das Vorzeichen entscheidet die
+              Temperatur. Die berechnete Schmelztemperatur von $273\,\mathrm{K}$ stimmt
+              mit dem Messwert überein.</p>
+          </div>
+
+          <div class="beispiel">
+            <h3>Beispiel 2: Entropieänderung bei isothermer Expansion eines realen Gases</h3>
+            <p><strong>Gegeben:</strong> Ein mol $\mathrm{CO_2}$ ($a = 0{,}3657\,\mathrm{Pa\,m^6/mol^2}$,
+              $b = 4{,}285 \cdot 10^{-5}\,\mathrm{m^3/mol}$) dehnt sich bei $300\,\mathrm{K}$
+              von $1{,}0\,\mathrm{l}$ auf $2{,}0\,\mathrm{l}$ aus.<br>
+              <strong>Gesucht:</strong> $\Delta S$ mit der Maxwell-Relation und Vergleich mit dem
+              idealen Gas.</p>
+
+            <p><strong>1. Maxwell-Relation.</strong>
+              $(\partial S/\partial V)_T = (\partial p/\partial T)_V = R/(V_\mathrm{m} - b)$.</p>
+
+            <p><strong>2. Integrieren.</strong>
+              $$ \Delta S = R\int_{V_1}^{V_2}\frac{\mathrm{d}V}{V - b} = R\ln\frac{V_2 - b}{V_1 - b}
+                 = 8{,}3145\,\mathrm{\tfrac{J}{mol\,K}} \cdot \ln\frac{2{,}0 \cdot 10^{-3} - 4{,}285 \cdot 10^{-5}}{1{,}0 \cdot 10^{-3} - 4{,}285 \cdot 10^{-5}} = 5{,}95\,\mathrm{\tfrac{J}{mol\,K}} $$
+              Einheitencheck: $\mathrm{J/(mol\,K)}$ ✓</p>
+
+            <p><strong>3. Ideales Gas.</strong>
+              $$ \Delta S_\text{ideal} = R\ln\frac{V_2}{V_1} = 8{,}3145 \cdot \ln 2 = 5{,}76\,\mathrm{\tfrac{J}{mol\,K}} $$</p>
+
+            <p><strong>Ergebnis und Plausibilität:</strong> Das reale Gas gewinnt
+              $5{,}95\,\mathrm{J/(mol\,K)}$, etwas mehr als das ideale Gas mit
+              $5{,}76\,\mathrm{J/(mol\,K)}$. Das Eigenvolumen $b$ macht das freie Volumen
+              kleiner, dadurch ist das Verhältnis der freien Volumina größer als
+              $2$. Die Maxwell-Relation hat uns erlaubt, $\Delta S$ aus der
+              Zustandsgleichung zu berechnen, ohne die Entropie je zu messen.</p>
+          </div>
+
+          <div class="beispiel">
+            <h3>Beispiel 3: Energie und Wärme beim Expandieren eines van-der-Waals-Gases</h3>
+            <p><strong>Gegeben:</strong> Dasselbe Gas wie in Beispiel 2 (CO₂, $300\,\mathrm{K}$,
+              $1{,}0\,\mathrm{l} \to 2{,}0\,\mathrm{l}$, isotherm und reversibel).<br>
+              <strong>Gesucht:</strong> $\Delta U$, aufgenommene Wärme $Q$ und geleistete Arbeit.</p>
+
+            <p><strong>1. Energieänderung.</strong> Aus
+              $(\partial U/\partial V)_T = a/V_\mathrm{m}^2$:
+              $$ \Delta U = a\left(\frac{1}{V_1} - \frac{1}{V_2}\right) = 0{,}3657\,\mathrm{\tfrac{Pa\,m^6}{mol^2}} \cdot \left(1000 - 500\right)\mathrm{\tfrac{mol}{m^3}} \cdot 1\,\mathrm{mol} = 183\,\mathrm{J} $$
+              Einheitencheck: $\mathrm{Pa\,m^6/mol^2 \cdot mol/m^3 \cdot mol} = \mathrm{Pa\,m^3} = \mathrm{J}$ ✓</p>
+
+            <p><strong>2. Wärme.</strong> Reversibel isotherm gilt $Q = T\,\Delta S$:
+              $$ Q = 300\,\mathrm{K} \cdot 5{,}95\,\mathrm{J/K} = 1784\,\mathrm{J} $$</p>
+
+            <p><strong>3. Arbeit am Gas.</strong>
+              $$ W = \Delta U - Q = 183\,\mathrm{J} - 1784\,\mathrm{J} = -1601\,\mathrm{J} $$
+              Das Gas leistet $1{,}60\,\mathrm{kJ}$ Arbeit.</p>
+
+            <p><strong>Ergebnis und Plausibilität:</strong> Das Gas nimmt
+              $1{,}78\,\mathrm{kJ}$ Wärme auf, verwendet davon $0{,}18\,\mathrm{kJ}$, um die
+              Anziehung zu überwinden (Energiezuwachs), und gibt den Rest als Arbeit
+              ab. Direkte Kontrolle: $W = -\int p\,\mathrm{d}V
+              = -\left[RT\ln\frac{V_2 - b}{V_1 - b} - a\left(\frac{1}{V_1} - \frac{1}{V_2}\right)\right] = -(1784 - 183)\,\mathrm{J} = -1601\,\mathrm{J}$ ✓.
+              Beim idealen Gas wäre $\Delta U = 0$ und $|W| = Q$.</p>
+          </div>
+        </section>
+
+        <section class="tab" id="aufgaben" data-titel="Aufgaben">
+
+          <p>Verwende $R = 8{,}3145\,\mathrm{J/(mol\,K)}$.</p>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 1
+              <span class="schwierigkeit" data-stufe="leicht">leicht</span>
+            </h3>
+            <ol type="a">
+              <li>Gib für $H$, $F$ und $G$ jeweils die natürlichen Variablen und das
+                Differential an.</li>
+              <li>Welches Potential ist bei einem Prozess mit konstantem $T$ und
+                $p$ minimal im Gleichgewicht?</li>
+            </ol>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p><strong>a)</strong> $H(S,p)$: $\mathrm{d}H = T\,\mathrm{d}S + V\,\mathrm{d}p$.
+                $F(T,V)$: $\mathrm{d}F = -S\,\mathrm{d}T - p\,\mathrm{d}V$.
+                $G(T,p)$: $\mathrm{d}G = -S\,\mathrm{d}T + V\,\mathrm{d}p$.</p>
+              <p><strong>b)</strong> Die freie Enthalpie $G$. Bei $\mathrm{d}T = 0$ und
+                $\mathrm{d}p = 0$ ist $\mathrm{d}G = 0$ im Gleichgewicht, und jeder
+                spontane Prozess hat $\Delta G \lt 0$.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 2
+              <span class="schwierigkeit" data-stufe="leicht">leicht</span>
+            </h3>
+            <p>Bestimme die Legendre-Transformierte von $f(x) = x^2$ und zeige,
+              dass die zweite Transformation wieder $f$ ergibt.</p>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>Aus $u = f'(x) = 2x$ folgt $x = u/2$ und
+                $f^*(u) = xu - f(x) = \dfrac{u^2}{2} - \dfrac{u^2}{4} = \dfrac{u^2}{4}$.
+                Zweite Transformation: $w = \mathrm{d}f^*/\mathrm{d}u = u/2$, also $u = 2w$, und
+                $f^{**}(w) = uw - f^*(u) = 2w^2 - w^2 = w^2$ ✓. Das ist wieder $f$,
+                mit $w$ statt $x$.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 3
+              <span class="schwierigkeit" data-stufe="mittel">mittel</span>
+            </h3>
+            <p>Leite aus $\mathrm{d}G = -S\,\mathrm{d}T + V\,\mathrm{d}p$ die Maxwell-Relation
+              $(\partial S/\partial p)_T = -(\partial V/\partial T)_p$ her. Berechne damit die Entropieänderung
+              von $1{,}0\,\mathrm{mol}$ idealem Gas bei isothermer Kompression von
+              $1{,}0\,\mathrm{bar}$ auf $5{,}0\,\mathrm{bar}$.</p>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>Aus dem Differential folgt $S = -(\partial G/\partial T)_p$ und
+                $V = (\partial G/\partial p)_T$. Vertauscht man die gemischten
+                Ableitungen von $G$:
+                $$ \left(\frac{\partial S}{\partial p}\right)_T = -\frac{\partial^2 G}{\partial p\,\partial T}
+                   = -\frac{\partial^2 G}{\partial T\,\partial p} = -\left(\frac{\partial V}{\partial T}\right)_p . $$
+                Für das ideale Gas ist $V = nRT/p$ und damit
+                $(\partial V/\partial T)_p = nR/p$, also
+                $(\partial S/\partial p)_T = -nR/p$. Integriert:
+                $$ \Delta S = -nR\ln\frac{p_2}{p_1} = -1{,}0 \cdot 8{,}3145 \cdot \ln 5\,\mathrm{J/K} = -13{,}4\,\mathrm{J/K} . $$
+                Die Entropie sinkt bei der Kompression, wie es dem kleineren Volumen
+                entspricht (zum Vergleich $nR\ln 5$ mit $V_1/V_2 = 5$).</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 4
+              <span class="schwierigkeit" data-stufe="mittel">mittel</span>
+            </h3>
+            <p>Für das Verdampfen von Wasser bei $1\,\mathrm{atm}$ ist
+              $\Delta H = 40{,}66\,\mathrm{kJ/mol}$ und
+              $\Delta S = 109\,\mathrm{J/(mol\,K)}$. Bestimme die Siedetemperatur
+              und das Vorzeichen von $\Delta G$ bei $90\,{}^\circ\mathrm{C}$ und bei
+              $110\,{}^\circ\mathrm{C}$.</p>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>$T_\mathrm{b} = \Delta H/\Delta S = 40\,660/109\,\mathrm{K} = 373\,\mathrm{K}$
+                ($100\,{}^\circ\mathrm{C}$).
+                Bei $363{,}15\,\mathrm{K}$: $\Delta G = 40\,660 - 363{,}15 \cdot 109\,\mathrm{J/mol} = +1077\,\mathrm{J/mol}$,
+                das Wasser bleibt flüssig. Bei $383{,}15\,\mathrm{K}$:
+                $\Delta G = 40\,660 - 383{,}15 \cdot 109\,\mathrm{J/mol} = -1103\,\mathrm{J/mol}$,
+                es verdampft. Die große Entropiezunahme beim Verdampfen
+                (Gas hat viel mehr Mikrozustände als Flüssigkeit) macht, dass
+                die Siedetemperatur so deutlich über der Schmelztemperatur
+                liegt.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 5
+              <span class="schwierigkeit" data-stufe="schwer">schwer</span>
+            </h3>
+            <ol type="a">
+              <li>Zeige $(\partial U/\partial V)_T = T(\partial p/\partial T)_V - p$.</li>
+              <li>Werte das Ergebnis für das ideale Gas aus.</li>
+              <li>Werte es für $p = nRT/(V - nb) - an^2/V^2$ aus.</li>
+            </ol>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p><strong>a)</strong> Aus $\mathrm{d}U = T\,\mathrm{d}S - p\,\mathrm{d}V$ folgt bei
+                konstantem $T$:
+                $(\partial U/\partial V)_T = T(\partial S/\partial V)_T - p$. Die dritte
+                Maxwell-Relation (aus $\mathrm{d}F = -S\,\mathrm{d}T - p\,\mathrm{d}V$) ist
+                $(\partial S/\partial V)_T = (\partial p/\partial T)_V$. Einsetzen liefert die Behauptung.</p>
+              <p><strong>b)</strong> Mit $p = nRT/V$ ist
+                $(\partial p/\partial T)_V = nR/V$ und
+                $T \cdot nR/V - p = p - p = 0$. Die Energie des idealen Gases
+                hängt nicht vom Volumen ab.</p>
+              <p><strong>c)</strong> Die Ableitung ist $(\partial p/\partial T)_V = nR/(V - nb)$,
+                also
+                $$ T\,\frac{nR}{V - nb} - \left(\frac{nRT}{V - nb} - \frac{an^2}{V^2}\right) = \frac{an^2}{V^2} . $$
+                Das ist der Binnendruck. Er zeigt, dass beim Ausdehnen Energie
+                gegen die Anziehung aufzubringen ist. Einheitencheck:
+                $\mathrm{Pa\,m^6/mol^2 \cdot mol^2/m^6} = \mathrm{Pa}$ ✓.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 6
+              <span class="schwierigkeit" data-stufe="schwer">schwer</span>
+            </h3>
+            <p>Zeige für Strahlung ($p = \epsilon/3$, $\epsilon = U/V$), dass
+              $p \propto T^4$ gilt. Berechne mit der Konstante
+              $\epsilon = a_\mathrm{S}\,T^4$, $a_\mathrm{S} = 4\sigma/c = 7{,}57 \cdot 10^{-16}\,\mathrm{J/(m^3\,K^4)}$,
+              den Strahlungsdruck bei $300\,\mathrm{K}$ und im Sonnenkern bei
+              $1{,}5 \cdot 10^7\,\mathrm{K}$.</p>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>Mit $(\partial U/\partial V)_T = T(\partial p/\partial T)_V - p$ und
+                $U = \epsilon V$, $\epsilon$ nur von $T$ abhängig, ist
+                $(\partial U/\partial V)_T = \epsilon = 3p$. Also
+                $3p = T(\partial p/\partial T)_V - p$ bzw.
+                $\mathrm{d}p/p = 4\,\mathrm{d}T/T$ und $p = \text{const} \cdot T^4$.</p>
+              <p>Strahlungsdruck $p = \epsilon/3 = a_\mathrm{S}T^4/3$:
+                $$ T = 300\,\mathrm{K}: \quad p = \frac{7{,}57 \cdot 10^{-16} \cdot (300)^4}{3}\,\mathrm{Pa} = 2{,}0 \cdot 10^{-6}\,\mathrm{Pa} $$
+                $$ T = 1{,}5 \cdot 10^7\,\mathrm{K}: \quad p = \frac{7{,}57 \cdot 10^{-16} \cdot (1{,}5 \cdot 10^7)^4}{3}\,\mathrm{Pa} = 1{,}3 \cdot 10^{13}\,\mathrm{Pa} . $$
+                Bei Zimmertemperatur ist der Strahlungsdruck winzig. Im Sonnenkern
+                beträgt er $1{,}3 \cdot 10^{13}\,\mathrm{Pa}$, rund $10^8$ bar, und
+                ist dort doch klein gegen den Gasdruck (größenordnungsmäßig
+                $10^{16}\,\mathrm{Pa}$). In massereicheren, heißeren Sternen
+                dominiert er. Wegen $T^4$ wächst er
+                schnell: Eine Verzehnfachung der Temperatur erhöht ihn um den Faktor
+                $10^4$.</p>
+            </details>
+          </div>
+
+        </section>
+
+      </div></article>
+  </main>
+</body>
+</html>

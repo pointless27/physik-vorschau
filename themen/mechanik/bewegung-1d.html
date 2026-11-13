@@ -1,0 +1,786 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="robots" content="noindex">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bewegung in einer Dimension</title>
+  <meta name="description" content="Ort, Geschwindigkeit und Beschleunigung verständlich erklärt – mit Herleitungen, durchgerechneten Beispielen und Übungsaufgaben zur geradlinigen Bewegung und zum freien Fall.">
+
+  <link rel="stylesheet" href="../../css/stil.css">
+
+  <link rel="stylesheet" href="../../extern/katex/katex.min.css">
+  <script defer src="../../extern/katex/katex.min.js"></script>
+  <script defer src="../../extern/katex/contrib/auto-render.min.js" onload="starteFormeln()"></script>
+
+  <script src="../../js/daten.js"></script>
+  <script src="../../js/seite.js"></script>
+  <script src="../../js/effekte.js"></script>
+  <script src="../../js/interaktiv.js"></script>
+  <script src="../../js/modelle/bewegung-1d.js"></script>
+  <script type="application/json" id="symbole">
+  {
+    "t": "Zeit",
+    "t_0": "Anfangszeitpunkt",
+    "t_1": "erster betrachteter Zeitpunkt",
+    "t_2": "zweiter betrachteter Zeitpunkt",
+    "t_3": "ein beliebiger Zeitpunkt",
+    "s": "Ort (zurückgelegter Weg entlang der Bahn)",
+    "s_0": "Anfangsort",
+    "s_1": "Ort zum Zeitpunkt t₁",
+    "s_2": "Ort zum Zeitpunkt t₂",
+    "r": "Ortsvektor",
+    "v": "Geschwindigkeit",
+    "v_0": "Anfangsgeschwindigkeit",
+    "v_max": "Höchstgeschwindigkeit",
+    "v_e": "Endgeschwindigkeit (Beschleunigung ist null)",
+    "v_Aufprall": "Geschwindigkeit beim Aufprall",
+    "a": "Beschleunigung",
+    "b": "Integrationskonstante (Ort bei t = 0)",
+    "c": "Reibungskonstante des Luftwiderstands (Einheit 1/s)",
+    "g": "Fallbeschleunigung",
+    "h": "Fallhöhe",
+    "d": "Höhe der untersten Kugel über dem Boden",
+    "z": "Höhe (z-Achse nach oben)",
+    "z_0": "Anfangshöhe",
+    "z_max": "größte Steighöhe",
+    "t_Fall": "Fallzeit",
+    "t_S": "Steigzeit bis zum Scheitelpunkt",
+    "s_R": "Reaktionsweg",
+    "t_R": "Reaktionszeit",
+    "s_B": "Bremsweg",
+    "H": "Höhe des Turms",
+    "z_1": "Höhe des fallenden Steins",
+    "z_2": "Höhe des hochgeworfenen Steins",
+    "t_T": "Zeitpunkt des Treffens",
+    "z_T": "Höhe des Treffpunkts",
+    "v_2": "Geschwindigkeit des hochgeworfenen Steins beim Treffen",
+    "a_0": "Anfangsbeschleunigung",
+    "τ": "Zeit, bis die Beschleunigung auf null gesunken ist"
+  }
+  </script>
+</head>
+<body data-thema="bewegung-1d">
+  <main>
+    <article class="thema">
+      <header>
+        <h1>Bewegung in einer Dimension</h1>
+        <p class="untertitel">Ort, Geschwindigkeit und Beschleunigung – das
+          Grundvokabular, mit dem die Physik jede Bewegung beschreibt.</p>
+      </header>
+
+      <div class="tabs">
+
+        <section class="tab" id="verstehen" data-titel="Verstehen">
+
+          <p>Stell dir vor, du fährst mit dem Auto über eine schnurgerade
+            Landstraße. Um genau zu beschreiben, was dabei passiert, brauchst
+            du nur drei Fragen:</p>
+
+          <ol>
+            <li><strong>Wo bin ich?</strong> Das ist der <em>Ort</em>, zum
+              Beispiel „Kilometer 12“.</li>
+            <li><strong>Wie schnell ändert sich mein Ort?</strong> Das ist die
+              <em>Geschwindigkeit</em>, zum Beispiel 80 km/h.</li>
+            <li><strong>Wie schnell ändert sich meine Geschwindigkeit?</strong>
+              Das ist die <em>Beschleunigung</em>. Drückst du aufs Gas, ist sie
+              positiv; trittst du auf die Bremse, ist sie negativ.</li>
+          </ol>
+
+          <p>Damit hast du schon fast die ganze <em>Kinematik</em> beisammen –
+            so heißt der Teil der Physik, der Bewegungen beschreibt, ohne nach
+            ihren Ursachen zu fragen. „Eindimensional“ bedeutet nur: Es gibt
+            eine einzige Richtung, vorwärts oder rückwärts, wie bei einem Zug
+            auf seinem Gleis.</p>
+
+          <h2>Durchschnitt oder Augenblick?</h2>
+
+          <p>Wenn dein Navi am Ende der Fahrt meldet „120 km in 1,5 Stunden“,
+            dann warst du im Schnitt 80 km/h schnell. Dein Tacho hat in dieser
+            Zeit aber ganz andere Werte gezeigt: 0 an der roten Ampel, 130 auf
+            der Autobahn.</p>
+
+          <div class="alltag">
+            <span class="titel">Aus dem Alltag</span>
+            <p>Die <em>Abschnittskontrolle</em> („Section Control“), die es auf
+              einigen Straßen gibt, nutzt genau diesen Unterschied: Sie misst,
+              wann du in einen Abschnitt hineinfährst und wann du ihn wieder
+              verlässt, und berechnet daraus deine Durchschnittsgeschwindigkeit.
+              Kurz vor der Kamera abzubremsen hilft dann nichts mehr.</p>
+          </div>
+
+          <p>In der Physik unterscheidet man deshalb die <em>mittlere
+            Geschwindigkeit</em> (Strecke geteilt durch Zeit) und die
+            <em>Momentangeschwindigkeit</em> – das, was der Tacho in einem
+            einzigen Augenblick anzeigt. Um sie zu bekommen, macht man das
+            Zeitintervall immer kürzer: Wie weit kommst du in einer Sekunde? In
+            einer Zehntelsekunde? In einer Tausendstelsekunde? Genau diese Idee
+            steckt hinter der Ableitung aus dem Mathematikunterricht.</p>
+
+          <h2>Beschleunigung spürt man – Geschwindigkeit nicht</h2>
+
+          <p>Im Flugzeug bei 900 km/h kannst du in aller Ruhe Kaffee trinken.
+            Beim Start dagegen wirst du in den Sitz gedrückt, obwohl das
+            Flugzeug da noch viel langsamer ist. Dein Körper hat also gar keinen
+            Sinn für Geschwindigkeit – nur für ihre Änderung, die
+            Beschleunigung. Deshalb merkst du auch nicht, dass die Erde mit
+            30 Kilometern pro Sekunde um die Sonne rast
+            (<a href="../alltag/erde-rast.html">mehr dazu</a>).</p>
+
+          <p>Beschleunigung misst man in Metern pro Sekunde pro Sekunde
+            (m/s²). Ein Wert von 3 m/s² heißt: Jede Sekunde kommen 3 m/s
+            Geschwindigkeit dazu. Das entspricht ungefähr einem Auto, das in
+            neun Sekunden von 0 auf 100 km/h beschleunigt.</p>
+
+          <h2 id="bewegungslabor">Selbst ausprobieren: das Bewegungs-Labor</h2>
+
+          <p>Wie hängen Ort, Geschwindigkeit und Beschleunigung zusammen? Am
+            besten lässt sich das ausprobieren. Stell unten ein, wie schnell
+            das Auto startet und wie stark es beschleunigt oder bremst, und
+            drück auf „Abspielen“.</p>
+
+          <figure class="interaktiv" data-modell="bewegungslabor">
+            <span class="titel">Zum Ausprobieren</span>
+            <figcaption>Oben fährt das Auto, die blauen Punkte zeigen, wo es
+              nach jeder vollen Sekunde war: Liegen sie immer weiter
+              auseinander, wird es schneller. Der blaue Pfeil ist die
+              Geschwindigkeit, der orange die Beschleunigung. Darunter siehst
+              du die drei Größen als Kurven über der Zeit. Die orange Linie im
+              linken Diagramm ist die Tangente – ihre Steigung ist gerade die
+              Geschwindigkeit. Die getönte Fläche im mittleren Diagramm ist
+              der zurückgelegte Weg (Fläche unterhalb der Nulllinie zählt
+              rückwärts). Beim Bremsen fällt dir etwas auf:
+              Bleibt die Beschleunigung einfach weiter bestehen, fährt das
+              Auto nach dem Stillstand rückwärts. Eine echte Bremse würde es
+              stattdessen festhalten.</figcaption>
+          </figure>
+
+          <h2>Der freie Fall: Alles fällt gleich schnell</h2>
+
+          <p>Lässt du einen Stein fallen, wird er jede Sekunde um knapp 10 m/s
+            schneller – das sind etwa 35 km/h mehr pro Sekunde. Diese
+            <em>Erdbeschleunigung</em> von rund 9,81 m/s² gilt für alle Körper,
+            egal ob schwer oder leicht. Dass eine Feder trotzdem langsamer
+            fällt, liegt nur an der Luft: Im Vakuum fallen Feder und Bleikugel
+            exakt gleich schnell. Ein Astronaut hat das sogar auf dem Mond
+            vorgeführt (<a href="../alltag/hammer-feder.html">zur
+            Geschichte</a>).</p>
+
+          <div class="tabelle-huelle">
+            <table>
+              <thead>
+                <tr><th>Zeit nach dem Loslassen</th><th>Geschwindigkeit</th><th>gefallene Strecke</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>1 s</td><td>≈ 10 m/s (35 km/h)</td><td>≈ 5 m</td></tr>
+                <tr><td>2 s</td><td>≈ 20 m/s (71 km/h)</td><td>≈ 20 m</td></tr>
+                <tr><td>3 s</td><td>≈ 29 m/s (106 km/h)</td><td>≈ 44 m</td></tr>
+                <tr><td>4 s</td><td>≈ 39 m/s (141 km/h)</td><td>≈ 78 m</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <p>Fällt dir das Muster auf? Die Geschwindigkeit wächst gleichmäßig,
+            die Strecke aber immer schneller: Nach doppelter Zeit ist der Stein
+            viermal so weit gefallen, nach dreifacher Zeit neunmal so weit.</p>
+
+          <p>Diese Werte gelten ohne Luftwiderstand. Ein echter
+            Fallschirmspringer wird nur etwa zwölf Sekunden lang schneller und
+            erreicht dann rund 200 km/h. Ab da bremst die Luft genauso stark,
+            wie die Schwerkraft beschleunigt – er fällt mit konstanter
+            Geschwindigkeit weiter.</p>
+
+          <div class="merkkasten">
+            <span class="titel">Das Wichtigste in Kürze</span>
+            <ul>
+              <li>Ort, Geschwindigkeit und Beschleunigung bauen aufeinander
+                auf: Jede Größe beschreibt, wie schnell sich die vorherige
+                ändert.</li>
+              <li>Die mittlere Geschwindigkeit ist Strecke durch Zeit, die
+                Momentangeschwindigkeit der Wert in einem einzigen
+                Augenblick.</li>
+              <li>Ohne Luftwiderstand fallen alle Körper gleich schnell: Sie
+                werden pro Sekunde um etwa 9,81 m/s schneller.</li>
+            </ul>
+          </div>
+        </section>
+
+        <section class="tab" id="vertiefung" data-titel="Vertiefung">
+
+          <h2>Das Modell: der Massenpunkt</h2>
+
+          <p>Wir beschreiben einen Körper zunächst als <em>Massenpunkt</em>:
+            Seine gesamte Masse sitzt in einem Punkt, er dreht sich nicht, er
+            schwingt nicht, und Reibung mit Luft oder Untergrund
+            vernachlässigen wir. Seine Bewegung längs einer Geraden ist dann
+            vollständig durch eine einzige Funktion festgelegt, die
+            <em>Bahnkurve</em> $s(t)$.</p>
+
+          <p>Dabei ist $s$ der Ort – eine Koordinate auf der Geraden mit frei
+            gewähltem Nullpunkt und frei gewählter positiver Richtung – und $t$
+            die Zeit. In drei Dimensionen wird aus $s(t)$ ein Ortsvektor
+            $\vec{r}(t)$; das Prinzip bleibt dasselbe (siehe
+            <a href="bewegung-3d.html">Bewegung in drei Dimensionen</a>).</p>
+
+          <h2>Geschwindigkeit</h2>
+
+          <p>Bewegt sich der Körper zwischen den Zeitpunkten $t_1$ und $t_2$
+            von $s_1 = s(t_1)$ nach $s_2 = s(t_2)$, so ist seine
+            <em>Verschiebung</em> $\Delta s = s_2 - s_1$ und seine
+            <em>mittlere Geschwindigkeit</em></p>
+
+          $$ \bar{v} = \frac{s(t_2) - s(t_1)}{t_2 - t_1} = \frac{\Delta s}{\Delta t} . $$
+
+          <p>Im Orts-Zeit-Diagramm ist $\bar{v}$ die Steigung der
+            <em>Sekante</em> durch die beiden Kurvenpunkte. Lässt man das
+            Zeitintervall gegen null gehen, wird aus der Sekante die
+            <em>Tangente</em>, und man erhält die
+            <em>Momentangeschwindigkeit</em></p>
+
+          $$ v(t) = \lim_{\Delta t \to 0} \frac{\Delta s}{\Delta t} = \frac{\mathrm{d}s}{\mathrm{d}t} = \dot{s}(t) . $$
+
+          <figure class="abbildung">
+            <svg class="abb" viewBox="0 0 360 225" role="img"
+                 aria-label="Orts-Zeit-Diagramm einer Bewegung mit Sekante und Tangente">
+              <defs>
+                <marker id="pfeil-abb1" viewBox="0 0 10 10" refX="9" refY="5"
+                        markerWidth="7" markerHeight="7" orient="auto">
+                  <path d="M0 0L10 5L0 10z" fill="currentColor"/>
+                </marker>
+              </defs>
+              <path class="achse" d="M40 190H345" marker-end="url(#pfeil-abb1)"/>
+              <path class="achse" d="M40 190V12" marker-end="url(#pfeil-abb1)"/>
+              <text x="340" y="210">t</text>
+              <text x="24" y="22">s</text>
+
+              <path class="hilfslinie" d="M68 183.5V190M180 136V190M264 77.7V190"/>
+              <path class="kurve" d="M40 190Q180 163 320 28"/>
+              <path class="kurve kupfer" d="M56 188.6L200 127.5"/>
+              <path class="kurve blau" d="M222 111.7L314 37.2"/>
+
+              <circle class="punkt" cx="68" cy="183.5" r="3.5"/>
+              <circle class="punkt" cx="180" cy="136" r="3.5"/>
+              <circle class="punkt" cx="264" cy="77.7" r="3.5"/>
+
+              <text x="68" y="207" text-anchor="middle">t₁</text>
+              <text x="180" y="207" text-anchor="middle">t₂</text>
+              <text x="264" y="207" text-anchor="middle">t₃</text>
+              <text class="kupfer" x="74" y="152">Sekante: v̄</text>
+              <text class="blau" x="300" y="22" text-anchor="end">Tangente: v(t₃)</text>
+            </svg>
+            <figcaption>Abb. 1: Die mittlere Geschwindigkeit zwischen $t_1$
+              und $t_2$ ist die Steigung der Sekante (orange), die
+              Momentangeschwindigkeit zum Zeitpunkt $t_3$ die Steigung der
+              Tangente (blau).</figcaption>
+          </figure>
+
+          <h2>Beschleunigung</h2>
+
+          <p>Ganz analog beschreibt die <em>Beschleunigung</em>, wie schnell
+            sich die Geschwindigkeit ändert:</p>
+
+          $$ \bar{a} = \frac{\Delta v}{\Delta t}, \qquad a(t) = \frac{\mathrm{d}v}{\mathrm{d}t} = \frac{\mathrm{d}^2 s}{\mathrm{d}t^2} = \ddot{s}(t) . $$
+
+          <p>Achtung beim Vorzeichen: $a \lt 0$ heißt <em>nicht</em>
+            automatisch „langsamer werden“. Gebremst wird, wenn $a$ und $v$
+            entgegengesetzte Vorzeichen haben. Ein Körper mit $v \lt 0$ und
+            $a \lt 0$ wird schneller – nur eben in negativer Richtung.</p>
+
+          <div class="tabelle-huelle">
+            <table>
+              <thead>
+                <tr><th>Größe</th><th>Symbol</th><th>Dimension</th><th>SI-Einheit</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>Ort, Verschiebung</td><td>$s$, $\Delta s$</td><td>Länge</td><td>$\mathrm{m}$</td></tr>
+                <tr><td>Geschwindigkeit</td><td>$v$</td><td>Länge / Zeit</td><td>$\mathrm{m/s}$</td></tr>
+                <tr><td>Beschleunigung</td><td>$a$</td><td>Länge / Zeit²</td><td>$\mathrm{m/s^2}$</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h2>Vom Ableiten zum Integrieren</h2>
+
+          <p>In der Praxis kennt man meist nicht $s(t)$, sondern die
+            Beschleunigung – zum Beispiel, weil man die wirkende Kraft kennt
+            (dazu mehr bei den Newtonschen Axiomen). Dann muss man den Weg
+            umkehren und integrieren:</p>
+
+          $$ v(t) = v_0 + \int_{t_0}^{t} a(t')\,\mathrm{d}t', \qquad s(t) = s_0 + \int_{t_0}^{t} v(t')\,\mathrm{d}t' . $$
+
+          <p>Die <em>Anfangsbedingungen</em> $s_0 = s(t_0)$ und
+            $v_0 = v(t_0)$ legen die Integrationskonstanten fest. Ohne sie ist
+            die Bewegung nicht eindeutig bestimmt – zwei Autos mit derselben
+            Beschleunigung können ja an verschiedenen Orten und mit
+            verschiedenem Tempo losfahren.</p>
+
+          <p>Geometrisch bedeutet das: Die Fläche unter der $v(t)$-Kurve ist
+            die Verschiebung $\Delta s$ (Flächen unterhalb der Zeitachse zählen
+            negativ), und die Fläche unter der $a(t)$-Kurve ist die
+            Geschwindigkeitsänderung $\Delta v$.</p>
+
+          <h2>Gleichförmige Bewegung</h2>
+
+          <p>Ist $a = 0$, bleibt die Geschwindigkeit konstant: $v(t) = v_0$.
+            Das ist eine Differentialgleichung erster Ordnung,
+            $\mathrm{d}s/\mathrm{d}t = v_0$, die man durch <em>Trennung der
+            Variablen</em> löst:</p>
+
+          $$ \int_{s_0}^{s} \mathrm{d}s' = \int_{t_0}^{t} v_0\,\mathrm{d}t' \quad\Longrightarrow\quad s(t) = s_0 + v_0\,(t - t_0) . $$
+
+          <p>Im $s$-$t$-Diagramm ist das eine Gerade mit der Steigung $v_0$.
+            Man kann genauso gut unbestimmt integrieren,
+            $s = v_0 t + b$, und die Konstante $b$ anschließend aus der
+            Anfangsbedingung bestimmen – das Ergebnis ist dasselbe.
+            Experimentell zeigt man gleichförmige Bewegung gern mit einer
+            Luftkissenbahn, auf der ein Gleiter nahezu reibungsfrei
+            dahingleitet.</p>
+
+          <h2>Gleichmäßig beschleunigte Bewegung</h2>
+
+          <p>Für konstantes $a \neq 0$ integriert man zweimal (hier mit
+            $t_0 = 0$):</p>
+
+          $$ v(t) = v_0 + a\,t, \qquad s(t) = s_0 + v_0\,t + \tfrac{1}{2}\,a\,t^2 . $$
+
+          <figure class="abbildung">
+            <div class="abb-reihe">
+              <svg class="abb" viewBox="0 0 200 140" role="img" aria-label="Beschleunigung konstant über der Zeit">
+                <defs>
+                  <marker id="pfeil-abb2" viewBox="0 0 10 10" refX="9" refY="5"
+                          markerWidth="7" markerHeight="7" orient="auto">
+                    <path d="M0 0L10 5L0 10z" fill="currentColor"/>
+                  </marker>
+                </defs>
+                <rect class="flaeche" x="25" y="60" width="150" height="55"/>
+                <path class="achse" d="M25 115H190" marker-end="url(#pfeil-abb2)"/>
+                <path class="achse" d="M25 115V10" marker-end="url(#pfeil-abb2)"/>
+                <path class="kurve blau" d="M25 60H175"/>
+                <text x="10" y="20">a</text>
+                <text x="186" y="133">t</text>
+                <text x="20" y="64" text-anchor="end">a₀</text>
+                <text x="100" y="93" text-anchor="middle">Δv</text>
+              </svg>
+              <svg class="abb" viewBox="0 0 200 140" role="img" aria-label="Geschwindigkeit steigt linear mit der Zeit">
+                <polygon class="flaeche" points="25,115 25,95 175,30 175,115"/>
+                <path class="achse" d="M25 115H190" marker-end="url(#pfeil-abb2)"/>
+                <path class="achse" d="M25 115V10" marker-end="url(#pfeil-abb2)"/>
+                <path class="kurve blau" d="M25 95L175 30"/>
+                <text x="10" y="20">v</text>
+                <text x="186" y="133">t</text>
+                <text x="20" y="99" text-anchor="end">v₀</text>
+                <text x="110" y="95" text-anchor="middle">Δs</text>
+              </svg>
+              <svg class="abb" viewBox="0 0 200 140" role="img" aria-label="Ort wächst quadratisch mit der Zeit">
+                <path class="achse" d="M25 115H190" marker-end="url(#pfeil-abb2)"/>
+                <path class="achse" d="M25 115V10" marker-end="url(#pfeil-abb2)"/>
+                <path class="kurve blau" d="M25 108Q100 92.2 175 25"/>
+                <text x="10" y="20">s</text>
+                <text x="186" y="133">t</text>
+                <text x="20" y="112" text-anchor="end">s₀</text>
+              </svg>
+            </div>
+            <figcaption>Abb. 2: Gleichmäßig beschleunigte Bewegung. Links: Die
+              Fläche unter $a(t)$ ist die Geschwindigkeitsänderung $\Delta v$.
+              Mitte: $v(t)$ steigt linear, die Fläche darunter ist die Strecke
+              $\Delta s$. Rechts: $s(t)$ ist eine Parabel, deren Steigung
+              – die Geschwindigkeit – ständig zunimmt.</figcaption>
+          </figure>
+
+          <p>Oft will man gar nicht wissen, <em>wann</em> ein Körper eine
+            bestimmte Geschwindigkeit hat, sondern <em>wo</em> – etwa beim
+            Bremsweg. Dann eliminiert man die Zeit: Aus der ersten Gleichung
+            folgt $t = (v - v_0)/a$, und eingesetzt in die zweite ergibt
+            sich</p>
+
+          $$ s - s_0 = \frac{v_0\,(v - v_0)}{a} + \frac{(v - v_0)^2}{2a} = \frac{(v - v_0)(v + v_0)}{2a} = \frac{v^2 - v_0^2}{2a} . $$
+
+          <div class="merkkasten">
+            <span class="titel">Merke: Bewegungsgleichungen für konstante Beschleunigung</span>
+            $$ v = v_0 + a\,t, \qquad s = s_0 + v_0\,t + \tfrac{1}{2}\,a\,t^2, \qquad v^2 = v_0^2 + 2a\,(s - s_0) $$
+            <p>Die letzte heißt <em>zeitfreie Gleichung</em>. Alle drei gelten
+              nur für konstantes $a$ – bei zeitabhängiger Beschleunigung muss
+              man die Integrale oben direkt auswerten.</p>
+          </div>
+
+          <h2>Der freie Fall</h2>
+
+          <p>In der Nähe der Erdoberfläche fällt jeder Körper (ohne
+            Luftreibung) mit der konstanten Erdbeschleunigung
+            $g = 9{,}81\,\mathrm{m/s^2}$. Wir legen die $z$-Achse senkrecht
+            nach oben; dann ist $a = -g$. Lässt man einen Körper aus der Höhe
+            $h$ aus der Ruhe los ($z_0 = h$, $v_0 = 0$), gilt</p>
+
+          $$ z(t) = h - \tfrac{1}{2}\,g\,t^2, \qquad v(t) = -g\,t . $$
+
+          <p>Er schlägt auf, wenn $z = 0$ ist. Daraus folgen Fallzeit und
+            Aufprallgeschwindigkeit:</p>
+
+          $$ t_\text{Fall} = \sqrt{\frac{2h}{g}}, \qquad |v_\text{Aufprall}| = g\,t_\text{Fall} = \sqrt{2gh} . $$
+
+          <div class="alltag">
+            <span class="titel">Vorzeichen: Achse zuerst festlegen</span>
+            <p>Zeigt die Achse nach unten, ist $a = +g$ und $z$ zählt die
+              gefallene Strecke. Beide Konventionen sind richtig – man darf
+              innerhalb einer Rechnung nur nicht wechseln.</p>
+          </div>
+
+          <p>Weder $t_\text{Fall}$ noch $v_\text{Aufprall}$ enthalten die
+            Masse. Das ist die experimentelle Tatsache, dass im Vakuum alle
+            Körper gleich schnell fallen (Fallrohr-Versuch: Feder und
+            Bleistück in einer evakuierten Röhre). Eine schöne Bestätigung von
+            $z \propto t^2$ ist die <em>Fallschnur</em>: Befestigt man Gewichte
+            in den Höhen $d$, $4d$, $9d$, $16d$ über dem Boden an einer Schnur
+            und lässt sie los, hört man die Aufschläge in gleichen
+            Zeitabständen – denn die Fallzeiten verhalten sich wie
+            $\sqrt{1} : \sqrt{4} : \sqrt{9} : \sqrt{16} = 1 : 2 : 3 : 4$.</p>
+
+          <h2>Zeitabhängige Beschleunigung: Fallen mit Reibung</h2>
+
+          <p>In Luft oder einer Flüssigkeit kommt eine Reibung hinzu, die mit
+            der Geschwindigkeit wächst. Im einfachsten Modell ist sie
+            proportional zu $v$ – das passt gut für kleine, langsame Körper in
+            zähen Flüssigkeiten, etwa eine Kugel, die in Öl sinkt. Mit der
+            Achse <em>nach unten</em> (also $v \gt 0$ beim Fallen) gilt</p>
+
+          $$ a(t) = \frac{\mathrm{d}v}{\mathrm{d}t} = g - c\,v . $$
+
+          <p>Die Konstante $c$ hat die Einheit $1/\mathrm{s}$ (damit $c\,v$
+            eine Beschleunigung ist) und hängt von Form und Größe des Körpers
+            sowie von der Zähigkeit des Mediums ab. Zwei Effekte arbeiten
+            gegeneinander: Die Schwerkraft beschleunigt, die Reibung bremst
+            umso stärker, je schneller der Körper ist. Sobald sich beide
+            aufheben ($a = 0$), hat der Körper seine
+            <em>Endgeschwindigkeit</em> erreicht:</p>
+
+          $$ g - c\,v_\text{e} = 0 \quad\Longrightarrow\quad v_\text{e} = \frac{g}{c} . $$
+
+          <p>Die Differentialgleichung lässt sich wieder durch Trennung der
+            Variablen lösen:</p>
+
+          $$ \int_{v_0}^{v} \frac{\mathrm{d}v'}{g - c\,v'} = \int_0^t \mathrm{d}t' \quad\Longrightarrow\quad -\frac{1}{c}\,\ln\frac{g - c\,v}{g - c\,v_0} = t , $$
+
+          <p>und nach $v$ aufgelöst (mit $c = g/v_\text{e}$):</p>
+
+          $$ v(t) = v_\text{e} + (v_0 - v_\text{e})\,\mathrm{e}^{-c\,t} = v_\text{e} + (v_0 - v_\text{e})\,\mathrm{e}^{-g\,t/v_\text{e}} . $$
+
+          <figure class="abbildung">
+            <svg class="abb" viewBox="0 0 360 215" role="img"
+                 aria-label="Geschwindigkeit nähert sich exponentiell der Endgeschwindigkeit, von unten und von oben">
+              <defs>
+                <marker id="pfeil-abb3" viewBox="0 0 10 10" refX="9" refY="5"
+                        markerWidth="7" markerHeight="7" orient="auto">
+                  <path d="M0 0L10 5L0 10z" fill="currentColor"/>
+                </marker>
+              </defs>
+              <path class="achse" d="M40 190H345" marker-end="url(#pfeil-abb3)"/>
+              <path class="achse" d="M40 190V20" marker-end="url(#pfeil-abb3)"/>
+              <text x="24" y="30">v</text>
+              <text x="340" y="208">t</text>
+              <path class="hilfslinie" d="M40 110H340"/>
+              <text x="34" y="114" text-anchor="end">vₑ</text>
+              <polyline class="kurve blau" points="40,190 55,172.3 70,158.6 85,147.8 100,139.4 130,127.8 160,120.8 190,116.6 220,114 280,111.4 340,110.6"/>
+              <polyline class="kurve kupfer" points="40,46 55,60.2 70,71.2 85,79.8 100,86.5 130,95.8 160,101.4 190,104.7 220,106.8 280,108.8 340,109.6"/>
+              <text class="kupfer" x="108" y="66">v₀ &gt; vₑ (schnell eingetaucht)</text>
+              <text class="blau" x="110" y="166">v₀ = 0 (aus der Ruhe losgelassen)</text>
+            </svg>
+            <figcaption>Abb. 3: Mit Reibung $\propto v$ nähert sich die
+              Geschwindigkeit exponentiell der Endgeschwindigkeit
+              $v_\text{e}$ – von unten, wenn der Körper langsamer startet, von
+              oben, wenn er schneller startet.</figcaption>
+          </figure>
+
+          <p>Egal, wie schnell der Körper startet: Nach der Zeit $1/c$ ist der
+            Abstand zur Endgeschwindigkeit auf $1/\mathrm{e} \approx 37\,\%$
+            geschrumpft, nach $3/c$ auf etwa $5\,\%$. Für große, schnelle
+            Körper in Luft – Fallschirmspringer, Regentropfen – ist die
+            Reibung eher proportional zu $v^2$. Die Rechnung wird dann etwas
+            anders, das Grundprinzip der Annäherung an eine Endgeschwindigkeit
+            bleibt aber gleich.</p>
+        </section>
+
+        <section class="tab" id="beispiele" data-titel="Beispielrechnungen">
+
+          <div class="beispiel">
+            <h3>Beispiel 1: Anhalteweg bei Tempo 50 und Tempo 30</h3>
+            <p><strong>Gegeben:</strong> Ein Auto fährt mit
+              $v_0 = 50\,\mathrm{km/h}$. Die Fahrerin reagiert nach
+              $t_\text{R} = 1{,}0\,\mathrm{s}$ und bremst dann mit
+              $|a| = 7{,}0\,\mathrm{m/s^2}$ (Vollbremsung auf trockener
+              Straße).<br>
+              <strong>Gesucht:</strong> der Anhalteweg – und zum Vergleich
+              derselbe Wert bei $30\,\mathrm{km/h}$.</p>
+
+            <p><strong>1. Einheiten umrechnen.</strong>
+              $$ v_0 = \frac{50}{3{,}6}\,\mathrm{m/s} = 13{,}9\,\mathrm{m/s} $$</p>
+
+            <p><strong>2. Reaktionsweg.</strong> Während der Reaktionszeit fährt
+              das Auto gleichförmig weiter:
+              $$ s_\text{R} = v_0\,t_\text{R} = 13{,}9\,\mathrm{\tfrac{m}{s}} \cdot 1{,}0\,\mathrm{s} = 13{,}9\,\mathrm{m} $$</p>
+
+            <p><strong>3. Bremsweg.</strong> Zeitfreie Gleichung mit
+              Endgeschwindigkeit $v = 0$ und $a = -7{,}0\,\mathrm{m/s^2}$
+              (Fahrtrichtung positiv):
+              $$ s_\text{B} = \frac{v^2 - v_0^2}{2a} = \frac{0 - (13{,}9\,\mathrm{m/s})^2}{2 \cdot (-7{,}0\,\mathrm{m/s^2})} = \frac{193\,\mathrm{m^2/s^2}}{14\,\mathrm{m/s^2}} = 13{,}8\,\mathrm{m} $$
+              Einheitencheck: $\dfrac{\mathrm{m^2/s^2}}{\mathrm{m/s^2}} = \mathrm{m}$ ✓</p>
+
+            <p><strong>4. Anhalteweg.</strong>
+              $$ s = s_\text{R} + s_\text{B} = 13{,}9\,\mathrm{m} + 13{,}8\,\mathrm{m} = 27{,}7\,\mathrm{m} $$</p>
+
+            <p><strong>5. Vergleich bei 30 km/h.</strong> Mit
+              $v_0 = 8{,}33\,\mathrm{m/s}$ ergibt sich
+              $s_\text{R} = 8{,}3\,\mathrm{m}$ und
+              $s_\text{B} = (8{,}33\,\mathrm{m/s})^2 / (14\,\mathrm{m/s^2}) = 5{,}0\,\mathrm{m}$,
+              zusammen $13{,}3\,\mathrm{m}$.</p>
+
+            <p><strong>Ergebnis und Plausibilität:</strong> Bei Tempo 50 ist
+              der Anhalteweg mit $27{,}7\,\mathrm{m}$ mehr als doppelt so lang
+              wie bei Tempo 30. Noch eindrücklicher: Dort, wo das Auto mit
+              30 km/h schon steht ($13{,}3\,\mathrm{m}$), hat das Auto mit
+              50 km/h noch nicht einmal angefangen zu bremsen – sein
+              Reaktionsweg allein ist $13{,}9\,\mathrm{m}$ lang. Die
+              Fahrschul-Faustformel für eine Gefahrbremsung
+              ($3 \cdot 5 + 5^2/2 = 27{,}5$ Meter) liefert fast denselben
+              Wert.</p>
+          </div>
+
+          <div class="beispiel">
+            <h3>Beispiel 2: Senkrechter Wurf nach oben</h3>
+            <p><strong>Gegeben:</strong> Ein Ball wird aus
+              $z_0 = 1{,}5\,\mathrm{m}$ Höhe mit $v_0 = 15\,\mathrm{m/s}$
+              senkrecht nach oben geworfen. Luftreibung vernachlässigen wir.<br>
+              <strong>Gesucht:</strong> (a) Steigzeit und Gipfelhöhe,
+              (b) Flugzeit bis zum Boden, (c) Aufprallgeschwindigkeit.</p>
+
+            <p><strong>Koordinaten:</strong> $z$-Achse nach oben, Ursprung am
+              Boden, also $a = -g = -9{,}81\,\mathrm{m/s^2}$.</p>
+
+            <p><strong>(a)</strong> Am Gipfel ist $v = 0$:
+              $$ 0 = v_0 - g\,t_\text{S} \;\Rightarrow\; t_\text{S} = \frac{v_0}{g} = \frac{15\,\mathrm{m/s}}{9{,}81\,\mathrm{m/s^2}} = 1{,}53\,\mathrm{s} $$
+              $$ z_\text{max} = z_0 + \frac{v_0^2}{2g} = 1{,}5\,\mathrm{m} + \frac{(15\,\mathrm{m/s})^2}{2 \cdot 9{,}81\,\mathrm{m/s^2}} = 1{,}5\,\mathrm{m} + 11{,}5\,\mathrm{m} = 13{,}0\,\mathrm{m} $$</p>
+
+            <p><strong>(b)</strong> Am Boden ist $z = 0$:
+              $$ 0 = z_0 + v_0\,t - \tfrac{1}{2}\,g\,t^2 \;\Rightarrow\; t = \frac{v_0 \pm \sqrt{v_0^2 + 2 g z_0}}{g} $$
+              $$ t = \frac{15 + \sqrt{225 + 29{,}4}}{9{,}81}\,\mathrm{s} = \frac{15 + 15{,}95}{9{,}81}\,\mathrm{s} = 3{,}16\,\mathrm{s} $$
+              Die zweite Lösung ($-0{,}10\,\mathrm{s}$) liegt vor dem Abwurf
+              und ist physikalisch bedeutungslos.</p>
+
+            <p><strong>(c)</strong>
+              $$ v = v_0 - g\,t = 15\,\mathrm{m/s} - 9{,}81\,\mathrm{m/s^2} \cdot 3{,}155\,\mathrm{s} = -15{,}95\,\mathrm{m/s} \approx -16\,\mathrm{m/s} $$
+              Das Minus heißt: Der Ball bewegt sich nach unten. Kontrolle mit
+              der zeitfreien Gleichung:
+              $v^2 = v_0^2 + 2a\,(z - z_0) = 225 + 2 \cdot (-9{,}81) \cdot (0 - 1{,}5) = 254{,}4\,\mathrm{m^2/s^2}$,
+              also $|v| = 15{,}95\,\mathrm{m/s}$ ✓</p>
+
+            <p><strong>Plausibilität:</strong> Ohne die Abwurfhöhe wäre die
+              Flugzeit genau $2\,t_\text{S} = 3{,}06\,\mathrm{s}$ und der Ball
+              käme mit $15\,\mathrm{m/s}$ zurück. Weil er noch $1{,}5\,\mathrm{m}$
+              tiefer fällt, ist er etwas länger unterwegs und etwas
+              schneller – genau das liefert die Rechnung.</p>
+          </div>
+
+          <div class="beispiel" data-symbole='{"s_A": "Weg des Autos", "s_R": "Weg des Radfahrers", "v_R": "Geschwindigkeit des Radfahrers", "v_A": "Geschwindigkeit des Autos beim Einholen", "t_E": "Zeitpunkt des Einholens", "s_E": "Strecke bis zum Einholen", "a": "Beschleunigung des Autos"}'>
+            <h3>Beispiel 3: Wann holt das Auto den Radfahrer ein?</h3>
+            <p><strong>Gegeben:</strong> Ein Auto fährt an einer Ampel mit
+              $a = 2{,}5\,\mathrm{m/s^2}$ los – genau in dem Moment, in dem ein
+              Radfahrer mit konstant $27\,\mathrm{km/h}$ an ihm
+              vorbeifährt.<br>
+              <strong>Gesucht:</strong> Wann und wo holt das Auto den
+              Radfahrer ein, und wie schnell ist es dann?</p>
+
+            <p><strong>1. Ansatz.</strong> Gemeinsamer Ursprung an der Ampel,
+              $t = 0$ beim Losfahren, $v_\text{R} = 27/3{,}6\,\mathrm{m/s} = 7{,}5\,\mathrm{m/s}$:
+              $$ s_\text{A}(t) = \tfrac{1}{2}\,a\,t^2, \qquad s_\text{R}(t) = v_\text{R}\,t $$</p>
+
+            <p><strong>2. Treffpunkt.</strong> Gleichsetzen:
+              $$ \tfrac{1}{2}\,a\,t^2 = v_\text{R}\,t \;\Rightarrow\; t\left(\tfrac{1}{2}\,a\,t - v_\text{R}\right) = 0 $$
+              Die Lösung $t = 0$ ist der Start. Die gesuchte Lösung ist
+              $$ t_\text{E} = \frac{2\,v_\text{R}}{a} = \frac{2 \cdot 7{,}5\,\mathrm{m/s}}{2{,}5\,\mathrm{m/s^2}} = 6{,}0\,\mathrm{s}, \qquad s_\text{E} = v_\text{R}\,t_\text{E} = 7{,}5\,\mathrm{\tfrac{m}{s}} \cdot 6{,}0\,\mathrm{s} = 45\,\mathrm{m} $$</p>
+
+            <p><strong>3. Geschwindigkeit des Autos.</strong>
+              $$ v_\text{A} = a\,t_\text{E} = 2{,}5\,\mathrm{m/s^2} \cdot 6{,}0\,\mathrm{s} = 15\,\mathrm{m/s} = 54\,\mathrm{km/h} $$</p>
+
+            <p><strong>Ergebnis und Plausibilität:</strong> Das Auto überholt
+              nach $6{,}0\,\mathrm{s}$ und $45\,\mathrm{m}$ – und ist dann
+              genau doppelt so schnell wie das Rad. Das ist kein Zufall:
+              $v_\text{A} = a \cdot 2v_\text{R}/a = 2\,v_\text{R}$, ganz
+              unabhängig von $a$. Beide haben in derselben Zeit dieselbe
+              Strecke zurückgelegt, also dieselbe <em>mittlere</em>
+              Geschwindigkeit. Beim gleichmäßig beschleunigten Auto ist die
+              mittlere Geschwindigkeit aber genau die Hälfte der
+              Endgeschwindigkeit.</p>
+          </div>
+        </section>
+
+        <section class="tab" id="aufgaben" data-titel="Aufgaben">
+
+          <p>Die Aufgaben sind nach Schwierigkeit sortiert. Versuch es erst
+            selbst – die Lösungen sind zugeklappt. Wenn nichts anderes gesagt
+            ist, gilt $g = 9{,}81\,\mathrm{m/s^2}$ und Luftreibung wird
+            vernachlässigt.</p>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 1: Regionalzug
+              <span class="schwierigkeit" data-stufe="leicht">leicht</span>
+            </h3>
+            <p>Ein Zug legt 120 km in 1 Stunde und 20 Minuten zurück. Wie groß
+              ist seine mittlere Geschwindigkeit in km/h und in m/s?</p>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>$1\,\mathrm{h}\;20\,\mathrm{min} = \tfrac{4}{3}\,\mathrm{h}$, also
+                $$ \bar{v} = \frac{120\,\mathrm{km}}{\tfrac{4}{3}\,\mathrm{h}} = 90\,\mathrm{km/h} = \frac{90}{3{,}6}\,\mathrm{m/s} = 25\,\mathrm{m/s} . $$
+                Merkhilfe: Von km/h nach m/s teilt man durch 3,6, weil
+                $1\,\mathrm{km/h} = 1000\,\mathrm{m} / 3600\,\mathrm{s}$.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 2: Wie tief ist der Brunnen?
+              <span class="schwierigkeit" data-stufe="leicht">leicht</span>
+            </h3>
+            <p>Du lässt einen Stein in einen Brunnen fallen und hörst ihn nach
+              $2{,}0\,\mathrm{s}$ unten aufschlagen. Wie tief ist der Brunnen,
+              und wie schnell ist der Stein beim Aufprall? Vernachlässige die
+              Laufzeit des Schalls.</p>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>Achse nach unten, Start aus der Ruhe:
+                $$ h = \tfrac{1}{2}\,g\,t^2 = \tfrac{1}{2} \cdot 9{,}81\,\mathrm{m/s^2} \cdot (2{,}0\,\mathrm{s})^2 = 19{,}6\,\mathrm{m} $$
+                $$ v = g\,t = 9{,}81\,\mathrm{m/s^2} \cdot 2{,}0\,\mathrm{s} = 19{,}6\,\mathrm{m/s} \approx 71\,\mathrm{km/h} $$</p>
+              <p><strong>Zusatz:</strong> Der Schall ($343\,\mathrm{m/s}$)
+                braucht für knapp $20\,\mathrm{m}$ etwa $0{,}06\,\mathrm{s}$.
+                Berücksichtigt man das, fiel der Stein nur etwa
+                $1{,}95\,\mathrm{s}$ lang, und der Brunnen ist rund
+                $18{,}6\,\mathrm{m}$ tief – die einfache Rechnung überschätzt
+                also um gut 5 %.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe" data-symbole='{"a_1": "Beschleunigung beim Anfahren", "a_3": "Bremsverzögerung", "t_1": "Dauer des Anfahrens", "t_2": "Dauer der gleichförmigen Fahrt", "t_3": "Dauer des Bremsens", "s_1": "Weg beim Anfahren", "s_2": "Weg bei gleichförmiger Fahrt", "s_3": "Weg beim Bremsen"}'>
+            <h3>Aufgabe 3: Aufzugfahrt
+              <span class="schwierigkeit" data-stufe="mittel">mittel</span>
+            </h3>
+            <p>Ein Aufzug fährt aus dem Stand $2{,}0\,\mathrm{s}$ lang mit
+              $1{,}5\,\mathrm{m/s^2}$ an, fährt dann $10\,\mathrm{s}$ mit
+              konstanter Geschwindigkeit und bremst schließlich in
+              $3{,}0\,\mathrm{s}$ gleichmäßig bis zum Stillstand.</p>
+            <ol type="a">
+              <li>Skizziere das $v$-$t$-Diagramm.</li>
+              <li>Wie groß sind Höchstgeschwindigkeit und Bremsverzögerung?</li>
+              <li>Welche Strecke legt der Aufzug insgesamt zurück, und wie groß
+                ist seine mittlere Geschwindigkeit?</li>
+            </ol>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p><strong>(a)</strong> Ein Trapez: gerader Anstieg von 0 auf
+                $v_\text{max}$ (0 bis 2 s), waagerechtes Stück (2 bis 12 s),
+                gerader Abfall auf 0 (12 bis 15 s).</p>
+              <p><strong>(b)</strong>
+                $$ v_\text{max} = a_1\,t_1 = 1{,}5\,\mathrm{m/s^2} \cdot 2{,}0\,\mathrm{s} = 3{,}0\,\mathrm{m/s}, \qquad a_3 = \frac{0 - 3{,}0\,\mathrm{m/s}}{3{,}0\,\mathrm{s}} = -1{,}0\,\mathrm{m/s^2} $$</p>
+              <p><strong>(c)</strong> Die Strecke ist die Fläche unter dem
+                Trapez:
+                $$ s = \underbrace{\tfrac{1}{2} \cdot 3{,}0 \cdot 2{,}0}_{3{,}0\,\mathrm{m}} + \underbrace{3{,}0 \cdot 10}_{30\,\mathrm{m}} + \underbrace{\tfrac{1}{2} \cdot 3{,}0 \cdot 3{,}0}_{4{,}5\,\mathrm{m}} = 37{,}5\,\mathrm{m} $$
+                $$ \bar{v} = \frac{37{,}5\,\mathrm{m}}{15\,\mathrm{s}} = 2{,}5\,\mathrm{m/s} $$
+                Plausibel: Bei rund 3 m pro Stockwerk sind das etwa 12 Etagen.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 4: Startbahn
+              <span class="schwierigkeit" data-stufe="mittel">mittel</span>
+            </h3>
+            <p>Ein Flugzeug hebt bei $280\,\mathrm{km/h}$ ab. Die Startbahn
+              ist $1{,}8\,\mathrm{km}$ lang. Welche konstante Beschleunigung
+              braucht es mindestens, und wie lange dauert der Startlauf
+              dann?</p>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>$v = 280/3{,}6\,\mathrm{m/s} = 77{,}8\,\mathrm{m/s}$. Die
+                Zeit ist nicht gegeben, also die zeitfreie Gleichung mit
+                $v_0 = 0$:
+                $$ a = \frac{v^2}{2s} = \frac{(77{,}8\,\mathrm{m/s})^2}{2 \cdot 1800\,\mathrm{m}} = \frac{6050\,\mathrm{m^2/s^2}}{3600\,\mathrm{m}} = 1{,}68\,\mathrm{m/s^2} $$
+                $$ t = \frac{v}{a} = \frac{77{,}8\,\mathrm{m/s}}{1{,}68\,\mathrm{m/s^2}} = 46\,\mathrm{s} $$
+                Plausibel: Das ist etwa ein Sechstel von $g$, und ein
+                Startlauf von gut 40 Sekunden passt zur Erfahrung als
+                Passagier.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 5: Zwei Steine begegnen sich
+              <span class="schwierigkeit" data-stufe="schwer">schwer</span>
+            </h3>
+            <p>Von einem $H = 20\,\mathrm{m}$ hohen Turm lässt man einen Stein
+              fallen. Im selben Augenblick wird genau darunter vom Boden ein
+              zweiter Stein mit $v_0 = 15\,\mathrm{m/s}$ senkrecht nach oben
+              geworfen.</p>
+            <ol type="a">
+              <li>Wann und in welcher Höhe begegnen sich die Steine?</li>
+              <li>Steigt der zweite Stein dann noch, oder fällt er schon?</li>
+              <li>Wie groß muss $v_0$ mindestens sein, damit sich die Steine
+                überhaupt in der Luft treffen?</li>
+            </ol>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p><strong>(a)</strong> $z$-Achse nach oben, Boden bei $z = 0$:
+                $$ z_1(t) = H - \tfrac{1}{2}\,g\,t^2, \qquad z_2(t) = v_0\,t - \tfrac{1}{2}\,g\,t^2 $$
+                Gleichsetzen – der Term $\tfrac{1}{2} g t^2$ fällt heraus:
+                $$ H = v_0\,t \;\Rightarrow\; t_\text{T} = \frac{H}{v_0} = \frac{20\,\mathrm{m}}{15\,\mathrm{m/s}} = 1{,}33\,\mathrm{s} $$
+                $$ z_\text{T} = H - \frac{g\,H^2}{2\,v_0^2} = 20\,\mathrm{m} - \frac{9{,}81 \cdot 400}{2 \cdot 225}\,\mathrm{m} = 20\,\mathrm{m} - 8{,}7\,\mathrm{m} = 11{,}3\,\mathrm{m} $$</p>
+              <p><strong>(b)</strong>
+                $v_2 = v_0 - g\,t_\text{T} = 15\,\mathrm{m/s} - 9{,}81 \cdot 1{,}33\,\mathrm{m/s} = +1{,}9\,\mathrm{m/s}$
+                – er steigt noch, ist aber kurz vor dem Gipfel.</p>
+              <p><strong>(c)</strong> Treffen in der Luft heißt
+                $z_\text{T} \gt 0$:
+                $$ H \gt \frac{g\,H^2}{2\,v_0^2} \;\Leftrightarrow\; v_0 \gt \sqrt{\frac{g\,H}{2}} = \sqrt{\frac{9{,}81 \cdot 20}{2}}\,\mathrm{m/s} = 9{,}9\,\mathrm{m/s} $$</p>
+              <p><strong>Zum Nachdenken:</strong> Warum fällt $g$ in (a)
+                heraus? Weil <em>beide</em> Steine gleich beschleunigt werden.
+                Aus Sicht eines mitfallenden Beobachters ruht Stein 1, und
+                Stein 2 fliegt mit konstant $v_0$ auf ihn zu – er braucht für
+                die Strecke $H$ also einfach $H/v_0$.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 6: Nachlassende Beschleunigung
+              <span class="schwierigkeit" data-stufe="schwer">schwer</span>
+            </h3>
+            <p>Ein Fahrzeug startet aus dem Stand. Seine Beschleunigung nimmt
+              linear ab:
+              $a(t) = a_0\,(1 - t/\tau)$ für $0 \le t \le \tau$, mit
+              $a_0 = 4{,}0\,\mathrm{m/s^2}$ und $\tau = 8{,}0\,\mathrm{s}$.</p>
+            <ol type="a">
+              <li>Bestimme $v(t)$ und $s(t)$ allgemein.</li>
+              <li>Wie schnell ist das Fahrzeug bei $t = \tau$, und welche
+                Strecke hat es zurückgelegt?</li>
+              <li>Vergleiche mit einer konstanten Beschleunigung, die in
+                derselben Zeit dieselbe Endgeschwindigkeit liefert. Warum ist
+                die Strecke unterschiedlich?</li>
+            </ol>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p><strong>(a)</strong> Mit $v(0) = 0$ und $s(0) = 0$:
+                $$ v(t) = \int_0^t a_0\left(1 - \frac{t'}{\tau}\right)\mathrm{d}t' = a_0\left(t - \frac{t^2}{2\tau}\right) $$
+                $$ s(t) = \int_0^t v(t')\,\mathrm{d}t' = a_0\left(\frac{t^2}{2} - \frac{t^3}{6\tau}\right) $$</p>
+              <p><strong>(b)</strong>
+                $$ v(\tau) = \frac{a_0\,\tau}{2} = \frac{4{,}0 \cdot 8{,}0}{2}\,\mathrm{m/s} = 16\,\mathrm{m/s} \;(\approx 58\,\mathrm{km/h}) $$
+                $$ s(\tau) = \frac{a_0\,\tau^2}{3} = \frac{4{,}0 \cdot 64}{3}\,\mathrm{m} = 85\,\mathrm{m} $$
+                Einheitencheck: $\mathrm{m/s^2} \cdot \mathrm{s^2} = \mathrm{m}$ ✓</p>
+              <p><strong>(c)</strong> Gleiche Endgeschwindigkeit in gleicher
+                Zeit heißt $\bar{a} = 16\,\mathrm{m/s} / 8{,}0\,\mathrm{s} = 2{,}0\,\mathrm{m/s^2}$.
+                Damit wäre
+                $s = \tfrac{1}{2} \cdot 2{,}0\,\mathrm{m/s^2} \cdot (8{,}0\,\mathrm{s})^2 = 64\,\mathrm{m}$.
+                Mit nachlassender Beschleunigung ist das Fahrzeug also
+                $21\,\mathrm{m}$ weiter gekommen: Es wird gleich zu Beginn
+                schnell und ist deshalb die ganze Zeit über flotter unterwegs.
+                Im $v$-$t$-Diagramm liegt seine (nach unten gewölbte) Kurve
+                überall oberhalb der Geraden – die Fläche darunter ist
+                größer.</p>
+            </details>
+          </div>
+        </section>
+
+      </div></article>
+  </main>
+</body>
+</html>

@@ -1,0 +1,655 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="robots" content="noindex">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Planetenbewegung und die Keplerschen Gesetze</title>
+  <meta name="description" content="Die drei Keplerschen Gesetze, Drehimpulserhaltung als Flächensatz, Energie auf Planetenbahnen, effektives Potential und Bahnformen von Ellipse bis Hyperbel – mit Herleitungen, Beispielen und Aufgaben.">
+
+  <link rel="stylesheet" href="../../css/stil.css">
+
+  <link rel="stylesheet" href="../../extern/katex/katex.min.css">
+  <script defer src="../../extern/katex/katex.min.js"></script>
+  <script defer src="../../extern/katex/contrib/auto-render.min.js" onload="starteFormeln()"></script>
+
+  <script src="../../js/daten.js"></script>
+  <script src="../../js/seite.js"></script>
+  <script src="../../js/effekte.js"></script>
+  <script src="../../js/interaktiv.js"></script>
+  <script src="../../js/modelle/kepler.js"></script>
+  <script type="application/json" id="symbole">
+  {
+    "a": "große Halbachse der Ellipse",
+    "b": "kleine Halbachse der Ellipse",
+    "ε": "numerische Exzentrizität",
+    "p": "Bahnparameter",
+    "r": "Ortsvektor vom Zentralkörper zum Planeten",
+    "φ": "Polarwinkel",
+    "r_P": "Abstand im Perihel (sonnennächster Punkt)",
+    "r_A": "Abstand im Aphel (sonnenfernster Punkt)",
+    "v": "Geschwindigkeit",
+    "v_r": "radiale Geschwindigkeitskomponente",
+    "v_φ": "Geschwindigkeitskomponente senkrecht zum Ortsvektor",
+    "ω": "Winkelgeschwindigkeit",
+    "v_P": "Geschwindigkeit im Perihel",
+    "v_A": "Geschwindigkeit im Aphel",
+    "t": "Zeit",
+    "A": "vom Fahrstrahl überstrichene Fläche",
+    "m": "Masse des Planeten",
+    "M": "Masse des Zentralkörpers",
+    "F": "Kraft",
+    "D": "Drehmoment",
+    "L": "Drehimpuls",
+    "T": "Umlaufdauer",
+    "T_1": "Umlaufdauer von Planet 1",
+    "T_2": "Umlaufdauer von Planet 2",
+    "T_i": "Umlaufdauer des i-ten Planeten",
+    "a_1": "große Halbachse von Planet 1",
+    "a_2": "große Halbachse von Planet 2",
+    "a_i": "große Halbachse des i-ten Planeten",
+    "G": "Gravitationskonstante",
+    "M_⊙": "Sonnenmasse",
+    "π": "Kreiszahl π ≈ 3,14159",
+    "E": "Gesamtenergie",
+    "E_kin": "kinetische Energie",
+    "E_pot": "potentielle Energie",
+    "U_eff": "effektives Potential",
+    "U_eff,min": "Minimum des effektiven Potentials",
+    "v_E": "Bahngeschwindigkeit der Erde",
+    "v_Mars": "Bahngeschwindigkeit des Mars",
+    "v_1": "Geschwindigkeitsänderung beim ersten Triebwerksschub (Δv₁)",
+    "v_2": "Geschwindigkeitsänderung beim zweiten Triebwerksschub (Δv₂)",
+    "M_J": "Jupitermasse",
+    "M_E": "Erdmasse",
+    "R_E": "Erdradius",
+    "v_0": "Startgeschwindigkeit an der Erdoberfläche",
+    "v_∞": "Restgeschwindigkeit weit weg von der Erde"
+  }
+  </script>
+</head>
+<body data-thema="kepler">
+  <main>
+    <article class="thema">
+      <header>
+        <h1>Planetenbewegung und die Keplerschen Gesetze</h1>
+        <p class="untertitel">Ellipsen, gleiche Flächen in gleichen Zeiten und
+          eine Zahl, die für alle Planeten gleich ist – wie drei Regeln den
+          Himmel ordnen.</p>
+      </header>
+
+      <div class="tabs">
+
+        <section class="tab" id="verstehen" data-titel="Verstehen">
+
+          <p>Um 1600 hatte der dänische Astronom Tycho Brahe jahrzehntelang mit
+            bloßem Auge die Positionen der Planeten gemessen – genauer als jeder
+            vor ihm. Sein Assistent Johannes Kepler versuchte jahrelang, die
+            Marsbahn als Kreis zu beschreiben. Es klappte fast, aber eine
+            Abweichung von acht Bogenminuten – ein Viertel des Monddurchmessers –
+            blieb. Kepler vertraute den Messungen mehr als der alten Idee der
+            perfekten Kreise. So fand er drei Gesetze, die bis heute gelten.</p>
+
+          <h2>1. Die Bahnen sind Ellipsen</h2>
+
+          <p>Planeten laufen nicht auf Kreisen, sondern auf Ellipsen – leicht
+            gestauchten Kreisen. Die Sonne sitzt dabei nicht in der Mitte, sondern
+            in einem der beiden <em>Brennpunkte</em>. Bei der Erde ist die Ellipse
+            fast ein Kreis: Anfang Januar sind wir der Sonne am nächsten, Anfang
+            Juli am fernsten, der Unterschied beträgt nur gut drei Prozent. Die
+            Jahreszeiten kommen also nicht vom Abstand, sondern von der schrägen
+            Erdachse.</p>
+
+          <h2>2. Schnell in Sonnennähe, langsam in der Ferne</h2>
+
+          <p>Denk dir eine Linie von der Sonne zum Planeten. Während der Planet
+            läuft, überstreicht diese Linie eine Fläche – und zwar in gleichen
+            Zeiten immer gleich viel. In Sonnennähe ist die Linie kurz, also muss
+            der Planet dort schneller laufen, damit die Fläche gleich groß
+            wird. Kometen zeigen das besonders deutlich: Weit draußen schleichen
+            sie jahrzehntelang dahin, und an der Sonne rasen sie in wenigen Wochen
+            vorbei.</p>
+
+          <div class="alltag">
+            <span class="titel">Aus dem Alltag</span>
+            <p>Dasselbe Prinzip kennst du von der Pirouette auf dem Eis: Zieht
+              die Läuferin die Arme heran, dreht sie sich schneller. Ein Planet,
+              der der Sonne näher kommt, wird aus genau demselben Grund schneller –
+              sein Drehimpuls bleibt erhalten.</p>
+          </div>
+
+          <figure class="interaktiv" data-modell="keplerbahn">
+            <span class="titel">Zum Ausprobieren</span>
+            <figcaption>Ein Planet umläuft die Sonne (im Brennpunkt). Die
+              abwechselnd getönten Flächen überstreicht er jeweils in derselben
+              Zeit, einem Zwölftel seines Umlaufs – sie sind alle gleich groß,
+              obwohl sie ganz verschieden aussehen. Mach die Bahn mit dem Regler
+              länglicher und beobachte, wie der Planet in Sonnennähe
+              beschleunigt. Mit der großen Halbachse änderst du, wie weit er im
+              Mittel von der Sonne entfernt ist.</figcaption>
+          </figure>
+
+          <h2>3. Eine Zahl für alle Planeten</h2>
+
+          <p>Je weiter ein Planet von der Sonne entfernt ist, desto länger
+            braucht er für einen Umlauf – und zwar nicht im gleichen Verhältnis,
+            sondern stärker: Ist ein Planet viermal so weit weg, braucht er
+            achtmal so lang. Mathematisch: Das Quadrat der Umlaufzeit geteilt
+            durch die dritte Potenz des Abstands ist für alle Planeten dieselbe
+            Zahl. Mars mit dem 1,5-fachen Erdabstand braucht knapp zwei Jahre,
+            Neptun mit dem 30-fachen Abstand 165 Jahre.</p>
+
+          <p>Kepler wusste nicht, <em>warum</em> das so ist. Erst Newton zeigte
+            Jahrzehnte später, dass alle drei Gesetze aus seinem
+            <a href="gravitation.html">Gravitationsgesetz</a> folgen.</p>
+
+          <div class="merkkasten">
+            <span class="titel">Das Wichtigste in Kürze</span>
+            <ul>
+              <li>Planeten laufen auf Ellipsen, die Sonne steht in einem
+                Brennpunkt.</li>
+              <li>Die Verbindungslinie Sonne–Planet überstreicht in gleichen
+                Zeiten gleiche Flächen: In Sonnennähe ist der Planet
+                schneller.</li>
+              <li>Weiter außen dauert ein Umlauf viel länger: Umlaufzeit im
+                Quadrat geteilt durch Abstand hoch drei ist für alle Planeten
+                gleich.</li>
+            </ul>
+          </div>
+        </section>
+
+        <section class="tab" id="vertiefung" data-titel="Vertiefung">
+
+          <h2>Bewegung in einer Ebene: Drehimpuls</h2>
+
+          <p>Auf einer Kreisbahn steht der Ortsvektor $\vec{r}$ stets senkrecht
+            auf der Geschwindigkeit $\vec{v}$. Auf einer Ellipse gilt das nur an
+            den Scheiteln (den Enden der großen und kleinen Achse). Wir zerlegen
+            die Geschwindigkeit deshalb in Polarkoordinaten in eine
+            Radialkomponente $\vec{v}_r \parallel \vec{r}$ und eine
+            Azimutalkomponente $\vec{v}_\varphi \perp \vec{r}$:</p>
+
+          $$ \vec{v} = \vec{v}_r + \vec{v}_\varphi, \qquad v_r = \dot{r}, \qquad v_\varphi = r\,\dot{\varphi} . $$
+
+          <p>Im Drehimpuls fällt die Radialkomponente heraus, weil
+            $\vec{r} \times \vec{v}_r = 0$:</p>
+
+          $$ \vec{L} = m\,(\vec{r} \times \vec{v}) = m\,(\vec{r} \times \vec{v}_r) + m\,(\vec{r} \times \vec{v}_\varphi) = m\,(\vec{r} \times \vec{v}_\varphi), \qquad |\vec{L}| = m\,r\,v_\varphi = m\,r^2\,\dot{\varphi} . $$
+
+          <p>Für die Kreisbahn ist $\dot{\varphi} = \omega$ und
+            $|\vec{L}| = m r^2 \omega$. Zwei Folgerungen:</p>
+          <ol>
+            <li>$\vec{L}$ steht senkrecht auf der Ebene, die $\vec{r}$ und
+              $\vec{v}$ aufspannen (Rechtsschraube $\vec{r} \times \vec{v}$).</li>
+            <li>Die Gravitation der Sonne ist eine Zentralkraft
+              $\vec{F} \parallel \vec{r}$, ihr Drehmoment
+              $\vec{D} = \vec{r} \times \vec{F}$ ist null. Also ist
+              $\vec{L}$ konstant – nach Betrag und Richtung. Weil $\vec{r}$ immer
+              senkrecht auf dem festen Vektor $\vec{L}$ steht, verläuft die
+              gesamte Bahn in einer festen Ebene.</li>
+          </ol>
+
+          <h2>Die drei Keplerschen Gesetze</h2>
+
+          <p>Johannes Kepler (1571–1630) fand sie aus den Beobachtungen Tycho
+            Brahes, vor allem der Marsbahn.</p>
+
+          <h3 id="kepler-1">Erstes Gesetz: Ellipsenbahnen</h3>
+
+          <p><em>Die Planeten bewegen sich auf Ellipsen, in deren einem
+            Brennpunkt die Sonne steht.</em> Die Ellipse hat die große Halbachse
+            $a$ und die kleine Halbachse $b$. Ihre (numerische)
+            <em>Exzentrizität</em> ist</p>
+
+          $$ \varepsilon = \frac{\sqrt{a^2 - b^2}}{a}, \qquad 0 \le \varepsilon \lt 1 ; $$
+
+          <p>die Brennpunkte liegen im Abstand $a\varepsilon$ vom Mittelpunkt.
+            Der sonnennächste Punkt heißt <em>Perihel</em>
+            ($r_\text{P} = a(1 - \varepsilon)$), der sonnenfernste <em>Aphel</em>
+            ($r_\text{A} = a(1 + \varepsilon)$). Für die Erde ist
+            $\varepsilon = 0{,}0167$; sie erreicht das Perihel Anfang Januar, das
+            Aphel Anfang Juli.</p>
+
+          <figure class="abbildung">
+            <svg class="abb" viewBox="0 0 360 240" role="img"
+                 aria-label="Ellipsenbahn mit großer und kleiner Halbachse, Sonne im Brennpunkt, Perihel und Aphel sowie zwei gleich große Flächenstücke">
+              <polygon class="flaeche" points="258.0,115.0 265.7,193.2 270.0,190.1 274.2,186.7 278.4,182.9 282.5,179.0 286.5,174.6 290.3,170.0 294.0,165.1 297.3,159.8 300.4,154.1 303.2,148.2 305.6,142.0 307.5,135.5 308.9,128.8 309.7,121.9 310.0,115.0 309.7,108.1 308.9,101.2 307.5,94.5 305.6,88.0 303.2,81.8 300.4,75.9 297.3,70.2 294.0,64.9 290.3,60.0 286.5,55.4 282.5,51.0 278.4,47.1 274.2,43.3 270.0,39.9 265.7,36.8"/>
+              <polygon class="flaeche" points="258.0,115.0 54.1,89.2 53.5,90.9 53.1,92.6 52.6,94.3 52.2,96.0 51.8,97.7 51.5,99.4 51.2,101.2 50.9,102.9 50.7,104.6 50.5,106.3 50.3,108.1 50.2,109.8 50.1,111.5 50.0,113.3 50.0,115.0 50.0,116.7 50.1,118.5 50.2,120.2 50.3,121.9 50.5,123.7 50.7,125.4 50.9,127.1 51.2,128.8 51.5,130.6 51.8,132.3 52.2,134.0 52.6,135.7 53.1,137.4 53.5,139.1 54.1,140.8"/>
+              <ellipse class="kurve" cx="180" cy="115" rx="130" ry="104"/>
+              <path class="hilfslinie" d="M50 115H310M180 115V11"/>
+              <circle class="punkt kupfer" cx="258" cy="115" r="7"/>
+              <circle class="punkt" cx="102" cy="115" r="2.5"/>
+              <circle class="punkt" cx="180" cy="115" r="2"/>
+              <circle class="punkt blau" cx="310" cy="115" r="4"/>
+              <circle class="punkt blau" cx="50" cy="115" r="4"/>
+              <text x="115" y="108" text-anchor="middle" font-size="12">a</text>
+              <text x="186" y="66" font-size="12">b</text>
+              <text x="219" y="132" text-anchor="middle" font-size="11">aε</text>
+              <path class="achse" d="M180 126H258"/>
+              <text class="kupfer" x="258" y="100" text-anchor="middle" font-size="11">Sonne</text>
+              <text x="316" y="112" font-size="11">Perihel</text>
+              <text x="44" y="112" text-anchor="end" font-size="11">Aphel</text>
+              <text x="180" y="236" text-anchor="middle" font-size="11">getönt: gleiche Zeit, gleiche Fläche</text>
+            </svg>
+            <figcaption>Abb. 1: Ellipsenbahn mit $\varepsilon = 0{,}6$ (zur
+              Verdeutlichung; Planetenbahnen sind viel runder). Die Sonne steht im
+              rechten Brennpunkt. Die beiden getönten Flächen überstreicht der
+              Fahrstrahl in derselben Zeit – nahe dem Perihel ist das Stück kurz
+              und breit, nahe dem Aphel lang und schmal.</figcaption>
+          </figure>
+
+          <h3 id="kepler-2">Zweites Gesetz: Flächensatz</h3>
+
+          <p><em>Der Fahrstrahl $\vec{r}(t)$ überstreicht in gleichen Zeiten
+            gleiche Flächen.</em> In der kurzen Zeit $\mathrm{d}t$ bewegt sich der
+            Planet um $\mathrm{d}\vec{r} = \vec{v}\,\mathrm{d}t$; der Fahrstrahl
+            überstreicht ein schmales Dreieck mit der Fläche</p>
+
+          $$ \mathrm{d}A = \tfrac{1}{2}\,|\vec{r} \times \mathrm{d}\vec{r}| = \tfrac{1}{2}\,|\vec{r} \times \vec{v}|\,\mathrm{d}t = \frac{|\vec{L}|}{2m}\,\mathrm{d}t . $$
+
+          <p>Die <em>Flächengeschwindigkeit</em> $\mathrm{d}A/\mathrm{d}t = L/(2m)$
+            ist also konstant, weil der Drehimpuls erhalten ist. Das zweite
+            Keplersche Gesetz ist nichts anderes als die Drehimpulserhaltung und
+            gilt für jede Zentralkraft, nicht nur für die Gravitation. Weil
+            $L = m\,r\,v_\varphi$ konstant ist, wird $v_\varphi$ groß, wenn $r$
+            klein ist. An Perihel und Aphel steht $\vec{v}$ senkrecht auf
+            $\vec{r}$, dort gilt</p>
+
+          $$ r_\text{P}\,v_\text{P} = r_\text{A}\,v_\text{A} . $$
+
+          <h3 id="kepler-3">Drittes Gesetz: Umlaufzeiten</h3>
+
+          <p><em>Die Quadrate der Umlaufzeiten der Planeten verhalten sich wie die
+            dritten Potenzen ihrer großen Halbachsen:</em></p>
+
+          $$ \frac{T_1^2}{T_2^2} = \frac{a_1^3}{a_2^3} \qquad\text{bzw.}\qquad \frac{T_i^2}{a_i^3} = \text{const} = \frac{4\pi^2}{G M_\odot} . $$
+
+          <p>Den Wert der Konstanten liefert das Gravitationsgesetz; für
+            Kreisbahnen ist das in der
+            <a href="gravitation.html#kreisbahn">Gravitationsseite</a> hergeleitet,
+            und er gilt genauso für Ellipsen mit der großen Halbachse $a$. (Genau
+            genommen steht $G(M_\odot + m)$ im Nenner; die Planetenmasse ist aber
+            selbst bei Jupiter nur ein Tausendstel der Sonnenmasse.) Misst man
+            $T$ in Jahren und $a$ in Astronomischen Einheiten
+            ($1\,\mathrm{AE} = 1{,}496 \cdot 10^{11}\,\mathrm{m}$, mittlerer
+            Abstand Erde–Sonne), ist die Konstante für alle Planeten 1:</p>
+
+          <div class="tabelle-huelle">
+            <table>
+              <thead>
+                <tr><th>Planet</th><th>$a$ in AE</th><th>$T$ in Jahren</th><th>$T^2/a^3$</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>Merkur</td><td>0,387</td><td>0,241</td><td>1,00</td></tr>
+                <tr><td>Venus</td><td>0,723</td><td>0,615</td><td>1,00</td></tr>
+                <tr><td>Erde</td><td>1,000</td><td>1,000</td><td>1,00</td></tr>
+                <tr><td>Mars</td><td>1,524</td><td>1,881</td><td>1,00</td></tr>
+                <tr><td>Jupiter</td><td>5,203</td><td>11,86</td><td>1,00</td></tr>
+                <tr><td>Saturn</td><td>9,537</td><td>29,45</td><td>1,00</td></tr>
+                <tr><td>Uranus</td><td>19,19</td><td>84,02</td><td>1,00</td></tr>
+                <tr><td>Neptun</td><td>30,07</td><td>164,8</td><td>1,00</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h2>Energie auf Planetenbahnen</h2>
+
+          <p>Die Gravitation ist konservativ, also ist die Gesamtenergie
+            konstant:</p>
+
+          $$ E = E_\text{kin} + E_\text{pot} = \text{const}, \qquad E_\text{pot} = -\frac{G M m}{r} . $$
+
+          <p>In Polarkoordinaten ist $v^2 = v_r^2 + v_\varphi^2 = \dot{r}^2 + r^2\dot{\varphi}^2$
+            (auf der Kreisbahn ist $\dot{r} = 0$ und $\dot{\varphi} = \omega$).
+            Mit der Drehimpulserhaltung $L = m r^2 \dot{\varphi}$ lässt sich
+            $\dot{\varphi}$ eliminieren:</p>
+
+          $$ E_\text{kin} = \tfrac{1}{2} m \left(\dot{r}^2 + r^2\dot{\varphi}^2\right) = \tfrac{1}{2} m \dot{r}^2 + \frac{L^2}{2 m r^2} . $$
+
+          <p>Damit hängt die Energie nur noch von $r$ und $\dot{r}$ ab:</p>
+
+          $$ E = \tfrac{1}{2} m \dot{r}^2 + \underbrace{\frac{L^2}{2 m r^2} - \frac{G M m}{r}}_{U_\text{eff}(r)} . $$
+
+          <p>Das ist die Energie eines Teilchens, das sich nur in einer Dimension
+            (entlang $r$) im <em>effektiven Potential</em> $U_\text{eff}$ bewegt.
+            Der Term $L^2/(2 m r^2)$ wirkt wie eine abstoßende Barriere (die
+            „Zentrifugalbarriere“): Er verhindert, dass ein Körper mit Drehimpuls
+            ins Zentrum stürzt (Abb. 2).</p>
+
+          <figure class="abbildung">
+            <svg class="abb" viewBox="0 0 360 240" role="img"
+                 aria-label="Effektives Potential aus Zentrifugalbarriere und Gravitationspotential mit Minimum, gebundener Energie und Umkehrpunkten">
+              <path class="achse" d="M40 110H345M40 236V14"/>
+              <polyline class="kurve schwach" points="90.9,19.6 92.6,25.4 94.3,30.6 96.0,35.4 97.7,39.7 99.4,43.7 101.1,47.4 102.8,50.7 104.5,53.8 106.2,56.7 108.0,59.3 109.7,61.8 111.4,64.1 113.1,66.2 114.8,68.1 116.5,70.0 118.2,71.7 119.9,73.3 121.6,74.9 123.3,76.3 125.0,77.6 126.7,78.9 128.4,80.1 130.1,81.2 131.8,82.3 133.5,83.3 135.2,84.2 137.0,85.1 138.7,86.0 140.4,86.8 142.1,87.5 143.8,88.3 145.5,89.0 147.2,89.6 148.9,90.3 150.6,90.9 152.3,91.4 154.0,92.0 155.7,92.5 157.4,93.0 159.1,93.5 160.8,94.0 162.6,94.4 164.3,94.8 166.0,95.3 167.7,95.6 169.4,96.0 171.1,96.4 172.8,96.7 174.5,97.1 176.2,97.4 177.9,97.7 179.6,98.0 181.3,98.3 183.0,98.6 184.7,98.8 186.4,99.1 188.1,99.3 189.8,99.6 191.6,99.8 193.3,100.0 195.0,100.3 196.7,100.5 198.4,100.7 200.1,100.9 201.8,101.1 203.5,101.2 205.2,101.4 206.9,101.6 208.6,101.8 210.3,101.9 212.0,102.1 213.7,102.2 215.4,102.4 217.2,102.5 218.9,102.7 220.6,102.8 222.3,103.0 224.0,103.1 225.7,103.2 227.4,103.3 229.1,103.5 230.8,103.6 232.5,103.7 234.2,103.8 235.9,103.9 237.6,104.0 239.3,104.1 241.0,104.2 242.7,104.3 244.5,104.4 246.2,104.5 247.9,104.6 249.6,104.7 251.3,104.8 253.0,104.8 254.7,104.9 256.4,105.0 258.1,105.1 259.8,105.2 261.5,105.2 263.2,105.3 264.9,105.4 266.6,105.4 268.3,105.5 270.0,105.6 271.8,105.6 273.5,105.7 275.2,105.8 276.9,105.8 278.6,105.9 280.3,105.9 282.0,106.0 283.7,106.1 285.4,106.1 287.1,106.2 288.8,106.2 290.5,106.3 292.2,106.3 293.9,106.4 295.6,106.4 297.3,106.5 299.1,106.5 300.8,106.6 302.5,106.6 304.2,106.6 305.9,106.7 307.6,106.7 309.3,106.8 311.0,106.8 312.7,106.9 314.4,106.9 316.1,106.9 317.8,107.0 319.5,107.0 321.2,107.0 322.9,107.1 324.6,107.1 326.4,107.1 328.1,107.2 329.8,107.2 331.5,107.2 333.2,107.3 334.9,107.3 336.6,107.3 338.3,107.4 340.0,107.4"/>
+              <polyline class="kurve schwach" points="102.8,234.1 104.5,230.9 106.2,227.7 108.0,224.8 109.7,222.0 111.4,219.3 113.1,216.7 114.8,214.3 116.5,212.0 118.2,209.8 119.9,207.6 121.6,205.6 123.3,203.6 125.0,201.8 126.7,199.9 128.4,198.2 130.1,196.5 131.8,194.9 133.5,193.4 135.2,191.9 137.0,190.4 138.7,189.1 140.4,187.7 142.1,186.4 143.8,185.2 145.5,183.9 147.2,182.8 148.9,181.6 150.6,180.5 152.3,179.4 154.0,178.4 155.7,177.4 157.4,176.4 159.1,175.5 160.8,174.5 162.6,173.6 164.3,172.8 166.0,171.9 167.7,171.1 169.4,170.3 171.1,169.5 172.8,168.7 174.5,168.0 176.2,167.3 177.9,166.6 179.6,165.9 181.3,165.2 183.0,164.5 184.7,163.9 186.4,163.3 188.1,162.7 189.8,162.1 191.6,161.5 193.3,160.9 195.0,160.3 196.7,159.8 198.4,159.2 200.1,158.7 201.8,158.2 203.5,157.7 205.2,157.2 206.9,156.7 208.6,156.3 210.3,155.8 212.0,155.3 213.7,154.9 215.4,154.5 217.2,154.0 218.9,153.6 220.6,153.2 222.3,152.8 224.0,152.4 225.7,152.0 227.4,151.6 229.1,151.2 230.8,150.9 232.5,150.5 234.2,150.2 235.9,149.8 237.6,149.5 239.3,149.1 241.0,148.8 242.7,148.5 244.5,148.2 246.2,147.8 247.9,147.5 249.6,147.2 251.3,146.9 253.0,146.6 254.7,146.3 256.4,146.0 258.1,145.8 259.8,145.5 261.5,145.2 263.2,144.9 264.9,144.7 266.6,144.4 268.3,144.2 270.0,143.9 271.8,143.7 273.5,143.4 275.2,143.2 276.9,142.9 278.6,142.7 280.3,142.5 282.0,142.2 283.7,142.0 285.4,141.8 287.1,141.6 288.8,141.3 290.5,141.1 292.2,140.9 293.9,140.7 295.6,140.5 297.3,140.3 299.1,140.1 300.8,139.9 302.5,139.7 304.2,139.5 305.9,139.3 307.6,139.2 309.3,139.0 311.0,138.8 312.7,138.6 314.4,138.4 316.1,138.2 317.8,138.1 319.5,137.9 321.2,137.7 322.9,137.6 324.6,137.4 326.4,137.2 328.1,137.1 329.8,136.9 331.5,136.8 333.2,136.6 334.9,136.5 336.6,136.3 338.3,136.1 340.0,136.0"/>
+              <polyline class="kurve blau" points="67.0,77.9 68.7,97.8 70.4,113.5 72.1,126.0 73.8,136.1 75.5,144.2 77.2,150.7 78.9,156.0 80.7,160.3 82.4,163.7 84.1,166.5 85.8,168.7 87.5,170.5 89.2,171.9 90.9,172.9 92.6,173.7 94.3,174.3 96.0,174.7 97.7,174.9 99.4,175.0 101.1,175.0 102.8,174.9 104.5,174.7 106.2,174.4 108.0,174.1 109.7,173.8 111.4,173.4 113.1,172.9 114.8,172.5 116.5,172.0 118.2,171.5 119.9,171.0 121.6,170.4 123.3,169.9 125.0,169.4 126.7,168.8 128.4,168.3 130.1,167.7 131.8,167.2 133.5,166.6 135.2,166.1 137.0,165.6 138.7,165.0 140.4,164.5 142.1,164.0 143.8,163.4 145.5,162.9 147.2,162.4 148.9,161.9 150.6,161.4 152.3,160.9 154.0,160.4 155.7,159.9 157.4,159.5 159.1,159.0 160.8,158.5 162.6,158.1 164.3,157.6 166.0,157.2 167.7,156.7 169.4,156.3 171.1,155.9 172.8,155.5 174.5,155.1 176.2,154.7 177.9,154.3 179.6,153.9 181.3,153.5 183.0,153.1 184.7,152.7 186.4,152.4 188.1,152.0 189.8,151.6 191.6,151.3 193.3,150.9 195.0,150.6 196.7,150.3 198.4,149.9 200.1,149.6 201.8,149.3 203.5,149.0 205.2,148.6 206.9,148.3 208.6,148.0 210.3,147.7 212.0,147.4 213.7,147.1 215.4,146.9 217.2,146.6 218.9,146.3 220.6,146.0 222.3,145.8 224.0,145.5 225.7,145.2 227.4,145.0 229.1,144.7 230.8,144.5 232.5,144.2 234.2,144.0 235.9,143.7 237.6,143.5 239.3,143.2 241.0,143.0 242.7,142.8 244.5,142.6 246.2,142.3 247.9,142.1 249.6,141.9 251.3,141.7 253.0,141.5 254.7,141.3 256.4,141.0 258.1,140.8 259.8,140.6 261.5,140.4 263.2,140.2 264.9,140.1 266.6,139.9 268.3,139.7 270.0,139.5 271.8,139.3 273.5,139.1 275.2,138.9 276.9,138.8 278.6,138.6 280.3,138.4 282.0,138.2 283.7,138.1 285.4,137.9 287.1,137.7 288.8,137.6 290.5,137.4 292.2,137.2 293.9,137.1 295.6,136.9 297.3,136.8 299.1,136.6 300.8,136.5 302.5,136.3 304.2,136.2 305.9,136.0 307.6,135.9 309.3,135.7 311.0,135.6 312.7,135.5 314.4,135.3 316.1,135.2 317.8,135.0 319.5,134.9 321.2,134.8 322.9,134.6 324.6,134.5 326.4,134.4 328.1,134.3 329.8,134.1 331.5,134.0 333.2,133.9 334.9,133.8 336.6,133.6 338.3,133.5 340.0,133.4"/>
+              <path class="kurve kupfer" d="M76.8 149H203.2"/>
+              <path class="hilfslinie" d="M76.8 149V110M203.2 149V110M100 175V110"/>
+              <circle class="punkt kupfer" cx="76.8" cy="149" r="3.5"/>
+              <circle class="punkt kupfer" cx="203.2" cy="149" r="3.5"/>
+              <circle class="punkt blau" cx="100" cy="175" r="3.5"/>
+              <text x="341" y="104" text-anchor="end" font-size="11">r</text>
+              <text x="48" y="22">E</text>
+              <text x="104" y="40" font-size="11">L²/(2mr²)</text>
+              <text x="240" y="160" font-size="11">−GMm/r</text>
+              <text class="blau" x="240" y="128">U<tspan dy="4" font-size="9">eff</tspan></text>
+              <text x="82" y="104" font-size="11">r<tspan dy="4" font-size="8">P</tspan></text>
+              <text x="208" y="104" font-size="11">r<tspan dy="4" font-size="8">A</tspan></text>
+              <text class="kupfer" x="140" y="144" text-anchor="middle" font-size="11">E &lt; 0: Ellipse</text>
+              <text class="blau" x="104" y="194" font-size="11">Kreisbahn</text>
+            </svg>
+            <figcaption>Abb. 2: Das effektive Potential (blau) ist die Summe aus
+              Zentrifugalbarriere und Gravitationspotential (grau). Ein Planet mit
+              der Energie $E \lt 0$ (kupfer) pendelt in $r$ zwischen Perihel und
+              Aphel, wo $\dot{r} = 0$ ist. Liegt die Energie genau im Minimum,
+              bleibt $r$ konstant – eine Kreisbahn.</figcaption>
+          </figure>
+
+          <h3 id="bahnformen">Bahnformen</h3>
+
+          <p>Wo $E = U_\text{eff}(r)$ ist, verschwindet $\dot{r}$: Dort liegen die
+            Umkehrpunkte der Radialbewegung. Je nach Energie ergeben sich die
+            Kegelschnitte (Abb. 3):</p>
+          <ul>
+            <li>$E = U_\text{eff,min}$: Kreis ($\varepsilon = 0$),</li>
+            <li>$U_\text{eff,min} \lt E \lt 0$: Ellipse ($0 \lt \varepsilon \lt 1$) –
+              gebundene Bahn zwischen zwei Umkehrpunkten,</li>
+            <li>$E = 0$: Parabel ($\varepsilon = 1$) – der Körper erreicht gerade
+              noch das Unendliche (Fluchtgeschwindigkeit),</li>
+            <li>$E \gt 0$: Hyperbel ($\varepsilon \gt 1$) – nur ein Umkehrpunkt,
+              der Körper fliegt einmal vorbei und kehrt nie zurück.</li>
+          </ul>
+
+          <p>Löst man die Bewegungsgleichung vollständig (das geschieht in der
+            Theoretischen Mechanik), erhält man die Bahngleichung mit der Sonne im
+            Brennpunkt und dem Winkel $\varphi$ ab dem Perihel</p>
+
+          $$ r(\varphi) = \frac{p}{1 + \varepsilon\cos\varphi}, \qquad p = \frac{L^2}{G M m^2}, \qquad \varepsilon = \sqrt{1 + \frac{2 E L^2}{G^2 M^2 m^3}} . $$
+
+          <p>Daran sieht man direkt: $\varepsilon \lt 1$ genau für $E \lt 0$.
+            Newton hat so das erste Keplersche Gesetz aus seinem Kraftgesetz
+            abgeleitet – einer der großen Triumphe der Physik.</p>
+
+          <figure class="abbildung">
+            <svg class="abb" viewBox="0 0 360 240" role="img"
+                 aria-label="Kreis, Ellipse, Parabel und Hyperbel mit gemeinsamem Brennpunkt und gemeinsamem Perihel">
+              <polyline class="kurve" points="156.0,120.0 156.0,121.9 155.8,123.8 155.6,125.6 155.2,127.5 154.8,129.3 154.2,131.1 153.6,132.9 152.9,134.6 152.1,136.3 151.2,138.0 150.2,139.6 149.1,141.2 148.0,142.7 146.8,144.1 145.5,145.5 144.1,146.8 142.7,148.0 141.2,149.1 139.6,150.2 138.0,151.2 136.3,152.1 134.6,152.9 132.9,153.6 131.1,154.2 129.3,154.8 127.5,155.2 125.6,155.6 123.8,155.8 121.9,156.0 120.0,156.0 118.1,156.0 116.2,155.8 114.4,155.6 112.5,155.2 110.7,154.8 108.9,154.2 107.1,153.6 105.4,152.9 103.7,152.1 102.0,151.2 100.4,150.2 98.8,149.1 97.3,148.0 95.9,146.8 94.5,145.5 93.2,144.1 92.0,142.7 90.9,141.2 89.8,139.6 88.8,138.0 87.9,136.3 87.1,134.6 86.4,132.9 85.8,131.1 85.2,129.3 84.8,127.5 84.4,125.6 84.2,123.8 84.0,121.9 84.0,120.0 84.0,118.1 84.2,116.2 84.4,114.4 84.8,112.5 85.2,110.7 85.8,108.9 86.4,107.1 87.1,105.4 87.9,103.7 88.8,102.0 89.8,100.4 90.9,98.8 92.0,97.3 93.2,95.9 94.5,94.5 95.9,93.2 97.3,92.0 98.8,90.9 100.4,89.8 102.0,88.8 103.7,87.9 105.4,87.1 107.1,86.4 108.9,85.8 110.7,85.2 112.5,84.8 114.4,84.4 116.2,84.2 118.1,84.0 120.0,84.0 121.9,84.0 123.8,84.2 125.6,84.4 127.5,84.8 129.3,85.2 131.1,85.8 132.9,86.4 134.6,87.1 136.3,87.9 138.0,88.8 139.6,89.8 141.2,90.9 142.7,92.0 144.1,93.2 145.5,94.5 146.8,95.9 148.0,97.3 149.1,98.8 150.2,100.4 151.2,102.0 152.1,103.7 152.9,105.4 153.6,107.1 154.2,108.9 154.8,110.7 155.2,112.5 155.6,114.4 155.8,116.2 156.0,118.1 156.0,120.0"/>
+              <polyline class="kurve blau" points="264.0,120.0 263.5,127.5 262.0,134.9 259.6,142.1 256.4,149.0 252.3,155.5 247.6,161.5 242.3,166.9 236.4,171.8 230.3,176.2 223.8,180.0 217.2,183.1 210.6,185.8 203.9,187.9 197.2,189.6 190.7,190.7 184.4,191.5 178.2,191.9 172.3,192.0 166.6,191.8 161.1,191.3 155.9,190.5 151.0,189.6 146.3,188.5 141.9,187.2 137.6,185.9 133.7,184.4 129.9,182.8 126.4,181.1 123.1,179.4 120.0,177.6 117.1,175.8 114.3,173.9 111.8,172.0 109.4,170.1 107.1,168.2 105.0,166.2 103.0,164.3 101.2,162.3 99.4,160.3 97.8,158.4 96.4,156.4 95.0,154.4 93.7,152.5 92.5,150.5 91.4,148.6 90.4,146.7 89.5,144.7 88.6,142.8 87.9,140.9 87.2,139.0 86.6,137.0 86.0,135.1 85.5,133.2 85.1,131.3 84.8,129.4 84.5,127.5 84.3,125.7 84.1,123.8 84.0,121.9 84.0,120.0 84.0,118.1 84.1,116.2 84.3,114.3 84.5,112.5 84.8,110.6 85.1,108.7 85.5,106.8 86.0,104.9 86.6,103.0 87.2,101.0 87.9,99.1 88.6,97.2 89.5,95.3 90.4,93.3 91.4,91.4 92.5,89.5 93.7,87.5 95.0,85.6 96.4,83.6 97.8,81.6 99.4,79.7 101.2,77.7 103.0,75.7 105.0,73.8 107.1,71.8 109.4,69.9 111.8,68.0 114.3,66.1 117.1,64.2 120.0,62.4 123.1,60.6 126.4,58.9 129.9,57.2 133.7,55.6 137.6,54.1 141.9,52.8 146.3,51.5 151.0,50.4 155.9,49.5 161.1,48.7 166.6,48.2 172.3,48.0 178.2,48.1 184.4,48.5 190.7,49.3 197.2,50.4 203.9,52.1 210.6,54.2 217.2,56.9 223.8,60.0 230.3,63.8 236.4,68.2 242.3,73.1 247.6,78.5 252.3,84.5 256.4,91.0 259.6,97.9 262.0,105.1 263.5,112.5 264.0,120.0"/>
+              <polyline class="kurve kupfer" points="169.2,230.8 160.1,224.7 152.1,219.0 145.1,213.8 138.8,208.9 133.3,204.3 128.4,199.9 123.9,195.8 120.0,192.0 116.4,188.3 113.2,184.8 110.2,181.5 107.6,178.3 105.2,175.2 103.0,172.3 101.0,169.5 99.2,166.7 97.5,164.1 96.0,161.6 94.6,159.1 93.3,156.7 92.2,154.3 91.1,152.0 90.2,149.8 89.3,147.6 88.5,145.5 87.8,143.4 87.2,141.3 86.6,139.3 86.1,137.3 85.6,135.3 85.2,133.3 84.9,131.4 84.6,129.5 84.4,127.6 84.2,125.7 84.1,123.8 84.0,121.9 84.0,120.0 84.0,118.1 84.1,116.2 84.2,114.3 84.4,112.4 84.6,110.5 84.9,108.6 85.2,106.7 85.6,104.7 86.1,102.7 86.6,100.7 87.2,98.7 87.8,96.6 88.5,94.5 89.3,92.4 90.2,90.2 91.1,88.0 92.2,85.7 93.3,83.3 94.6,80.9 96.0,78.4 97.5,75.9 99.2,73.3 101.0,70.5 103.0,67.7 105.2,64.8 107.6,61.7 110.2,58.5 113.2,55.2 116.4,51.7 120.0,48.0 123.9,44.2 128.4,40.1 133.3,35.7 138.8,31.1 145.1,26.2 152.1,21.0 160.1,15.3 169.2,9.2"/>
+              <polyline class="kurve schwach" points="132.9,233.5 128.0,226.1 123.8,219.6 120.1,213.7 116.8,208.3 113.8,203.4 111.2,199.0 108.8,194.8 106.6,190.9 104.7,187.3 102.9,184.0 101.3,180.8 99.8,177.8 98.4,175.0 97.2,172.4 96.0,169.8 95.0,167.4 94.0,165.1 93.1,162.8 92.3,160.7 91.5,158.6 90.8,156.7 90.1,154.7 89.5,152.9 89.0,151.1 88.4,149.3 87.9,147.6 87.5,145.9 87.1,144.3 86.7,142.7 86.3,141.2 86.0,139.6 85.7,138.1 85.5,136.6 85.2,135.2 85.0,133.7 84.8,132.3 84.6,130.9 84.5,129.5 84.4,128.1 84.2,126.8 84.2,125.4 84.1,124.0 84.0,122.7 84.0,121.3 84.0,120.0 84.0,118.7 84.0,117.3 84.1,116.0 84.2,114.6 84.2,113.2 84.4,111.9 84.5,110.5 84.6,109.1 84.8,107.7 85.0,106.3 85.2,104.8 85.5,103.4 85.7,101.9 86.0,100.4 86.3,98.8 86.7,97.3 87.1,95.7 87.5,94.1 87.9,92.4 88.4,90.7 89.0,88.9 89.5,87.1 90.1,85.3 90.8,83.3 91.5,81.4 92.3,79.3 93.1,77.2 94.0,74.9 95.0,72.6 96.0,70.2 97.2,67.6 98.4,65.0 99.8,62.2 101.3,59.2 102.9,56.0 104.7,52.7 106.6,49.1 108.8,45.2 111.2,41.0 113.8,36.6 116.8,31.7 120.1,26.3 123.8,20.4 128.0,13.9 132.9,6.5"/>
+              <circle class="punkt kupfer" cx="120" cy="120" r="5"/>
+              <circle class="punkt" cx="84" cy="120" r="3"/>
+              <text x="76" y="124" text-anchor="end" font-size="11">Perihel</text>
+              <text x="120" y="142" text-anchor="middle" font-size="11">Kreis</text>
+              <text class="blau" x="270" y="124" font-size="11">Ellipse</text>
+              <text class="kupfer" x="176" y="26" font-size="11">Parabel</text>
+              <text x="66" y="22" font-size="11">Hyperbel</text>
+              <text x="246" y="216" font-size="11">gleicher Perihelabstand,</text>
+              <text x="246" y="229" font-size="11">wachsende Energie</text>
+            </svg>
+            <figcaption>Abb. 3: Bahnformen mit demselben Perihelabstand: Kreis
+              ($\varepsilon = 0$), Ellipse ($\varepsilon = 0{,}6$), Parabel
+              ($\varepsilon = 1$) und Hyperbel ($\varepsilon = 1{,}6$). Je größer
+              die Geschwindigkeit im Perihel, desto offener die Bahn.</figcaption>
+          </figure>
+
+          <h3 id="vis-viva">Energie und große Halbachse</h3>
+
+          <p>Für eine Ellipse folgt aus Energie- und Drehimpulssatz an Perihel und
+            Aphel (siehe Aufgabe 5) ein bemerkenswert einfaches Ergebnis: Die
+            Energie hängt nur von der großen Halbachse ab,</p>
+
+          $$ E = -\frac{G M m}{2a} . $$
+
+          <p>Setzt man das in $\tfrac{1}{2} m v^2 - G M m/r = E$ ein, erhält man
+            die <em>Vis-viva-Gleichung</em>, mit der man die Geschwindigkeit an
+            jedem Punkt der Bahn ausrechnet:</p>
+
+          <div class="merkkasten">
+            <span class="titel">Merke: Vis-viva-Gleichung</span>
+            $$ v^2 = G M \left(\frac{2}{r} - \frac{1}{a}\right) $$
+            <p>Für den Kreis ($r = a$) ergibt sie $v^2 = G M/r$, für die Parabel
+              ($a \to \infty$) die Fluchtgeschwindigkeit $v^2 = 2 G M/r$.</p>
+          </div>
+        </section>
+
+        <section class="tab" id="beispiele" data-titel="Beispielrechnungen">
+
+          <p>In diesen Beispielen rechnen wir in Astronomischen Einheiten und
+            Jahren. Die mittlere Bahngeschwindigkeit der Erde ist
+            $v_\text{E} = 2\pi\,\mathrm{AE/a} = 29{,}78\,\mathrm{km/s}$, und die
+            Vis-viva-Gleichung lautet dann
+            $v = v_\text{E}\sqrt{2/r - 1/a}$ mit $r$, $a$ in AE.</p>
+
+          <div class="beispiel">
+            <h3>Beispiel 1: Der Halleysche Komet</h3>
+            <p><strong>Gegeben:</strong> Umlaufzeit $T = 75{,}3\,\mathrm{a}$,
+              Periheldistanz $r_\text{P} = 0{,}586\,\mathrm{AE}$.<br>
+              <strong>Gesucht:</strong> große Halbachse, Apheldistanz,
+              Exzentrizität und die Geschwindigkeiten in Perihel und Aphel.</p>
+
+            <p><strong>1. Große Halbachse</strong> (drittes Gesetz, Einheiten
+              AE und Jahre):
+              $$ a = T^{2/3} = 75{,}3^{2/3}\,\mathrm{AE} = 17{,}8\,\mathrm{AE} $$</p>
+
+            <p><strong>2. Aphel und Exzentrizität:</strong>
+              $r_\text{A} = 2a - r_\text{P} = 35{,}6\,\mathrm{AE} - 0{,}59\,\mathrm{AE} = 35{,}1\,\mathrm{AE}$,
+              $$ \varepsilon = \frac{r_\text{A} - r_\text{P}}{r_\text{A} + r_\text{P}} = \frac{34{,}5}{35{,}7} = 0{,}967 $$</p>
+
+            <p><strong>3. Geschwindigkeiten</strong> (Vis-viva):
+              $$ v_\text{P} = 29{,}78\,\mathrm{\tfrac{km}{s}} \cdot \sqrt{\frac{2}{0{,}586} - \frac{1}{17{,}8}} = 29{,}78\,\mathrm{\tfrac{km}{s}} \cdot 1{,}832 = 54{,}6\,\mathrm{km/s} $$
+              $$ v_\text{A} = 29{,}78\,\mathrm{\tfrac{km}{s}} \cdot \sqrt{\frac{2}{35{,}1} - \frac{1}{17{,}8}} = 0{,}91\,\mathrm{km/s} $$
+              Kontrolle mit dem Flächensatz:
+              $v_\text{P}/v_\text{A} = 60 = r_\text{A}/r_\text{P}$ ✓.</p>
+
+            <p><strong>Ergebnis und Plausibilität:</strong> Der Aphel liegt jenseits
+              der Neptunbahn (30 AE). In Sonnennähe rast der Komet mit fast
+              doppelter Erdgeschwindigkeit, im Aphel ist er langsamer als ein
+              Düsenjet. Deshalb verbringt er den größten Teil seiner 75 Jahre weit
+              draußen und ist nur wenige Monate sichtbar – zuletzt 1986, das
+              nächste Mal 2061.</p>
+          </div>
+
+          <div class="beispiel">
+            <h3>Beispiel 2: Warum das Winterhalbjahr kürzer ist</h3>
+            <p><strong>Gegeben:</strong> Erdbahn mit $a = 1{,}000\,\mathrm{AE}$,
+              $\varepsilon = 0{,}0167$.<br>
+              <strong>Gesucht:</strong> Abstände und Geschwindigkeiten in Perihel
+              und Aphel.</p>
+
+            <p><strong>1. Abstände:</strong>
+              $r_\text{P} = a(1 - \varepsilon) = 0{,}9833\,\mathrm{AE} = 147{,}1 \cdot 10^6\,\mathrm{km}$,
+              $r_\text{A} = a(1 + \varepsilon) = 1{,}0167\,\mathrm{AE} = 152{,}1 \cdot 10^6\,\mathrm{km}$.</p>
+
+            <p><strong>2. Geschwindigkeiten</strong> (Vis-viva, umgeformt):
+              $$ v_\text{P} = v_\text{E}\sqrt{\frac{2}{1 - \varepsilon} - 1} = v_\text{E}\sqrt{\frac{1 + \varepsilon}{1 - \varepsilon}} = 29{,}78\,\mathrm{\tfrac{km}{s}} \cdot 1{,}0168 = 30{,}28\,\mathrm{km/s} $$
+              $$ v_\text{A} = v_\text{E}\sqrt{\frac{1 - \varepsilon}{1 + \varepsilon}} = 29{,}29\,\mathrm{km/s} $$</p>
+
+            <p><strong>Ergebnis und Plausibilität:</strong> Die Erde ist im Januar
+              gut 3 % schneller als im Juli. Weil sie im Nordwinter (in
+              Sonnennähe) schneller läuft, ist auf der Nordhalbkugel das
+              Winterhalbjahr (Herbst- bis Frühlingsanfang) etwa 179 Tage lang, das
+              Sommerhalbjahr dagegen 186 Tage – ein messbarer Effekt des zweiten
+              Keplerschen Gesetzes.</p>
+            </div>
+
+          <div class="beispiel">
+            <h3>Beispiel 3: Mit der Ellipse zum Mars</h3>
+            <p><strong>Gegeben:</strong> Erde und Mars auf Kreisbahnen mit
+              $1{,}000\,\mathrm{AE}$ und $1{,}524\,\mathrm{AE}$. Eine Sonde soll auf
+              einer Ellipse fliegen, deren Perihel die Erdbahn und deren Aphel die
+              Marsbahn berührt (Hohmann-Bahn).<br>
+              <strong>Gesucht:</strong> Flugzeit und nötige
+              Geschwindigkeitsänderungen.</p>
+
+            <p><strong>1. Transferellipse:</strong>
+              $a = (1{,}000 + 1{,}524)/2\,\mathrm{AE} = 1{,}262\,\mathrm{AE}$.
+              Flugzeit = halbe Umlaufzeit:
+              $$ t = \tfrac{1}{2}\,a^{3/2} = \tfrac{1}{2} \cdot 1{,}262^{1{,}5}\,\mathrm{a} = 0{,}709\,\mathrm{a} = 259\,\mathrm{d} $$</p>
+
+            <p><strong>2. Start an der Erdbahn</strong> (Perihel):
+              $$ v_\text{P} = 29{,}78\,\mathrm{\tfrac{km}{s}} \cdot \sqrt{2 - \frac{1}{1{,}262}} = 32{,}73\,\mathrm{km/s}, \qquad \Delta v_1 = 32{,}73 - 29{,}78 = 2{,}95\,\mathrm{km/s} $$</p>
+
+            <p><strong>3. Ankunft an der Marsbahn</strong> (Aphel):
+              $$ v_\text{A} = 29{,}78\,\mathrm{\tfrac{km}{s}} \cdot \sqrt{\frac{2}{1{,}524} - \frac{1}{1{,}262}} = 21{,}47\,\mathrm{km/s}, \qquad v_\text{Mars} = \frac{29{,}78}{\sqrt{1{,}524}}\,\mathrm{\tfrac{km}{s}} = 24{,}12\,\mathrm{km/s} $$
+              $\Delta v_2 = 2{,}65\,\mathrm{km/s}$. Kontrolle: $r_\text{P} v_\text{P} = 32{,}73$,
+              $r_\text{A} v_\text{A} = 1{,}524 \cdot 21{,}47 = 32{,}72$ ✓ (Flächensatz).</p>
+
+            <p><strong>Ergebnis und Plausibilität:</strong> Gut acht Monate
+              Flugzeit – genau so lange waren die Marsmissionen der letzten
+              Jahrzehnte unterwegs. Die Sonde wird dabei vom Start bis zur Ankunft
+              ständig langsamer, und am Mars muss sie noch einmal beschleunigen, um
+              mit ihm mitzuhalten. (Die Schwerefelder von Erde und Mars selbst sind
+              hier nicht berücksichtigt.)</p>
+          </div>
+        </section>
+
+        <section class="tab" id="aufgaben" data-titel="Aufgaben">
+
+          <p>Die Aufgaben sind nach Schwierigkeit sortiert. Bahnen um die Sonne
+            rechne am besten in AE und Jahren;
+            $G = 6{,}674 \cdot 10^{-11}\,\mathrm{m^3\,kg^{-1}\,s^{-2}}$,
+            $v_\text{E} = 29{,}78\,\mathrm{km/s}$. Die Masse des umlaufenden Körpers
+            ist klein gegen die des Zentralkörpers.</p>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 1: Jupiter und Mars
+              <span class="schwierigkeit" data-stufe="leicht">leicht</span>
+            </h3>
+            <p>Jupiter ist im Mittel $5{,}20\,\mathrm{AE}$ von der Sonne entfernt,
+              Mars $1{,}52\,\mathrm{AE}$. Wie lange dauern ihre Umläufe?</p>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>$T = a^{3/2}$ (AE, Jahre): Jupiter
+                $5{,}20^{1{,}5} = 11{,}9$ Jahre, Mars $1{,}52^{1{,}5} = 1{,}87$ Jahre
+                (genauer mit $a = 1{,}524$: $1{,}88$ Jahre).</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 2: Die Erdbahn vermessen
+              <span class="schwierigkeit" data-stufe="leicht">leicht</span>
+            </h3>
+            <p>Im Perihel ist die Erde $147{,}1$ Millionen km von der Sonne
+              entfernt, im Aphel $152{,}1$ Millionen km. Berechne große Halbachse,
+              Exzentrizität und kleine Halbachse.</p>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>$a = (r_\text{P} + r_\text{A})/2 = 149{,}6 \cdot 10^6\,\mathrm{km}$,
+                $\varepsilon = (r_\text{A} - r_\text{P})/(r_\text{A} + r_\text{P}) = 5{,}0/299{,}2 = 0{,}0167$,
+                $b = a\sqrt{1 - \varepsilon^2} = 0{,}99986\,a = 149{,}58 \cdot 10^6\,\mathrm{km}$.
+                Die Bahn ist also fast ein perfekter Kreis: $b$ weicht nur um
+                $21\,000\,\mathrm{km}$ von $a$ ab, die Sonne sitzt aber
+                $2{,}5$ Millionen km neben dem Mittelpunkt.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 3: Jupiter wiegen
+              <span class="schwierigkeit" data-stufe="mittel">mittel</span>
+            </h3>
+            <p>Der Jupitermond Io umläuft Jupiter auf einer nahezu kreisförmigen
+              Bahn mit $a = 421\,700\,\mathrm{km}$ in $1{,}769$ Tagen. Bestimme die
+              Masse des Jupiters und vergleiche sie mit der Erdmasse
+              ($5{,}97 \cdot 10^{24}\,\mathrm{kg}$).</p>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>$T = 1{,}769 \cdot 86\,400\,\mathrm{s} = 1{,}528 \cdot 10^5\,\mathrm{s}$,
+                $$ M_\text{J} = \frac{4\pi^2 a^3}{G T^2} = \frac{39{,}48 \cdot (4{,}217 \cdot 10^8\,\mathrm{m})^3}{6{,}674 \cdot 10^{-11} \cdot (1{,}528 \cdot 10^5\,\mathrm{s})^2} = 1{,}90 \cdot 10^{27}\,\mathrm{kg} $$
+                Das sind 318 Erdmassen. So hat man die Masse aller Planeten mit
+                Monden bestimmt.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 4: Der Flächensatz in Zahlen
+              <span class="schwierigkeit" data-stufe="mittel">mittel</span>
+            </h3>
+            <p>Ein Komet hat seinen Perihel bei $0{,}50\,\mathrm{AE}$ und seinen
+              Aphel bei $9{,}5\,\mathrm{AE}$.</p>
+            <ol type="a">
+              <li>Wie viel schneller ist er im Perihel als im Aphel?</li>
+              <li>Berechne beide Geschwindigkeiten und die Umlaufzeit.</li>
+              <li>Wie groß ist seine Flächengeschwindigkeit in
+                $\mathrm{AE^2}$ pro Jahr? Prüfe damit $T = \pi a b/(\mathrm{d}A/\mathrm{d}t)$.</li>
+            </ol>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p><strong>(a)</strong> $v_\text{P}/v_\text{A} = r_\text{A}/r_\text{P} = 19$.</p>
+              <p><strong>(b)</strong> $a = 5{,}0\,\mathrm{AE}$,
+                $v_\text{P} = 29{,}78\sqrt{2/0{,}5 - 1/5}\,\mathrm{km/s} = 29{,}78 \cdot 1{,}949\,\mathrm{km/s} = 58{,}1\,\mathrm{km/s}$,
+                $v_\text{A} = 58{,}1/19\,\mathrm{km/s} = 3{,}06\,\mathrm{km/s}$,
+                $T = 5^{1{,}5}\,\mathrm{a} = 11{,}2\,\mathrm{a}$.</p>
+              <p><strong>(c)</strong> Im Perihel: $\mathrm{d}A/\mathrm{d}t = \tfrac{1}{2} r_\text{P} v_\text{P}$
+                mit $v_\text{P} = 1{,}949 \cdot 2\pi\,\mathrm{AE/a} = 12{,}25\,\mathrm{AE/a}$:
+                $\tfrac{1}{2} \cdot 0{,}5 \cdot 12{,}25 = 3{,}06\,\mathrm{AE^2/a}$.
+                $b = \sqrt{r_\text{P} r_\text{A}} = \sqrt{4{,}75} = 2{,}18\,\mathrm{AE}$
+                (es gilt $b^2 = a^2(1 - \varepsilon^2) = r_\text{P} r_\text{A}$),
+                Ellipsenfläche $\pi a b = 34{,}2\,\mathrm{AE^2}$,
+                $T = 34{,}2/3{,}06\,\mathrm{a} = 11{,}2\,\mathrm{a}$ ✓.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 5: Energie und große Halbachse
+              <span class="schwierigkeit" data-stufe="schwer">schwer</span>
+            </h3>
+            <p>Leite $E = -G M m/(2a)$ für eine Ellipsenbahn her. Benutze Energie-
+              und Drehimpulserhaltung an Perihel und Aphel, an denen
+              $\vec{v} \perp \vec{r}$ ist.</p>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>Drehimpuls: $v_\text{A} = v_\text{P}\,r_\text{P}/r_\text{A}$.
+                Energie an beiden Punkten gleichsetzen und durch $m$ teilen:
+                $$ \tfrac{1}{2} v_\text{P}^2 - \frac{GM}{r_\text{P}} = \tfrac{1}{2} v_\text{P}^2 \frac{r_\text{P}^2}{r_\text{A}^2} - \frac{GM}{r_\text{A}} \quad\Rightarrow\quad \tfrac{1}{2} v_\text{P}^2\,\frac{r_\text{A}^2 - r_\text{P}^2}{r_\text{A}^2} = GM\,\frac{r_\text{A} - r_\text{P}}{r_\text{P} r_\text{A}} $$
+                Mit $r_\text{A}^2 - r_\text{P}^2 = (r_\text{A} - r_\text{P})(r_\text{A} + r_\text{P})$ und $r_\text{A} + r_\text{P} = 2a$:
+                $\tfrac{1}{2} v_\text{P}^2 = G M\,r_\text{A}/(2 a\,r_\text{P})$.
+                Damit
+                $$ \frac{E}{m} = \frac{G M\,r_\text{A}}{2 a\,r_\text{P}} - \frac{G M}{r_\text{P}} = \frac{G M}{r_\text{P}} \cdot \frac{r_\text{A} - 2a}{2a} = \frac{G M}{r_\text{P}} \cdot \frac{-r_\text{P}}{2a} = -\frac{G M}{2a} $$</p>
+              <p><strong>Zum Nachdenken:</strong> Alle Bahnen mit derselben großen
+                Halbachse haben dieselbe Energie und – nach Kepler 3 – dieselbe
+                Umlaufzeit, egal wie länglich sie sind.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe" data-symbole='{"v_2": "zweite kosmische Geschwindigkeit (Fluchtgeschwindigkeit der Erde)"}'>
+            <h3>Aufgabe 6: Raus aus dem Sonnensystem
+              <span class="schwierigkeit" data-stufe="schwer">schwer</span>
+            </h3>
+            <p>Eine Sonde soll das Sonnensystem für immer verlassen.</p>
+            <ol type="a">
+              <li>Wie groß ist die Fluchtgeschwindigkeit aus dem Sonnensystem am
+                Ort der Erdbahn ($1\,\mathrm{AE}$)?</li>
+              <li>Wie schnell muss die Sonde mindestens relativ zur Erde sein,
+                nachdem sie das Schwerefeld der Erde verlassen hat? In welche
+                Richtung startet man am besten?</li>
+              <li>Mit welcher Geschwindigkeit muss sie dafür (ohne Luft) an der
+                Erdoberfläche starten? Nutze den Energiesatz im Erdfeld
+                ($v_2 = 11{,}2\,\mathrm{km/s}$).</li>
+            </ol>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p><strong>(a)</strong> Parabelbahn, $a \to \infty$:
+                $v = \sqrt{2}\,v_\text{E} = 42{,}1\,\mathrm{km/s}$.</p>
+              <p><strong>(b)</strong> Startet man in Richtung der Erdbewegung,
+                bringt die Erde schon $29{,}8\,\mathrm{km/s}$ mit. Nötig sind also
+                nur noch $42{,}1 - 29{,}8 = 12{,}3\,\mathrm{km/s}$ relativ zur Erde.
+                (Gegen die Bewegungsrichtung wären es $72\,\mathrm{km/s}$!)</p>
+              <p><strong>(c)</strong> Weit weg von der Erde soll noch
+                $v_\infty = 12{,}3\,\mathrm{km/s}$ übrig sein:
+                $\tfrac{1}{2} v_0^2 - G M_\text{E}/R_\text{E} = \tfrac{1}{2} v_\infty^2$, also
+                $$ v_0 = \sqrt{v_\infty^2 + v_2^2} = \sqrt{12{,}3^2 + 11{,}2^2}\,\mathrm{km/s} = 16{,}7\,\mathrm{km/s} $$
+                Das ist die dritte kosmische Geschwindigkeit.</p>
+              <p><strong>Zum Nachdenken:</strong> Die Voyager-Sonden schafften das
+                nur mit „Swing-by“-Manövern an Jupiter und Saturn, die ihnen
+                zusätzlichen Schwung gaben – ein elastischer Stoß mit einem
+                Planeten, wie auf der Seite über
+                <a href="stoesse.html">Stöße</a>.</p>
+            </details>
+          </div>
+        </section>
+
+      </div></article>
+  </main>
+</body>
+</html>

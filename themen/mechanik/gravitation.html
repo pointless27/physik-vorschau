@@ -1,0 +1,637 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="robots" content="noindex">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Das Newtonsche Gravitationsgesetz</title>
+  <meta name="description" content="Das Newtonsche Gravitationsgesetz: Herleitung aus den Keplerschen Gesetzen, Gravitationskonstante, Schwerefeld der Erde, potentielle Energie, Satellitenbahnen und Fluchtgeschwindigkeit – mit Beispielen und Aufgaben.">
+
+  <link rel="stylesheet" href="../../css/stil.css">
+
+  <link rel="stylesheet" href="../../extern/katex/katex.min.css">
+  <script defer src="../../extern/katex/katex.min.js"></script>
+  <script defer src="../../extern/katex/contrib/auto-render.min.js" onload="starteFormeln()"></script>
+
+  <script src="../../js/daten.js"></script>
+  <script src="../../js/seite.js"></script>
+  <script src="../../js/effekte.js"></script>
+  <script src="../../js/interaktiv.js"></script>
+  <script src="../../js/modelle/gravitation.js"></script>
+
+  <script type="application/json" id="symbole">
+  {
+    "G": "Gravitationskonstante",
+    "γ": "Gravitationskonstante (andere Schreibweise)",
+    "F": "Gravitationskraft",
+    "M": "Masse des anziehenden Zentralkörpers",
+    "m": "Masse des angezogenen Körpers",
+    "m_1": "Masse des ersten Körpers",
+    "m_2": "Masse des zweiten Körpers",
+    "m_i": "Masse des i-ten Körpers",
+    "M_E": "Erdmasse",
+    "M_⊙": "Sonnenmasse",
+    "r": "Abstand der Massenmittelpunkte",
+    "r_1": "Anfangsabstand vom Zentrum",
+    "r_2": "Endabstand vom Zentrum",
+    "r_i": "Bahnradius des i-ten Körpers",
+    "r_M": "Abstand Erde–Mond",
+    "r_max": "größter Abstand vom Erdmittelpunkt",
+    "R": "Radius des Zentralkörpers",
+    "R_E": "Erdradius",
+    "g": "Fallbeschleunigung",
+    "g_0": "Fallbeschleunigung an der Erdoberfläche",
+    "h": "Höhe über der Erdoberfläche",
+    "T": "Umlaufdauer",
+    "T_M": "Umlaufdauer des Mondes",
+    "T_i": "Umlaufdauer des i-ten Körpers",
+    "ω": "Winkelgeschwindigkeit",
+    "v": "Geschwindigkeit",
+    "v_0": "Startgeschwindigkeit",
+    "v_K": "Kreisbahngeschwindigkeit",
+    "v_1": "erste kosmische Geschwindigkeit",
+    "v_2": "zweite kosmische Geschwindigkeit (Fluchtgeschwindigkeit)",
+    "E": "Gesamtenergie",
+    "E_pot": "potentielle Energie",
+    "E_kin": "kinetische Energie",
+    "W": "Arbeit",
+    "f": "Betrag der Zentralkraft als Funktion des Abstands",
+    "k": "Federkonstante (wirkt wie eine Feder)",
+    "π": "Kreiszahl π ≈ 3,14159"
+  }
+  </script>
+</head>
+<body data-thema="gravitation">
+  <main>
+    <article class="thema">
+      <header>
+        <h1>Das Newtonsche Gravitationsgesetz</h1>
+        <p class="untertitel">Dieselbe Kraft, die einen Apfel vom Baum fallen
+          lässt, hält den Mond auf seiner Bahn – und bestimmt, wie schnell eine
+          Rakete sein muss, um der Erde zu entkommen.</p>
+      </header>
+
+      <div class="tabs">
+
+        <section class="tab" id="verstehen" data-titel="Verstehen">
+
+          <p>Der Legende nach saß Isaac Newton unter einem Apfelbaum, als ihm ein
+            Apfel auf den Kopf fiel. Ob das stimmt, weiß niemand. Sicher ist aber
+            der Gedanke, der ihm kam: Vielleicht ist die Kraft, die den Apfel nach
+            unten zieht, dieselbe, die den Mond um die Erde lenkt. Das war
+            revolutionär – bis dahin hielt man Himmel und Erde für zwei völlig
+            verschiedene Welten.</p>
+
+          <h2>Alles zieht alles an</h2>
+
+          <p>Newtons Gravitationsgesetz sagt: Je zwei Körper ziehen sich an. Die
+            Kraft wird größer, wenn die Massen größer sind, und sie wird schnell
+            kleiner, wenn der Abstand wächst – bei doppeltem Abstand nur noch ein
+            Viertel so groß, bei dreifachem ein Neuntel.</p>
+
+          <p>Auch du und dein Sitznachbar zieht euch an, nur ist die Kraft winzig:
+            etwa so viel wie das Gewicht eines Sandkorns. Spürbar wird die
+            Schwerkraft erst bei riesigen Massen wie der Erde. Dass sie trotzdem
+            zwischen ganz gewöhnlichen Körpern wirkt, hat Henry Cavendish 1798 mit
+            Bleikugeln an einem dünnen Draht im Labor nachgewiesen.</p>
+
+          <div class="alltag">
+            <span class="titel">Aus dem Alltag</span>
+            <p>Auf dem Mond wiegst du nur ein Sechstel so viel wie auf der Erde,
+              obwohl deine Masse gleich bleibt. Der Mond hat viel weniger Masse
+              als die Erde – und obwohl er auch kleiner ist, man also näher an
+              seinem Mittelpunkt steht, gewinnt am Ende die kleinere Masse.</p>
+          </div>
+
+          <h2>Warum der Mond nicht herunterfällt</h2>
+
+          <p>Newton stellte sich eine Kanone auf einem sehr hohen Berg vor, die
+            eine Kugel waagerecht abfeuert. Je schneller die Kugel, desto weiter
+            fliegt sie, bevor sie aufschlägt. Weil die Erde rund ist, krümmt sich
+            der Boden unter der Kugel weg. Ist die Kugel schnell genug, fällt sie
+            zwar ständig, aber der Boden „fällt“ genauso schnell weg – sie kommt
+            nie an. Sie ist auf einer Umlaufbahn.</p>
+
+          <figure class="interaktiv" data-modell="kanone">
+            <span class="titel">Zum Ausprobieren</span>
+            <figcaption>Newtons Kanonenberg: Die Kugel wird von einem
+              gedachten, 420 km hohen Berg waagerecht abgeschossen – so hoch, dass
+              keine Luft mehr bremst (genau dort kreist die Raumstation ISS). Stell
+              das Tempo ein und drück „Abfeuern“. Unter etwa 7,5 km/s schlägt die
+              Kugel irgendwo auf. Mit 7,7 km/s umkreist sie die Erde, schneller wird
+              die Bahn eine immer längere Ellipse – und ab 10,9 km/s kommt sie nie
+              wieder zurück. (Am Erdboden wären es 7,9 und 11,2 km/s; auf dem Berg
+              ist die Anziehung schon etwas schwächer.) Der blaue Pfeil zeigt die
+              Geschwindigkeit, der kupferne die Schwerkraft.</figcaption>
+          </figure>
+
+          <p>Genau das tut der Mond: Er fällt ständig auf die Erde zu, kommt aber
+            wegen seiner seitlichen Geschwindigkeit nie an. Auch die Astronauten in
+            der Raumstation „schweben“ nicht, weil dort keine Schwerkraft wäre –
+            die ist dort oben fast so stark wie am Boden. Sie fallen zusammen mit
+            ihrer Station ununterbrochen um die Erde herum.</p>
+
+          <h2>Der Schwung, um zu entkommen</h2>
+
+          <p>Wirfst du einen Ball hoch, kommt er zurück. Mit mehr Schwung fliegt er
+            höher. Weil die Anziehung mit der Entfernung schwächer wird, gibt es
+            eine Geschwindigkeit, ab der ein Körper nie zurückkommt: die
+            <em>Fluchtgeschwindigkeit</em>, an der Erdoberfläche rund
+            11,2 Kilometer pro Sekunde, also etwa 40&nbsp;000 km/h. Auf dem Mond
+            reichen 2,4 km/s – deshalb konnten die Apollo-Astronauten mit einer
+            kleinen Landefähre wieder starten.</p>
+
+          <div class="merkkasten">
+            <span class="titel">Das Wichtigste in Kürze</span>
+            <ul>
+              <li>Alle Körper ziehen sich an. Die Kraft wächst mit beiden Massen
+                und sinkt mit dem Quadrat des Abstands.</li>
+              <li>Die Schwerkraft auf der Erde und die Kraft, die Mond und Planeten
+                auf ihren Bahnen hält, sind dieselbe Kraft.</li>
+              <li>Eine Umlaufbahn ist ein Fall, bei dem man ständig am Boden
+                vorbeifällt.</li>
+              <li>Ab der Fluchtgeschwindigkeit (Erde: 11,2 km/s) entkommt ein
+                Körper dem Schwerefeld.</li>
+            </ul>
+          </div>
+        </section>
+
+        <section class="tab" id="vertiefung" data-titel="Vertiefung">
+
+          <h2>Von Kepler zu Newton</h2>
+
+          <p>Die Planeten bewegen sich nach den
+            <a href="kepler.html">Keplerschen Gesetzen</a>. Newton fragte: Welche
+            Kraft muss die Sonne ausüben, damit diese Bahnen herauskommen? Weil
+            der Drehimpuls der Planeten erhalten ist, muss es eine
+            <em>Zentralkraft</em> sein, die stets entlang der Verbindungslinie
+            wirkt:</p>
+
+          $$ \vec{F}_\text{G}(\vec{r}) = f(r)\,\hat{r} , $$
+
+          <p>wobei $\hat{r}$ der Einheitsvektor von der Sonne zum Planeten ist.
+            Ein solches Feld heißt <em>Zentralkraftfeld</em>. Die Form von $f(r)$
+            folgt in der Näherung kreisförmiger Bahnen: Die Gravitationskraft
+            liefert die Zentripetalkraft,</p>
+
+          $$ |f(r_i)| = m_i\,\omega_i^2\,r_i, \qquad \omega_i = \frac{2\pi}{T_i} . $$
+
+          <p>Nach dem dritten Keplerschen Gesetz ist $T_i^2 \propto r_i^3$, also
+            $\omega_i^2 \propto r_i^{-3}$ und damit</p>
+
+          $$ |f(r_i)| \propto m_i\,r_i^{-3}\,r_i = \frac{m_i}{r_i^2} . $$
+
+          <p>Die Kraft ist proportional zur Masse des Planeten und fällt mit
+            $1/r^2$ ab. Nach dem dritten Newtonschen Axiom zieht der Planet die
+            Sonne genauso stark an; symmetrisch in beiden Massen ergibt sich das
+            <em>Newtonsche Gravitationsgesetz</em>:</p>
+
+          <div class="merkkasten">
+            <span class="titel">Newtonsches Gravitationsgesetz</span>
+            $$ \vec{F}(r) = -G\,\frac{m_1 m_2}{r^2}\,\hat{r}, \qquad G = 6{,}674 \cdot 10^{-11}\,\mathrm{\frac{m^3}{kg\,s^2}} $$
+            <p>Das Minuszeichen bedeutet Anziehung: Die Kraft auf Körper 2 zeigt
+              zu Körper 1 hin. $G$ ist die <em>Gravitationskonstante</em> (in
+              manchen Skripten $\gamma$).</p>
+          </div>
+
+          <p><strong>Newtons Mondtest.</strong> Wenn dieselbe Kraft Apfel und Mond
+            beschleunigt, muss die Beschleunigung des Mondes um den Faktor
+            $(R_\text{E}/r_\text{M})^2$ kleiner sein als $g$. Mit
+            $r_\text{M} = 3{,}84 \cdot 10^8\,\mathrm{m} \approx 60\,R_\text{E}$
+            ist</p>
+
+          $$ g\left(\frac{R_\text{E}}{r_\text{M}}\right)^2 = 9{,}81\,\mathrm{\tfrac{m}{s^2}} \cdot \frac{1}{60{,}3^2} = 2{,}69 \cdot 10^{-3}\,\mathrm{\tfrac{m}{s^2}}, \qquad \frac{4\pi^2 r_\text{M}}{T_\text{M}^2} = \frac{4\pi^2 \cdot 3{,}84 \cdot 10^8\,\mathrm{m}}{(27{,}3\,\mathrm{d})^2} = 2{,}72 \cdot 10^{-3}\,\mathrm{\tfrac{m}{s^2}} . $$
+
+          <p>Die Übereinstimmung auf 1 % war für Newton der Beweis, dass die
+            irdische Schwere bis zum Mond reicht.</p>
+
+          <h3 id="cavendish">Die Messung der Gravitationskonstante</h3>
+
+          <p>Aus Planetenbahnen erhält man nur das Produkt $G M$. Um $G$ selbst zu
+            bestimmen, muss man die winzige Anziehung bekannter Massen messen.
+            Henry Cavendish benutzte 1798 eine <em>Gravitationsdrehwaage</em>
+            (Abb. 1): Zwei kleine Bleikugeln an einer Stange hängen an einem
+            dünnen Torsionsfaden. Bringt man zwei große Kugeln in die Nähe, dreht
+            die Anziehung die Stange ein wenig, bis das rücktreibende Drehmoment
+            des Fadens die Gravitation ausgleicht. Ein Lichtzeiger über einen
+            Spiegel am Faden macht die Drehung sichtbar.</p>
+
+          <figure class="abbildung">
+            <svg class="abb" viewBox="0 0 360 220" role="img"
+                 aria-label="Gravitationsdrehwaage von oben: Stange mit zwei kleinen Kugeln am Torsionsfaden, zwei große Kugeln daneben, Spiegel und Lichtzeiger">
+              <path class="kurve" d="M90 110H270"/>
+              <circle class="ball" cx="90" cy="110" r="7"/>
+              <circle class="ball" cx="270" cy="110" r="7"/>
+              <circle class="wagen" cx="102" cy="72" r="24"/>
+              <circle class="wagen" cx="258" cy="148" r="24"/>
+              <path class="hilfslinie" d="M90 110L102 72M270 110L258 148"/>
+              <path class="kurve blau duenn" d="M93 103.5L99 90.5"/>
+              <polygon class="punkt blau" points="101.1,85.9 101.1,93.8 95,91"/>
+              <path class="kurve blau duenn" d="M267 116.5L261 129.5"/>
+              <polygon class="punkt blau" points="258.9,134.1 258.9,126.2 265,129"/>
+              <circle class="punkt" cx="180" cy="110" r="4"/>
+              <path class="kurve" d="M172 122H188"/>
+              <path class="kurve kupfer duenn" d="M180 210L180 122L215 210"/>
+              <path class="hilfslinie" d="M180 122L230 210"/>
+              <text x="180" y="96" text-anchor="middle" font-size="11">Torsionsfaden</text>
+              <text x="134" y="48" font-size="12">M</text>
+              <text x="290" y="160" font-size="12">M</text>
+              <text x="76" y="128" text-anchor="end" font-size="12">m</text>
+              <text x="284" y="104" font-size="12">m</text>
+              <text x="172" y="142" text-anchor="end" font-size="11">Spiegel</text>
+              <text class="kupfer" x="236" y="206" font-size="11">Lichtzeiger</text>
+            </svg>
+            <figcaption>Abb. 1: Gravitationsdrehwaage nach Cavendish, von oben.
+              Die großen Kugeln $M$ ziehen die kleinen $m$ an (blaue Pfeile); die
+              Stange dreht sich, bis der verdrillte Faden das Drehmoment
+              ausgleicht. Der vom Spiegel reflektierte Lichtstrahl wandert dabei
+              auf einer entfernten Skala.</figcaption>
+          </figure>
+
+          <p>Mit typischen Werten ($M = 158\,\mathrm{kg}$, $m = 0{,}73\,\mathrm{kg}$,
+            Mittelpunktsabstand $0{,}23\,\mathrm{m}$) beträgt die Kraft nur
+            $1{,}5 \cdot 10^{-7}\,\mathrm{N}$ – das Gewicht von etwa 15 Mikrogramm.
+            Kennt man $G$, kann man die Erde „wiegen“: Aus $g = G M_\text{E}/R_\text{E}^2$
+            folgt $M_\text{E} = g R_\text{E}^2/G = 5{,}97 \cdot 10^{24}\,\mathrm{kg}$.
+            $G$ ist bis heute die am ungenauesten bekannte Naturkonstante (relative
+            Unsicherheit etwa $2 \cdot 10^{-5}$).</p>
+          <h2>Das Schwerefeld der Erde</h2>
+
+          <p>Ein ausgedehnter kugelsymmetrischer Körper wirkt nach außen so, als
+            wäre seine ganze Masse im Mittelpunkt vereinigt (<em>Schalensatz</em>;
+            das Integral über alle Massenelemente führt man am bequemsten in
+            Kugelkoordinaten aus). Außerhalb der Erde ist die Gravitationsbeschleunigung
+            daher</p>
+
+          $$ g(r) = \frac{G M_\text{E}}{r^2} = g_0 \left(\frac{R_\text{E}}{r}\right)^2, \qquad g_0 = \frac{G M_\text{E}}{R_\text{E}^2} \approx 9{,}8\,\mathrm{\tfrac{m}{s^2}} . $$
+
+          <p>Im Inneren einer homogenen Kugel trägt nur die Masse innerhalb des
+            Radius $r$ bei (die äußeren Schalen heben sich auf), und diese wächst
+            mit $r^3$. Dann ist $g(r) = g_0\,r/R_\text{E}$ – linear bis zum
+            Mittelpunkt, wo $g = 0$ ist (Abb. 2). Die echte Erde ist innen dichter
+            als außen, deshalb nimmt $g$ unter der Oberfläche zunächst sogar
+            etwas zu.</p>
+
+          <figure class="abbildung">
+            <svg class="abb" viewBox="0 0 360 210" role="img"
+                 aria-label="Gravitationsbeschleunigung über dem Abstand vom Erdmittelpunkt: innen linear ansteigend, außen mit eins durch r Quadrat abfallend">
+              <rect class="flaeche" x="50" y="40" width="70" height="140"/>
+              <polyline class="kurve blau" points="50.0,180.0 54.7,171.3 59.3,162.7 64.0,154.0 68.7,145.3 73.3,136.7 78.0,128.0 82.7,119.3 87.3,110.7 92.0,102.0 96.7,93.3 101.3,84.7 106.0,76.0 110.7,67.3 115.3,58.7 120.0,50.0 124.7,65.7 129.3,78.8 134.0,89.7 138.7,99.0 143.3,106.9 148.0,113.7 152.7,119.6 157.3,124.7 162.0,129.2 166.7,133.2 171.3,136.7 176.0,139.9 180.7,142.7 185.3,145.2 190.0,147.5 194.7,149.6 199.3,151.4 204.0,153.1 208.7,154.7 213.3,156.1 218.0,157.4 222.7,158.6 227.3,159.7 232.0,160.8 236.7,161.7 241.3,162.6 246.0,163.4 250.7,164.2 255.3,164.9 260.0,165.6 264.7,166.2 269.3,166.8 274.0,167.3 278.7,167.8 283.3,168.3 288.0,168.8 292.7,169.2 297.3,169.6 302.0,170.0 306.7,170.3 311.3,170.7 316.0,171.0 320.7,171.3 325.3,171.6 330.0,171.9"/>
+              <path class="achse" d="M50 180H340M50 190V30"/>
+              <path class="hilfslinie" d="M50 50H120M190 147.5V180"/>
+              <text x="44" y="54" text-anchor="end" font-size="11">g₀</text>
+              <text x="120" y="196" text-anchor="middle" font-size="11">R</text>
+              <text x="190" y="196" text-anchor="middle" font-size="11">2R</text>
+              <text x="260" y="196" text-anchor="middle" font-size="11">3R</text>
+              <text x="336" y="196" text-anchor="end" font-size="11">r</text>
+              <text x="58" y="36">g(r)</text>
+              <text x="85" y="172" text-anchor="middle" font-size="11">Erde</text>
+              <text x="200" y="138" font-size="11">g₀/4</text>
+              <text class="blau" x="160" y="100">∝ 1/r²</text>
+              <text class="blau" x="64" y="120" font-size="12">∝ r</text>
+            </svg>
+            <figcaption>Abb. 2: Gravitationsbeschleunigung in Abhängigkeit vom
+              Abstand zum Erdmittelpunkt (homogene Kugel angenommen). Bei doppeltem
+              Abstand vom Mittelpunkt, also 6371 km über dem Boden, ist sie auf ein
+              Viertel gesunken.</figcaption>
+          </figure>
+
+          <p>In der Höhe der Raumstation ISS ($h = 420\,\mathrm{km}$) ist
+            $g = 9{,}81 \cdot (6371/6791)^2\,\mathrm{m/s^2} = 8{,}6\,\mathrm{m/s^2}$,
+            also noch 88 % des Werts am Boden. Für kleine Höhen $h \ll R_\text{E}$
+            ist $g$ praktisch konstant, und wir sind wieder beim homogenen
+            Schwerefeld aus der <a href="bewegung-1d.html">Kinematik</a>.</p>
+
+          <h2>Potentielle Energie im Gravitationsfeld</h2>
+
+          <p>Die Gravitationskraft ist eine Zentralkraft, die nur von $r$
+            abhängt, und damit konservativ (siehe
+            <a href="energieerhaltung.html">Energieerhaltung</a>). Die Arbeit, um
+            einen Körper der Masse $m$ von $r_1$ nach $r_2$ zu bringen, ist</p>
+
+          $$ W = \int_{r_1}^{r_2} G\,\frac{M m}{r^2}\,\mathrm{d}r = G M m \left(\frac{1}{r_1} - \frac{1}{r_2}\right) . $$
+
+          <p>Legt man den Nullpunkt ins Unendliche ($E_\text{pot}(\infty) = 0$),
+            wird die potentielle Energie</p>
+
+          $$ E_\text{pot}(r) = -\,G\,\frac{M m}{r} . $$
+
+          <p>Sie ist überall negativ: Ein gebundener Körper „sitzt in einem
+            Trichter“ (Abb. 3). Für kleine Höhen über der Oberfläche,
+            $r = R_\text{E} + h$, ergibt die Taylorentwicklung
+            $E_\text{pot}(R_\text{E} + h) - E_\text{pot}(R_\text{E}) \approx G M m\,h/R_\text{E}^2 = m g_0 h$ –
+            die bekannte Formel als Grenzfall.</p>
+
+          <figure class="abbildung">
+            <svg class="abb" viewBox="0 0 360 250" role="img"
+                 aria-label="Potentielle Energie im Gravitationsfeld über dem Abstand: negativ, gegen null strebend; ein gebundener und ein ungebundener Energiewert">
+              <rect class="flaeche" x="40" y="30" width="65" height="210"/>
+              <path class="achse" d="M40 40H340M40 245V20"/>
+              <polyline class="kurve blau" points="105.0,160.0 108.2,154.3 111.5,149.1 114.8,144.3 118.0,140.0 121.2,136.0 124.5,132.3 127.7,128.9 131.0,125.7 134.2,122.8 137.5,120.0 140.8,117.4 144.0,115.0 147.2,112.7 150.5,110.6 153.7,108.6 157.0,106.7 160.2,104.9 163.5,103.2 166.8,101.5 170.0,100.0 173.2,98.5 176.5,97.1 179.8,95.8 183.0,94.5 186.2,93.3 189.5,92.2 192.7,91.1 196.0,90.0 199.2,89.0 202.5,88.0 205.8,87.1 209.0,86.2 212.2,85.3 215.5,84.4 218.7,83.6 222.0,82.9 225.2,82.1 228.5,81.4 231.7,80.7 235.0,80.0 238.2,79.3 241.5,78.7 244.7,78.1 248.0,77.5 251.2,76.9 254.5,76.4 257.8,75.8 261.0,75.3 264.2,74.8 267.5,74.3 270.8,73.8 274.0,73.3 277.2,72.9 280.5,72.4 283.8,72.0 287.0,71.6 290.2,71.2 293.5,70.8 296.8,70.4 300.0,70.0 303.2,69.6 306.5,69.3 309.7,68.9 313.0,68.6 316.2,68.2 319.5,67.9 322.8,67.6 326.0,67.3 329.2,67.0 332.5,66.7 335.8,66.4 339.0,66.1"/>
+              <path class="kurve kupfer" d="M105 100H170"/>
+              <path class="hilfslinie" d="M170 100V40"/>
+              <circle class="punkt kupfer" cx="170" cy="100" r="3.5"/>
+              <path class="kurve" d="M105 28H340" stroke-dasharray="6 4"/>
+              <text x="336" y="34" text-anchor="end" font-size="11">r</text>
+              <text x="48" y="22">E</text>
+              <text x="34" y="44" text-anchor="end" font-size="11">0</text>
+              <text x="72" y="236" text-anchor="middle" font-size="11">Erde</text>
+              <text x="99" y="174" text-anchor="end" font-size="11">−GMm/R</text>
+              <text class="blau" x="236" y="100">E<tspan dy="4" font-size="9">pot</tspan><tspan dy="-4"> = −GMm/r</tspan></text>
+              <text class="kupfer" x="110" y="94" font-size="11">gebunden</text>
+              <text x="176" y="58" font-size="11">Umkehrpunkt</text>
+              <text x="230" y="22" font-size="11">E ≥ 0: entkommt</text>
+            </svg>
+            <figcaption>Abb. 3: Potentielle Energie im Gravitationsfeld der Erde.
+              Ein Körper mit negativer Gesamtenergie (kupfer) steigt nur bis zum
+              Umkehrpunkt, an dem die Kurve seine Energie erreicht. Ab der
+              Gesamtenergie null kommt er beliebig weit.</figcaption>
+          </figure>
+
+          <h2>Satellitenbahnen und Fluchtgeschwindigkeit</h2>
+
+          <h3 id="kreisbahn">Kreisbahn</h3>
+
+          <p>Auf einer Kreisbahn mit Radius $r$ liefert die Gravitation die
+            Zentripetalkraft:</p>
+
+          $$ \frac{m v^2}{r} = \frac{G M m}{r^2} \quad\Longrightarrow\quad v_\text{K} = \sqrt{\frac{G M}{r}}, \qquad T = \frac{2\pi r}{v_\text{K}} = 2\pi\sqrt{\frac{r^3}{G M}} . $$
+
+          <p>Die Masse des Satelliten fällt heraus. Für eine Bahn knapp über dem
+            Boden ($r = R_\text{E}$, ohne Luft) ergibt sich die <em>erste
+            kosmische Geschwindigkeit</em>
+            $v_1 = \sqrt{g_0 R_\text{E}} = 7{,}9\,\mathrm{km/s}$. Die zweite Gleichung
+            ist das dritte Keplersche Gesetz – jetzt mit Konstante:
+            $T^2/r^3 = 4\pi^2/(G M)$.</p>
+
+          <p>Die Energie auf der Kreisbahn ist</p>
+
+          $$ E = \tfrac{1}{2} m v_\text{K}^2 - \frac{G M m}{r} = \frac{G M m}{2 r} - \frac{G M m}{r} = -\frac{G M m}{2 r} = -E_\text{kin} . $$
+
+          <p>Ein Satellit, der durch Luftreibung Energie verliert, sinkt deshalb
+            auf eine tiefere Bahn – und wird dabei <em>schneller</em>.</p>
+
+          <h3 id="fluchtgeschwindigkeit">Fluchtgeschwindigkeit</h3>
+
+          <p>Ein Körper entkommt dem Feld, wenn seine Gesamtenergie mindestens null
+            ist:</p>
+
+          $$ \tfrac{1}{2} m v^2 - \frac{G M m}{R} \ge 0 \quad\Longrightarrow\quad v_2 = \sqrt{\frac{2 G M}{R}} = \sqrt{2}\,v_1 . $$
+
+          <p>An der Erdoberfläche ist die <em>zweite kosmische
+            Geschwindigkeit</em> $v_2 = 11{,}2\,\mathrm{km/s}$ – unabhängig von der
+            Richtung, in die man startet, solange man nicht in die Erde zielt.
+            Zwischen $v_1$ und $v_2$ sind die Bahnen Ellipsen, darüber Hyperbeln
+            (siehe <a href="kepler.html#bahnformen">Bahnformen</a>).</p>
+
+          <div class="merkkasten">
+            <span class="titel">Merke</span>
+            <p>$E_\text{pot} = -G M m/r$ (Nullpunkt im Unendlichen). Kreisbahn:
+              $v_\text{K} = \sqrt{G M/r}$, $E = -G M m/(2r)$. Flucht:
+              $v_2 = \sqrt{2 G M/R}$. Erde: $v_1 = 7{,}9\,\mathrm{km/s}$,
+              $v_2 = 11{,}2\,\mathrm{km/s}$.</p>
+          </div>
+        </section>
+
+        <section class="tab" id="beispiele" data-titel="Beispielrechnungen">
+
+          <div class="beispiel">
+            <h3>Beispiel 1: Wie schwer ist die Sonne?</h3>
+            <p><strong>Gegeben:</strong> Die Erde umläuft die Sonne in guter
+              Näherung auf einem Kreis mit $r = 1{,}496 \cdot 10^{11}\,\mathrm{m}$
+              in $T = 365{,}26\,\mathrm{d}$;
+              $G = 6{,}674 \cdot 10^{-11}\,\mathrm{m^3\,kg^{-1}\,s^{-2}}$.<br>
+              <strong>Gesucht:</strong> Masse der Sonne.</p>
+
+            <p><strong>1. Ansatz:</strong> Gravitation = Zentripetalkraft,
+              $G M_\odot m/r^2 = m\,(2\pi/T)^2 r$, also
+              $$ M_\odot = \frac{4\pi^2 r^3}{G T^2} $$</p>
+
+            <p><strong>2. Zahlen</strong> mit
+              $T = 365{,}26 \cdot 86\,400\,\mathrm{s} = 3{,}156 \cdot 10^7\,\mathrm{s}$:
+              $$ M_\odot = \frac{39{,}48 \cdot (1{,}496 \cdot 10^{11}\,\mathrm{m})^3}{6{,}674 \cdot 10^{-11}\,\mathrm{m^3\,kg^{-1}\,s^{-2}} \cdot (3{,}156 \cdot 10^7\,\mathrm{s})^2} = \frac{1{,}322 \cdot 10^{35}\,\mathrm{m^3}}{6{,}647 \cdot 10^{4}\,\mathrm{m^3\,kg^{-1}}} = 1{,}99 \cdot 10^{30}\,\mathrm{kg} $$
+              Einheitencheck: $\mathrm{m^3}/(\mathrm{m^3\,kg^{-1}\,s^{-2}} \cdot \mathrm{s^2}) = \mathrm{kg}$ ✓.</p>
+
+            <p><strong>Ergebnis und Plausibilität:</strong> Die Sonne hat
+              333&nbsp;000 Erdmassen – sie enthält 99,9 % der Masse des
+              Sonnensystems. Bemerkenswert: Die Masse der Erde kommt gar nicht vor.
+              Aus jeder Umlaufbahn lässt sich so die Masse des Zentralkörpers
+              bestimmen – das ist die wichtigste Methode, um Massen von Sternen,
+              Planeten und sogar Schwarzen Löchern zu messen.</p>
+          </div>
+
+          <div class="beispiel">
+            <h3>Beispiel 2: Der geostationäre Satellit</h3>
+            <p><strong>Gegeben:</strong> Ein Fernsehsatellit soll immer über
+              demselben Punkt des Äquators stehen. Er muss die Erde also in einem
+              Sterntag ($T = 86\,164\,\mathrm{s}$) einmal umrunden;
+              $G M_\text{E} = 3{,}986 \cdot 10^{14}\,\mathrm{m^3/s^2}$,
+              $R_\text{E} = 6371\,\mathrm{km}$.<br>
+              <strong>Gesucht:</strong> Bahnradius, Höhe und Geschwindigkeit.</p>
+
+            <p><strong>1. Bahnradius</strong> aus dem dritten Keplerschen Gesetz:
+              $$ \begin{aligned} r &= \left(\frac{G M_\text{E}\,T^2}{4\pi^2}\right)^{1/3} = \left(\frac{3{,}986 \cdot 10^{14}\,\mathrm{m^3/s^2} \cdot (86\,164\,\mathrm{s})^2}{39{,}48}\right)^{1/3} \\ &= \left(7{,}496 \cdot 10^{22}\,\mathrm{m^3}\right)^{1/3} = 4{,}216 \cdot 10^7\,\mathrm{m} \end{aligned} $$</p>
+
+            <p><strong>2. Höhe:</strong>
+              $h = r - R_\text{E} = 42\,160\,\mathrm{km} - 6371\,\mathrm{km} = 35\,790\,\mathrm{km}$.</p>
+
+            <p><strong>3. Geschwindigkeit:</strong>
+              $v = 2\pi r/T = 2\pi \cdot 4{,}216 \cdot 10^7\,\mathrm{m}/86\,164\,\mathrm{s} = 3{,}07\,\mathrm{km/s}$.
+              Kontrolle: $\sqrt{G M_\text{E}/r} = \sqrt{3{,}986 \cdot 10^{14}/4{,}216 \cdot 10^7}\,\mathrm{m/s} = 3{,}07\,\mathrm{km/s}$ ✓.</p>
+
+            <p><strong>Ergebnis und Plausibilität:</strong> Rund 36&nbsp;000 km
+              über dem Äquator – diese Höhe steht in jedem Lehrbuch zur
+              Satellitentechnik. Die Bahn ist mehr als 6-mal so weit vom
+              Erdmittelpunkt entfernt wie die Oberfläche; trotzdem braucht ein
+              Funksignal hin und zurück nur rund eine Viertelsekunde – die
+              bekannte Verzögerung bei Satellitentelefonaten.</p>
+          </div>
+
+          <div class="beispiel">
+            <h3>Beispiel 3: Was kostet ein Satellit auf der ISS-Bahn?</h3>
+            <p><strong>Gegeben:</strong> Ein Satellit ($m = 1000\,\mathrm{kg}$) soll
+              vom Boden auf eine Kreisbahn in $h = 420\,\mathrm{km}$
+              ($r = 6791\,\mathrm{km}$) gebracht werden. Die Erddrehung und
+              Verluste lassen wir weg.<br>
+              <strong>Gesucht:</strong> nötige Energie, aufgeteilt in Hubarbeit
+              und Bewegungsenergie.</p>
+
+            <p><strong>1. Energie am Boden</strong> (in Ruhe):
+              $$ E_1 = -\frac{G M_\text{E} m}{R_\text{E}} = -\frac{3{,}986 \cdot 10^{14} \cdot 1000}{6{,}371 \cdot 10^6}\,\mathrm{J} = -6{,}256 \cdot 10^{10}\,\mathrm{J} $$</p>
+
+            <p><strong>2. Energie auf der Bahn:</strong>
+              $$ E_2 = -\frac{G M_\text{E} m}{2 r} = -\frac{3{,}986 \cdot 10^{17}}{2 \cdot 6{,}791 \cdot 10^6}\,\mathrm{J} = -2{,}935 \cdot 10^{10}\,\mathrm{J} $$</p>
+
+            <p><strong>3. Differenz:</strong>
+              $\Delta E = E_2 - E_1 = 3{,}32 \cdot 10^{10}\,\mathrm{J} = 33\,\mathrm{GJ}$.
+              Davon Hubarbeit
+              $G M_\text{E} m (1/R_\text{E} - 1/r) = 3{,}87 \cdot 10^9\,\mathrm{J}$
+              (zum Vergleich $m g h = 4{,}12 \cdot 10^9\,\mathrm{J}$, etwas zu viel,
+              weil $g$ nach oben abnimmt) und Bewegungsenergie
+              $\tfrac{1}{2} m v^2 = \tfrac{1}{2} \cdot 1000 \cdot 7661^2\,\mathrm{J} = 2{,}93 \cdot 10^{10}\,\mathrm{J}$.</p>
+
+            <p><strong>Ergebnis und Plausibilität:</strong> Fast 90 % der Energie
+              braucht man nicht zum Hochheben, sondern um auf 7,7 km/s zu
+              beschleunigen. 33 GJ stecken in knapp 1000 Litern Benzin – die echte
+              Rakete braucht ein Vielfaches davon, weil sie ihren Treibstoff
+              mitbeschleunigen muss (siehe
+              <a href="impuls-schwerpunkt.html">Raketengleichung</a>).</p>
+          </div>
+        </section>
+
+        <section class="tab" id="aufgaben" data-titel="Aufgaben">
+
+          <p>Die Aufgaben sind nach Schwierigkeit sortiert. Verwende
+            $G = 6{,}674 \cdot 10^{-11}\,\mathrm{m^3\,kg^{-1}\,s^{-2}}$,
+            $M_\text{E} = 5{,}97 \cdot 10^{24}\,\mathrm{kg}$,
+            $R_\text{E} = 6371\,\mathrm{km}$; Luftwiderstand und Erddrehung werden
+            vernachlässigt.</p>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 1: Anziehung im Hörsaal
+              <span class="schwierigkeit" data-stufe="leicht">leicht</span>
+            </h3>
+            <p>Zwei Studierende ($70\,\mathrm{kg}$ und $60\,\mathrm{kg}$) sitzen
+              $0{,}80\,\mathrm{m}$ voneinander entfernt. Schätze die
+              Gravitationskraft zwischen ihnen ab (als Punktmassen) und vergleiche
+              mit dem Gewicht einer Mücke ($2\,\mathrm{mg}$).</p>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>$F = G\,m_1 m_2/r^2 = 6{,}674 \cdot 10^{-11} \cdot 70 \cdot 60/0{,}64\,\mathrm{N} = 4{,}4 \cdot 10^{-7}\,\mathrm{N}$.
+                Mücke: $2 \cdot 10^{-6}\,\mathrm{kg} \cdot 9{,}81\,\mathrm{m/s^2} = 2{,}0 \cdot 10^{-5}\,\mathrm{N}$
+                – rund 45-mal mehr. Die gegenseitige Anziehung entspricht dem
+                Gewicht von etwa 45 Mikrogramm.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 2: Fallbeschleunigung auf dem Mond
+              <span class="schwierigkeit" data-stufe="leicht">leicht</span>
+            </h3>
+            <p>Der Mond hat die Masse $7{,}34 \cdot 10^{22}\,\mathrm{kg}$ und den
+              Radius $1737\,\mathrm{km}$. Berechne die Fallbeschleunigung an seiner
+              Oberfläche und die Fluchtgeschwindigkeit.</p>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>$g_\text{M} = G M/R^2 = 6{,}674 \cdot 10^{-11} \cdot 7{,}34 \cdot 10^{22}/(1{,}737 \cdot 10^6)^2\,\mathrm{m/s^2} = 1{,}62\,\mathrm{m/s^2}$,
+                etwa ein Sechstel von $g$.
+                $v_2 = \sqrt{2 g_\text{M} R} = \sqrt{2 \cdot 1{,}62 \cdot 1{,}737 \cdot 10^6}\,\mathrm{m/s} = 2{,}37\,\mathrm{km/s}$.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 3: Leichter auf dem Gipfel
+              <span class="schwierigkeit" data-stufe="mittel">mittel</span>
+            </h3>
+            <p>Um wie viel Prozent ist $g$ auf dem Gipfel des Mount Everest
+              ($8849\,\mathrm{m}$) kleiner als auf Meereshöhe? Zeige zuerst, dass
+              für $h \ll R$ näherungsweise $\Delta g/g \approx -2h/R$ gilt. Wie
+              viel „leichter“ ist eine 75-kg-Bergsteigerin?</p>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>$g(h)/g_0 = (1 + h/R)^{-2} \approx 1 - 2h/R$ (Taylor erster
+                Ordnung). Also
+                $\Delta g/g \approx -2 \cdot 8849/6{,}371 \cdot 10^6 = -2{,}78 \cdot 10^{-3} = -0{,}28\,\%$.
+                Die Gewichtskraft sinkt um
+                $75 \cdot 9{,}81 \cdot 0{,}00278\,\mathrm{N} = 2{,}0\,\mathrm{N}$ –
+                das Gewicht von 200 g. (Die Erddrehung und die Abplattung der Erde
+                verändern $g$ am Boden um einen ähnlich großen Betrag.)</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 4: Die Raumstation
+              <span class="schwierigkeit" data-stufe="mittel">mittel</span>
+            </h3>
+            <p>Die ISS umkreist die Erde in $420\,\mathrm{km}$ Höhe.</p>
+            <ol type="a">
+              <li>Wie schnell ist sie, und wie lange dauert ein Umlauf?</li>
+              <li>Wie viele Sonnenaufgänge erleben die Astronauten pro Tag?</li>
+              <li>Warum schweben die Astronauten, obwohl $g$ dort noch
+                $8{,}6\,\mathrm{m/s^2}$ beträgt?</li>
+            </ol>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p><strong>(a)</strong> $r = 6{,}791 \cdot 10^6\,\mathrm{m}$,
+                $v = \sqrt{G M_\text{E}/r} = \sqrt{3{,}985 \cdot 10^{14}/6{,}791 \cdot 10^6}\,\mathrm{m/s} = 7{,}66\,\mathrm{km/s} = 27\,600\,\mathrm{km/h}$,
+                $T = 2\pi r/v = 5570\,\mathrm{s} = 92{,}8\,\mathrm{min}$.</p>
+              <p><strong>(b)</strong> $1440/92{,}8 = 15{,}5$, also etwa 15 bis 16
+                Sonnenaufgänge.</p>
+              <p><strong>(c)</strong> Station und Astronauten erfahren dieselbe
+                Beschleunigung $g(r)$ und „fallen“ gemeinsam auf der Kreisbahn. Im
+                Bezugssystem der Station wirkt keine Kraft zwischen Astronaut und
+                Boden – sie sind schwerelos, nicht gewichtslos im Sinne von
+                „ohne Gravitation“.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe" data-symbole='{"M": "Masse der Erde innerhalb des Radius r", "ω": "Kreisfrequenz der Schwingung"}'>
+            <h3>Aufgabe 5: Ein Tunnel durch die Erde
+              <span class="schwierigkeit" data-stufe="schwer">schwer</span>
+            </h3>
+            <p>Man bohrt (in Gedanken) einen geraden Tunnel durch den
+              Erdmittelpunkt bis zur anderen Seite und lässt einen Stein
+              hineinfallen. Die Erde sei eine homogene Kugel, Reibung gibt es
+              nicht.</p>
+            <ol type="a">
+              <li>Zeige, dass auf den Stein im Tunnel die Kraft $F = -m g_0\,r/R_\text{E}$
+                wirkt.</li>
+              <li>Welche Bewegung folgt daraus? Wie lange braucht der Stein bis
+                zur anderen Seite, und wie schnell ist er im Mittelpunkt?</li>
+            </ol>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p><strong>(a)</strong> Nur die Masse innerhalb von $r$ wirkt:
+                $M(r) = M_\text{E}\,r^3/R_\text{E}^3$. Also
+                $F = -G\,M(r)\,m/r^2 = -G M_\text{E} m\,r/R_\text{E}^3 = -m g_0\,r/R_\text{E}$.</p>
+              <p><strong>(b)</strong> Die Kraft ist proportional zur Auslenkung
+                wie bei einer Feder mit $k = m g_0/R_\text{E}$: Der Stein schwingt
+                harmonisch mit
+                $\omega = \sqrt{g_0/R_\text{E}} = 1{,}24 \cdot 10^{-3}\,\mathrm{s^{-1}}$.
+                Bis zur anderen Seite vergeht eine halbe Periode,
+                $\pi/\omega = 2531\,\mathrm{s} = 42\,\mathrm{min}$. Im Mittelpunkt
+                ist $v = \omega R_\text{E} = 7{,}9\,\mathrm{km/s}$.</p>
+              <p><strong>Zum Nachdenken:</strong> Die 42 Minuten sind genau eine
+                halbe Umlaufzeit eines Satelliten knapp über dem Boden, und die
+                Höchstgeschwindigkeit ist $v_1$. Kein Zufall: Die Projektion einer
+                gleichförmigen Kreisbewegung auf einen Durchmesser ist eine
+                harmonische Schwingung. Erstaunlich ist auch: Bei jedem geraden
+                Tunnel (nicht nur durch den Mittelpunkt) dauert die Fahrt
+                gleich lang.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 6: Wie weit fliegt die Sonde?
+              <span class="schwierigkeit" data-stufe="schwer">schwer</span>
+            </h3>
+            <p>Eine Sonde wird von der Erdoberfläche senkrecht nach oben mit
+              $v_0 = 8{,}0\,\mathrm{km/s}$ abgeschossen (ohne Luft).</p>
+            <ol type="a">
+              <li>Welche Höhe erreicht sie? Was hätte man mit konstantem $g$
+                erhalten?</li>
+              <li>Mit welcher Geschwindigkeit müsste sie starten, um eine Höhe von
+                einem Erdradius zu erreichen?</li>
+            </ol>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p><strong>(a)</strong> Energiesatz:
+                $\tfrac{1}{2} v_0^2 - G M_\text{E}/R_\text{E} = -G M_\text{E}/r_\text{max}$.
+                Mit $G M_\text{E}/R_\text{E} = g_0 R_\text{E} = 6{,}25 \cdot 10^7\,\mathrm{m^2/s^2}$
+                und $\tfrac{1}{2} v_0^2 = 3{,}20 \cdot 10^7\,\mathrm{m^2/s^2}$:
+                $$ \frac{1}{r_\text{max}} = \frac{1}{R_\text{E}}\left(1 - \frac{3{,}20}{6{,}25}\right) = \frac{0{,}488}{R_\text{E}} \quad\Rightarrow\quad r_\text{max} = 2{,}05\,R_\text{E} $$
+                also $h = 1{,}05\,R_\text{E} \approx 6700\,\mathrm{km}$. Mit
+                konstantem $g$: $h = v_0^2/(2g_0) = 3260\,\mathrm{km}$ – nur halb so
+                viel. Die Abnahme von $g$ mit der Höhe macht hier einen
+                gewaltigen Unterschied.</p>
+              <p><strong>(b)</strong> $r_\text{max} = 2R_\text{E}$:
+                $\tfrac{1}{2} v_0^2 = G M_\text{E}/R_\text{E} - G M_\text{E}/(2R_\text{E}) = \tfrac{1}{2} g_0 R_\text{E}$,
+                also $v_0 = \sqrt{g_0 R_\text{E}} = v_1 = 7{,}9\,\mathrm{km/s}$.</p>
+            </details>
+          </div>
+        </section>
+
+      </div></article>
+  </main>
+</body>
+</html>

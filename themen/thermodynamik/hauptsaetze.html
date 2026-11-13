@@ -1,0 +1,593 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="robots" content="noindex">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Die Hauptsätze der Thermodynamik</title>
+  <meta name="description" content="Nullter, erster, zweiter und dritter Hauptsatz: Temperatur, Energieerhaltung, die Richtung der Zeit durch die Entropie und warum der absolute Nullpunkt unerreichbar bleibt.">
+
+  <link rel="stylesheet" href="../../css/stil.css">
+
+  <link rel="stylesheet" href="../../extern/katex/katex.min.css">
+  <script defer src="../../extern/katex/katex.min.js"></script>
+  <script defer src="../../extern/katex/contrib/auto-render.min.js" onload="starteFormeln()"></script>
+
+  <script src="../../js/daten.js"></script>
+  <script src="../../js/seite.js"></script>
+  <script src="../../js/effekte.js"></script>
+  <script type="application/json" id="symbole">
+  {
+    "U": "innere Energie",
+    "Q": "Wärme (zugeführt: positiv)",
+    "W": "Arbeit am System (zugeführt: positiv)",
+    "p": "Druck",
+    "V": "Volumen",
+    "T": "absolute Temperatur",
+    "n": "Stoffmenge",
+    "R": "universelle Gaskonstante, 8,314 J/(mol K)",
+    "S": "Entropie",
+    "k_B": "Boltzmann-Konstante",
+    "H": "Enthalpie",
+    "C_V": "Wärmekapazität bei konstantem Volumen",
+    "C_p": "Wärmekapazität bei konstantem Druck",
+    "γ": "Adiabatenexponent C_p/C_V",
+    "N": "Teilchenzahl",
+    "m": "Masse",
+    "c": "spezifische Wärmekapazität",
+    "x": "Anteil der Teilchen in der linken Hälfte",
+    "T_1": "Anfangstemperatur bzw. Temperatur des ersten Körpers",
+    "T_2": "Endtemperatur bzw. Temperatur des zweiten Körpers",
+    "T_m": "Mischungstemperatur",
+    "V_1": "Anfangsvolumen",
+    "V_2": "Endvolumen",
+    "p_1": "Anfangsdruck",
+    "p_2": "Enddruck",
+    "T_w": "Temperatur des warmen Körpers",
+    "T_k": "Temperatur des kalten Körpers",
+    "A": "Anfangszustand",
+    "B": "Endzustand der Isothermen",
+    "C": "Endzustand der Adiabaten",
+    "f": "Anzahl der Freiheitsgrade",
+    "P": "Wahrscheinlichkeit",
+    "δ": "kleine Menge einer Prozessgröße"
+  }
+  </script>
+</head>
+<body data-thema="hauptsaetze">
+  <main>
+    <article class="thema">
+      <header>
+        <h1>Die <span class="betont">Hauptsätze</span> der Thermodynamik</h1>
+        <p class="untertitel">Vier Regeln, die festlegen, was Wärme, Energie und Zeitrichtung miteinander zu tun haben.</p>
+      </header>
+
+      <div class="tabs">
+
+        <section class="tab" id="verstehen" data-titel="Verstehen">
+
+          <p>Ein Kaffee in einer Tasse wird kalt. Dass er sich von selbst
+            wieder erwärmt und dafür das Zimmer ein wenig abkühlt, hat noch
+            niemand gesehen, obwohl nichts dagegen spräche, wenn man nur auf
+            die Energie schaut. Die Hauptsätze der Thermodynamik halten fest, was
+            geht und was nicht, und sie sind die Regeln für Wärmekraftmaschinen
+            ebenso wie für Kühlschränke.</p>
+
+          <p><strong>Nullter Hauptsatz:</strong> Wenn zwei Dinge jeweils
+            mit einem dritten im Gleichgewicht sind, dann auch miteinander.
+            Das klingt selbstverständlich, begründet aber, dass es so etwas wie
+            Temperatur gibt: Ein Thermometer kann nur messen, weil es sich mit dem
+            Gemessenen auf dieselbe Temperatur einstellt.</p>
+
+          <p><strong>Erster Hauptsatz:</strong> Energie geht nie verloren und
+            entsteht nie aus nichts. Man kann sie in der Form ändern. Reibst du
+            die Hände aneinander, wird Bewegungsenergie zu Wärme. Pumpst du einen
+            Reifen auf, wird Arbeit zu Wärme im Gas. Eine Maschine, die dauerhaft
+            mehr Energie abgibt, als sie bekommt (<em>Perpetuum mobile erster
+            Art</em>), gibt es deshalb nicht.</p>
+
+          <p><strong>Zweiter Hauptsatz:</strong> Wärme fließt von selbst nur vom
+            Warmen zum Kalten, nie umgekehrt. Dasselbe Muster zeigen viele
+            Vorgänge: Ein Gas strömt in einen leeren Raum, aber sammelt sich nicht
+            von selbst wieder in einer Ecke (Abb. 1). Tinte verteilt sich im Wasser,
+            aber entmischt sich nicht. Die Energiebilanz würde jede dieser
+            Umkehrungen erlauben. So gut wie nie passieren sie, weil es unvorstellbar
+            viel mehr Anordnungen der Teilchen gibt, die „verteilt“
+            aussehen, als solche, bei denen alle in einer Ecke sitzen. Die
+            Größe, die dieses Zählen von Möglichkeiten misst, heißt
+            <em>Entropie</em>. Sie nimmt in einem abgeschlossenen System nie ab.</p>
+
+          <figure class="abbildung">
+            <svg class="abb" viewBox="0 0 360 170" role="img" aria-label="Behälter mit Trennwand: links alle Gasteilchen, rechts leer; nach Entfernen der Wand verteilen sich die Teilchen auf beide Hälften">
+<defs><marker id="pfeil-abb1-text" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto"><path class="punkt" d="M0 0L10 5L0 10z"/></marker><marker id="pfeil-abb1-blau" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto"><path class="punkt blau" d="M0 0L10 5L0 10z"/></marker><marker id="pfeil-abb1-kupfer" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto"><path class="punkt kupfer" d="M0 0L10 5L0 10z"/></marker></defs>
+<rect class="achse" x="15" y="20" width="150" height="100" fill="none"/>
+<path class="achse" d="M90 20V120" style="stroke-width:3"/>
+<circle class="punkt kupfer" cx="59.1" cy="89.3" r="3.5"/>
+<circle class="punkt kupfer" cx="69.1" cy="105.4" r="3.5"/>
+<circle class="punkt kupfer" cx="24.7" cy="67.2" r="3.5"/>
+<circle class="punkt kupfer" cx="77.7" cy="81.9" r="3.5"/>
+<circle class="punkt kupfer" cx="75.3" cy="39.1" r="3.5"/>
+<circle class="punkt kupfer" cx="50.2" cy="49.7" r="3.5"/>
+<circle class="punkt kupfer" cx="23.8" cy="47.3" r="3.5"/>
+<circle class="punkt kupfer" cx="39.2" cy="103.3" r="3.5"/>
+<circle class="punkt kupfer" cx="23.1" cy="99.7" r="3.5"/>
+<circle class="punkt kupfer" cx="40.5" cy="78.2" r="3.5"/>
+<circle class="punkt kupfer" cx="23.2" cy="84.2" r="3.5"/>
+<circle class="punkt kupfer" cx="70.5" cy="68.5" r="3.5"/>
+<circle class="punkt kupfer" cx="32.4" cy="33.9" r="3.5"/>
+<circle class="punkt kupfer" cx="59.6" cy="33.3" r="3.5"/>
+<text x="90" y="145" text-anchor="middle">vorher: Wand, alles links</text>
+<rect class="achse" x="195" y="20" width="150" height="100" fill="none"/>
+<circle class="punkt kupfer" cx="266.2" cy="48.1" r="3.5"/>
+<circle class="punkt kupfer" cx="210.3" cy="40.7" r="3.5"/>
+<circle class="punkt kupfer" cx="245.5" cy="44.5" r="3.5"/>
+<circle class="punkt kupfer" cx="228.9" cy="32.9" r="3.5"/>
+<circle class="punkt kupfer" cx="285" cy="77.2" r="3.5"/>
+<circle class="punkt kupfer" cx="234.9" cy="102.3" r="3.5"/>
+<circle class="punkt kupfer" cx="203.1" cy="62.4" r="3.5"/>
+<circle class="punkt kupfer" cx="240.3" cy="62.8" r="3.5"/>
+<circle class="punkt kupfer" cx="218.4" cy="96.5" r="3.5"/>
+<circle class="punkt kupfer" cx="285.2" cy="37.6" r="3.5"/>
+<circle class="punkt kupfer" cx="280.8" cy="106.7" r="3.5"/>
+<circle class="punkt kupfer" cx="312.7" cy="63.5" r="3.5"/>
+<circle class="punkt kupfer" cx="311.9" cy="81.4" r="3.5"/>
+<circle class="punkt kupfer" cx="331.3" cy="107.4" r="3.5"/>
+<text x="270" y="145" text-anchor="middle">nachher: Wand entfernt</text>
+<path class="kurve" d="M170 70H188" marker-end="url(#pfeil-abb1-text)"/>
+</svg>
+            <figcaption>Abb. 1: Ein Gas, das zuerst in der linken Hälfte
+              eingesperrt ist, verteilt sich nach dem Entfernen der Wand auf
+              beide Hälften. Dass sich alle Teilchen zufällig wieder links
+              versammeln, ist nicht verboten, aber extrem unwahrscheinlich.</figcaption>
+          </figure>
+
+          <p><strong>Dritter Hauptsatz:</strong> Den absoluten Nullpunkt
+            ($0\,\mathrm{K}$, also $-273{,}15\,{}^\circ\mathrm{C}$) kann man sich
+            beliebig weit nähern, aber nie ganz erreichen. Je kälter ein System
+            ist, desto schwerer wird es, ihm noch Wärme zu entziehen.</p>
+
+          <div class="alltag">
+            <span class="titel">Aus dem Alltag</span>
+            <p>Ein Kühlschrank scheint den zweiten Hauptsatz zu brechen: Er
+              macht das Innere kälter und die Küche wärmer. Das ist kein Bruch,
+              denn dafür braucht er Strom. Der Motor schafft die Wärme
+              unter Arbeitsaufwand vom Kalten ins Warme, und hinten am Gerät wird
+              insgesamt mehr Wärme abgegeben, als innen entnommen wurde. Von
+              selbst würde diese Wärme nie so fließen.</p>
+          </div>
+
+          <div class="merkkasten">
+            <span class="titel">Das Wichtigste in Kürze</span>
+            <p>Nullter Hauptsatz: Es gibt eine Temperatur. Erster: Energie bleibt
+              erhalten. Zweiter: Wärme fließt von selbst nur von warm nach kalt, und
+              die Entropie eines abgeschlossenen Systems nimmt nicht ab, weil
+              geordnete Zustände unwahrscheinlicher sind als ungeordnete.
+              Dritter: Der absolute Nullpunkt ist unerreichbar.</p>
+          </div>
+        </section>
+
+        <section class="tab" id="vertiefung" data-titel="Vertiefung">
+
+          <h2>Systeme und Zustandsgrößen</h2>
+
+          <p>Ein <em>System</em> wird von seiner Umgebung abgegrenzt. Man
+            unterscheidet:</p>
+          <ul>
+            <li>offene Systeme (Austausch von Materie und Energie, etwa
+              Wasser im Becherglas),</li>
+            <li>geschlossene Systeme (nur Energieaustausch, etwa ein
+              zugeschmolzenes Röhrchen),</li>
+            <li>abgeschlossene Systeme (weder Materie noch Energie, etwa eine
+              ideale Thermosflasche).</li>
+          </ul>
+          <p>Zustandsgrößen wie $p$, $V$, $T$, $U$ und $S$ beschreiben einen
+            Gleichgewichtszustand, unabhängig davon, wie er erreicht wurde.
+            Wärme $Q$ und Arbeit $W$ sind dagegen <em>Prozessgrößen</em>: Sie
+            gehören zum Weg zwischen zwei Zuständen. Das schreibt man mit
+            einem $\delta$ statt $\mathrm{d}$, also $\delta Q$ und $\delta W$.</p>
+
+          <h2>Nullter Hauptsatz</h2>
+
+          <p>Stehen die Systeme A und B im thermischen Gleichgewicht, und ebenso
+            B und C, dann stehen auch A und C im Gleichgewicht. Die Gleichgewichts-Beziehung ist
+            also transitiv, und man kann jedem Gleichgewichts-Zustand eine
+            Zahl zuordnen, die für alle im Gleichgewicht stehenden Systeme gleich
+            ist: die Temperatur. Zwei Systeme sind im thermischen Gleichgewicht genau
+            dann, wenn ihre Temperaturen gleich sind.</p>
+
+          <h2>Erster Hauptsatz</h2>
+
+          <p>Die innere Energie $U$ eines Systems ändert sich durch zugeführte
+            Wärme $Q$ und am System verrichtete Arbeit $W$:</p>
+          $$ \Delta U = Q + W, \qquad \mathrm{d}U = \delta Q + \delta W . $$
+          <p>Hier gilt die Konvention: Was dem System zugeführt wird, zählt
+            positiv. Für ein abgeschlossenes System ist $\Delta U = 0$.
+            Die Volumenarbeit entsteht, wenn ein äußerer Druck $p$ das
+            Volumen verändert (quasistatisch, nur Volumenarbeit):</p>
+          $$ \delta W = -p\,\mathrm{d}V, \qquad W = -\int_{V_1}^{V_2} p\,\mathrm{d}V . $$
+          <p>Bei Kompression ($\mathrm{d}V \lt 0$) ist $W \gt 0$ (am Gas wird
+            Arbeit verrichtet), bei Expansion $W \lt 0$ (das Gas leistet
+            Arbeit). Im $p$-$V$-Diagramm ist $|W|$ die Fläche unter der
+            Kurve (Abb. 2). Der erste Hauptsatz lautet für Volumenarbeit also
+            $\mathrm{d}U = \delta Q - p\,\mathrm{d}V$.</p>
+
+          <p>Bei konstantem Druck führt man die <em>Enthalpie</em>
+            $H = U + pV$ ein. Aus $\mathrm{d}H = \delta Q + V\,\mathrm{d}p$ folgt für
+            $\mathrm{d}p = 0$ sofort $\mathrm{d}H = \delta Q$: Die Enthalpieänderung ist
+            die bei konstantem Druck aufgenommene Wärme, die man im
+            Kalorimeter messen kann. Reaktionen mit $\Delta H \lt 0$ geben
+            Wärme ab (exotherm, etwa Verbrennung), solche mit $\Delta H \gt 0$
+            nehmen Wärme auf (endotherm, etwa Verdunsten).</p>
+
+          <h2>Zustandsänderungen des idealen Gases</h2>
+
+          <p>Für ein ideales Gas mit $U = \frac f2\,nRT$ lassen sich vier
+            Standardprozesse vollständig berechnen:</p>
+          <div class="tabelle-huelle">
+            <table>
+              <thead><tr><th>Prozess</th><th>Bedingung</th><th>$W$</th><th>$Q$</th><th>$\Delta U$</th></tr></thead>
+              <tbody>
+                <tr><td>isochor</td><td>$V = \text{const}$</td><td>$0$</td><td>$C_V\Delta T$</td><td>$C_V\Delta T$</td></tr>
+                <tr><td>isobar</td><td>$p = \text{const}$</td><td>$-p\Delta V = -nR\Delta T$</td><td>$C_p\Delta T$</td><td>$C_V\Delta T$</td></tr>
+                <tr><td>isotherm</td><td>$T = \text{const}$</td><td>$-nRT\ln\dfrac{V_2}{V_1}$</td><td>$+nRT\ln\dfrac{V_2}{V_1}$</td><td>$0$</td></tr>
+                <tr><td>adiabatisch</td><td>$Q = 0$</td><td>$C_V\Delta T$</td><td>$0$</td><td>$C_V\Delta T$</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <p>Die Isotherme folgt aus $p = nRT/V$ und
+            $W = -\int p\,\mathrm{d}V = -nRT\ln(V_2/V_1)$. Für die Adiabate
+            ist $\mathrm{d}U = -p\,\mathrm{d}V$. Mit $\mathrm{d}U = C_V\,\mathrm{d}T$ und
+            $p = nRT/V$ wird daraus $C_V\,\mathrm{d}T/T = -nR\,\mathrm{d}V/V$.
+            Integriert ergibt das, mit $nR/C_V = \gamma - 1$,</p>
+          $$ T V^{\gamma - 1} = \text{const}, \qquad p V^{\gamma} = \text{const}, \qquad \gamma = \frac{C_p}{C_V} . $$
+          <p>Wegen $\gamma \gt 1$ fällt die Adiabate im $p$-$V$-Diagramm steiler
+            als die Isotherme (Abb. 2): Bei Expansion sinkt zusätzlich zur
+            Dichte auch die Temperatur, weil das Gas die Arbeit aus seiner
+            inneren Energie nimmt. Umgekehrt erwärmt eine schnelle Kompression das
+            Gas (Luftpumpe, pneumatisches Feuerzeug, Dieselmotor).</p>
+
+          <figure class="abbildung">
+            <svg class="abb" viewBox="0 0 360 225" role="img" aria-label="p-V-Diagramm: Isotherme und steilere Adiabate durch denselben Anfangspunkt; die Fläche unter der Isotherme ist die Arbeit">
+<defs><marker id="pfeil-abb2-text" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto"><path class="punkt" d="M0 0L10 5L0 10z"/></marker><marker id="pfeil-abb2-blau" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto"><path class="punkt blau" d="M0 0L10 5L0 10z"/></marker><marker id="pfeil-abb2-kupfer" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto"><path class="punkt kupfer" d="M0 0L10 5L0 10z"/></marker></defs>
+<path class="achse" d="M45 190H345" marker-end="url(#pfeil-abb2-text)"/>
+<path class="achse" d="M45 190V12" marker-end="url(#pfeil-abb2-text)"/>
+<text x="338" y="208">V</text><text x="26" y="22">p</text>
+<path class="flaeche" d="M135 190 L135 50 L136.5 52.3 L138 54.5 L139.5 56.7 L141 58.8 L142.5 60.8 L144 62.7 L145.5 64.6 L147 66.5 L148.5 68.3 L150 70 L151.5 71.7 L153 73.3 L154.5 74.9 L156 76.5 L157.5 78 L159 79.5 L160.5 80.9 L162 82.3 L163.5 83.7 L165 85 L166.5 86.3 L168 87.6 L169.5 88.8 L171 90 L172.5 91.2 L174 92.3 L175.5 93.4 L177 94.5 L178.5 95.6 L180 96.7 L181.5 97.7 L183 98.7 L184.5 99.7 L186 100.6 L187.5 101.6 L189 102.5 L190.5 103.4 L192 104.3 L193.5 105.2 L195 106 L196.5 106.8 L198 107.6 L199.5 108.4 L201 109.2 L202.5 110 L204 110.8 L205.5 111.5 L207 112.2 L208.5 112.9 L210 113.6 L211.5 114.3 L213 115 L214.5 115.7 L216 116.3 L217.5 117 L219 117.6 L220.5 118.2 L222 118.8 L223.5 119.4 L225 120 L225 190 Z"/>
+<path class="kurve blau" d="M112.5 3.3 L114.7 9.1 L116.8 14.6 L119 19.7 L121.1 24.5 L123.3 29.1 L125.5 33.4 L127.6 37.5 L129.8 41.4 L131.9 45.1 L134.1 48.6 L136.3 51.9 L138.4 55.1 L140.6 58.2 L142.7 61.1 L144.9 63.9 L147.1 66.5 L149.2 69.1 L151.4 71.6 L153.5 73.9 L155.7 76.2 L157.9 78.4 L160 80.5 L162.2 82.5 L164.3 84.4 L166.5 86.3 L168.7 88.1 L170.8 89.9 L173 91.5 L175.1 93.2 L177.3 94.8 L179.5 96.3 L181.6 97.8 L183.8 99.2 L185.9 100.6 L188.1 101.9 L190.3 103.3 L192.4 104.5 L194.6 105.8 L196.7 107 L198.9 108.1 L201.1 109.3 L203.2 110.4 L205.4 111.4 L207.5 112.5 L209.7 113.5 L211.9 114.5 L214 115.5 L216.2 116.4 L218.3 117.3 L220.5 118.2 L222.7 119.1 L224.8 119.9 L227 120.8 L229.1 121.6 L231.3 122.4 L233.5 123.1 L235.6 123.9 L237.8 124.6 L239.9 125.4 L242.1 126.1 L244.3 126.8 L246.4 127.4 L248.6 128.1 L250.7 128.8 L252.9 129.4 L255.1 130 L257.2 130.6 L259.4 131.2 L261.5 131.8 L263.7 132.4 L265.9 133 L268 133.5 L270.2 134 L272.3 134.6 L274.5 135.1 L276.7 135.6 L278.8 136.1 L281 136.6 L283.1 137.1 L285.3 137.6 L287.5 138 L289.6 138.5 L291.8 138.9 L293.9 139.4 L296.1 139.8 L298.3 140.2 L300.4 140.7 L302.6 141.1 L304.7 141.5 L306.9 141.9 L309.1 142.3 L311.2 142.7 L313.4 143.1 L315.5 143.4 L317.7 143.8 L319.9 144.2 L322 144.5 L324.2 144.9 L326.3 145.2 L328.5 145.6"/>
+<path class="kurve kupfer" d="M112.5 -19.4 L114.7 -10.4 L116.8 -2 L119 5.8 L121.1 13.1 L123.3 19.9 L125.5 26.2 L127.6 32.2 L129.8 37.8 L131.9 43.1 L134.1 48 L136.3 52.7 L138.4 57.1 L140.6 61.3 L142.7 65.3 L144.9 69 L147.1 72.6 L149.2 76 L151.4 79.2 L153.5 82.3 L155.7 85.2 L157.9 88 L160 90.7 L162.2 93.2 L164.3 95.7 L166.5 98 L168.7 100.3 L170.8 102.4 L173 104.5 L175.1 106.5 L177.3 108.4 L179.5 110.2 L181.6 112 L183.8 113.6 L185.9 115.3 L188.1 116.9 L190.3 118.4 L192.4 119.8 L194.6 121.3 L196.7 122.6 L198.9 123.9 L201.1 125.2 L203.2 126.5 L205.4 127.6 L207.5 128.8 L209.7 129.9 L211.9 131 L214 132.1 L216.2 133.1 L218.3 134.1 L220.5 135 L222.7 136 L224.8 136.9 L227 137.8 L229.1 138.6 L231.3 139.4 L233.5 140.3 L235.6 141 L237.8 141.8 L239.9 142.6 L242.1 143.3 L244.3 144 L246.4 144.7 L248.6 145.3 L250.7 146 L252.9 146.6 L255.1 147.3 L257.2 147.9 L259.4 148.5 L261.5 149 L263.7 149.6 L265.9 150.2 L268 150.7 L270.2 151.2 L272.3 151.7 L274.5 152.2 L276.7 152.7 L278.8 153.2 L281 153.7 L283.1 154.1 L285.3 154.6 L287.5 155 L289.6 155.5 L291.8 155.9 L293.9 156.3 L296.1 156.7 L298.3 157.1 L300.4 157.5 L302.6 157.9 L304.7 158.3 L306.9 158.6 L309.1 159 L311.2 159.3 L313.4 159.7 L315.5 160 L317.7 160.3 L319.9 160.7 L322 161 L324.2 161.3 L326.3 161.6 L328.5 161.9"/>
+<circle class="punkt " cx="135" cy="50" r="3.5"/>
+<circle class="punkt blau" cx="225" cy="120" r="3.5"/>
+<circle class="punkt kupfer" cx="225" cy="136.9" r="3.5"/>
+<text x="127" y="44" text-anchor="end">A</text>
+<text class="blau" x="232" y="114">B</text>
+<text class="kupfer" x="232" y="150.9">C</text>
+<path class="hilfslinie" d="M135 190V50M225 190V120"/>
+<text class="klein" x="135" y="204" text-anchor="middle">V₁</text><text class="klein" x="225" y="204" text-anchor="middle">V₂</text>
+<text class="klein blau" x="324" y="126.8" text-anchor="end">Isotherme</text>
+<text class="klein kupfer" x="324" y="179.3" text-anchor="end">Adiabate</text>
+<text class="klein" x="180" y="162" text-anchor="middle">Arbeit</text>
+</svg>
+            <figcaption>Abb. 2: Isotherme (blau, $A \to B$) und Adiabate
+              (orange, $A \to C$) eines idealen Gases mit $\gamma = 1{,}4$ vom
+              selben Anfangspunkt. Die hellblaue Fläche unter der Isothermen ist
+              der Betrag der Arbeit $|W|$.</figcaption>
+          </figure>
+
+          <h2>Zweiter Hauptsatz und Entropie</h2>
+
+          <p>Der erste Hauptsatz erlaubt jeden Prozess, bei dem die Energie
+            stimmt. Der zweite sortiert aus. Es gibt zwei gleichwertige
+            Formulierungen:</p>
+          <ul>
+            <li><strong>Clausius:</strong> Wärme fließt nicht von selbst von einem
+              kälteren zu einem wärmeren Körper.</li>
+            <li><strong>Kelvin:</strong> Es gibt keine Maschine, die periodisch
+              arbeitet und nichts tut, als Wärme aus einem einzigen Reservoir
+              vollständig in Arbeit zu verwandeln (<em>Perpetuum mobile
+              zweiter Art</em>).</li>
+          </ul>
+
+          <p>Das quantitative Maß ist die <em>Entropie</em>. Statistisch zählt
+            sie die Mikrozustände $\Omega$, die zu einem Makrozustand passen
+            (Boltzmann):</p>
+          $$ S = k_\mathrm{B} \ln \Omega . $$
+          <p>Thermodynamisch ist sie über die bei einer reversiblen Änderung
+            übertragene Wärme definiert:</p>
+          $$ \mathrm{d}S = \frac{\delta Q_\text{rev}}{T} . $$
+          <p>Der zweite Hauptsatz sagt: In einem abgeschlossenen System gilt
+            $\Delta S \ge 0$, mit dem Gleichheitszeichen nur für reversible
+            Prozesse. Ein Prozess ist <em>reversibel</em>, wenn er in beide
+            Richtungen ablaufen könnte, ohne dass in der Umgebung etwas
+            zurückbleibt. Das ist eine Idealisierung (quasistatisch, ohne Reibung).</p>
+
+          <p><strong>Beispiel Wärmefluss.</strong> Fließt die Wärme $Q$ von einem
+            warmen Körper ($T_\mathrm{w}$) zu einem kalten ($T_\mathrm{k}$), ändert
+            sich die Gesamtentropie um</p>
+          $$ \Delta S = -\frac{Q}{T_\mathrm{w}} + \frac{Q}{T_\mathrm{k}} = Q\,\frac{T_\mathrm{w} - T_\mathrm{k}}{T_\mathrm{w}\,T_\mathrm{k}} \gt 0 . $$
+          <p>Die umgekehrte Richtung hätte $\Delta S \lt 0$ und ist daher
+            verboten.</p>
+
+          <p><strong>Beispiel freie Expansion.</strong> Ein ideales Gas
+            dehnt sich ohne Arbeit und ohne Wärmeaustausch von $V_1$
+            auf $V_2$ aus. Die Temperatur bleibt gleich. Die Mikrozustandszahl
+            wächst mit $V^N$, also
+            $\Delta S = N k_\mathrm{B}\ln(V_2/V_1) = nR\ln(V_2/V_1)$. Bei einer Verdopplung
+            sind das $N k_\mathrm{B}\ln 2$ (Abb. 1). Die Wahrscheinlichkeit, alle
+            Teilchen wieder in der alten Hälfte zu finden, ist
+            $2^{-N}$.</p>
+
+          <p>Dass dennoch kleine Fluktuationen vorkommen, zeigt Abb. 3: Für
+            wenige Teilchen schwankt der Anteil in der linken Hälfte stark. Die
+            Breite der Verteilung fällt wie $1/\sqrt N$. Bei $N \approx 10^{23}$
+            ist sie so schmal, dass eine Abweichung vom gleichmäßig verteilten
+            Zustand nie beobachtet wird.</p>
+
+          <figure class="abbildung">
+            <svg class="abb" viewBox="0 0 360 225" role="img" aria-label="Verteilung des Anteils der Teilchen in der linken Hälfte für 20 und für 100 Teilchen; die Kurve für 100 Teilchen ist deutlich schmaler">
+<defs><marker id="pfeil-abb3-text" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto"><path class="punkt" d="M0 0L10 5L0 10z"/></marker><marker id="pfeil-abb3-blau" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto"><path class="punkt blau" d="M0 0L10 5L0 10z"/></marker><marker id="pfeil-abb3-kupfer" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto"><path class="punkt kupfer" d="M0 0L10 5L0 10z"/></marker></defs>
+<path class="achse" d="M45 190H345" marker-end="url(#pfeil-abb3-text)"/>
+<path class="achse" d="M45 190V12" marker-end="url(#pfeil-abb3-text)"/>
+<text x="346" y="222">x</text><text x="52" y="20">Wahrscheinlichkeitsdichte</text>
+<path class="achse" d="M45 190v4"/><text class="klein" x="45" y="204" text-anchor="middle">0</text>
+<path class="achse" d="M190 190v4"/><text class="klein" x="190" y="204" text-anchor="middle">0,5</text>
+<path class="achse" d="M335 190v4"/><text class="klein" x="335" y="204" text-anchor="middle">1</text>
+<path class="kurve kupfer" d="M45 190 L59.5 190 L74 189.9 L88.5 189.6 L103 188.2 L117.5 184.4 L132 176 L146.5 161.9 L161 144.3 L175.5 129.1 L190 123 L204.5 129.1 L219 144.3 L233.5 161.9 L248 176 L262.5 184.4 L277 188.2 L291.5 189.6 L306 189.9 L320.5 190 L335 190"/>
+<path class="kurve blau" d="M45 190 L47.9 190 L50.8 190 L53.7 190 L56.6 190 L59.5 190 L62.4 190 L65.3 190 L68.2 190 L71.1 190 L74 190 L76.9 190 L79.8 190 L82.7 190 L85.6 190 L88.5 190 L91.4 190 L94.3 190 L97.2 190 L100.1 190 L103 190 L105.9 190 L108.8 190 L111.7 190 L114.6 190 L117.5 190 L120.4 190 L123.3 190 L126.2 190 L129.1 190 L132 190 L134.9 189.9 L137.8 189.8 L140.7 189.6 L143.6 189.1 L146.5 188.4 L149.4 187 L152.3 184.9 L155.2 181.5 L158.1 176.5 L161 169.4 L163.9 159.8 L166.8 147.6 L169.7 132.9 L172.6 116 L175.5 97.9 L178.4 79.9 L181.3 63.5 L184.2 50.3 L187.1 41.7 L190 38.8 L192.9 41.7 L195.8 50.3 L198.7 63.5 L201.6 79.9 L204.5 97.9 L207.4 116 L210.3 132.9 L213.2 147.6 L216.1 159.8 L219 169.4 L221.9 176.5 L224.8 181.5 L227.7 184.9 L230.6 187 L233.5 188.4 L236.4 189.1 L239.3 189.6 L242.2 189.8 L245.1 189.9 L248 190 L250.9 190 L253.8 190 L256.7 190 L259.6 190 L262.5 190 L265.4 190 L268.3 190 L271.2 190 L274.1 190 L277 190 L279.9 190 L282.8 190 L285.7 190 L288.6 190 L291.5 190 L294.4 190 L297.3 190 L300.2 190 L303.1 190 L306 190 L308.9 190 L311.8 190 L314.7 190 L317.6 190 L320.5 190 L323.4 190 L326.3 190 L329.2 190 L332.1 190 L335 190"/>
+<text class="klein kupfer" x="103" y="152" text-anchor="end">N = 20</text>
+<text class="klein blau" x="224.8" y="76">N = 100</text>
+<text class="klein" x="190" y="222" text-anchor="middle">Anteil x der Teilchen in der linken Hälfte</text>
+</svg>
+            <figcaption>Abb. 3: Wahrscheinlichkeitsdichte für den Anteil $x$ der
+              Teilchen in der linken Hälfte, für $N = 20$ (orange) und $N = 100$
+              (blau). Beide sind um $x = 0{,}5$ zentriert, die Kurve für mehr
+              Teilchen ist schmaler.</figcaption>
+          </figure>
+
+          <h2>Dritter Hauptsatz</h2>
+
+          <p>Nach Nernst geht die Entropie für $T \to 0$ gegen einen
+            konstanten Wert $S_0$ (für einen nicht entarteten
+            Grundzustand null). Daraus folgt, dass der absolute Nullpunkt in
+            endlich vielen Schritten nicht erreichbar ist. Außerdem muss
+            die Wärmekapazität für $T \to 0$ gegen null gehen, sonst wäre
+            $\int C\,\mathrm{d}T/T$ unendlich. Das passt nicht zur klassischen
+            Physik, in der die Wärmekapazität des Gases konstant ist, und
+            zeigt, dass bei tiefen Temperaturen Quantenmechanik nötig ist.</p>
+
+          <div class="merkkasten">
+            <span class="titel">Merke</span>
+            <p>0. Hauptsatz: Temperatur als Gleichgewichtsgröße. 1. Hauptsatz:
+              $\Delta U = Q + W$, mit $W = -\int p\,\mathrm{d}V$. 2. Hauptsatz:
+              $\Delta S \ge 0$ für abgeschlossene Systeme,
+              $\mathrm{d}S = \delta Q_\text{rev}/T$, $S = k_\mathrm{B}\ln\Omega$.
+              3. Hauptsatz: $S \to S_0$ und $C \to 0$ für $T \to 0$, der
+              Nullpunkt ist unerreichbar.</p>
+          </div>
+        </section>
+
+        <section class="tab" id="beispiele" data-titel="Beispielrechnungen">
+
+          <div class="beispiel">
+            <h3>Beispiel 1: Isotherme Kompression</h3>
+            <p><strong>Gegeben:</strong> $0{,}50\,\mathrm{mol}$ eines idealen Gases
+              werden bei $300\,\mathrm{K}$ langsam von $10\,\mathrm{l}$ auf $2{,}5\,\mathrm{l}$ zusammengedrückt.<br>
+              <strong>Gesucht:</strong> Arbeit $W$, abgegebene Wärme, $\Delta U$ und die
+              Entropieänderung des Gases.</p>
+
+            <p><strong>1. Arbeit am Gas.</strong>
+              $$ W = -nRT\ln\frac{V_2}{V_1} = -0{,}50 \cdot 8{,}3145\,\mathrm{\tfrac{J}{mol\,K}} \cdot 300\,\mathrm{K} \cdot \ln\frac{2{,}5}{10} = +1729\,\mathrm{J} $$</p>
+
+            <p><strong>2. Innere Energie.</strong> Isotherm ist $\Delta U = 0$
+              (ideales Gas, $U$ hängt nur von $T$ ab).</p>
+
+            <p><strong>3. Wärme.</strong> Aus $\Delta U = Q + W$:
+              $$ Q = \Delta U - W = -1729\,\mathrm{J} $$
+              Das Gas gibt $1729\,\mathrm{J}$ an die Umgebung ab.</p>
+
+            <p><strong>4. Entropie des Gases.</strong>
+              $$ \Delta S = \frac{Q}{T} = \frac{-1729\,\mathrm{J}}{300\,\mathrm{K}} = -5{,}76\,\mathrm{J/K} $$
+              Einheitencheck: $\mathrm{J/K}$ ✓</p>
+
+            <p><strong>Ergebnis und Plausibilität:</strong> Dem Gas werden
+              $1729\,\mathrm{J}$ Arbeit zugeführt, und genau diese Energie fließt
+              als Wärme ab. Die Entropie des Gases sinkt (weniger Raum, weniger
+              Mikrozustände), die der Umgebung steigt um mindestens denselben
+              Betrag, sodass die Gesamtentropie nicht abnimmt. Der Wert stimmt mit
+              $\Delta S = nR\ln(V_2/V_1) = -0{,}50 \cdot 8{,}3145 \cdot \ln 4 = -5{,}76\,\mathrm{J/K}$ überein.</p>
+          </div>
+
+          <div class="beispiel">
+            <h3>Beispiel 2: Adiabatische Kompression im Dieselmotor</h3>
+            <p><strong>Gegeben:</strong> $1{,}0\,\mathrm{mol}$ Luft ($\gamma = 1{,}4$,
+              $C_{V,\mathrm{m}} = \frac52 R$) bei $300\,\mathrm{K}$ und $20\,\mathrm{l}$ wird adiabatisch auf
+              $5{,}0\,\mathrm{l}$ verdichtet.<br>
+              <strong>Gesucht:</strong> Endtemperatur, Arbeit und Enddruck.</p>
+
+            <p><strong>1. Endtemperatur.</strong> Aus $T V^{\gamma - 1} = \text{const}$:
+              $$ T_2 = T_1\left(\frac{V_1}{V_2}\right)^{\gamma - 1} = 300\,\mathrm{K} \cdot 4^{0{,}4} = 522\,\mathrm{K} $$</p>
+
+            <p><strong>2. Arbeit.</strong> Wegen $Q = 0$ ist $W = \Delta U$:
+              $$ W = C_V\,(T_2 - T_1) = \tfrac52 \cdot 8{,}3145\,\mathrm{\tfrac{J}{mol\,K}} \cdot 1{,}0\,\mathrm{mol} \cdot 222{,}3\,\mathrm{K} = 4621\,\mathrm{J} $$</p>
+
+            <p><strong>3. Enddruck.</strong> Anfangsdruck
+              $p_1 = nRT_1/V_1 = 124{,}7\,\mathrm{kPa}$. Dann
+              $$ p_2 = p_1\left(\frac{V_1}{V_2}\right)^{\gamma} = 124{,}7\,\mathrm{kPa} \cdot 4^{1{,}4} = 869\,\mathrm{kPa} $$
+              Kontrolle über $p_2 = nRT_2/V_2 = 1{,}0 \cdot 8{,}3145 \cdot 522{,}3/0{,}0050\,\mathrm{Pa} = 869\,\mathrm{kPa}$ ✓
+              Einheitencheck: $\mathrm{mol \cdot J/(mol\,K) \cdot K / m^3} = \mathrm{J/m^3} = \mathrm{Pa}$ ✓</p>
+
+            <p><strong>Ergebnis und Plausibilität:</strong> Die Luft wird um
+              $222\,\mathrm{K}$ heißer und kommt auf $522\,\mathrm{K}$ bei $8{,}7\,\mathrm{bar}$.
+              Eine isotherme Kompression auf dasselbe Volumen hätte nur
+              $4{,}99\,\mathrm{bar}$ ergeben. Im Dieselmotor ist das Verhältnis
+              viel größer (etwa $1:16$), die Luft wird dabei so heiß, dass
+              eingespritzter Diesel von selbst zündet.</p>
+          </div>
+
+          <div class="beispiel">
+            <h3>Beispiel 3: Entropie beim Wärmefluss</h3>
+            <p><strong>Gegeben:</strong> Aus einem Reservoir mit $400\,\mathrm{K}$ fließen
+              $1000\,\mathrm{J}$ Wärme in ein Reservoir mit $300\,\mathrm{K}$.<br>
+              <strong>Gesucht:</strong> die Entropieänderung beider Reservoirs und insgesamt.</p>
+
+            <p><strong>1. Warmes Reservoir.</strong>
+              $$ \Delta S_\mathrm{w} = -\frac{1000\,\mathrm{J}}{400\,\mathrm{K}} = -2{,}50\,\mathrm{J/K} $$</p>
+
+            <p><strong>2. Kaltes Reservoir.</strong>
+              $$ \Delta S_\mathrm{k} = +\frac{1000\,\mathrm{J}}{300\,\mathrm{K}} = +3{,}33\,\mathrm{J/K} $$</p>
+
+            <p><strong>3. Gesamt.</strong>
+              $$ \Delta S = -2{,}50\,\mathrm{J/K} + 3{,}33\,\mathrm{J/K} = +0{,}83\,\mathrm{J/K} $$
+              Einheitencheck: $\mathrm{J/K}$ ✓</p>
+
+            <p><strong>Ergebnis und Plausibilität:</strong> Die Gesamtentropie wächst um
+              $0{,}83\,\mathrm{J/K}$, der Vorgang ist irreversibel. Der Verlust hat
+              eine Bedeutung: Hätte man die $1000\,\mathrm{J}$ durch eine reversible
+              Maschine geleitet, hätte man bis zu
+              $T_\mathrm{k}\,\Delta S = 300\,\mathrm{K} \cdot 0{,}83\,\mathrm{J/K} = 250\,\mathrm{J}$ Arbeit gewinnen
+              können. Diese $250\,\mathrm{J}$ sind beim direkten Wärmefluss ungenutzt
+              als Wärme gelandet. Sie entsprechen $1 - 300/400 = 25\,\%$ der
+              Wärme, dem Carnot-Wirkungsgrad.</p>
+          </div>
+        </section>
+
+        <section class="tab" id="aufgaben" data-titel="Aufgaben">
+
+          <p>Verwende $R = 8{,}3145\,\mathrm{J/(mol\,K)}$. Arbeit am System zählt positiv.
+            Gase sind ideal.</p>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 1
+              <span class="schwierigkeit" data-stufe="leicht">leicht</span>
+            </h3>
+            <ol type="a">
+              <li>Einem Gas werden $500\,\mathrm{J}$ Wärme zugeführt, gleichzeitig
+                leistet es $200\,\mathrm{J}$ Arbeit. Wie ändert sich $U$?</li>
+              <li>Ein Gas wird mit $300\,\mathrm{J}$ Arbeit komprimiert und gibt dabei
+                $100\,\mathrm{J}$ Wärme ab. Wie ändert sich $U$?</li>
+            </ol>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p><strong>a)</strong> $Q = +500\,\mathrm{J}$, $W = -200\,\mathrm{J}$
+                (das Gas leistet Arbeit), also
+                $\Delta U = Q + W = 500\,\mathrm{J} - 200\,\mathrm{J} = +300\,\mathrm{J}$.</p>
+              <p><strong>b)</strong> $W = +300\,\mathrm{J}$, $Q = -100\,\mathrm{J}$, also
+                $\Delta U = -100\,\mathrm{J} + 300\,\mathrm{J} = +200\,\mathrm{J}$. In beiden
+                Fällen steigt die innere Energie, das Gas wird wärmer.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 2
+              <span class="schwierigkeit" data-stufe="leicht">leicht</span>
+            </h3>
+            <p>$2{,}0\,\mathrm{mol}$ eines einatomigen idealen Gases werden bei
+              konstantem Druck von $300\,\mathrm{K}$ auf $400\,\mathrm{K}$ erwärmt.
+              Bestimme $\Delta U$, $W$ und $Q$.</p>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              $$ \Delta U = \tfrac32 nR\,\Delta T = 1{,}5 \cdot 2{,}0 \cdot 8{,}3145 \cdot 100\,\mathrm{J} = 2494\,\mathrm{J} $$
+              $$ W = -p\,\Delta V = -nR\,\Delta T = -2{,}0 \cdot 8{,}3145 \cdot 100\,\mathrm{J} = -1663\,\mathrm{J} $$
+              $$ Q = \Delta U - W = 2494\,\mathrm{J} + 1663\,\mathrm{J} = 4157\,\mathrm{J} = \tfrac52 nR\,\Delta T . $$
+              <p>Das passt zu $Q = C_p\Delta T$ mit $C_p = \frac52 nR$. Das Gas
+                leistet $1663\,\mathrm{J}$ Arbeit, der Rest der Wärme erhöht $U$.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 3
+              <span class="schwierigkeit" data-stufe="mittel">mittel</span>
+            </h3>
+            <p>$2{,}0\,\mathrm{mol}$ eines idealen Gases dehnen sich bei $350\,\mathrm{K}$
+              isotherm von $5{,}0\,\mathrm{l}$ auf $20\,\mathrm{l}$ aus. Berechne $W$, $Q$, $\Delta U$ und $\Delta S$ des Gases.</p>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              $$ W = -nRT\ln\frac{V_2}{V_1} = -2{,}0 \cdot 8{,}3145 \cdot 350 \cdot \ln 4\,\mathrm{J} = -8068\,\mathrm{J} . $$
+              <p>Das Gas leistet $8{,}07\,\mathrm{kJ}$ Arbeit. Isotherm ist
+                $\Delta U = 0$, also $Q = -W = +8068\,\mathrm{J}$ (aus dem Wärmebad
+                aufgenommen). Die Entropieänderung:
+                $$ \Delta S = \frac{Q}{T} = nR\ln\frac{V_2}{V_1} = 2{,}0 \cdot 8{,}3145 \cdot \ln 4\,\mathrm{J/K} = +23{,}1\,\mathrm{J/K} . $$
+                Das Gas gewinnt Entropie, weil es mehr Raum hat. Das Wärmebad
+                verliert $23{,}1\,\mathrm{J/K}$, die Gesamtentropie bleibt bei dieser
+                reversiblen Expansion gleich.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 4
+              <span class="schwierigkeit" data-stufe="mittel">mittel</span>
+            </h3>
+            <p>$0{,}10\,\mathrm{mol}$ Argon ($\gamma = 5/3$) bei $300\,\mathrm{K}$ und
+              $1{,}0\,\mathrm{bar}$ werden adiabatisch auf ein Achtel des Volumens
+              komprimiert. Berechne Endtemperatur, Enddruck und die am Gas
+              verrichtete Arbeit.</p>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              $$ T_2 = T_1\,8^{\gamma - 1} = 300\,\mathrm{K} \cdot 8^{2/3} = 1200\,\mathrm{K} . $$
+              $$ p_2 = p_1\,8^{\gamma} = 1{,}0\,\mathrm{bar} \cdot 8^{5/3} = 32\,\mathrm{bar} . $$
+              $$ W = \Delta U = \tfrac32 nR\,(T_2 - T_1) = 1{,}5 \cdot 0{,}10 \cdot 8{,}3145 \cdot 900\,\mathrm{J} = 1122\,\mathrm{J} . $$
+              <p>Kontrolle: $p_2V_2/(p_1V_1) = 32/8 = 4 = T_2/T_1$ ✓.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 5
+              <span class="schwierigkeit" data-stufe="schwer">schwer</span>
+            </h3>
+            <p>$1{,}0\,\mathrm{kg}$ Wasser von $20\,{}^\circ\mathrm{C}$ wird mit
+              $1{,}0\,\mathrm{kg}$ Wasser von $80\,{}^\circ\mathrm{C}$ in einem
+              isolierten Gefäß gemischt ($c = 4182\,\mathrm{J/(kg\,K)}$). Bestimme die
+              Mischungstemperatur und die Entropieänderung. Zeige, dass sie positiv ist.</p>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>Gleiche Massen, gleiches $c$, also
+                $T_\mathrm{m} = (20 + 80)/2\,{}^\circ\mathrm{C} = 50\,{}^\circ\mathrm{C} = 323{,}15\,\mathrm{K}$.
+                Für jedes Teilwasser ist
+                $\Delta S = \int \delta Q/T = mc\int \mathrm{d}T/T = mc\ln(T_\mathrm{m}/T_i)$:</p>
+              $$ \Delta S = mc\left[\ln\frac{323{,}15}{293{,}15} + \ln\frac{323{,}15}{353{,}15}\right]
+                 = 4182\,\mathrm{\tfrac{J}{K}} \cdot (0{,}0975 - 0{,}0888) = +36\,\mathrm{J/K} . $$
+              <p>Allgemein ist $\ln\frac{T_\mathrm{m}}{T_1} + \ln\frac{T_\mathrm{m}}{T_2} = \ln\frac{T_\mathrm{m}^2}{T_1T_2}$.
+                Mit $T_\mathrm{m} = (T_1 + T_2)/2$ gilt $T_\mathrm{m}^2 \ge T_1T_2$
+                (arithmetisches gegen geometrisches Mittel), also $\Delta S \ge 0$ mit
+                Gleichheit nur bei $T_1 = T_2$. Das Mischen ist irreversibel.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 6
+              <span class="schwierigkeit" data-stufe="schwer">schwer</span>
+            </h3>
+            <p>Ein Gas aus $N$ Teilchen füllt zunächst die linke Hälfte eines
+              Behälters. Die Wand wird entfernt.</p>
+            <ol type="a">
+              <li>Wie groß ist die Wahrscheinlichkeit, alle $N$ Teilchen später
+                wieder links zu finden, für $N = 10$ und $N = 100$?</li>
+              <li>Wie groß ist die Entropiezunahme bei der Ausdehnung für
+                $N = 100$ und für $1{,}0\,\mathrm{mol}$?</li>
+              <li>Wie breit ist die Verteilung des linken Anteils $x$ für
+                $N = 10^{23}$ (Größenordnung $1/\sqrt N$)?</li>
+            </ol>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p><strong>a)</strong> Jedes Teilchen ist mit Wahrscheinlichkeit $\frac12$
+                links, unabhängig von den anderen:
+                $P = 2^{-N}$. Für $N = 10$ ist $P = 1/1024 \approx 10^{-3}$, für
+                $N = 100$ ist $P = 2^{-100} = 7{,}9 \cdot 10^{-31}$.</p>
+              <p><strong>b)</strong> Mit $\Delta S = N k_\mathrm{B}\ln 2$:
+                $$ N = 100: \; 100 \cdot 1{,}381 \cdot 10^{-23}\,\mathrm{J/K} \cdot 0{,}693 = 9{,}6 \cdot 10^{-22}\,\mathrm{J/K} . $$
+                $$ 1{,}0\,\mathrm{mol}: \; R\ln 2 = 8{,}3145\,\mathrm{J/(mol\,K)} \cdot 0{,}693 = 5{,}76\,\mathrm{J/K} . $$</p>
+              <p><strong>c)</strong> Die Breite von $x$ ist von der Größenordnung
+                $1/\sqrt N = 1/\sqrt{10^{23}} \approx 3 \cdot 10^{-12}$. Der Anteil in
+                der linken Hälfte weicht also um etwa ein Billionstel vom Wert
+                $\frac12$ ab. Eine Abweichung von einem Prozent hätte eine
+                Wahrscheinlichkeit, die praktisch null ist, deshalb sehen wir
+                die Rückkehr zum geordneten Zustand nie.</p>
+            </details>
+          </div>
+
+        </section>
+
+      </div></article>
+  </main>
+</body>
+</html>

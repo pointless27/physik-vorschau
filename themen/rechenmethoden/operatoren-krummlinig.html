@@ -1,0 +1,999 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="robots" content="noindex">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Differentialoperatoren in krummlinigen Koordinaten</title>
+  <meta name="description" content="Gradient, Divergenz, Rotation und Laplace-Operator in Zylinder- und Kugelkoordinaten: woher die Skalenfaktoren in den Formeln kommen, mit Abbildungen, Beispielen aus der Physik und Aufgaben.">
+
+  <link rel="stylesheet" href="../../css/stil.css">
+
+  <link rel="stylesheet" href="../../extern/katex/katex.min.css">
+  <script defer src="../../extern/katex/katex.min.js"></script>
+  <script defer src="../../extern/katex/contrib/auto-render.min.js" onload="starteFormeln()"></script>
+
+  <script src="../../js/daten.js"></script>
+  <script src="../../js/seite.js"></script>
+  <script src="../../js/effekte.js"></script>
+  <script src="../../js/interaktiv.js"></script>
+  <script src="../../js/modelle/operatoren-krummlinig.js"></script>
+  <script type="application/json" id="symbole">
+  {
+    "x": "x-Koordinate",
+    "y": "y-Koordinate",
+    "z": "z-Koordinate (Höhe)",
+    "r": "Abstand vom Ursprung (Kugelkoordinate)",
+    "ρ": "Abstand von der z-Achse (Zylinderkoordinate)",
+    "φ": "Azimutwinkel um die z-Achse",
+    "ϑ": "Polarwinkel, gemessen von der z-Achse",
+    "u_1": "erste allgemeine Koordinate",
+    "u_2": "zweite allgemeine Koordinate",
+    "u_3": "dritte allgemeine Koordinate",
+    "u_i": "allgemeine Koordinate Nummer i",
+    "h_1": "Skalenfaktor der Koordinate u₁",
+    "h_2": "Skalenfaktor der Koordinate u₂",
+    "h_3": "Skalenfaktor der Koordinate u₃",
+    "h_i": "Skalenfaktor: Weg pro Koordinatenschritt",
+    "h_r": "Skalenfaktor der Koordinate r",
+    "h_ϑ": "Skalenfaktor des Polarwinkels ϑ",
+    "h_φ": "Skalenfaktor des Winkels φ",
+    "h_ρ": "Skalenfaktor der Koordinate ρ",
+    "h_z": "Skalenfaktor der Koordinate z",
+    "i": "Nummer der Koordinate (1, 2 oder 3)",
+    "s_i": "Weg entlang der Koordinatenlinie von u_i",
+    "e_r": "Einheitsvektor vom Ursprung weg",
+    "e_ϑ": "Einheitsvektor in Richtung wachsender Polarwinkel (nach „Süden“)",
+    "e_φ": "Einheitsvektor in Umlaufrichtung um die z-Achse",
+    "e_ρ": "Einheitsvektor von der z-Achse weg",
+    "e_z": "Einheitsvektor in z-Richtung",
+    "e_x": "Einheitsvektor in x-Richtung",
+    "e_u1": "Einheitsvektor längs der Koordinatenlinie von u₁",
+    "e_u2": "Einheitsvektor längs der Koordinatenlinie von u₂",
+    "e_u3": "Einheitsvektor längs der Koordinatenlinie von u₃",
+    "e_ui": "Einheitsvektor längs der Koordinatenlinie von u_i",
+    "f": "Skalarfeld",
+    "F": "Vektorfeld",
+    "F_1": "Komponente von F längs ê u₁",
+    "F_2": "Komponente von F längs ê u₂",
+    "F_3": "Komponente von F längs ê u₃",
+    "F_r": "Komponente von F längs ê r",
+    "F_ϑ": "Komponente von F längs ê ϑ",
+    "F_φ": "Komponente von F längs ê φ",
+    "F_ρ": "Komponente von F längs ê ρ",
+    "F_z": "Komponente von F längs ê z",
+    "g": "Gravitationsfeldstärke (Fallbeschleunigung)",
+    "G": "Gravitationskonstante",
+    "M": "Masse des anziehenden Körpers",
+    "R": "Radius der Kugel",
+    "ρ_m": "Massendichte",
+    "c": "Anstieg der Rampe pro Winkel (Ganghöhe geteilt durch 2π)",
+    "n": "Exponent",
+    "v": "Strömungsgeschwindigkeit",
+    "v_φ": "Strömungsgeschwindigkeit in Umlaufrichtung",
+    "ω": "Winkelgeschwindigkeit",
+    "k": "Stärke des Wirbels",
+    "A": "Konstante",
+    "B": "Konstante",
+    "E": "elektrisches Feld",
+    "π": "Kreiszahl 3,14159…"
+  }
+  </script>
+</head>
+<body data-thema="operatoren-krummlinig">
+  <main>
+    <article class="thema">
+      <header>
+        <h1>Differentialoperatoren in krummlinigen Koordinaten</h1>
+        <p class="untertitel">Gradient, Divergenz, Rotation und Laplace in
+          Zylinder- und Kugelkoordinaten – und warum ein Schritt im Winkel kein
+          Schritt in Metern ist.</p>
+      </header>
+
+      <div class="tabs">
+
+        <section class="tab" id="verstehen" data-titel="Verstehen">
+
+          <p>Die Erde zieht dich an, egal ob du in Europa oder in Australien
+            stehst: Ihre Schwerkraft hängt nur vom Abstand $r$ zum Erdmittelpunkt
+            ab. In kartesischen Koordinaten steht da aber
+            $r = \sqrt{x^2 + y^2 + z^2}$, und jede Ableitung schleppt diese
+            Wurzel mit. In Kugelkoordinaten ist dasselbe Feld eine Funktion einer
+            einzigen Variablen. Damit du Gradient, Divergenz, Rotation und
+            Laplace-Operator auch dort benutzen kannst, brauchst du ihre Form in
+            krummlinigen Koordinaten. Die Formeln sehen zuerst abschreckend aus,
+            folgen aber aus einer einzigen Idee. Du solltest die Seiten über
+            <a href="differentialoperatoren.html">Gradient, Divergenz und
+            Rotation</a> und über <a href="koordinatensysteme.html">krummlinige
+            Koordinatensysteme</a> kennen.</p>
+
+          <h2 id="idee">Die eine Idee: Ein Koordinatenschritt ist kein Meter</h2>
+
+          <p>Änderst du eine Koordinate $u_i$ um $\mathrm{d}u_i$, wandert der
+            Punkt entlang der Koordinatenlinie um die Strecke
+            $\mathrm{d}s_i = h_i\,\mathrm{d}u_i$. Der
+            <a href="koordinatensysteme.html#skalenfaktoren">Skalenfaktor</a>
+            $h_i$ rechnet also Koordinatenschritte in Meter um. Drehst du
+            etwa den Winkel $\varphi$ um $\mathrm{d}\varphi$, legst du im
+            Abstand $\rho$ von der Achse den Bogen $\rho\,\mathrm{d}\varphi$
+            zurück. Für die beiden wichtigsten Systeme:</p>
+
+          <div class="tabelle-huelle">
+            <table>
+              <thead><tr><th>System</th><th>Koordinaten</th><th>Skalenfaktoren</th></tr></thead>
+              <tbody>
+                <tr><td>kartesisch</td><td>$(x, y, z)$</td><td>$1,\ 1,\ 1$</td></tr>
+                <tr><td>Zylinder</td><td>$(\rho, \varphi, z)$</td><td>$h_\rho = 1,\ h_\varphi = \rho,\ h_z = 1$</td></tr>
+                <tr><td>Kugel</td><td>$(r, \vartheta, \varphi)$</td><td>$h_r = 1,\ h_\vartheta = r,\ h_\varphi = r\sin\vartheta$</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <p>Beide Systeme sind <strong>orthogonal</strong>: Ihre
+            Einheitsvektoren stehen überall senkrecht aufeinander. Nur für
+            solche Systeme gelten die Formeln auf dieser Seite. Aus den
+            Skalenfaktoren folgt alles Weitere, und zwar auf zwei Wegen.
+            Erstens ist eine Ableitung nach einem Winkel keine Änderung pro
+            Meter – beim Gradienten muss man umrechnen. Zweitens sind die
+            Wände eines kleinen Volumenstücks, das von Koordinatenflächen
+            begrenzt wird, verschieden groß – das spüren Divergenz und
+            Rotation.</p>
+
+          <h2 id="gradient">Der Gradient: Steigung pro Meter, nicht pro Grad</h2>
+
+          <p>Der Gradient eines Skalarfelds $f$ gibt an, wie stark sich $f$
+            pro Meter ändert, und zeigt in die Richtung des steilsten Anstiegs.
+            Seine Komponente längs $\hat e_{u_i}$ ist deshalb die Änderung von
+            $f$ geteilt durch den dabei zurückgelegten Weg
+            $\mathrm{d}s_i = h_i\,\mathrm{d}u_i$:</p>
+
+          $$ \nabla f = \sum_i \frac{1}{h_i}\,\frac{\partial f}{\partial u_i}\,\hat e_{u_i} $$
+
+          <p>In Zylinder- und Kugelkoordinaten heißt das:</p>
+
+          $$ \nabla f = \frac{\partial f}{\partial\rho}\,\hat e_\rho + \frac{1}{\rho}\,\frac{\partial f}{\partial\varphi}\,\hat e_\varphi + \frac{\partial f}{\partial z}\,\hat e_z $$
+
+          $$ \nabla f = \frac{\partial f}{\partial r}\,\hat e_r + \frac{1}{r}\,\frac{\partial f}{\partial\vartheta}\,\hat e_\vartheta + \frac{1}{r\sin\vartheta}\,\frac{\partial f}{\partial\varphi}\,\hat e_\varphi $$
+
+          <p>Der Lohn der Mühe: Für ein Feld, das nur von $r$ abhängt, bleibt
+            ein einziger Term. Das Gravitationspotential der Erde,
+            $\Phi = -GM/r$ (potentielle Energie pro Masse), liefert in einer
+            Zeile $\nabla\Phi = \frac{GM}{r^2}\,\hat e_r$ und damit die
+            Feldstärke $\vec g = -\nabla\Phi = -\frac{GM}{r^2}\,\hat e_r$.
+            Kartesisch brauchst du dafür drei Ableitungen mit Kettenregel.</p>
+
+          <div class="alltag">
+            <span class="titel">Analogie: die Wendelrampe im Parkhaus</span>
+            <p>Fährst du in einem Parkhaus die Wendelrampe hinauf, gewinnst du
+              bei jeder vollen Umdrehung ein Stockwerk, sagen wir 3&nbsp;m. Die
+              Höhe ist $z = c\,\varphi$ mit $c = 3\,\mathrm{m}/2\pi$, ganz
+              gleich, ob du innen oder außen fährst. Pro Winkel steigt die Rampe
+              also überall gleich stark. Trotzdem ist sie innen steiler, denn
+              dort ist der Weg für eine Umdrehung kürzer. Die Steigung pro Meter
+              ist $c/\rho$ – genau der Faktor $1/h_\varphi = 1/\rho$ im
+              Gradienten (Abb. 1). Bei $\rho = 4\,\mathrm{m}$ sind das
+              12&nbsp;%, bei $\rho = 10\,\mathrm{m}$ nur 4,8&nbsp;%.</p>
+          </div>
+
+          <figure class="abbildung">
+            <svg class="abb" viewBox="0 0 320 270" role="img" aria-label="Draufsicht auf eine Wendelrampe um eine Mittelsäule: Höhenlinien sind Strahlen von der Mitte nach außen, alle 30 Grad; die Gradientenpfeile zeigen in Umlaufrichtung, gegen den Uhrzeigersinn, und sind innen etwa zweieinhalbmal so lang wie außen">
+<path class="flaeche" fill-rule="evenodd" d="M282.4 135A122.4 122.4 0 1 0 37.6 135A122.4 122.4 0 1 0 282.4 135ZM194 135A34 34 0 1 1 126 135A34 34 0 1 1 194 135Z"/>
+<circle class="kurve blau duenn" cx="160" cy="135" r="34" fill="none"/>
+<circle class="kurve blau duenn" cx="160" cy="135" r="122.4" fill="none"/>
+<path class="kurve kupfer" d="M194 135L282.4 135"/>
+<path class="hilfslinie" d="M189.4 118L266 73.8"/>
+<path class="hilfslinie" d="M177 105.6L221.2 29"/>
+<path class="hilfslinie" d="M160 101L160 12.6"/>
+<path class="hilfslinie" d="M143 105.6L98.8 29"/>
+<path class="hilfslinie" d="M130.6 118L54 73.8"/>
+<path class="hilfslinie" d="M126 135L37.6 135"/>
+<path class="hilfslinie" d="M130.6 152L54 196.2"/>
+<path class="hilfslinie" d="M143 164.4L98.8 241"/>
+<path class="hilfslinie" d="M160 169L160 257.4"/>
+<path class="hilfslinie" d="M177 164.4L221.2 241"/>
+<path class="hilfslinie" d="M189.4 152L266 196.2"/>
+<text class="klein halo" x="278.4" y="70.7" text-anchor="middle">0,25 m</text>
+<text class="klein halo" x="160" y="2.3" text-anchor="middle">0,75 m</text>
+<text class="klein halo" x="23.3" y="139" text-anchor="middle">1,5 m</text>
+<text class="klein halo" x="160" y="275.7" text-anchor="middle">2,25 m</text>
+<text class="klein kupfer halo" x="294.7" y="129" text-anchor="middle">0 bzw.</text>
+<text class="klein kupfer halo" x="294.7" y="142" text-anchor="middle">3 m</text>
+<g class="pfeil blau duenn"><line x1="206.9" y1="139.2" x2="200.1" y2="113.8"/><polygon points="198.5,108 197.2,114.5 203,113"/></g>
+<g class="pfeil blau duenn"><line x1="140.2" y1="92.3" x2="121.6" y2="110.9"/><polygon points="117.3,115.2 123.7,113 119.4,108.8"/></g>
+<g class="pfeil blau duenn"><line x1="133" y1="173.5" x2="158.4" y2="180.3"/><polygon points="164.2,181.9 159.1,177.4 157.6,183.2"/></g>
+<g class="pfeil blau duenn"><line x1="237.9" y1="123.6" x2="234.7" y2="111.7"/><polygon points="233.2,105.9 231.8,112.5 237.6,111"/></g>
+<g class="pfeil blau duenn"><line x1="111.2" y1="73.2" x2="102.5" y2="81.9"/><polygon points="98.2,86.2 104.6,84 100.4,79.8"/></g>
+<g class="pfeil blau duenn"><line x1="130.9" y1="208.2" x2="142.8" y2="211.3"/><polygon points="148.6,212.9 143.6,208.4 142,214.2"/></g>
+<g class="pfeil blau duenn"><line x1="270" y1="112.1" x2="268.3" y2="105.6"/><polygon points="266.7,99.8 265.4,106.4 271.2,104.8"/></g>
+<g class="pfeil blau duenn"><line x1="85.2" y1="51.2" x2="80.4" y2="55.9"/><polygon points="76.2,60.2 82.5,58 78.3,53.8"/></g>
+<g class="pfeil blau duenn"><line x1="124.8" y1="241.7" x2="131.3" y2="243.5"/><polygon points="137.1,245 132.1,240.6 130.5,246.4"/></g>
+<circle class="punkt" cx="160" cy="135" r="2.5"/>
+<text class="klein halo" x="160" y="150" text-anchor="middle">Säule</text>
+</svg>
+            <figcaption>Abb. 1: Draufsicht auf eine Wendelrampe mit 3&nbsp;m
+              Ganghöhe um eine Mittelsäule. Die Höhenlinien (gestrichelt) sind
+              Strahlen; alle 30° liegt die Rampe 0,25&nbsp;m höher, an der
+              orangen Linie beginnt das nächste Stockwerk. Der Gradient (blau)
+              zeigt in Umlaufrichtung. Innen ist er länger, weil dort dieselben
+              0,25&nbsp;m auf einem kürzeren Weg gewonnen werden: Seine Länge
+              ist $c/\rho$.</figcaption>
+          </figure>
+
+          <p>Achtung, Falle: Die Komponenten des Gradienten sind nicht einfach
+            die partiellen Ableitungen. Die Größe $\partial f/\partial\varphi$
+            hat nicht einmal die richtige Einheit, denn ein Winkel hat keine
+            Länge. Erst der Faktor $1/h_i$ macht daraus eine Änderung pro
+            Meter.</p>
+
+          <p>Ein nützlicher Sonderfall ist der Gradient einer Koordinate
+            selbst. Setzt du $f = r$, $f = \vartheta$ oder $f = \varphi$ ein,
+            bleibt jeweils ein Term übrig:</p>
+
+          $$ \nabla r = \hat e_r, \qquad \nabla\vartheta = \frac{1}{r}\,\hat e_\vartheta, \qquad \nabla\varphi = \frac{1}{r\sin\vartheta}\,\hat e_\varphi $$
+
+          <p>Weil ein Gradient senkrecht auf den Flächen steht, auf denen das
+            Feld konstant ist, verrät das etwas Geometrisches: Jeder
+            Einheitsvektor steht senkrecht auf der Koordinatenfläche seiner
+            Koordinate – $\hat e_r$ auf den Kugelschalen, $\hat e_\vartheta$
+            auf den Kegeln um die $z$-Achse, $\hat e_\varphi$ auf den
+            Halbebenen, die von der $z$-Achse ausgehen.</p>
+
+          <h2 id="divergenz">Die Divergenz: was durch krumme Wände fließt</h2>
+
+          <p>Die Divergenz misst, wie viel ein Vektorfeld aus einem kleinen
+            Volumen herausfließt, geteilt durch dieses Volumen. Kartesisch ist
+            das kleine Volumen ein Würfel, und gegenüberliegende Seiten sind
+            gleich groß. Nimmst du stattdessen ein Stück, das von
+            Koordinatenflächen begrenzt wird, etwa aus einer Kugelschale, dann
+            ist die äußere Wand größer als die innere (Abb. 2).</p>
+
+          <p>Durch die Wand, auf der $u_1$ konstant ist, fließt die Komponente
+            $F_1$ mal die Wandfläche $h_2 h_3\,\mathrm{d}u_2\,\mathrm{d}u_3$.
+            Was an der gegenüberliegenden Wand herauskommt, unterscheidet sich
+            deshalb um die Änderung des ganzen Produkts $h_2 h_3 F_1$, nicht
+            nur um die von $F_1$. Teilt man durch das Volumen
+            $h_1 h_2 h_3\,\mathrm{d}u_1\,\mathrm{d}u_2\,\mathrm{d}u_3$ und
+            nimmt alle drei Wandpaare zusammen, ergibt sich:</p>
+
+          $$ \nabla\cdot\vec F = \frac{1}{h_1 h_2 h_3}\left[\frac{\partial}{\partial u_1}\big(h_2 h_3 F_1\big) + \frac{\partial}{\partial u_2}\big(h_1 h_3 F_2\big) + \frac{\partial}{\partial u_3}\big(h_1 h_2 F_3\big)\right] $$
+
+          <p>Die Skalenfaktoren stehen jetzt mitten in der Ableitung, denn sie
+            messen die Wandflächen. Für Zylinder- und Kugelkoordinaten:</p>
+
+          $$ \nabla\cdot\vec F = \frac{1}{\rho}\,\frac{\partial}{\partial\rho}\big(\rho F_\rho\big) + \frac{1}{\rho}\,\frac{\partial F_\varphi}{\partial\varphi} + \frac{\partial F_z}{\partial z} $$
+
+          $$ \nabla\cdot\vec F = \frac{1}{r^2}\,\frac{\partial}{\partial r}\big(r^2 F_r\big) + \frac{1}{r\sin\vartheta}\,\frac{\partial}{\partial\vartheta}\big(\sin\vartheta\,F_\vartheta\big) + \frac{1}{r\sin\vartheta}\,\frac{\partial F_\varphi}{\partial\varphi} $$
+
+          <p>Für ein radiales Feld $\vec F = r^n\,\hat e_r$ bleibt nur der
+            erste Term:</p>
+
+          $$ \nabla\cdot\big(r^n\,\hat e_r\big) = \frac{1}{r^2}\,\frac{\mathrm{d}}{\mathrm{d}r}\big(r^{n+2}\big) = (n+2)\,r^{n-1} $$
+
+          <p>Für $n = 1$, also $\vec F = \vec r$, kommt wie kartesisch 3
+            heraus. Für $n = -2$ ist die Divergenz null: Das Feld
+            $\hat e_r/r^2$ einer Punktmasse oder Punktladung hat außerhalb des
+            Ursprungs keine Quellen. Abb. 2 zeigt, warum: Die Wandfläche wächst
+            wie $r^2$, das Feld fällt wie $1/r^2$, und das Produkt bleibt
+            gleich. Was innen hineinfließt, fließt außen wieder heraus.</p>
+
+          <figure class="abbildung">
+            <svg class="abb" viewBox="0 0 360 210" role="img" aria-label="Schrägbild eines spitzen Kegels aus der Punktquelle links; zwei kreisförmige Deckel schneiden ihn, der äußere doppelt so weit draußen und viermal so groß; die Feldpfeile durch den inneren Deckel sind viermal so lang wie durch den äußeren">
+<path class="hilfslinie" d="M34 112L272 39.3"/>
+<path class="hilfslinie" d="M34 112L272 184.7"/>
+<path class="flaeche" d="M144 78.4L254 44.8L254 179.2L144 145.6Z"/>
+<ellipse class="flaeche kupfer" cx="144" cy="112" rx="12.8" ry="33.6"/>
+<ellipse class="flaeche kupfer" cx="254" cy="112" rx="25.6" ry="67.2"/>
+<ellipse class="kurve kupfer duenn" cx="144" cy="112" rx="12.8" ry="33.6"/>
+<ellipse class="kurve kupfer duenn" cx="254" cy="112" rx="25.6" ry="67.2"/>
+<path class="kurve blau duenn" d="M144 78.4L254 44.8"/>
+<path class="kurve blau duenn" d="M144 145.6L254 179.2"/>
+<g class="pfeil blau"><line x1="131.6" y1="128.1" x2="169.1" y2="134.2"/><polygon points="177,135.5 169.7,130.3 168.4,138.2"/></g>
+<g class="pfeil blau"><line x1="257" y1="148.7" x2="261.5" y2="149.5"/><polygon points="268.3,150.6 262.2,145.5 260.9,153.4"/></g>
+<g class="pfeil blau"><line x1="132.9" y1="112" x2="170.9" y2="112"/><polygon points="178.9,112 170.9,108 170.9,116"/></g>
+<g class="pfeil blau"><line x1="260" y1="112" x2="264.6" y2="112"/><polygon points="271.5,112 264.6,108 264.6,116"/></g>
+<g class="pfeil blau"><line x1="131.6" y1="95.9" x2="169.1" y2="89.8"/><polygon points="177,88.5 168.4,85.8 169.7,93.7"/></g>
+<g class="pfeil blau"><line x1="257" y1="75.3" x2="261.5" y2="74.5"/><polygon points="268.3,73.4 260.9,70.6 262.2,78.5"/></g>
+<circle class="punkt" cx="34" cy="112" r="3.5"/>
+<text class="klein halo" x="34" y="132" text-anchor="middle">Quelle</text>
+<text class="klein halo" x="144" y="171.6" text-anchor="middle">innen: Fläche klein,</text>
+<text class="klein halo" x="144" y="184.6" text-anchor="middle">Feld stark</text>
+<text class="klein halo" x="246" y="197.2" text-anchor="middle">außen: Fläche groß,</text>
+<text class="klein halo" x="246" y="210.2" text-anchor="middle">Feld schwach</text>
+<text class="kupfer halo" x="144" y="68.4" text-anchor="middle" font-style="italic">r<tspan dy="4" font-size="10">1</tspan></text>
+<text class="kupfer halo" x="254" y="34.8" text-anchor="middle" font-style="italic">r<tspan dy="4" font-size="10">2</tspan></text>
+</svg>
+            <figcaption>Abb. 2: Ein Stück zwischen zwei Kugelschalen,
+              ausgeschnitten von einem Kegel um die Punktquelle. Die äußere
+              Wand (orange) ist doppelt so weit entfernt und deshalb viermal so
+              groß. Das Feld $\hat e_r/r^2$ (blau) ist dort viermal schwächer:
+              Durch beide Wände fließt gleich viel, die Divergenz ist
+              null.</figcaption>
+          </figure>
+
+          <p>Und $n = 0$? Das Feld $\hat e_r$ ist überall gleich lang, und
+            doch ist $\nabla\cdot\hat e_r = 2/r$, nicht null. Gleich lange
+            Pfeile treffen außen auf eine größere Wand, also fließt dort mehr
+            heraus, als innen hineinkommt. Wer einfach
+            $\partial F_r/\partial r$ ausrechnet, bekommt null und liegt
+            falsch.</p>
+
+          <div class="alltag">
+            <span class="titel">In der Physik: Warum Licht mit dem Quadrat der Entfernung schwächer wird</span>
+            <p>Eine Lampe sendet jede Sekunde dieselbe Energie aus. Im leeren
+              Raum um sie herum geht keine Energie verloren, und es kommt keine
+              hinzu: Der Energiestrom hat dort keine Quellen, seine Divergenz
+              ist null. Für ein radiales Feld geht das nach der Formel oben nur
+              mit $n = -2$. Deshalb werden das Licht jeder Lampe, das Leuchten
+              jedes Sterns und das Schwerefeld jeder Kugel mit dem Quadrat der
+              Entfernung schwächer: doppelter Abstand, ein Viertel.</p>
+          </div>
+
+          <h2 id="rotation">Die Rotation: Umlauf um ein krummes Stück</h2>
+
+          <p>Die Rotation misst, wie stark ein Feld um eine kleine Fläche
+            herumläuft, geteilt durch die Fläche. Auch hier sind die Wegstücke
+            verschieden lang: Bei einem Stück eines Kreisrings ist der äußere
+            Bogen länger als der innere (Abb. 3). Deshalb steht in der
+            Ableitung das Produkt aus Feld und Bogenlänge, $\rho F_\varphi$.
+            Für ebene Strömungen um die $z$-Achse zählt nur die
+            $z$-Komponente:</p>
+
+          $$ \big(\nabla\times\vec F\big)_z = \frac{1}{\rho}\left[\frac{\partial}{\partial\rho}\big(\rho F_\varphi\big) - \frac{\partial F_\rho}{\partial\varphi}\right] $$
+
+          <p>Zwei Strömungen, die beide um eine Achse kreisen, zeigen, wie
+            viel dieser Faktor ausmacht:</p>
+
+          <ul>
+            <li><strong>Starre Drehung</strong> $\vec v = \omega\rho\,\hat e_\varphi$,
+              etwa Wasser in einem gleichmäßig rotierenden Eimer:
+              $(\nabla\times\vec v)_z = \frac{1}{\rho}\,\frac{\partial}{\partial\rho}\big(\omega\rho^2\big) = 2\omega$.</li>
+            <li><strong>Wirbel</strong> $\vec v = \frac{k}{\rho}\,\hat e_\varphi$,
+              etwa das Wasser über dem Abfluss einer Badewanne außerhalb des
+              Kerns: Hier ist $\rho v_\varphi = k$ konstant, also
+              $\nabla\times\vec v = \vec 0$.</li>
+          </ul>
+
+          <p>Beide Strömungen laufen im Kreis, aber nur die erste hat Wirbel.
+            Beim zweiten Feld gleicht der längere Weg außen die schwächere
+            Strömung genau aus. Ein kleines Schaufelrad würde dort auf seiner
+            Kreisbahn mitschwimmen, sich aber nicht um sich selbst drehen –
+            das ist der Strudel von der Seite über die
+            <a href="differentialoperatoren.html#rotation">Rotation</a>, hier in
+            einer Zeile ausgerechnet. Das Magnetfeld eines langen geraden
+            Drahts hat dieselbe Form $B \propto 1/\rho$: Außerhalb des Drahts
+            ist es wirbelfrei, obwohl es den Draht umkreist.</p>
+
+          <figure class="abbildung">
+            <div class="abb-reihe">
+<svg class="abb" viewBox="0 0 220 214" role="img" aria-label="Viertelebene mit Pfeilen, die gegen den Uhrzeigersinn um den Ursprung laufen und nach außen länger werden; ein getöntes Ringstück, am äußeren Bogen ein langer, am inneren ein kurzer Pfeil">
+<path class="achse" d="M22 192L212 192"/>
+<path class="achse" d="M22 192L22 8"/>
+<g class="pfeil duenn"><line x1="65.4" y1="184.1" x2="64.7" y2="181.3"/><polygon points="63.6,177.1 62,182 67.4,180.6"/></g>
+<g class="pfeil duenn"><line x1="55.7" y1="163.5" x2="53.6" y2="161.4"/><polygon points="50.5,158.3 51.6,163.4 55.6,159.4"/></g>
+<g class="pfeil duenn"><line x1="36.9" y1="150.4" x2="34.1" y2="149.7"/><polygon points="29.9,148.6 33.4,152.4 34.8,147"/></g>
+<g class="pfeil duenn"><line x1="110.1" y1="185.4" x2="108.6" y2="176.5"/><polygon points="107.8,171.1 105.9,176.9 111.4,176.1"/></g>
+<g class="pfeil duenn"><line x1="103.7" y1="158.5" x2="99.6" y2="150.5"/><polygon points="97.1,145.6 97.1,151.8 102.1,149.2"/></g>
+<g class="pfeil duenn"><line x1="89.4" y1="134.9" x2="83" y2="128.5"/><polygon points="79.1,124.6 81,130.5 85,126.6"/></g>
+<g class="pfeil duenn"><line x1="68.4" y1="116.9" x2="60.4" y2="112.8"/><polygon points="55.5,110.3 59.1,115.3 61.7,110.3"/></g>
+<g class="pfeil duenn"><line x1="42.9" y1="106.2" x2="34" y2="104.8"/><polygon points="28.6,103.9 33.6,107.6 34.5,102"/></g>
+<g class="pfeil duenn"><line x1="154.4" y1="188" x2="152.6" y2="171.9"/><polygon points="152,166.4 149.8,172.2 155.3,171.6"/></g>
+<g class="pfeil duenn"><line x1="150.2" y1="158.7" x2="144.8" y2="143.3"/><polygon points="143,138.1 142.2,144.2 147.5,142.4"/></g>
+<g class="pfeil duenn"><line x1="139.6" y1="131" x2="130.9" y2="117.2"/><polygon points="128,112.6 128.5,118.7 133.3,115.7"/></g>
+<g class="pfeil duenn"><line x1="123" y1="106.4" x2="111.5" y2="94.9"/><polygon points="107.6,91 109.5,96.8 113.5,92.9"/></g>
+<g class="pfeil duenn"><line x1="101.4" y1="86" x2="87.7" y2="77.4"/><polygon points="83,74.4 86.2,79.7 89.2,75"/></g>
+<g class="pfeil duenn"><line x1="75.9" y1="71" x2="60.5" y2="65.6"/><polygon points="55.3,63.8 59.6,68.3 61.4,63"/></g>
+<g class="pfeil duenn"><line x1="47.6" y1="62" x2="31.4" y2="60.2"/><polygon points="26,59.6 31.1,63 31.7,57.4"/></g>
+<g class="pfeil duenn"><line x1="198.6" y1="191.1" x2="196.5" y2="167.7"/><polygon points="196.1,162.2 193.8,167.9 199.3,167.4"/></g>
+<g class="pfeil duenn"><line x1="195.8" y1="160.5" x2="189.7" y2="137.7"/><polygon points="188.2,132.4 187,138.5 192.4,137"/></g>
+<g class="pfeil duenn"><line x1="187.6" y1="130.8" x2="177.7" y2="109.4"/><polygon points="175.4,104.5 175.2,110.6 180.2,108.3"/></g>
+<g class="pfeil duenn"><line x1="174.5" y1="102.9" x2="161" y2="83.7"/><polygon points="157.8,79.2 158.7,85.3 163.3,82.1"/></g>
+<g class="pfeil duenn"><line x1="156.7" y1="77.8" x2="140.1" y2="61.2"/><polygon points="136.2,57.3 138.1,63.2 142.1,59.2"/></g>
+<g class="pfeil duenn"><line x1="134.8" y1="56.2" x2="115.6" y2="42.7"/><polygon points="111.1,39.5 114,44.9 117.2,40.4"/></g>
+<g class="pfeil duenn"><line x1="109.5" y1="38.6" x2="88.2" y2="28.7"/><polygon points="83.2,26.4 87,31.2 89.4,26.1"/></g>
+<g class="pfeil duenn"><line x1="81.6" y1="25.8" x2="58.8" y2="19.7"/><polygon points="53.5,18.2 58.1,22.4 59.6,17"/></g>
+<g class="pfeil duenn"><line x1="51.8" y1="17.9" x2="28.4" y2="15.9"/><polygon points="22.9,15.4 28.1,18.7 28.6,13.1"/></g>
+<path class="flaeche" d="M80.3 161L119.1 140.4A110 110 0 0 0 73.6 94.9L53 133.7A66 66 0 0 1 80.3 161Z"/>
+<path class="kurve blau duenn" d="M80.3 161L119.1 140.4A110 110 0 0 0 73.6 94.9L53 133.7A66 66 0 0 1 80.3 161Z" fill="none"/>
+<g class="pfeil kupfer"><line x1="110" y1="124.5" x2="95.2" y2="109.6"/><polygon points="89.5,104 92.3,112.4 98,106.8"/></g>
+<g class="pfeil kupfer"><line x1="74.8" y1="151.5" x2="68.2" y2="144.8"/><polygon points="62.5,139.2 65.3,147.7 71,142"/></g>
+<circle class="punkt" cx="22" cy="192" r="2.5"/>
+<text class="klein halo" x="210" y="22" text-anchor="end">starre Drehung v ∝ ρ</text>
+<text class="klein kupfer halo" x="210" y="36" text-anchor="end">Umlauf ≠ 0</text>
+</svg>
+<svg class="abb" viewBox="0 0 220 214" role="img" aria-label="Viertelebene mit Pfeilen, die gegen den Uhrzeigersinn um den Ursprung laufen und nach außen kürzer werden; ein getöntes Ringstück, am inneren Bogen ein langer, am äußeren ein kurzer Pfeil">
+<path class="achse" d="M22 192L212 192"/>
+<path class="achse" d="M22 192L22 8"/>
+<g class="pfeil duenn"><line x1="68.3" y1="194.6" x2="62.2" y2="171.9"/><polygon points="60.7,166.6 59.5,172.6 64.9,171.2"/></g>
+<g class="pfeil duenn"><line x1="63.4" y1="171.2" x2="46.7" y2="154.5"/><polygon points="42.8,150.6 44.8,156.5 48.7,152.5"/></g>
+<g class="pfeil duenn"><line x1="47.4" y1="153.3" x2="24.7" y2="147.2"/><polygon points="19.4,145.7 24,149.9 25.4,144.5"/></g>
+<g class="pfeil duenn"><line x1="110.1" y1="185.4" x2="108.6" y2="176.5"/><polygon points="107.8,171.1 105.9,176.9 111.4,176.1"/></g>
+<g class="pfeil duenn"><line x1="103.7" y1="158.5" x2="99.6" y2="150.5"/><polygon points="97.1,145.6 97.1,151.8 102.1,149.2"/></g>
+<g class="pfeil duenn"><line x1="89.4" y1="134.9" x2="83" y2="128.5"/><polygon points="79.1,124.6 81,130.5 85,126.6"/></g>
+<g class="pfeil duenn"><line x1="68.4" y1="116.9" x2="60.4" y2="112.8"/><polygon points="55.5,110.3 59.1,115.3 61.7,110.3"/></g>
+<g class="pfeil duenn"><line x1="42.9" y1="106.2" x2="34" y2="104.8"/><polygon points="28.6,103.9 33.6,107.6 34.5,102"/></g>
+<g class="pfeil duenn"><line x1="153.7" y1="182" x2="153.2" y2="177.9"/><polygon points="152.6,172.4 150.5,178.2 156,177.6"/></g>
+<g class="pfeil duenn"><line x1="148.2" y1="153" x2="146.8" y2="149"/><polygon points="145,143.8 144.2,150 149.5,148.1"/></g>
+<g class="pfeil duenn"><line x1="136.3" y1="125.9" x2="134.1" y2="122.3"/><polygon points="131.2,117.7 131.7,123.8 136.5,120.8"/></g>
+<g class="pfeil duenn"><line x1="118.8" y1="102.1" x2="115.8" y2="99.1"/><polygon points="111.9,95.2 113.8,101.1 117.8,97.1"/></g>
+<g class="pfeil duenn"><line x1="96.3" y1="82.8" x2="92.8" y2="80.6"/><polygon points="88.1,77.7 91.3,83 94.3,78.2"/></g>
+<g class="pfeil duenn"><line x1="70.2" y1="69" x2="66.2" y2="67.6"/><polygon points="61,65.8 65.3,70.3 67.1,65"/></g>
+<g class="pfeil duenn"><line x1="41.6" y1="61.4" x2="37.4" y2="60.9"/><polygon points="32,60.3 37.1,63.7 37.7,58.1"/></g>
+<g class="pfeil duenn"><line x1="197.6" y1="180.3" x2="197.4" y2="177.4"/><polygon points="197,173 194.6,177.6 200.2,177.1"/></g>
+<g class="pfeil duenn"><line x1="192.9" y1="150" x2="192.2" y2="147.1"/><polygon points="191.1,142.9 189.5,147.9 194.9,146.4"/></g>
+<g class="pfeil duenn"><line x1="183" y1="120.9" x2="181.8" y2="118.3"/><polygon points="180,114.3 179.3,119.5 184.4,117.1"/></g>
+<g class="pfeil duenn"><line x1="168.3" y1="94" x2="166.6" y2="91.6"/><polygon points="164.1,88.1 164.3,93.3 168.9,90"/></g>
+<g class="pfeil duenn"><line x1="149" y1="70.1" x2="147" y2="68.1"/><polygon points="143.9,65 145,70 148.9,66.1"/></g>
+<g class="pfeil duenn"><line x1="125.9" y1="49.9" x2="123.5" y2="48.2"/><polygon points="120,45.7 121.9,50.5 125.2,46"/></g>
+<g class="pfeil duenn"><line x1="99.7" y1="34" x2="97" y2="32.8"/><polygon points="93.1,31 95.9,35.3 98.2,30.3"/></g>
+<g class="pfeil duenn"><line x1="71.1" y1="22.9" x2="68.3" y2="22.2"/><polygon points="64,21.1 67.5,24.9 69,19.5"/></g>
+<g class="pfeil duenn"><line x1="41" y1="17" x2="38.1" y2="16.7"/><polygon points="33.7,16.4 37.8,19.5 38.3,13.9"/></g>
+<path class="flaeche" d="M80.3 161L119.1 140.4A110 110 0 0 0 73.6 94.9L53 133.7A66 66 0 0 1 80.3 161Z"/>
+<path class="kurve blau duenn" d="M80.3 161L119.1 140.4A110 110 0 0 0 73.6 94.9L53 133.7A66 66 0 0 1 80.3 161Z" fill="none"/>
+<g class="pfeil kupfer"><line x1="106.4" y1="120.8" x2="98.9" y2="113.3"/><polygon points="93.2,107.6 96,116.1 101.7,110.5"/></g>
+<g class="pfeil kupfer"><line x1="79.6" y1="156.3" x2="63.4" y2="140"/><polygon points="57.7,134.4 60.5,142.9 66.2,137.2"/></g>
+<circle class="punkt" cx="22" cy="192" r="2.5"/>
+<text class="klein halo" x="210" y="22" text-anchor="end">Wirbel v ∝ 1/ρ</text>
+<text class="klein kupfer halo" x="210" y="36" text-anchor="end">Umlauf = 0</text>
+</svg>
+</div>
+            <figcaption>Abb. 3: Zwei kreisende Strömungen, jeweils mit einem
+              getönten Ringstück. Links die starre Drehung: Außen ist der Bogen
+              länger <em>und</em> die Strömung stärker (orange), der Umlauf um
+              das Stück ist nicht null. Rechts der Wirbel mit
+              $v \propto 1/\rho$: Außen ist der Bogen genau so viel länger, wie
+              die Strömung schwächer ist, und die Beiträge heben sich auf. Die
+              geraden Seiten tragen in beiden Fällen nichts bei, weil die
+              Strömung quer zu ihnen läuft.</figcaption>
+          </figure>
+
+          <p>Im Ringstück-Labor kannst du Fluss und Umlauf selbst nachzählen
+            und siehst, dass die Formeln genau das herausbekommen.</p>
+
+          <figure class="interaktiv" data-modell="ringstueck">
+            <span class="titel">Zum Ausprobieren</span>
+            <figcaption>Ringstück-Labor: Wähle ein ebenes Feld und verschiebe
+              mit dem Regler das getönte Ringstück nach innen oder außen. Bei
+              den Feldern, die nach außen zeigen, siehst du in Orange, was
+              durch den inneren Bogen hinein- und durch den äußeren
+              herausfließt; bei den kreisenden Feldern in Blau die Strömung
+              längs der Bögen. Die Kacheln rechnen jeweils Feld mal
+              Bogenlänge; der Unterschied geteilt durch die Fläche ist die
+              Divergenz bzw. die Rotation. Probier besonders „ê ρ gleich lang“
+              und „Wirbel 1/ρ“.</figcaption>
+          </figure>
+
+          <p>Allgemein schreibt man die Rotation als Determinante, in der die
+            Skalenfaktoren an drei Stellen auftauchen (ausgeschrieben für
+            Zylinder und Kugel in der Übersicht unten):</p>
+
+          $$ \nabla\times\vec F = \frac{1}{h_1 h_2 h_3}\begin{vmatrix} h_1\hat e_{u_1} & h_2\hat e_{u_2} & h_3\hat e_{u_3} \\[2pt] \dfrac{\partial}{\partial u_1} & \dfrac{\partial}{\partial u_2} & \dfrac{\partial}{\partial u_3} \\[6pt] h_1 F_1 & h_2 F_2 & h_3 F_3 \end{vmatrix} $$
+
+          <h2 id="laplace">Der Laplace-Operator</h2>
+
+          <p>Setzt du den Gradienten in die Divergenz ein, erhältst du den
+            Laplace-Operator $\Delta f = \nabla\cdot\nabla f$. Dazu setzt man
+            in der allgemeinen Divergenz-Formel für jede Komponente $F_i$ die
+            Gradienten-Komponente $\frac{1}{h_i}\frac{\partial f}{\partial u_i}$
+            ein. Für
+            Kugelkoordinaten ergibt das die wohl wichtigste Formel dieser
+            Seite – du triffst sie in der Elektrostatik, beim Wasserstoffatom
+            in der Quantenmechanik und überall, wo etwas kugelsymmetrisch
+            ist:</p>
+
+          $$ \Delta f = \frac{1}{r^2}\,\frac{\partial}{\partial r}\Big(r^2\,\frac{\partial f}{\partial r}\Big) + \frac{1}{r^2\sin\vartheta}\,\frac{\partial}{\partial\vartheta}\Big(\sin\vartheta\,\frac{\partial f}{\partial\vartheta}\Big) + \frac{1}{r^2\sin^2\vartheta}\,\frac{\partial^2 f}{\partial\varphi^2} $$
+
+          <p>Hängt $f$ nur von $r$ ab, bleibt nur der erste Teil. Damit findest
+            du sofort alle kugelsymmetrischen Lösungen der Laplace-Gleichung
+            $\Delta f = 0$: Es muss $r^2 f'(r)$ konstant sein, also
+            $f = A + B/r$. Deshalb ist $1/r$ das Potential jeder Punktmasse und
+            jeder Punktladung. In Zylinderkoordinaten lautet der radiale Teil
+            $\frac{1}{\rho}\frac{\mathrm{d}}{\mathrm{d}\rho}\big(\rho f'\big)$,
+            und die Lösung ist $f = A + B\ln\rho$ – das Potential eines langen
+            geladenen Drahts.</p>
+
+          <p>Zwei Fallen: Der radiale Teil ist nicht
+            $\partial^2 f/\partial r^2$. Ausgeschrieben ist er
+            $f'' + \frac{2}{r}f'$; der zweite Summand kommt von der wachsenden
+            Kugeloberfläche. Und bei Vektorfeldern darfst du in krummlinigen
+            Koordinaten $\Delta$ nicht auf jede Komponente einzeln anwenden,
+            weil sich die Einheitsvektoren mit dem Ort ändern und mit
+            abgeleitet werden müssten.</p>
+
+          <div class="alltag">
+            <span class="titel">In der Physik: das Schwerefeld einer homogenen Kugel</span>
+            <p>Im Inneren einer Kugel mit überall gleicher Dichte $\rho_m$ gilt
+              die Poisson-Gleichung $\Delta\Phi = 4\pi G\rho_m$. Mit dem
+              radialen Teil ist sie schnell gelöst:
+              $\Phi = \frac{2\pi}{3}G\rho_m\,r^2 + \text{konst.}$, eine Parabel
+              (Probe: $\frac{1}{r^2}\frac{\mathrm{d}}{\mathrm{d}r}(r^2\cdot 2r) = 6$).
+              Draußen gilt $\Delta\Phi = 0$, also $\Phi = -GM/r$. Abb. 4 setzt
+              beide Stücke am Rand zusammen. Die Feldstärke wächst innen
+              linear mit $r$ und fällt außen wie $1/r^2$. Im Mittelpunkt wärst
+              du schwerelos.</p>
+          </div>
+
+          <figure class="abbildung">
+            <div class="abb-reihe">
+<svg class="abb" viewBox="0 0 230 206" role="img" aria-label="Potential der homogenen Kugel über dem Abstand: innen eine nach oben geöffnete Parabel mit Tiefstwert minus 1,5 in der Mitte, außen die Kurve minus 1 durch r; am Kugelrand gehen beide glatt ineinander über">
+<rect class="flaeche kupfer" x="30" y="20" width="61.7" height="140"/>
+<path class="achse" d="M30 20L221 20"/>
+<path class="achse" d="M30 16L30 160"/>
+<path class="achse" d="M91.7 17L91.7 23"/>
+<text class="klein" x="91.7" y="13" text-anchor="middle">R</text>
+<path class="achse" d="M153.3 17L153.3 23"/>
+<text class="klein" x="153.3" y="13" text-anchor="middle">2R</text>
+<path class="achse" d="M215 17L215 23"/>
+<text class="klein" x="215" y="13" text-anchor="middle">3R</text>
+<path class="hilfslinie" d="M91.7 20L91.7 160"/>
+<path class="kurve blau" d="M30 151.2L31.5 151.2L33.1 151.1L34.6 151L36.2 150.8L37.7 150.6L39.2 150.3L40.8 149.9L42.3 149.5L43.9 149L45.4 148.5L47 147.9L48.5 147.3L50 146.6L51.6 145.9L53.1 145.1L54.7 144.2L56.2 143.3L57.8 142.4L59.3 141.4L60.8 140.3L62.4 139.2L63.9 138L65.5 136.8L67 135.5L68.5 134.2L70.1 132.8L71.6 131.3L73.2 129.8L74.7 128.3L76.2 126.6L77.8 125L79.3 123.2L80.9 121.5L82.4 119.6L84 117.8L85.5 115.8L87 113.8L88.6 111.8L90.1 109.7L91.7 107.5L93.2 105.4L94.8 103.3L96.3 101.4L97.8 99.5L99.4 97.8L100.9 96.1L102.5 94.5L104 92.9L105.5 91.4L107.1 90L108.6 88.6L110.2 87.3L111.7 86L113.2 84.8L114.8 83.6L116.3 82.5L117.9 81.4L119.4 80.3L121 79.3L122.5 78.3L124 77.4L125.6 76.5L127.1 75.6L128.7 74.7L130.2 73.8L131.8 73L133.3 72.2L134.8 71.5L136.4 70.7L137.9 70L139.5 69.3L141 68.6L142.5 67.9L144.1 67.3L145.6 66.7L147.2 66.1L148.7 65.5L150.2 64.9L151.8 64.3L153.3 63.8L154.9 63.2L156.4 62.7L158 62.2L159.5 61.7L161 61.2L162.6 60.7L164.1 60.2L165.7 59.8L167.2 59.3L168.8 58.9L170.3 58.5L171.8 58L173.4 57.6L174.9 57.2L176.5 56.8L178 56.5L179.5 56.1L181.1 55.7L182.6 55.4L184.2 55L185.7 54.7L187.2 54.3L188.8 54L190.3 53.7L191.9 53.3L193.4 53L195 52.7L196.5 52.4L198 52.1L199.6 51.8L201.1 51.5L202.7 51.2L204.2 51L205.8 50.7L207.3 50.4L208.8 50.2L210.4 49.9L211.9 49.7L213.5 49.4L215 49.2"/>
+<path class="achse" d="M27 63.8L33 63.8"/>
+<text class="klein" x="24" y="67.8" text-anchor="end">−0,5</text>
+<path class="achse" d="M27 107.5L33 107.5"/>
+<text class="klein" x="24" y="111.5" text-anchor="end">−1</text>
+<path class="achse" d="M27 151.2L33 151.2"/>
+<text class="klein" x="24" y="155.2" text-anchor="end">−1,5</text>
+<text class="klein blau halo" x="150.2" y="95.2" text-anchor="middle">Φ ∝ −1/r</text>
+<text class="klein kupfer halo" x="60.8" y="37.5" text-anchor="middle">innen</text>
+<text class="klein blau halo" x="60.8" y="107.5" text-anchor="middle">Parabel</text>
+<text class="klein" x="215" y="198" text-anchor="end">Potential Φ (in GM/R)</text>
+</svg>
+<svg class="abb" viewBox="0 0 230 206" role="img" aria-label="Betrag der Feldstärke der homogenen Kugel über dem Abstand: innen eine Gerade von null bis eins am Kugelrand, außen fällt sie wie 1 durch r Quadrat ab">
+<rect class="flaeche kupfer" x="30" y="20" width="61.7" height="140"/>
+<path class="achse" d="M30 160L221 160"/>
+<path class="achse" d="M30 16L30 160"/>
+<path class="achse" d="M91.7 157L91.7 163"/>
+<text class="klein" x="91.7" y="174" text-anchor="middle">R</text>
+<path class="achse" d="M153.3 157L153.3 163"/>
+<text class="klein" x="153.3" y="174" text-anchor="middle">2R</text>
+<path class="achse" d="M215 157L215 163"/>
+<text class="klein" x="215" y="174" text-anchor="middle">3R</text>
+<path class="hilfslinie" d="M91.7 20L91.7 160"/>
+<path class="kurve blau" d="M30 160L31.5 156.8L33.1 153.6L34.6 150.5L36.2 147.3L37.7 144.1L39.2 140.9L40.8 137.7L42.3 134.5L43.9 131.4L45.4 128.2L47 125L48.5 121.8L50 118.6L51.6 115.5L53.1 112.3L54.7 109.1L56.2 105.9L57.8 102.7L59.3 99.5L60.8 96.4L62.4 93.2L63.9 90L65.5 86.8L67 83.6L68.5 80.5L70.1 77.3L71.6 74.1L73.2 70.9L74.7 67.7L76.2 64.5L77.8 61.4L79.3 58.2L80.9 55L82.4 51.8L84 48.6L85.5 45.5L87 42.3L88.6 39.1L90.1 35.9L91.7 32.7L93.2 38.9L94.8 44.6L96.3 49.9L97.8 54.8L99.4 59.4L100.9 63.8L102.5 67.8L104 71.6L105.5 75.2L107.1 78.5L108.6 81.7L110.2 84.7L111.7 87.5L113.2 90.2L114.8 92.7L116.3 95.1L117.9 97.3L119.4 99.5L121 101.5L122.5 103.4L124 105.3L125.6 107L127.1 108.7L128.7 110.3L130.2 111.8L131.8 113.3L133.3 114.6L134.8 116L136.4 117.2L137.9 118.4L139.5 119.6L141 120.7L142.5 121.8L144.1 122.8L145.6 123.8L147.2 124.7L148.7 125.7L150.2 126.5L151.8 127.4L153.3 128.2L154.9 129L156.4 129.7L158 130.4L159.5 131.1L161 131.8L162.6 132.5L164.1 133.1L165.7 133.7L167.2 134.3L168.8 134.9L170.3 135.4L171.8 135.9L173.4 136.5L174.9 137L176.5 137.4L178 137.9L179.5 138.4L181.1 138.8L182.6 139.2L184.2 139.6L185.7 140L187.2 140.4L188.8 140.8L190.3 141.2L191.9 141.5L193.4 141.9L195 142.2L196.5 142.5L198 142.9L199.6 143.2L201.1 143.5L202.7 143.8L204.2 144.1L205.8 144.3L207.3 144.6L208.8 144.9L210.4 145.1L211.9 145.4L213.5 145.6L215 145.9"/>
+<path class="achse" d="M27 96.4L33 96.4"/>
+<text class="klein" x="24" y="100.4" text-anchor="end">0,5</text>
+<path class="achse" d="M27 32.7L33 32.7"/>
+<text class="klein" x="24" y="36.7" text-anchor="end">1</text>
+<text class="klein blau halo" x="147.2" y="106.5" text-anchor="middle">g ∝ 1/r²</text>
+<text class="klein kupfer halo" x="60.8" y="28.7" text-anchor="middle">innen</text>
+<text class="klein blau halo" x="68.2" y="114.2" text-anchor="start">g ∝ r</text>
+<text class="klein" x="215" y="198" text-anchor="end">Feldstärke g (in GM/R²)</text>
+</svg>
+</div>
+            <figcaption>Abb. 4: Potential (links) und Betrag der Feldstärke
+              (rechts) einer homogenen Kugel mit Radius $R$ und Masse $M$, über
+              dem Abstand vom Mittelpunkt. Innen (getönt) ist das Potential eine
+              Parabel und die Feldstärke wächst linear; außen gilt
+              $\Phi = -GM/r$ und $g = GM/r^2$. Am Rand gehen die Kurven ohne
+              Knick (links) bzw. ohne Sprung (rechts) ineinander
+              über.</figcaption>
+          </figure>
+
+          <h2 id="ueberblick">Alles auf einen Blick</h2>
+
+          <p>In der Praxis schlägt man die Formeln nach. Wichtig ist, dass du
+            sie lesen kannst: Vor jeder Ableitung nach einem Winkel steht ein
+            Skalenfaktor im Nenner, und innerhalb von Divergenz und Rotation
+            stehen die Faktoren der Wandflächen bzw. Bogenlängen.</p>
+
+          <h3 id="formeln-zylinder">Zylinderkoordinaten</h3>
+
+          $$ \nabla f = \frac{\partial f}{\partial\rho}\,\hat e_\rho + \frac{1}{\rho}\frac{\partial f}{\partial\varphi}\,\hat e_\varphi + \frac{\partial f}{\partial z}\,\hat e_z $$
+
+          $$ \nabla\cdot\vec F = \frac{1}{\rho}\frac{\partial}{\partial\rho}\big(\rho F_\rho\big) + \frac{1}{\rho}\frac{\partial F_\varphi}{\partial\varphi} + \frac{\partial F_z}{\partial z} $$
+
+          $$ \begin{aligned} \nabla\times\vec F = {} & \Big(\frac{1}{\rho}\frac{\partial F_z}{\partial\varphi} - \frac{\partial F_\varphi}{\partial z}\Big)\hat e_\rho + \Big(\frac{\partial F_\rho}{\partial z} - \frac{\partial F_z}{\partial\rho}\Big)\hat e_\varphi \\ & + \frac{1}{\rho}\Big(\frac{\partial}{\partial\rho}\big(\rho F_\varphi\big) - \frac{\partial F_\rho}{\partial\varphi}\Big)\hat e_z \end{aligned} $$
+
+          $$ \Delta f = \frac{1}{\rho}\frac{\partial}{\partial\rho}\Big(\rho\,\frac{\partial f}{\partial\rho}\Big) + \frac{1}{\rho^2}\frac{\partial^2 f}{\partial\varphi^2} + \frac{\partial^2 f}{\partial z^2} $$
+
+          <h3 id="formeln-kugel">Kugelkoordinaten</h3>
+
+          $$ \nabla f = \frac{\partial f}{\partial r}\,\hat e_r + \frac{1}{r}\frac{\partial f}{\partial\vartheta}\,\hat e_\vartheta + \frac{1}{r\sin\vartheta}\frac{\partial f}{\partial\varphi}\,\hat e_\varphi $$
+
+          $$ \nabla\cdot\vec F = \frac{1}{r^2}\frac{\partial}{\partial r}\big(r^2 F_r\big) + \frac{1}{r\sin\vartheta}\frac{\partial}{\partial\vartheta}\big(\sin\vartheta\,F_\vartheta\big) + \frac{1}{r\sin\vartheta}\frac{\partial F_\varphi}{\partial\varphi} $$
+
+          $$ \begin{aligned} \nabla\times\vec F = {} & \frac{1}{r\sin\vartheta}\Big(\frac{\partial}{\partial\vartheta}\big(\sin\vartheta\,F_\varphi\big) - \frac{\partial F_\vartheta}{\partial\varphi}\Big)\hat e_r \\ & + \frac{1}{r}\Big(\frac{1}{\sin\vartheta}\frac{\partial F_r}{\partial\varphi} - \frac{\partial}{\partial r}\big(r F_\varphi\big)\Big)\hat e_\vartheta \\ & + \frac{1}{r}\Big(\frac{\partial}{\partial r}\big(r F_\vartheta\big) - \frac{\partial F_r}{\partial\vartheta}\Big)\hat e_\varphi \end{aligned} $$
+
+          $$ \Delta f = \frac{1}{r^2}\frac{\partial}{\partial r}\Big(r^2\frac{\partial f}{\partial r}\Big) + \frac{1}{r^2\sin\vartheta}\frac{\partial}{\partial\vartheta}\Big(\sin\vartheta\,\frac{\partial f}{\partial\vartheta}\Big) + \frac{1}{r^2\sin^2\vartheta}\frac{\partial^2 f}{\partial\varphi^2} $$
+
+          <div class="merkkasten">
+            <span class="titel">Das Wichtigste in Kürze</span>
+            <p>In krummlinigen Koordinaten ist ein Koordinatenschritt kein
+              Meter. Der Gradient teilt deshalb jede Ableitung durch den
+              Skalenfaktor. Bei Divergenz und Rotation sind die Wände und Wege
+              eines kleinen Volumen- oder Flächenstücks verschieden groß;
+              deshalb stehen die Skalenfaktoren innerhalb der Ableitungen. Für
+              Felder mit Kugel- oder Zylindersymmetrie bleibt meist nur ein
+              einziger Term – das ist der ganze Vorteil. Auswendig können
+              solltest du den Gradienten und den radialen Teil des
+              Laplace-Operators; den Rest schlägt man nach.</p>
+          </div>
+        </section>
+
+        <section class="tab" id="vertiefung" data-titel="Vertiefung"></section>
+
+        <section class="tab" id="beispiele" data-titel="Beispielrechnungen">
+
+          <div class="beispiel" data-symbole='{"p": "Dipolmoment des Wassermoleküls", "k": "Coulomb-Konstante 1/(4π ε₀)", "ε_0": "elektrische Feldkonstante", "Φ": "elektrisches Potential"}'>
+            <h3>Beispiel 1: Das elektrische Feld eines Wassermoleküls</h3>
+            <p><strong>Gegeben:</strong> Ein Wassermolekül ist ein elektrischer
+              Dipol mit dem Dipolmoment $p = 6{,}2\cdot 10^{-30}\,\mathrm{C\,m}$.
+              Legt man die $z$-Achse in Richtung des Dipols, ist sein Potential
+              in großem Abstand (verglichen mit der Größe des Moleküls, etwa 0,3&nbsp;nm)
+              $\Phi(r, \vartheta) = k\,\dfrac{p\cos\vartheta}{r^2}$ mit
+              $k = \frac{1}{4\pi\varepsilon_0} = 8{,}988\cdot 10^{9}\,\mathrm{N\,m^2/C^2}$.<br>
+              <strong>Gesucht:</strong> (a) das Feld $\vec E = -\nabla\Phi$,
+              (b) sein Betrag in $1\,\mathrm{nm}$ Abstand auf der Achse
+              ($\vartheta = 0$) und senkrecht dazu ($\vartheta = 90^\circ$),
+              (c) die Probe $\nabla\cdot\vec E = 0$.</p>
+
+            <p><strong>1. Gradient in Kugelkoordinaten.</strong> $\Phi$ hängt
+              nicht von $\varphi$ ab, es bleiben zwei Terme:
+              $$ \frac{\partial\Phi}{\partial r} = -\frac{2kp\cos\vartheta}{r^3}, \qquad \frac{1}{r}\,\frac{\partial\Phi}{\partial\vartheta} = -\frac{kp\sin\vartheta}{r^3} $$
+              $$ \vec E = -\nabla\Phi = \frac{kp}{r^3}\big(2\cos\vartheta\,\hat e_r + \sin\vartheta\,\hat e_\vartheta\big) $$</p>
+
+            <p><strong>2. Auf der Achse</strong> ($\vartheta = 0$) bleibt der
+              $\hat e_r$-Teil:
+              $$ E = \frac{2kp}{r^3} = \frac{2\cdot 8{,}988\cdot 10^{9}\,\mathrm{N\,m^2/C^2}\cdot 6{,}2\cdot 10^{-30}\,\mathrm{C\,m}}{(1{,}0\cdot 10^{-9}\,\mathrm{m})^3} = 1{,}1\cdot 10^{8}\,\mathrm{V/m} $$
+              Senkrecht zur Achse ($\vartheta = 90^\circ$) bleibt der
+              $\hat e_\vartheta$-Teil mit dem halben Betrag,
+              $E = kp/r^3 = 5{,}6\cdot 10^{7}\,\mathrm{V/m}$. Dort zeigt
+              $\hat e_\vartheta$ in $-z$-Richtung, das Feld also dem Dipol
+              entgegen. Einheitencheck:
+              $\mathrm{N\,m^2/C^2}\cdot\mathrm{C\,m}/\mathrm{m^3} = \mathrm{N/C} = \mathrm{V/m}$.</p>
+
+            <p><strong>3. Probe mit der Divergenz</strong> in Kugelkoordinaten:
+              $$ \frac{1}{r^2}\,\frac{\partial}{\partial r}\Big(r^2\cdot\frac{2kp\cos\vartheta}{r^3}\Big) = \frac{2kp\cos\vartheta}{r^2}\cdot\Big(-\frac{1}{r^2}\Big) = -\frac{2kp\cos\vartheta}{r^4} $$
+              $$ \frac{1}{r\sin\vartheta}\,\frac{\partial}{\partial\vartheta}\Big(\sin\vartheta\cdot\frac{kp\sin\vartheta}{r^3}\Big) = \frac{kp\cdot 2\sin\vartheta\cos\vartheta}{r^4\sin\vartheta} = +\frac{2kp\cos\vartheta}{r^4} $$
+              Die Summe ist null – außerhalb des Moleküls gibt es keine
+              Ladungen, wie es sein muss.</p>
+
+            <p><strong>Ergebnis und Plausibilität:</strong> Auf der Achse ist
+              das Feld doppelt so stark wie seitlich, und es fällt mit
+              $1/r^3$ ab, schneller als das Feld einer einzelnen Ladung, weil
+              sich die positive und die negative Ladung aus der Ferne fast
+              aufheben. Gut $10^8\,\mathrm{V/m}$ in einem Nanometer Abstand
+              (rund drei Moleküldurchmesser; dort ist die Dipolnäherung nur
+              grob, die Größenordnung stimmt aber) ist sehr viel: fast vierzigmal so
+              viel wie die etwa $3\cdot 10^{6}\,\mathrm{V/m}$, bei denen in
+              Luft ein Funke überspringt. Kartesisch hätte man
+              $\Phi = kpz/(x^2 + y^2 + z^2)^{3/2}$ dreimal mit Quotienten- und
+              Kettenregel ableiten müssen.</p>
+          </div>
+
+          <div class="beispiel" data-symbole='{"G": "Gravitationskonstante", "M": "Erdmasse", "R": "Erdradius", "g": "Gravitationsfeldstärke", "ρ_m": "mittlere Dichte der Erde"}'>
+            <h3>Beispiel 2: Die Schwerkraft im Inneren der Erde</h3>
+            <p><strong>Gegeben:</strong> In einem einfachen Modell hat die Erde
+              überall dieselbe Dichte, die Masse
+              $M = 5{,}972\cdot 10^{24}\,\mathrm{kg}$ und den Radius
+              $R = 6371\,\mathrm{km}$;
+              $G = 6{,}674\cdot 10^{-11}\,\mathrm{m^3/(kg\,s^2)}$. Ihre
+              Feldstärke ist innen und außen
+              $$ \vec g = -\frac{GM}{R^3}\,r\,\hat e_r \quad (r \le R), \qquad \vec g = -\frac{GM}{r^2}\,\hat e_r \quad (r \ge R) $$
+              <strong>Gesucht:</strong> (a) $\nabla\cdot\vec g$ innen und
+              außen, (b) die Dichte aus dem Gaußschen Gesetz der Gravitation
+              $\nabla\cdot\vec g = -4\pi G\rho_m$, (c) die Feldstärke auf
+              halbem Weg zum Erdmittelpunkt.</p>
+
+            <p><strong>1. Divergenz.</strong> Nur $g_r$ ist ungleich null, es
+              bleibt der erste Term der Kugel-Formel. Innen:
+              $$ \nabla\cdot\vec g = \frac{1}{r^2}\,\frac{\mathrm{d}}{\mathrm{d}r}\Big(-\frac{GM}{R^3}\,r^3\Big) = -\frac{3GM}{R^3} $$
+              Außen ist $r^2 g_r = -GM$ konstant, also
+              $\nabla\cdot\vec g = 0$.</p>
+
+            <p><strong>2. Zahlen und Dichte.</strong>
+              $$ \nabla\cdot\vec g = -\frac{3\cdot 6{,}674\cdot 10^{-11}\,\mathrm{m^3/(kg\,s^2)}\cdot 5{,}972\cdot 10^{24}\,\mathrm{kg}}{(6{,}371\cdot 10^{6}\,\mathrm{m})^3} = -4{,}62\cdot 10^{-6}\,\mathrm{s^{-2}} $$
+              $$ \rho_m = -\frac{\nabla\cdot\vec g}{4\pi G} = \frac{4{,}62\cdot 10^{-6}\,\mathrm{s^{-2}}}{4\pi\cdot 6{,}674\cdot 10^{-11}\,\mathrm{m^3/(kg\,s^2)}} = 5{,}51\cdot 10^{3}\,\mathrm{kg/m^3} $$
+              Einheitencheck: $\mathrm{s^{-2}}/(\mathrm{m^3\,kg^{-1}\,s^{-2}}) = \mathrm{kg/m^3}$.</p>
+
+            <p><strong>3. Auf halbem Weg</strong> ($r = R/2$):
+              $$ g = \frac{GM}{R^3}\cdot\frac{R}{2} = \frac12\cdot\frac{GM}{R^2} = \frac12\cdot 9{,}82\,\mathrm{m/s^2} = 4{,}91\,\mathrm{m/s^2} $$</p>
+
+            <p><strong>Ergebnis und Plausibilität:</strong> Innen ist die
+              Divergenz überall gleich und negativ – jedes Stück Erde ist eine
+              „Senke“ des Feldes. Außen ist sie null, weil dort keine Masse
+              ist. Die Dichte $5{,}5\,\mathrm{g/cm^3}$ ist genau die mittlere
+              Dichte der Erde, wie es für dieses Modell sein muss; sie liegt
+              zwischen der von Gestein (etwa $3\,\mathrm{g/cm^3}$) und Eisen
+              ($7{,}9\,\mathrm{g/cm^3}$). Die echte Erde ist innen dichter als
+              außen; dort wächst $g$ beim Hinabsteigen zunächst sogar noch
+              etwas an, bevor es im Kern auf null fällt.</p>
+          </div>
+
+          <div class="beispiel" data-symbole='{"a": "Radius des Wirbelkerns", "v_a": "Strömungsgeschwindigkeit am Rand des Kerns", "ω": "Winkelgeschwindigkeit des Kerns", "T": "Umlaufzeit"}'>
+            <h3>Beispiel 3: Der Wirbel über dem Abfluss</h3>
+            <p><strong>Gegeben:</strong> Über dem Abfluss einer Badewanne
+              bildet sich ein Wirbel. Sein Kern mit dem Radius
+              $a = 1{,}0\,\mathrm{cm}$ dreht sich wie ein starrer Körper, am
+              Kernrand fließt das Wasser mit $v_a = 0{,}30\,\mathrm{m/s}$.
+              Außerhalb gilt $v_\varphi = v_a\,a/\rho$ (Zylinderkoordinaten,
+              $z$-Achse senkrecht durch den Abfluss).<br>
+              <strong>Gesucht:</strong> (a) $\nabla\times\vec v$ innen und
+              außen, (b) wie schnell sich ein kleines Papierschnipsel im Kern
+              um sich selbst dreht, (c) Geschwindigkeit, Umlaufzeit und
+              Eigendrehung eines Schnipsels bei $\rho = 5{,}0\,\mathrm{cm}$.</p>
+
+            <p><strong>1. Innen</strong> ist $v_\varphi = \omega\rho$ mit
+              $$ \omega = \frac{v_a}{a} = \frac{0{,}30\,\mathrm{m/s}}{0{,}010\,\mathrm{m}} = 30\,\mathrm{s^{-1}} $$
+              $$ \big(\nabla\times\vec v\big)_z = \frac{1}{\rho}\,\frac{\partial}{\partial\rho}\big(\rho\cdot\omega\rho\big) = \frac{2\omega\rho}{\rho} = 2\omega = 60\,\mathrm{s^{-1}} $$
+              Einheitencheck: $\frac{1}{\mathrm{m}}\cdot\frac{\mathrm{m\cdot m/s}}{\mathrm{m}} = \mathrm{s^{-1}}$.</p>
+
+            <p><strong>2. Außen</strong> ist $\rho v_\varphi = v_a a$ konstant,
+              die Ableitung also null: $\nabla\times\vec v = \vec 0$. Am
+              Kernrand passen beide Teile zusammen, denn beide geben dort
+              $v_a$.</p>
+
+            <p><strong>3. Schnipsel.</strong> Ein kleiner Körper dreht sich mit
+              der halben Wirbelstärke um sich selbst. Im Kern sind das
+              $\omega = 30\,\mathrm{s^{-1}}$, also
+              $30/(2\pi) = 4{,}8$ Umdrehungen pro Sekunde. Bei
+              $\rho = 5{,}0\,\mathrm{cm}$:
+              $$ v_\varphi = 0{,}30\,\mathrm{m/s}\cdot\frac{1{,}0\,\mathrm{cm}}{5{,}0\,\mathrm{cm}} = 0{,}060\,\mathrm{m/s}, \qquad T = \frac{2\pi\rho}{v_\varphi} = \frac{2\pi\cdot 0{,}050\,\mathrm{m}}{0{,}060\,\mathrm{m/s}} = 5{,}2\,\mathrm{s} $$
+              Wegen $\nabla\times\vec v = \vec 0$ dreht es sich dabei nicht
+              um sich selbst.</p>
+
+            <p><strong>Ergebnis und Plausibilität:</strong> Im Kern wirbelt
+              ein Schnipsel fast fünfmal pro Sekunde um sich selbst. Weiter
+              außen umkreist es den Abfluss in gut fünf Sekunden, behält dabei
+              aber seine Ausrichtung – wie eine Gondel am Riesenrad. Das kann
+              man in der Badewanne tatsächlich beobachten. In kartesischen
+              Koordinaten wäre das Feld
+              $\vec v = v_a a\,(-y, x, 0)/(x^2 + y^2)$, und die Rotation käme
+              erst nach mehreren Quotientenregeln heraus.</p>
+          </div>
+        </section>
+
+        <section class="tab" id="aufgaben" data-titel="Aufgaben">
+
+          <p>Die Aufgaben sind nach Schwierigkeit sortiert. Versuch es erst
+            selbst – die Lösungen sind zugeklappt. Die Formeln für Zylinder-
+            und Kugelkoordinaten findest du in der
+            <a href="#ueberblick">Übersicht</a> am Ende von „Verstehen“.
+            Zahlen ohne Einheit sind reine Rechenübungen.</p>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 1: Ein bekannter Gradient in neuer Verkleidung
+              <span class="schwierigkeit" data-stufe="leicht">leicht</span>
+            </h3>
+            <p>Gegeben ist das Skalarfeld $f(\rho, \varphi, z) = \rho\cos\varphi$
+              in Zylinderkoordinaten.</p>
+            <ol type="a">
+              <li>Berechne $\nabla f$ in Zylinderkoordinaten.</li>
+              <li>Setze $\hat e_\rho = (\cos\varphi, \sin\varphi, 0)$ und
+                $\hat e_\varphi = (-\sin\varphi, \cos\varphi, 0)$ ein. Welcher
+                Vektor kommt heraus, und warum ist das kein Zufall?</li>
+              <li>Berechne ebenso $\nabla(\rho^2)$ und vergleiche mit der
+                kartesischen Rechnung.</li>
+            </ol>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>(a) $\partial f/\partial\rho = \cos\varphi$,
+                $\frac{1}{\rho}\,\partial f/\partial\varphi = \frac{1}{\rho}\cdot(-\rho\sin\varphi) = -\sin\varphi$,
+                $\partial f/\partial z = 0$. Also
+                $\nabla f = \cos\varphi\,\hat e_\rho - \sin\varphi\,\hat e_\varphi$.</p>
+              <p>(b)
+                $\cos\varphi\,(\cos\varphi, \sin\varphi, 0) - \sin\varphi\,(-\sin\varphi, \cos\varphi, 0) = (\cos^2\varphi + \sin^2\varphi,\ 0,\ 0) = (1, 0, 0) = \hat e_x$.
+                Kein Zufall: $\rho\cos\varphi$ ist einfach $x$, und
+                kartesisch ist $\nabla x = \hat e_x$. Ohne den Faktor
+                $1/\rho$ hätte der zweite Term $-\rho\sin\varphi$ gelautet,
+                und das Ergebnis wäre falsch.</p>
+              <p>(c) $\nabla(\rho^2) = 2\rho\,\hat e_\rho$. Kartesisch:
+                $\rho^2 = x^2 + y^2$, also
+                $\nabla(\rho^2) = (2x, 2y, 0) = 2\rho\,(\cos\varphi, \sin\varphi, 0) = 2\rho\,\hat e_\rho$.
+                Gleich.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe" data-symbole='{"L": "Länge des Zylinders"}'>
+            <h3>Aufgabe 2: Radiale Felder in Kugel und Zylinder
+              <span class="schwierigkeit" data-stufe="leicht">leicht</span>
+            </h3>
+            <ol type="a">
+              <li>Berechne $\nabla\cdot(r\,\hat e_r)$ in Kugelkoordinaten und
+                vergleiche mit $\nabla\cdot(x, y, z)$ kartesisch.</li>
+              <li>Berechne in Zylinderkoordinaten
+                $\nabla\cdot(\rho^n\,\hat e_\rho)$. Für welches $n$ ist das Feld
+                quellenfrei?</li>
+              <li>In Kugelkoordinaten ist $\hat e_r/r^2$ quellenfrei (siehe
+                Verstehen), in Zylinderkoordinaten ein anderes Feld. Erkläre
+                den Unterschied anschaulich.</li>
+            </ol>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>(a) $\frac{1}{r^2}\,\frac{\mathrm{d}}{\mathrm{d}r}(r^2\cdot r) = \frac{3r^2}{r^2} = 3$.
+                Kartesisch: $\vec r = (x, y, z)$, also
+                $\nabla\cdot\vec r = 1 + 1 + 1 = 3$. Gleich – es ist ja
+                dasselbe Feld $r\,\hat e_r = \vec r$.</p>
+              <p>(b) $\frac{1}{\rho}\,\frac{\mathrm{d}}{\mathrm{d}\rho}\big(\rho\cdot\rho^n\big) = \frac{(n+1)\,\rho^n}{\rho} = (n+1)\,\rho^{n-1}$.
+                Quellenfrei für $n = -1$, also für $\hat e_\rho/\rho$. So sieht
+                das elektrische Feld eines langen, gleichmäßig geladenen Drahts
+                aus.</p>
+              <p>(c) Was durch eine Wand fließt, ist Feld mal Wandfläche. Um
+                einen Punkt sind die Wände Kugelflächen, die wie $r^2$
+                wachsen; um eine Linie sind es Zylindermäntel mit der Fläche
+                $2\pi\rho L$, die nur wie $\rho$ wachsen. Damit überall gleich
+                viel hindurchfließt, muss das Feld im ersten Fall wie
+                $1/r^2$, im zweiten wie $1/\rho$ abfallen.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe" data-symbole='{"a": "Radius des Innenleiters", "b": "Innenradius des Außenleiters", "U": "Spannung zwischen den Leitern", "Φ": "elektrisches Potential", "E": "elektrische Feldstärke"}'>
+            <h3>Aufgabe 3: Das Koaxialkabel
+              <span class="schwierigkeit" data-stufe="mittel">mittel</span>
+            </h3>
+            <p>Ein Koaxialkabel besteht aus einem Innenleiter mit dem Radius
+              $a = 0{,}45\,\mathrm{mm}$ und einem Außenleiter mit dem
+              Innenradius $b = 1{,}47\,\mathrm{mm}$. Zwischen ihnen liegt die
+              Spannung $U = 100\,\mathrm{V}$: $\Phi(a) = U$, $\Phi(b) = 0$. Im
+              Isolator dazwischen gibt es keine Ladungen, also
+              $\Delta\Phi = 0$, und $\Phi$ hängt nur von $\rho$ ab.</p>
+            <ol type="a">
+              <li>Löse $\Delta\Phi = 0$ mit dem radialen Teil des
+                Laplace-Operators in Zylinderkoordinaten und bestimme die
+                Konstanten.</li>
+              <li>Berechne $\vec E = -\nabla\Phi$ und seinen Betrag direkt am
+                Innenleiter und am Außenleiter.</li>
+              <li>Welches Potential herrscht bei $\rho = 1{,}0\,\mathrm{mm}$?
+                Vergleiche mit einem Potential, das zwischen den Leitern
+                gleichmäßig (linear) abfällt.</li>
+            </ol>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>(a) $\frac{1}{\rho}\,\frac{\mathrm{d}}{\mathrm{d}\rho}(\rho\,\Phi') = 0$
+                heißt $\rho\,\Phi' = B$, also $\Phi' = B/\rho$ und
+                $\Phi = A + B\ln\rho$. Aus $\Phi(b) = 0$ folgt
+                $A = -B\ln b$, also $\Phi = -B\ln(b/\rho)$; aus
+                $\Phi(a) = U$ folgt $B = -U/\ln(b/a)$. Zusammen:
+                $$ \Phi(\rho) = U\,\frac{\ln(b/\rho)}{\ln(b/a)}, \qquad \ln\frac{b}{a} = \ln\frac{1{,}47}{0{,}45} = 1{,}184 $$</p>
+              <p>(b) Nur der $\rho$-Term des Gradienten bleibt:
+                $\vec E = -\frac{\mathrm{d}\Phi}{\mathrm{d}\rho}\,\hat e_\rho = \frac{U}{\rho\,\ln(b/a)}\,\hat e_\rho$.
+                $$ E(a) = \frac{100\,\mathrm{V}}{0{,}45\cdot 10^{-3}\,\mathrm{m}\cdot 1{,}184} = 1{,}88\cdot 10^{5}\,\mathrm{V/m}, \qquad E(b) = \frac{100\,\mathrm{V}}{1{,}47\cdot 10^{-3}\,\mathrm{m}\cdot 1{,}184} = 5{,}75\cdot 10^{4}\,\mathrm{V/m} $$
+                Das Feld zeigt nach außen und ist am Innenleiter am stärksten
+                – dort schlägt ein Kabel bei zu hoher Spannung zuerst
+                durch.</p>
+              <p>(c) $\Phi(1{,}0\,\mathrm{mm}) = 100\,\mathrm{V}\cdot\ln(1{,}47)/1{,}184 = 100\,\mathrm{V}\cdot 0{,}385/1{,}184 = 32{,}5\,\mathrm{V}$.
+                Bei linearem Abfall wären es
+                $100\,\mathrm{V}\cdot\frac{1{,}47 - 1{,}0}{1{,}47 - 0{,}45} = 46\,\mathrm{V}$.
+                Das echte Potential ist schon auf etwa ein Drittel von $U$ abgefallen: Weil
+                das Feld nahe am Innenleiter viel stärker ist, fällt das
+                Potential dort schnell und weiter außen nur noch langsam ab.
+                Linear wäre es nur zwischen zwei ebenen Platten.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 4: Lösungen der Laplace-Gleichung
+              <span class="schwierigkeit" data-stufe="mittel">mittel</span>
+            </h3>
+            <p>Felder mit $\Delta f = 0$ heißen harmonisch. Prüfe mit dem
+              Laplace-Operator in Kugelkoordinaten:</p>
+            <ol type="a">
+              <li>$f_1 = \dfrac{\cos\vartheta}{r^2}$ (das Dipolpotential aus
+                Beispiel 1) ist für $r \gt 0$ harmonisch.</li>
+              <li>$f_2 = r^2\sin^2\vartheta\cos(2\varphi)$ ist harmonisch.
+                Zeige dazu zuerst, dass $f_2 = x^2 - y^2$ ist, und prüfe das
+                Ergebnis kartesisch.</li>
+            </ol>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>(a) Radialer Teil:
+                $\frac{1}{r^2}\,\frac{\partial}{\partial r}\Big(r^2\cdot\frac{-2\cos\vartheta}{r^3}\Big) = \frac{1}{r^2}\,\frac{\partial}{\partial r}\Big(\frac{-2\cos\vartheta}{r}\Big) = \frac{2\cos\vartheta}{r^4}$.
+                Winkelteil:
+                $\frac{1}{r^2\sin\vartheta}\,\frac{\partial}{\partial\vartheta}\Big(\sin\vartheta\cdot\frac{-\sin\vartheta}{r^2}\Big) = \frac{-2\sin\vartheta\cos\vartheta}{r^4\sin\vartheta} = -\frac{2\cos\vartheta}{r^4}$.
+                Der $\varphi$-Teil ist null. Summe: $0$.</p>
+              <p>(b) Mit $\cos(2\varphi) = \cos^2\varphi - \sin^2\varphi$ ist
+                $f_2 = (r\sin\vartheta\cos\varphi)^2 - (r\sin\vartheta\sin\varphi)^2 = x^2 - y^2$.
+                Die drei Teile des Laplace-Operators:</p>
+              $$ \frac{1}{r^2}\,\frac{\partial}{\partial r}\big(2r^3\sin^2\vartheta\cos 2\varphi\big) = 6\sin^2\vartheta\cos 2\varphi $$
+              $$ \frac{\cos 2\varphi}{\sin\vartheta}\,\frac{\partial}{\partial\vartheta}\big(2\sin^2\vartheta\cos\vartheta\big) = \cos 2\varphi\,\big(4\cos^2\vartheta - 2\sin^2\vartheta\big) $$
+              $$ \frac{1}{r^2\sin^2\vartheta}\cdot r^2\sin^2\vartheta\cdot(-4\cos 2\varphi) = -4\cos 2\varphi $$
+              <p>Summe:
+                $\cos 2\varphi\,\big(4\sin^2\vartheta + 4\cos^2\vartheta - 4\big) = 0$.
+                Kartesisch geht es schneller:
+                $\Delta(x^2 - y^2) = 2 - 2 + 0 = 0$. Krummlinige Koordinaten
+                lohnen sich also nur, wenn sie zur Symmetrie passen.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe" data-symbole='{"ψ": "Wellenfunktion des Elektrons", "a": "Länge, auf der ψ abfällt (Bohr-Radius)", "ħ": "reduziertes Plancksches Wirkungsquantum", "m_e": "Elektronenmasse", "e": "Elementarladung", "ε_0": "elektrische Feldkonstante", "E": "Energie des Elektrons"}'>
+            <h3>Aufgabe 5: Der Grundzustand des Wasserstoffatoms
+              <span class="schwierigkeit" data-stufe="schwer">schwer</span>
+            </h3>
+            <p>Das Elektron im Wasserstoffatom wird durch eine Wellenfunktion
+              $\psi$ beschrieben, die die Schrödinger-Gleichung erfüllt:</p>
+            $$ -\frac{\hbar^2}{2m_e}\,\Delta\psi - \frac{e^2}{4\pi\varepsilon_0\,r}\,\psi = E\,\psi $$
+            <p>Für den Grundzustand probieren wir den kugelsymmetrischen
+              Ansatz $\psi = \mathrm{e}^{-r/a}$ mit einer noch unbekannten
+              Länge $a$.</p>
+            <ol type="a">
+              <li>Berechne $\Delta\psi$ mit dem radialen Teil des
+                Laplace-Operators.</li>
+              <li>Setze in die Schrödinger-Gleichung ein. Die Gleichung muss
+                für jedes $r$ gelten. Was folgt daraus für $a$ und für
+                $E$?</li>
+              <li>Rechne $a$ und $E$ mit
+                $\hbar = 1{,}0546\cdot 10^{-34}\,\mathrm{J\,s}$,
+                $m_e = 9{,}109\cdot 10^{-31}\,\mathrm{kg}$,
+                $e = 1{,}602\cdot 10^{-19}\,\mathrm{C}$ und
+                $\varepsilon_0 = 8{,}854\cdot 10^{-12}\,\mathrm{C^2/(N\,m^2)}$
+                aus; $E$ in Elektronenvolt.</li>
+            </ol>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>(a) $\psi' = -\frac{1}{a}\psi$, also
+                $r^2\psi' = -\frac{r^2}{a}\,\mathrm{e}^{-r/a}$. Ableiten:
+                $$ \frac{\mathrm{d}}{\mathrm{d}r}\Big(-\frac{r^2}{a}\,\mathrm{e}^{-r/a}\Big) = \Big(-\frac{2r}{a} + \frac{r^2}{a^2}\Big)\mathrm{e}^{-r/a}, \qquad \Delta\psi = \Big(\frac{1}{a^2} - \frac{2}{a r}\Big)\psi $$
+                Probe mit $\psi'' + \frac{2}{r}\psi' = \frac{1}{a^2}\psi - \frac{2}{ar}\psi$.</p>
+              <p>(b) Einsetzen und durch $\psi$ teilen:
+                $$ -\frac{\hbar^2}{2m_e a^2} + \frac{\hbar^2}{m_e a\,r} - \frac{e^2}{4\pi\varepsilon_0\,r} = E $$
+                Rechts steht eine Konstante. Links müssen sich deshalb die
+                beiden Terme mit $1/r$ aufheben, sonst hinge die linke Seite
+                von $r$ ab:
+                $$ \frac{\hbar^2}{m_e a} = \frac{e^2}{4\pi\varepsilon_0} \quad\Rightarrow\quad a = \frac{4\pi\varepsilon_0\,\hbar^2}{m_e e^2}, \qquad E = -\frac{\hbar^2}{2m_e a^2} $$</p>
+              <p>(c)
+                $$ a = \frac{4\pi\cdot 8{,}854\cdot 10^{-12}\,\mathrm{C^2/(N\,m^2)}\cdot(1{,}0546\cdot 10^{-34}\,\mathrm{J\,s})^2}{9{,}109\cdot 10^{-31}\,\mathrm{kg}\cdot(1{,}602\cdot 10^{-19}\,\mathrm{C})^2} = 5{,}29\cdot 10^{-11}\,\mathrm{m} $$
+                $$ E = -\frac{(1{,}0546\cdot 10^{-34}\,\mathrm{J\,s})^2}{2\cdot 9{,}109\cdot 10^{-31}\,\mathrm{kg}\cdot(5{,}29\cdot 10^{-11}\,\mathrm{m})^2} = -2{,}18\cdot 10^{-18}\,\mathrm{J} = -13{,}6\,\mathrm{eV} $$
+                Das ist der Bohr-Radius (52,9&nbsp;pm) und die bekannte
+                Bindungsenergie des Wasserstoffatoms. Einheitencheck für $a$
+                mit $\mathrm{J} = \mathrm{N\,m}$ und
+                $\mathrm{N} = \mathrm{kg\,m/s^2}$:
+                $\frac{\mathrm{C^2}}{\mathrm{N\,m^2}}\cdot\frac{\mathrm{N^2\,m^2\,s^2}}{\mathrm{kg\,C^2}} = \frac{\mathrm{N\,s^2}}{\mathrm{kg}} = \mathrm{m}$.</p>
+              <p><strong>Zum Nachdenken:</strong> Der Term $\frac{2}{r}\psi'$,
+                der nur in krummlinigen Koordinaten sichtbar wird, ist hier
+                entscheidend: Er allein liefert den $1/r$-Term, der die
+                Anziehung des Kerns ausgleicht. Mit dem falschen
+                $\Delta\psi = \psi''$ gäbe es gar keine Lösung dieser Form.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe" data-symbole='{"R": "Radius des Umlaufkreises", "B": "magnetische Flussdichte", "μ_0": "magnetische Feldkonstante", "I": "Stromstärke im Draht"}'>
+            <h3>Aufgabe 6: Wirbelfrei und doch ein Umlauf
+              <span class="schwierigkeit" data-stufe="schwer">schwer</span>
+            </h3>
+            <p>Betrachte das Feld $\vec F = \dfrac{1}{\rho}\,\hat e_\varphi$
+              außerhalb der $z$-Achse.</p>
+            <ol type="a">
+              <li>Zeige mit dem Gradienten in Zylinderkoordinaten, dass
+                $\vec F = \nabla\varphi$ ist.</li>
+              <li>Zeige mit der Rotation in Zylinderkoordinaten, dass
+                $\nabla\times\vec F = \vec 0$ ist.</li>
+              <li>Berechne den Umlauf $\oint\vec F\cdot\mathrm{d}\vec r$ auf
+                einem Kreis mit Radius $R$ um die $z$-Achse, einmal gegen den
+                Uhrzeigersinn. Für Gradientenfelder ist ein Umlauf eigentlich
+                null – wo ist der Haken?</li>
+            </ol>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>(a) $\varphi$ hängt nur von $\varphi$ ab:
+                $\nabla\varphi = \frac{1}{\rho}\,\frac{\partial\varphi}{\partial\varphi}\,\hat e_\varphi = \frac{1}{\rho}\,\hat e_\varphi$.</p>
+              <p>(b) Nur $F_\varphi = 1/\rho$ ist ungleich null, und es hängt
+                weder von $\varphi$ noch von $z$ ab. Die $\hat e_\rho$- und
+                $\hat e_\varphi$-Komponente der Rotation enthalten nur
+                $\partial F_\varphi/\partial z$, $F_z$ und $F_\rho$ – alle
+                null. Die $z$-Komponente ist
+                $\frac{1}{\rho}\,\frac{\partial}{\partial\rho}\big(\rho\cdot\frac{1}{\rho}\big) = \frac{1}{\rho}\,\frac{\partial}{\partial\rho}(1) = 0$.</p>
+              <p>(c) Auf dem Kreis ist
+                $\mathrm{d}\vec r = R\,\mathrm{d}\varphi\,\hat e_\varphi$, also
+                $\vec F\cdot\mathrm{d}\vec r = \frac{1}{R}\cdot R\,\mathrm{d}\varphi = \mathrm{d}\varphi$
+                und
+                $$ \oint\vec F\cdot\mathrm{d}\vec r = \int_0^{2\pi}\mathrm{d}\varphi = 2\pi $$
+                unabhängig von $R$. Der Haken: $\varphi$ ist keine richtige
+                Funktion auf dem ganzen Gebiet. Nach einer Runde ist man wieder
+                am selben Ort, aber $\varphi$ ist um $2\pi$ gewachsen – an
+                irgendeiner Halbebene muss es springen, und dort ist
+                $\nabla\varphi$ nicht definiert. Außerdem hat das Gebiet ein
+                Loch, die $z$-Achse, um die sich der Kreis nicht
+                zusammenziehen lässt. Wirbelfrei heißt nur dann
+                „Umlauf null“, wenn das Gebiet keine solchen Löcher hat.</p>
+              <p><strong>Zum Nachdenken:</strong> Das Magnetfeld eines geraden
+                Drahts ist $\vec B = \frac{\mu_0 I}{2\pi}\,\vec F$. Sein Umlauf
+                ist $\mu_0 I$, auf jedem Kreis um den Draht – das ist das
+                Ampèresche Gesetz. Der Wirbel, der den Umlauf erzeugt, sitzt
+                vollständig im Loch, also im stromdurchflossenen Draht.</p>
+            </details>
+          </div>
+        </section>
+
+      </div></article>
+  </main>
+</body>
+</html>

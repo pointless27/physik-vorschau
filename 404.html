@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Seite nicht gefunden – Physik verstehen</title>
+  <meta name="robots" content="noindex">
+
+  <script>
+    (function () {
+      if (location.protocol === "file:") return;
+      /* PRÜFEN beim Einrichten von GitHub Pages: Bei einer Projektseite
+         (name.github.io/<repo>/) ist der erste Pfadteil das Repository.
+         Bei einer Benutzerseite (name.github.io ohne Unterordner) oder
+         eigener Domain hier WURZEL fest auf "/" setzen. */
+      var wurzel = "/";
+      if (/\.github\.io$/.test(location.hostname)) {
+        var teil = location.pathname.split("/")[1];
+        if (teil) wurzel = "/" + teil + "/";
+      }
+      document.write('<base href="' + wurzel + '">');
+    })();
+  </script>
+
+  <link rel="stylesheet" href="css/stil.css">
+  <script src="js/daten.js"></script>
+  <script src="js/seite.js"></script>
+  <script src="js/effekte.js"></script>
+</head>
+<body>
+  <main class="seite-404">
+    <button class="loch-buehne" type="button" id="loch"
+            aria-label="Schwarzes Loch – noch einmal hineinziehen lassen">
+      <span class="loch-hinten"></span>
+      <span class="loch-ring"></span>
+      <span class="loch-kern"></span>
+      <span class="loch-vorne"></span>
+    </button>
+
+    <p class="loch-notiz" id="loch-notiz" aria-live="polite"></p>
+
+    <h1 class="loch-text" id="loch-text">Seite nicht gefunden</h1>
+    <p class="untertitel">Fehler 404: Diese Adresse ist hinter dem
+      Ereignishorizont verschwunden. Von dort kommt nicht einmal Licht
+      zurück – aber von hier aus findest du schnell weiter.</p>
+
+    <div class="wege">
+      <a class="hero-knopf" href="index.html">Zur Startseite</a>
+      <a href="themen/index.html">Alle Themen ansehen</a>
+    </div>
+  </main>
+
+  <script>
+    /* Der Titel wird Buchstabe für Buchstabe auf einer Spirale ins Loch
+       gezogen (wird kleiner, dreht sich, verblasst). Danach tauchen die
+       Buchstaben als „Hawking-Strahlung“ wieder auf. Klick aufs Loch:
+       noch einmal. Bei „weniger Bewegung“ bleibt der Titel stehen. */
+    (function () {
+      var wenigBewegung = window.matchMedia &&
+        window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      var titel = document.getElementById("loch-text");
+      var loch = document.getElementById("loch");
+      var kern = loch.querySelector(".loch-kern");
+      var notiz = document.getElementById("loch-notiz");
+
+      /* Titel in einzelne Buchstaben zerlegen (Vorleseprogramme lesen
+         weiter den ganzen Text über aria-label) */
+      var text = titel.textContent;
+      titel.setAttribute("aria-label", text);
+      titel.textContent = "";
+      var buchstaben = [];
+      text.split("").forEach(function (z) {
+        var s = document.createElement("span");
+        s.className = "buchstabe";
+        s.setAttribute("aria-hidden", "true");
+        s.textContent = z;
+        titel.append(s);
+        if (z.trim()) buchstaben.push(s);
+      });
+
+      if (wenigBewegung || !Element.prototype.animate) {
+        notiz.textContent = "Keine Sorge – der Text bleibt diesmal draußen.";
+        return;
+      }
+
+      var laeuft = false;
+
+      function hineinziehen() {
+        if (laeuft) return;
+        laeuft = true;
+        notiz.style.opacity = 0;
+        var k = kern.getBoundingClientRect();
+        var cx = k.left + k.width / 2, cy = k.top + k.height / 2;
+
+        /* Wer dem Loch am nächsten ist, fällt zuerst */
+        var liste = buchstaben.map(function (s) {
+          s.getAnimations().forEach(function (a) { a.cancel(); });
+          var r = s.getBoundingClientRect();
+          var x0 = r.left + r.width / 2 - cx, y0 = r.top + r.height / 2 - cy;
+          return { s: s, x0: x0, y0: y0, d: Math.sqrt(x0 * x0 + y0 * y0) };
+        }).sort(function (a, b) { return a.d - b.d; });
+
+        var fertig = 0;
+        liste.forEach(function (b, i) {
+          var r0 = b.d, th0 = Math.atan2(b.y0, b.x0);
+          var bilder = [], N = 30;
+          for (var j = 0; j <= N; j++) {
+            var u = j / N;
+            var r = r0 * Math.pow(1 - u, 1.15);                 // Abstand schrumpft
+            var th = th0 + 2.4 * Math.PI * Math.pow(u, 1.6);   // dreht immer schneller
+            var x = r * Math.cos(th) - b.x0, y = r * Math.sin(th) - b.y0;
+            var gr = Math.max(0.05, Math.pow(1 - u, 0.7));
+            bilder.push({
+              offset: u,
+              transform: "translate(" + x.toFixed(1) + "px," + y.toFixed(1) + "px) rotate(" +
+                ((th - th0) * 180 / Math.PI).toFixed(1) + "deg) scale(" + gr.toFixed(3) + ")",
+              opacity: u < 0.8 ? 1 : (1 - u) * 5
+            });
+          }
+          var a = b.s.animate(bilder, {
+            duration: 3800, delay: 900 + i * 230,
+            easing: "cubic-bezier(0.45, 0, 0.9, 0.55)", fill: "forwards"
+          });
+          a.onfinish = function () {
+            fertig++;
+            if (fertig === liste.length) setTimeout(wiederAuftauchen, 1400);
+          };
+        });
+      }
+
+      function wiederAuftauchen() {
+        buchstaben.forEach(function (s, i) {
+          s.getAnimations().forEach(function (a) { a.cancel(); });
+          s.animate([
+            { opacity: 0, transform: "scale(0.4)", filter: "blur(4px)" },
+            { opacity: 1, transform: "none", filter: "blur(0)" }
+          ], { duration: 900, delay: i * 70, easing: "ease-out", fill: "both" });
+        });
+        notiz.textContent = "Hawking-Strahlung: Ganz verloren geht nichts. (Klick aufs Loch für eine neue Runde)";
+        notiz.style.opacity = 1;
+        setTimeout(function () { laeuft = false; }, buchstaben.length * 70 + 900);
+      }
+
+      loch.addEventListener("click", hineinziehen);
+      /* Erst starten, wenn die Schrift geladen ist – sonst stimmen die
+         gemessenen Buchstabenpositionen nicht */
+      (document.fonts ? document.fonts.ready : Promise.resolve()).then(hineinziehen);
+    })();
+  </script>
+</body>
+</html>

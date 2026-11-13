@@ -1,0 +1,555 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="robots" content="noindex">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Ensembles und Zustandssumme</title>
+  <meta name="description" content="Wie man aus der Statistik vieler Teilchen die Thermodynamik gewinnt: Boltzmann-Verteilung, Zustandssumme, Fluktuationen und die drei Ensembles.">
+
+  <link rel="stylesheet" href="../../css/stil.css">
+
+  <link rel="stylesheet" href="../../extern/katex/katex.min.css">
+  <script defer src="../../extern/katex/katex.min.js"></script>
+  <script defer src="../../extern/katex/contrib/auto-render.min.js" onload="starteFormeln()"></script>
+
+  <script src="../../js/daten.js"></script>
+  <script src="../../js/seite.js"></script>
+  <script src="../../js/effekte.js"></script>
+  <script type="application/json" id="symbole">
+  {
+    "E": "Energie",
+    "E_i": "Energie des Mikrozustands i",
+    "U": "innere Energie (Mittelwert der Energie)",
+    "T": "absolute Temperatur",
+    "β": "inverse Temperatur 1/(k_B T)",
+    "k_B": "Boltzmann-Konstante",
+    "Z": "Zustandssumme",
+    "Z_GK": "großkanonische Zustandssumme",
+    "p_i": "Wahrscheinlichkeit des Mikrozustands i",
+    "S": "Entropie",
+    "F": "freie Energie",
+    "p": "Druck",
+    "V": "Volumen",
+    "N": "Teilchenzahl",
+    "μ": "chemisches Potential",
+    "C_V": "Wärmekapazität bei konstantem Volumen",
+    "f": "Anzahl der Freiheitsgrade pro Teilchen",
+    "m": "magnetisches Moment bzw. Teilchenmasse",
+    "B": "magnetische Flussdichte",
+    "M": "Magnetisierung",
+    "λ": "thermische de-Broglie-Wellenlänge",
+    "h": "Plancksches Wirkungsquantum",
+    "n": "Teilchendichte N/V",
+    "z": "Fugazität e^(βμ)",
+    "a": "äußerer Parameter",
+    "W": "Arbeit",
+    "Q": "Wärme",
+    "ε": "Energieabstand der Niveaus",
+    "x": "Argument mB/(k_B T) bzw. Anteil",
+    "g": "Fallbeschleunigung",
+    "H": "Skalenhöhe",
+    "R": "universelle Gaskonstante",
+    "N_A": "Avogadro-Konstante",
+    "δ": "kleine Menge einer Prozessgröße",
+    "π": "Kreiszahl",
+    "i": "Index der Mikrozustände"
+  }
+  </script>
+</head>
+<body data-thema="ensembles">
+  <main>
+    <article class="thema">
+      <header>
+        <h1><span class="betont">Ensembles</span> und Zustandssumme</h1>
+        <p class="untertitel">Wie aus einem einzigen Rechentrick, der Summe über alle Zustände, die ganze Thermodynamik wird.</p>
+      </header>
+
+      <div class="tabs">
+
+        <section class="tab" id="verstehen" data-titel="Verstehen">
+
+          <p>Ein Liter Luft enthält etwa $10^{22}$ Moleküle. Niemand kann deren
+            Bewegungen einzeln verfolgen, und es muss auch nicht sein. Die
+            Thermodynamik fragt nach Größen wie Druck und Temperatur, die sich aus
+            dem Zusammenspiel unvorstellbar vieler Teilchen ergeben. Dafür genügt die
+            Statistik: Man fragt nicht, wo ein bestimmtes Teilchen ist, sondern wie
+            wahrscheinlich die verschiedenen Zustände des Systems sind.</p>
+
+          <p>Wahrscheinlichkeiten gehören eigentlich zu Würfen, die man oft
+            wiederholt. Ein einzelnes Gas im Behälter wird aber nur einmal betrachtet.
+            Der Ausweg ist das <em>Ensemble</em>: eine gedachte Menge sehr
+            vieler Kopien desselben Systems, alle unter gleichen äußeren
+            Bedingungen. Die Wahrscheinlichkeit eines Zustands ist dann der Anteil der
+            Kopien, die ihn gerade zeigen. Je nach Bedingungen unterscheidet man
+            drei Ensembles:</p>
+          <ul>
+            <li>Das System ist <strong>isoliert</strong> (Energie, Volumen und
+              Teilchenzahl fest): <em>mikrokanonisch</em>.</li>
+            <li>Es steht in Kontakt mit einem <strong>Wärmebad</strong>, tauscht
+              also Energie aus: <em>kanonisch</em>.</li>
+            <li>Es tauscht <strong>Energie und Teilchen</strong> mit seiner
+              Umgebung aus: <em>großkanonisch</em>.</li>
+          </ul>
+
+          <p>Im Wärmebad gilt eine einfache Regel: Jeder einzelne Zustand mit hoher
+            Energie ist unwahrscheinlicher als einer mit niedriger, und zwar exponentiell. Die
+            Wahrscheinlichkeit eines Zustands mit der Energie $E$ ist proportional
+            zum <em>Boltzmann-Faktor</em> $\mathrm{e}^{-E/(k_\mathrm{B}T)}$. Bei tiefer Temperatur
+            sitzen fast alle im Zustand mit der niedrigsten Energie, bei
+            hoher Temperatur verteilen sie sich breiter (Abb. 1). Die Summe aller
+            Boltzmann-Faktoren, die <em>Zustandssumme</em>, ist das zentrale
+            Werkzeug: Aus ihr lassen sich Energie, Druck, Entropie und
+            Wärmekapazität berechnen.</p>
+
+          <figure class="abbildung">
+            <svg class="abb" viewBox="0 0 360 215" role="img" aria-label="Besetzung von fünf Energieniveaus nach dem Boltzmann-Faktor bei zwei Temperaturen: bei tiefer Temperatur sitzen fast alle Teilchen im Grundzustand, bei hoher verteilen sie sich breiter">
+<defs><marker id="pfeil-abb1-text" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto"><path class="punkt" d="M0 0L10 5L0 10z"/></marker><marker id="pfeil-abb1-blau" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto"><path class="punkt blau" d="M0 0L10 5L0 10z"/></marker><marker id="pfeil-abb1-kupfer" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto"><path class="punkt kupfer" d="M0 0L10 5L0 10z"/></marker></defs>
+<path class="achse" d="M50 180H345" marker-end="url(#pfeil-abb1-text)"/>
+<path class="achse" d="M50 180V14" marker-end="url(#pfeil-abb1-text)"/>
+<text x="56" y="14">Anteil der Teilchen</text>
+<text x="346" y="208" text-anchor="end">Energie E</text>
+<rect class="flaeche " x="66" y="65.9" width="14" height="114.1" style="fill-opacity:0.55"/>
+<rect class="flaeche " x="118" y="152.6" width="14" height="27.4" style="fill-opacity:0.55"/>
+<rect class="flaeche " x="170" y="173.4" width="14" height="6.6" style="fill-opacity:0.55"/>
+<rect class="flaeche " x="222" y="178.4" width="14" height="1.6" style="fill-opacity:0.55"/>
+<rect class="flaeche " x="274" y="179.6" width="14" height="0.4" style="fill-opacity:0.55"/>
+<rect class="flaeche kupfer" x="82" y="115.7" width="14" height="64.3" style="fill-opacity:0.55"/>
+<rect class="flaeche kupfer" x="134" y="141" width="14" height="39" style="fill-opacity:0.55"/>
+<rect class="flaeche kupfer" x="186" y="156.3" width="14" height="23.7" style="fill-opacity:0.55"/>
+<rect class="flaeche kupfer" x="238" y="165.7" width="14" height="14.3" style="fill-opacity:0.55"/>
+<rect class="flaeche kupfer" x="290" y="171.3" width="14" height="8.7" style="fill-opacity:0.55"/>
+<text class="klein" x="80" y="196" text-anchor="middle">0 ε</text>
+<text class="klein" x="132" y="196" text-anchor="middle">1 ε</text>
+<text class="klein" x="184" y="196" text-anchor="middle">2 ε</text>
+<text class="klein" x="236" y="196" text-anchor="middle">3 ε</text>
+<text class="klein" x="288" y="196" text-anchor="middle">4 ε</text>
+<text class="klein blau" x="330" y="40" text-anchor="end">blau: k<tspan dy="3" style="font-size:8px">B</tspan><tspan dy="-3">T = 0,7 ε</tspan></text>
+<text class="klein kupfer" x="330" y="56" text-anchor="end">orange: k<tspan dy="3" style="font-size:8px">B</tspan><tspan dy="-3">T = 2 ε</tspan></text>
+</svg>
+            <figcaption>Abb. 1: Anteil der Teilchen auf fünf äquidistanten
+              Energieniveaus (Abstand $\varepsilon$) bei zwei Temperaturen.
+              Die Höhe der Säulen ist proportional zum Boltzmann-Faktor.</figcaption>
+          </figure>
+
+          <div class="alltag">
+            <span class="titel">Aus dem Alltag</span>
+            <p>Dass die Luft mit der Höhe dünner wird, ist die Boltzmann-Regel in
+              Aktion. Ein Molekül in der Höhe $h$ hat die zusätzliche Energie $mgh$.
+              Die Wahrscheinlichkeit, es dort zu finden, fällt wie
+              $\mathrm{e}^{-mgh/(k_\mathrm{B}T)}$. Nach etwa $8{,}4\,\mathrm{km}$ ist der Luftdruck
+              auf etwa $37\,\%$ ($1/\mathrm{e}$) gesunken. Deshalb braucht man
+              auf dem Everest Sauerstoffflaschen.</p>
+          </div>
+
+          <div class="merkkasten">
+            <span class="titel">Das Wichtigste in Kürze</span>
+            <p>Die Thermodynamik großer Systeme ist angewandte Statistik. Ein
+              Ensemble ist eine gedachte Schar identischer Systeme. Im Wärmebad
+              ist jeder Zustand mit der Energie $E$ mit dem Faktor
+              $\mathrm{e}^{-E/(k_\mathrm{B}T)}$ gewichtet, und die Summe über alle Zustände
+              enthält die gesamte Thermodynamik.</p>
+          </div>
+        </section>
+
+        <section class="tab" id="vertiefung" data-titel="Vertiefung">
+
+          <h2>Zeitmittel und Scharmittel</h2>
+
+          <p>Für ein einzelnes System im Gleichgewicht lässt sich die
+            Wahrscheinlichkeit eines Zustands als relative Häufigkeit in der Zeit
+            deuten: Das System durchläuft langfristig alle zugänglichen
+            Mikrozustände. Alternativ denkt man sich ein <em>Ensemble</em>, viele
+            gedachte Kopien mit denselben makroskopischen Vorgaben. Beide Sichtweisen
+            stimmen überein, wenn das System <em>ergodisch</em> ist (Ergodenhypothese).
+            Man unterscheidet drei Ensembles nach den fest vorgegebenen Größen:</p>
+          <div class="tabelle-huelle">
+            <table>
+              <thead><tr><th>Ensemble</th><th>System</th><th>fest</th><th>fluktuiert</th></tr></thead>
+              <tbody>
+                <tr><td>mikrokanonisch</td><td>abgeschlossen</td><td>$E, V, N$</td><td></td></tr>
+                <tr><td>kanonisch</td><td>geschlossen, im Wärmebad</td><td>$T, V, N$</td><td>$E$</td></tr>
+                <tr><td>großkanonisch</td><td>offen</td><td>$T, V, \mu$</td><td>$E, N$</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h2>Mikrokanonisches Ensemble</h2>
+
+          <p>Beim abgeschlossenen System gilt das Grundpostulat: Alle $\Omega$
+            Mikrozustände mit der vorgegebenen Energie sind gleich wahrscheinlich,
+            $p_i = 1/\Omega$. Die Entropie ist $S = k_\mathrm{B}\ln\Omega$.</p>
+
+          <h2>Kanonisches Ensemble: die Boltzmann-Verteilung</h2>
+
+          <p>Ein kleines System S steht im Energieaustausch mit einem großen
+            Wärmebad R. Zusammen bilden sie ein abgeschlossenes System mit der
+            Energie $E$. Hat S die Energie $E_i$, hat R die Energie $E - E_i$, und die
+            Zahl der dazu passenden Zustände ist $\Omega_\mathrm{R}(E - E_i)$. Nach dem
+            Grundpostulat ist die Wahrscheinlichkeit proportional dazu:
+            $p_i \propto \Omega_\mathrm{R}(E - E_i)$. Da $E_i \ll E$, entwickelt man den
+            Logarithmus:</p>
+          $$ \ln\Omega_\mathrm{R}(E - E_i) \approx \ln\Omega_\mathrm{R}(E) - \frac{\partial\ln\Omega_\mathrm{R}}{\partial E}\,E_i = \ln\Omega_\mathrm{R}(E) - \beta E_i . $$
+          <p>Hier ist $\beta = 1/(k_\mathrm{B}T)$ (die Ableitung von $\ln\Omega$
+            nach der Energie ist $1/(k_\mathrm{B}T)$, siehe Temperatur im
+            Thema Hauptsätze). Es folgt $p_i \propto \mathrm{e}^{-\beta E_i}$. Mit der
+            Normierung $\sum p_i = 1$:</p>
+          $$ p_i = \frac{\mathrm{e}^{-\beta E_i}}{Z}, \qquad Z = \sum_i \mathrm{e}^{-\beta E_i} . $$
+          <p>$Z$ heißt <em>kanonische Zustandssumme</em>. Die mittlere Energie
+            erhält man durch Ableiten:</p>
+          $$ U = \langle E \rangle = \frac{1}{Z}\sum_i E_i\,\mathrm{e}^{-\beta E_i} = -\frac{\partial \ln Z}{\partial\beta} . $$
+          <p>Für zwei unabhängige Systeme faktorisiert die Summe,
+            $Z = Z_1 Z_2$, bzw. $\ln Z = \ln Z_1 + \ln Z_2$. Für $N$ unterscheidbare,
+            nicht wechselwirkende Teilchen (etwa Spins an festen Gitterplätzen) ist
+            daher $Z = Z_1^N$.</p>
+
+          <h2>Beispiel: Paramagnet</h2>
+
+          <p>$N$ nicht wechselwirkende Spins $\frac12$ mit dem magnetischen Moment
+            $m$ im Feld $B$ haben je zwei Energien $E_\pm = \mp mB$ (Moment parallel
+            oder antiparallel zum Feld). Die Zustandssumme eines Spins und die
+            Zustandssumme des Systems sind</p>
+          $$ Z_1 = \mathrm{e}^{mB/(k_\mathrm{B}T)} + \mathrm{e}^{-mB/(k_\mathrm{B}T)} = 2\cosh\frac{mB}{k_\mathrm{B}T}, \qquad Z = Z_1^N . $$
+          <p>Daraus ergeben sich die mittlere Energie und die Magnetisierung</p>
+          $$ U = -N\,mB\tanh\frac{mB}{k_\mathrm{B}T}, \qquad M = N\,m\tanh\frac{mB}{k_\mathrm{B}T} . $$
+          <p>Für $k_\mathrm{B}T \gg mB$ ist $\tanh x \approx x$ und damit
+            $M \approx N m^2B/(k_\mathrm{B}T)$, das <em>Curie-Gesetz</em>
+            $M \propto 1/T$. Für $mB \gg k_\mathrm{B}T$ sind alle Spins
+            ausgerichtet und $M$ sättigt bei $Nm$ (Abb. 2). Ein
+            experimentell gefundenes Gesetz folgt hier aus der Boltzmann-Verteilung.</p>
+
+          <figure class="abbildung">
+            <svg class="abb" viewBox="0 0 360 225" role="img" aria-label="Magnetisierung eines Paramagneten als Tangens hyperbolicus von m B durch k T, mit der Curie-Geraden für kleine Argumente und der Sättigung bei eins">
+<defs><marker id="pfeil-abb2-text" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto"><path class="punkt" d="M0 0L10 5L0 10z"/></marker><marker id="pfeil-abb2-blau" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto"><path class="punkt blau" d="M0 0L10 5L0 10z"/></marker><marker id="pfeil-abb2-kupfer" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto"><path class="punkt kupfer" d="M0 0L10 5L0 10z"/></marker></defs>
+<path class="achse" d="M50 190H345" marker-end="url(#pfeil-abb2-text)"/>
+<path class="achse" d="M50 190V12" marker-end="url(#pfeil-abb2-text)"/>
+<text x="56" y="14">M / M<tspan dy="3" style="font-size:10px">max</tspan></text>
+<text x="346" y="222" text-anchor="end">m B / k<tspan dy="3" style="font-size:10px">B</tspan><tspan dy="-3">T</tspan></text>
+<path class="hilfslinie" d="M50 40H340"/><text class="klein" x="45" y="44" text-anchor="end">1</text>
+<path class="achse" d="M105 190v4"/><text class="klein" x="105" y="204" text-anchor="middle">1</text>
+<path class="achse" d="M160 190v4"/><text class="klein" x="160" y="204" text-anchor="middle">2</text>
+<path class="achse" d="M215 190v4"/><text class="klein" x="215" y="204" text-anchor="middle">3</text>
+<path class="achse" d="M270 190v4"/><text class="klein" x="270" y="204" text-anchor="middle">4</text>
+<path class="achse" d="M325 190v4"/><text class="klein" x="325" y="204" text-anchor="middle">5</text>
+<path class="kurve blau" d="M50 190 L51.1 187 L52.2 184 L53.3 181 L54.4 178 L55.5 175 L56.6 172.1 L57.7 169.1 L58.8 166.2 L59.9 163.3 L61 160.4 L62.1 157.5 L63.2 154.7 L64.3 151.9 L65.4 149.1 L66.5 146.3 L67.6 143.6 L68.7 140.9 L69.8 138.2 L70.9 135.6 L72 133 L73.1 130.5 L74.2 128 L75.3 125.5 L76.4 123.1 L77.5 120.7 L78.6 118.3 L79.7 116.1 L80.8 113.8 L81.9 111.6 L83 109.4 L84.1 107.3 L85.2 105.3 L86.3 103.2 L87.4 101.3 L88.5 99.3 L89.6 97.5 L90.7 95.6 L91.8 93.8 L92.9 92.1 L94 90.4 L95.1 88.7 L96.2 87.1 L97.3 85.6 L98.4 84 L99.5 82.6 L100.6 81.1 L101.7 79.7 L102.8 78.4 L103.9 77 L105 75.8 L106.1 74.5 L107.2 73.3 L108.3 72.2 L109.4 71 L110.5 69.9 L111.6 68.9 L112.7 67.8 L113.8 66.8 L114.9 65.9 L116 65 L117.1 64.1 L118.2 63.2 L119.3 62.3 L120.4 61.5 L121.5 60.7 L122.6 60 L123.7 59.2 L124.8 58.5 L125.9 57.9 L127 57.2 L128.1 56.6 L129.2 55.9 L130.3 55.4 L131.4 54.8 L132.5 54.2 L133.6 53.7 L134.7 53.2 L135.8 52.7 L136.9 52.2 L138 51.7 L139.1 51.3 L140.2 50.9 L141.3 50.5 L142.4 50.1 L143.5 49.7 L144.6 49.3 L145.7 49 L146.8 48.6 L147.9 48.3 L149 48 L150.1 47.7 L151.2 47.4 L152.3 47.1 L153.4 46.8 L154.5 46.6 L155.6 46.3 L156.7 46.1 L157.8 45.8 L158.9 45.6 L160 45.4 L161.1 45.2 L162.2 45 L163.3 44.8 L164.4 44.6 L165.5 44.4 L166.6 44.3 L167.7 44.1 L168.8 43.9 L169.9 43.8 L171 43.6 L172.1 43.5 L173.2 43.4 L174.3 43.2 L175.4 43.1 L176.5 43 L177.6 42.9 L178.7 42.8 L179.8 42.7 L180.9 42.5 L182 42.4 L183.1 42.4 L184.2 42.3 L185.3 42.2 L186.4 42.1 L187.5 42 L188.6 41.9 L189.7 41.9 L190.8 41.8 L191.9 41.7 L193 41.6 L194.1 41.6 L195.2 41.5 L196.3 41.5 L197.4 41.4 L198.5 41.3 L199.6 41.3 L200.7 41.2 L201.8 41.2 L202.9 41.2 L204 41.1 L205.1 41.1 L206.2 41 L207.3 41 L208.4 40.9 L209.5 40.9 L210.6 40.9 L211.7 40.8 L212.8 40.8 L213.9 40.8 L215 40.7 L216.1 40.7 L217.2 40.7 L218.3 40.7 L219.4 40.6 L220.5 40.6 L221.6 40.6 L222.7 40.6 L223.8 40.5 L224.9 40.5 L226 40.5 L227.1 40.5 L228.2 40.5 L229.3 40.4 L230.4 40.4 L231.5 40.4 L232.6 40.4 L233.7 40.4 L234.8 40.4 L235.9 40.3 L237 40.3 L238.1 40.3 L239.2 40.3 L240.3 40.3 L241.4 40.3 L242.5 40.3 L243.6 40.3 L244.7 40.3 L245.8 40.2 L246.9 40.2 L248 40.2 L249.1 40.2 L250.2 40.2 L251.3 40.2 L252.4 40.2 L253.5 40.2 L254.6 40.2 L255.7 40.2 L256.8 40.2 L257.9 40.2 L259 40.2 L260.1 40.1 L261.2 40.1 L262.3 40.1 L263.4 40.1 L264.5 40.1 L265.6 40.1 L266.7 40.1 L267.8 40.1 L268.9 40.1 L270 40.1 L271.1 40.1 L272.2 40.1 L273.3 40.1 L274.4 40.1 L275.5 40.1 L276.6 40.1 L277.7 40.1 L278.8 40.1 L279.9 40.1 L281 40.1 L282.1 40.1 L283.2 40.1 L284.3 40.1 L285.4 40.1 L286.5 40.1 L287.6 40.1 L288.7 40.1 L289.8 40 L290.9 40 L292 40 L293.1 40 L294.2 40 L295.3 40 L296.4 40 L297.5 40 L298.6 40 L299.7 40 L300.8 40 L301.9 40 L303 40 L304.1 40 L305.2 40 L306.3 40 L307.4 40 L308.5 40 L309.6 40 L310.7 40 L311.8 40 L312.9 40 L314 40 L315.1 40 L316.2 40 L317.3 40 L318.4 40 L319.5 40 L320.6 40 L321.7 40 L322.8 40 L323.9 40 L325 40"/>
+<path class="kurve kupfer duenn" d="M50 190L105 40" style="stroke-dasharray:4 4"/>
+<text class="klein kupfer" x="118.8" y="122.5">Curie-Gesetz (linear)</text>
+<text class="klein blau" x="226" y="57.5">Sättigung</text>
+</svg>
+            <figcaption>Abb. 2: Magnetisierung eines Paramagneten als
+              $\tanh(mB/k_\mathrm{B}T)$. Für kleine Argumente gilt das Curie-Gesetz
+              (gestrichelte Gerade), für große Argumente die Sättigung.</figcaption>
+          </figure>
+
+          <h2>Thermodynamik aus der Zustandssumme</h2>
+
+          <p>Ändert man einen äußeren Parameter $a$ (zum Beispiel das Volumen),
+            ändern sich die Energien $E_i(a)$. Die dabei vom System verrichtete Arbeit ist
+            $\delta W = -\langle\partial E_i/\partial a\rangle\,\mathrm{d}a
+            = k_\mathrm{B}T\,\frac{\partial\ln Z}{\partial a}\,\mathrm{d}a$. Für das Volumen ergibt
+            das den Druck:</p>
+          $$ p = k_\mathrm{B}T\,\frac{\partial\ln Z}{\partial V} . $$
+          <p>Aus dem totalen Differential von $\ln Z(\beta, a)$ folgt mit dem
+            ersten Hauptsatz $\mathrm{d}(\ln Z + \beta U) = \delta Q/(k_\mathrm{B}T)$ und damit
+            die Entropie sowie die freie Energie:</p>
+          $$ S = k_\mathrm{B}\left(\ln Z + \beta U\right), \qquad F = U - TS = -k_\mathrm{B}T\ln Z . $$
+          <p>Setzt man $\ln Z = -\ln p_i - \beta E_i$ ein (aus $p_i = \mathrm{e}^{-\beta E_i}/Z$),
+            erhält man die <em>Gibbs-Entropie</em></p>
+          $$ S = -k_\mathrm{B}\sum_i p_i\ln p_i . $$
+          <p>Sie ist für gleich wahrscheinliche Zustände ($p_i = 1/\Omega$) gleich
+            $k_\mathrm{B}\ln\Omega$. Die Formel macht auch klar, was Wärme und Arbeit
+            mikroskopisch sind: Arbeit ändert die Energien $E_i$ bei festen Besetzungen $p_i$,
+            Wärme ändert die Besetzungen bei festen Energien.</p>
+
+          <h2>Das ideale Gas</h2>
+
+          <p>Für ein einatomiges ideales Gas ist $H = \sum_j \vec p_j^{\,2}/2m$. Die
+            Zustandssumme eines Teilchens im Volumen $V$ ist ein Integral über Ort und
+            Impuls:</p>
+          $$ Z_1 = \frac{V}{h^3}\int \mathrm{e}^{-\beta p^2/(2m)}\,\mathrm{d}^3p = \frac{V}{h^3}\,(2\pi m k_\mathrm{B}T)^{3/2} = \frac{V}{\lambda^3},
+             \qquad \lambda = \frac{h}{\sqrt{2\pi m k_\mathrm{B}T}} . $$
+          <p>$\lambda$ ist die thermische de-Broglie-Wellenlänge. Für
+            $N$ gleiche Teilchen kommt der Faktor $1/N!$ hinzu (Teilchen sind nicht
+            unterscheidbar), also $Z = \frac{1}{N!}\left(V/\lambda^3\right)^N$. Damit
+            wird $\ln Z = N\ln V + (\text{Terme ohne } V)$ und</p>
+          $$ p = k_\mathrm{B}T\,\frac{\partial\ln Z}{\partial V} = \frac{N k_\mathrm{B}T}{V}, \qquad U = -\frac{\partial\ln Z}{\partial\beta} = \frac32 N k_\mathrm{B}T . $$
+          <p>Die Zustandsgleichung des idealen Gases folgt also vollständig aus der
+            Statistik. Dieselbe Rechnung für jeden Freiheitsgrad, dessen Energie
+            quadratisch von Impuls oder Ort abhängt, ergibt den
+            Gleichverteilungssatz: $\frac12 k_\mathrm{B}T$ pro Freiheitsgrad.</p>
+
+          <h2>Fluktuationen</h2>
+
+          <p>Im kanonischen Ensemble schwankt die Energie. Die Varianz
+            folgt aus der zweiten Ableitung von $\ln Z$:</p>
+          $$ \Delta E^2 = \langle E^2 \rangle - U^2 = \frac{\partial^2\ln Z}{\partial\beta^2} = -\frac{\partial U}{\partial\beta} = k_\mathrm{B}T^2\,C_V . $$
+          <p>Beim idealen Gas mit $f$ Freiheitsgraden pro Teilchen ist
+            $C_V = \frac f2 N k_\mathrm{B}$ und $U = \frac f2 N k_\mathrm{B}T$, also</p>
+          $$ \frac{\Delta E}{U} = \sqrt{\frac{k_\mathrm{B}}{C_V}} = \sqrt{\frac{2}{fN}} . $$
+          <p>Für $N = N_\mathrm{A}$ und $f = 3$ sind das $10^{-12}$ (Abb. 3). Die
+            relative Schwankung der Energie fällt mit $1/\sqrt N$. Im thermodynamischen
+            Limes ($N \to \infty$ bei konstanter Dichte) verschwindet sie. Deshalb sind
+            die verschiedenen Ensembles für große Systeme gleichwertig: Die
+            Energie eines Systems im Wärmebad ist praktisch so scharf wie die eines
+            isolierten.</p>
+
+          <figure class="abbildung">
+            <svg class="abb" viewBox="0 0 360 225" role="img" aria-label="Relative Energiefluktuation eines idealen Gases über der Teilchenzahl in doppelt logarithmischer Darstellung: eine Gerade mit Steigung minus einhalb">
+<defs><marker id="pfeil-abb3-text" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto"><path class="punkt" d="M0 0L10 5L0 10z"/></marker><marker id="pfeil-abb3-blau" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto"><path class="punkt blau" d="M0 0L10 5L0 10z"/></marker><marker id="pfeil-abb3-kupfer" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto"><path class="punkt kupfer" d="M0 0L10 5L0 10z"/></marker></defs>
+<path class="achse" d="M55 185H345" marker-end="url(#pfeil-abb3-text)"/>
+<path class="achse" d="M55 185V12" marker-end="url(#pfeil-abb3-text)"/>
+<text x="60" y="14">ΔE / U</text>
+<text x="346" y="222" text-anchor="end">Teilchenzahl N</text>
+<path class="achse" d="M55 185v4"/><text class="klein" x="55" y="199" text-anchor="middle">10<tspan dy="-5" style="font-size:8px">0</tspan></text>
+<path class="achse" d="M125 185v4"/><text class="klein" x="125" y="199" text-anchor="middle">10<tspan dy="-5" style="font-size:8px">6</tspan></text>
+<path class="achse" d="M195 185v4"/><text class="klein" x="195" y="199" text-anchor="middle">10<tspan dy="-5" style="font-size:8px">12</tspan></text>
+<path class="achse" d="M265 185v4"/><text class="klein" x="265" y="199" text-anchor="middle">10<tspan dy="-5" style="font-size:8px">18</tspan></text>
+<path class="achse" d="M335 185v4"/><text class="klein" x="335" y="199" text-anchor="middle">10<tspan dy="-5" style="font-size:8px">24</tspan></text>
+<path class="achse" d="M55 30.9h-4"/><text class="klein" x="48" y="34.9" text-anchor="end">10<tspan dy="-5" style="font-size:8px">0</tspan></text>
+<path class="achse" d="M55 66.5h-4"/><text class="klein" x="48" y="70.5" text-anchor="end">10<tspan dy="-5" style="font-size:8px">-3</tspan></text>
+<path class="achse" d="M55 102h-4"/><text class="klein" x="48" y="106" text-anchor="end">10<tspan dy="-5" style="font-size:8px">-6</tspan></text>
+<path class="achse" d="M55 137.6h-4"/><text class="klein" x="48" y="141.6" text-anchor="end">10<tspan dy="-5" style="font-size:8px">-9</tspan></text>
+<path class="achse" d="M55 173.1h-4"/><text class="klein" x="48" y="177.1" text-anchor="end">10<tspan dy="-5" style="font-size:8px">-12</tspan></text>
+<path class="kurve blau" d="M55 32 L60.8 34.9 L66.7 37.9 L72.5 40.9 L78.3 43.8 L84.2 46.8 L90 49.7 L95.8 52.7 L101.7 55.7 L107.5 58.6 L113.3 61.6 L119.2 64.6 L125 67.5 L130.8 70.5 L136.7 73.5 L142.5 76.4 L148.3 79.4 L154.2 82.3 L160 85.3 L165.8 88.3 L171.7 91.2 L177.5 94.2 L183.3 97.2 L189.2 100.1 L195 103.1 L200.8 106 L206.7 109 L212.5 112 L218.3 114.9 L224.2 117.9 L230 120.9 L235.8 123.8 L241.7 126.8 L247.5 129.7 L253.3 132.7 L259.2 135.7 L265 138.6 L270.8 141.6 L276.7 144.6 L282.5 147.5 L288.3 150.5 L294.2 153.5 L300 156.4 L305.8 159.4 L311.7 162.3 L317.5 165.3 L323.3 168.3 L329.2 171.2 L335 174.2"/>
+<circle class="punkt kupfer" cx="78.3" cy="43.8" r="4"/>
+<text class="klein kupfer" x="86.3" y="35.8" text-anchor="start">100 Teilchen</text>
+<circle class="punkt kupfer" cx="125" cy="67.5" r="4"/>
+<text class="klein kupfer" x="133" y="57.5" text-anchor="start">10⁶ Teilchen</text>
+<circle class="punkt kupfer" cx="332.4" cy="172.9" r="4"/>
+<text class="klein kupfer" x="324.4" y="156.9" text-anchor="end">1 mol</text>
+</svg>
+            <figcaption>Abb. 3: Relative Energiefluktuation $\Delta E/U = \sqrt{2/(3N)}$
+              eines einatomigen idealen Gases über der Teilchenzahl, doppelt
+              logarithmisch. Für ein mol ist sie etwa $10^{-12}$.</figcaption>
+          </figure>
+
+          <h2>Großkanonisches Ensemble</h2>
+
+          <p>Tauscht das System auch Teilchen mit dem Reservoir aus, wird jeder
+            Zustand zusätzlich mit seiner Teilchenzahl gewichtet. Das chemische
+            Potential $\mu$ legt fest, wie viel Energie ein zusätzliches Teilchen
+            „kostet“. Die großkanonische Zustandssumme ist</p>
+          $$ Z_\text{GK}(T,V,\mu) = \sum_N \mathrm{e}^{\beta\mu N}\,Z(T,V,N), \qquad \langle N \rangle = k_\mathrm{B}T\,\frac{\partial\ln Z_\text{GK}}{\partial\mu},
+             \qquad \Phi = -k_\mathrm{B}T\ln Z_\text{GK} = -pV . $$
+          <p>Die Größe $z = \mathrm{e}^{\beta\mu}$ heißt Fugazität. Für das ideale Gas
+            ergibt die Rechnung $\langle N \rangle = zV/\lambda^3$, also
+            $\mu = k_\mathrm{B}T\ln(n\lambda^3)$ mit der Dichte $n = N/V$. Weil
+            $n\lambda^3 \ll 1$ für ein klassisches Gas, ist $\mu$ negativ
+            (Aufgabe 6).</p>
+
+          <div class="merkkasten">
+            <span class="titel">Merke</span>
+            <p>Kanonisch: $p_i = \mathrm{e}^{-\beta E_i}/Z$, $Z = \sum_i \mathrm{e}^{-\beta E_i}$,
+              $U = -\partial\ln Z/\partial\beta$, $F = -k_\mathrm{B}T\ln Z$,
+              $p = k_\mathrm{B}T\,\partial\ln Z/\partial V$,
+              $S = -k_\mathrm{B}\sum p_i\ln p_i$. Fluktuation: $\Delta E^2 = k_\mathrm{B}T^2 C_V$,
+              relativ $\propto 1/\sqrt N$. Großkanonisch: $Z_\text{GK} = \sum_N \mathrm{e}^{\beta\mu N}Z$,
+              $\Phi = -pV$.</p>
+          </div>
+        </section>
+
+        <section class="tab" id="beispiele" data-titel="Beispielrechnungen">
+
+          <div class="beispiel">
+            <h3>Beispiel 1: Besetzung eines Zwei-Niveau-Systems</h3>
+            <p><strong>Gegeben:</strong> Ein System hat zwei Niveaus im Abstand
+              $\Delta E = 0{,}10\,\mathrm{eV}$.<br>
+              <strong>Gesucht:</strong> das Besetzungsverhältnis (oberes zu unteres Niveau) bei
+              $300\,\mathrm{K}$ und bei $3000\,\mathrm{K}$.</p>
+
+            <p><strong>1. Thermische Energie.</strong>
+              $$ k_\mathrm{B}T = 8{,}617 \cdot 10^{-5}\,\mathrm{eV/K} \cdot 300\,\mathrm{K} = 0{,}02585\,\mathrm{eV} $$</p>
+
+            <p><strong>2. Boltzmann-Faktor bei $300\,\mathrm{K}$.</strong>
+              $$ \frac{n_2}{n_1} = \mathrm{e}^{-\Delta E/(k_\mathrm{B}T)} = \mathrm{e}^{-0{,}10/0{,}02585} = \mathrm{e}^{-3{,}87} = 0{,}021 $$</p>
+
+            <p><strong>3. Bei $3000\,\mathrm{K}$.</strong> $k_\mathrm{B}T = 0{,}2585\,\mathrm{eV}$:
+              $$ \frac{n_2}{n_1} = \mathrm{e}^{-0{,}10/0{,}2585} = \mathrm{e}^{-0{,}387} = 0{,}68 $$
+              Einheitencheck: $\mathrm{eV/eV}$ ist dimensionslos ✓</p>
+
+            <p><strong>Ergebnis und Plausibilität:</strong> Bei Zimmertemperatur
+              sind nur etwa $2\,\%$ der Teilchen im oberen Niveau, bei $3000\,\mathrm{K}$
+              schon $68\,\%$ so viele wie im unteren. Bei sehr hoher Temperatur
+              strebt das Verhältnis gegen eins, beide Niveaus sind gleich besetzt, und es
+              kann nie eins übersteigen.</p>
+          </div>
+
+          <div class="beispiel">
+            <h3>Beispiel 2: Barometrische Höhenformel</h3>
+            <p><strong>Gegeben:</strong> Luft ($M = 28{,}97\,\mathrm{g/mol}$) bei konstant
+              $288{,}15\,\mathrm{K}$, $g = 9{,}81\,\mathrm{m/s^2}$.<br>
+              <strong>Gesucht:</strong> die Skalenhöhe und der relative Druck in
+              $5500\,\mathrm{m}$ und $8849\,\mathrm{m}$ Höhe.</p>
+
+            <p><strong>1. Skalenhöhe.</strong> Der Boltzmann-Faktor ist
+              $\mathrm{e}^{-mgh/(k_\mathrm{B}T)} = \mathrm{e}^{-h/H}$ mit
+              $$ H = \frac{k_\mathrm{B}T}{mg} = \frac{RT}{Mg} = \frac{8{,}3145\,\mathrm{J/(mol\,K)} \cdot 288{,}15\,\mathrm{K}}{0{,}02897\,\mathrm{kg/mol} \cdot 9{,}81\,\mathrm{m/s^2}} = 8430\,\mathrm{m} $$
+              Einheitencheck: $\mathrm{J/(kg\,m/s^2)} = \mathrm{m}$ ✓</p>
+
+            <p><strong>2. Relativer Druck.</strong> Der Druck ist proportional zur Dichte:
+              $$ \frac{p(5500\,\mathrm{m})}{p_0} = \mathrm{e}^{-5500/8430} = 0{,}52, \qquad
+                 \frac{p(8849\,\mathrm{m})}{p_0} = \mathrm{e}^{-8849/8430} = 0{,}35 $$</p>
+
+            <p><strong>Ergebnis und Plausibilität:</strong> In $5500\,\mathrm{m}$ Höhe
+              ist die Luft nur noch halb so dicht (gemessen: $0{,}505$), auf dem Gipfel
+              des Mount Everest bleiben $35\,\%$ (gemessen etwa $33\,\%$, die reale
+              Atmosphäre ist oben kälter). Die Skalenhöhe von etwa $8{,}4\,\mathrm{km}$
+              passt zu der Erfahrung, dass der Druck etwa alle $5{,}5\,\mathrm{km}$ halbiert (im Modell $H\ln 2 = 5{,}8\,\mathrm{km}$, die reale Atmosphäre ist oben kälter).</p>
+          </div>
+
+          <div class="beispiel">
+            <h3>Beispiel 3: Magnetisierung eines Paramagneten</h3>
+            <p><strong>Gegeben:</strong> Ein Paramagnet aus Spins mit dem Moment
+              $m = \mu_\mathrm{B} = 9{,}274 \cdot 10^{-24}\,\mathrm{J/T}$.<br>
+              <strong>Gesucht:</strong> $M/M_\text{max}$ bei $300\,\mathrm{K}$ im Feld $1\,\mathrm{T}$ und
+              bei $2\,\mathrm{K}$ im Feld $5\,\mathrm{T}$.</p>
+
+            <p><strong>1. Zimmertemperatur.</strong>
+              $$ x = \frac{mB}{k_\mathrm{B}T} = \frac{9{,}274 \cdot 10^{-24}\,\mathrm{J/T} \cdot 1\,\mathrm{T}}{1{,}381 \cdot 10^{-23}\,\mathrm{J/K} \cdot 300\,\mathrm{K}} = 2{,}24 \cdot 10^{-3}, \qquad
+                 \frac{M}{M_\text{max}} = \tanh x = 2{,}24 \cdot 10^{-3} $$</p>
+
+            <p><strong>2. Tiefe Temperatur.</strong>
+              $$ x = \frac{9{,}274 \cdot 10^{-24} \cdot 5}{1{,}381 \cdot 10^{-23} \cdot 2} = 1{,}68, \qquad
+                 \frac{M}{M_\text{max}} = \tanh 1{,}68 = 0{,}93 $$
+              Einheitencheck: $\mathrm{J/T \cdot T / (J/K \cdot K)} = 1$ ✓</p>
+
+            <p><strong>Ergebnis und Plausibilität:</strong> Bei Zimmertemperatur
+              ist selbst ein starkes Feld von einem Tesla zu schwach: Nur
+              $0{,}2\,\%$ der möglichen Magnetisierung werden erreicht, das ist der
+              lineare Bereich (Curie-Gesetz, $\tanh x \approx x$). Bei $2\,\mathrm{K}$ und
+              $5\,\mathrm{T}$ erreicht die Magnetisierung $93\,\%$ des Sättigungswerts (etwa $97\,\%$ der Spins stehen parallel zum Feld)
+              ist fast erreicht. Deshalb braucht man für Experimente
+              zur Sättigung tiefe Temperaturen und starke Magnete.</p>
+          </div>
+        </section>
+
+        <section class="tab" id="aufgaben" data-titel="Aufgaben">
+
+          <p>Verwende $k_\mathrm{B} = 1{,}381 \cdot 10^{-23}\,\mathrm{J/K}$ und
+            $h = 6{,}626 \cdot 10^{-34}\,\mathrm{Js}$.</p>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 1
+              <span class="schwierigkeit" data-stufe="leicht">leicht</span>
+            </h3>
+            <p>Ein System hat zwei Zustände mit den Energien $0$ und $\varepsilon$.
+              Gib die Zustandssumme an und berechne die Wahrscheinlichkeit des
+              oberen Zustands für $\varepsilon = k_\mathrm{B}T$.</p>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>$Z = 1 + \mathrm{e}^{-\beta\varepsilon}$. Die Wahrscheinlichkeit des oberen
+                Zustands ist
+                $$ p_\text{oben} = \frac{\mathrm{e}^{-\beta\varepsilon}}{1 + \mathrm{e}^{-\beta\varepsilon}} = \frac{\mathrm{e}^{-1}}{1 + \mathrm{e}^{-1}} = 0{,}269 . $$
+                Der untere Zustand hat $0{,}731$. Die Summe ist eins ✓.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 2
+              <span class="schwierigkeit" data-stufe="leicht">leicht</span>
+            </h3>
+            <p>Wie groß ist die relative Energiefluktuation $\Delta E/U$ eines
+              einatomigen idealen Gases aus $10^6$ Teilchen und aus einem mol
+              Teilchen?</p>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>Mit $\Delta E/U = \sqrt{2/(fN)}$ und $f = 3$:
+                $$ N = 10^6: \; \sqrt{\frac{2}{3 \cdot 10^6}} = 8{,}2 \cdot 10^{-4}, \qquad
+                   N = 6{,}022 \cdot 10^{23}: \; \sqrt{\frac{2}{3 \cdot 6{,}022 \cdot 10^{23}}} = 1{,}05 \cdot 10^{-12} . $$
+                Schon bei $10^6$ Teilchen ist die Schwankung kleiner als ein
+                Promille.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 3
+              <span class="schwierigkeit" data-stufe="mittel">mittel</span>
+            </h3>
+            <p>Ein Paramagnet aus $N = 10^{22}$ Spins mit Moment
+              $\mu_\mathrm{B} = 9{,}274 \cdot 10^{-24}\,\mathrm{J/T}$ liegt in einem Feld von
+              $1\,\mathrm{T}$ bei der Temperatur, für die $mB/(k_\mathrm{B}T) = 0{,}5$ ist.
+              Bestimme die Temperatur, die Magnetisierung (in Einheiten von
+              $Nm$) und die innere Energie.</p>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>Aus $x = mB/(k_\mathrm{B}T) = 0{,}5$ folgt
+                $$ T = \frac{mB}{0{,}5\,k_\mathrm{B}} = \frac{9{,}274 \cdot 10^{-24}\,\mathrm{J}}{0{,}5 \cdot 1{,}381 \cdot 10^{-23}\,\mathrm{J/K}} = 1{,}34\,\mathrm{K} . $$
+                Magnetisierung $M/(Nm) = \tanh 0{,}5 = 0{,}462$. Innere Energie:
+                $$ U = -N\,mB\tanh x = -10^{22} \cdot 9{,}274 \cdot 10^{-24}\,\mathrm{J} \cdot 0{,}462 = -4{,}29 \cdot 10^{-2}\,\mathrm{J} . $$
+                Negativ, weil die Spins im Mittel parallel zum Feld liegen.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 4
+              <span class="schwierigkeit" data-stufe="mittel">mittel</span>
+            </h3>
+            <p>Ein Oszillator hat die Energien $E_n = n\varepsilon$ ($n = 0, 1, 2, \dots$).
+              Berechne die Zustandssumme und die mittlere Energie. Wie groß ist
+              $U$ bei $\varepsilon = k_\mathrm{B}T$? Was folgt für $k_\mathrm{B}T \gg \varepsilon$?</p>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>Die geometrische Reihe liefert
+                $Z = \sum_n \mathrm{e}^{-n\beta\varepsilon} = 1/(1 - \mathrm{e}^{-\beta\varepsilon})$. Dann
+                $$ U = -\frac{\partial\ln Z}{\partial\beta} = \frac{\varepsilon\,\mathrm{e}^{-\beta\varepsilon}}{1 - \mathrm{e}^{-\beta\varepsilon}} = \frac{\varepsilon}{\mathrm{e}^{\beta\varepsilon} - 1} . $$
+                Für $\varepsilon = k_\mathrm{B}T$: $U = \varepsilon/(\mathrm{e} - 1) = 0{,}582\,k_\mathrm{B}T$.
+                Für $k_\mathrm{B}T \gg \varepsilon$ ist $\mathrm{e}^{\beta\varepsilon} - 1 \approx \beta\varepsilon$ und
+                $U \approx k_\mathrm{B}T$: der klassische Gleichverteilungswert eines
+                Oszillators (kinetisch und potentiell je $\frac12 k_\mathrm{B}T$). Bei tiefer
+                Temperatur geht $U \to 0$ exponentiell, ein Freiheitsgrad „friert ein“.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 5
+              <span class="schwierigkeit" data-stufe="schwer">schwer</span>
+            </h3>
+            <p>Zeige für das Zwei-Niveau-System (Energien $0$ und $\varepsilon$) die Beziehung
+              $\Delta E^2 = k_\mathrm{B}T^2 C_V$. Berechne
+              $\Delta E^2$ für $\varepsilon = k_\mathrm{B}T$.</p>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>Mit $Z = 1 + \mathrm{e}^{-\beta\varepsilon}$ ist
+                $U = -\partial\ln Z/\partial\beta = \varepsilon\,\mathrm{e}^{-\beta\varepsilon}/(1 + \mathrm{e}^{-\beta\varepsilon}) = \varepsilon/(\mathrm{e}^{\beta\varepsilon} + 1)$.
+                Die Varianz ist die zweite Ableitung:
+                $$ \Delta E^2 = -\frac{\partial U}{\partial\beta} = \frac{\varepsilon^2\,\mathrm{e}^{\beta\varepsilon}}{(\mathrm{e}^{\beta\varepsilon} + 1)^2} . $$
+                Andererseits ist $C_V = \partial U/\partial T = -k_\mathrm{B}\beta^2\,\partial U/\partial\beta$, also
+                $k_\mathrm{B}T^2 C_V = -\partial U/\partial\beta = \Delta E^2$ ✓.
+                Für $\beta\varepsilon = 1$:
+                $$ \Delta E^2 = \varepsilon^2\,\frac{\mathrm{e}}{(\mathrm{e} + 1)^2} = 0{,}197\,\varepsilon^2 . $$
+                Der Mittelwert ist $U = 0{,}269\,\varepsilon$, die Schwankung
+                $\Delta E = 0{,}44\,\varepsilon$ ist also größer als der Mittelwert. Bei einem
+                einzelnen Zwei-Niveau-System sind die Fluktuationen groß, erst bei
+                vielen unabhängigen Systemen werden sie relativ klein ($\propto 1/\sqrt N$).</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 6
+              <span class="schwierigkeit" data-stufe="schwer">schwer</span>
+            </h3>
+            <p>Berechne für Helium ($m = 6{,}646 \cdot 10^{-27}\,\mathrm{kg}$) bei
+              $300\,\mathrm{K}$ und $1{,}0\,\mathrm{bar}$ die thermische Wellenlänge $\lambda$, den
+              Parameter $n\lambda^3$ und das chemische Potential
+              $\mu = k_\mathrm{B}T\ln(n\lambda^3)$. Ist die klassische Näherung
+              gerechtfertigt?</p>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>$$ \lambda = \frac{h}{\sqrt{2\pi m k_\mathrm{B}T}} = \frac{6{,}626 \cdot 10^{-34}}{\sqrt{2\pi \cdot 6{,}646 \cdot 10^{-27} \cdot 1{,}381 \cdot 10^{-23} \cdot 300}}\,\mathrm{m} = 5{,}04 \cdot 10^{-11}\,\mathrm{m} . $$
+                Die Dichte ist $n = p/(k_\mathrm{B}T) = 10^5/(1{,}381 \cdot 10^{-23} \cdot 300)\,\mathrm{m^{-3}} = 2{,}41 \cdot 10^{25}\,\mathrm{m^{-3}}$. Damit
+                $$ n\lambda^3 = 2{,}41 \cdot 10^{25} \cdot (5{,}04 \cdot 10^{-11})^3 = 3{,}1 \cdot 10^{-6} . $$
+                $$ \mu = k_\mathrm{B}T\ln(n\lambda^3) = 4{,}14 \cdot 10^{-21}\,\mathrm{J} \cdot \ln(3{,}1 \cdot 10^{-6}) = -5{,}3 \cdot 10^{-20}\,\mathrm{J} = -0{,}33\,\mathrm{eV} . $$
+                Da $n\lambda^3 \ll 1$ ist, ist der mittlere Abstand der Atome
+                ($n^{-1/3} = 3{,}5\,\mathrm{nm}$) viel größer als die Wellenlänge
+                ($0{,}05\,\mathrm{nm}$). Quanteneffekte spielen keine Rolle, die
+                klassische Rechnung ist gerechtfertigt. Erst bei tiefen Temperaturen
+                oder hohen Dichten wird $n\lambda^3 \sim 1$ (Quantenstatistik).</p>
+            </details>
+          </div>
+
+        </section>
+
+      </div></article>
+  </main>
+</body>
+</html>

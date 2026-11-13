@@ -1,0 +1,685 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="robots" content="noindex">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Kräfte im Alltag: Gewicht, Reibung, Federn</title>
+  <meta name="description" content="Gewichtskraft, Normalkraft, Haft- und Gleitreibung, Luftwiderstand, Seil- und Federkräfte verständlich erklärt – mit schiefer Ebene, Fallschirmsprung, Beispielrechnungen und Übungsaufgaben.">
+
+  <link rel="stylesheet" href="../../css/stil.css">
+
+  <link rel="stylesheet" href="../../extern/katex/katex.min.css">
+  <script defer src="../../extern/katex/katex.min.js"></script>
+  <script defer src="../../extern/katex/contrib/auto-render.min.js" onload="starteFormeln()"></script>
+
+  <script src="../../js/daten.js"></script>
+  <script src="../../js/seite.js"></script>
+  <script src="../../js/effekte.js"></script>
+  <script src="../../js/interaktiv.js"></script>
+  <script src="../../js/modelle/kraefte.js"></script>
+  <script type="application/json" id="symbole">
+  {
+    "F": "Kraft",
+    "m": "Masse",
+    "a": "Beschleunigung",
+    "g": "Fallbeschleunigung",
+    "g_Mars": "Fallbeschleunigung auf dem Mars",
+    "F_G": "Gewichtskraft",
+    "F_N": "Normalkraft (Kraft der Unterlage)",
+    "F_Hang": "Hangabtriebskraft",
+    "α": "Neigungswinkel der Ebene",
+    "F_H": "Haftreibungskraft",
+    "F_H,max": "größte Haftreibungskraft",
+    "F_Gl": "Gleitreibungskraft",
+    "μ": "Reibungszahl",
+    "μ_H": "Haftreibungszahl",
+    "μ_Gl": "Gleitreibungszahl",
+    "μ_s": "Haftreibungszahl (engl. static)",
+    "μ_k": "Gleitreibungszahl (engl. kinetic)",
+    "k": "Federkonstante",
+    "x": "Auslenkung der Feder aus der Ruhelage",
+    "F_12": "Kraft zwischen Körper 1 und Körper 2",
+    "G": "Gravitationskonstante",
+    "m_1": "Masse des ersten Körpers",
+    "m_2": "Masse des zweiten Körpers",
+    "r": "Abstand",
+    "M_E": "Erdmasse",
+    "R_E": "Erdradius",
+    "F_el": "elektrische Kraft (Coulomb-Kraft)",
+    "Q": "elektrische Ladung",
+    "q": "elektrische Ladung",
+    "ε_0": "elektrische Feldkonstante",
+    "π": "Kreiszahl π ≈ 3,14159",
+    "F_L": "Luftwiderstandskraft (schnelle Bewegung)",
+    "F_R": "Reibungskraft nach Stokes (langsame Bewegung)",
+    "c_w": "Widerstandsbeiwert (Form des Körpers)",
+    "ρ": "Dichte",
+    "ρ_Luft": "Dichte der Luft",
+    "ρ_W": "Dichte von Wasser",
+    "A": "Querschnittsfläche",
+    "η": "Viskosität (Zähigkeit) des Fluids",
+    "η_Luft": "Viskosität der Luft",
+    "v": "Geschwindigkeit",
+    "v_0": "Anfangsgeschwindigkeit",
+    "v_E": "Endgeschwindigkeit",
+    "z": "Höhe (z-Achse nach oben)",
+    "h": "Fallhöhe",
+    "s": "Weg",
+    "s_haftend": "Bremsweg mit haftenden Reifen (ABS)",
+    "s_rutschend": "Bremsweg mit rutschenden Reifen",
+    "F_max": "größte Seilkraft, bei der die Kiste noch ruht",
+    "F_min": "kleinste Seilkraft, bei der die Kiste noch ruht"
+  }
+  </script>
+</head>
+<body data-thema="kraefte">
+  <main>
+    <article class="thema">
+      <header>
+        <h1>Kräfte im Alltag: Gewicht, Reibung, Federn</h1>
+        <p class="untertitel">Welche Kräfte uns ständig umgeben, woher sie
+          kommen und wie man mit ihnen rechnet.</p>
+      </header>
+
+      <div class="tabs">
+
+        <section class="tab" id="verstehen" data-titel="Verstehen">
+
+          <p>Newtons Gesetze sagen, <em>was</em> eine Kraft bewirkt. Aber
+            welche Kräfte gibt es eigentlich? Wenn du morgens aus dem Bett
+            steigst, bist du schon von mehreren umgeben: Die Erde zieht dich
+            nach unten, der Boden drückt dich nach oben, und die Reibung unter
+            deinen Füßen sorgt dafür, dass du nicht wegrutschst.</p>
+
+          <h2>Masse und Gewicht sind nicht dasselbe</h2>
+
+          <p>Im Alltag sagen wir „ich wiege 70 Kilo“. Physikalisch ist das
+            ungenau: 70 kg ist deine <em>Masse</em> – wie viel „Stoff“ in dir
+            steckt und wie träge du bist. Dein <em>Gewicht</em> ist die Kraft,
+            mit der die Erde an dir zieht, rund 690 Newton. Auf dem Mond hättest
+            du dieselbe Masse, wögest aber nur ein Sechstel so viel – du könntest
+            dort mühelos sechsmal so hoch springen.</p>
+
+          <p>Dass du trotzdem nicht durch den Boden fällst, liegt an der
+            <em>Normalkraft</em>: Der Boden wird unter dir ein klein wenig
+            zusammengedrückt und drückt genau so stark zurück, wie du auf ihn
+            drückst. „Normal“ heißt hier „senkrecht“ – diese Kraft steht immer
+            senkrecht auf der Fläche.</p>
+
+          <h2>Reibung: lästig und lebenswichtig</h2>
+
+          <p>Versuch einmal, einen schweren Schrank zu verschieben. Zuerst
+            rührt er sich nicht, obwohl du schon kräftig drückst. Plötzlich
+            ruckt er los – und dann geht es leichter. Das sind zwei Arten von
+            Reibung: Die <em>Haftreibung</em> hält einen ruhenden Körper fest,
+            die <em>Gleitreibung</em> bremst einen rutschenden. Die Haftreibung
+            kann größer werden als die Gleitreibung, deshalb ist das Losreißen
+            am schwersten.</p>
+
+          <p>Ursache sind winzige Unebenheiten der Oberflächen, die sich
+            ineinander verhaken. Und so lästig Reibung beim Schrankrücken ist:
+            Ohne sie könntest du nicht gehen, kein Auto könnte bremsen, und jeder
+            Knoten würde aufgehen.</p>
+
+          <figure class="interaktiv" data-modell="schiefeEbene">
+            <span class="titel">Zum Ausprobieren</span>
+            <figcaption>Eine Kiste liegt auf einer Rampe. Die Erde zieht sie
+              senkrecht nach unten; ein Teil dieser Kraft (blau) zieht sie die
+              Rampe hinunter. Dagegen hält die Reibung (orange). Mach die Rampe
+              steiler, bis die Kiste rutscht – und probier aus, ob eine schwerere
+              Kiste früher rutscht. Dann drück auf „Loslassen“.</figcaption>
+          </figure>
+
+          <h2>Luft bremst – je schneller, desto mehr</h2>
+
+          <p>Halt beim Autofahren die Hand aus dem Fenster: Bei doppeltem
+            Tempo drückt die Luft nicht doppelt, sondern viermal so stark. Ein
+            fallender Körper wird deshalb nicht beliebig schnell. Irgendwann ist
+            der Luftwiderstand so groß wie sein Gewicht, und er fällt mit
+            gleichbleibender <em>Endgeschwindigkeit</em>. Ein Regentropfen
+            erreicht so nur etwa 25 km/h, ein Fallschirmspringer ohne Schirm rund
+            200 km/h – und mit offenem Schirm nur noch etwa 20 km/h.</p>
+
+          <figure class="interaktiv" data-modell="fallschirm">
+            <span class="titel">Zum Ausprobieren</span>
+            <figcaption>Ein Fallschirmsprung aus 4000 m Höhe. Der blaue Pfeil
+              ist der Luftwiderstand, der orange das Gewicht. Beobachte, wie die
+              Geschwindigkeit anfangs schnell, dann immer langsamer wächst, bis
+              beide Pfeile gleich lang sind. Wann öffnest du den Schirm?</figcaption>
+          </figure>
+
+          <h2>Federn und Seile</h2>
+
+          <p>Eine Feder ist der einfachste Kraftmesser: Je weiter du sie
+            dehnst, desto stärker zieht sie zurück, und zwar ganz genau im
+            gleichen Verhältnis. Doppelte Dehnung, doppelte Kraft – das hat
+            Robert Hooke schon im 17. Jahrhundert entdeckt. Jede Küchenwaage mit
+            Zeiger beruht darauf. Ein Seil dagegen kann nur ziehen, nie drücken.
+            Es leitet die Kraft einfach an sein anderes Ende weiter.</p>
+
+          <div class="merkkasten">
+            <span class="titel">Das Wichtigste in Kürze</span>
+            <ul>
+              <li>Die Masse ist überall gleich, das Gewicht hängt davon ab, wie
+                stark die Schwerkraft am jeweiligen Ort ist.</li>
+              <li>Unterlagen drücken senkrecht zurück (Normalkraft).</li>
+              <li>Haftreibung hält Ruhendes fest, Gleitreibung bremst Rutschendes;
+                Losreißen ist schwerer als Weiterschieben.</li>
+              <li>Luftwiderstand wächst mit dem Quadrat der Geschwindigkeit –
+                deshalb gibt es eine Endgeschwindigkeit.</li>
+              <li>Federn ziehen umso stärker zurück, je weiter man sie
+                auslenkt.</li>
+            </ul>
+          </div>
+        </section>
+
+        <section class="tab" id="vertiefung" data-titel="Vertiefung">
+
+          <p>Die Newtonschen Axiome sagen, wie Kräfte Bewegungen ändern. Um sie
+            anzuwenden, braucht man Kraftgesetze: Formeln, die angeben, wie groß
+            eine bestimmte Kraft in einer bestimmten Situation ist. Die
+            wichtigsten Kraftgesetze der Mechanik werden hier vorgestellt.</p>
+
+          <h2>Gewichtskraft</h2>
+
+          <p>In der Nähe der Erdoberfläche wirkt auf jeden Körper der Masse $m$
+            die Gewichtskraft</p>
+
+          $$ \vec{F}_\text{G} = m\,\vec{g}, \qquad |\vec{g}| = g = 9{,}81\,\mathrm{m/s^2} , $$
+
+          <p>senkrecht nach unten. Die Masse ist eine Eigenschaft des Körpers,
+            das Gewicht hängt zusätzlich vom Ort ab: Auf dem Mars
+            ($g_\text{Mars} = 3{,}71\,\mathrm{m/s^2}$) wiegt derselbe Körper nur
+            gut ein Drittel so viel.</p>
+
+          <h2>Gravitation und Coulomb-Kraft: Zentralkräfte</h2>
+
+          <p>Die Gewichtskraft ist ein Spezialfall der allgemeinen
+            Massenanziehung. Zwei Massen $m_1$ und $m_2$ im Abstand $r$ ziehen
+            sich an mit</p>
+
+          $$ |\vec{F}_{12}| = G\,\frac{m_1 m_2}{r^2}, \qquad G = 6{,}67 \cdot 10^{-11}\,\mathrm{\frac{N\,m^2}{kg^2}} . $$
+
+          <p>Die Kräfte auf beide Massen sind nach dem dritten Axiom entgegengesetzt
+            gleich, und sie wirken längs der Verbindungslinie – eine
+            <em>Zentralkraft</em>. Für einen Körper auf der Erdoberfläche
+            ($r = R_\text{E}$) folgt</p>
+
+          $$ m g = G\,\frac{M_\text{E}\,m}{R_\text{E}^2} \quad\Longrightarrow\quad g = \frac{G M_\text{E}}{R_\text{E}^2} \approx \frac{6{,}67 \cdot 10^{-11} \cdot 5{,}97 \cdot 10^{24}}{(6{,}37 \cdot 10^{6})^2}\,\mathrm{\frac{m}{s^2}} = 9{,}82\,\mathrm{\frac{m}{s^2}} . $$
+
+          <p>Ganz analog gebaut ist die Kraft zwischen zwei elektrischen Ladungen
+            $q$ und $Q$, das <em>Coulomb-Gesetz</em>:</p>
+
+          $$ \vec{F}_\text{el} = \frac{1}{4\pi\varepsilon_0}\,\frac{q\,Q}{r^2}\,\hat{r}, \qquad |\vec{F}_\text{el}| \propto \frac{1}{r^2} . $$
+
+          <p>Dabei ist $\hat{r}$ der Einheitsvektor ($|\hat{r}| = 1$) von der
+            einen Ladung zur anderen und $\varepsilon_0$ die elektrische
+            Feldkonstante. Gleichnamige Ladungen stoßen sich ab, ungleichnamige
+            ziehen sich an. Ausführlich geht es darum in der Elektrodynamik.</p>
+
+          <h2>Normalkraft</h2>
+
+          <p>Liegt ein Körper auf einer Unterlage, verformt er sie minimal, und
+            die Unterlage übt eine Kraft <em>senkrecht zu ihrer Oberfläche</em>
+            aus, die Normalkraft $\vec{F}_\text{N}$. Auf einer waagerechten
+            Unterlage hält sie der Gewichtskraft das Gleichgewicht,
+            $\vec{F}_\text{N} = -\vec{F}_\text{G}$. Die Normalkraft ist keine
+            feste Größe, sondern stellt sich genau so ein, wie es das
+            Gleichgewicht senkrecht zur Fläche erfordert. Auf einer schiefen
+            Ebene mit Neigung $\alpha$ ist sie deshalb kleiner:
+            $F_\text{N} = m g \cos\alpha$ (Abb. 1).</p>
+
+          <figure class="abbildung">
+            <svg class="abb" viewBox="0 0 360 225" role="img"
+                 aria-label="Kiste auf einer schiefen Ebene mit Gewichtskraft, ihren Komponenten, Normalkraft und Haftreibung">
+              <polygon class="flaeche" points="40,69.4 320,200 40,200"/>
+              <path class="achse" d="M40 69.4L320 200M20 200H340"/>
+              <path class="hilfslinie" d="M280 200A40 40 0 0 1 283.7 183.1"/>
+              <text x="268" y="194" text-anchor="end">α</text>
+              <rect class="wagen" x="-22" y="-44" width="44" height="44" transform="translate(166 128.2) rotate(25)"/>
+              <path class="hilfslinie" d="M175.3 108.2L144.7 174M205.9 122.5L175.3 188.2M144.7 174L175.3 188.2"/>
+              <path class="kurve" d="M175.3 108.2L175.3 180.2"/><polygon class="punkt" points="175.3,188.2 179.3,180.2 171.3,180.2"/>
+              <path class="kurve blau" d="M175.3 108.2L198.7 119.2"/><polygon class="punkt blau" points="205.9,122.5 200.4,115.5 197,122.8"/>
+              <path class="kurve" d="M175.3 108.2L202.6 49.8"/><polygon class="punkt" points="205.9,42.5 198.9,48.1 206.2,51.5"/>
+              <path class="kurve kupfer" d="M175.3 108.2L151.9 97.3"/><polygon class="punkt kupfer" points="144.7,94 150.2,101 153.6,93.7"/>
+              <text x="183" y="204">F<tspan dy="4" font-size="10">G</tspan></text>
+              <text class="blau" x="212" y="130">F<tspan dy="4" font-size="10">Hang</tspan></text>
+              <text x="212" y="46">F<tspan dy="4" font-size="10">N</tspan></text>
+              <text class="kupfer" x="140" y="88" text-anchor="end">F<tspan dy="4" font-size="10">H</tspan></text>
+              <text x="138" y="190" text-anchor="end" font-size="11">m g cos α</text>
+            </svg>
+            <figcaption>Abb. 1: Kiste auf einer schiefen Ebene (α = 25°). Die
+              Gewichtskraft $\vec{F}_\text{G}$ wird zerlegt in die
+              Hangabtriebskraft $F_\text{Hang} = m g \sin\alpha$ (blau, parallel
+              zur Ebene) und die Komponente $m g \cos\alpha$ senkrecht zur
+              Ebene, die von der Normalkraft aufgehoben wird. Die Haftreibung
+              $\vec{F}_\text{H}$ (orange) hält die Kiste fest.</figcaption>
+          </figure>
+
+          <h2>Reibungskräfte</h2>
+
+          <p>Reibungskräfte wirken immer der Bewegung – oder bei Haftreibung
+            der drohenden Bewegung – entgegen.</p>
+
+          <h3>Haftreibung und Gleitreibung</h3>
+
+          <p>Zieht man an einem ruhenden Körper, so hält ihn zunächst die
+            <em>Haftreibung</em> fest. Sie ist genau so groß wie die angreifende
+            Kraft, kann aber einen Höchstwert nicht überschreiten. Ist dieser
+            erreicht, setzt sich der Körper in Bewegung, und es wirkt die
+            <em>Gleitreibung</em>. Beide sind proportional zur Normalkraft und
+            in guter Näherung unabhängig von der Auflagefläche und (bei der
+            Gleitreibung) von der Geschwindigkeit:</p>
+
+          $$ F_\text{H} \le \mu_\text{H}\,F_\text{N}, \qquad F_\text{Gl} = \mu_\text{Gl}\,F_\text{N}, \qquad \mu_\text{H} \gt \mu_\text{Gl} . $$
+
+          <p>Die dimensionslosen Reibungszahlen hängen von den Materialien ab.
+            In der englischen Literatur heißen sie $\mu_\text{s}$ (static) und
+            $\mu_\text{k}$ (kinetic). Der Vorlesungsversuch zeigt
+            $F_\text{H,max} \gt F_\text{Gl}$ direkt: Ein Kraftmesser, an dem ein
+            Klotz über den Tisch gezogen wird, schlägt beim Losreißen kurz
+            weiter aus als während des Gleitens (Abb. 2).</p>
+
+          <figure class="abbildung">
+            <svg class="abb" viewBox="0 0 360 215" role="img"
+                 aria-label="Reibungskraft in Abhängigkeit von der Zugkraft: erst gleich der Zugkraft, dann Abfall auf die Gleitreibung">
+              <defs>
+                <marker id="pfeil-abb2" viewBox="0 0 10 10" refX="9" refY="5"
+                        markerWidth="7" markerHeight="7" orient="auto">
+                  <path d="M0 0L10 5L0 10z" fill="currentColor"/>
+                </marker>
+              </defs>
+              <path class="achse" d="M45 190H340" marker-end="url(#pfeil-abb2)"/>
+              <path class="achse" d="M45 190V20" marker-end="url(#pfeil-abb2)"/>
+              <text x="336" y="208" text-anchor="end">Zugkraft F</text>
+              <text x="52" y="22">Reibungskraft</text>
+              <path class="hilfslinie" d="M45 70H165M45 110H165"/>
+              <path class="kurve blau" d="M45 190L165 70"/>
+              <path class="hilfslinie" d="M165 70V110"/>
+              <path class="kurve kupfer" d="M165 110H330"/>
+              <text x="40" y="74" text-anchor="end" font-size="11">μ<tspan dy="3" font-size="9">H</tspan><tspan dy="-3"> F</tspan><tspan dy="3" font-size="9">N</tspan></text>
+              <text x="40" y="114" text-anchor="end" font-size="11">μ<tspan dy="3" font-size="9">Gl</tspan><tspan dy="-3"> F</tspan><tspan dy="3" font-size="9">N</tspan></text>
+              <text class="blau" x="104" y="172">haftet</text>
+              <text class="kupfer" x="240" y="102">gleitet</text>
+            </svg>
+            <figcaption>Abb. 2: Solange der Körper haftet, ist die
+              Reibungskraft gleich der Zugkraft (blau). Erreicht die Zugkraft
+              $\mu_\text{H} F_\text{N}$, reißt er sich los, und die Reibung fällt
+              auf den kleineren Wert $\mu_\text{Gl} F_\text{N}$ (orange).</figcaption>
+          </figure>
+
+          <div class="tabelle-huelle">
+            <table>
+              <thead>
+                <tr><th>Materialpaar</th><th>$\mu_\text{H}$</th><th>$\mu_\text{Gl}$</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>Stahl auf Eis</td><td>≈ 0,03</td><td>≈ 0,015</td></tr>
+                <tr><td>Holz auf Holz</td><td>≈ 0,5</td><td>≈ 0,3</td></tr>
+                <tr><td>Autoreifen auf trockenem Asphalt</td><td>≈ 0,8–1</td><td>≈ 0,5–0,7</td></tr>
+                <tr><td>Autoreifen auf nassem Asphalt</td><td>≈ 0,5</td><td>≈ 0,3–0,4</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <p>Mikroskopisch berühren sich zwei Oberflächen nur an wenigen
+            Rauigkeitsspitzen, die sich verhaken und teilweise verschweißen.
+            Beim Gleiten werden diese Kontakte ständig gelöst und neu gebildet;
+            dabei wird mechanische Energie in Wärme umgewandelt. Reibung ist ein
+            <em>dissipativer</em> Vorgang.</p>
+
+          <h3>Rollreibung</h3>
+
+          <p>Ein rollendes Rad verformt sich und die Unterlage an der
+            Auflagestelle ein wenig. Auch dabei wird Energie in Wärme
+            umgewandelt, allerdings viel weniger als beim Gleiten – darum ist das
+            Rad eine so gute Erfindung. Gleichzeitig braucht das Rad Haftreibung
+            am Auflagepunkt, sonst würde es durchdrehen statt zu rollen.</p>
+
+          <h3 id="luftreibung">Luftreibung und Endgeschwindigkeit</h3>
+
+          <p>Bewegt sich ein Körper schnell durch Luft, muss er ständig Luft
+            beiseiteschieben. Der Widerstand wächst dann quadratisch mit der
+            Relativgeschwindigkeit $v$ (<em>Newton-Reibung</em>):</p>
+
+          $$ |\vec{F}_\text{L}| = \tfrac{1}{2}\,c_\text{w}\,\rho\,A\,v^2 . $$
+
+          <p>Dabei ist $\rho$ die Dichte der Luft, $A$ die Querschnittsfläche
+            des Körpers und $c_\text{w}$ der experimentell bestimmte
+            Widerstandsbeiwert, der von der Form abhängt. Für einen fallenden
+            Körper gilt mit der $z$-Achse nach unten
+            $m a = m g - \tfrac{1}{2} c_\text{w} \rho A v^2$. Die
+            Endgeschwindigkeit $v_\text{E}$ ist erreicht, wenn $a = 0$:</p>
+
+          $$ \tfrac{1}{2}\,c_\text{w}\,\rho\,A\,v_\text{E}^2 = m g \quad\Longrightarrow\quad v_\text{E} = \sqrt{\frac{2 m g}{c_\text{w}\,\rho\,A}} . $$
+
+          <p>Typische Werte: Fallschirmspringer in Bauchlage etwa
+            $55\,\mathrm{m/s}$, mit offenem Schirm etwa $5\,\mathrm{m/s}$,
+            Tennisball etwa $30\,\mathrm{m/s}$, Tischtennisball etwa
+            $9\,\mathrm{m/s}$, großer Regentropfen etwa $7\,\mathrm{m/s}$.</p>
+
+          <p>Für kleine, langsame Körper in zähen Flüssigkeiten gilt dagegen die
+            <em>Stokes-Reibung</em>, linear in $v$. Für eine Kugel mit Radius
+            $r$ in einem Fluid der Viskosität $\eta$:</p>
+
+          $$ |\vec{F}_\text{R}| = 6\pi\,\eta\,r\,v . $$
+
+          <p>Das ist genau das Modell $F_\text{R} \propto v$, das bei der
+            <a href="bewegung-1d.html">Bewegung in einer Dimension</a> auf eine
+            exponentielle Annäherung an die Endgeschwindigkeit führt.</p>
+
+          <h2>Seilkraft</h2>
+
+          <p>Ein gespanntes Seil überträgt eine Zugkraft, die stets längs des
+            Seils wirkt; drücken kann ein Seil nicht. Im Idealfall ist es
+            masselos und undehnbar. Dann ist die Seilkraft überall gleich groß,
+            und nach dem dritten Axiom zieht das Seil an beiden Enden mit
+            demselben Betrag – an jedem Ende zur Seilmitte hin. Über eine
+            reibungsfreie Rolle wird nur die Richtung umgelenkt, nicht der
+            Betrag.</p>
+
+          <h2>Federkraft: das Hookesche Gesetz</h2>
+
+          <p>Wird eine Feder aus ihrer Ruhelage um $\vec{x}$ gedehnt oder
+            gestaucht, zieht oder drückt sie mit der <em>Rückstellkraft</em></p>
+
+          $$ \vec{F} = -k\,\vec{x} $$
+
+          <p>zurück. Die <em>Federkonstante</em> $k$ (Einheit
+            $\mathrm{N/m}$) misst die Steifigkeit, das Minuszeichen sagt, dass
+            die Kraft immer zur Ruhelage zeigt. Der lineare Zusammenhang
+            $|\vec{F}| \propto |\vec{x}|$ gilt für kleine Auslenkungen; bei
+            großer Dehnung wird die Feder bleibend verformt. Ein Körper an einer
+            solchen Feder schwingt harmonisch – das Federpendel ist das Grundmodell
+            für fast alle Schwingungen in der Physik (mehr dazu bei der
+            <a href="energieerhaltung.html">Energieerhaltung</a>).</p>
+
+          <figure class="abbildung">
+            <svg class="abb" viewBox="0 0 360 215" role="img"
+                 aria-label="Rückstellkraft einer Feder als Gerade mit negativer Steigung durch den Ursprung">
+              <defs>
+                <marker id="pfeil-abb3" viewBox="0 0 10 10" refX="9" refY="5"
+                        markerWidth="7" markerHeight="7" orient="auto">
+                  <path d="M0 0L10 5L0 10z" fill="currentColor"/>
+                </marker>
+              </defs>
+              <path class="achse" d="M40 110H340" marker-end="url(#pfeil-abb3)"/>
+              <path class="achse" d="M190 200V18" marker-end="url(#pfeil-abb3)"/>
+              <text x="336" y="128" text-anchor="end">x</text>
+              <text x="198" y="24">F</text>
+              <path class="kurve blau" d="M80 44L300 176"/>
+              <path class="hilfslinie" d="M250 110V146M190 146H250"/>
+              <circle class="punkt" cx="250" cy="146" r="3.5"/>
+              <text x="250" y="102" text-anchor="middle">x &gt; 0</text>
+              <text class="kupfer" x="186" y="150" text-anchor="end">F &lt; 0</text>
+              <text class="blau" x="104" y="44">F = −k x</text>
+              <text x="40" y="186">x &lt; 0 (gestaucht):</text>
+              <text x="40" y="202">Feder drückt, F &gt; 0</text>
+              <text x="212" y="46">x &gt; 0 (gedehnt):</text>
+              <text x="212" y="62">Feder zieht, F &lt; 0</text>
+            </svg>
+            <figcaption>Abb. 3: Hookesches Gesetz. Die Rückstellkraft ist
+              proportional zur Auslenkung und ihr entgegengesetzt; die Steigung
+              der Geraden ist $-k$.</figcaption>
+          </figure>
+
+          <div class="merkkasten">
+            <span class="titel">Merke: Kraftgesetze der Mechanik</span>
+            $$ F_\text{G} = m g, \qquad F_\text{H} \le \mu_\text{H} F_\text{N}, \qquad F_\text{Gl} = \mu_\text{Gl} F_\text{N}, \qquad F_\text{L} = \tfrac{1}{2} c_\text{w} \rho A v^2, \qquad \vec{F} = -k\vec{x} $$
+            <p>Auf der schiefen Ebene: $F_\text{Hang} = m g \sin\alpha$,
+              $F_\text{N} = m g \cos\alpha$; der Körper haftet, solange
+              $\tan\alpha \le \mu_\text{H}$.</p>
+          </div>
+        </section>
+
+        <section class="tab" id="beispiele" data-titel="Beispielrechnungen">
+
+          <div class="beispiel">
+            <h3>Beispiel 1: Eine schwere Kiste losreißen</h3>
+            <p><strong>Gegeben:</strong> Eine Kiste mit $m = 40\,\mathrm{kg}$
+              steht auf einem waagerechten Holzboden,
+              $\mu_\text{H} = 0{,}50$, $\mu_\text{Gl} = 0{,}35$. Man zieht
+              waagerecht.<br>
+              <strong>Gesucht:</strong> (a) die Kraft zum Losreißen, (b) die
+              Kraft, um sie mit konstanter Geschwindigkeit weiterzuziehen,
+              (c) die Beschleunigung, wenn man nach dem Losreißen mit der Kraft
+              aus (a) weiterzieht.</p>
+
+            <p><strong>1. Normalkraft:</strong> Senkrecht herrscht Gleichgewicht,
+              $F_\text{N} = m g = 40\,\mathrm{kg} \cdot 9{,}81\,\mathrm{m/s^2} = 392\,\mathrm{N}$.</p>
+
+            <p><strong>2. (a) Losreißen:</strong>
+              $$ F_\text{H,max} = \mu_\text{H} F_\text{N} = 0{,}50 \cdot 392\,\mathrm{N} = 196\,\mathrm{N} $$</p>
+
+            <p><strong>3. (b) Gleichförmiges Ziehen:</strong> $a = 0$, die
+              Zugkraft muss die Gleitreibung ausgleichen:
+              $$ F = F_\text{Gl} = \mu_\text{Gl} F_\text{N} = 0{,}35 \cdot 392\,\mathrm{N} = 137\,\mathrm{N} $$</p>
+
+            <p><strong>4. (c) Weiterziehen mit 196 N:</strong>
+              $$ a = \frac{F - F_\text{Gl}}{m} = \frac{196\,\mathrm{N} - 137\,\mathrm{N}}{40\,\mathrm{kg}} = \frac{59\,\mathrm{N}}{40\,\mathrm{kg}} = 1{,}5\,\mathrm{m/s^2} $$
+              Einheitencheck: $\mathrm{N/kg} = \mathrm{m/s^2}$ ✓</p>
+
+            <p><strong>Ergebnis und Plausibilität:</strong> Man braucht knapp
+              200 N zum Losreißen – etwa so viel, wie man aufwendet, um 20 kg
+              hochzuheben –, danach genügen 137 N. Wer nach dem Ruck nicht
+              nachlässt, beschleunigt die Kiste merklich: Deshalb „springt“ ein
+              Möbelstück beim Losreißen oft ein Stück nach vorne.</p>
+          </div>
+
+          <div class="beispiel">
+            <h3>Beispiel 2: Schlitten auf der Piste</h3>
+            <p><strong>Gegeben:</strong> Ein Schlitten startet aus der Ruhe auf
+              einem $\alpha = 30°$ steilen Hang, $\mu_\text{H} = 0{,}15$,
+              $\mu_\text{Gl} = 0{,}10$. Luftwiderstand vernachlässigen wir.<br>
+              <strong>Gesucht:</strong> Rutscht er von selbst los? Wie groß ist
+              seine Beschleunigung, und wie schnell ist er nach $50\,\mathrm{m}$?</p>
+
+            <p><strong>1. Losrutschen?</strong> Bedingung
+              $\tan\alpha \gt \mu_\text{H}$:
+              $\tan 30° = 0{,}577 \gt 0{,}15$ – er rutscht los.</p>
+
+            <p><strong>2. Beschleunigung:</strong> Achse hangabwärts. Auf den
+              Schlitten wirken $F_\text{Hang} = m g \sin\alpha$ nach unten und
+              $F_\text{Gl} = \mu_\text{Gl} m g \cos\alpha$ nach oben:
+              $$ a = g\,(\sin\alpha - \mu_\text{Gl}\cos\alpha) = 9{,}81\,\mathrm{\tfrac{m}{s^2}} \cdot (0{,}500 - 0{,}10 \cdot 0{,}866) = 9{,}81 \cdot 0{,}413\,\mathrm{\tfrac{m}{s^2}} = 4{,}06\,\mathrm{m/s^2} $$
+              Die Masse kürzt sich heraus.</p>
+
+            <p><strong>3. Geschwindigkeit nach 50 m</strong> (zeitfreie Gleichung,
+              $v_0 = 0$):
+              $$ v = \sqrt{2 a s} = \sqrt{2 \cdot 4{,}06\,\mathrm{m/s^2} \cdot 50\,\mathrm{m}} = \sqrt{406\,\mathrm{m^2/s^2}} = 20\,\mathrm{m/s} \approx 72\,\mathrm{km/h} $$</p>
+
+            <p><strong>Ergebnis und Plausibilität:</strong> 72 km/h nach 50 m
+              ist sehr schnell – in Wirklichkeit bremst bei diesem Tempo der
+              Luftwiderstand deutlich, und 30° ist eine schwarze Piste. Ohne
+              Reibung wäre $a = g \sin 30° = 4{,}9\,\mathrm{m/s^2}$; die Reibung
+              nimmt also gut 17 % weg.</p>
+          </div>
+
+          <div class="beispiel">
+            <h3>Beispiel 3: Endgeschwindigkeit beim Fallschirmsprung</h3>
+            <p><strong>Gegeben:</strong> Springer mit Ausrüstung
+              $m = 80\,\mathrm{kg}$, Luftdichte $\rho = 1{,}2\,\mathrm{kg/m^3}$.
+              In Bauchlage $c_\text{w} = 0{,}9$, $A = 0{,}50\,\mathrm{m^2}$; mit
+              offenem Schirm $c_\text{w} = 1{,}4$, $A = 25\,\mathrm{m^2}$.<br>
+              <strong>Gesucht:</strong> Endgeschwindigkeit ohne und mit Schirm.</p>
+
+            <p><strong>1. Formel:</strong>
+              $v_\text{E} = \sqrt{2 m g / (c_\text{w} \rho A)}$, Zähler
+              $2 m g = 2 \cdot 80\,\mathrm{kg} \cdot 9{,}81\,\mathrm{m/s^2} = 1570\,\mathrm{N}$.</p>
+
+            <p><strong>2. Ohne Schirm:</strong>
+              $$ v_\text{E} = \sqrt{\frac{1570\,\mathrm{N}}{0{,}9 \cdot 1{,}2\,\mathrm{kg/m^3} \cdot 0{,}50\,\mathrm{m^2}}} = \sqrt{\frac{1570\,\mathrm{N}}{0{,}54\,\mathrm{kg/m}}} = \sqrt{2907\,\mathrm{m^2/s^2}} = 54\,\mathrm{m/s} $$
+              Einheitencheck: $\mathrm{N}/(\mathrm{kg/m}) = \mathrm{kg\,m/s^2} \cdot \mathrm{m/kg} = \mathrm{m^2/s^2}$ ✓</p>
+
+            <p><strong>3. Mit Schirm:</strong>
+              $$ v_\text{E} = \sqrt{\frac{1570\,\mathrm{N}}{1{,}4 \cdot 1{,}2\,\mathrm{kg/m^3} \cdot 25\,\mathrm{m^2}}} = \sqrt{\frac{1570\,\mathrm{N}}{42\,\mathrm{kg/m}}} = \sqrt{37{,}4\,\mathrm{m^2/s^2}} = 6{,}1\,\mathrm{m/s} $$</p>
+
+            <p><strong>Ergebnis und Plausibilität:</strong> Ohne Schirm
+              $54\,\mathrm{m/s} \approx 194\,\mathrm{km/h}$, mit Schirm
+              $6{,}1\,\mathrm{m/s} \approx 22\,\mathrm{km/h}$ – das passt zu den
+              typischen Werten aus der Vorlesung (60 und 5 m/s). Die Landung
+              entspricht einem Sprung aus knapp 2 m Höhe
+              ($h = v^2/2g = 1{,}9\,\mathrm{m}$), daher die geübte Abrollbewegung.</p>
+          </div>
+        </section>
+
+        <section class="tab" id="aufgaben" data-titel="Aufgaben">
+
+          <p>Die Aufgaben sind nach Schwierigkeit sortiert. Wenn nichts anderes
+            gesagt ist, gilt $g = 9{,}81\,\mathrm{m/s^2}$ und
+            $\rho_\text{Luft} = 1{,}2\,\mathrm{kg/m^3}$.</p>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 1: Gewicht im Sonnensystem
+              <span class="schwierigkeit" data-stufe="leicht">leicht</span>
+            </h3>
+            <p>Eine Astronautin hat mit Raumanzug eine Masse von
+              $70\,\mathrm{kg}$. Wie groß ist ihre Gewichtskraft auf der Erde,
+              auf dem Mond ($g = 1{,}62\,\mathrm{m/s^2}$) und auf dem Mars
+              ($g = 3{,}71\,\mathrm{m/s^2}$)? Wie groß ist jeweils ihre
+              Masse?</p>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>$F_\text{G} = m g$:
+                Erde $70 \cdot 9{,}81\,\mathrm{N} = 687\,\mathrm{N}$, Mond
+                $70 \cdot 1{,}62\,\mathrm{N} = 113\,\mathrm{N}$, Mars
+                $70 \cdot 3{,}71\,\mathrm{N} = 260\,\mathrm{N}$. Die Masse ist
+                überall $70\,\mathrm{kg}$ – sie hängt nicht vom Ort ab. Eine
+                Personenwaage, die in Kilogramm anzeigt, würde auf dem Mond aber
+                nur „11,6 kg“ anzeigen, weil sie in Wirklichkeit die Kraft misst.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 2: Eine Federwaage eichen
+              <span class="schwierigkeit" data-stufe="leicht">leicht</span>
+            </h3>
+            <p>Hängt man $2{,}0\,\mathrm{kg}$ an eine Feder, dehnt sie sich um
+              $4{,}0\,\mathrm{cm}$. (a) Wie groß ist die Federkonstante? (b) Um
+              wie viel dehnt sie sich bei $3{,}5\,\mathrm{kg}$?</p>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p><strong>(a)</strong> Im Gleichgewicht $k x = m g$:
+                $$ k = \frac{m g}{x} = \frac{2{,}0\,\mathrm{kg} \cdot 9{,}81\,\mathrm{m/s^2}}{0{,}040\,\mathrm{m}} = 490\,\mathrm{N/m} $$
+                <strong>(b)</strong>
+                $x = m g / k = 3{,}5 \cdot 9{,}81\,\mathrm{N} / 490\,\mathrm{N/m} = 0{,}070\,\mathrm{m} = 7{,}0\,\mathrm{cm}$ –
+                einfacher mit Dreisatz: $4{,}0\,\mathrm{cm} \cdot 3{,}5/2{,}0$.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 3: Reibungszahlen mit einem Brett messen
+              <span class="schwierigkeit" data-stufe="mittel">mittel</span>
+            </h3>
+            <p>Ein Holzklotz liegt auf einem Brett, das man langsam neigt. Bei
+              $25°$ rutscht er los. Gibt man ihm einen kleinen Stups, rutscht er
+              schon bei $17°$ mit konstanter Geschwindigkeit. Bestimme
+              $\mu_\text{H}$ und $\mu_\text{Gl}$. Warum braucht man dafür weder
+              die Masse des Klotzes noch $g$?</p>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>Grenzfall Haften:
+                $m g \sin\alpha = \mu_\text{H} m g \cos\alpha$, also
+                $\mu_\text{H} = \tan 25° = 0{,}47$. Gleichförmiges Rutschen
+                ($a = 0$): $\mu_\text{Gl} = \tan 17° = 0{,}31$.</p>
+              <p>Hangabtrieb und Reibung sind beide proportional zu $m g$ –
+                beides kürzt sich heraus. Nur der Winkel zählt. Genau so misst man
+                Reibungszahlen im Labor.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 4: Warum gibt es ABS?
+              <span class="schwierigkeit" data-stufe="mittel">mittel</span>
+            </h3>
+            <p>Ein Auto bremst aus $100\,\mathrm{km/h}$ auf trockenem Asphalt.
+              Rechne mit $\mu_\text{H} = 0{,}8$ für rollende Reifen an der
+              Haftgrenze und $\mu_\text{Gl} = 0{,}6$ für blockierte, rutschende
+              Reifen. Wie lang ist der Bremsweg jeweils? (Reaktionszeit und
+              Luftwiderstand vernachlässigen.)</p>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>Die Reibung ist die einzige bremsende Kraft:
+                $|a| = \mu m g / m = \mu g$. Mit
+                $v_0 = 27{,}8\,\mathrm{m/s}$ und der zeitfreien Gleichung
+                $s = v_0^2 / (2 |a|)$:
+                $$ s_\text{haftend} = \frac{(27{,}8\,\mathrm{m/s})^2}{2 \cdot 0{,}8 \cdot 9{,}81\,\mathrm{m/s^2}} = \frac{772\,\mathrm{m^2/s^2}}{15{,}7\,\mathrm{m/s^2}} = 49\,\mathrm{m}, \qquad s_\text{rutschend} = \frac{772\,\mathrm{m^2/s^2}}{11{,}8\,\mathrm{m/s^2}} = 66\,\mathrm{m} $$
+                Ein rollendes Rad nutzt die größere Haftreibung, ein blockiertes
+                nur die Gleitreibung. Das Antiblockiersystem hält die Räder knapp
+                an der Haftgrenze – und das Auto bleibt außerdem lenkbar.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 5: Eine Kiste auf der Rampe halten
+              <span class="schwierigkeit" data-stufe="schwer">schwer</span>
+            </h3>
+            <p>Eine Kiste ($m = 10\,\mathrm{kg}$) steht auf einer $30°$ steilen
+              Rampe, $\mu_\text{H} = 0{,}40$. Man zieht mit einem Seil parallel
+              zur Rampe nach oben. In welchem Bereich muss die Seilkraft $F$
+              liegen, damit die Kiste in Ruhe bleibt?</p>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>Achse rampenaufwärts. Längs der Rampe wirken $F$ (aufwärts),
+                $F_\text{Hang} = m g \sin 30° = 49{,}1\,\mathrm{N}$ (abwärts) und
+                die Haftreibung $F_\text{H}$, deren Richtung davon abhängt, in
+                welche Richtung die Kiste rutschen „möchte“. Ihr Betrag ist
+                höchstens
+                $\mu_\text{H} m g \cos 30° = 0{,}40 \cdot 98{,}1 \cdot 0{,}866\,\mathrm{N} = 34{,}0\,\mathrm{N}$.</p>
+              <p><strong>Kleinste Kraft</strong> (Kiste droht abzurutschen,
+                Reibung zeigt nach oben):
+                $$ F_\text{min} = m g\,(\sin\alpha - \mu_\text{H}\cos\alpha) = 49{,}1\,\mathrm{N} - 34{,}0\,\mathrm{N} = 15\,\mathrm{N} $$
+                <strong>Größte Kraft</strong> (Kiste droht nach oben zu rutschen,
+                Reibung zeigt nach unten):
+                $$ F_\text{max} = m g\,(\sin\alpha + \mu_\text{H}\cos\alpha) = 49{,}1\,\mathrm{N} + 34{,}0\,\mathrm{N} = 83\,\mathrm{N} $$
+                Für $15\,\mathrm{N} \le F \le 83\,\mathrm{N}$ bleibt die Kiste
+                liegen.</p>
+              <p><strong>Zum Nachdenken:</strong> Die Haftreibung hat keinen festen
+                Wert – sie nimmt jeden Wert zwischen
+                $-\mu_\text{H} F_\text{N}$ und $+\mu_\text{H} F_\text{N}$ an, der
+                gerade nötig ist. Deshalb ist „$F_\text{H} = \mu_\text{H} F_\text{N}$“
+                nur am Rand dieses Bereichs richtig.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe" data-symbole='{"r": "Radius des Tropfens"}'>
+            <h3>Aufgabe 6: Großer und kleiner Regentropfen
+              <span class="schwierigkeit" data-stufe="schwer">schwer</span>
+            </h3>
+            <p>Regentropfen seien Wasserkugeln
+              ($\rho_\text{W} = 1000\,\mathrm{kg/m^3}$).</p>
+            <ol type="a">
+              <li>Berechne die Endgeschwindigkeit eines Tropfens mit
+                $r = 1{,}0\,\mathrm{mm}$ mit Newton-Reibung,
+                $c_\text{w} = 0{,}5$.</li>
+              <li>Zeige, dass bei Newton-Reibung $v_\text{E} \propto \sqrt{r}$
+                gilt.</li>
+              <li>Ein Nieseltropfen mit $r = 0{,}05\,\mathrm{mm}$ fällt so langsam,
+                dass Stokes-Reibung gilt
+                ($\eta_\text{Luft} = 1{,}8 \cdot 10^{-5}\,\mathrm{Pa\,s}$).
+                Berechne seine Endgeschwindigkeit.</li>
+            </ol>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p><strong>(a)</strong>
+                $m = \rho_\text{W} \tfrac{4}{3}\pi r^3 = 1000 \cdot 4{,}19 \cdot 10^{-9}\,\mathrm{kg} = 4{,}19 \cdot 10^{-6}\,\mathrm{kg}$,
+                $A = \pi r^2 = 3{,}14 \cdot 10^{-6}\,\mathrm{m^2}$:
+                $$ v_\text{E} = \sqrt{\frac{2 m g}{c_\text{w} \rho A}} = \sqrt{\frac{2 \cdot 4{,}19 \cdot 10^{-6} \cdot 9{,}81}{0{,}5 \cdot 1{,}2 \cdot 3{,}14 \cdot 10^{-6}}}\,\mathrm{m/s} = \sqrt{43{,}6}\,\mathrm{m/s} = 6{,}6\,\mathrm{m/s} $$
+                Das passt zu den typischen 7 m/s aus der Vorlesung.</p>
+              <p><strong>(b)</strong> $m \propto r^3$ und $A \propto r^2$, also
+                $v_\text{E}^2 \propto m/A \propto r$, d. h.
+                $v_\text{E} \propto \sqrt{r}$. Große Tropfen fallen schneller.</p>
+              <p><strong>(c)</strong> Stokes: $6\pi\eta r v_\text{E} = m g = \rho_\text{W} \tfrac{4}{3}\pi r^3 g$, also
+                $$ v_\text{E} = \frac{2 \rho_\text{W} g r^2}{9 \eta} = \frac{2 \cdot 1000 \cdot 9{,}81 \cdot (5 \cdot 10^{-5})^2}{9 \cdot 1{,}8 \cdot 10^{-5}}\,\mathrm{m/s} = 0{,}30\,\mathrm{m/s} $$
+                Bei Stokes-Reibung ist $v_\text{E} \propto r^2$ – der zwanzigmal
+                kleinere Tropfen fällt mehr als zwanzigmal langsamer. Nieselregen
+                schwebt deshalb fast.</p>
+            </details>
+          </div>
+        </section>
+
+      </div></article>
+  </main>
+</body>
+</html>

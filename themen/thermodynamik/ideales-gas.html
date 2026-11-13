@@ -1,0 +1,800 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="robots" content="noindex">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Das ideale Gas und die kinetische Gastheorie</title>
+  <meta name="description" content="Warum ein Gas drückt, was Temperatur mit Teilchenbewegung zu tun hat und wie die ideale Gasgleichung pV = nRT aus Stößen von Teilchen folgt.">
+
+  <link rel="stylesheet" href="../../css/stil.css">
+
+  <link rel="stylesheet" href="../../extern/katex/katex.min.css">
+  <script defer src="../../extern/katex/katex.min.js"></script>
+  <script defer src="../../extern/katex/contrib/auto-render.min.js" onload="starteFormeln()"></script>
+
+  <script src="../../js/daten.js"></script>
+  <script src="../../js/seite.js"></script>
+  <script src="../../js/effekte.js"></script>
+  <script type="application/json" id="symbole">
+  {
+    "p": "Druck",
+    "V": "Volumen",
+    "T": "absolute Temperatur in Kelvin",
+    "n": "Stoffmenge in mol",
+    "N": "Teilchenzahl",
+    "R": "universelle Gaskonstante, 8,314 J/(mol K)",
+    "k_B": "Boltzmann-Konstante, 1,381·10⁻²³ J/K",
+    "N_A": "Avogadro-Konstante, 6,022·10²³ pro mol",
+    "M": "Molmasse",
+    "m": "Masse eines Teilchens (bzw. Masse der Probe, wo nach Stoffmenge gefragt)",
+    "ϑ": "Celsius-Temperatur",
+    "V_m": "Molvolumen V/n",
+    "p_i": "Partialdruck der Komponente i",
+    "n_i": "Stoffmenge der Komponente i",
+    "x_i": "Molenbruch der Komponente i",
+    "α": "thermischer Ausdehnungskoeffizient",
+    "κ": "Kompressibilität",
+    "L": "Kantenlänge des Würfels",
+    "v": "Geschwindigkeit eines Teilchens",
+    "v_x": "x-Komponente der Teilchengeschwindigkeit",
+    "v_rms": "Wurzel des mittleren Geschwindigkeitsquadrats",
+    "v_w": "wahrscheinlichste Geschwindigkeit",
+    "F": "Kraft auf die Wand",
+    "A": "Fläche",
+    "E": "Energie eines Teilchens",
+    "U": "innere Energie",
+    "f": "Verteilungsdichte der Geschwindigkeiten (Maxwell-Boltzmann)",
+    "ρ": "Dichte",
+    "t": "Zeit",
+    "T_1": "Temperatur von Behälter 1 bzw. Anfangstemperatur",
+    "T_2": "Temperatur von Behälter 2 bzw. Endtemperatur",
+    "p_1": "Druck von Behälter 1 bzw. Anfangsdruck",
+    "p_2": "Druck von Behälter 2 bzw. Enddruck",
+    "V_1": "Volumen von Behälter 1 bzw. Anfangsvolumen",
+    "V_2": "Volumen von Behälter 2 bzw. Endvolumen",
+    "n_1": "Stoffmenge in Behälter 1",
+    "n_2": "Stoffmenge in Behälter 2",
+    "v_esc": "Fluchtgeschwindigkeit",
+    "i": "Laufindex der Komponenten bzw. Teilchen",
+    "π": "Kreiszahl"
+  }
+  </script>
+</head>
+<body data-thema="ideales-gas">
+  <main>
+    <article class="thema">
+      <header>
+        <h1>Das ideale Gas und die <span class="betont">kinetische Gastheorie</span></h1>
+        <p class="untertitel">Warum Luft drückt, was Temperatur mit Bewegung zu tun hat und wie aus Stößen von Teilchen ein einfaches Gesetz wird.</p>
+      </header>
+
+      <div class="tabs">
+
+        <section class="tab" id="verstehen" data-titel="Verstehen">
+
+          <p>Halte bei einer Fahrradpumpe die Öffnung mit dem Daumen zu und
+            schiebe den Kolben hinein. Es geht ein Stück weit, dann wird es
+            schwer, weil die eingesperrte Luft zurückdrückt. Pumpst du
+            länger, wird der Zylinder außerdem warm. Beides lässt sich mit
+            einem einzigen Bild erklären.</p>
+
+          <p>Luft besteht aus Molekülen. In einem Würfel mit einem Zentimeter
+            Kantenlänge sind es rund $2{,}5 \cdot 10^{19}$, und sie fliegen mit
+            einigen hundert Metern pro Sekunde kreuz und quer durcheinander.
+            Ständig prallen sie aneinander und an die Wände. Ein <em>ideales
+            Gas</em> ist die einfachste Version dieses Bildes: Die Teilchen
+            sind winzige Punkte, und außer den Stößen spüren sie nichts
+            voneinander.</p>
+
+          <figure class="abbildung">
+            <svg class="abb" viewBox="0 0 360 170" role="img" aria-label="Zwei Behälter mit Gasteilchen: links kalt mit kurzen Geschwindigkeitspfeilen, rechts warm mit langen Geschwindigkeitspfeilen">
+<defs><marker id="pfeil-abb1-text" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto"><path class="punkt" d="M0 0L10 5L0 10z"/></marker><marker id="pfeil-abb1-blau" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto"><path class="punkt blau" d="M0 0L10 5L0 10z"/></marker><marker id="pfeil-abb1-kupfer" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto"><path class="punkt kupfer" d="M0 0L10 5L0 10z"/></marker></defs>
+<rect class="achse" x="20" y="20" width="140" height="110" fill="none"/>
+<circle class="punkt blau" cx="71" cy="47.8" r="3"/>
+<path class="kurve blau duenn" d="M71 47.8l-8.7 -12.2" marker-end="url(#pfeil-abb1-blau)" style="stroke-width:1.2"/>
+<circle class="punkt blau" cx="43.8" cy="77.8" r="3"/>
+<path class="kurve blau duenn" d="M43.8 77.8l-10 11.2" marker-end="url(#pfeil-abb1-blau)" style="stroke-width:1.2"/>
+<circle class="punkt blau" cx="81.8" cy="100.5" r="3"/>
+<path class="kurve blau duenn" d="M81.8 100.5l10.7 10.5" marker-end="url(#pfeil-abb1-blau)" style="stroke-width:1.2"/>
+<circle class="punkt blau" cx="138.4" cy="81" r="3"/>
+<path class="kurve blau duenn" d="M138.4 81l-11.9 9.1" marker-end="url(#pfeil-abb1-blau)" style="stroke-width:1.2"/>
+<circle class="punkt blau" cx="141.4" cy="39.6" r="3"/>
+<path class="kurve blau duenn" d="M141.4 39.6l9.4 -11.6" marker-end="url(#pfeil-abb1-blau)" style="stroke-width:1.2"/>
+<circle class="punkt blau" cx="104.5" cy="40.9" r="3"/>
+<path class="kurve blau duenn" d="M104.5 40.9l13.7 6.2" marker-end="url(#pfeil-abb1-blau)" style="stroke-width:1.2"/>
+<circle class="punkt blau" cx="127.7" cy="113.5" r="3"/>
+<path class="kurve blau duenn" d="M127.7 113.5l-14.7 3.2" marker-end="url(#pfeil-abb1-blau)" style="stroke-width:1.2"/>
+<circle class="punkt blau" cx="37.5" cy="111.7" r="3"/>
+<path class="kurve blau duenn" d="M37.5 111.7l-8.8 -12.1" marker-end="url(#pfeil-abb1-blau)" style="stroke-width:1.2"/>
+<text x="90" y="152" text-anchor="middle">kalt: langsame Teilchen</text>
+<rect class="achse" x="200" y="20" width="140" height="110" fill="none"/>
+<circle class="punkt kupfer" cx="269.1" cy="110.6" r="3"/>
+<path class="kurve kupfer duenn" d="M269.1 110.6l27.6 -16.1" marker-end="url(#pfeil-abb1-kupfer)" style="stroke-width:1.2"/>
+<circle class="punkt kupfer" cx="233.8" cy="97.5" r="3"/>
+<path class="kurve kupfer duenn" d="M233.8 97.5l29 -13.5" marker-end="url(#pfeil-abb1-kupfer)" style="stroke-width:1.2"/>
+<circle class="punkt kupfer" cx="223.1" cy="63.4" r="3"/>
+<path class="kurve kupfer duenn" d="M223.1 63.4l1.2 -32" marker-end="url(#pfeil-abb1-kupfer)" style="stroke-width:1.2"/>
+<circle class="punkt kupfer" cx="315.4" cy="52.2" r="3"/>
+<path class="kurve kupfer duenn" d="M315.4 52.2l-2.6 31.9" marker-end="url(#pfeil-abb1-kupfer)" style="stroke-width:1.2"/>
+<circle class="punkt kupfer" cx="270.6" cy="60.9" r="3"/>
+<path class="kurve kupfer duenn" d="M270.6 60.9l31.1 7.3" marker-end="url(#pfeil-abb1-kupfer)" style="stroke-width:1.2"/>
+<circle class="punkt kupfer" cx="317.1" cy="89" r="3"/>
+<path class="kurve kupfer duenn" d="M317.1 89l25.3 -19.5" marker-end="url(#pfeil-abb1-kupfer)" style="stroke-width:1.2"/>
+<text x="270" y="152" text-anchor="middle">warm: schnelle Teilchen</text>
+</svg>
+            <figcaption>Abb. 1: Dasselbe Gas im gleichen Behälter, links kalt
+              und rechts warm. Die Pfeile zeigen Richtung und Betrag der
+              Geschwindigkeit der Teilchen.</figcaption>
+          </figure>
+
+          <p>Jeder einzelne Stoß ist winzig. Aber auf eine Wand prasseln pro
+            Sekunde unvorstellbar viele Teilchen, und das fühlt sich an wie ein
+            gleichmäßiger Druck. Dieser Druck ist die Kraft, die die Teilchen
+            auf ein Stück Wand ausüben, geteilt durch dessen Fläche.</p>
+
+          <p>Die <em>Temperatur</em> ist ein Maß dafür, wie heftig sich die
+            Teilchen im Mittel bewegen. In einem warmen Gas sind sie schneller
+            als in einem kalten. Deshalb gibt es auch eine tiefste Temperatur:
+            den absoluten Nullpunkt bei $-273{,}15\,{}^\circ\mathrm{C}$, an dem sich
+            (klassisch gesprochen) fast nichts mehr bewegt. Physiker rechnen
+            darum in <em>Kelvin</em>, einer Skala, die dort bei null beginnt.</p>
+
+          <p>Aus dem Teilchenbild folgen drei Regeln, die du von Hand
+            überprüfen kannst:</p>
+          <ul>
+            <li>Drückst du das Gas auf das halbe Volumen zusammen, treffen die
+              Teilchen die Wand doppelt so oft. Der Druck verdoppelt sich.</li>
+            <li>Erwärmst du das Gas im festen Behälter, werden die Teilchen
+              schneller. Sie stoßen öfter und fester zu, der Druck steigt.</li>
+            <li>Pumpst du mehr Teilchen in denselben Behälter, gibt es mehr
+              Stöße, und der Druck steigt ebenfalls.</li>
+          </ul>
+
+          <div class="alltag">
+            <span class="titel">Aus dem Alltag</span>
+            <p>Im Winter zeigt die Kontrollleuchte für den Reifendruck oft
+              schon beim ersten Start. Der Reifen hat sich nicht verändert,
+              aber die Luft darin ist kälter. Die Teilchen sind langsamer
+              und drücken schwächer gegen die Gummiwand. Zehn Grad weniger
+              bedeuten ungefähr 0,1 bar weniger Druck.
+              Bei der Fahrradpumpe läuft es andersherum: Du schiebst dem Gas
+              Energie zu, die Teilchen prallen am näher kommenden Kolben mit
+              mehr Schwung ab, und das Gas wird wärmer.</p>
+          </div>
+
+          <p>Alle drei Regeln stecken in einer einzigen Gleichung: Druck mal
+            Volumen ist proportional zur Teilchenzahl mal Temperatur, geschrieben
+            $pV = nRT$. Die Vertiefung zeigt, woher sie kommt und was die
+            Zahlen darin bedeuten.</p>
+
+          <div class="merkkasten">
+            <span class="titel">Das Wichtigste in Kürze</span>
+            <p>Ein Gas ist eine riesige Menge fliegender Teilchen. Der Druck
+              entsteht durch ihre Stöße gegen die Wand, die Temperatur misst
+              ihre mittlere Bewegungsenergie. Weniger Volumen, mehr Wärme oder
+              mehr Teilchen bedeuten mehr Druck. Die Kelvin-Skala beginnt am
+              absoluten Nullpunkt, an dem sich kaum noch etwas bewegt.</p>
+          </div>
+        </section>
+
+        <section class="tab" id="vertiefung" data-titel="Vertiefung">
+
+          <h2>Temperatur und Stoffmenge</h2>
+
+          <p>Die SI-Einheit der Temperatur ist das Kelvin. Der Nullpunkt
+            liegt bei $0\,\mathrm{K} = -273{,}15\,{}^\circ\mathrm{C}$, und ein Kelvin
+            ist genauso groß wie ein Grad Celsius. Mit der Celsius-Temperatur
+            $\vartheta$ gilt</p>
+          $$ \frac{T}{\mathrm{K}} = \frac{\vartheta}{^\circ\mathrm{C}} + 273{,}15 . $$
+
+          <p>Die <em>Stoffmenge</em> $n$ zählt Teilchen in Portionen. Ein mol
+            enthält $N_\mathrm{A} = 6{,}022 \cdot 10^{23}\,\mathrm{mol^{-1}}$
+            Teilchen (Avogadro-Konstante). Für die Teilchenzahl $N$ und die Masse
+            einer Probe mit der Molmasse $M$ gilt</p>
+          $$ N = n\,N_\mathrm{A}, \qquad m = n\,M . $$
+          <p>Die Molmasse wird meist in $\mathrm{g/mol}$ angegeben, zum Rechnen
+            in SI-Einheiten brauchst du $\mathrm{kg/mol}$.</p>
+
+          <h2>Das Modell des idealen Gases</h2>
+
+          <p>Ein ideales Gas ist ein Gedankenmodell mit zwei Annahmen:</p>
+          <ul>
+            <li>Die Teilchen sind punktförmig und haben kein Eigenvolumen.</li>
+            <li>Zwischen den Teilchen wirken keine Kräfte, abgesehen von
+              elastischen Stößen.</li>
+          </ul>
+          <p>Die Stöße sind nötig, damit sich überhaupt ein Gleichgewicht
+            einstellt, sie tragen aber nichts zur Energie bei. Deshalb spielt
+            die chemische Natur der Teilchen für die Gasgesetze keine Rolle. Das
+            Modell gilt gut bei geringer Dichte und Temperaturen weit über dem
+            Siedepunkt. Luft bei Zimmertemperatur und einem bar weicht nur um
+            etwa ein Promille vom Idealverhalten ab. Wo Eigenvolumen und
+            Anziehung eine Rolle spielen, braucht man reale Gase.</p>
+
+          <h2>Die drei Gasgesetze</h2>
+
+          <p>Der Zustand einer abgeschlossenen Gasportion wird durch $p$, $V$,
+            $T$ und $n$ beschrieben. Drei Experimente zeigen, wie sie
+            zusammenhängen.</p>
+
+          <p><strong>Boyle-Mariotte</strong> (bei festem $T$ und $n$): Druck und
+            Volumen sind umgekehrt proportional.</p>
+          $$ pV = \text{const}, \qquad\text{also}\qquad p_1V_1 = p_2V_2 . $$
+          <p>Im $p$-$V$-Diagramm sind das Hyperbeln, die <em>Isothermen</em>
+            (Abb. 2). Eine höhere Temperatur verschiebt die Hyperbel nach
+            oben rechts.</p>
+
+          <figure class="abbildung">
+            <svg class="abb" viewBox="0 0 360 225" role="img" aria-label="p-V-Diagramm mit drei Isothermen (Hyperbeln) für drei Temperaturen, auf der mittleren zwei Zustände mit p1 V1 = p2 V2">
+<defs><marker id="pfeil-abb2-text" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto"><path class="punkt" d="M0 0L10 5L0 10z"/></marker><marker id="pfeil-abb2-blau" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto"><path class="punkt blau" d="M0 0L10 5L0 10z"/></marker><marker id="pfeil-abb2-kupfer" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto"><path class="punkt kupfer" d="M0 0L10 5L0 10z"/></marker></defs>
+<path class="achse" d="M40 190H345" marker-end="url(#pfeil-abb2-text)"/>
+<path class="achse" d="M40 190V12" marker-end="url(#pfeil-abb2-text)"/>
+<text x="340" y="210">V</text><text x="22" y="22">p</text>
+<path class="kurve " d="M82 133.3 L88.3 140.7 L94.6 146.4 L100.9 150.9 L107.2 154.6 L113.5 157.6 L119.8 160.2 L126.1 162.4 L132.4 164.2 L138.7 165.9 L145 167.3 L151.3 168.6 L157.6 169.8 L163.9 170.8 L170.2 171.7 L176.5 172.6 L182.8 173.3 L189.1 174 L195.4 174.7 L201.7 175.3 L208 175.8 L214.3 176.3 L220.6 176.8 L226.9 177.3 L233.2 177.7 L239.5 178.1 L245.8 178.4 L252.1 178.8 L258.4 179.1 L264.7 179.4 L271 179.7 L277.3 180 L283.6 180.2 L289.9 180.5 L296.2 180.7 L302.5 180.9 L308.8 181.1 L315.1 181.3 L321.4 181.5 L327.7 181.7 L334 181.9"/>
+<text class="" x="76" y="137.3" text-anchor="end">T₁</text>
+<path class="kurve blau" d="M82 76.7 L88.3 91.4 L94.6 102.8 L100.9 111.8 L107.2 119.2 L113.5 125.2 L119.8 130.4 L126.1 134.7 L132.4 138.5 L138.7 141.8 L145 144.7 L151.3 147.2 L157.6 149.5 L163.9 151.6 L170.2 153.4 L176.5 155.1 L182.8 156.7 L189.1 158.1 L195.4 159.4 L201.7 160.6 L208 161.7 L214.3 162.7 L220.6 163.6 L226.9 164.5 L233.2 165.4 L239.5 166.1 L245.8 166.9 L252.1 167.6 L258.4 168.2 L264.7 168.8 L271 169.4 L277.3 169.9 L283.6 170.5 L289.9 171 L296.2 171.4 L302.5 171.9 L308.8 172.3 L315.1 172.7 L321.4 173.1 L327.7 173.5 L334 173.8"/>
+<text class="blau" x="76" y="80.7" text-anchor="end">T₂</text>
+<path class="kurve kupfer" d="M82 20 L88.3 42.2 L94.6 59.2 L100.9 72.8 L107.2 83.8 L113.5 92.9 L119.8 100.5 L126.1 107.1 L132.4 112.7 L138.7 117.7 L145 122 L151.3 125.8 L157.6 129.3 L163.9 132.4 L170.2 135.2 L176.5 137.7 L182.8 140 L189.1 142.1 L195.4 144.1 L201.7 145.8 L208 147.5 L214.3 149 L220.6 150.5 L226.9 151.8 L233.2 153 L239.5 154.2 L245.8 155.3 L252.1 156.3 L258.4 157.3 L264.7 158.2 L271 159.1 L277.3 159.9 L283.6 160.7 L289.9 161.4 L296.2 162.1 L302.5 162.8 L308.8 163.4 L315.1 164 L321.4 164.6 L327.7 165.2 L334 165.7"/>
+<text class="kupfer" x="76" y="24" text-anchor="end">T₃</text>
+<path class="hilfslinie" d="M110 190V122H40"/>
+<circle class="punkt blau" cx="110" cy="122" r="3.5"/>
+<text x="110" y="207" text-anchor="middle">V₁</text>
+<text x="34" y="126" text-anchor="end">p₁</text>
+<path class="hilfslinie" d="M180 190V156H40"/>
+<circle class="punkt blau" cx="180" cy="156" r="3.5"/>
+<text x="180" y="207" text-anchor="middle">V₂</text>
+<text x="34" y="160" text-anchor="end">p₂</text>
+<text class="klein" x="190" y="60">T₁ &lt; T₂ &lt; T₃</text>
+</svg>
+            <figcaption>Abb. 2: Isothermen des idealen Gases für drei
+              Temperaturen $T_1 \lt T_2 \lt T_3$. Auf der blauen Isotherme gilt
+              $p_1V_1 = p_2V_2$.</figcaption>
+          </figure>
+
+          <p><strong>Gay-Lussac</strong> (bei festem $V$ und $n$, auch
+            Amontons-Gesetz): Der Druck ist proportional zur absoluten
+            Temperatur, $p \propto T$. Bei festem $p$ und $n$ ist stattdessen das
+            Volumen proportional zu $T$, $V \propto T$ (Gesetz von Charles).
+            Die Geraden heißen <em>Isochoren</em> bzw. <em>Isobaren</em> und
+            laufen alle auf den Ursprung zu (Abb. 3). Das Gas
+            würde dort Druck bzw. Volumen null erreichen, doch lange davor
+            wird jedes reale Gas flüssig.</p>
+
+          <figure class="abbildung">
+            <div class="abb-reihe">
+              <svg class="abb" viewBox="0 0 360 225" role="img" aria-label="p-T-Diagramm: Isochoren sind Ursprungsgeraden, die zu kleinerem Volumen steiler verlaufen">
+<defs><marker id="pfeil-abb3-text" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto"><path class="punkt" d="M0 0L10 5L0 10z"/></marker><marker id="pfeil-abb3-blau" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto"><path class="punkt blau" d="M0 0L10 5L0 10z"/></marker><marker id="pfeil-abb3-kupfer" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto"><path class="punkt kupfer" d="M0 0L10 5L0 10z"/></marker></defs>
+<path class="achse" d="M60 190H345" marker-end="url(#pfeil-abb3-text)"/>
+<path class="achse" d="M60 190V12" marker-end="url(#pfeil-abb3-text)"/>
+<text x="340" y="210">T</text><text x="42" y="22">p</text>
+<text x="60" y="207" text-anchor="middle">0 K</text>
+<path class="hilfslinie" d="M251.2 190V40"/>
+<text class="klein" x="251.2" y="207" text-anchor="middle">273 K</text>
+<text class="klein" x="251.2" y="220" text-anchor="middle">= 0 °C</text>
+<path class="kurve  schwach" d="M60 190L130 177" style="stroke-dasharray:4 4"/>
+<path class="kurve " d="M130 177L340 138"/>
+<text class="" x="344" y="142">V₁</text>
+<path class="kurve blau schwach" d="M60 190L130 168" style="stroke-dasharray:4 4"/>
+<path class="kurve blau" d="M130 168L340 102"/>
+<text class="blau" x="344" y="106">V₂</text>
+<path class="kurve kupfer schwach" d="M60 190L130 154" style="stroke-dasharray:4 4"/>
+<path class="kurve kupfer" d="M130 154L340 46"/>
+<text class="kupfer" x="344" y="50">V₃</text>
+</svg>
+              <svg class="abb" viewBox="0 0 360 225" role="img" aria-label="V-T-Diagramm: Isobaren sind Ursprungsgeraden, die zu kleinerem Druck steiler verlaufen">
+<defs><marker id="pfeil-abb3b-text" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto"><path class="punkt" d="M0 0L10 5L0 10z"/></marker><marker id="pfeil-abb3b-blau" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto"><path class="punkt blau" d="M0 0L10 5L0 10z"/></marker><marker id="pfeil-abb3b-kupfer" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto"><path class="punkt kupfer" d="M0 0L10 5L0 10z"/></marker></defs>
+<path class="achse" d="M60 190H345" marker-end="url(#pfeil-abb3b-text)"/>
+<path class="achse" d="M60 190V12" marker-end="url(#pfeil-abb3b-text)"/>
+<text x="340" y="210">T</text><text x="42" y="22">V</text>
+<text x="60" y="207" text-anchor="middle">0 K</text>
+<path class="hilfslinie" d="M251.2 190V40"/>
+<text class="klein" x="251.2" y="207" text-anchor="middle">273 K</text>
+<text class="klein" x="251.2" y="220" text-anchor="middle">= 0 °C</text>
+<path class="kurve  schwach" d="M60 190L130 177" style="stroke-dasharray:4 4"/>
+<path class="kurve " d="M130 177L340 138"/>
+<text class="" x="344" y="142">p₁</text>
+<path class="kurve blau schwach" d="M60 190L130 168" style="stroke-dasharray:4 4"/>
+<path class="kurve blau" d="M130 168L340 102"/>
+<text class="blau" x="344" y="106">p₂</text>
+<path class="kurve kupfer schwach" d="M60 190L130 154" style="stroke-dasharray:4 4"/>
+<path class="kurve kupfer" d="M130 154L340 46"/>
+<text class="kupfer" x="344" y="50">p₃</text>
+</svg>
+            </div>
+            <figcaption>Abb. 3: Links Isochoren im $p$-$T$-Diagramm mit
+              $V_1 \gt V_2 \gt V_3$, rechts Isobaren im $V$-$T$-Diagramm mit
+              $p_1 \gt p_2 \gt p_3$. Gestrichelt: Bereich, in dem reale
+              Gase nicht mehr gasförmig sind.</figcaption>
+          </figure>
+
+          <p><strong>Avogadro</strong> (bei festem $p$ und $T$): Das Volumen ist
+            proportional zur Stoffmenge, $V \propto n$. Gleiche Volumina
+            verschiedener idealer Gase bei gleichem $p$ und $T$ enthalten also
+            gleich viele Teilchen.</p>
+
+          <p>Die drei Beziehungen fasst die <em>ideale Gasgleichung</em>
+            zusammen:</p>
+          $$ pV = nRT = N k_\mathrm{B} T . $$
+          <p>Darin ist $R = 8{,}3145\,\mathrm{J/(mol\,K)}$ die universelle
+            Gaskonstante und $k_\mathrm{B} = R/N_\mathrm{A} = 1{,}381 \cdot 10^{-23}\,\mathrm{J/K}$ die
+            Boltzmann-Konstante. Mit dem Molvolumen $V_\mathrm{m} = V/n$ wird
+            daraus $pV_\mathrm{m} = RT$. Beim Normzustand
+            ($0\,{}^\circ\mathrm{C}$, $1013{,}25\,\mathrm{hPa}$) ist
+            $V_\mathrm{m} = 22{,}41\,\mathrm{l/mol}$, bei $20\,{}^\circ\mathrm{C}$
+            und $1013\,\mathrm{hPa}$ sind es $24{,}06\,\mathrm{l/mol}$. Die oft
+            genannten $22{,}4\,\mathrm{l/mol}$ gelten nur beim Normzustand.</p>
+
+          <h2>Ausdehnung und Kompressibilität</h2>
+
+          <p>Wie stark sich ein Stoff bei Erwärmung ausdehnt und bei Druck
+            zusammendrücken lässt, beschreiben zwei auf das Volumen bezogene
+            Größen:</p>
+          $$ \alpha = \frac{1}{V}\left(\frac{\partial V}{\partial T}\right)_{p,n}, \qquad
+             \kappa = -\frac{1}{V}\left(\frac{\partial V}{\partial p}\right)_{T,n} . $$
+          <p>Der Index gibt an, welche Größen beim Ableiten festgehalten werden.
+            Für das ideale Gas folgt aus $V = nRT/p$ sofort</p>
+          $$ \alpha = \frac{1}{T}, \qquad \kappa = \frac{1}{p} . $$
+          <p>Bei $20\,{}^\circ\mathrm{C}$ ist $\alpha = 3{,}41 \cdot 10^{-3}\,\mathrm{K^{-1}}$,
+            bei $1013\,\mathrm{hPa}$ ist $\kappa = 9{,}87 \cdot 10^{-6}\,\mathrm{Pa^{-1}}$.
+            Feste Körper und Flüssigkeiten dehnen sich um Größenordnungen
+            weniger aus und sind um Größenordnungen schwerer zu komprimieren.</p>
+
+          <h2>Gasgemische und Partialdruck</h2>
+
+          <p>Mischt man Gase im selben Volumen $V$ bei derselben Temperatur,
+            trägt jede Komponente $i$ ihren eigenen Druck bei, den
+            <em>Partialdruck</em> $p_i = n_i R T/V$. Weil die Teilchen einander
+            nicht beeinflussen, addieren sich die Drücke (Dalton):</p>
+          $$ p = \sum_i p_i = \frac{\left(\sum_i n_i\right) R T}{V} . $$
+          <p>Mit dem Molenbruch $x_i = n_i/n$, wobei $n = \sum_i n_i$ ist und
+            $\sum_i x_i = 1$ gilt, folgt $p_i = x_i\,p$. Der Partialdruck einer
+            Komponente ist also ihr Molenbruch mal dem Gesamtdruck.</p>
+
+          <h2>Kinetische Gastheorie: Druck aus Stößen</h2>
+
+          <p>Die Gasgesetze waren Erfahrungsregeln. Die kinetische Gastheorie
+            leitet sie aus dem Teilchenbild her. Betrachte $N$ Teilchen der Masse
+            $m$ in einem Würfel mit Kantenlänge $L$ und Volumen $V = L^3$.
+            Zuerst ein einzelnes Teilchen mit der Geschwindigkeitskomponente
+            $v_x$ in Richtung der rechten Wand (Abb. 4).</p>
+
+          <figure class="abbildung">
+            <svg class="abb" viewBox="0 0 360 190" role="img" aria-label="Teilchen mit Geschwindigkeit v_x prallt elastisch an die rechte Wand eines Würfels der Kantenlänge L und kehrt mit umgekehrter x-Komponente zurück">
+<defs><marker id="pfeil-abb4-text" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto"><path class="punkt" d="M0 0L10 5L0 10z"/></marker><marker id="pfeil-abb4-blau" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto"><path class="punkt blau" d="M0 0L10 5L0 10z"/></marker><marker id="pfeil-abb4-kupfer" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto"><path class="punkt kupfer" d="M0 0L10 5L0 10z"/></marker></defs>
+<path class="achse" d="M40 30V150M40 30H300M40 150H300" />
+<path class="achse" style="stroke-width:3.2" d="M300 30V150"/>
+<path class="kurve blau" d="M70 70H198" marker-end="url(#pfeil-abb4-blau)"/>
+<path class="kurve kupfer" d="M276 110H146" marker-end="url(#pfeil-abb4-kupfer)"/>
+<circle class="punkt blau" cx="70" cy="70" r="4"/>
+<path class="hilfslinie" d="M300 70H198M276 110H300"/>
+<text class="blau" x="134" y="60" text-anchor="middle">vor dem Stoß: +v<tspan dy="3" style="font-size:10px">x</tspan></text>
+<text class="kupfer" x="210" y="130" text-anchor="middle">nach dem Stoß: −v<tspan dy="3" style="font-size:10px">x</tspan></text>
+<path class="achse" d="M40 170H300" /><path class="achse" d="M40 165V175M300 165V175"/>
+<text x="170" y="186" text-anchor="middle">L</text>
+<text class="klein" x="296" y="22" text-anchor="end">Wand, Fläche L²</text>
+</svg>
+            <figcaption>Abb. 4: Elastischer Stoß eines Teilchens an der Wand.
+              Nur die Komponente senkrecht zur Wand ändert ihr Vorzeichen.</figcaption>
+          </figure>
+
+          <p>Beim elastischen Stoß kehrt sich $v_x$ um. Das Teilchen übergibt der
+            Wand daher den Impuls $2m|v_x|$. Bis zum nächsten Stoß an derselben
+            Wand fliegt es zur gegenüberliegenden Wand und zurück, also die
+            Strecke $2L$ in der Zeit $\Delta t = 2L/|v_x|$. Die mittlere Kraft
+            dieses einen Teilchens ist Impulsübertrag pro Zeit:</p>
+          $$ F_i = \frac{2m|v_x|}{2L/|v_x|} = \frac{m\,v_x^2}{L} . $$
+          <p>Alle $N$ Teilchen zusammen liefern mit dem Mittelwert
+            $\langle v_x^2 \rangle$ über alle Teilchen</p>
+          $$ F = \frac{N m}{L}\,\langle v_x^2 \rangle, \qquad
+             p = \frac{F}{L^2} = \frac{N m \langle v_x^2 \rangle}{V} . $$
+          <p>Im Gleichgewicht ist keine Richtung bevorzugt, daher
+            $\langle v_x^2 \rangle = \langle v_y^2 \rangle = \langle v_z^2 \rangle$
+            und wegen $v^2 = v_x^2 + v_y^2 + v_z^2$ gilt
+            $\langle v_x^2 \rangle = \tfrac13 \langle v^2 \rangle$. Das ergibt</p>
+          $$ pV = \frac{1}{3}\,N m \langle v^2 \rangle = \frac{2}{3}\,N \left\langle \tfrac12 m v^2 \right\rangle . $$
+
+          <p>Der Vergleich mit der Gasgleichung $pV = N k_\mathrm{B} T$ liefert
+            den Zusammenhang zwischen Temperatur und Bewegungsenergie:</p>
+          $$ \left\langle E_\text{kin} \right\rangle = \tfrac12 m \langle v^2 \rangle = \tfrac32\,k_\mathrm{B} T . $$
+
+          <div class="merkkasten">
+            <span class="titel">Merke</span>
+            <p>Die absolute Temperatur ist proportional zur mittleren
+              Translationsenergie der Teilchen: $\langle E_\text{kin} \rangle =
+              \frac32 k_\mathrm{B} T$. Bei gleicher Temperatur haben alle
+              idealen Gase dieselbe mittlere Energie pro Teilchen, leichte
+              Teilchen sind dafür schneller.</p>
+          </div>
+
+          <p>Die Herleitung nutzt nur Stöße an der Wand. Stöße der Teilchen
+            untereinander ändern die Impulsbilanz an der Wand nicht, und die
+            Würfelform ist unwichtig: Für jedes Gefäß kommt dasselbe Ergebnis
+            heraus.</p>
+
+          <h2>Gleichverteilung und innere Energie</h2>
+
+          <p>Die Energie $\frac32 k_\mathrm{B} T$ verteilt sich auf drei
+            Translationsrichtungen, also $\frac12 k_\mathrm{B} T$ pro
+            Richtung. Der <em>Gleichverteilungssatz</em> verallgemeinert das:
+            Im klassischen Gleichgewicht trägt jeder quadratische
+            Freiheitsgrad im Mittel $\frac12 k_\mathrm{B} T$ zur Energie bei.
+            Für ein einatomiges ideales Gas ohne Wechselwirkungsenergie ist
+            die innere Energie also</p>
+          $$ U = N \left\langle E_\text{kin} \right\rangle = \tfrac32 N k_\mathrm{B} T = \tfrac32\,nRT . $$
+          <p>Sie hängt nur von $T$ ab, nicht von $V$ oder $p$. Zweiatomige
+            Moleküle wie $\mathrm{N_2}$ und $\mathrm{O_2}$ können zusätzlich
+            rotieren und haben bei Zimmertemperatur fünf aktive Freiheitsgrade,
+            also $U = \frac52 nRT$. Die Schwingung der beiden Atome gegeneinander
+            ist bei Zimmertemperatur eingefroren, weil sie nur quantenmechanisch
+            richtig beschrieben werden kann. Der Zusammenhang mit der
+            Wärmekapazität folgt in einem späteren Thema.</p>
+
+          <h2>Wie schnell sind die Teilchen?</h2>
+
+          <p>Aus $\frac12 m \langle v^2 \rangle = \frac32 k_\mathrm{B} T$ folgt die
+            Wurzel des mittleren Geschwindigkeitsquadrats</p>
+          $$ v_\mathrm{rms} = \sqrt{\langle v^2 \rangle} = \sqrt{\frac{3 k_\mathrm{B} T}{m}} = \sqrt{\frac{3RT}{M}} . $$
+          <p>Die letzte Form ist die praktische: Mit der Molmasse in
+            $\mathrm{kg/mol}$ braucht man die Masse des einzelnen Teilchens
+            nicht. Stickstoff bei $20\,{}^\circ\mathrm{C}$ kommt auf etwa
+            $511\,\mathrm{m/s}$ (Beispiel 3).</p>
+
+          <p>Natürlich haben nicht alle Teilchen dieselbe Geschwindigkeit. Durch
+            die ständigen Stöße stellt sich im Gleichgewicht die
+            <em>Maxwell-Boltzmann-Verteilung</em> ein. Der Bruchteil der Teilchen
+            mit Geschwindigkeitsbetrag zwischen $v$ und $v + \mathrm{d}v$ ist
+            $f(v)\,\mathrm{d}v$ mit</p>
+          $$ f(v) = 4\pi \left(\frac{m}{2\pi k_\mathrm{B} T}\right)^{3/2} v^2\, \mathrm{e}^{-m v^2/(2 k_\mathrm{B} T)} . $$
+          <p>Die Herleitung gehört in die Statistische Physik (Boltzmann-Faktor
+            und Zustandsdichte). Hier reicht, was man ablesen kann (Abb. 5):
+            Der Faktor $v^2$ bringt die Kurve bei kleinen Geschwindigkeiten
+            nach oben, der Exponentialfaktor drückt sie bei großen
+            nach unten. Dazwischen liegt ein Maximum bei der
+            wahrscheinlichsten Geschwindigkeit. Drei Kenngrößen unterscheiden
+            sich nur durch einen Zahlenfaktor:</p>
+          $$ v_\mathrm{w} = \sqrt{\frac{2 k_\mathrm{B} T}{m}}, \qquad
+             \langle v \rangle = \sqrt{\frac{8 k_\mathrm{B} T}{\pi m}}, \qquad
+             v_\mathrm{rms} = \sqrt{\frac{3 k_\mathrm{B} T}{m}} . $$
+          <p>Ihre Verhältnisse sind $1 : 1{,}13 : 1{,}22$. Bei höherer Temperatur
+            wird die Kurve flacher und das Maximum wandert nach rechts. Die Fläche
+            unter der Kurve bleibt eins, weil jedes Teilchen irgendeine
+            Geschwindigkeit hat.</p>
+
+          <figure class="abbildung">
+            <svg class="abb" viewBox="0 0 360 225" role="img" aria-label="Maxwell-Boltzmann-Geschwindigkeitsverteilung für Stickstoff bei 300 K und 1000 K, mit wahrscheinlichster und mittlerer quadratischer Geschwindigkeit bei 300 K">
+<defs><marker id="pfeil-abb5-text" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto"><path class="punkt" d="M0 0L10 5L0 10z"/></marker><marker id="pfeil-abb5-blau" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto"><path class="punkt blau" d="M0 0L10 5L0 10z"/></marker><marker id="pfeil-abb5-kupfer" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto"><path class="punkt kupfer" d="M0 0L10 5L0 10z"/></marker></defs>
+<path class="achse" d="M50 190H348" marker-end="url(#pfeil-abb5-text)"/>
+<path class="achse" d="M50 190V12" marker-end="url(#pfeil-abb5-text)"/>
+<text x="58" y="20">f(v)</text>
+<path class="achse" d="M50 190v4"/><text class="klein" x="50" y="204" text-anchor="middle">0</text>
+<path class="achse" d="M117.5 190v4"/><text class="klein" x="117.5" y="204" text-anchor="middle">500</text>
+<path class="achse" d="M185 190v4"/><text class="klein" x="185" y="204" text-anchor="middle">1000</text>
+<path class="achse" d="M252.5 190v4"/><text class="klein" x="252.5" y="204" text-anchor="middle">1500</text>
+<path class="achse" d="M320 190v4"/><text class="klein" x="320" y="204" text-anchor="middle">2000</text>
+<text class="klein" x="346" y="219" text-anchor="end">v in m/s</text>
+<path class="kurve blau" d="M50 190 L53.4 188.5 L56.8 184 L60.1 176.7 L63.5 166.9 L66.9 155 L70.2 141.6 L73.6 127 L77 112 L80.4 97 L83.8 82.5 L87.1 69.2 L90.5 57.4 L93.9 47.4 L97.2 39.6 L100.6 34.1 L104 30.9 L107.4 30 L110.8 31.4 L114.1 34.8 L117.5 40 L120.9 46.8 L124.2 54.9 L127.6 63.9 L131 73.5 L134.4 83.6 L137.8 93.8 L141.1 103.9 L144.5 113.6 L147.9 122.9 L151.2 131.6 L154.6 139.7 L158 147 L161.4 153.6 L164.8 159.5 L168.1 164.6 L171.5 169.1 L174.9 172.9 L178.2 176.1 L181.6 178.8 L185 181.1 L188.4 183 L191.8 184.5 L195.1 185.7 L198.5 186.7 L201.9 187.5 L205.2 188.1 L208.6 188.6 L212 188.9 L215.4 189.2 L218.8 189.4 L222.1 189.6 L225.5 189.7 L228.9 189.8 L232.2 189.8 L235.6 189.9 L239 189.9 L242.4 189.9 L245.8 190 L249.1 190 L252.5 190 L255.9 190 L259.2 190 L262.6 190 L266 190 L269.4 190 L272.8 190 L276.1 190 L279.5 190 L282.9 190 L286.2 190 L289.6 190 L293 190 L296.4 190 L299.8 190 L303.1 190 L306.5 190 L309.9 190 L313.2 190 L316.6 190 L320 190"/>
+<path class="kurve kupfer" d="M50 190 L53.4 189.7 L56.8 189 L60.1 187.8 L63.5 186.1 L66.9 183.9 L70.2 181.3 L73.6 178.3 L77 175 L80.4 171.3 L83.8 167.4 L87.1 163.3 L90.5 159 L93.9 154.5 L97.2 150 L100.6 145.5 L104 141 L107.4 136.5 L110.8 132.2 L114.1 128.1 L117.5 124.2 L120.9 120.5 L124.2 117.1 L127.6 114 L131 111.2 L134.4 108.8 L137.8 106.8 L141.1 105.1 L144.5 103.9 L147.9 103 L151.2 102.5 L154.6 102.4 L158 102.6 L161.4 103.2 L164.8 104.2 L168.1 105.4 L171.5 106.9 L174.9 108.8 L178.2 110.8 L181.6 113.1 L185 115.6 L188.4 118.2 L191.8 120.9 L195.1 123.8 L198.5 126.8 L201.9 129.8 L205.2 132.8 L208.6 135.9 L212 138.9 L215.4 141.9 L218.8 144.9 L222.1 147.8 L225.5 150.7 L228.9 153.4 L232.2 156.1 L235.6 158.6 L239 161 L242.4 163.4 L245.8 165.6 L249.1 167.6 L252.5 169.6 L255.9 171.4 L259.2 173.2 L262.6 174.8 L266 176.2 L269.4 177.6 L272.8 178.9 L276.1 180 L279.5 181.1 L282.9 182.1 L286.2 182.9 L289.6 183.7 L293 184.5 L296.4 185.1 L299.8 185.7 L303.1 186.2 L306.5 186.7 L309.9 187.1 L313.2 187.5 L316.6 187.8 L320 188.1"/>
+<path class="hilfslinie" d="M107 190V30"/>
+<path class="hilfslinie" d="M119.8 190V44.4"/>
+<text class="klein halo" x="104" y="182" text-anchor="end">v<tspan dy="3" style="font-size:10px">w</tspan></text>
+<text class="klein halo" x="122.8" y="182">v<tspan dy="3" style="font-size:10px">rms</tspan></text>
+<text class="blau" x="172" y="70">300 K</text>
+<text class="kupfer" x="270" y="142">1000 K</text>
+</svg>
+            <figcaption>Abb. 5: Maxwell-Boltzmann-Verteilung für Stickstoff bei
+              $300\,\mathrm{K}$ (blau) und $1000\,\mathrm{K}$ (orange). Markiert
+              sind $v_\mathrm{w} = 422\,\mathrm{m/s}$ und
+              $v_\mathrm{rms} = 517\,\mathrm{m/s}$ bei $300\,\mathrm{K}$. Das
+              Maximum der heißen Kurve ist niedriger, weil die Fläche unter
+              beiden Kurven gleich groß ist.</figcaption>
+          </figure>
+
+          <div class="merkkasten">
+            <span class="titel">Merke</span>
+            <p>Das ideale Gas gehorcht $pV = nRT = N k_\mathrm{B} T$. Mikroskopisch
+              folgt das aus elastischen Stößen punktförmiger Teilchen:
+              $pV = \frac23 N \langle E_\text{kin} \rangle$ und
+              $\langle E_\text{kin} \rangle = \frac32 k_\mathrm{B} T$. Die innere
+              Energie $U = \frac32 nRT$ (einatomig) hängt nur von der Temperatur
+              ab. Die Geschwindigkeiten sind nach Maxwell-Boltzmann verteilt,
+              typisch $v_\mathrm{rms} = \sqrt{3RT/M}$.</p>
+          </div>
+        </section>
+
+        <section class="tab" id="beispiele" data-titel="Beispielrechnungen">
+
+          <div class="beispiel">
+            <h3>Beispiel 1: Reifendruck im Winter</h3>
+            <p><strong>Gegeben:</strong> Ein Autoreifen hat bei
+              $20\,{}^\circ\mathrm{C}$ einen Überdruck von $2{,}2\,\mathrm{bar}$
+              (Außendruck $1{,}013\,\mathrm{bar}$). Über Nacht kühlt er auf
+              $-10\,{}^\circ\mathrm{C}$ ab. Das Volumen und die Luftmenge im Reifen
+              sollen sich nicht ändern.<br>
+              <strong>Gesucht:</strong> der Überdruck bei $-10\,{}^\circ\mathrm{C}$.</p>
+
+            <p><strong>1. Absolute Größen.</strong> Die Gasgleichung braucht den
+              absoluten Druck und die absolute Temperatur:
+              $$ p_1 = 2{,}2\,\mathrm{bar} + 1{,}013\,\mathrm{bar} = 3{,}213\,\mathrm{bar}, \quad
+                 T_1 = 293{,}15\,\mathrm{K}, \quad T_2 = 263{,}15\,\mathrm{K} $$</p>
+
+            <p><strong>2. Gesetz von Gay-Lussac.</strong> Bei festem $V$ und $n$
+              ist $p/T$ konstant:
+              $$ p_2 = p_1\,\frac{T_2}{T_1} = 3{,}213\,\mathrm{bar} \cdot \frac{263{,}15\,\mathrm{K}}{293{,}15\,\mathrm{K}} = 2{,}884\,\mathrm{bar} $$
+              Einheitencheck: $\mathrm{bar} \cdot \mathrm{K}/\mathrm{K} = \mathrm{bar}$ ✓</p>
+
+            <p><strong>3. Überdruck.</strong>
+              $$ 2{,}884\,\mathrm{bar} - 1{,}013\,\mathrm{bar} = 1{,}87\,\mathrm{bar} $$</p>
+
+            <p><strong>Ergebnis und Plausibilität:</strong> Der Überdruck sinkt um
+              $0{,}33\,\mathrm{bar}$ auf $1{,}87\,\mathrm{bar}$, bei $30\,\mathrm{K}$
+              Temperaturunterschied also um $0{,}011\,\mathrm{bar}$ pro Kelvin.
+              Das passt zur Faustregel von etwa $0{,}1\,\mathrm{bar}$ je
+              $10\,\mathrm{K}$. Hätte man mit dem Überdruck statt mit dem
+              absoluten Druck gerechnet, wäre das Ergebnis falsch
+              ($1{,}97\,\mathrm{bar}$).</p>
+          </div>
+
+          <div class="beispiel">
+            <h3>Beispiel 2: Wie viele Teilchen sind im Zimmer?</h3>
+            <p><strong>Gegeben:</strong> Ein Zimmer mit
+              $4{,}0\,\mathrm{m} \times 5{,}0\,\mathrm{m} \times 2{,}5\,\mathrm{m}$ ist
+              mit Luft bei $20\,{}^\circ\mathrm{C}$ und $1013\,\mathrm{hPa}$ gefüllt.
+              Die Molmasse der Luft ist $M = 29{,}0\,\mathrm{g/mol}$.<br>
+              <strong>Gesucht:</strong> Stoffmenge, Teilchenzahl und Masse der Luft.</p>
+
+            <p><strong>1. Volumen und Einheiten.</strong>
+              $$ V = 4{,}0 \cdot 5{,}0 \cdot 2{,}5\,\mathrm{m^3} = 50\,\mathrm{m^3}, \quad
+                 p = 1{,}013 \cdot 10^5\,\mathrm{Pa}, \quad T = 293{,}15\,\mathrm{K} $$</p>
+
+            <p><strong>2. Stoffmenge.</strong>
+              $$ n = \frac{pV}{RT} = \frac{1{,}013 \cdot 10^5\,\mathrm{Pa} \cdot 50\,\mathrm{m^3}}{8{,}3145\,\mathrm{J/(mol\,K)} \cdot 293{,}15\,\mathrm{K}} = 2{,}08 \cdot 10^3\,\mathrm{mol} $$
+              Einheitencheck: $\mathrm{Pa \cdot m^3} = \mathrm{N\,m} = \mathrm{J}$, also
+              $\mathrm{J}/(\mathrm{J/mol}) = \mathrm{mol}$ ✓</p>
+
+            <p><strong>3. Teilchenzahl.</strong>
+              $$ N = n\,N_\mathrm{A} = 2{,}08 \cdot 10^3\,\mathrm{mol} \cdot 6{,}022 \cdot 10^{23}\,\mathrm{mol^{-1}} = 1{,}25 \cdot 10^{27} $$</p>
+
+            <p><strong>4. Masse.</strong>
+              $$ m = n\,M = 2{,}08 \cdot 10^3\,\mathrm{mol} \cdot 0{,}0290\,\mathrm{kg/mol} = 60\,\mathrm{kg} $$</p>
+
+            <p><strong>Ergebnis und Plausibilität:</strong> Im Zimmer sind
+              $2{,}1\,\mathrm{kmol}$ Luft mit $1{,}25 \cdot 10^{27}$ Teilchen, die
+              zusammen $60\,\mathrm{kg}$ wiegen. Das entspricht einer Dichte
+              von $60{,}3\,\mathrm{kg}/50\,\mathrm{m^3} = 1{,}2\,\mathrm{kg/m^3}$, dem bekannten
+              Wert für Luft. Die Teilchendichte ist
+              $2{,}5 \cdot 10^{25}\,\mathrm{m^{-3}}$, wie im Verstehen-Teil
+              für den Kubikzentimeter genannt ($2{,}5 \cdot 10^{19}\,\mathrm{cm^{-3}}$).</p>
+          </div>
+
+          <div class="beispiel">
+            <h3>Beispiel 3: Teilchengeschwindigkeit von Stickstoff und Helium</h3>
+            <p><strong>Gegeben:</strong> Stickstoff $\mathrm{N_2}$
+              ($M = 28{,}01\,\mathrm{g/mol}$) und Helium
+              ($M = 4{,}003\,\mathrm{g/mol}$) bei $20\,{}^\circ\mathrm{C}$.<br>
+              <strong>Gesucht:</strong> $v_\mathrm{rms}$ beider Gase und die mittlere
+              kinetische Energie pro Teilchen.</p>
+
+            <p><strong>1. Stickstoff.</strong> Mit $T = 293{,}15\,\mathrm{K}$ und
+              $M = 0{,}02801\,\mathrm{kg/mol}$:
+              $$ v_\mathrm{rms} = \sqrt{\frac{3RT}{M}} = \sqrt{\frac{3 \cdot 8{,}3145\,\mathrm{J/(mol\,K)} \cdot 293{,}15\,\mathrm{K}}{0{,}02801\,\mathrm{kg/mol}}} = \sqrt{2{,}61 \cdot 10^5\,\mathrm{m^2/s^2}} = 511\,\mathrm{m/s} $$
+              Einheitencheck: $\mathrm{J/kg} = \mathrm{m^2/s^2}$ ✓</p>
+
+            <p><strong>2. Helium.</strong> Nur die Molmasse ändert sich
+              ($M = 0{,}004003\,\mathrm{kg/mol}$):
+              $$ v_\mathrm{rms} = \sqrt{\frac{3 \cdot 8{,}3145 \cdot 293{,}15}{0{,}004003}}\,\mathrm{m/s} = 1352\,\mathrm{m/s} $$
+              Das Verhältnis ist $\sqrt{28{,}01/4{,}003} = 2{,}65$.</p>
+
+            <p><strong>3. Mittlere Energie pro Teilchen.</strong> Sie ist für
+              beide Gase gleich:
+              $$ \left\langle E_\text{kin} \right\rangle = \tfrac32 k_\mathrm{B} T = 1{,}5 \cdot 1{,}381 \cdot 10^{-23}\,\mathrm{J/K} \cdot 293{,}15\,\mathrm{K} = 6{,}07 \cdot 10^{-21}\,\mathrm{J} $$
+              Das sind $0{,}038\,\mathrm{eV}$.</p>
+
+            <p><strong>Ergebnis und Plausibilität:</strong> Stickstoff-Moleküle
+              fliegen mit etwa $511\,\mathrm{m/s}$, Helium-Atome mit etwa
+              $1350\,\mathrm{m/s}$. Die Größenordnung passt zur Schallgeschwindigkeit
+              der Luft ($343\,\mathrm{m/s}$): Schall wird von den Teilchen
+              weitergegeben und bleibt unter ihrer typischen Geschwindigkeit (sie beträgt etwa zwei Drittel von $v_\mathrm{rms}$).
+              Helium ist schneller, weil bei gleicher Energie das leichtere Teilchen
+              mehr Tempo hat, und zwar im Verhältnis der Wurzeln der Massen.</p>
+          </div>
+        </section>
+
+        <section class="tab" id="aufgaben" data-titel="Aufgaben">
+
+          <p>Wenn nichts anderes steht, gilt: Das Gas verhält sich ideal, die
+            Temperatur beträgt $20\,{}^\circ\mathrm{C}$ ($293{,}15\,\mathrm{K}$),
+            und $R = 8{,}3145\,\mathrm{J/(mol\,K)}$.</p>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 1
+              <span class="schwierigkeit" data-stufe="leicht">leicht</span>
+            </h3>
+            <p>Eine Fahrradpumpe enthält $0{,}60\,\mathrm{l}$ Luft bei
+              $1{,}0\,\mathrm{bar}$. Du hältst die Öffnung zu und schiebst den
+              Kolben langsam auf $0{,}15\,\mathrm{l}$ zusammen, sodass die
+              Temperatur konstant bleibt.</p>
+            <ol type="a">
+              <li>Wie groß ist der Druck danach?</li>
+              <li>Der Kolben hat die Querschnittsfläche $4{,}0\,\mathrm{cm^2}$. Mit welcher
+                Kraft musst du am Ende drücken? (Außen wirkt Luft mit
+                $1{,}0\,\mathrm{bar}$.)</li>
+            </ol>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p><strong>a)</strong> Boyle-Mariotte: $p_1V_1 = p_2V_2$, also
+                $$ p_2 = p_1 \frac{V_1}{V_2} = 1{,}0\,\mathrm{bar} \cdot \frac{0{,}60\,\mathrm{l}}{0{,}15\,\mathrm{l}} = 4{,}0\,\mathrm{bar} . $$</p>
+              <p><strong>b)</strong> Nur der Überdruck gegenüber außen zählt:
+                $\Delta p = 4{,}0\,\mathrm{bar} - 1{,}0\,\mathrm{bar} = 3{,}0 \cdot 10^5\,\mathrm{Pa}$.
+                $$ F = \Delta p \cdot A = 3{,}0 \cdot 10^5\,\mathrm{Pa} \cdot 4{,}0 \cdot 10^{-4}\,\mathrm{m^2} = 120\,\mathrm{N} . $$
+                Das entspricht der Gewichtskraft von etwa $12\,\mathrm{kg}$.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 2
+              <span class="schwierigkeit" data-stufe="leicht">leicht</span>
+            </h3>
+            <p>Ein Luftballon wird mit Helium ($M = 4{,}00\,\mathrm{g/mol}$) gefüllt:
+              Volumen $5{,}0\,\mathrm{l}$, Druck $1{,}0\,\mathrm{bar}$.
+              Berechne die Stoffmenge, die Teilchenzahl und die Masse des Heliums.</p>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>Umrechnen: $V = 5{,}0 \cdot 10^{-3}\,\mathrm{m^3}$,
+                $p = 1{,}0 \cdot 10^5\,\mathrm{Pa}$.</p>
+              $$ n = \frac{pV}{RT} = \frac{1{,}0 \cdot 10^5\,\mathrm{Pa} \cdot 5{,}0 \cdot 10^{-3}\,\mathrm{m^3}}{8{,}3145\,\mathrm{J/(mol\,K)} \cdot 293{,}15\,\mathrm{K}} = 0{,}205\,\mathrm{mol} $$
+              $$ N = n N_\mathrm{A} = 0{,}205\,\mathrm{mol} \cdot 6{,}022 \cdot 10^{23}\,\mathrm{mol^{-1}} = 1{,}24 \cdot 10^{23} $$
+              $$ m = n M = 0{,}205\,\mathrm{mol} \cdot 4{,}00\,\mathrm{g/mol} = 0{,}82\,\mathrm{g} $$
+              <p>Die Gasportion wiegt weniger als ein Gramm. Zur Kontrolle: Bei
+                $1{,}0\,\mathrm{bar}$ und $20\,{}^\circ\mathrm{C}$ ist das Molvolumen
+                $V_\mathrm{m} = RT/p = 24{,}4\,\mathrm{l/mol}$, und
+                $5{,}0\,\mathrm{l} / 24{,}4\,\mathrm{l/mol} = 0{,}205\,\mathrm{mol}$ ✓.</p>
+              </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 3
+              <span class="schwierigkeit" data-stufe="mittel">mittel</span>
+            </h3>
+            <p>Eine Druckluftflasche mit $12\,\mathrm{l}$ Inhalt steht unter
+              $200\,\mathrm{bar}$ (Temperatur $20\,{}^\circ\mathrm{C}$). Luft besteht
+              zu einem Molenbruch von $0{,}21$ aus Sauerstoff und von $0{,}79$ aus
+              Stickstoff. Behandle die Luft als ideales Gas.</p>
+            <ol type="a">
+              <li>Wie groß ist die Stoffmenge der Luft in der Flasche?</li>
+              <li>Wie groß sind die Partialdrücke von Sauerstoff und Stickstoff?</li>
+              <li>Welches Volumen nähme die Luft bei $1{,}0\,\mathrm{bar}$ und
+                $20\,{}^\circ\mathrm{C}$ ein?</li>
+            </ol>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p><strong>a)</strong>
+                $$ n = \frac{pV}{RT} = \frac{200 \cdot 10^5\,\mathrm{Pa} \cdot 12 \cdot 10^{-3}\,\mathrm{m^3}}{8{,}3145\,\mathrm{J/(mol\,K)} \cdot 293{,}15\,\mathrm{K}} = 98{,}5\,\mathrm{mol} . $$</p>
+              <p><strong>b)</strong> Partialdruck gleich Molenbruch mal Gesamtdruck:
+                $$ p_{\mathrm{O_2}} = 0{,}21 \cdot 200\,\mathrm{bar} = 42\,\mathrm{bar}, \qquad
+                   p_{\mathrm{N_2}} = 0{,}79 \cdot 200\,\mathrm{bar} = 158\,\mathrm{bar} . $$
+                Die Summe ergibt wieder $200\,\mathrm{bar}$.</p>
+              <p><strong>c)</strong> Bei konstanter Temperatur gilt Boyle-Mariotte:
+                $$ V_2 = V_1 \frac{p_1}{p_2} = 12\,\mathrm{l} \cdot \frac{200\,\mathrm{bar}}{1{,}0\,\mathrm{bar}} = 2400\,\mathrm{l} = 2{,}4\,\mathrm{m^3} . $$
+                Reale Luft weicht bei $200\,\mathrm{bar}$ um einige Prozent vom
+                idealen Verhalten ab, die Zahlen gelten also nur näherungsweise.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 4
+              <span class="schwierigkeit" data-stufe="mittel">mittel</span>
+            </h3>
+            <p>Ein Heißluftballon hat eine unten offene Hülle mit
+              $2800\,\mathrm{m^3}$ Volumen. Die Außenluft hat $15\,{}^\circ\mathrm{C}$,
+              die Luft in der Hülle $100\,{}^\circ\mathrm{C}$, der Druck beträgt
+              innen wie außen $1013{,}25\,\mathrm{hPa}$. Die Molmasse der Luft ist
+              $29{,}0\,\mathrm{g/mol}$.</p>
+            <ol type="a">
+              <li>Berechne die Dichte der Luft außen und innen.</li>
+              <li>Welche Masse (Hülle, Korb, Brenner, Passagiere) kann der Ballon
+                gerade noch tragen?</li>
+            </ol>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p><strong>a)</strong> Aus $pV = nRT$ mit $n = m/M$ folgt
+                $\rho = m/V = pM/(RT)$.
+                $$ \rho_\text{außen} = \frac{101\,325\,\mathrm{Pa} \cdot 0{,}0290\,\mathrm{kg/mol}}{8{,}3145\,\mathrm{J/(mol\,K)} \cdot 288{,}15\,\mathrm{K}} = 1{,}226\,\mathrm{kg/m^3} $$
+                $$ \rho_\text{innen} = \frac{101\,325 \cdot 0{,}0290}{8{,}3145 \cdot 373{,}15}\,\mathrm{kg/m^3} = 0{,}947\,\mathrm{kg/m^3} $$
+                Einheitencheck: $\mathrm{Pa \cdot kg/mol} / (\mathrm{J/mol}) = \mathrm{kg\,Pa/J} = \mathrm{kg/m^3}$ ✓</p>
+              <p><strong>b)</strong> Der Auftrieb entspricht dem Gewicht der verdrängten
+                Außenluft. Davon geht das Gewicht der heißen Luft in der Hülle ab:
+                $$ m_\text{Last} = V\,(\rho_\text{außen} - \rho_\text{innen}) = 2800\,\mathrm{m^3} \cdot (1{,}226 - 0{,}947)\,\mathrm{kg/m^3} = 7{,}8 \cdot 10^2\,\mathrm{kg} . $$
+                Der Ballon trägt also rund $780\,\mathrm{kg}$ einschließlich seiner
+                eigenen Ausrüstung. Das ist die richtige Größenordnung für einen
+                Ballon mit wenigen Passagieren.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 5
+              <span class="schwierigkeit" data-stufe="schwer">schwer</span>
+            </h3>
+            <p>Zwei Behälter sind durch einen geschlossenen Hahn verbunden und
+              von der Umgebung thermisch isoliert. Behälter 1 enthält ein
+              einatomiges ideales Gas bei $V_1 = 2{,}0\,\mathrm{l}$,
+              $p_1 = 3{,}0\,\mathrm{bar}$, $T_1 = 300\,\mathrm{K}$. Behälter 2
+              enthält dasselbe Gas bei $V_2 = 6{,}0\,\mathrm{l}$,
+              $p_2 = 1{,}0\,\mathrm{bar}$, $T_2 = 400\,\mathrm{K}$. Der Hahn wird
+              geöffnet.</p>
+            <ol type="a">
+              <li>Berechne die Stoffmengen $n_1$ und $n_2$.</li>
+              <li>Welche Temperatur stellt sich ein? (Es wird keine Energie nach
+                außen abgegeben, und es wird keine Arbeit verrichtet. Verwende
+                $U = \frac32 nRT$.)</li>
+              <li>Welcher Enddruck herrscht im Gesamtvolumen?</li>
+            </ol>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p><strong>a)</strong>
+                $$ n_1 = \frac{p_1V_1}{RT_1} = \frac{3{,}0 \cdot 10^5\,\mathrm{Pa} \cdot 2{,}0 \cdot 10^{-3}\,\mathrm{m^3}}{8{,}3145\,\mathrm{J/(mol\,K)} \cdot 300\,\mathrm{K}} = 0{,}2405\,\mathrm{mol} $$
+                $$ n_2 = \frac{1{,}0 \cdot 10^5\,\mathrm{Pa} \cdot 6{,}0 \cdot 10^{-3}\,\mathrm{m^3}}{8{,}3145\,\mathrm{J/(mol\,K)} \cdot 400\,\mathrm{K}} = 0{,}1804\,\mathrm{mol} $$</p>
+              <p><strong>b)</strong> Die innere Energie bleibt erhalten, die Summe
+                der Stoffmengen auch:
+                $$ \tfrac32 n_1RT_1 + \tfrac32 n_2RT_2 = \tfrac32 (n_1 + n_2)RT
+                   \quad\Rightarrow\quad T = \frac{n_1T_1 + n_2T_2}{n_1 + n_2} . $$
+                $$ T = \frac{0{,}2405 \cdot 300 + 0{,}1804 \cdot 400}{0{,}2405 + 0{,}1804}\,\mathrm{K} = \frac{72{,}16 + 72{,}16}{0{,}4209}\,\mathrm{K} = 343\,\mathrm{K} . $$
+                Die Endtemperatur ist der mit den Stoffmengen gewichtete
+                Mittelwert, und sie liegt zwischen $300\,\mathrm{K}$ und
+                $400\,\mathrm{K}$ ✓.</p>
+              <p><strong>c)</strong>
+                $$ p = \frac{(n_1 + n_2)RT}{V_1 + V_2} = \frac{0{,}4209\,\mathrm{mol} \cdot 8{,}3145\,\mathrm{J/(mol\,K)} \cdot 342{,}9\,\mathrm{K}}{8{,}0 \cdot 10^{-3}\,\mathrm{m^3}} = 1{,}5 \cdot 10^5\,\mathrm{Pa} . $$</p>
+              <p><strong>Zum Nachdenken:</strong> Die Anfangswerte $p_1V_1 = 600\,\mathrm{J}$
+                und $p_2V_2 = 600\,\mathrm{J}$ sind gleich groß, daher sind auch
+                $n_1T_1$ und $n_2T_2$ gleich. Allgemein gilt für das einatomige Gas
+                $pV = \frac23 U$. Weil $U$ erhalten bleibt, ist
+                $p(V_1 + V_2) = p_1V_1 + p_2V_2$, also hier
+                $p = 1200\,\mathrm{J}/8{,}0\,\mathrm{l} = 1{,}5\,\mathrm{bar}$, ganz ohne Temperatur.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 6
+              <span class="schwierigkeit" data-stufe="schwer">schwer</span>
+            </h3>
+            <p>Ein Planet behält ein Gas über Milliarden Jahre nur, wenn die
+              Fluchtgeschwindigkeit deutlich größer ist als die typische
+              Teilchengeschwindigkeit. Als Faustregel gilt, dass das Gas
+              entweicht, sobald $v_\mathrm{rms}$ mehr als ein Sechstel von
+              $v_\mathrm{esc}$ erreicht. Für die Erde ist
+              $v_\mathrm{esc} = 11{,}2\,\mathrm{km/s}$.</p>
+            <ol type="a">
+              <li>Bei welcher Temperatur ist $v_\mathrm{rms}$ für Wasserstoff
+                $\mathrm{H_2}$ ($M = 2{,}016\,\mathrm{g/mol}$) gleich $v_\mathrm{esc}/6$?</li>
+              <li>Dieselbe Rechnung für Stickstoff $\mathrm{N_2}$
+                ($M = 28{,}01\,\mathrm{g/mol}$).</li>
+              <li>Was sagt das über die Erdatmosphäre aus?</li>
+            </ol>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>Gesucht ist $T$ aus $v_\mathrm{rms} = \sqrt{3RT/M}$, also
+                $T = M\,v_\mathrm{rms}^2/(3R)$ mit
+                $v_\mathrm{rms} = 11\,200/6\,\mathrm{m/s} = 1867\,\mathrm{m/s}$.</p>
+              <p><strong>a)</strong>
+                $$ T_{\mathrm{H_2}} = \frac{0{,}002016\,\mathrm{kg/mol} \cdot (1867\,\mathrm{m/s})^2}{3 \cdot 8{,}3145\,\mathrm{J/(mol\,K)}} = 282\,\mathrm{K} . $$</p>
+              <p><strong>b)</strong>
+                $$ T_{\mathrm{N_2}} = \frac{0{,}02801\,\mathrm{kg/mol} \cdot (1867\,\mathrm{m/s})^2}{3 \cdot 8{,}3145\,\mathrm{J/(mol\,K)}} = 3{,}9 \cdot 10^3\,\mathrm{K} . $$
+                Einheitencheck: $\mathrm{kg/mol \cdot m^2/s^2} / (\mathrm{J/(mol\,K)}) = \mathrm{K}$ ✓</p>
+              <p><strong>c)</strong> Schon bei $282\,\mathrm{K}$ ist die Schwelle für
+                Wasserstoff erreicht. Die Erde liegt in dieser Gegend, und in der
+                hohen, heißeren Atmosphäre ist es noch leichter, sodass $\mathrm{H_2}$
+                über lange Zeiträume entweicht. Stickstoff wäre erst bei mehreren
+                tausend Kelvin gefährdet. Deshalb besteht die Luft aus schweren
+                Molekülen, und freier Wasserstoff ist selten. Dass auch ein Teil der
+                Teilchen schneller ist als $v_\mathrm{rms}$, folgt aus der
+                Maxwell-Boltzmann-Verteilung: Die Ausläufer zu hohen
+                Geschwindigkeiten tragen das Entweichen.</p>
+              </details>
+          </div>
+
+        </section>
+
+      </div></article>
+  </main>
+</body>
+</html>

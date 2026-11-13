@@ -1,0 +1,743 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="robots" content="noindex">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Scheinkräfte: Zentrifugal- und Corioliskraft</title>
+  <meta name="description" content="Scheinkräfte in beschleunigten Bezugssystemen: Herleitung von Zentrifugal- und Corioliskraft im rotierenden System, Beispiele von der Wäscheschleuder bis zum Wetter – mit Beispielrechnungen und Aufgaben.">
+
+  <link rel="stylesheet" href="../../css/stil.css">
+
+  <link rel="stylesheet" href="../../extern/katex/katex.min.css">
+  <script defer src="../../extern/katex/katex.min.js"></script>
+  <script defer src="../../extern/katex/contrib/auto-render.min.js" onload="starteFormeln()"></script>
+
+  <script src="../../js/daten.js"></script>
+  <script src="../../js/seite.js"></script>
+  <script src="../../js/effekte.js"></script>
+  <script src="../../js/interaktiv.js"></script>
+  <script src="../../js/modelle/scheinkraefte.js"></script>
+  <script type="application/json" id="symbole">
+  {
+    "F": "Kraft",
+    "m": "Masse",
+    "a": "Beschleunigung",
+    "r": "Ortsvektor",
+    "t": "Zeit",
+    "v": "Geschwindigkeit",
+    "r_B": "Ort des Ursprungs des bewegten Systems",
+    "a_B": "Beschleunigung des bewegten Systems",
+    "A": "beliebiger Vektor",
+    "ω": "Winkelgeschwindigkeit des rotierenden Systems",
+    "F_Z": "Zentrifugalkraft",
+    "r_⊥": "Abstand von der Drehachse",
+    "a_Z": "Zentrifugalbeschleunigung",
+    "F_C": "Corioliskraft",
+    "g": "Fallbeschleunigung",
+    "φ": "geographische Breite (bzw. Neigungswinkel der Kette)",
+    "π": "Kreiszahl π ≈ 3,14159",
+    "T": "Umlaufdauer (Drehdauer)",
+    "R": "Erdradius am Äquator",
+    "R_E": "Erdradius",
+    "h": "Fallhöhe",
+    "a_O": "Ostbeschleunigung",
+    "v_O": "Geschwindigkeit nach Osten",
+    "x_O": "Ablenkung nach Osten",
+    "u": "Laufgeschwindigkeit gegenüber der Station",
+    "z": "Höhe der Wasseroberfläche",
+    "z_0": "Höhe der Wasseroberfläche in der Mitte",
+    "α": "Neigungswinkel der Wasseroberfläche",
+    "T_Sterntag": "Dauer eines Sterntags"
+  }
+  </script>
+</head>
+<body data-thema="scheinkraefte">
+  <main>
+    <article class="thema">
+      <header>
+        <h1>Scheinkräfte: Zentrifugal- und Corioliskraft</h1>
+        <p class="untertitel">Im Karussell zieht es dich nach außen, obwohl
+          niemand zieht – und Tiefdruckwirbel drehen auf der Nordhalbkugel
+          immer linksherum. Beides sind Kräfte, die nur für bewegte
+          Beobachter existieren.</p>
+      </header>
+
+      <div class="tabs">
+
+        <section class="tab" id="verstehen" data-titel="Verstehen">
+
+          <p>Der Bus nimmt die Kurve etwas zu flott, und du kippst zur Seite –
+            es „zieht“ dich nach außen. Aber wer zieht da eigentlich? Schau
+            dich um: Da ist niemand. Keine Hand, kein Seil, kein Magnet. Und
+            trotzdem fühlt sich die Kraft völlig echt an.</p>
+
+          <h2>Kräfte, die keiner ausübt</h2>
+
+          <p>Die Auflösung: Es zieht dich gar nicht nach außen – der Bus biegt
+            unter dir weg. Dein Körper will einfach geradeaus weiter, wie es
+            das <a href="newton-axiome.html">Trägheitsgesetz</a> verlangt. Von
+            außen betrachtet passiert nichts Geheimnisvolles: Der Bus fährt
+            eine Kurve, du zunächst nicht. Nur aus deiner mitfahrenden Sicht
+            sieht es so aus, als würde eine Kraft an dir zerren.</p>
+
+          <p>Solche Kräfte heißen <em>Scheinkräfte</em>. Sie tauchen immer dann
+            auf, wenn der Beobachter selbst beschleunigt wird – beim Anfahren,
+            Bremsen oder in der Kurve. Man erkennt sie daran, dass es niemanden
+            gibt, der sie ausübt: kein Gegenüber, keine Gegenkraft. Sobald man
+            die Szene von außen betrachtet, verschwinden sie.</p>
+
+          <div class="alltag">
+            <span class="titel">Aus dem Alltag</span>
+            <p>Die U-Bahn fährt an, und es drückt dich nach hinten in den Sitz.
+              Sie bremst, und du fällst nach vorn. Sie fährt eine Kurve, und es
+              zieht dich nach außen. Dreimal dieselbe Geschichte: Nicht du
+              wirst gezogen – dein Körper behält seine Bewegung bei, während
+              das Fahrzeug unter dir seine ändert.</p>
+          </div>
+
+          <h2>Die Zentrifugalkraft</h2>
+
+          <p>In allem, was sich dreht, zeigt die Scheinkraft dauerhaft nach
+            außen: die <em>Zentrifugalkraft</em>. Sie schleudert das Wasser aus
+            der Wäsche und presst dich im Kettenkarussell in den Sitz. Die
+            Ketten stellen sich dabei genau so schräg, dass Gewicht und
+            Zentrifugalkraft zusammen in Kettenrichtung ziehen – und zwar für
+            den leeren Sitz genauso weit wie für den besetzten. Probier es
+            aus:</p>
+
+          <figure class="interaktiv" data-modell="kettenkarussell">
+            <span class="titel">Zum Ausprobieren</span>
+            <figcaption>Ein Kettenkarussell von der Seite. Stell die Drehzahl
+              ein und beobachte, wie weit die Ketten nach außen schwingen –
+              der Winkel hängt nur von Drehzahl und Bahnradius ab, nicht vom
+              Gewicht der Mitfahrenden. „Drehen“ lässt das Karussell
+              laufen.</figcaption>
+          </figure>
+
+          <h2>Die Corioliskraft</h2>
+
+          <p>Drehungen können noch mehr: Sie lenken alles ab, was sich
+            <em>auf</em> dem drehenden Untergrund bewegt. Roll auf einem
+            Spielplatzkarussell einen Ball genau auf jemanden zu – der Ball
+            verfehlt ihn. Von außen gesehen rollt er schnurgerade, aber die
+            Scheibe dreht sich währenddessen weiter. Wer mitfährt, sieht den
+            Ball eine Kurve machen, als würde ihn eine unsichtbare Kraft zur
+            Seite drücken: die <em>Corioliskraft</em>.</p>
+
+          <figure class="interaktiv" data-modell="drehscheibe">
+            <span class="titel">Zum Ausprobieren</span>
+            <figcaption>Ein Ball rollt vom Mittelpunkt einer Drehscheibe genau
+              auf den Fänger am Rand zu. Wechsle die Sicht: Von außen rollt der
+              Ball schnurgerade, und der Fänger dreht sich weg. In der
+              mitdrehenden Sicht scheint eine Kraft den Ball zur Seite zu
+              drücken – die Corioliskraft.</figcaption>
+          </figure>
+
+          <p>Die Erde ist so ein Karussell – sie dreht sich einmal am Tag.
+            Strömt Luft auf ein Tiefdruckgebiet zu, wird sie auf der
+            Nordhalbkugel nach rechts abgelenkt und verfehlt das Zentrum
+            knapp. So entsteht der Wirbel, den du auf jedem Satellitenbild
+            siehst: Tiefs drehen bei uns gegen den Uhrzeigersinn, auf der
+            Südhalbkugel andersherum.</p>
+
+          <p>Und der Strudel in der Badewanne? Der ist ein Mythos: Dafür ist
+            die Erddrehung viel zu langsam und die Wanne viel zu klein.
+            Welche Richtung der Strudel nimmt, entscheiden Zufälle wie die
+            Form des Beckens – nicht die Halbkugel. Warum wir von der
+            rasenden Erde überhaupt so wenig merken, erzählt der Artikel
+            <a href="../alltag/erde-rast.html">„Warum spüren wir
+            nicht, dass die Erde rast?“</a>.</p>
+
+          <div class="merkkasten">
+            <span class="titel">Das Wichtigste in Kürze</span>
+            <ul>
+              <li>Scheinkräfte spürt nur, wer selbst beschleunigt wird – beim
+                Anfahren, Bremsen oder Drehen. Von außen betrachtet sind sie
+                verschwunden: Da ist nur Trägheit.</li>
+              <li>Die Zentrifugalkraft zeigt in drehenden Systemen von der
+                Drehachse weg – je schneller die Drehung und je größer der
+                Abstand, desto stärker.</li>
+              <li>Die Corioliskraft lenkt alles ab, was sich auf einem
+                drehenden Untergrund bewegt – auf der Nordhalbkugel nach
+                rechts.</li>
+              <li>Darum drehen Tiefdruckwirbel bei uns linksherum. Für den
+                Badewannenstrudel ist die Erddrehung dagegen viel zu
+                schwach.</li>
+            </ul>
+          </div>
+        </section>
+
+        <section class="tab" id="vertiefung" data-titel="Vertiefung">
+
+          <h2>Inertialsysteme und beschleunigte Bezugssysteme</h2>
+
+          <p>Ein <em>Inertialsystem</em> ist ein nicht beschleunigtes
+            Bezugssystem – nur dort gelten die
+            <a href="newton-axiome.html">Newtonschen Axiome</a> in ihrer
+            gewohnten Form $\vec F = m\vec a$. In einem beschleunigten
+            Bezugssystem treten dagegen Zusatzterme auf, die sich wie Kräfte
+            verhalten, aber keinen Verursacher haben:
+            <em>Scheinkräfte</em> (auch <em>Trägheitskräfte</em>).</p>
+
+          <p>Das einfachste Beispiel ist ein linear beschleunigtes System,
+            etwa ein anfahrender Zug mit Beschleunigung $\vec a_\text{B}$.
+            Für Ortsvektoren gilt $\vec r = \vec r' + \vec r_\text{B}$,
+            zweimal ableiten und mit $m$ multiplizieren:</p>
+
+          $$ m\,\vec a' = \vec F - m\,\vec a_\text{B} . $$
+
+          <p>Im Zug wirkt auf jeden Körper scheinbar die Zusatzkraft
+            $-m\,\vec a_\text{B}$ entgegen der Anfahrrichtung – deshalb kippst
+            du nach hinten, obwohl dich niemand schiebt. Scheinkräfte sind
+            stets proportional zur Masse (sie stammen ja aus dem Term
+            $m\vec a$), und zu ihnen gibt es keine Gegenkraft im Sinne des
+            dritten Axioms.</p>
+
+          <h2>Das rotierende Bezugssystem</h2>
+
+          <p>Interessanter ist ein Bezugssystem, das mit konstanter
+            Winkelgeschwindigkeit $\vec\omega$ gegenüber dem Laborsystem
+            rotiert (Ursprung auf der Drehachse) – etwa eine Drehscheibe oder
+            die Erde. Der Schlüssel ist die Frage, wie sich Zeitableitungen
+            zwischen beiden Systemen übersetzen. Ein im rotierenden System
+            fester Vektor $\vec A$ wird vom Labor aus auf einem Kegel um
+            die Achse geführt; seine Spitze bewegt sich mit
+            $\vec\omega \times \vec A$ (vgl. die Kreisbewegung bei der
+            <a href="drehbewegung.html">Drehbewegung</a>). Für einen
+            beliebigen Vektor gilt daher</p>
+
+          $$ \left(\frac{\mathrm{d}\vec A}{\mathrm{d}t}\right)_{\text{Labor}} = \left(\frac{\mathrm{d}\vec A}{\mathrm{d}t}\right)_{\text{rot}} + \vec\omega \times \vec A . $$
+
+          <p>Angewendet auf den Ortsvektor $\vec r$ (der in beiden Systemen
+            derselbe ist) verknüpft das die Geschwindigkeiten – $\vec v$ im
+            Labor, $\vec v'$ im rotierenden System:</p>
+
+          $$ \vec v = \vec v' + \vec\omega \times \vec r . $$
+
+          <p>Nochmaliges Ableiten im Laborsystem (mit derselben Regel, und
+            $\vec\omega = \text{const}$) liefert</p>
+
+          $$ \vec a = \frac{\mathrm{d}\vec v}{\mathrm{d}t} = \underbrace{\vec a' + \vec\omega \times \vec v'}_{\text{aus } \vec v'} + \underbrace{\vec\omega \times \vec v}_{\text{aus } \vec\omega \times \vec r} = \vec a' + 2\,\vec\omega \times \vec v' + \vec\omega \times (\vec\omega \times \vec r) . $$
+
+          <p>Der Faktor 2 entsteht, weil der Term $\vec\omega \times \vec v'$
+            zweimal auftaucht: einmal aus der Ableitung von $\vec v'$,
+            einmal aus $\vec\omega \times \vec r$ mit
+            $\vec v = \vec v' + \vec\omega\times\vec r$. Löst man nach
+            $\vec a'$ auf und multipliziert mit $m$ (im Labor gilt
+            $m\vec a = \vec F$), steht die Bewegungsgleichung des rotierenden
+            Beobachters da:</p>
+
+          <div class="merkkasten">
+            <span class="titel">Bewegungsgleichung im rotierenden System</span>
+            $$ m\,\vec a' = \vec F \;+\; \underbrace{2m\,\vec v' \times \vec\omega}_{\text{Corioliskraft}} \;+\; \underbrace{m\,\vec\omega \times (\vec r \times \vec\omega)}_{\text{Zentrifugalkraft}} $$
+            <p>Zu den echten Kräften $\vec F$ kommen zwei Scheinkräfte, die es
+              nur im rotierenden Bezugssystem gibt ($\vec\omega$ konstant
+              vorausgesetzt).</p>
+          </div>
+
+          <h3 id="zentrifugalkraft">Die Zentrifugalkraft</h3>
+
+          <p>Der Term $\vec F_\text{Z} = m\,\vec\omega \times (\vec r \times
+            \vec\omega)$ steht senkrecht auf der Drehachse und zeigt von ihr
+            weg. Mit dem Abstand $r_\perp$ von der Achse ist sein Betrag</p>
+
+          $$ F_\text{Z} = m\,\omega^2 r_\perp . $$
+
+          <p>Er wirkt auf <em>jeden</em> Körper im rotierenden System, auch
+            auf ruhende. Im Vorlesungsexperiment rotiert eine Masse an einem
+            Arm: Für den mitrotierenden Beobachter ruht sie, weil
+            Zentrifugalkraft und Haltekraft sich aufheben. Vom Labor aus gibt
+            es keine Zentrifugalkraft – dort ist die Haltekraft die
+            Zentripetalkraft, die die Masse auf ihrer Kreisbahn hält. Dieselbe
+            Bilanz erklärt das Kettenkarussell aus dem Tab „Verstehen“: Die
+            Kette stellt sich unter dem Winkel $\varphi$ mit
+            $\tan\varphi = \omega^2 r_\perp / g$ schräg, unabhängig von der
+            Masse.</p>
+
+          <p>Auch die Erde ist ein rotierendes Bezugssystem. Die
+            Zentrifugalbeschleunigung $\omega^2 r_\perp$ ist am Äquator mit
+            $0{,}034\,\mathrm{m/s^2}$ am größten (Beispiel 2) und verschwindet
+            an den Polen. Sie verringert die effektive Schwere und kippt sie
+            ein wenig Richtung Äquator (Abb. 1) – das Lot zeigt deshalb außer
+            an Pol und Äquator nicht exakt zum Erdmittelpunkt. Die träge,
+            zähe Antwort der Erde darauf ist ihre Abplattung: Der
+            Äquatorradius ist rund $21\,\mathrm{km}$ größer als der
+            Polradius.</p>
+
+          <figure class="abbildung">
+            <svg class="abb" viewBox="0 0 360 240" role="img"
+                 aria-label="Erdkugel mit Drehachse; an einem Punkt mittlerer Breite die Pfeile Gravitation, Zentrifugalkraft und effektive Schwere">
+              <circle class="flaeche" cx="150" cy="120" r="88"/>
+              <circle class="kurve duenn" cx="150" cy="120" r="88"/>
+              <path class="hilfslinie" d="M150 14V226"/>
+              <path class="hilfslinie" d="M62 120H238"/>
+              <polyline class="kurve kupfer duenn" points="125.6,25.4 124.0,22.0 125.6,18.6 130.1,15.6 137.0,13.3 145.5,12.2 154.5,12.2 163.0,13.3 169.9,15.6 174.4,18.6 176.0,22.0"/>
+              <polygon class="punkt kupfer" points="176.0,22.0 171.8,25.3 174.3,19.2"/>
+              <text class="kupfer" x="186" y="20" font-size="13">ω</text>
+              <path class="hilfslinie" d="M150 57.8H212.2"/>
+              <path class="kurve duenn" d="M150 120L212.2 57.8"/>
+              <text x="166" y="104" font-size="12">φ</text>
+              <circle class="punkt" cx="212.2" cy="57.8" r="3.5"/>
+              <g class="pfeil blau">
+                <line x1="212.2" y1="57.8" x2="181.9" y2="88.1"/>
+                <polygon points="179.7,90.3 186.9,87.6 182.4,83.1"/>
+              </g>
+              <g class="pfeil kupfer">
+                <line x1="212.2" y1="57.8" x2="231.2" y2="57.8"/>
+                <polygon points="238.2,57.8 231.2,54.6 231.2,60.9"/>
+              </g>
+              <g class="pfeil">
+                <line x1="212.2" y1="57.8" x2="206.9" y2="84.1"/>
+                <polygon points="205.7,90.3 210.2,84.1 204.0,82.8"/>
+              </g>
+              <text class="blau" x="176" y="86" font-size="11" text-anchor="end">Gravitation</text>
+              <text class="kupfer" x="243" y="62" font-size="11">Zentrifugalkraft</text>
+              <text x="212" y="104" font-size="11">effektive Schwere</text>
+              <text x="150" y="238" font-size="11" text-anchor="middle">Drehachse</text>
+              <text x="66" y="134" font-size="11">Äquator</text>
+            </svg>
+            <figcaption>Abb. 1: Zentrifugalkraft auf der rotierenden Erde
+              (Pfeillänge stark übertrieben). Sie zeigt von der Drehachse weg;
+              die effektive Schwere ist dadurch etwas kleiner als die reine
+              Gravitation und leicht Richtung Äquator gekippt.</figcaption>
+          </figure>
+
+          <h3 id="corioliskraft">Die Corioliskraft</h3>
+
+          <p>Der zweite Zusatzterm, $\vec F_\text{C} = 2m\,\vec v' \times
+            \vec\omega$, wirkt nur auf Körper, die sich <em>im rotierenden
+            System bewegen</em>. Drei Eigenschaften liest man direkt am
+            Kreuzprodukt ab:</p>
+
+          <ul>
+            <li>Sie steht senkrecht auf $\vec v'$ und auf $\vec\omega$ –
+              bei Drehung gegen den Uhrzeigersinn (von oben gesehen) lenkt
+              sie die Bewegung nach <em>rechts</em> ab.</li>
+            <li>Ihr Betrag ist $F_\text{C} = 2m\,\omega\,v'$ für
+              $\vec v' \perp \vec\omega$; sie wächst mit dem Tempo, hängt
+              aber nicht vom Ort ab.</li>
+            <li>Weil sie senkrecht zur Bewegung steht, verrichtet sie keine
+              Arbeit – sie ändert nur die Richtung, nie den Betrag von
+              $\vec v'$.</li>
+          </ul>
+
+          <p>Im Vorlesungsexperiment sitzt eine Beobachterin auf einem
+            Drehstuhl in der Mitte einer Drehscheibe und rollt einen Ball nach
+            außen. Vom Labor aus läuft er geradeaus; für sie beschreibt er
+            einen Bogen (Abb. 2) – genau das zeigt auch die interaktive
+            Drehscheibe im Tab „Verstehen“.</p>
+
+          <figure class="abbildung">
+            <div class="abb-reihe">
+              <svg class="abb" viewBox="0 0 260 240" role="img"
+                   aria-label="Drehscheibe von außen gesehen: Der Ball rollt gerade vom Mittelpunkt zum Rand, der Fänger am Rand wandert währenddessen eine Vierteldrehung weiter">
+                <circle class="flaeche" cx="130" cy="122" r="92"/>
+                <path class="gitter" d="M130.0 122.0L222.0 122.0M130.0 122.0L195.1 56.9M130.0 122.0L130.0 30.0M130.0 122.0L64.9 56.9M130.0 122.0L38.0 122.0M130.0 122.0L64.9 187.1M130.0 122.0L130.0 214.0M130.0 122.0L195.1 187.1"/>
+                <circle class="kurve duenn" cx="130" cy="122" r="92"/>
+                <polyline class="kurve kupfer duenn" points="208.0,122.0 207.3,111.8 205.3,101.8 202.1,92.2 197.5,83.0 191.9,74.5 185.2,66.8 177.5,60.1 169.0,54.5 159.8,49.9 150.2,46.7 140.2,44.7"/>
+                <polygon class="punkt kupfer" points="130.0,44.0 136.9,47.4 137.1,41.1"/>
+                <circle class="kurve kupfer duenn" cx="222" cy="122" r="5"/>
+                <circle class="punkt kupfer" cx="130" cy="30" r="5"/>
+                <g class="pfeil blau">
+                  <line x1="130" y1="122" x2="211" y2="122"/>
+                  <polygon points="218.0,122.0 211.0,118.8 211.0,125.2"/>
+                </g>
+                <circle class="ball" cx="196" cy="122" r="6"/>
+                <text x="14" y="18" font-size="12">von außen</text>
+                <text class="kupfer" x="142" y="26" font-size="11">Fänger</text>
+              </svg>
+              <svg class="abb" viewBox="0 0 260 240" role="img"
+                   aria-label="Dieselbe Szene aus der mitdrehenden Sicht: Der Ball beschreibt einen nach rechts gekrümmten Bogen und verfehlt den Fänger">
+                <circle class="flaeche" cx="130" cy="122" r="92"/>
+                <path class="gitter" d="M130.0 122.0L222.0 122.0M130.0 122.0L195.1 56.9M130.0 122.0L130.0 30.0M130.0 122.0L64.9 56.9M130.0 122.0L38.0 122.0M130.0 122.0L64.9 187.1M130.0 122.0L130.0 214.0M130.0 122.0L195.1 187.1"/>
+                <circle class="kurve duenn" cx="130" cy="122" r="92"/>
+                <path class="hilfslinie" d="M130 122H222"/>
+                <circle class="punkt kupfer" cx="222" cy="122" r="5"/>
+                <polyline class="kurve blau" points="130.0,122.0 139.1,123.4 147.5,127.7 154.6,134.5 159.8,143.6 162.5,154.5 162.4,166.7 159.2,179.4 152.7,192.0 143.0,203.8 134.0,209.1"/>
+                <polygon class="punkt blau" points="130.0,214.0 137.6,212.7 134.0,207.5"/>
+                <circle class="ball" cx="158" cy="139" r="6"/>
+                <text x="14" y="18" font-size="12">mitdrehend</text>
+                <text class="kupfer" x="214" y="140" font-size="11" text-anchor="end">Fänger</text>
+              </svg>
+            </div>
+            <figcaption>Abb. 2: Ball auf einer Drehscheibe, die sich während
+              des Rollens eine Vierteldrehung gegen den Uhrzeigersinn
+              weiterdreht. Links die Laborsicht: gerade Bahn (blau), der
+              Fänger wandert mit der Scheibe (kupfer). Rechts die mitdrehende
+              Sicht: Der Ball wird scheinbar nach rechts abgelenkt und
+              verfehlt den Fänger.</figcaption>
+          </figure>
+
+          <p>Für Bewegungen auf der Erdoberfläche zählt bei der horizontalen
+            Ablenkung nur die Vertikalkomponente der Winkelgeschwindigkeit,
+            $\omega \sin\varphi$ auf der geographischen Breite $\varphi$: Auf
+            der Nordhalbkugel wird jede horizontale Bewegung nach rechts
+            abgelenkt, auf der Südhalbkugel nach links, am Äquator gar nicht.
+            Die Folgen sind überall sichtbar:</p>
+
+          <ul>
+            <li><strong>Wetter:</strong> Luft, die in ein Tiefdruckgebiet
+              strömt, wird nach rechts abgelenkt und umkreist das Tief gegen
+              den Uhrzeigersinn (Abb. 3). Hochdruckgebiete drehen
+              andersherum.</li>
+            <li><strong>Foucault-Pendel:</strong> Die Schwingungsebene eines
+              frei aufgehängten Pendels dreht sich mit $\omega\sin\varphi$ –
+              Léon Foucaults berühmter Nachweis der Erddrehung von 1851
+              (Aufgabe 6).</li>
+            <li><strong>Ostablenkung:</strong> Ein frei fallender Körper
+              landet ein Stück östlich des Lots, weil er oben mit der
+              größeren Umfangsgeschwindigkeit startet (Beispiel 3).</li>
+          </ul>
+
+          <figure class="abbildung">
+            <svg class="abb" viewBox="0 0 360 244" role="img"
+                 aria-label="Tiefdruckgebiet von oben auf der Nordhalbkugel: Vier Luftströme laufen spiralförmig gegen den Uhrzeigersinn ins Zentrum">
+              <text class="kupfer" x="180" y="130" font-size="22" text-anchor="middle" font-weight="600">T</text>
+              <polyline class="kurve blau" points="279.0,108.1 264.8,86.4 246.6,70.9 226.5,61.9 206.6,59.4 188.6,62.6 174.1,70.3 164.1,81.0 158.8,92.9"/>
+              <polygon class="punkt blau" points="158.8,92.9 164.5,86.2 157.6,84.2"/>
+              <polyline class="kurve blau" points="166.1,23.0 144.4,37.2 128.9,55.4 119.9,75.5 117.4,95.4 120.6,113.4 128.3,127.9 139.0,137.9 150.9,143.2"/>
+              <polygon class="punkt blau" points="150.9,143.2 144.2,137.5 142.2,144.4"/>
+              <polyline class="kurve blau" points="81.0,135.9 95.2,157.6 113.4,173.1 133.5,182.1 153.4,184.6 171.4,181.4 185.9,173.7 195.9,163.0 201.2,151.1"/>
+              <polygon class="punkt blau" points="201.2,151.1 195.5,157.8 202.4,159.8"/>
+              <polyline class="kurve blau" points="193.9,221.0 215.6,206.8 231.1,188.6 240.1,168.5 242.6,148.6 239.4,130.6 231.7,116.1 221.0,106.1 209.1,100.8"/>
+              <polygon class="punkt blau" points="209.1,100.8 215.8,106.5 217.8,99.6"/>
+              <text x="354" y="98" font-size="11" text-anchor="end">einströmende<tspan x="354" dy="13">Luft</tspan></text>
+              <text x="14" y="232" font-size="11">Nordhalbkugel, von oben</text>
+            </svg>
+            <figcaption>Abb. 3: Luft strömt in ein Tiefdruckgebiet (T). Auf
+              der Nordhalbkugel lenkt die Corioliskraft jede Strömung nach
+              rechts ab – so entsteht der Wirbel gegen den Uhrzeigersinn, den
+              Satellitenbilder zeigen. Auf der Südhalbkugel läuft er im
+              Uhrzeigersinn.</figcaption>
+          </figure>
+
+          <h3 id="euler">Wenn sich die Drehgeschwindigkeit ändert</h3>
+
+          <p>Die Herleitung oben setzt $\vec\omega = \text{const}$ voraus –
+            so steht es auch in der Vorlesung. Der Vollständigkeit halber:
+            Ändert sich $\vec\omega$, kommt als dritter Term die
+            <em>Euler-Kraft</em> $-m\,\dot{\vec\omega} \times \vec r$ hinzu.
+            Sie ist der Ruck zur Seite, den du im anfahrenden oder bremsenden
+            Karussell spürst.</p>
+
+          <div class="merkkasten">
+            <span class="titel">Merke</span>
+            <p>Im mit $\vec\omega$ rotierenden Bezugssystem gilt
+              $m\vec a' = \vec F + 2m\,\vec v'\times\vec\omega +
+              m\,\vec\omega\times(\vec r\times\vec\omega)$. Zentrifugalkraft:
+              Betrag $m\omega^2 r_\perp$, von der Achse weg, wirkt auf alles.
+              Corioliskraft: Betrag $2m\omega v'$ (für
+              $\vec v'\perp\vec\omega$), senkrecht zur Bewegung, wirkt nur
+              auf Bewegtes, verrichtet keine Arbeit. Beide verschwinden im
+              Inertialsystem.</p>
+          </div>
+        </section>
+
+        <section class="tab" id="beispiele" data-titel="Beispielrechnungen">
+
+          <div class="beispiel">
+            <h3>Beispiel 1: Die Wäscheschleuder</h3>
+            <p><strong>Gegeben:</strong> Eine Waschmaschinentrommel mit Radius
+              $r = 24\,\mathrm{cm}$ schleudert mit 1200 Umdrehungen pro
+              Minute.<br>
+              <strong>Gesucht:</strong> Zentrifugalbeschleunigung an der
+              Trommelwand und Zentrifugalkraft auf einen Wassertropfen von
+              $5\,\mathrm{g}$ (im mitrotierenden System).</p>
+
+            <p><strong>1. Winkelgeschwindigkeit:</strong> 1200 Umdrehungen pro
+              Minute sind 20 pro Sekunde, also
+              $$ \omega = 2\pi \cdot 20\,\mathrm{s^{-1}} = 125{,}7\,\mathrm{s^{-1}} . $$</p>
+
+            <p><strong>2. Zentrifugalbeschleunigung:</strong>
+              $$ a_\text{Z} = \omega^2 r = (125{,}7\,\mathrm{s^{-1}})^2 \cdot 0{,}24\,\mathrm{m} = 3790\,\mathrm{\tfrac{m}{s^2}} \approx 390\,g . $$
+              Einheitencheck: $\mathrm{s^{-2}} \cdot \mathrm{m} = \mathrm{m/s^2}$ ✓.</p>
+
+            <p><strong>3. Kraft auf den Tropfen:</strong>
+              $F_\text{Z} = m\,\omega^2 r = 0{,}005\,\mathrm{kg} \cdot 3790\,\mathrm{m/s^2} = 19\,\mathrm{N}$
+              – so viel, wie auf der Waage knapp $2\,\mathrm{kg}$ wiegen.</p>
+
+            <p><strong>Ergebnis und Plausibilität:</strong> Fast das
+              400-fache der Schwerebeschleunigung – deshalb kommt die Wäsche
+              fast trocken aus der Maschine. Aus Laborsicht gibt es übrigens
+              keine Kraft nach außen: Dem Wasser an den Trommellöchern fehlt
+              schlicht die Wand, die es auf der Kreisbahn halten würde – es
+              fliegt geradeaus (tangential) davon.</p>
+          </div>
+
+          <div class="beispiel">
+            <h3>Beispiel 2: Wie stark „schleudert“ die Erde?</h3>
+            <p><strong>Gegeben:</strong> Die Erde dreht sich einmal pro
+              Sterntag ($T = 86\,164\,\mathrm{s}$); Äquatorradius
+              $R = 6378\,\mathrm{km}$.<br>
+              <strong>Gesucht:</strong> Zentrifugalbeschleunigung am Äquator
+              und auf der Breite von München ($\varphi = 48°$), Vergleich mit
+              $g$.</p>
+
+            <p><strong>1. Winkelgeschwindigkeit:</strong>
+              $$ \omega = \frac{2\pi}{86\,164\,\mathrm{s}} = 7{,}292 \cdot 10^{-5}\,\mathrm{s^{-1}} . $$</p>
+
+            <p><strong>2. Am Äquator</strong> ($r_\perp = R$):
+              $$ a_\text{Z} = \omega^2 R = (7{,}292 \cdot 10^{-5}\,\mathrm{s^{-1}})^2 \cdot 6{,}378 \cdot 10^6\,\mathrm{m} = 0{,}034\,\mathrm{\tfrac{m}{s^2}} , $$
+              das sind $0{,}35\,\%$ von $g$. Eine Person mit
+              $70\,\mathrm{kg}$ wird um $F = 70\,\mathrm{kg} \cdot 0{,}034\,\mathrm{m/s^2} = 2{,}4\,\mathrm{N}$
+              „erleichtert“ – als fehlten etwa $240\,\mathrm{g}$ auf der
+              Waage.</p>
+
+            <p><strong>3. Auf der Breite $\varphi$</strong> ist der
+              Achsabstand $r_\perp = R\cos\varphi$, und nur die Komponente
+              entlang des Lots verringert die Schwere – zusammen ein Faktor
+              $\cos^2\varphi$: In München
+              $a_\text{Z}\cos\varphi = \omega^2 R \cos^2 48° = 0{,}015\,\mathrm{m/s^2}$.</p>
+
+            <p><strong>Ergebnis und Plausibilität:</strong> Gemessen ist $g$
+              am Äquator mit $9{,}780\,\mathrm{m/s^2}$ tatsächlich kleiner als
+              am Pol ($9{,}832\,\mathrm{m/s^2}$).
+              Der Unterschied von $0{,}052\,\mathrm{m/s^2}$ ist sogar größer
+              als unsere $0{,}034\,\mathrm{m/s^2}$: Der Rest kommt von der
+              Abplattung der Erde – am Äquator ist man weiter vom
+              Erdmittelpunkt entfernt (siehe
+              <a href="gravitation.html">Gravitationsgesetz</a>). Auch die
+              Abplattung selbst ist eine Spätfolge der Zentrifugalkraft.</p>
+          </div>
+
+          <div class="beispiel">
+            <h3>Beispiel 3: Die Ostablenkung beim freien Fall</h3>
+            <p><strong>Gegeben:</strong> Ein Stein fällt (ohne Luftwiderstand)
+              aus $h = 100\,\mathrm{m}$ in einen Schacht auf der Breite
+              $\varphi = 48°$; $\omega = 7{,}292 \cdot 10^{-5}\,\mathrm{s^{-1}}$.<br>
+              <strong>Gesucht:</strong> Um wie viel er neben dem Lot
+              aufschlägt – und in welcher Richtung.</p>
+
+            <p><strong>1. Richtung:</strong> Beim Fallen zeigt
+              $\vec v'$ nach unten; $2m\,\vec v'\times\vec\omega$ zeigt
+              dann nach <em>Osten</em> – und zwar auf beiden Halbkugeln.
+              Anschaulich: Die Spitze des Turms fährt wegen der Erddrehung mit
+              größerer Umfangsgeschwindigkeit nach Osten als sein Fuß; der
+              Stein behält diesen Vorsprung beim Fallen bei. Wirksam ist die
+              horizontale Komponente $2\,\omega v' \cos\varphi$.</p>
+
+            <p><strong>2. Beschleunigung aufintegrieren:</strong> Mit
+              $v'(t) = g\,t$ (die winzige Ostbewegung ändert daran nichts
+              Messbares) ist
+              $$ a_\text{O}(t) = 2\,\omega g\,t \cos\varphi \;\Rightarrow\; v_\text{O}(t) = \omega g\,t^2 \cos\varphi \;\Rightarrow\; x_\text{O}(t) = \tfrac{1}{3}\,\omega g\,t^3 \cos\varphi . $$</p>
+
+            <p><strong>3. Zahlen:</strong> Fallzeit
+              $t = \sqrt{2h/g} = \sqrt{2 \cdot 100\,\mathrm{m}/9{,}81\,\mathrm{m/s^2}} = 4{,}52\,\mathrm{s}$,
+              also
+              $$ x_\text{O} = \tfrac{1}{3} \cdot 7{,}292 \cdot 10^{-5}\,\mathrm{s^{-1}} \cdot 9{,}81\,\mathrm{\tfrac{m}{s^2}} \cdot (4{,}52\,\mathrm{s})^3 \cdot \cos 48° = 1{,}5\,\mathrm{cm} . $$
+              Einheitencheck: $\mathrm{s^{-1} \cdot m\,s^{-2} \cdot s^3} = \mathrm{m}$ ✓.</p>
+
+            <p><strong>Ergebnis und Plausibilität:</strong> Anderthalb
+              Zentimeter auf 100 m Fallhöhe – winzig, aber messbar: Johann
+              Friedrich Benzenberg ließ 1802 Bleikugeln $76\,\mathrm{m}$ tief
+              in den Turm der Hamburger Michaeliskirche fallen und fand im
+              Mittel rund $9\,\mathrm{mm}$ Ostabweichung; unsere Formel
+              liefert für seine Werte $8{,}6\,\mathrm{mm}$.
+              Das war einer der ersten direkten Nachweise der Erddrehung –
+              ein halbes Jahrhundert vor Foucaults Pendel.</p>
+          </div>
+        </section>
+
+        <section class="tab" id="aufgaben" data-titel="Aufgaben">
+
+          <p>Wenn nichts anderes angegeben ist: $g = 9{,}81\,\mathrm{m/s^2}$,
+            Winkelgeschwindigkeit der Erde
+            $\omega = 7{,}292 \cdot 10^{-5}\,\mathrm{s^{-1}}$, Erdradius
+            $R_\text{E} = 6371\,\mathrm{km}$; Luftwiderstand wird
+            vernachlässigt.</p>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 1: Festhalten auf dem Spielplatz
+              <span class="schwierigkeit" data-stufe="leicht">leicht</span>
+            </h3>
+            <p>Ein Spielplatzkarussell (Radius $2{,}0\,\mathrm{m}$) wird
+              kräftig angeschoben: eine Umdrehung in $3{,}0\,\mathrm{s}$.
+              Berechne die Zentrifugalbeschleunigung ganz außen und die Kraft,
+              mit der sich ein 30 kg schweres Kind dort festhalten muss.
+              Vergleiche mit seiner Gewichtskraft.</p>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>$\omega = 2\pi/T = 2\pi/3{,}0\,\mathrm{s} = 2{,}09\,\mathrm{s^{-1}}$.
+                $a_\text{Z} = \omega^2 r = (2{,}09\,\mathrm{s^{-1}})^2 \cdot 2{,}0\,\mathrm{m} = 8{,}8\,\mathrm{m/s^2}$
+                – fast so groß wie $g$! Festhaltekraft
+                $F = m\,a_\text{Z} = 30\,\mathrm{kg} \cdot 8{,}8\,\mathrm{m/s^2} = 263\,\mathrm{N}$,
+                knapp 90 % der Gewichtskraft ($294\,\mathrm{N}$). Das Kind
+                muss sich also fast mit seinem ganzen Gewicht festhalten –
+                wer schon einmal außen auf so einem Karussell saß, kennt das
+                Gefühl.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 2: Wie schnell müsste sich die Erde drehen?
+              <span class="schwierigkeit" data-stufe="leicht">leicht</span>
+            </h3>
+            <p>Bei welcher Tageslänge würde die Zentrifugalbeschleunigung am
+              Äquator genau $g$ erreichen, sodass man dort schwerelos wäre?</p>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>Bedingung $\omega^2 R_\text{E} = g$, also
+                $\omega = \sqrt{g/R_\text{E}}$ und
+                $$ T = \frac{2\pi}{\omega} = 2\pi\sqrt{\frac{R_\text{E}}{g}} = 2\pi\sqrt{\frac{6{,}371 \cdot 10^6\,\mathrm{m}}{9{,}81\,\mathrm{m/s^2}}} = 5064\,\mathrm{s} \approx 84\,\mathrm{min} . $$
+                Der Tag müsste also nur noch 84 Minuten dauern – etwa
+                17-mal schneller als heute.</p>
+              <p><strong>Zum Nachdenken:</strong> 84 Minuten sind genau die
+                Umlaufzeit eines Satelliten knapp über dem Boden (siehe
+                <a href="gravitation.html">Gravitationsgesetz</a>). Kein
+                Zufall: „Schwerelos am Äquator“ heißt nichts anderes, als dass
+                der Boden selbst zur Satellitenbahn wird.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 3: Der ICE und die rechte Schiene
+              <span class="schwierigkeit" data-stufe="mittel">mittel</span>
+            </h3>
+            <p>Ein ICE ($m = 400\,\mathrm{t}$) fährt mit
+              $300\,\mathrm{km/h}$ genau nach Norden, auf der Breite
+              $\varphi = 50°$.</p>
+            <ol type="a">
+              <li>In welche Richtung lenkt ihn die Corioliskraft ab, und wie
+                groß ist sie? (Für die horizontale Ablenkung zählt nur die
+                Vertikalkomponente $\omega\sin\varphi$.)</li>
+              <li>Vergleiche mit der Gewichtskraft. Welche Schiene wird auf
+                langen Nord-Süd-Strecken etwas stärker belastet?</li>
+            </ol>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p><strong>(a)</strong> Auf der Nordhalbkugel nach rechts, bei
+                Fahrt nach Norden also nach <em>Osten</em>. Mit
+                $v = 300\,\mathrm{km/h} = 83{,}3\,\mathrm{m/s}$:
+                $$ F_\text{C} = 2m\,\omega v \sin\varphi = 2 \cdot 4 \cdot 10^5\,\mathrm{kg} \cdot 7{,}292 \cdot 10^{-5}\,\mathrm{s^{-1}} \cdot 83{,}3\,\mathrm{\tfrac{m}{s}} \cdot \sin 50° = 3{,}7\,\mathrm{kN} . $$</p>
+              <p><strong>(b)</strong> Die Gewichtskraft beträgt
+                $mg = 3{,}9 \cdot 10^6\,\mathrm{N}$; die Corioliskraft ist
+                also nur rund $0{,}1\,\%$ davon – zu schwach, um sie zu
+                spüren, aber als ständiger, immer gleichsinniger Druck
+                belastet sie die in Fahrtrichtung <em>rechte</em> Schiene ein
+                wenig mehr (das gilt auf der Nordhalbkugel für jede
+                Fahrtrichtung).</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 4: Künstliche Schwerkraft im Raumschiff
+              <span class="schwierigkeit" data-stufe="mittel">mittel</span>
+            </h3>
+            <p>Eine ringförmige Raumstation mit Radius $r = 100\,\mathrm{m}$
+              rotiert, damit an ihrem Außenrand „künstliche Schwerkraft“
+              herrscht.</p>
+            <ol type="a">
+              <li>Mit welcher Winkelgeschwindigkeit und Umlaufzeit erzeugt sie
+                genau $1\,g$? Wie schnell bewegt sich der Rand?</li>
+              <li>Eine Astronautin joggt mit $5\,\mathrm{m/s}$ entgegen der
+                Drehrichtung. Wie schwer fühlt sie sich dann? Und wenn sie mit
+                der Drehrichtung läuft?</li>
+            </ol>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p><strong>(a)</strong>
+                $\omega = \sqrt{g/r} = \sqrt{9{,}81/100}\,\mathrm{s^{-1}} = 0{,}313\,\mathrm{s^{-1}}$,
+                also $T = 2\pi/\omega = 20\,\mathrm{s}$ pro Umdrehung; der
+                Rand läuft mit $v = \omega r = 31{,}3\,\mathrm{m/s}$.</p>
+              <p><strong>(b)</strong> Am einfachsten aus der Laborsicht: Beim
+                Joggen entgegen der Drehung ist ihre Bahngeschwindigkeit nur
+                noch $31{,}3 - 5 = 26{,}3\,\mathrm{m/s}$, der Boden muss bloß
+                $a = v^2/r = 26{,}3^2/100\,\mathrm{m/s^2} = 6{,}9\,\mathrm{m/s^2}$
+                aufbringen – sie fühlt sich rund 30 % leichter. Mit der
+                Drehung: $36{,}3^2/100 = 13{,}2\,\mathrm{m/s^2}$, ein Drittel
+                schwerer. Im rotierenden System liefert die Corioliskraft
+                dasselbe:
+                $\omega^2 r \mp 2\omega u + u^2/r = 9{,}81 \mp 3{,}13 + 0{,}25$,
+                also $6{,}9$ bzw. $13{,}2\,\mathrm{m/s^2}$ ✓.</p>
+              <p><strong>Zum Nachdenken:</strong> Genau deshalb planen
+                Entwürfe für solche Stationen große Radien und langsame
+                Drehung: Je kleiner der Ring, desto stärker verändert schon
+                normales Gehen das gefühlte Gewicht – und desto eher wird
+                einem schwindelig.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 5: Der rotierende Eimer
+              <span class="schwierigkeit" data-stufe="schwer">schwer</span>
+            </h3>
+            <p>Ein Eimer mit Wasser rotiert mit konstanter
+              Winkelgeschwindigkeit $\omega$ um seine senkrechte Achse; nach
+              kurzer Zeit rotiert das Wasser überall mit.</p>
+            <ol type="a">
+              <li>Zeige im mitrotierenden System, dass die Wasseroberfläche
+                die Form $z(r_\perp) = \dfrac{\omega^2 r_\perp^2}{2g} + z_0$
+                annimmt. (Die Oberfläche steht überall senkrecht auf der
+                Summe aus Schwerkraft und Zentrifugalkraft.)</li>
+              <li>Wie groß ist der Höhenunterschied zwischen Rand und Mitte
+                bei $R = 15\,\mathrm{cm}$ und 90 Umdrehungen pro Minute?</li>
+            </ol>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p><strong>(a)</strong> Ein Wasserteilchen an der Oberfläche
+                spürt (im rotierenden System) $-mg$ senkrecht und
+                $m\omega^2 r_\perp$ nach außen. Die Oberfläche stellt sich
+                senkrecht zur Gesamtkraft, ihre Steigung ist also
+                $$ \frac{\mathrm{d}z}{\mathrm{d}r_\perp} = \tan\alpha = \frac{m\,\omega^2 r_\perp}{m\,g} = \frac{\omega^2 r_\perp}{g} \quad\Longrightarrow\quad z(r_\perp) = \frac{\omega^2 r_\perp^2}{2g} + z_0 $$
+                durch Integration – ein Rotationsparaboloid.</p>
+              <p><strong>(b)</strong> 90 Umdrehungen pro Minute sind 1,5 pro
+                Sekunde, $\omega = 2\pi \cdot 1{,}5\,\mathrm{s^{-1}} = 9{,}42\,\mathrm{s^{-1}}$:
+                $$ \Delta z = \frac{\omega^2 R^2}{2g} = \frac{(9{,}42\,\mathrm{s^{-1}})^2 \cdot (0{,}15\,\mathrm{m})^2}{2 \cdot 9{,}81\,\mathrm{m/s^2}} = 0{,}10\,\mathrm{m} . $$
+                Das Wasser steht am Rand 10 cm höher als in der Mitte – bei
+                einem kleinen Eimer klettert es also deutlich die Wand
+                hoch.</p>
+              <p><strong>Zum Nachdenken:</strong> Ein Paraboloid ist genau die
+                Form, die ein Teleskopspiegel braucht. Es gibt tatsächlich
+                Teleskope mit langsam rotierenden, flüssigen Metallspiegeln –
+                die Zentrifugalkraft schleift den Spiegel von selbst in
+                Form.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 6: Das Foucault-Pendel
+              <span class="schwierigkeit" data-stufe="schwer">schwer</span>
+            </h3>
+            <p>1851 hängte Léon Foucault im Pariser Panthéon ein 67 m langes
+              Pendel auf. Im Laufe der Stunden drehte sich seine
+              Schwingungsebene sichtbar – der erste Nachweis der Erddrehung,
+              den jeder mit eigenen Augen sehen konnte.
+              </p>
+            <ol type="a">
+              <li>Erkläre ohne Rechnung, warum sich die Schwingungsebene am
+                Nordpol genau einmal pro Sterntag (23 h 56 min) dreht.</li>
+              <li>Auf der Breite $\varphi$ dreht sie sich mit
+                $\omega\sin\varphi$. Wie lange braucht ein voller Umlauf in
+                München auf der Breite $\varphi = 48{,}1°$? Was passiert am
+                Äquator?</li>
+            </ol>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p><strong>(a)</strong> Am Pol behält das Pendel seine
+                Schwingungsebene im Inertialsystem bei – es gibt keine
+                seitliche Kraft. Die Erde dreht sich einfach unter ihm weg.
+                Für Beobachter auf dem Boden scheint sich deshalb die
+                Pendelebene einmal pro Sterntag zu drehen (im Uhrzeigersinn,
+                von oben gesehen).</p>
+              <p><strong>(b)</strong> Abseits des Pols wirkt nur die
+                Vertikalkomponente $\omega\sin\varphi$ der Erddrehung auf die
+                horizontale Pendelbewegung. Die Umlaufzeit der Ebene ist
+                $$ T = \frac{T_\text{Sterntag}}{\sin\varphi} = \frac{23{,}93\,\mathrm{h}}{\sin 48{,}1°} = 32\,\mathrm{h} . $$
+                Am Äquator ist $\sin\varphi = 0$ – die Ebene dreht sich gar
+                nicht. In Paris ($\varphi = 48{,}9°$) sind es gut 11° pro
+                Stunde: Nach einer Viertelstunde Museumsbesuch sieht man den
+                Unterschied an den umgeworfenen Markierungen.</p>
+              <p><strong>Zum Nachdenken:</strong> Das Foucault-Pendel und die
+                Ostablenkung (Beispiel 3) zeigen dasselbe auf zwei Arten: Die
+                Erde ist kein Inertialsystem. Dass wir davon im Alltag trotzdem
+                nichts merken, liegt nur an der Winzigkeit von
+                $\omega = 7{,}3 \cdot 10^{-5}\,\mathrm{s^{-1}}$.</p>
+            </details>
+          </div>
+        </section>
+
+      </div></article>
+  </main>
+</body>
+</html>

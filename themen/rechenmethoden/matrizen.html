@@ -1,0 +1,1015 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="robots" content="noindex">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Matrizen und Determinanten</title>
+  <meta name="description" content="Matrizen anschaulich: Rechnen mit Matrizen, Matrizen als Abbildungen, Determinante als Flächenfaktor, inverse Matrix, Drehungen und Spiegelungen – mit Abbildungen, Beispielen und Aufgaben.">
+
+  <link rel="stylesheet" href="../../css/stil.css">
+
+  <link rel="stylesheet" href="../../extern/katex/katex.min.css">
+  <script defer src="../../extern/katex/katex.min.js"></script>
+  <script defer src="../../extern/katex/contrib/auto-render.min.js" onload="starteFormeln()"></script>
+
+  <script src="../../js/daten.js"></script>
+  <script src="../../js/seite.js"></script>
+  <script src="../../js/effekte.js"></script>
+  <script src="../../js/interaktiv.js"></script>
+  <script src="../../js/modelle/matrizen.js"></script>
+  <script type="application/json" id="symbole">
+  {
+    "M": "Matrix M (in den Beispielen: Abbildungsmatrix)",
+    "M_ij": "Element von M in Zeile i und Spalte j",
+    "M_11": "Element von M in Zeile 1, Spalte 1",
+    "M_12": "Element von M in Zeile 1, Spalte 2",
+    "M_1m": "Element von M in Zeile 1, letzte Spalte",
+    "M_21": "Element von M in Zeile 2, Spalte 1",
+    "M_22": "Element von M in Zeile 2, Spalte 2",
+    "M_2m": "Element von M in Zeile 2, letzte Spalte",
+    "M_23": "Element von M in Zeile 2, Spalte 3",
+    "M_n1": "Element von M in der letzten Zeile, Spalte 1",
+    "M_n2": "Element von M in der letzten Zeile, Spalte 2",
+    "M_nm": "Element von M in der letzten Zeile und letzten Spalte",
+    "M_ji": "Element von M in Zeile j und Spalte i",
+    "A": "Matrix A",
+    "B": "Matrix B",
+    "C": "Matrix C = AB",
+    "A_ik": "Element von A in Zeile i und Spalte k",
+    "B_kj": "Element von B in Zeile k und Spalte j",
+    "A_ij": "Streichmatrix: A ohne Zeile i und Spalte j",
+    "a_ij": "Element von A in Zeile i und Spalte j",
+    "a_11": "Element in Zeile 1, Spalte 1",
+    "a_12": "Element in Zeile 1, Spalte 2",
+    "a_13": "Element in Zeile 1, Spalte 3",
+    "a_21": "Element in Zeile 2, Spalte 1",
+    "a_22": "Element in Zeile 2, Spalte 2",
+    "a_23": "Element in Zeile 2, Spalte 3",
+    "a_31": "Element in Zeile 3, Spalte 1",
+    "a_32": "Element in Zeile 3, Spalte 2",
+    "a_33": "Element in Zeile 3, Spalte 3",
+    "a": "Eintrag oben links (bzw. Vektor a)",
+    "b": "Eintrag oben rechts (bzw. Vektor b)",
+    "c": "Eintrag unten links",
+    "d": "Eintrag unten rechts",
+    "e": "Eintrag der zweiten Matrix",
+    "f": "Eintrag der zweiten Matrix",
+    "g": "Eintrag der zweiten Matrix",
+    "h": "Eintrag der zweiten Matrix",
+    "a_x": "x-Komponente von a",
+    "a_y": "y-Komponente von a",
+    "a_z": "z-Komponente von a",
+    "b_x": "x-Komponente von b",
+    "b_y": "y-Komponente von b",
+    "b_z": "z-Komponente von b",
+    "x": "Vektor x bzw. seine x-Komponente",
+    "y": "y-Komponente",
+    "x_1": "1. Komponente von x",
+    "x_2": "2. Komponente von x",
+    "e_x": "Einheitsvektor in x-Richtung",
+    "e_y": "Einheitsvektor in y-Richtung",
+    "e_j": "Einheitsvektor der Achse j",
+    "i": "Zeilenindex",
+    "j": "Spaltenindex",
+    "k": "Summationsindex",
+    "n": "Anzahl der Zeilen",
+    "m": "Anzahl der Spalten",
+    "r": "Anzahl der Zeilen von A",
+    "λ": "reelle Zahl (Skalar)",
+    "δ_ij": "Kronecker-Delta: 1 für i = j, sonst 0",
+    "O": "orthogonale Matrix",
+    "D": "Drehmatrix",
+    "D_z": "Drehmatrix für eine Drehung um die z-Achse",
+    "S": "Spiegelmatrix",
+    "φ": "Drehwinkel",
+    "α": "Drehwinkel",
+    "β": "Drehwinkel",
+    "L": "Drehimpuls",
+    "ω": "Winkelgeschwindigkeit",
+    "I": "Trägheitstensor (3×3-Matrix)",
+    "F": "Vektor der beiden Seilkräfte bzw. Kraftvektor",
+    "z": "z-Achse bzw. z-Komponente",
+    "c_α": "Abkürzung für cos α",
+    "s_α": "Abkürzung für sin α",
+    "c_β": "Abkürzung für cos β",
+    "s_β": "Abkürzung für sin β"
+  }
+  </script>
+</head>
+<body data-thema="matrizen">
+  <main>
+    <article class="thema">
+      <header>
+        <h1>Matrizen und Determinanten</h1>
+        <p class="untertitel">Zahlentabellen, die Vektoren drehen, strecken und
+          spiegeln: Rechnen mit Matrizen, die Determinante als Flächenfaktor
+          und die inverse Matrix.</p>
+      </header>
+
+      <div class="tabs">
+
+        <section class="tab" id="verstehen" data-titel="Verstehen">
+
+          <p>Wenn du auf dem Handy ein Foto drehst oder schräg ziehst, muss
+            das Programm für jeden der Millionen Bildpunkte ausrechnen, wohin
+            er wandert. Dafür genügt eine kleine Tabelle aus vier Zahlen –
+            eine <strong>Matrix</strong>. Mit ihr lässt sich jede Drehung,
+            Streckung, Scherung oder Spiegelung der Ebene beschreiben. In der
+            Physik ist es genauso: Ob du ein Koordinatensystem drehst, ein
+            Gleichungssystem löst oder einen Kreisel beschreibst – überall
+            stehen Matrizen.</p>
+
+          <p>Diese Seite zeigt dir, wie man mit Matrizen rechnet und was die
+            Rechnungen bedeuten. Beweise lassen wir weg. Du solltest mit der
+            <a href="vektoren.html">Vektorrechnung</a> vertraut sein, denn
+            Matrizen und Vektoren arbeiten ständig zusammen.</p>
+
+          <h2 id="was-ist-eine-matrix">Was ist eine Matrix?</h2>
+
+          <p>Eine Matrix ist eine rechteckige Anordnung von Zahlen in Zeilen
+            und Spalten. Eine <strong>$n\times m$-Matrix</strong> hat $n$
+            Zeilen und $m$ Spalten:</p>
+
+          $$ M = \begin{pmatrix} M_{11} & M_{12} & \cdots & M_{1m} \\ M_{21} & M_{22} & \cdots & M_{2m} \\ \vdots & \vdots & \ddots & \vdots \\ M_{n1} & M_{n2} & \cdots & M_{nm} \end{pmatrix} $$
+
+          <p>Die Zahlen $M_{ij}$ heißen <strong>Matrixelemente</strong>. Der
+            erste Index $i$ nennt die Zeile, der zweite Index $j$ die Spalte
+            – als Eselsbrücke: „Zeilen zuerst, Spalten später“ (Abb. 1). Hat
+            eine Matrix gleich viele Zeilen wie Spalten, heißt sie
+            <strong>quadratisch</strong>; die Elemente $M_{11}, M_{22},
+            \ldots$ von links oben nach rechts unten bilden ihre
+            <strong>Hauptdiagonale</strong>. Ein Vektor ist übrigens auch eine
+            Matrix: ein Spaltenvektor mit drei Komponenten ist eine
+            $3\times 1$-Matrix.</p>
+
+          <figure class="abbildung">
+            <svg class="abb" viewBox="0 0 360 210" role="img"
+                 aria-label="Eine Matrix mit 3 Zeilen und 4 Spalten; die zweite Zeile ist blau, die dritte Spalte orange hinterlegt, im Schnittpunkt steht das Element M 2 3">
+              <rect class="flaeche" x="92" y="96" width="186" height="26" rx="6"/>
+              <rect class="flaeche kupfer" x="190" y="48" width="40" height="124" rx="6"/>
+              <path class="achse" d="M98 46Q80 110 98 174"/>
+              <path class="achse" d="M272 46Q290 110 272 174"/>
+              <text x="117" y="74" text-anchor="middle" font-style="italic">M<tspan dy="4" font-size="10">11</tspan><tspan dy="-4"> </tspan></text>
+              <text x="162" y="74" text-anchor="middle" font-style="italic">M<tspan dy="4" font-size="10">12</tspan><tspan dy="-4"> </tspan></text>
+              <text class="kupfer" x="207" y="74" text-anchor="middle" font-style="italic">M<tspan dy="4" font-size="10">13</tspan><tspan dy="-4"> </tspan></text>
+              <text x="252" y="74" text-anchor="middle" font-style="italic">M<tspan dy="4" font-size="10">14</tspan><tspan dy="-4"> </tspan></text>
+              <text class="blau" x="117" y="114" text-anchor="middle" font-style="italic">M<tspan dy="4" font-size="10">21</tspan><tspan dy="-4"> </tspan></text>
+              <text class="blau" x="162" y="114" text-anchor="middle" font-style="italic">M<tspan dy="4" font-size="10">22</tspan><tspan dy="-4"> </tspan></text>
+              <text x="207" y="114" text-anchor="middle" font-style="italic">M<tspan dy="4" font-size="10">23</tspan><tspan dy="-4"> </tspan></text>
+              <text class="blau" x="252" y="114" text-anchor="middle" font-style="italic">M<tspan dy="4" font-size="10">24</tspan><tspan dy="-4"> </tspan></text>
+              <text x="117" y="154" text-anchor="middle" font-style="italic">M<tspan dy="4" font-size="10">31</tspan><tspan dy="-4"> </tspan></text>
+              <text x="162" y="154" text-anchor="middle" font-style="italic">M<tspan dy="4" font-size="10">32</tspan><tspan dy="-4"> </tspan></text>
+              <text class="kupfer" x="207" y="154" text-anchor="middle" font-style="italic">M<tspan dy="4" font-size="10">33</tspan><tspan dy="-4"> </tspan></text>
+              <text x="252" y="154" text-anchor="middle" font-style="italic">M<tspan dy="4" font-size="10">34</tspan><tspan dy="-4"> </tspan></text>
+              <circle class="hilfslinie" cx="210" cy="111" r="18"/>
+              <text class="blau" x="84" y="114" text-anchor="end">2. Zeile</text>
+              <text class="kupfer" x="210" y="36" text-anchor="middle">3. Spalte</text>
+              <text class="klein" x="185" y="198" text-anchor="middle">Zeilenindex zuerst, Spaltenindex danach</text>
+            </svg>
+            <figcaption>Abb. 1: Eine $3\times 4$-Matrix hat 3 Zeilen und 4 Spalten. Das Element $M_{23}$ steht in der 2. Zeile (blau) und der 3. Spalte (orange) – „Zeilen zuerst, Spalten später“.</figcaption>
+          </figure>
+          <p>Zwei Matrizen tauchen immer wieder auf. Die
+            <strong>Nullmatrix</strong> enthält nur Nullen. Die
+            <strong>Einheitsmatrix</strong> $\mathbf 1$ hat Einsen auf der
+            Hauptdiagonalen und sonst Nullen; ihre Elemente sind genau das
+            Kronecker-Delta, $(\mathbf 1)_{ij} = \delta_{ij}$. Vertauscht man
+            Zeilen und Spalten, entsteht die <strong>transponierte</strong>
+            Matrix $M^T$ mit $(M^T)_{ij} = M_{ji}$ – aus einer
+            $2\times 3$-Matrix wird eine $3\times 2$-Matrix:</p>
+
+          $$ \begin{pmatrix} 1 & 2 & 3 \\ 4 & 5 & 6 \end{pmatrix}^T = \begin{pmatrix} 1 & 4 \\ 2 & 5 \\ 3 & 6 \end{pmatrix} $$
+
+          <p>Eine quadratische Matrix mit $M^T = M$ heißt
+            <strong>symmetrisch</strong>: Sie ist spiegelbildlich zur
+            Hauptdiagonalen. Gilt $M^T = -M$, heißt sie
+            <strong>antisymmetrisch</strong>; dann stehen auf der
+            Hauptdiagonalen nur Nullen. Jede quadratische Matrix lässt sich in
+            einen symmetrischen und einen antisymmetrischen Teil zerlegen:
+            $M = \tfrac12(M + M^T) + \tfrac12(M - M^T)$.</p>
+
+          <h2 id="rechnen">Rechnen mit Matrizen</h2>
+
+          <p>Addieren und mit einer Zahl $\lambda$ multiplizieren geht – wie
+            bei Vektoren – Element für Element. Addieren kann man nur Matrizen
+            gleicher Größe:</p>
+
+          $$ \begin{pmatrix} a & b \\ c & d \end{pmatrix} + \begin{pmatrix} e & f \\ g & h \end{pmatrix} = \begin{pmatrix} a + e & b + f \\ c + g & d + h \end{pmatrix}, \qquad \lambda \begin{pmatrix} a & b \\ c & d \end{pmatrix} = \begin{pmatrix} \lambda a & \lambda b \\ \lambda c & \lambda d \end{pmatrix} $$
+
+          <p>Spannend wird es beim Multiplizieren zweier Matrizen. Die Regel
+            heißt <strong>„Zeile mal Spalte“</strong>: Das Element in Zeile $i$
+            und Spalte $j$ des Produkts ist die $i$-te Zeile von $A$ mal die
+            $j$-te Spalte von $B$, gerechnet wie ein Skalarprodukt –
+            paarweise multiplizieren, dann addieren:</p>
+
+          $$ (AB)_{ij} = \sum_{k=1}^{m} A_{ik}\,B_{kj} $$
+
+          <p>Damit das aufgeht, muss eine Zeile von $A$ genauso lang sein wie
+            eine Spalte von $B$: $A$ braucht so viele Spalten, wie $B$ Zeilen
+            hat. Eine $r\times m$-Matrix mal eine $m\times n$-Matrix ergibt
+            eine $r\times n$-Matrix. Übersichtlich wird das im
+            <strong>Falk-Schema</strong> (Abb. 2), in dem jedes Ergebnis genau
+            im Kreuzungspunkt seiner Zeile und seiner Spalte steht.</p>
+
+          <figure class="abbildung">
+            <svg class="abb" viewBox="0 0 360 256" role="img"
+                 aria-label="Falk-Schema: Matrix B steht rechts oben, Matrix A links unten, das Produkt C rechts unten; die erste Zeile von A und die zweite Spalte von B kreuzen sich beim Eintrag 7">
+              <rect class="flaeche" x="66" y="137" width="262" height="26" rx="6"/>
+              <rect class="flaeche kupfer" x="282" y="22" width="36" height="141" rx="6"/>
+              <path class="achse" d="M222 16L222 206"/>
+              <path class="achse" d="M56 123L344 123"/>
+              <text class="blau" x="90" y="155" text-anchor="middle">1</text>
+              <text class="blau" x="130" y="155" text-anchor="middle">2</text>
+              <text class="blau" x="170" y="155" text-anchor="middle">0</text>
+              <text x="90" y="190" text-anchor="middle">3</text>
+              <text x="130" y="190" text-anchor="middle">−1</text>
+              <text x="170" y="190" text-anchor="middle">2</text>
+              <text x="255" y="45" text-anchor="middle">2</text>
+              <text class="kupfer" x="300" y="45" text-anchor="middle">1</text>
+              <text x="255" y="75" text-anchor="middle">0</text>
+              <text class="kupfer" x="300" y="75" text-anchor="middle">3</text>
+              <text x="255" y="105" text-anchor="middle">1</text>
+              <text class="kupfer" x="300" y="105" text-anchor="middle">−1</text>
+              <text x="255" y="155" text-anchor="middle">2</text>
+              <text x="300" y="155" text-anchor="middle">7</text>
+              <text x="255" y="190" text-anchor="middle">8</text>
+              <text x="300" y="190" text-anchor="middle">−2</text>
+              <circle class="kurve duenn" cx="300" cy="150" r="13"/>
+              <text x="40" y="176" text-anchor="middle" font-style="italic">A</text>
+              <text x="342" y="79" text-anchor="middle" font-style="italic">B</text>
+              <text x="342" y="176" text-anchor="middle" font-style="italic">C</text>
+              <text class="klein" x="180" y="228" text-anchor="middle">Zeile 1 von A mal Spalte 2 von B:</text>
+              <text x="180" y="246" text-anchor="middle">1 · 1 + 2 · 3 + 0 · (−1) = 7</text>
+            </svg>
+            <figcaption>Abb. 2: Das Produkt $C = AB$ im Falk-Schema. $B$ steht rechts oben, $A$ links unten. Jeder Eintrag von $C$ sitzt dort, wo sich seine Zeile von $A$ und seine Spalte von $B$ kreuzen – hier $C_{12} = 7$ aus der 1. Zeile (blau) und der 2. Spalte (orange).</figcaption>
+          </figure>
+          <p>Eine Überraschung: Die Reihenfolge zählt. Im Allgemeinen ist
+            $AB \neq BA$ – Matrizen sind <strong>nicht kommutativ</strong>:</p>
+
+          $$ \begin{pmatrix} 1 & 2 \\ 0 & 1 \end{pmatrix}\begin{pmatrix} 0 & 1 \\ 1 & 0 \end{pmatrix} = \begin{pmatrix} 2 & 1 \\ 1 & 0 \end{pmatrix}, \qquad \begin{pmatrix} 0 & 1 \\ 1 & 0 \end{pmatrix}\begin{pmatrix} 1 & 2 \\ 0 & 1 \end{pmatrix} = \begin{pmatrix} 0 & 1 \\ 1 & 2 \end{pmatrix} $$
+
+          <p>Klammern darfst du dagegen beliebig setzen,
+            $A(BC) = (AB)C$, und ausmultiplizieren auch,
+            $A(B + C) = AB + AC$. Die Einheitsmatrix verhält sich wie die Zahl
+            1: $\mathbf 1 A = A\,\mathbf 1 = A$.</p>
+
+          <p>Der wichtigste Sonderfall ist <strong>Matrix mal Vektor</strong>.
+            Den Vektor behandelt man als Matrix mit einer Spalte; heraus kommt
+            wieder ein Vektor:</p>
+
+          $$ \begin{pmatrix} a_{11} & a_{12} \\ a_{21} & a_{22} \end{pmatrix}\begin{pmatrix} x_1 \\ x_2 \end{pmatrix} = \begin{pmatrix} a_{11}x_1 + a_{12}x_2 \\ a_{21}x_1 + a_{22}x_2 \end{pmatrix} $$
+
+          <p>Liest man das rückwärts, steht da ein lineares
+            Gleichungssystem: Sind $A$ und das Ergebnis $\vec b$ bekannt, ist
+            $A\vec x = \vec b$ die kompakte Form von zwei Gleichungen mit zwei
+            Unbekannten. Auch das Skalarprodukt passt in dieses Bild: Es ist
+            ein Zeilenvektor mal ein Spaltenvektor,
+            $\vec a\cdot\vec b = \vec a^T\vec b$. Kurz zusammengefasst:</p>
+
+          <ul>
+            <li>Matrix mal Matrix ergibt eine Matrix,</li>
+            <li>Matrix mal Vektor ergibt einen Vektor,</li>
+            <li>Zeile mal Spalte ergibt eine Zahl (Skalarprodukt),</li>
+            <li>Spalte mal Zeile ergibt eine Matrix (das <em>dyadische
+              Produkt</em> $\vec a\,\vec b^T$ mit den Elementen $a_i b_j$).</li>
+          </ul>
+
+          <div class="alltag">
+            <span class="titel">Matrizen in der Physik</span>
+            <p>Das Kreuzprodukt aus der Vektorrechnung ist in Wahrheit eine
+              Matrix mal Vektor – mit einer antisymmetrischen Matrix:
+              $$ \vec a\times\vec b = \begin{pmatrix} 0 & -a_z & a_y \\ a_z & 0 & -a_x \\ -a_y & a_x & 0 \end{pmatrix}\begin{pmatrix} b_x \\ b_y \\ b_z \end{pmatrix} $$
+              Und beim <a href="../mechanik/kreisel.html#vertiefung">Kreisel</a>
+              verknüpft der Trägheitstensor, eine symmetrische
+              $3\times 3$-Matrix, Drehimpuls und Winkelgeschwindigkeit:
+              $\vec L = I\,\vec\omega$. Weil eine Matrix die Richtung eines
+              Vektors ändern kann, zeigt der Drehimpuls eines unwuchtigen
+              Rades nicht genau entlang der Drehachse – deshalb rüttelt es.</p>
+          </div>
+
+          <h2 id="abbildungen">Matrizen als Abbildungen</h2>
+
+          <p>Matrix mal Vektor ist eine Maschine: Vorne steckst du einen
+            Vektor $\vec x$ hinein, hinten kommt der Vektor $M\vec x$ heraus.
+            Solche <strong>linearen Abbildungen</strong> haben schöne
+            Eigenschaften: Der Ursprung bleibt liegen, Geraden bleiben Geraden,
+            und ein gleichmäßiges Gitter bleibt ein gleichmäßiges Gitter – es
+            wird nur gedreht, gestreckt, geschert oder gespiegelt.</p>
+
+          <p>Der Schlüssel zum Verständnis: Multipliziert man $M$ mit einem
+            Einheitsvektor, bleibt genau eine Spalte übrig.</p>
+
+          $$ M\hat e_x = \begin{pmatrix} a & b \\ c & d \end{pmatrix}\begin{pmatrix} 1 \\ 0 \end{pmatrix} = \begin{pmatrix} a \\ c \end{pmatrix}, \qquad M\hat e_y = \begin{pmatrix} a & b \\ c & d \end{pmatrix}\begin{pmatrix} 0 \\ 1 \end{pmatrix} = \begin{pmatrix} b \\ d \end{pmatrix} $$
+
+          <div class="merkkasten">
+            <span class="titel">Merke</span>
+            <p>Die Spalten einer Matrix sind die Bilder der Einheitsvektoren.
+              Willst du die Matrix zu einer Abbildung finden, überlege dir, wo
+              die Einheitsvektoren landen, und schreibe diese Bilder als
+              Spalten nebeneinander.</p>
+          </div>
+
+          <p>Ein Beispiel: Die Spiegelung an der $y$-Achse schickt $\hat e_x$
+            nach $-\hat e_x$ und lässt $\hat e_y$, wie es ist. Also ist ihre
+            Matrix
+            $S = \begin{pmatrix} -1 & 0 \\ 0 & 1 \end{pmatrix}$. Weil jeder
+            Vektor aus den Einheitsvektoren zusammengesetzt ist,
+            $\vec x = x\,\hat e_x + y\,\hat e_y$, wandert er einfach mit:
+            $M\vec x = x\,M\hat e_x + y\,M\hat e_y$. Das ganze Gitter folgt
+            den beiden Spalten (Abb. 3).</p>
+
+          <figure class="abbildung">
+            <svg class="abb" viewBox="0 38 360 162" role="img"
+                 aria-label="Links ein Einheitsquadrat mit einem F und den Einheitsvektoren, rechts dasselbe nach der Abbildung mit der Matrix M: ein schräges Parallelogramm, aufgespannt von den Bildern (2, 1) und (minus 1, 1)">
+              <defs><marker id="pfeil-abb3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="currentColor"/></marker><marker id="pfeil-abb3-blau" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto"><path class="punkt blau" d="M0 0L10 5L0 10z"/></marker><marker id="pfeil-abb3-kupfer" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto"><path class="punkt kupfer" d="M0 0L10 5L0 10z"/></marker></defs>
+              <path class="gitter" d="M40 170L40 82"/>
+              <path class="gitter" d="M40 170L128 170"/>
+              <path class="gitter" d="M84 170L84 82"/>
+              <path class="gitter" d="M40 126L128 126"/>
+              <path class="gitter" d="M128 170L128 82"/>
+              <path class="gitter" d="M40 82L128 82"/>
+              <path class="gitter" d="M208 170L208 82"/>
+              <path class="gitter" d="M252 170L252 82"/>
+              <path class="gitter" d="M296 170L296 82"/>
+              <path class="gitter" d="M340 170L340 82"/>
+              <path class="gitter" d="M208 170L340 170"/>
+              <path class="gitter" d="M208 126L340 126"/>
+              <path class="gitter" d="M208 82L340 82"/>
+              <path class="flaeche" d="M40 170L84 170L84 126L40 126z"/>
+              <path class="figur" d="M48.8 163.4L57.6 163.4L57.6 151.5L68.6 151.5L68.6 145.4L57.6 145.4L57.6 139.2L75.2 139.2L75.2 132.6L48.8 132.6z"/>
+              <path class="flaeche" d="M252 170L340 126L296 82L208 126z"/>
+              <path class="figur" d="M263 154.6L280.6 145.8L268.7 133.9L290.7 122.9L284.6 116.8L262.6 127.8L256.4 121.6L291.6 104L285 97.4L232.2 123.8z"/>
+              <path class="achse" d="M32 170L140 170" marker-end="url(#pfeil-abb3)"/>
+              <path class="achse" d="M40 178L40 70" marker-end="url(#pfeil-abb3)"/>
+              <path class="achse" d="M200 170L352 170" marker-end="url(#pfeil-abb3)"/>
+              <path class="achse" d="M252 178L252 70" marker-end="url(#pfeil-abb3)"/>
+              <path class="kurve blau" d="M40 170L84 170" marker-end="url(#pfeil-abb3-blau)"/>
+              <path class="kurve kupfer" d="M40 170L40 126" marker-end="url(#pfeil-abb3-kupfer)"/>
+              <path class="kurve blau" d="M252 170L340 126" marker-end="url(#pfeil-abb3-blau)"/>
+              <path class="kurve kupfer" d="M252 170L208 126" marker-end="url(#pfeil-abb3-kupfer)"/>
+              <text class="blau" x="62" y="188" text-anchor="middle">ê<tspan dy="4" font-size="10">x</tspan><tspan dy="-4"> </tspan></text>
+              <text class="kupfer" x="27" y="152" text-anchor="middle">ê<tspan dy="4" font-size="10">y</tspan><tspan dy="-4"> </tspan></text>
+              <text class="blau halo" x="342" y="148" text-anchor="middle">M ê<tspan dy="4" font-size="10">x</tspan><tspan dy="-4"> </tspan></text>
+              <text class="kupfer halo" x="206" y="116" text-anchor="middle">M ê<tspan dy="4" font-size="10">y</tspan><tspan dy="-4"> </tspan></text>
+              <path class="kurve" d="M134 112L180 112" marker-end="url(#pfeil-abb3)"/>
+              <text x="156" y="102" text-anchor="middle" font-style="italic">M</text>
+              <text class="klein" x="84" y="56" text-anchor="middle">vorher</text>
+              <text class="klein" x="274" y="56" text-anchor="middle">nachher</text>
+            </svg>
+            <figcaption>Abb. 3: Die Matrix $M = \begin{pmatrix} 2 &amp; -1 \\ 1 &amp; 1 \end{pmatrix}$ schickt $\hat e_x$ nach $(2, 1)$ und $\hat e_y$ nach $(-1, 1)$ – genau ihre beiden Spalten. Das Quadrat wird zum Parallelogramm, das F wird mit verzerrt.</figcaption>
+          </figure>
+          <p>Führt man zwei Abbildungen nacheinander aus, multipliziert man
+            ihre Matrizen. Dabei wird von rechts nach links gelesen: In
+            $AB\vec x$ wirkt zuerst $B$ auf $\vec x$, danach $A$. Jetzt ist
+            auch klar, warum $AB \neq BA$ sein kann: Erst drehen und dann in
+            $x$-Richtung strecken ergibt ein anderes Bild als erst strecken
+            und dann drehen.</p>
+
+          <h2 id="determinante">Die Determinante: der Flächenfaktor</h2>
+
+          <p>Jeder quadratischen Matrix ist eine Zahl zugeordnet, die
+            <strong>Determinante</strong> $\det M$, geschrieben auch mit
+            senkrechten Strichen. Für eine $2\times 2$-Matrix ist sie
+            „Hauptdiagonale minus Nebendiagonale“:</p>
+
+          $$ \det M = \begin{vmatrix} a & b \\ c & d \end{vmatrix} = ad - bc $$
+
+          <p>Was sie bedeutet, siehst du an Abb. 3: Das Einheitsquadrat mit
+            der Fläche 1 wird zum Parallelogramm aus den beiden Spalten, und
+            dessen Fläche ist gerade $|\det M|$ – dort $2\cdot 1 - (-1)\cdot 1
+            = 3$. Weil das Gitter gleichmäßig verformt wird, wächst jede
+            Fläche um denselben Faktor. Die Determinante ist also der
+            <strong>Flächenfaktor</strong> der Abbildung. (Kennst du das
+            Kreuzprodukt, erkennst du $ad - bc$ wieder: Es ist die Fläche des
+            Parallelogramms aus den Spalten.) Ihr Vorzeichen verrät noch mehr
+            (Abb. 4):</p>
+
+          <ul>
+            <li>$\det M \gt 0$: Die Abbildung erhält die Orientierung, das F
+              bleibt lesbar.</li>
+            <li>$\det M \lt 0$: Die Abbildung enthält eine Spiegelung, das F
+              wird seitenverkehrt.</li>
+            <li>$\det M = 0$: Die beiden Spalten zeigen in dieselbe Richtung,
+              die ganze Ebene wird auf eine Gerade gequetscht.</li>
+          </ul>
+
+          <figure class="abbildung">
+            <svg class="abb" viewBox="0 42 360 148" role="img"
+                 aria-label="Drei Beispiele: Bei det M gleich 2 wird das Quadrat zu einem doppelt so großen Parallelogramm, bei det M gleich minus 1 wird das F gespiegelt, bei det M gleich 0 fällt alles auf eine Linie">
+              <path class="achse" d="M16 150L97 150"/>
+              <path class="achse" d="M22 156L22 75"/>
+              <path class="hilfslinie" d="M22 150L52 150L52 120L22 120z"/>
+              <path class="figur vorher" d="M28 145.5L34 145.5L34 137.4L41.5 137.4L41.5 133.2L34 133.2L34 129L46 129L46 124.5L28 124.5z"/>
+              <path class="flaeche" d="M22 150L67 135L82 90L37 105z"/>
+              <path class="figur" d="M33.2 140.2L42.2 137.2L46.3 125.1L57.6 121.3L59.7 115L48.4 118.8L50.5 112.5L68.5 106.5L70.8 99.8L43.8 108.8z"/>
+              <text x="60" y="62" text-anchor="middle">det M = 2</text>
+              <text class="klein" x="60" y="178" text-anchor="middle">Fläche verdoppelt</text>
+              <path class="achse" d="M165 150L245 150"/>
+              <path class="achse" d="M205 156L205 75"/>
+              <path class="hilfslinie" d="M205 150L235 150L235 120L205 120z"/>
+              <path class="figur vorher" d="M211 145.5L217 145.5L217 137.4L224.5 137.4L224.5 133.2L217 133.2L217 129L229 129L229 124.5L211 124.5z"/>
+              <path class="flaeche" d="M205 150L175 150L175 120L205 120z"/>
+              <path class="figur" d="M199 145.5L193 145.5L193 137.4L185.5 137.4L185.5 133.2L193 133.2L193 129L181 129L181 124.5L199 124.5z"/>
+              <text x="190" y="62" text-anchor="middle">det M = −1</text>
+              <text class="klein" x="190" y="178" text-anchor="middle">F seitenverkehrt</text>
+              <path class="achse" d="M262 150L343 150"/>
+              <path class="achse" d="M268 156L268 75"/>
+              <path class="hilfslinie" d="M268 150L298 150L298 120L268 120z"/>
+              <path class="figur vorher" d="M274 145.5L280 145.5L280 137.4L287.5 137.4L287.5 133.2L280 133.2L280 129L292 129L292 124.5L274 124.5z"/>
+              <path class="kurve kupfer" d="M268 150L328 120"/>
+              <text x="305" y="62" text-anchor="middle">det M = 0</text>
+              <text class="klein" x="305" y="178" text-anchor="middle">alles auf einer Linie</text>
+            </svg>
+            <figcaption>Abb. 4: Was die Determinante anzeigt. Gestrichelt Quadrat und F vorher, getönt nachher. Links verdoppelt die Abbildung jede Fläche, in der Mitte spiegelt sie an der $y$-Achse, rechts sind die beiden Spalten parallel und alles landet auf einer Geraden.</figcaption>
+          </figure>
+          <p>Bei $3\times 3$-Matrizen ist die Determinante entsprechend der
+            <strong>Volumenfaktor</strong>: der Rauminhalt des Spats, den die
+            drei Spalten aufspannen – sie ist das
+            <a href="vektoren.html#spatprodukt">Spatprodukt</a> der Spalten.
+            Ausrechnen kann man sie mit der <strong>Regel von Sarrus</strong>
+            (Abb. 5):</p>
+
+          $$ \det A = a_{11}a_{22}a_{33} + a_{12}a_{23}a_{31} + a_{13}a_{21}a_{32} - a_{31}a_{22}a_{13} - a_{32}a_{23}a_{11} - a_{33}a_{21}a_{12} $$
+
+          <figure class="abbildung">
+            <svg class="abb" viewBox="0 0 360 205" role="img"
+                 aria-label="Regel von Sarrus: Rechts neben die 3 mal 3 Matrix werden die ersten beiden Spalten noch einmal geschrieben; drei blaue Diagonalen nach rechts unten zählen positiv, drei orange nach rechts oben negativ">
+              <path class="kurve blau duenn" d="M70 60L170 140"/>
+              <path class="kurve kupfer duenn" d="M70 140L170 60"/>
+              <path class="kurve blau duenn" d="M120 60L220 140"/>
+              <path class="kurve kupfer duenn" d="M120 140L220 60"/>
+              <path class="kurve blau duenn" d="M170 60L270 140"/>
+              <path class="kurve kupfer duenn" d="M170 140L270 60"/>
+              <path class="achse" d="M48 40L48 160"/>
+              <path class="achse" d="M192 40L192 160"/>
+              <text class="halo" x="67" y="64" text-anchor="middle" font-style="italic">a<tspan dy="4" font-size="10">11</tspan><tspan dy="-4"> </tspan></text>
+              <text class="halo" x="117" y="64" text-anchor="middle" font-style="italic">a<tspan dy="4" font-size="10">12</tspan><tspan dy="-4"> </tspan></text>
+              <text class="halo" x="167" y="64" text-anchor="middle" font-style="italic">a<tspan dy="4" font-size="10">13</tspan><tspan dy="-4"> </tspan></text>
+              <text class="halo" x="217" y="64" text-anchor="middle" font-style="italic">a<tspan dy="4" font-size="10">11</tspan><tspan dy="-4"> </tspan></text>
+              <text class="halo" x="267" y="64" text-anchor="middle" font-style="italic">a<tspan dy="4" font-size="10">12</tspan><tspan dy="-4"> </tspan></text>
+              <text class="halo" x="67" y="104" text-anchor="middle" font-style="italic">a<tspan dy="4" font-size="10">21</tspan><tspan dy="-4"> </tspan></text>
+              <text class="halo" x="117" y="104" text-anchor="middle" font-style="italic">a<tspan dy="4" font-size="10">22</tspan><tspan dy="-4"> </tspan></text>
+              <text class="halo" x="167" y="104" text-anchor="middle" font-style="italic">a<tspan dy="4" font-size="10">23</tspan><tspan dy="-4"> </tspan></text>
+              <text class="halo" x="217" y="104" text-anchor="middle" font-style="italic">a<tspan dy="4" font-size="10">21</tspan><tspan dy="-4"> </tspan></text>
+              <text class="halo" x="267" y="104" text-anchor="middle" font-style="italic">a<tspan dy="4" font-size="10">22</tspan><tspan dy="-4"> </tspan></text>
+              <text class="halo" x="67" y="144" text-anchor="middle" font-style="italic">a<tspan dy="4" font-size="10">31</tspan><tspan dy="-4"> </tspan></text>
+              <text class="halo" x="117" y="144" text-anchor="middle" font-style="italic">a<tspan dy="4" font-size="10">32</tspan><tspan dy="-4"> </tspan></text>
+              <text class="halo" x="167" y="144" text-anchor="middle" font-style="italic">a<tspan dy="4" font-size="10">33</tspan><tspan dy="-4"> </tspan></text>
+              <text class="halo" x="217" y="144" text-anchor="middle" font-style="italic">a<tspan dy="4" font-size="10">31</tspan><tspan dy="-4"> </tspan></text>
+              <text class="halo" x="267" y="144" text-anchor="middle" font-style="italic">a<tspan dy="4" font-size="10">32</tspan><tspan dy="-4"> </tspan></text>
+              <text class="blau" x="184" y="162" text-anchor="middle">+</text>
+              <text class="kupfer" x="184" y="46" text-anchor="middle">−</text>
+              <text class="blau" x="234" y="162" text-anchor="middle">+</text>
+              <text class="kupfer" x="234" y="46" text-anchor="middle">−</text>
+              <text class="blau" x="284" y="162" text-anchor="middle">+</text>
+              <text class="kupfer" x="284" y="46" text-anchor="middle">−</text>
+              <text class="klein" x="245" y="186" text-anchor="middle">Spalten 1 und 2</text>
+              <text class="klein" x="245" y="199" text-anchor="middle">noch einmal</text>
+            </svg>
+            <figcaption>Abb. 5: Regel von Sarrus für $3\times 3$-Matrizen. Die ersten beiden Spalten noch einmal rechts daneben schreiben, dann die drei Produkte entlang der blauen Diagonalen addieren und die drei entlang der orangen abziehen.</figcaption>
+          </figure>
+          <p>Sarrus gilt nur für $3\times 3$-Matrizen. Allgemein hilft die
+            <strong>Laplace-Entwicklung</strong>: Du wählst eine Zeile $i$
+            (oder Spalte), nimmst jedes ihrer Elemente mal der Determinante
+            der kleineren Matrix $A_{ij}$, die übrig bleibt, wenn man Zeile
+            $i$ und Spalte $j$ streicht, und addierst alles mit wechselnden
+            Vorzeichen nach einem Schachbrettmuster, das oben links mit $+$
+            beginnt:</p>
+
+          $$ \det A = \sum_{j=1}^{n} (-1)^{i+j}\, a_{ij}\,\det A_{ij}, \qquad \text{Vorzeichen: } \begin{pmatrix} + & - & + \\ - & + & - \\ + & - & + \end{pmatrix} $$
+
+          <p>Der Trick: Wähle eine Zeile mit vielen Nullen, denn dort fallen
+            Summanden weg. Bei
+            $\begin{pmatrix} 2 & 0 & 1 \\ 1 & 3 & 0 \\ 0 & 0 & 4 \end{pmatrix}$
+            bleibt in der dritten Zeile nur die 4 übrig, und es ist
+            $\det A = 4\cdot(2\cdot 3 - 0\cdot 1) = 24$. Dazu kommen ein paar
+            Rechenregeln, die viel Arbeit sparen:</p>
+
+          <ul>
+            <li>Vertauscht man zwei Zeilen (oder Spalten), wechselt das
+              Vorzeichen.</li>
+            <li>Addiert man ein Vielfaches einer Zeile zu einer anderen, ändert
+              sich nichts. Damit kann man gezielt Nullen erzeugen.</li>
+            <li>Multipliziert man eine Zeile mit $\lambda$, wird die
+              Determinante $\lambda$-mal so groß.</li>
+            <li>Sind zwei Zeilen gleich oder zueinander proportional, ist die
+              Determinante null.</li>
+            <li>Bei einer Dreiecksmatrix (unter der Hauptdiagonalen nur
+              Nullen) ist sie das Produkt der Diagonalelemente.</li>
+            <li>$\det(AB) = \det A\cdot\det B$ – nacheinander ausgeführt,
+              multiplizieren sich die Flächenfaktoren. Außerdem gilt
+              $\det A^T = \det A$.</li>
+          </ul>
+
+          <p>Im Matrix-Labor kannst du selbst ausprobieren, wie eine Matrix
+            die Ebene verformt und was ihre Determinante dabei anzeigt.</p>
+
+          <figure class="interaktiv" data-modell="matrixlabor">
+            <span class="titel">Zum Ausprobieren</span>
+            <figcaption>Die Matrix $M$ verformt das ganze Koordinatengitter
+              (blaue Linien). Die beiden Pfeile sind die Spalten von $M$, also
+              die Bilder von $\hat e_x$ (blau) und $\hat e_y$ (orange). Zieh
+              ihre Spitzen mit der Maus oder dem Finger – oder wähle sie mit
+              der Tab-Taste aus und verschiebe sie mit den Pfeiltasten.
+              Gestrichelt siehst du das Einheitsquadrat und ein F vorher,
+              getönt nachher; die getönte Fläche ist $|\det M|$. Probier die
+              Beispiele aus, stell die Spalten parallel oder bring das F dazu,
+              seitenverkehrt zu erscheinen!</figcaption>
+          </figure>
+
+          <h2 id="inverse">Die inverse Matrix</h2>
+
+          <p>Die <strong>inverse Matrix</strong> $M^{-1}$ macht eine
+            Abbildung rückgängig: $M^{-1}M = M M^{-1} = \mathbf 1$. Nicht jede
+            Matrix hat eine Inverse. Wurde die Ebene auf eine Gerade
+            gequetscht, lässt sich nicht mehr feststellen, woher ein Punkt
+            kam. Deshalb gilt:</p>
+
+          $$ M \text{ ist invertierbar} \quad\Leftrightarrow\quad \det M \neq 0 $$
+
+          <p>Für $2\times 2$-Matrizen gibt es eine einfache Formel:
+            Hauptdiagonale vertauschen, auf der Nebendiagonale das Vorzeichen
+            umdrehen, durch die Determinante teilen.</p>
+
+          $$ \begin{pmatrix} a & b \\ c & d \end{pmatrix}^{-1} = \frac{1}{ad - bc}\begin{pmatrix} d & -b \\ -c & a \end{pmatrix} $$
+
+          <p>Für die Matrix aus Abb. 3 ergibt das
+            $M^{-1} = \frac13\begin{pmatrix} 1 & 1 \\ -1 & 2 \end{pmatrix}$;
+            die Probe $M M^{-1} = \mathbf 1$ geht auf. Für größere Matrizen
+            gibt es ebenfalls eine Formel: Man ersetzt jedes Element durch
+            seine Streichdeterminante mit Schachbrett-Vorzeichen (das ergibt
+            die <em>Adjunkte</em>), transponiert und teilt durch
+            $\det M$. Das ist aber mühsam; in der Praxis rechnet man mit dem
+            Gauß-Verfahren oder dem Computer. Nützliche Regeln:</p>
+
+          $$ (AB)^{-1} = B^{-1}A^{-1}, \qquad (A^T)^{-1} = (A^{-1})^T, \qquad \det(A^{-1}) = \frac{1}{\det A} $$
+
+          <p>Die erste Regel kennst du aus dem Alltag: Wer zuerst Socken und
+            dann Schuhe anzieht, muss beim Ausziehen zuerst die Schuhe
+            ausziehen. Die wichtigste Anwendung der Inversen sind lineare
+            Gleichungssysteme. Aus $A\vec x = \vec b$ folgt durch
+            Multiplizieren mit $A^{-1}$ von links sofort die Lösung:</p>
+
+          $$ \vec x = A^{-1}\vec b $$
+
+          <div class="alltag">
+            <span class="titel">Gleichungssysteme überall</span>
+            <p>Kräftegleichgewichte an einem Knoten, Ströme in einem
+              Netzwerk aus Widerständen, Schwingungen gekoppelter Pendel – all
+              das führt auf $A\vec x = \vec b$. Bei Wetter- und
+              Strömungssimulationen haben die Matrizen Millionen von Zeilen.
+              Solche Gleichungssysteme zu lösen ist eine der Hauptaufgaben von
+              Großrechnern.</p>
+          </div>
+
+          <h2 id="drehungen">Drehungen und Spiegelungen</h2>
+
+          <p>Besonders wichtig sind Abbildungen, die Längen und Winkel nicht
+            verändern. Ihre Matrizen heißen <strong>orthogonal</strong>, und
+            für sie gilt</p>
+
+          $$ O^T O = \mathbf 1, \qquad\text{also}\qquad O^{-1} = O^T $$
+
+          <p>Die Inverse ist hier geschenkt: einfach transponieren. Die
+            Spalten einer orthogonalen Matrix sind Einheitsvektoren, die
+            senkrecht aufeinander stehen. Ihre Determinante ist $+1$ oder
+            $-1$. Bei $\det O = +1$ ist es eine <strong>Drehung</strong>, bei
+            $\det O = -1$ steckt eine <strong>Spiegelung</strong> darin (Abb. 4
+            Mitte).</p>
+
+          <p>Die Drehmatrix für eine Drehung um den Winkel $\varphi$ gegen den
+            Uhrzeigersinn liest du direkt aus Abb. 6 ab – die Bilder der
+            Einheitsvektoren werden zu Spalten:</p>
+
+          $$ D(\varphi) = \begin{pmatrix} \cos\varphi & -\sin\varphi \\ \sin\varphi & \cos\varphi \end{pmatrix}, \qquad \det D = \cos^2\varphi + \sin^2\varphi = 1 $$
+
+          <figure class="abbildung">
+            <svg class="abb" viewBox="0 0 360 200" role="img"
+                 aria-label="Drehung um den Winkel phi: Der Einheitsvektor in x-Richtung geht über in den blauen Pfeil mit den Komponenten cos phi und sin phi, der Einheitsvektor in y-Richtung in den orangen Pfeil mit minus sin phi und cos phi">
+              <defs><marker id="pfeil-abb6" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="currentColor"/></marker><marker id="pfeil-abb6-blau" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto"><path class="punkt blau" d="M0 0L10 5L0 10z"/></marker><marker id="pfeil-abb6-kupfer" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto"><path class="punkt kupfer" d="M0 0L10 5L0 10z"/></marker></defs>
+              <path class="achse" d="M70 182L290 182" marker-end="url(#pfeil-abb6)"/>
+              <path class="achse" d="M130 190L130 32" marker-end="url(#pfeil-abb6)"/>
+              <path class="hilfslinie" d="M250 182A120 120 0 0 0 61.2 83.7"/>
+              <path class="hilfslinie" d="M233.9 122L233.9 182"/>
+              <path class="hilfslinie" d="M70 78.1L130 78.1"/>
+              <path class="kurve schwach" d="M130 182L250 182"/>
+              <path class="kurve schwach" d="M130 182L130 62"/>
+              <path class="kurve blau" d="M130 182L233.9 122" marker-end="url(#pfeil-abb6-blau)"/>
+              <path class="kurve kupfer" d="M130 182L70 78.1" marker-end="url(#pfeil-abb6-kupfer)"/>
+              <path class="achse" d="M168 182A38 38 0 0 0 162.9 163"/>
+              <path class="achse" d="M130 144A38 38 0 0 0 111 149.1"/>
+              <text class="halo" x="178" y="175" text-anchor="middle" font-style="italic">φ</text>
+              <text class="halo" x="121" y="136" text-anchor="middle" font-style="italic">φ</text>
+              <text class="blau klein" x="188" y="199" text-anchor="middle">cos φ</text>
+              <text class="blau klein" x="239.9" y="156" text-anchor="start">sin φ</text>
+              <text class="kupfer klein halo" x="102" y="93.1" text-anchor="middle">sin φ</text>
+              <text class="kupfer klein halo" x="136" y="128" text-anchor="start">cos φ</text>
+              <text class="blau halo" x="243.9" y="114" text-anchor="start">D ê<tspan dy="4" font-size="10">x</tspan><tspan dy="-4"> </tspan></text>
+              <text class="kupfer halo" x="64" y="68.1" text-anchor="end">D ê<tspan dy="4" font-size="10">y</tspan><tspan dy="-4"> </tspan></text>
+              <text x="254" y="200" text-anchor="middle">ê<tspan dy="4" font-size="10">x</tspan><tspan dy="-4"> </tspan></text>
+              <text x="122" y="44" text-anchor="end">ê<tspan dy="4" font-size="10">y</tspan><tspan dy="-4"> </tspan></text>
+            </svg>
+            <figcaption>Abb. 6: Eine Drehung um $\varphi$ (hier $30^\circ$) gegen den Uhrzeigersinn. $\hat e_x$ landet bei $(\cos\varphi, \sin\varphi)$, $\hat e_y$ bei $(-\sin\varphi, \cos\varphi)$. Diese beiden Bilder sind die Spalten der Drehmatrix.</figcaption>
+          </figure>
+          <p>Die Rückdrehung ist die Drehung um $-\varphi$, und weil
+            $\cos(-\varphi) = \cos\varphi$ und $\sin(-\varphi) = -\sin\varphi$
+            ist, gilt tatsächlich $D(-\varphi) = D(\varphi)^T$. Im Raum dreht
+            man um eine Achse. Für eine Drehung um die $z$-Achse bleibt die
+            $z$-Komponente unverändert:</p>
+
+          $$ D_z(\varphi) = \begin{pmatrix} \cos\varphi & -\sin\varphi & 0 \\ \sin\varphi & \cos\varphi & 0 \\ 0 & 0 & 1 \end{pmatrix} $$
+
+          <p>Die Drehungen um die $x$- und die $y$-Achse sind genauso gebaut,
+            mit der 1 an der Stelle der jeweiligen Achse. Vorsicht bei der
+            $y$-Achse: Dort steht $-\sin\varphi$ unten links und
+            $+\sin\varphi$ oben rechts. Den Drehwinkel einer beliebigen
+            Drehung im Raum verrät die <strong>Spur</strong>, die Summe der
+            Diagonalelemente:</p>
+
+          $$ \operatorname{Sp} D = 1 + 2\cos\varphi $$
+
+          <p>Bei $D_z$ siehst du das sofort: $\cos\varphi + \cos\varphi + 1$.
+            Erstaunlich ist, dass es für jede Drehachse gilt – die Spur ändert
+            sich nicht, wenn man das Koordinatensystem wechselt.</p>
+
+          <p>Statt eines Vektors kann man auch das Koordinatensystem drehen.
+            Das ist ein <strong>Basiswechsel</strong>: Der Pfeil bleibt, wo er
+            ist, aber seine Komponenten ändern sich. Dreht sich das
+            Koordinatensystem um $\varphi$, sieht es für den Pfeil so aus, als
+            hätte er sich um $-\varphi$ gedreht. Seine neuen Komponenten
+            bekommt man also mit $D(\varphi)^T$ – die neuen Basisvektoren
+            stehen dann in den Zeilen. So zerlegt man etwa die Gewichtskraft
+            auf einer <a href="../mechanik/kraefte.html">schiefen Ebene</a>
+            (Beispiel 2).</p>
+
+          <h2 id="ueberblick">Alles auf einen Blick</h2>
+
+          <div class="tabelle-huelle">
+            <table>
+              <thead><tr><th>Begriff</th><th>So rechnet man</th><th>Bedeutung</th></tr></thead>
+              <tbody>
+                <tr><td>Produkt $AB$</td><td>Zeile mal Spalte</td><td>erst $B$, dann $A$ ausführen; $AB \neq BA$</td></tr>
+                <tr><td>$M\vec x$</td><td>Matrix mal Vektor</td><td>Abbildung: Vektor rein, Vektor raus</td></tr>
+                <tr><td>Spalten von $M$</td><td>$M\hat e_j$</td><td>Bilder der Einheitsvektoren</td></tr>
+                <tr><td>$\det M$</td><td>$ad - bc$, Sarrus, Laplace</td><td>Flächen- bzw. Volumenfaktor; negativ heißt gespiegelt</td></tr>
+                <tr><td>$M^{-1}$</td><td>$\frac{1}{ad - bc}\begin{pmatrix} d & -b \\ -c & a \end{pmatrix}$</td><td>macht $M$ rückgängig; nur bei $\det M \neq 0$</td></tr>
+                <tr><td>$M^T$</td><td>Zeilen und Spalten tauschen</td><td>bei Drehungen gleich der Inversen</td></tr>
+                <tr><td>$\operatorname{Sp} M$</td><td>Summe der Diagonale</td><td>bei Drehungen im Raum $1 + 2\cos\varphi$</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="merkkasten">
+            <span class="titel">Das Wichtigste in Kürze</span>
+            <p>Eine Matrix ist eine Zahlentabelle, die Vektoren in Vektoren
+              verwandelt. Multipliziert wird „Zeile mal Spalte“, und die
+              Reihenfolge zählt. Die Spalten einer Matrix zeigen, wohin die
+              Einheitsvektoren wandern. Die Determinante sagt, um welchen
+              Faktor Flächen oder Volumen wachsen; ist sie negativ, wird
+              gespiegelt, ist sie null, lässt sich die Abbildung nicht
+              umkehren. Drehungen ändern weder Längen noch Winkel, und ihre
+              Umkehrung bekommt man durch bloßes Transponieren.</p>
+          </div>
+        </section>
+
+        <section class="tab" id="vertiefung" data-titel="Vertiefung"></section>
+
+        <section class="tab" id="beispiele" data-titel="Beispielrechnungen">
+
+          <div class="beispiel" data-symbole='{"F_1": "Zugkraft in Seil 1", "F_2": "Zugkraft in Seil 2", "G": "Gewichtskraft der Lampe", "e_1": "Richtung von Seil 1", "e_2": "Richtung von Seil 2", "K": "Koeffizientenmatrix des Gleichungssystems"}'>
+            <h3>Beispiel 1: Eine Lampe an zwei Seilen</h3>
+            <p><strong>Gegeben:</strong> Eine Lampe mit der Gewichtskraft
+              $G = 100\,\mathrm{N}$ hängt an einem Knoten, von dem zwei Seile
+              schräg nach oben laufen ($x$-Achse nach rechts, $z$-Achse nach
+              oben). Seil 1 zeigt nach links oben in Richtung
+              $\hat e_1 = (-0{,}8;\ 0{,}6)$ – es steigt 3 cm pro 4 cm. Seil 2
+              zeigt nach rechts oben in Richtung
+              $\hat e_2 = (\tfrac{12}{13};\ \tfrac{5}{13})$ – es steigt 5 cm
+              pro 12 cm.<br>
+              <strong>Gesucht:</strong> die Zugkräfte $F_1$ und $F_2$ in den
+              Seilen.</p>
+
+            <p><strong>1. Gleichgewicht aufstellen.</strong> Die drei Kräfte
+              heben sich auf:
+              $F_1\hat e_1 + F_2\hat e_2 + (0;\ -G) = \vec 0$. Komponentenweise
+              sind das zwei Gleichungen:
+              $$ -0{,}8\,F_1 + \tfrac{12}{13}\,F_2 = 0, \qquad 0{,}6\,F_1 + \tfrac{5}{13}\,F_2 = 100\,\mathrm{N} $$
+              In Matrixform – die Richtungen der Seile stehen als Spalten in
+              der Matrix:
+              $$ \underbrace{\begin{pmatrix} -0{,}8 & \frac{12}{13} \\ 0{,}6 & \frac{5}{13} \end{pmatrix}}_{K}\begin{pmatrix} F_1 \\ F_2 \end{pmatrix} = \begin{pmatrix} 0 \\ 100\,\mathrm{N} \end{pmatrix} $$</p>
+
+            <p><strong>2. Determinante.</strong>
+              $$ \det K = (-0{,}8)\cdot\tfrac{5}{13} - \tfrac{12}{13}\cdot 0{,}6 = -\tfrac{4}{13} - \tfrac{7{,}2}{13} = -\tfrac{11{,}2}{13} = -0{,}8615 $$
+              Sie ist nicht null – das System hat genau eine Lösung. Die
+              Determinante ist dimensionslos, denn in $K$ stehen nur
+              Richtungen.</p>
+
+            <p><strong>3. Inverse</strong> nach der Formel
+              „Diagonale tauschen, Vorzeichen der Nebendiagonale umdrehen“:
+              $$ K^{-1} = \frac{1}{\det K}\begin{pmatrix} \frac{5}{13} & -\frac{12}{13} \\ -0{,}6 & -0{,}8 \end{pmatrix} $$</p>
+
+            <p><strong>4. Lösung</strong> $\vec F = K^{-1}\vec b$. Weil die
+              obere Komponente von $\vec b$ null ist, zählt nur die rechte
+              Spalte von $K^{-1}$:
+              $$ F_1 = \frac{-\frac{12}{13}\cdot 100\,\mathrm{N}}{-0{,}8615} = \frac{-92{,}31\,\mathrm{N}}{-0{,}8615} = 107{,}1\,\mathrm{N}, \qquad F_2 = \frac{-0{,}8\cdot 100\,\mathrm{N}}{-0{,}8615} = 92{,}9\,\mathrm{N} $$
+              Einheitencheck: Newton geteilt durch eine reine Zahl ergibt
+              Newton.</p>
+
+            <p><strong>Ergebnis und Plausibilität:</strong> Seil 1 trägt
+              $107\,\mathrm{N}$, Seil 2 $93\,\mathrm{N}$. Beide Kräfte sind
+              positiv, die Seile werden also wirklich gezogen. Probe senkrecht:
+              $0{,}6\cdot 107{,}1\,\mathrm{N} + \tfrac{5}{13}\cdot
+              92{,}9\,\mathrm{N} = 64{,}3\,\mathrm{N} + 35{,}7\,\mathrm{N} =
+              100\,\mathrm{N}$; waagerecht ziehen beide mit
+              $85{,}7\,\mathrm{N}$ gegeneinander. Das steilere Seil 1 trägt
+              mehr, und zusammen tragen die Seile mehr als das Gewicht der
+              Lampe – ein großer Teil ihrer Kraft zieht nur zur Seite. Je
+              flacher die Seile, desto größer wird dieser Anteil.</p>
+          </div>
+
+          <div class="beispiel" data-symbole='{"F_G": "Gewichtskraft", "F′": "Gewichtskraft in den gedrehten Koordinaten", "e_x′": "neuer Basisvektor längs der Ebene", "e_y′": "neuer Basisvektor senkrecht zur Ebene", "m": "Masse der Kiste", "g": "Fallbeschleunigung"}'>
+            <h3>Beispiel 2: Die Gewichtskraft auf der schiefen Ebene</h3>
+            <p><strong>Gegeben:</strong> Eine Kiste mit $m = 10\,\mathrm{kg}$
+              liegt auf einer Rampe mit dem Neigungswinkel $\alpha = 30^\circ$.
+              Im gewohnten Koordinatensystem ($x$ waagerecht, $y$ senkrecht
+              nach oben) ist die Gewichtskraft
+              $\vec F_G = (0;\ -mg) = (0;\ -98{,}1)\,\mathrm{N}$ mit
+              $g = 9{,}81\,\mathrm{m/s^2}$.<br>
+              <strong>Gesucht:</strong> die Komponenten von $\vec F_G$ in
+              einem Koordinatensystem, dessen $x'$-Achse die Rampe hinauf und
+              dessen $y'$-Achse senkrecht von der Rampe weg zeigt.</p>
+
+            <p><strong>1. Neue Basisvektoren.</strong> Das neue System ist das
+              alte, um $\alpha$ gedreht. Die neuen Basisvektoren sind also die
+              Spalten von $D(\alpha)$:
+              $$ \hat e_x' = \begin{pmatrix} \cos\alpha \\ \sin\alpha \end{pmatrix} = \begin{pmatrix} 0{,}866 \\ 0{,}5 \end{pmatrix}, \qquad \hat e_y' = \begin{pmatrix} -\sin\alpha \\ \cos\alpha \end{pmatrix} = \begin{pmatrix} -0{,}5 \\ 0{,}866 \end{pmatrix} $$</p>
+
+            <p><strong>2. Basiswechsel.</strong> Die neuen Komponenten sind
+              die Skalarprodukte mit den neuen Basisvektoren. Die stehen also in
+              den <em>Zeilen</em> der Matrix – das ist $D(\alpha)^T$:
+              $$ \vec F' = D(\alpha)^T\vec F_G = \begin{pmatrix} \cos\alpha & \sin\alpha \\ -\sin\alpha & \cos\alpha \end{pmatrix}\begin{pmatrix} 0 \\ -98{,}1\,\mathrm{N} \end{pmatrix} $$</p>
+
+            <p><strong>3. Ausrechnen</strong>, Zeile mal Spalte:
+              $$ \vec F' = \begin{pmatrix} 0{,}866\cdot 0 + 0{,}5\cdot(-98{,}1\,\mathrm{N}) \\ -0{,}5\cdot 0 + 0{,}866\cdot(-98{,}1\,\mathrm{N}) \end{pmatrix} = \begin{pmatrix} -49{,}1\,\mathrm{N} \\ -85{,}0\,\mathrm{N} \end{pmatrix} $$</p>
+
+            <p><strong>4. Probe mit der Länge.</strong> Eine Drehung ändert
+              keine Längen:
+              $$ |\vec F'| = \sqrt{49{,}05^2 + 84{,}96^2}\,\mathrm{N} = 98{,}1\,\mathrm{N} = |\vec F_G| $$
+              Einheitencheck: Die Drehmatrix ist dimensionslos, die
+              Komponenten bleiben also in Newton.</p>
+
+            <p><strong>Ergebnis und Plausibilität:</strong> Längs der Rampe
+              zieht $49{,}1\,\mathrm{N} = mg\sin\alpha$ nach unten (negatives
+              $x'$), senkrecht drückt $85{,}0\,\mathrm{N} = mg\cos\alpha$ in die
+              Rampe (negatives $y'$) – genau die Hangabtriebs- und
+              Normalkomponente von der Seite über
+              <a href="../mechanik/kraefte.html">Kräfte</a>. Für
+              $\alpha = 0$ wird $D$ zur Einheitsmatrix und nichts ändert sich,
+              wie es sein muss. Der Vorteil der Matrix: Das Verfahren
+              funktioniert für jeden Vektor und jeden Winkel, ohne dass man
+              eine Skizze mit Hilfsdreiecken braucht.</p>
+          </div>
+
+          <div class="beispiel" data-symbole='{"M": "Verformungsmatrix", "V": "Volumen", "V′": "Volumen nach der Verformung"}'>
+            <h3>Beispiel 3: Ein verformter Schaumstoffwürfel</h3>
+            <p><strong>Gegeben:</strong> Ein Würfel aus Schaumstoff mit der
+              Kantenlänge $1\,\mathrm{cm}$ steht mit einer Ecke im Ursprung,
+              die Kanten entlang der Achsen. Er wird so verformt, dass jeder
+              Punkt $\vec r$ nach $M\vec r$ wandert, mit
+              $$ M = \begin{pmatrix} 1{,}2 & 0{,}3 & 0 \\ 0{,}1 & 1 & 0 \\ 0 & 0{,}2 & 0{,}9 \end{pmatrix} $$
+              <strong>Gesucht:</strong> (a) wohin die gegenüberliegende Ecke
+              $(1, 1, 1)\,\mathrm{cm}$ wandert, (b) $\det M$ mit der
+              Laplace-Entwicklung, (c) eine Probe mit Sarrus, (d) das neue
+              Volumen.</p>
+
+            <p><strong>1. Die Ecke</strong>, Zeile mal Spalte:
+              $$ M\begin{pmatrix} 1 \\ 1 \\ 1 \end{pmatrix}\,\mathrm{cm} = \begin{pmatrix} 1{,}2 + 0{,}3 + 0 \\ 0{,}1 + 1 + 0 \\ 0 + 0{,}2 + 0{,}9 \end{pmatrix}\,\mathrm{cm} = \begin{pmatrix} 1{,}5 \\ 1{,}1 \\ 1{,}1 \end{pmatrix}\,\mathrm{cm} $$
+              Das ist die Summe der drei Spalten – die Bilder der drei Kanten.</p>
+
+            <p><strong>2. Laplace-Entwicklung</strong> nach der dritten Spalte,
+              denn dort stehen zwei Nullen. Übrig bleibt nur $a_{33} = 0{,}9$
+              (Vorzeichen $+$) mal seine Streichdeterminante:
+              $$ \det M = +0{,}9\cdot\begin{vmatrix} 1{,}2 & 0{,}3 \\ 0{,}1 & 1 \end{vmatrix} = 0{,}9\cdot(1{,}2 - 0{,}03) = 0{,}9\cdot 1{,}17 = 1{,}053 $$</p>
+
+            <p><strong>3. Probe mit Sarrus:</strong>
+              $$ \det M = 1{,}2\cdot 1\cdot 0{,}9 + 0{,}3\cdot 0\cdot 0 + 0\cdot 0{,}1\cdot 0{,}2 - 0\cdot 1\cdot 0 - 0{,}2\cdot 0\cdot 1{,}2 - 0{,}9\cdot 0{,}1\cdot 0{,}3 = 1{,}08 - 0{,}027 = 1{,}053 $$</p>
+
+            <p><strong>4. Volumen.</strong> Die Determinante ist der
+              Volumenfaktor:
+              $$ V' = \det M\cdot V = 1{,}053\cdot 1\,\mathrm{cm^3} = 1{,}053\,\mathrm{cm^3} $$
+              Einheitencheck: $M$ ist dimensionslos, das Volumen behält seine
+              Einheit $\mathrm{cm^3}$.</p>
+
+            <p><strong>Ergebnis und Plausibilität:</strong> Der Würfel wird
+              zum schiefen Spat und wächst um gut 5 %. Ohne die Scherungen
+              (die Einträge außerhalb der Diagonale) wäre er ein Quader mit
+              $1{,}2\cdot 1\cdot 0{,}9 = 1{,}08\,\mathrm{cm^3}$. Die
+              Determinante ist positiv: Der Würfel wird nicht „umgestülpt“,
+              wie es sich für ein echtes Stück Schaumstoff gehört.</p>
+          </div>
+        </section>
+
+        <section class="tab" id="aufgaben" data-titel="Aufgaben">
+
+          <p>Die Aufgaben sind nach Schwierigkeit sortiert. Versuch es erst
+            selbst – die Lösungen sind zugeklappt. Drehungen in der Ebene
+            zählen gegen den Uhrzeigersinn positiv.</p>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 1: Rechnen mit Matrizen
+              <span class="schwierigkeit" data-stufe="leicht">leicht</span>
+            </h3>
+            <p>Gegeben sind
+              $A = \begin{pmatrix} 2 & -1 \\ 3 & 0 \end{pmatrix}$ und
+              $B = \begin{pmatrix} 1 & 4 \\ -2 & 1 \end{pmatrix}$.</p>
+            <ol type="a">
+              <li>Berechne $A + B$ und $2A - B$.</li>
+              <li>Berechne $AB$ und $BA$. Sind sie gleich?</li>
+              <li>Gib $A^T$ an. Ist $A$ symmetrisch?</li>
+            </ol>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>(a) Element für Element:
+                $$ A + B = \begin{pmatrix} 3 & 3 \\ 1 & 1 \end{pmatrix}, \qquad 2A - B = \begin{pmatrix} 4 - 1 & -2 - 4 \\ 6 + 2 & 0 - 1 \end{pmatrix} = \begin{pmatrix} 3 & -6 \\ 8 & -1 \end{pmatrix} $$</p>
+              <p>(b) Zeile mal Spalte:
+                $$ AB = \begin{pmatrix} 2\cdot 1 + (-1)(-2) & 2\cdot 4 + (-1)\cdot 1 \\ 3\cdot 1 + 0 & 3\cdot 4 + 0 \end{pmatrix} = \begin{pmatrix} 4 & 7 \\ 3 & 12 \end{pmatrix}, \qquad BA = \begin{pmatrix} 2 + 12 & -1 + 0 \\ -4 + 3 & 2 + 0 \end{pmatrix} = \begin{pmatrix} 14 & -1 \\ -1 & 2 \end{pmatrix} $$
+                Die beiden Produkte sind verschieden. Probe mit der Spur:
+                $\operatorname{Sp}(AB) = 16 = \operatorname{Sp}(BA)$ – die Spur
+                eines Produkts hängt nicht von der Reihenfolge ab, die Matrix
+                selbst schon.</p>
+              <p>(c) $A^T = \begin{pmatrix} 2 & 3 \\ -1 & 0 \end{pmatrix} \neq
+                A$, also ist $A$ nicht symmetrisch.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 2: Determinanten
+              <span class="schwierigkeit" data-stufe="leicht">leicht</span>
+            </h3>
+            <p>Berechne die Determinanten und entscheide, welche Matrizen
+              eine Inverse haben.</p>
+            <ol type="a">
+              <li>$\begin{pmatrix} 3 & 5 \\ 2 & 4 \end{pmatrix}$ und
+                $\begin{pmatrix} 6 & -4 \\ -3 & 2 \end{pmatrix}$</li>
+              <li>$\begin{pmatrix} 2 & 7 & -1 \\ 0 & -3 & 5 \\ 0 & 0 & 4 \end{pmatrix}$ und
+                $\begin{pmatrix} 1 & 2 & 3 \\ 2 & 4 & 6 \\ 0 & 1 & 5 \end{pmatrix}$
+                – geht es ohne lange Rechnung?</li>
+            </ol>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>(a) $3\cdot 4 - 5\cdot 2 = 2$ und
+                $6\cdot 2 - (-4)(-3) = 12 - 12 = 0$. Bei der zweiten Matrix ist
+                die erste Zeile das $(-2)$-fache der zweiten – die Spalten sind
+                parallel, die Ebene wird auf eine Gerade gequetscht.</p>
+              <p>(b) Die erste Matrix ist eine Dreiecksmatrix, ihre
+                Determinante ist das Produkt der Diagonale:
+                $2\cdot(-3)\cdot 4 = -24$. Bei der zweiten ist die zweite Zeile
+                das Doppelte der ersten, also ist die Determinante $0$.</p>
+              <p>Eine Inverse haben nur die Matrizen mit $\det \neq 0$: die
+                erste aus (a) und die erste aus (b). Das negative Vorzeichen
+                bei $-24$ stört nicht – es zeigt nur, dass die Abbildung
+                spiegelt.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe" data-symbole='{"m_g": "Masse einer großen Kugel", "m_k": "Masse einer kleinen Kugel", "W": "Koeffizientenmatrix der Wägungen"}'>
+            <h3>Aufgabe 3: Zwei Wägungen
+              <span class="schwierigkeit" data-stufe="mittel">mittel</span>
+            </h3>
+            <p>Im Praktikum gibt es große und kleine Stahlkugeln. Drei große
+              und zwei kleine wiegen zusammen $1{,}30\,\mathrm{kg}$, eine große
+              und vier kleine $1{,}10\,\mathrm{kg}$.</p>
+            <ol type="a">
+              <li>Schreibe das Gleichungssystem für die Massen $m_g$ und
+                $m_k$ in der Form $W\vec m = \vec b$.</li>
+              <li>Berechne $\det W$ und $W^{-1}$.</li>
+              <li>Bestimme $m_g$ und $m_k$ und mache die Probe.</li>
+            </ol>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>(a)
+                $$ \underbrace{\begin{pmatrix} 3 & 2 \\ 1 & 4 \end{pmatrix}}_{W}\begin{pmatrix} m_g \\ m_k \end{pmatrix} = \begin{pmatrix} 1{,}30 \\ 1{,}10 \end{pmatrix}\,\mathrm{kg} $$</p>
+              <p>(b) $\det W = 3\cdot 4 - 2\cdot 1 = 10$, also
+                $$ W^{-1} = \frac{1}{10}\begin{pmatrix} 4 & -2 \\ -1 & 3 \end{pmatrix} $$
+                Probe: $W W^{-1} = \frac{1}{10}\begin{pmatrix} 12 - 2 & -6 + 6 \\ 4 - 4 & -2 + 12 \end{pmatrix} = \mathbf 1$.</p>
+              <p>(c)
+                $$ \vec m = W^{-1}\vec b = \frac{1}{10}\begin{pmatrix} 4\cdot 1{,}30 - 2\cdot 1{,}10 \\ -1{,}30 + 3\cdot 1{,}10 \end{pmatrix}\,\mathrm{kg} = \frac{1}{10}\begin{pmatrix} 3{,}00 \\ 2{,}00 \end{pmatrix}\,\mathrm{kg} = \begin{pmatrix} 0{,}300 \\ 0{,}200 \end{pmatrix}\,\mathrm{kg} $$
+                Eine große Kugel wiegt $300\,\mathrm{g}$, eine kleine
+                $200\,\mathrm{g}$. Probe: $3\cdot 0{,}3 + 2\cdot 0{,}2 = 1{,}3$
+                und $0{,}3 + 4\cdot 0{,}2 = 1{,}1$ (in kg).</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 4: Drehmatrizen
+              <span class="schwierigkeit" data-stufe="mittel">mittel</span>
+            </h3>
+            <ol type="a">
+              <li>Drehe den Vektor $(3, 1)$ um $90^\circ$ und den Vektor
+                $(2, 0)$ um $60^\circ$. Prüfe, dass sich die Längen nicht
+                ändern.</li>
+              <li>Berechne das Produkt $D(\alpha)D(\beta)$ und zeige mit den
+                Additionstheoremen, dass es $D(\alpha + \beta)$ ist. Was
+                bedeutet das anschaulich?</li>
+              <li>Zeige, dass $D(\varphi)^T D(\varphi) = \mathbf 1$ gilt.</li>
+            </ol>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>(a) Mit $\cos 90^\circ = 0$, $\sin 90^\circ = 1$:
+                $$ D(90^\circ)\begin{pmatrix} 3 \\ 1 \end{pmatrix} = \begin{pmatrix} 0 & -1 \\ 1 & 0 \end{pmatrix}\begin{pmatrix} 3 \\ 1 \end{pmatrix} = \begin{pmatrix} -1 \\ 3 \end{pmatrix}, \qquad D(60^\circ)\begin{pmatrix} 2 \\ 0 \end{pmatrix} = \begin{pmatrix} 2\cos 60^\circ \\ 2\sin 60^\circ \end{pmatrix} = \begin{pmatrix} 1 \\ \sqrt 3 \end{pmatrix} $$
+                Längen: $\sqrt{9 + 1} = \sqrt{1 + 9} = \sqrt{10}$ und
+                $\sqrt{1 + 3} = 2$ – unverändert.</p>
+              <p>(b) Zeile mal Spalte, abgekürzt $c_\alpha = \cos\alpha$ usw.:
+                $$ D(\alpha)D(\beta) = \begin{pmatrix} c_\alpha c_\beta - s_\alpha s_\beta & -c_\alpha s_\beta - s_\alpha c_\beta \\ s_\alpha c_\beta + c_\alpha s_\beta & -s_\alpha s_\beta + c_\alpha c_\beta \end{pmatrix} = \begin{pmatrix} \cos(\alpha + \beta) & -\sin(\alpha + \beta) \\ \sin(\alpha + \beta) & \cos(\alpha + \beta) \end{pmatrix} $$
+                Zwei Drehungen hintereinander sind eine Drehung um die Summe
+                der Winkel. Anders herum gelesen: Die Additionstheoreme für
+                Sinus und Kosinus „wohnen“ in der Matrixmultiplikation. In der
+                Ebene kommt es bei Drehungen übrigens nicht auf die Reihenfolge
+                an, weil $\alpha + \beta = \beta + \alpha$ ist.</p>
+              <p>(c)
+                $$ D^T D = \begin{pmatrix} \cos\varphi & \sin\varphi \\ -\sin\varphi & \cos\varphi \end{pmatrix}\begin{pmatrix} \cos\varphi & -\sin\varphi \\ \sin\varphi & \cos\varphi \end{pmatrix} = \begin{pmatrix} \cos^2\varphi + \sin^2\varphi & 0 \\ 0 & \sin^2\varphi + \cos^2\varphi \end{pmatrix} = \mathbf 1 $$</p>
+            </details>
+          </div>
+
+          <div class="aufgabe" data-symbole='{"S": "Spiegelung an der x-Achse", "D": "Drehung um 90°"}'>
+            <h3>Aufgabe 5: Erst drehen oder erst spiegeln?
+              <span class="schwierigkeit" data-stufe="schwer">schwer</span>
+            </h3>
+            <p>$S$ sei die Spiegelung an der $x$-Achse, $D$ die Drehung um
+              $90^\circ$ gegen den Uhrzeigersinn.</p>
+            <ol type="a">
+              <li>Stelle $S$ und $D$ auf, indem du überlegst, wohin
+                $\hat e_x$ und $\hat e_y$ wandern.</li>
+              <li>Berechne $SD$ und $DS$. Welche Abbildung wird jeweils zuerst
+                ausgeführt?</li>
+              <li>Beide Produkte sind wieder Spiegelungen. An welchen Geraden?
+                Tipp: Schau, welche Vektoren unverändert bleiben.</li>
+            </ol>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>(a) Die Spiegelung lässt $\hat e_x$ in Ruhe und kehrt
+                $\hat e_y$ um ($\hat e_y \to -\hat e_y$); die Drehung schickt $\hat e_x$ nach $\hat e_y$
+                und $\hat e_y$ nach $-\hat e_x$:
+                $$ S = \begin{pmatrix} 1 & 0 \\ 0 & -1 \end{pmatrix}, \qquad D = \begin{pmatrix} 0 & -1 \\ 1 & 0 \end{pmatrix} $$</p>
+              <p>(b) Von rechts nach links gelesen: Bei $SD$ wird zuerst
+                gedreht, dann gespiegelt; bei $DS$ umgekehrt.
+                $$ SD = \begin{pmatrix} 1\cdot 0 + 0 & 1\cdot(-1) + 0 \\ 0 + (-1)\cdot 1 & 0 + 0 \end{pmatrix} = \begin{pmatrix} 0 & -1 \\ -1 & 0 \end{pmatrix}, \qquad DS = \begin{pmatrix} 0 & 1 \\ 1 & 0 \end{pmatrix} $$
+                Die Ergebnisse sind verschieden.</p>
+              <p>(c) $DS$ vertauscht die beiden Komponenten: $(x, y) \to
+                (y, x)$. Unverändert bleiben die Vektoren mit $x = y$ – das ist
+                die Spiegelung an der Winkelhalbierenden $y = x$. $SD$ macht
+                $(x, y) \to (-y, -x)$; unverändert bleibt $(1, -1)$, also wird
+                an der Geraden $y = -x$ gespiegelt. Beide haben die
+                Determinante $\det S\cdot\det D = (-1)\cdot 1 = -1$.</p>
+              <p><strong>Zum Nachdenken:</strong> Warum muss das Produkt aus
+                einer Drehung und einer Spiegelung immer eine Spiegelung sein?
+                (Es ändert keine Längen, ist also orthogonal, und seine
+                Determinante ist $(+1)\cdot(-1) = -1$. In der Ebene ist jede
+                orthogonale Matrix mit Determinante $-1$ eine Spiegelung an
+                einer Geraden.)</p>
+            </details>
+          </div>
+
+          <div class="aufgabe" data-symbole='{"Z": "Vertauschungsmatrix", "b": "Vektor auf der Drehachse"}'>
+            <h3>Aufgabe 6: Eine versteckte Drehung
+              <span class="schwierigkeit" data-stufe="schwer">schwer</span>
+            </h3>
+            <p>Gegeben ist die Matrix
+              $Z = \begin{pmatrix} 0 & 0 & 1 \\ 1 & 0 & 0 \\ 0 & 1 & 0 \end{pmatrix}$.</p>
+            <ol type="a">
+              <li>Wohin schickt $Z$ die drei Einheitsvektoren?</li>
+              <li>Zeige, dass $Z$ orthogonal ist und $\det Z = 1$ hat – also
+                eine Drehung beschreibt.</li>
+              <li>Finde die Drehachse, also einen Vektor $\vec b$ mit
+                $Z\vec b = \vec b$.</li>
+              <li>Bestimme den Drehwinkel aus der Spur.</li>
+            </ol>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>(a) Die Spalten ablesen: $\hat e_x \to \hat e_y$,
+                $\hat e_y \to \hat e_z$, $\hat e_z \to \hat e_x$. Die Achsen
+                werden im Kreis weitergereicht.</p>
+              <p>(b) Die Spalten sind die drei Einheitsvektoren in anderer
+                Reihenfolge – sie haben die Länge 1 und stehen senkrecht
+                aufeinander, also ist $Z^T Z = \mathbf 1$. Determinante durch
+                Entwicklung nach der ersten Zeile, in der nur $a_{13} = 1$
+                steht (Vorzeichen $+$):
+                $$ \det Z = +1\cdot\begin{vmatrix} 1 & 0 \\ 0 & 1 \end{vmatrix} = 1 $$</p>
+              <p>(c) $Z\vec b = (b_z, b_x, b_y)$ soll gleich
+                $(b_x, b_y, b_z)$ sein. Das verlangt $b_x = b_y = b_z$, also
+                $\vec b = (1, 1, 1)$ – die Raumdiagonale.</p>
+              <p>(d) Auf der Diagonale von $Z$ stehen nur Nullen:
+                $$ \operatorname{Sp} Z = 0 = 1 + 2\cos\varphi \quad\Rightarrow\quad \cos\varphi = -\tfrac12 \quad\Rightarrow\quad \varphi = 120^\circ $$</p>
+              <p><strong>Zum Nachdenken:</strong> Was ergibt $Z^3$? (Dreimal um
+                $120^\circ$ gedreht ist einmal ganz herum: $Z^3 = \mathbf 1$.
+                Stell einen Würfel auf eine Ecke und dreh ihn um die
+                senkrechte Raumdiagonale – nach einer Drittel-Umdrehung sieht
+                er wieder genauso aus.)</p>
+            </details>
+          </div>
+        </section>
+
+      </div></article>
+  </main>
+</body>
+</html>

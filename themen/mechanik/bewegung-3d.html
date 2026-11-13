@@ -1,0 +1,863 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="robots" content="noindex">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bewegung in drei Dimensionen</title>
+  <meta name="description" content="Ort, Geschwindigkeit und Beschleunigung als Vektoren, der schräge Wurf mit Scheitelpunkt und Wurfweite, der Affenschuss und Relativbewegung – verständlich erklärt und vollständig durchgerechnet.">
+
+  <link rel="stylesheet" href="../../css/stil.css">
+
+  <link rel="stylesheet" href="../../extern/katex/katex.min.css">
+  <script defer src="../../extern/katex/katex.min.js"></script>
+  <script defer src="../../extern/katex/contrib/auto-render.min.js" onload="starteFormeln()"></script>
+
+  <script src="../../js/daten.js"></script>
+  <script src="../../js/seite.js"></script>
+  <script src="../../js/effekte.js"></script>
+  <script src="../../js/interaktiv.js"></script>
+  <script src="../../js/modelle/bewegung-3d.js"></script>
+  <script type="application/json" id="symbole">
+  {
+    "t": "Zeit",
+    "r": "Ortsvektor",
+    "r_0": "Anfangsort",
+    "x": "x-Koordinate (waagerecht)",
+    "y": "y-Koordinate",
+    "z": "z-Koordinate (Höhe, nach oben)",
+    "e_x": "Einheitsvektor in x-Richtung",
+    "e_y": "Einheitsvektor in y-Richtung",
+    "e_z": "Einheitsvektor in z-Richtung",
+    "v": "Geschwindigkeit",
+    "v_0": "Anfangsgeschwindigkeit",
+    "v_0x": "waagerechte Komponente der Anfangsgeschwindigkeit",
+    "v_0z": "senkrechte Komponente der Anfangsgeschwindigkeit",
+    "v_x": "x-Komponente der Geschwindigkeit",
+    "v_y": "y-Komponente der Geschwindigkeit",
+    "v_z": "z-Komponente der Geschwindigkeit",
+    "a": "Beschleunigung",
+    "a_z": "z-Komponente der Beschleunigung",
+    "g": "Fallbeschleunigung",
+    "h": "Abwurfhöhe",
+    "φ": "Abwurfwinkel gegen die Waagerechte",
+    "t_s": "Zeitpunkt des Scheitelpunkts",
+    "x_s": "waagerechte Lage des Scheitelpunkts",
+    "z_max": "Scheitelhöhe",
+    "x_w": "Wurfweite",
+    "x_w,max": "größte Wurfweite",
+    "p": "Koeffizient der pq-Formel",
+    "q": "Koeffizient der pq-Formel",
+    "H": "Höhe des Ziels über dem Abschusspunkt",
+    "d": "waagerechter Abstand zum Ziel",
+    "t_d": "Zeit, bis das Geschoss beim Ziel ankommt",
+    "x_G": "x-Koordinate des Geschosses",
+    "z_G": "Höhe des Geschosses",
+    "x_A": "x-Koordinate des Affen",
+    "z_A": "Höhe des Affen",
+    "u": "Geschwindigkeit des bewegten Bezugssystems",
+    "w": "senkrechte Geschwindigkeitskomponente",
+    "v_AS": "Geschwindigkeit von A gegenüber dem System S",
+    "v_BS": "Geschwindigkeit von B gegenüber dem System S",
+    "v_AB": "Geschwindigkeit von A gegenüber B",
+    "v_Boden": "Geschwindigkeit gegenüber dem Boden",
+    "v_relativzumBand": "Geschwindigkeit gegenüber dem Laufband",
+    "v_Band": "Geschwindigkeit des Laufbands",
+    "t_F": "Fallzeit",
+    "β": "Aufprallwinkel gegen die Waagerechte",
+    "b": "Breite des Flusses",
+    "α": "Vorhaltewinkel gegen die Strömung",
+    "v_1": "Geschwindigkeit beim Aufprall",
+    "v_1x": "waagerechte Komponente der Aufprallgeschwindigkeit",
+    "v_1z": "senkrechte Komponente der Aufprallgeschwindigkeit",
+    "L": "Abstand zur Dose entlang der Visierlinie",
+    "t_Boden": "Zeit, bis die Dose am Boden ist"
+  }
+  </script>
+</head>
+<body data-thema="bewegung-3d">
+  <main>
+    <article class="thema">
+      <header>
+        <h1>Bewegung in drei Dimensionen</h1>
+        <p class="untertitel">Vektoren, schräger Wurf und Relativbewegung –
+          wie man Bewegungen im Raum in einfache Einzelteile zerlegt.</p>
+      </header>
+
+      <div class="tabs">
+
+        <section class="tab" id="verstehen" data-titel="Verstehen">
+
+          <p>Ein Basketball, der in hohem Bogen auf den Korb zufliegt. Der
+            Wasserstrahl aus dem Gartenschlauch. Ein Kieselstein, den du über
+            einen See wirfst. All diese Bewegungen haben eines gemeinsam: Sie
+            laufen nicht mehr schnurgerade wie ein Zug auf seinem Gleis,
+            sondern geschwungen durch den Raum. Trotzdem brauchst du kaum
+            neue Physik, um sie zu verstehen – nur einen guten Trick.</p>
+
+          <h2>Ein Pfeil statt einer Zahl</h2>
+
+          <p>Auf einer geraden Straße reicht eine einzige Zahl, um zu sagen,
+            wo du bist: „Kilometer 12“. Im Raum brauchst du drei Angaben, so
+            wie bei einer Verabredung im Hochhaus: wie weit nach Osten, wie
+            weit nach Norden und in welchem Stockwerk. Physiker fassen diese
+            drei Zahlen zu einem <em>Vektor</em> zusammen – einem Pfeil vom
+            Ursprung zum Ort.</p>
+
+          <p>Auch die Geschwindigkeit wird so zum Pfeil: Er zeigt, wohin du
+            dich bewegst, und seine Länge sagt, wie schnell. Das hat eine
+            überraschende Folge. Fährst du mit konstant 50 km/h durch eine
+            Kurve, bleibt der Tacho stehen – und trotzdem beschleunigst du,
+            denn die <em>Richtung</em> des Pfeils ändert sich. Genau das
+            spürst du, wenn es dich in der Kurve zur Seite drückt.</p>
+
+          <h2>Zwei Bewegungen, die sich nicht stören</h2>
+
+          <p>Hier kommt der Trick: Eine Bewegung im Raum lässt sich in
+            einzelne Richtungen zerlegen, und diese Teile laufen völlig
+            unabhängig voneinander ab. Beim geworfenen Ball heißt das:
+            Waagerecht fliegt er gleichmäßig weiter, denn in diese Richtung
+            zieht nichts an ihm. Senkrecht fällt er genau so, wie er fallen
+            würde, wenn du ihn einfach loslässt.</p>
+
+          <div class="alltag">
+            <span class="titel">Zum Nachmachen</span>
+            <p>Leg zwei Münzen an die Tischkante. Schnipp die eine kräftig
+              waagerecht vom Tisch und gib der anderen dabei nur einen ganz
+              leichten Stups, sodass sie fast senkrecht hinunterfällt. Hör
+              genau hin: Beide schlagen gleichzeitig auf dem Boden auf. Die
+              waagerechte Geschwindigkeit ändert am Fallen nichts.</p>
+          </div>
+
+          <p>Ein berühmter Hörsaalversuch treibt das auf die Spitze, der
+            <em>Affenschuss</em>: Ein Jäger zielt mit einem Pfeil genau auf
+            einen Affen im Baum. Der Affe lässt sich in dem Moment fallen, in
+            dem der Pfeil losfliegt – und wird trotzdem getroffen. Denn der
+            Pfeil fällt auf seinem Weg genauso weit unter die Ziellinie, wie
+            der Affe nach unten fällt. (Im Hörsaal ist der „Affe“ natürlich
+            ein Stofftier.)</p>
+
+          <h2>Der schräge Wurf</h2>
+
+          <p>Setzt man beide Teile wieder zusammen, entsteht die typische
+            Flugbahn eines Wurfs: eine <em>Parabel</em>. Wie weit der Ball
+            fliegt, hängt von zwei Dingen ab – wie schnell und unter welchem
+            Winkel du ihn abwirfst. Vom Boden aus und ohne Luftwiderstand
+            fliegt ein Wurf unter 45° am weitesten. Wirfst du flacher oder
+            steiler, kommt er weniger weit, und zwar auf symmetrische Weise:
+            30° und 60° landen an derselben Stelle.</p>
+
+          <figure class="interaktiv" data-modell="wurf">
+            <span class="titel">Zum Ausprobieren</span>
+            <figcaption>Stell Winkel, Abwurfgeschwindigkeit und Abwurfhöhe ein
+              und drück auf „Werfen“. Jeder Wurf hinterlässt eine blasse Spur,
+              so kannst du verschiedene Winkel direkt vergleichen. Die Pfeile
+              am Ball zeigen die Geschwindigkeit, zerlegt in einen waagerechten
+              (blau) und einen senkrechten Teil (orange): Der blaue bleibt
+              während des ganzen Flugs gleich lang, der orange schrumpft,
+              verschwindet am Gipfel und wächst dann nach unten. Luftreibung
+              ist hier nicht berücksichtigt.</figcaption>
+          </figure>
+
+          <p>Wirfst du von erhöhter Position, etwa von einem Turm, ist ein
+            etwas flacherer Winkel günstiger, weil der Ball ohnehin länger in
+            der Luft bleibt. Kugelstoßer stoßen ihre Kugel deshalb – und
+            weil man flach einfach kräftiger stoßen kann – meist nur unter
+            etwa 35 bis 40 Grad ab.</p>
+
+          <h2>Alles eine Frage des Standpunkts</h2>
+
+          <p>Sitzt du in einem gleichmäßig fahrenden Zug und wirfst einen Ball
+            senkrecht nach oben, fällt er dir wieder genau in die Hand – so,
+            als stünde der Zug still. Für jemanden am Bahnsteig fliegt
+            derselbe Ball aber eine Parabel, denn er bewegt sich die ganze Zeit
+            mit dem Zug nach vorne. Beide Beschreibungen sind richtig. Welche
+            Bahn man sieht, hängt vom <em>Bezugssystem</em> ab, also davon,
+            von wo aus man zuschaut.</p>
+
+          <figure class="interaktiv" data-modell="bezugssystem">
+            <span class="titel">Zum Ausprobieren</span>
+            <figcaption>Ein Wagen fährt mit konstanter Geschwindigkeit und
+              schießt einen Ball senkrecht nach oben. Schalte zwischen den
+              beiden Sichtweisen um: Vom Bahnsteig aus fliegt der Ball eine
+              Parabel, vom Wagen aus geht er nur hoch und runter. In beiden
+              Fällen landet er wieder im Rohr. Den Wagen siehst du in beiden
+              Sichtweisen genau gleich – nur die Umgebung zieht
+              vorbei.</figcaption>
+          </figure>
+
+          <p>Genau deshalb merkst du übrigens auch nicht, dass die Erde mit
+            30 Kilometern pro Sekunde um die Sonne rast: Du, die Luft und
+            alles um dich herum bewegen sich mit
+            (<a href="../alltag/erde-rast.html">mehr dazu</a>).</p>
+
+          <div class="merkkasten">
+            <span class="titel">Das Wichtigste in Kürze</span>
+            <ul>
+              <li>Im Raum werden Ort, Geschwindigkeit und Beschleunigung zu
+                Pfeilen (Vektoren). Auch eine Richtungsänderung ist eine
+                Beschleunigung.</li>
+              <li>Eine Bewegung lässt sich in Richtungen zerlegen, die sich
+                gegenseitig nicht beeinflussen: Beim Wurf fliegt der Körper
+                waagerecht gleichmäßig weiter und fällt senkrecht wie im
+                freien Fall.</li>
+              <li>Ohne Luftwiderstand ist die Wurfbahn eine Parabel. Vom Boden
+                aus fliegt ein Wurf unter 45° am weitesten.</li>
+              <li>Wie eine Bewegung aussieht, hängt vom Bezugssystem ab.</li>
+            </ul>
+          </div>
+        </section>
+
+        <section class="tab" id="vertiefung" data-titel="Vertiefung">
+
+          <h2>Ort, Geschwindigkeit und Beschleunigung als Vektoren</h2>
+
+          <p>Ein Massenpunkt im Raum wird durch seinen <em>Ortsvektor</em>
+            beschrieben, der vom Ursprung eines kartesischen Koordinatensystems
+            zum Punkt zeigt:</p>
+
+          $$ \vec{r}(t) = \begin{pmatrix} x(t) \\ y(t) \\ z(t) \end{pmatrix} = x(t)\,\hat{e}_x + y(t)\,\hat{e}_y + z(t)\,\hat{e}_z . $$
+
+          <p>Die Kurve, die die Spitze von $\vec{r}(t)$ im Lauf der Zeit
+            beschreibt, heißt <em>Bahnkurve</em> oder <em>Trajektorie</em>.
+            Geschwindigkeit und Beschleunigung sind wie in einer Dimension die
+            Zeitableitungen – nur jetzt komponentenweise:</p>
+
+          $$ \vec{v} = \frac{\mathrm{d}\vec{r}}{\mathrm{d}t} = \begin{pmatrix} \dot{x} \\ \dot{y} \\ \dot{z} \end{pmatrix}, \qquad \vec{a} = \frac{\mathrm{d}\vec{v}}{\mathrm{d}t} = \frac{\mathrm{d}^2\vec{r}}{\mathrm{d}t^2} = \begin{pmatrix} \ddot{x} \\ \ddot{y} \\ \ddot{z} \end{pmatrix} . $$
+
+          <p>Das funktioniert so einfach, weil die Einheitsvektoren
+            $\hat{e}_x, \hat{e}_y, \hat{e}_z$ eines kartesischen Systems
+            zeitlich konstant sind. Der Geschwindigkeitsvektor liegt stets
+            tangential an der Bahnkurve, sein Betrag $v = |\vec{v}|$ ist das,
+            was ein Tacho anzeigt. Wichtig: $|\vec{v}| = \text{const}$ heißt
+            <em>nicht</em> $\vec{a} = 0$ – ändert sich die Richtung von
+            $\vec{v}$, ist $\vec{a} \neq 0$ (Kurvenfahrt, Kreisbewegung).</p>
+
+          <h2>Bewegungsgleichungen für konstante Beschleunigung</h2>
+
+          <p>Ist $\vec{a}$ konstant, integriert man jede Komponente einzeln wie
+            in einer Dimension und erhält mit den Anfangswerten
+            $\vec{r}_0 = \vec{r}(0)$ und $\vec{v}_0 = \vec{v}(0)$</p>
+
+          $$ \vec{v}(t) = \vec{a}\,t + \vec{v}_0, \qquad \vec{r}(t) = \tfrac{1}{2}\,\vec{a}\,t^2 + \vec{v}_0\,t + \vec{r}_0 . $$
+
+          <p>Das sind drei voneinander unabhängige eindimensionale Probleme.
+            Man liest außerdem ab: Die Verschiebung
+            $\vec{r}(t) - \vec{r}_0 = \vec{v}_0\,t + \tfrac{1}{2}\,\vec{a}\,t^2$
+            ist zu jeder Zeit eine Linearkombination von $\vec{v}_0$ und
+            $\vec{a}$. Die Bahn liegt also in der Ebene, die diese beiden
+            Vektoren aufspannen – eine Bewegung mit konstanter Beschleunigung
+            ist immer höchstens zweidimensional.</p>
+
+          <h2 id="schraeger-wurf">Der schräge Wurf</h2>
+
+          <p>Ein Körper wird aus der Höhe $h$ mit dem Betrag $v_0$ unter dem
+            Winkel $\varphi$ gegen die Waagerechte abgeworfen. Luftreibung
+            vernachlässigen wir. Wir legen die $x$-Achse waagerecht in
+            Wurfrichtung und die $z$-Achse senkrecht <em>nach oben</em>; dann
+            ist $\vec{a} = (0, 0, -g)$. Anfangsbedingungen bei $t = 0$:</p>
+
+          $$ x(0) = y(0) = 0, \quad z(0) = h, \qquad \vec{v}_0 = \begin{pmatrix} v_{0x} \\ 0 \\ v_{0z} \end{pmatrix} = \begin{pmatrix} v_0 \cos\varphi \\ 0 \\ v_0 \sin\varphi \end{pmatrix} . $$
+
+          <p>Die $y$-Komponente bleibt null, der Wurf ist eine Bewegung in der
+            $x$-$z$-Ebene. Sie zerfällt in eine gleichförmige Bewegung in
+            $x$-Richtung und einen senkrechten Wurf in $z$-Richtung:</p>
+
+          $$ x(t) = v_0 \cos\varphi \cdot t, \qquad z(t) = h + v_0 \sin\varphi \cdot t - \tfrac{1}{2}\,g\,t^2 . $$
+
+          <figure class="abbildung">
+            <svg class="abb" viewBox="0 0 360 235" role="img"
+                 aria-label="Wurfparabel mit Abwurfhöhe, Abwurfwinkel, Geschwindigkeitskomponenten, Scheitelpunkt und Wurfweite">
+              <defs>
+                <marker id="pfeil-abb1" viewBox="0 0 10 10" refX="9" refY="5"
+                        markerWidth="7" markerHeight="7" orient="auto">
+                  <path d="M0 0L10 5L0 10z" fill="currentColor"/>
+                </marker>
+              </defs>
+              <path class="achse" d="M40 205H352" marker-end="url(#pfeil-abb1)"/>
+              <path class="achse" d="M40 205V12" marker-end="url(#pfeil-abb1)"/>
+              <text x="348" y="196">x</text>
+              <text x="26" y="22">z</text>
+
+              <path class="hilfslinie" d="M167.8 58.1V205M40 58.1H167.8"/>
+              <path class="kurve" d="M40 149.4Q185 -57.7 330 205"/>
+
+              <path class="kurve blau" d="M40 149.4H73"/>
+              <polygon class="punkt blau" points="80.2,149.4 72.7,145.2 72.7,153.6"/>
+              <path class="kurve kupfer" d="M80.2 149.4V99.6"/>
+              <polygon class="punkt kupfer" points="80.2,92.1 76,99.6 84.4,99.6"/>
+              <path class="kurve" d="M40 149.4L75.9 98.2"/>
+              <polygon class="punkt" points="80.2,92.1 79.2,100.5 72.6,95.9"/>
+              <path class="hilfslinie" d="M62 149.4A22 22 0 0 0 52.6 131.4"/>
+
+              <circle class="punkt" cx="40" cy="149.4" r="3.5"/>
+              <circle class="punkt" cx="167.8" cy="58.1" r="3.5"/>
+              <circle class="punkt" cx="330" cy="205" r="3.5"/>
+
+              <text x="63" y="141">φ</text>
+              <text x="61" y="104" text-anchor="end">v₀</text>
+              <text class="blau" x="54" y="168">v<tspan dy="4" font-size="10">0x</tspan></text>
+              <text class="kupfer" x="86" y="124">v<tspan dy="4" font-size="10">0z</tspan></text>
+              <text x="32" y="181" text-anchor="end">h</text>
+              <path class="achse" d="M35 149.4H45"/>
+              <text x="34" y="62" text-anchor="end">z<tspan dy="4" font-size="10">max</tspan></text>
+              <text x="167.8" y="223" text-anchor="middle">x<tspan dy="4" font-size="10">s</tspan></text>
+              <text x="330" y="223" text-anchor="middle">x<tspan dy="4" font-size="10">w</tspan></text>
+            </svg>
+            <figcaption>Abb. 1: Schräger Wurf aus der Höhe $h$. Die
+              Abwurfgeschwindigkeit $\vec{v}_0$ zerfällt in die waagerechte
+              Komponente $v_{0x}$ (blau) und die senkrechte $v_{0z}$ (orange).
+              Am Scheitelpunkt $(x_\text{s}, z_\text{max})$ ist die
+              senkrechte Geschwindigkeit null, bei $x_\text{w}$ trifft der
+              Körper auf den Boden. Bahn exakt berechnet für
+              $v_0 = 12\,\mathrm{m/s}$, $\varphi = 55°$,
+              $h = 3\,\mathrm{m}$.</figcaption>
+          </figure>
+
+          <h3>Bahngleichung</h3>
+
+          <p>Um die Form der Bahn zu erhalten, eliminiert man die Zeit. Aus der
+            $x$-Gleichung folgt $t = x / (v_0 \cos\varphi)$, eingesetzt in die
+            $z$-Gleichung:</p>
+
+          $$ z(x) = h + v_0 \sin\varphi \cdot \frac{x}{v_0 \cos\varphi} - \frac{g}{2}\left(\frac{x}{v_0 \cos\varphi}\right)^2 = -\frac{g}{2\,v_0^2 \cos^2\varphi}\,x^2 + \tan\varphi \cdot x + h . $$
+
+          <p>Mit den Komponenten geschrieben:
+            $z(x) = -\tfrac{1}{2}\,\tfrac{g}{v_{0x}^2}\,x^2 + \tfrac{v_{0z}}{v_{0x}}\,x + h$.
+            Die Bahnkurve ist eine nach unten geöffnete Parabel, die
+            <em>Wurfparabel</em>. Für $\varphi = 0$ ergibt sich der
+            waagerechte Wurf, für $\varphi = 90°$ (dann ist $v_{0x} = 0$)
+            der senkrechte Wurf aus der eindimensionalen Kinematik.</p>
+
+          <h3>Scheitelpunkt</h3>
+
+          <p>Am höchsten Punkt verläuft die Bahn waagerecht:</p>
+
+          $$ \frac{\mathrm{d}z}{\mathrm{d}x} = -\frac{g}{v_0^2 \cos^2\varphi}\,x + \tan\varphi \overset{!}{=} 0 \quad\Longrightarrow\quad x_\text{s} = \frac{v_0^2 \sin\varphi \cos\varphi}{g} = \frac{v_{0x}\,v_{0z}}{g} = \frac{v_0^2 \sin 2\varphi}{2g} . $$
+
+          <p>Dasselbe folgt aus $\dot{z}(t_\text{s}) = 0$, also
+            $t_\text{s} = v_{0z}/g$ und $x_\text{s} = v_{0x}\,t_\text{s}$.
+            Die Gipfelhöhe ist
+            $z_\text{max} = z(t_\text{s}) = h + v_{0z}^2 / (2g)$ – sie hängt
+            nur von der senkrechten Komponente ab. Wegen
+            $\sin 2\varphi \le 1$ liegt der Scheitel bei $\varphi = 45°$ am
+            weitesten vom Abwurfpunkt entfernt.</p>
+
+          <h3>Wurfweite</h3>
+
+          <p>Der Körper landet bei $z(x_\text{w}) = 0$:</p>
+
+          $$ -\frac{1}{2}\,\frac{g}{v_{0x}^2}\,x_\text{w}^2 + \frac{v_{0z}}{v_{0x}}\,x_\text{w} + h = 0 . $$
+
+          <p>Multipliziert man mit $-2v_{0x}^2/g$, erhält man die Normalform
+            $x_\text{w}^2 - \tfrac{2 v_{0x} v_{0z}}{g}\,x_\text{w} - \tfrac{2 v_{0x}^2 h}{g} = 0$,
+            und die $pq$-Formel liefert</p>
+
+          $$ x_\text{w} = \frac{v_{0x}\,v_{0z}}{g} + \sqrt{\left(\frac{v_{0x}\,v_{0z}}{g}\right)^2 + \frac{2\,v_{0x}^2\,h}{g}} . $$
+
+          <p>Die zweite Lösung mit Minus vor der Wurzel ist für $h \gt 0$
+            negativ: Sie gehört zu dem Punkt, an dem die (rückwärts
+            verlängerte) Parabel den Boden <em>vor</em> dem Abwurf schneiden
+            würde, und ist physikalisch bedeutungslos.</p>
+
+          <p>Für den Wurf vom Boden ($h = 0$) vereinfacht sich das zu</p>
+
+          $$ x_\text{w} = \frac{2\,v_{0x}\,v_{0z}}{g} = \frac{v_0^2 \sin 2\varphi}{g} = 2\,x_\text{s} . $$
+
+          <p>Die Wurfweite ist dann maximal für $\sin 2\varphi = 1$, also
+            $\varphi = 45°$, mit $x_\text{w,max} = v_0^2/g$. Weil
+            $\sin 2\varphi = \sin(180° - 2\varphi)$ ist, fliegen
+            komplementäre Winkel $\varphi$ und $90° - \varphi$ gleich weit
+            (Abb. 2) – der steilere Wurf ist dabei länger in der Luft und
+            kommt höher.</p>
+
+          <figure class="abbildung">
+            <svg class="abb" viewBox="0 0 360 228" role="img"
+                 aria-label="Wurfparabeln gleicher Abwurfgeschwindigkeit unter 15, 30, 45, 60 und 75 Grad">
+              <path class="achse" d="M25 200H345"/>
+              <path class="kurve" d="M35 200Q107.5 -70.6 180 200"/>
+              <path class="kurve kupfer" d="M35 200Q160.6 -17.5 286.1 200"/>
+              <path class="kurve blau" d="M35 200Q180 55 325 200"/>
+              <path class="kurve kupfer" d="M35 200Q160.6 127.5 286.1 200"/>
+              <path class="kurve" d="M35 200Q107.5 180.6 180 200"/>
+              <text x="113" y="58">75°</text>
+              <text class="kupfer" x="166" y="86">60°</text>
+              <text class="blau" x="186" y="122">45°</text>
+              <text class="kupfer" x="166" y="157">30°</text>
+              <text x="113" y="185">15°</text>
+              <path class="achse" d="M286.1 200V206M325 200V206"/>
+              <text class="kupfer" x="282" y="219" text-anchor="end">gleich weit</text>
+              <text class="blau" x="325" y="219" text-anchor="middle">maximal</text>
+              <circle class="punkt" cx="35" cy="200" r="3.5"/>
+            </svg>
+            <figcaption>Abb. 2: Wurfparabeln mit gleichem $v_0$ vom Boden aus
+              (exakt im Maßstab $1 : 1$ gezeichnet). Unter 45° fliegt der
+              Körper am weitesten; 30° und 60° sowie 15° und 75° landen jeweils
+              an derselben Stelle.</figcaption>
+          </figure>
+
+          <p>Wird von erhöhter Position geworfen ($h \gt 0$), liegt der
+            günstigste Winkel <em>unter</em> 45°. Man kann zeigen (siehe
+            Aufgabe 6), dass dann</p>
+
+          $$ \tan\varphi^* = \frac{v_0}{\sqrt{v_0^2 + 2gh}}, \qquad x_\text{w,max} = \frac{v_0\,\sqrt{v_0^2 + 2gh}}{g} $$
+
+          <p>gilt. Für $h = 0$ ergibt sich wieder $\varphi^* = 45°$. Im
+            wirklichen Leben verkürzt der Luftwiderstand alle Würfe deutlich
+            und verschiebt den besten Winkel meist ebenfalls zu flacheren
+            Werten.</p>
+
+          <div class="merkkasten">
+            <span class="titel">Merke: Schräger Wurf (ohne Luftreibung, z-Achse nach oben)</span>
+            $$ x(t) = v_0 \cos\varphi \cdot t, \qquad z(t) = h + v_0 \sin\varphi \cdot t - \tfrac{1}{2}\,g\,t^2 $$
+            $$ z(x) = -\frac{g}{2\,v_0^2 \cos^2\varphi}\,x^2 + \tan\varphi \cdot x + h, \qquad x_\text{s} = \frac{v_0^2 \sin 2\varphi}{2g}, \qquad z_\text{max} = h + \frac{v_0^2 \sin^2\varphi}{2g} $$
+            <p>Für $h = 0$: Wurfweite $x_\text{w} = v_0^2 \sin 2\varphi / g$,
+              maximal bei $\varphi = 45°$.</p>
+          </div>
+
+          <h2 id="affenschuss">Experiment: der Affenschuss</h2>
+
+          <p>Ein Geschoss wird vom Boden aus genau auf ein Ziel in der Höhe
+            $H$ und im waagerechten Abstand $d$ gerichtet, also unter
+            $\tan\varphi = H/d$. Im Moment des Abschusses wird das Ziel (der
+            „Affe“) losgelassen und fällt frei. Die Ortskoordinaten sind</p>
+
+          $$ \begin{aligned} \text{Geschoss:}&\quad x_\text{G} = v_0 \cos\varphi \cdot t, &\quad z_\text{G} &= v_0 \sin\varphi \cdot t - \tfrac{1}{2}\,g\,t^2, \\ \text{Affe:}&\quad x_\text{A} = d, &\quad z_\text{A} &= H - \tfrac{1}{2}\,g\,t^2 . \end{aligned} $$
+
+          <p>Das Geschoss erreicht $x = d$ zur Zeit
+            $t_d = d / (v_0 \cos\varphi)$. Dort ist</p>
+
+          $$ z_\text{G}(t_d) = d \tan\varphi - \tfrac{1}{2}\,g\,t_d^2 = H - \tfrac{1}{2}\,g\,t_d^2 = z_\text{A}(t_d) . $$
+
+          <p>Es trifft also immer – unabhängig von $v_0$, sofern der Affe bis
+            dahin noch nicht am Boden ist. Der Grund ist die Zerlegung:
+            Ohne Schwerkraft flöge das Geschoss geradlinig zum Affen, und der
+            Affe bliebe hängen. Die Schwerkraft zieht beide in derselben Zeit
+            um dieselbe Strecke $\tfrac{1}{2} g t^2$ nach unten (Abb. 3). In
+            einem mitfallenden Bezugssystem fliegt das Geschoss schlicht
+            geradeaus.</p>
+
+          <figure class="abbildung">
+            <svg class="abb" viewBox="0 0 360 225" role="img"
+                 aria-label="Affenschuss: Geschoss und Affe fallen gleich weit unter die Ziellinie">
+              <path class="achse" d="M20 210H350"/>
+              <path class="achse" d="M352 210V40"/>
+              <path class="kurve" d="M262 52H354"/>
+              <path class="hilfslinie" d="M40 200L300 60"/>
+              <path class="kurve blau" d="M40 200Q170 130 300 120"/>
+              <path class="kurve kupfer" d="M170 130V145M300 60V75"/>
+              <path class="hilfslinie" d="M300 75V120"/>
+              <circle class="hilfslinie" cx="300" cy="60" r="7"/>
+              <circle class="hilfslinie" cx="300" cy="75" r="7"/>
+              <circle class="punkt kupfer" cx="300" cy="120" r="7"/>
+              <circle class="punkt" cx="170" cy="145" r="3.5"/>
+              <circle class="punkt" cx="40" cy="200" r="4.5"/>
+              <text x="112" y="150" transform="rotate(-28.3 112 150)">Ziellinie</text>
+              <text class="kupfer" x="312" y="72">½ g t²</text>
+              <text x="300" y="40" text-anchor="middle">Affe lässt los</text>
+              <text class="blau" x="290" y="138" text-anchor="end">Treffer</text>
+              <text x="40" y="225" text-anchor="middle">Abschuss</text>
+            </svg>
+            <figcaption>Abb. 3: Affenschuss. Zur halben Flugzeit ist das
+              Geschoss um $\tfrac{1}{2} g t^2$ unter die Ziellinie gefallen,
+              der Affe um genau dieselbe Strecke unter seinen Ast. Beim
+              Treffer ist es wieder dieselbe Strecke – nur jetzt mit der
+              vollen Flugzeit.</figcaption>
+          </figure>
+
+          <h2 id="relativbewegung">Relativbewegung</h2>
+
+          <p>Jede Angabe von Ort und Geschwindigkeit bezieht sich auf ein
+            <em>Bezugssystem</em>. Bewegen sich zwei Objekte A und B gegenüber
+            dem Boden S mit $\vec{v}_\text{AS}$ und $\vec{v}_\text{BS}$, dann
+            hat A gegenüber B die <em>Relativgeschwindigkeit</em></p>
+
+          $$ \vec{v}_\text{AB} = \vec{v}_\text{AS} - \vec{v}_\text{BS} \qquad\Longleftrightarrow\qquad \vec{v}_\text{AS} = \vec{v}_\text{AB} + \vec{v}_\text{BS} . $$
+
+          <p>Allgemeiner: Bewegt sich ein Bezugssystem S′ gegenüber S mit der
+            konstanten Geschwindigkeit $\vec{u}$ und fallen die Ursprünge bei
+            $t = 0$ zusammen, so hängen die Koordinaten über die
+            <em>Galilei-Transformation</em> zusammen:</p>
+
+          $$ \vec{r} = \vec{r}^{\,\prime} + \vec{u}\,t, \qquad \vec{v} = \vec{v}^{\,\prime} + \vec{u}, \qquad \vec{a} = \vec{a}^{\,\prime} . $$
+
+          <p>Geschwindigkeiten addieren sich also vektoriell, die
+            Beschleunigung ist aber in beiden Systemen dieselbe. Das hat eine
+            weitreichende Folge, die bei den Newtonschen Axiomen wichtig wird:
+            In allen gleichförmig gegeneinander bewegten Bezugssystemen gelten
+            dieselben Bewegungsgesetze. (Die Galilei-Transformation gilt nur
+            für $u$ klein gegen die Lichtgeschwindigkeit; sonst braucht man die
+            Spezielle Relativitätstheorie.)</p>
+
+          <p><strong>Experiment: Wurf vom bewegten Wagen.</strong> Ein Wagen
+            schießt eine Kugel senkrecht nach oben. Steht er still, fällt sie
+            zurück in den Wagen. Fährt er gleichförmig mit $\vec{u}$, sieht
+            ein Beobachter am Boden eine Wurfparabel mit
+            $\vec{v}_0 = (u, 0, w)$ – und trotzdem landet die Kugel wieder im
+            Wagen, denn ihre waagerechte Geschwindigkeit $u$ ist dieselbe wie
+            die des Wagens. Im Bezugssystem des Wagens ist
+            $\vec{v}^{\,\prime}_0 = (0, 0, w)$: ein senkrechter Wurf, genau wie im
+            stehenden Wagen. Ein Experiment im gleichförmig fahrenden Wagen
+            kann also nicht feststellen, ob der Wagen fährt.</p>
+
+          <div class="merkkasten">
+            <span class="titel">Merke: Relativbewegung</span>
+            $$ \vec{v}_\text{AB} = \vec{v}_\text{AS} - \vec{v}_\text{BS}, \qquad \vec{r} = \vec{r}^{\,\prime} + \vec{u}\,t, \qquad \vec{v} = \vec{v}^{\,\prime} + \vec{u}, \qquad \vec{a} = \vec{a}^{\,\prime} $$
+            <p>Bahnkurven hängen vom Bezugssystem ab, Beschleunigungen nicht
+              (solange $\vec{u}$ konstant ist).</p>
+          </div>
+        </section>
+
+        <section class="tab" id="beispiele" data-titel="Beispielrechnungen">
+
+          <div class="beispiel">
+            <h3>Beispiel 1: Eine Murmel rollt vom Tisch</h3>
+            <p><strong>Gegeben:</strong> Eine Murmel rollt mit
+              $v_0 = 1{,}5\,\mathrm{m/s}$ waagerecht über die Kante eines
+              $h = 0{,}80\,\mathrm{m}$ hohen Tisches. Luftreibung
+              vernachlässigen wir.<br>
+              <strong>Gesucht:</strong> Flugzeit, Auftreffpunkt und
+              Geschwindigkeit (Betrag und Richtung) beim Aufprall.</p>
+
+            <p><strong>Koordinaten:</strong> Ursprung am Boden senkrecht unter
+              der Tischkante, $x$ in Rollrichtung, $z$-Achse nach oben, also
+              $a_z = -g$. Waagerechter Wurf: $\varphi = 0$, $v_{0x} = v_0$,
+              $v_{0z} = 0$.</p>
+
+            <p><strong>1. Flugzeit</strong> aus der senkrechten Bewegung,
+              $z(t) = h - \tfrac{1}{2}\,g\,t^2 = 0$:
+              $$ t_\text{F} = \sqrt{\frac{2h}{g}} = \sqrt{\frac{2 \cdot 0{,}80\,\mathrm{m}}{9{,}81\,\mathrm{m/s^2}}} = \sqrt{0{,}163\,\mathrm{s^2}} = 0{,}404\,\mathrm{s} $$</p>
+
+            <p><strong>2. Auftreffpunkt</strong> aus der waagerechten Bewegung:
+              $$ x_\text{w} = v_0\,t_\text{F} = 1{,}5\,\mathrm{\tfrac{m}{s}} \cdot 0{,}404\,\mathrm{s} = 0{,}61\,\mathrm{m} $$</p>
+
+            <p><strong>3. Geschwindigkeit beim Aufprall.</strong> Die
+              Komponenten sind
+              $$ v_x = v_0 = 1{,}5\,\mathrm{m/s}, \qquad v_z = -g\,t_\text{F} = -9{,}81\,\mathrm{\tfrac{m}{s^2}} \cdot 0{,}404\,\mathrm{s} = -3{,}96\,\mathrm{m/s} $$
+              $$ |\vec{v}| = \sqrt{v_x^2 + v_z^2} = \sqrt{(1{,}5\,\mathrm{m/s})^2 + (3{,}96\,\mathrm{m/s})^2} = \sqrt{17{,}9\,\mathrm{m^2/s^2}} = 4{,}24\,\mathrm{m/s} $$
+              Richtung gegen die Waagerechte:
+              $$ \tan\beta = \frac{|v_z|}{v_x} = \frac{3{,}96}{1{,}5} = 2{,}64 \quad\Rightarrow\quad \beta = 69° \text{ (nach unten)} $$
+              Einheitencheck: $\sqrt{\mathrm{m}/(\mathrm{m/s^2})} = \mathrm{s}$ ✓</p>
+
+            <p><strong>Ergebnis und Plausibilität:</strong> Die Murmel landet
+              nach $0{,}40\,\mathrm{s}$ gut $60\,\mathrm{cm}$ vom Tischbein
+              entfernt mit $4{,}2\,\mathrm{m/s}$. Kontrolle über die zeitfreie
+              Gleichung, die für die $z$-Komponente gilt:
+              $v_z^2 = 2gh = 15{,}7\,\mathrm{m^2/s^2}$, also
+              $|\vec{v}| = \sqrt{2{,}25 + 15{,}7}\,\mathrm{m/s} = 4{,}24\,\mathrm{m/s}$ ✓.
+              Die Flugzeit ist dieselbe wie beim senkrechten Fall vom Tisch –
+              genau das zeigt der Münzversuch aus dem Tab „Verstehen“.</p>
+          </div>
+
+          <div class="beispiel">
+            <h3>Beispiel 2: Kugelstoß</h3>
+            <p><strong>Gegeben:</strong> Eine Kugel verlässt die Hand in
+              $h = 2{,}0\,\mathrm{m}$ Höhe mit $v_0 = 13{,}0\,\mathrm{m/s}$
+              unter $\varphi = 40°$. Luftreibung vernachlässigen wir (für eine
+              schwere Kugel eine gute Näherung).<br>
+              <strong>Gesucht:</strong> (a) Gipfelhöhe, (b) Flugzeit und
+              Wurfweite, (c) Vergleich mit $\varphi = 45°$.</p>
+
+            <p><strong>Koordinaten:</strong> Ursprung am Boden unter der Hand,
+              $z$-Achse nach oben.</p>
+
+            <p><strong>1. Komponenten.</strong>
+              $$ v_{0x} = 13{,}0\,\mathrm{\tfrac{m}{s}} \cdot \cos 40° = 9{,}96\,\mathrm{m/s}, \qquad v_{0z} = 13{,}0\,\mathrm{\tfrac{m}{s}} \cdot \sin 40° = 8{,}36\,\mathrm{m/s} $$</p>
+
+            <p><strong>2. (a) Gipfel.</strong>
+              $$ t_\text{s} = \frac{v_{0z}}{g} = \frac{8{,}36\,\mathrm{m/s}}{9{,}81\,\mathrm{m/s^2}} = 0{,}852\,\mathrm{s} $$
+              $$ z_\text{max} =h + \frac{v_{0z}^2}{2g} = 2{,}0\,\mathrm{m} + \frac{(8{,}36\,\mathrm{m/s})^2}{2 \cdot 9{,}81\,\mathrm{m/s^2}} = 2{,}0\,\mathrm{m} + 3{,}56\,\mathrm{m} = 5{,}56\,\mathrm{m} $$</p>
+
+            <p><strong>3. (b) Flugzeit.</strong> Aus $z(t) = 0$, also
+              $h + v_{0z}\,t - \tfrac{1}{2}\,g\,t^2 = 0$:
+              $$ t_\text{F} = \frac{v_{0z} + \sqrt{v_{0z}^2 + 2gh}}{g} = \frac{8{,}36 + \sqrt{69{,}8 + 39{,}2}}{9{,}81}\,\mathrm{s} = \frac{8{,}36 + 10{,}44}{9{,}81}\,\mathrm{s} = 1{,}92\,\mathrm{s} $$
+              $$ x_\text{w} = v_{0x}\,t_\text{F} = 9{,}96\,\mathrm{\tfrac{m}{s}} \cdot 1{,}916\,\mathrm{s} = 19{,}1\,\mathrm{m} $$
+              Kontrolle mit der Formel aus der Vertiefung:
+              $x_\text{w} = \tfrac{v_{0x} v_{0z}}{g} + \sqrt{\left(\tfrac{v_{0x} v_{0z}}{g}\right)^2 + \tfrac{2 v_{0x}^2 h}{g}} = 8{,}48\,\mathrm{m} + \sqrt{71{,}96 + 40{,}44}\,\mathrm{m} = 8{,}48\,\mathrm{m} + 10{,}60\,\mathrm{m} = 19{,}1\,\mathrm{m}$ ✓</p>
+
+            <p><strong>4. (c) Vergleich mit 45°.</strong> Mit
+              $v_{0x} = v_{0z} = 9{,}19\,\mathrm{m/s}$ ergibt sich ebenso
+              $t_\text{F} = (9{,}19 + 11{,}12)/9{,}81\,\mathrm{s} = 2{,}07\,\mathrm{s}$
+              und $x_\text{w} = 9{,}19 \cdot 2{,}071\,\mathrm{m} = 19{,}0\,\mathrm{m}$.</p>
+
+            <p><strong>Ergebnis und Plausibilität:</strong> Die Kugel steigt
+              auf gut $5{,}5\,\mathrm{m}$ und landet nach knapp zwei Sekunden
+              $19{,}1\,\mathrm{m}$ entfernt – ein Wert, wie ihn gute
+              Vereinsathleten erreichen. Unter 45° fliegt sie sogar ein paar
+              Zentimeter <em>weniger</em> weit: Wegen der Abwurfhöhe liegt der
+              beste Winkel unter 45° (hier bei $42°$, siehe Aufgabe 6).
+              Allerdings ist der Unterschied zwischen 40° und 45° nur etwa
+              $5\,\mathrm{cm}$ – die Weite reagiert um das Optimum herum kaum
+              auf den Winkel, aber stark auf $v_0$.</p>
+          </div>
+
+          <div class="beispiel" data-symbole='{"u": "Fließgeschwindigkeit des Flusses", "w": "Geschwindigkeit des Boots gegenüber dem Wasser"}'>
+            <h3>Beispiel 3: Mit dem Boot über den Fluss</h3>
+            <p><strong>Gegeben:</strong> Ein Fluss ist $b = 60\,\mathrm{m}$
+              breit und strömt überall mit $u = 1{,}5\,\mathrm{m/s}$. Ein Boot
+              fährt relativ zum Wasser mit $w = 4{,}0\,\mathrm{m/s}$.<br>
+              <strong>Gesucht:</strong> (a) Fahrzeit, Abdrift und
+              Geschwindigkeit über Grund, wenn der Bug senkrecht zum Ufer
+              zeigt; (b) Kurs und Fahrzeit, um genau gegenüber anzukommen.</p>
+
+            <p><strong>Ansatz:</strong> $x$-Achse quer über den Fluss, $y$-Achse
+              in Strömungsrichtung. Geschwindigkeit über Grund (Bezugssystem
+              Ufer) = Geschwindigkeit gegen das Wasser + Geschwindigkeit des
+              Wassers: $\vec{v} = \vec{w} + \vec{u}$ mit
+              $\vec{u} = (0;\; 1{,}5)\,\mathrm{m/s}$.</p>
+
+            <p><strong>1. (a) Bug senkrecht zum Ufer:</strong>
+              $\vec{w} = (4{,}0;\; 0)\,\mathrm{m/s}$, also
+              $\vec{v} = (4{,}0;\; 1{,}5)\,\mathrm{m/s}$. Die Querbewegung
+              bestimmt allein die Fahrzeit:
+              $$ t = \frac{b}{v_x} = \frac{60\,\mathrm{m}}{4{,}0\,\mathrm{m/s}} = 15\,\mathrm{s}, \qquad \Delta y = u\,t = 1{,}5\,\mathrm{\tfrac{m}{s}} \cdot 15\,\mathrm{s} = 22{,}5\,\mathrm{m} $$
+              $$ |\vec{v}| = \sqrt{(4{,}0\,\mathrm{m/s})^2 + (1{,}5\,\mathrm{m/s})^2} = \sqrt{18{,}25}\,\mathrm{m/s} = 4{,}27\,\mathrm{m/s} $$</p>
+
+            <p><strong>2. (b) Genau gegenüber ankommen:</strong> Die
+              $y$-Komponente über Grund muss verschwinden. Der Bug zeigt um den
+              Winkel $\alpha$ gegen die Strömung:
+              $\vec{w} = (w \cos\alpha;\; -w \sin\alpha)$, und
+              $$ v_y = -w \sin\alpha + u \overset{!}{=} 0 \quad\Rightarrow\quad \sin\alpha = \frac{u}{w} = \frac{1{,}5}{4{,}0} = 0{,}375 \quad\Rightarrow\quad \alpha = 22° $$
+              $$ v_x = w \cos\alpha = \sqrt{w^2 - u^2} = \sqrt{16 - 2{,}25}\,\mathrm{m/s} = 3{,}71\,\mathrm{m/s}, \qquad t = \frac{60\,\mathrm{m}}{3{,}71\,\mathrm{m/s}} = 16{,}2\,\mathrm{s} $$</p>
+
+            <p><strong>Ergebnis und Plausibilität:</strong> Mit dem Bug quer
+              zum Ufer ist man am schnellsten drüben ($15\,\mathrm{s}$), landet
+              aber $22{,}5\,\mathrm{m}$ flussabwärts. Wer gegenüber ankommen
+              will, hält $22°$ stromaufwärts und braucht etwas länger
+              ($16{,}2\,\mathrm{s}$), weil ein Teil der Bootsgeschwindigkeit
+              gegen die Strömung arbeitet. Ist die Strömung schneller als das
+              Boot ($u \gt w$), hat $\sin\alpha = u/w$ keine Lösung – dann
+              kommt man nie genau gegenüber an.</p>
+          </div>
+        </section>
+
+        <section class="tab" id="aufgaben" data-titel="Aufgaben">
+
+          <p>Die Aufgaben sind nach Schwierigkeit sortiert. Versuch es erst
+            selbst – die Lösungen sind zugeklappt. Wenn nichts anderes gesagt
+            ist, gilt $g = 9{,}81\,\mathrm{m/s^2}$, die $z$-Achse zeigt nach
+            oben, und Luftreibung wird vernachlässigt.</p>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 1: Drohnenflug
+              <span class="schwierigkeit" data-stufe="leicht">leicht</span>
+            </h3>
+            <p>Eine Drohne fliegt in konstanter Höhe. Ihr Ort ist (Ursprung am
+              Startplatz auf dem Boden)
+              $$ \vec{r}(t) = 6{,}0\,\mathrm{\tfrac{m}{s}} \cdot t\;\hat{e}_x + 8{,}0\,\mathrm{\tfrac{m}{s}} \cdot t\;\hat{e}_y + 15\,\mathrm{m}\;\hat{e}_z . $$</p>
+            <ol type="a">
+              <li>Bestimme $\vec{v}(t)$, den Betrag $v$ und $\vec{a}(t)$.</li>
+              <li>Wo ist die Drohne nach $5{,}0\,\mathrm{s}$, und wie weit ist
+                sie dann von ihrem Ort bei $t = 0$ entfernt?</li>
+              <li>Wie weit ist sie dann vom Startplatz entfernt?</li>
+            </ol>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p><strong>(a)</strong> Komponentenweise ableiten:
+                $$ \vec{v} = \begin{pmatrix} 6{,}0 \\ 8{,}0 \\ 0 \end{pmatrix}\mathrm{m/s}, \qquad v = \sqrt{6{,}0^2 + 8{,}0^2}\,\mathrm{m/s} = 10\,\mathrm{m/s} = 36\,\mathrm{km/h}, \qquad \vec{a} = \vec{0} $$
+                Die Drohne fliegt gleichförmig geradeaus.</p>
+              <p><strong>(b)</strong>
+                $\vec{r}(5{,}0\,\mathrm{s}) = (30;\; 40;\; 15)\,\mathrm{m}$, und
+                $$ |\vec{r}(5{,}0\,\mathrm{s}) - \vec{r}(0)| = \sqrt{30^2 + 40^2 + 0^2}\,\mathrm{m} = 50\,\mathrm{m} $$
+                Kontrolle: $v \cdot t = 10\,\mathrm{m/s} \cdot 5{,}0\,\mathrm{s} = 50\,\mathrm{m}$ ✓</p>
+              <p><strong>(c)</strong>
+                $|\vec{r}(5{,}0\,\mathrm{s})| = \sqrt{30^2 + 40^2 + 15^2}\,\mathrm{m} = \sqrt{2725}\,\mathrm{m} = 52\,\mathrm{m}$.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 2: Laufband am Flughafen
+              <span class="schwierigkeit" data-stufe="leicht">leicht</span>
+            </h3>
+            <p>Ein Laufband ist $60\,\mathrm{m}$ lang und bewegt sich mit
+              $0{,}80\,\mathrm{m/s}$. Du gehst mit $1{,}4\,\mathrm{m/s}$
+              (relativ zu dem, worauf du gerade gehst). Wie lange brauchst du
+              für die $60\,\mathrm{m}$, wenn du (a) auf dem Band stehst,
+              (b) auf dem Band gehst, (c) daneben gehst? (d) Ein Kind läuft mit
+              $1{,}4\,\mathrm{m/s}$ gegen die Laufrichtung des Bandes. Wie
+              lange braucht es von einem Ende zum anderen?</p>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>Geschwindigkeiten gegenüber dem Boden addieren sich:
+                $v_\text{Boden} = v_\text{relativ zum Band} + v_\text{Band}$.
+                $$ \text{(a)}\; t = \frac{60\,\mathrm{m}}{0{,}80\,\mathrm{m/s}} = 75\,\mathrm{s}, \qquad \text{(b)}\; t = \frac{60\,\mathrm{m}}{2{,}2\,\mathrm{m/s}} = 27\,\mathrm{s}, \qquad \text{(c)}\; t = \frac{60\,\mathrm{m}}{1{,}4\,\mathrm{m/s}} = 43\,\mathrm{s} $$
+                <strong>(d)</strong> Gegenüber dem Boden:
+                $1{,}4\,\mathrm{m/s} - 0{,}80\,\mathrm{m/s} = 0{,}60\,\mathrm{m/s}$,
+                also $t = 60\,\mathrm{m} / 0{,}60\,\mathrm{m/s} = 100\,\mathrm{s}$.
+                Wäre das Kind langsamer als $0{,}80\,\mathrm{m/s}$, käme es
+                überhaupt nicht voran.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 3: Stein von der Klippe
+              <span class="schwierigkeit" data-stufe="mittel">mittel</span>
+            </h3>
+            <p>Von einer $25\,\mathrm{m}$ hohen Klippe wird ein Stein mit
+              $12\,\mathrm{m/s}$ waagerecht aufs Meer hinausgeworfen.</p>
+            <ol type="a">
+              <li>Nach welcher Zeit und in welcher Entfernung vom Fuß der
+                Klippe trifft er auf das Wasser?</li>
+              <li>Wie schnell ist er dann, und unter welchem Winkel trifft er
+                auf?</li>
+              <li>Zeige, dass der Betrag der Aufprallgeschwindigkeit
+                $\sqrt{v_0^2 + 2gH}$ ist.</li>
+            </ol>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p><strong>(a)</strong> Senkrecht: freier Fall aus
+                $H = 25\,\mathrm{m}$:
+                $$ t = \sqrt{\frac{2H}{g}} = \sqrt{\frac{50\,\mathrm{m}}{9{,}81\,\mathrm{m/s^2}}} = \sqrt{5{,}10\,\mathrm{s^2}} = 2{,}26\,\mathrm{s}, \qquad x = v_0\,t = 12\,\mathrm{\tfrac{m}{s}} \cdot 2{,}258\,\mathrm{s} = 27\,\mathrm{m} $$</p>
+              <p><strong>(b)</strong>
+                $v_x = 12\,\mathrm{m/s}$,
+                $v_z = -g\,t = -9{,}81 \cdot 2{,}258\,\mathrm{m/s} = -22{,}1\,\mathrm{m/s}$,
+                $$ |\vec{v}| = \sqrt{12^2 + 22{,}1^2}\,\mathrm{m/s} = 25{,}2\,\mathrm{m/s}, \qquad \tan\beta = \frac{22{,}1}{12} = 1{,}85 \;\Rightarrow\; \beta = 62° $$
+                gegen die Wasseroberfläche.</p>
+              <p><strong>(c)</strong> $v_x = v_0$ bleibt konstant; für die
+                $z$-Komponente gilt die zeitfreie Gleichung
+                $v_z^2 = 0 + 2(-g)(0 - H) = 2gH$. Also
+                $|\vec{v}|^2 = v_0^2 + 2gH$. Zahlen:
+                $\sqrt{144 + 490{,}5}\,\mathrm{m/s} = 25{,}2\,\mathrm{m/s}$ ✓.
+                Bemerkenswert: Der Betrag hängt nicht vom Abwurfwinkel ab –
+                ein schräg nach oben geworfener Stein mit demselben $v_0$ käme
+                genauso schnell unten an.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 4: Abstoß beim Fußball
+              <span class="schwierigkeit" data-stufe="mittel">mittel</span>
+            </h3>
+            <p>Ein Torwart schießt den Ball vom Boden aus mit
+              $20\,\mathrm{m/s}$ unter $35°$ ab.</p>
+            <ol type="a">
+              <li>Wie hoch fliegt der Ball, wie lange ist er in der Luft, und
+                wie weit fliegt er?</li>
+              <li>Unter welchem anderen Winkel würde er bei gleichem $v_0$
+                genauso weit fliegen? Wie hoch und wie lange wäre er dann
+                unterwegs?</li>
+            </ol>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p><strong>(a)</strong>
+                $v_{0x} = 20 \cos 35°\,\mathrm{m/s} = 16{,}4\,\mathrm{m/s}$,
+                $v_{0z} = 20 \sin 35°\,\mathrm{m/s} = 11{,}5\,\mathrm{m/s}$.
+                $$ z_\text{max} = \frac{v_{0z}^2}{2g} = \frac{(11{,}47\,\mathrm{m/s})^2}{19{,}62\,\mathrm{m/s^2}} = 6{,}7\,\mathrm{m}, \qquad t_\text{F} = \frac{2\,v_{0z}}{g} = \frac{22{,}94\,\mathrm{m/s}}{9{,}81\,\mathrm{m/s^2}} = 2{,}34\,\mathrm{s} $$
+                $$ x_\text{w} = v_{0x}\,t_\text{F} = 16{,}38\,\mathrm{\tfrac{m}{s}} \cdot 2{,}339\,\mathrm{s} = 38\,\mathrm{m} $$
+                Kontrolle: $v_0^2 \sin 70° / g = 400 \cdot 0{,}940 / 9{,}81\,\mathrm{m} = 38\,\mathrm{m}$ ✓</p>
+              <p><strong>(b)</strong> Der komplementäre Winkel $55°$ (wegen
+                $\sin 110° = \sin 70°$). Dann sind die Komponenten vertauscht:
+                $v_{0z} = 16{,}4\,\mathrm{m/s}$, also
+                $z_\text{max} = 16{,}38^2 / 19{,}62\,\mathrm{m} = 13{,}7\,\mathrm{m}$
+                und $t_\text{F} = 2 \cdot 16{,}38 / 9{,}81\,\mathrm{s} = 3{,}34\,\mathrm{s}$.
+                Gleiche Weite, aber doppelt so hoch und eine Sekunde länger in
+                der Luft.</p>
+              <p><strong>Plausibilität:</strong> Echte Abstöße mit
+                $20\,\mathrm{m/s}$ fliegen wegen des Luftwiderstands spürbar
+                weniger weit als $38\,\mathrm{m}$; für einen leichten Ball ist
+                die reibungsfreie Rechnung nur eine grobe Näherung.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe" data-symbole='{"H": "Anfangshöhe der Dose über dem Boden"}'>
+            <h3>Aufgabe 5: Fallende Dose
+              <span class="schwierigkeit" data-stufe="schwer">schwer</span>
+            </h3>
+            <p>Eine Dose hängt $H = 4{,}0\,\mathrm{m}$ über dem Boden in
+              $d = 12\,\mathrm{m}$ waagerechter Entfernung. Ein Ball wird vom
+              Boden aus genau auf die Dose gezielt geworfen; im selben Moment
+              wird die Dose losgelassen.</p>
+            <ol type="a">
+              <li>Unter welchem Winkel wird geworfen?</li>
+              <li>Mit welcher Geschwindigkeit muss der Ball mindestens
+                geworfen werden, damit er die Dose trifft, bevor sie auf dem
+                Boden liegt?</li>
+              <li>In welcher Höhe trifft der Ball die Dose bei
+                $v_0 = 20\,\mathrm{m/s}$?</li>
+            </ol>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p><strong>(a)</strong>
+                $\tan\varphi = H/d = 4{,}0/12 \;\Rightarrow\; \varphi = 18{,}4°$.</p>
+              <p><strong>(b)</strong> Wie beim Affenschuss trifft der Ball in
+                jedem Fall auf Höhe der fallenden Dose, und zwar zur Zeit
+                $$ t_d = \frac{d}{v_0 \cos\varphi} = \frac{L}{v_0}, \qquad L = \sqrt{d^2 + H^2} = \sqrt{144 + 16}\,\mathrm{m} = 12{,}65\,\mathrm{m} $$
+                ($L$ ist die Länge der Ziellinie, denn $d/\cos\varphi = L$).
+                Die Dose ist nach $t_\text{Boden} = \sqrt{2H/g} = \sqrt{8{,}0/9{,}81}\,\mathrm{s} = 0{,}903\,\mathrm{s}$
+                am Boden. Bedingung $t_d \le t_\text{Boden}$:
+                $$ v_0 \ge \frac{L}{t_\text{Boden}} = \frac{12{,}65\,\mathrm{m}}{0{,}903\,\mathrm{s}} = 14\,\mathrm{m/s} $$</p>
+              <p><strong>(c)</strong>
+                $t_d = 12{,}65\,\mathrm{m} / 20\,\mathrm{m/s} = 0{,}632\,\mathrm{s}$.
+                Bis dahin ist die Dose um
+                $\tfrac{1}{2}\,g\,t_d^2 = \tfrac{1}{2} \cdot 9{,}81 \cdot 0{,}400\,\mathrm{m} = 1{,}96\,\mathrm{m}$
+                gefallen; Treffer in $4{,}0\,\mathrm{m} - 1{,}96\,\mathrm{m} = 2{,}0\,\mathrm{m}$
+                Höhe.</p>
+              <p><strong>Zum Nachdenken:</strong> Warum spielt der Wurfwinkel
+                in der Trefferzeit $t_d = L/v_0$ keine Rolle mehr? Im
+                mitfallenden Bezugssystem ruht die Dose, und der Ball fliegt
+                geradlinig mit konstantem Tempo $v_0$ die Strecke $L$ entlang.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 6: Der beste Winkel von erhöhter Position
+              <span class="schwierigkeit" data-stufe="schwer">schwer</span>
+            </h3>
+            <p>Ein Körper wird aus der Höhe $h$ mit $v_0$ unter dem Winkel
+              $\varphi$ abgeworfen und landet mit der Geschwindigkeit
+              $\vec{v}_1$ auf dem Boden. Ziel: der Winkel $\varphi^*$ mit der
+              größten Wurfweite.</p>
+            <ol type="a">
+              <li>Zeige, dass $v_1 = |\vec{v}_1| = \sqrt{v_0^2 + 2gh}$ nicht
+                von $\varphi$ abhängt.</li>
+              <li>Zeige mit $\vec{v}_1 = \vec{v}_0 + \vec{g}\,t_\text{F}$, dass
+                $g\,x_\text{w} = |v_{0x} v_{1z} - v_{0z} v_{1x}|$ gilt, also
+                $x_\text{w} = v_0\,v_1 \sin\alpha / g$, wobei $\alpha$ der
+                Winkel zwischen $\vec{v}_0$ und $\vec{v}_1$ ist.</li>
+              <li>Folgere $\tan\varphi^* = v_0 / v_1$ und
+                $x_\text{w,max} = v_0 v_1 / g$.</li>
+              <li>Wende das Ergebnis auf den Kugelstoß aus Beispiel 2 an
+                ($h = 2{,}0\,\mathrm{m}$, $v_0 = 13{,}0\,\mathrm{m/s}$).</li>
+            </ol>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p><strong>(a)</strong> $v_{1x} = v_{0x}$; für $z$ gilt die
+                zeitfreie Gleichung $v_{1z}^2 = v_{0z}^2 + 2gh$. Also
+                $v_1^2 = v_{0x}^2 + v_{0z}^2 + 2gh = v_0^2 + 2gh$ – unabhängig
+                von der Aufteilung auf die Komponenten.</p>
+              <p><strong>(b)</strong> Mit $v_{1x} = v_{0x}$ und
+                $v_{1z} = v_{0z} - g\,t_\text{F}$:
+                $$ v_{0x} v_{1z} - v_{0z} v_{1x} = v_{0x}(v_{0z} - g\,t_\text{F}) - v_{0z} v_{0x} = -g\,v_{0x}\,t_\text{F} = -g\,x_\text{w} $$
+                Der Ausdruck links ist die $y$-Komponente von
+                $\vec{v}_0 \times \vec{v}_1$ bis aufs Vorzeichen, sein Betrag
+                also $v_0 v_1 \sin\alpha$. Damit
+                $x_\text{w} = v_0 v_1 \sin\alpha / g$.</p>
+              <p><strong>(c)</strong> $v_0$ und $v_1$ sind fest, also wird
+                $x_\text{w}$ maximal für $\sin\alpha = 1$: Abwurf- und
+                Aufprallgeschwindigkeit stehen senkrecht aufeinander. Ist
+                $\beta$ der Aufprallwinkel gegen die Waagerechte, heißt das
+                $\varphi^* + \beta = 90°$. Die waagerechten Komponenten sind
+                gleich: $v_0 \cos\varphi^* = v_1 \cos\beta = v_1 \sin\varphi^*$,
+                also
+                $$ \tan\varphi^* = \frac{v_0}{v_1} = \frac{v_0}{\sqrt{v_0^2 + 2gh}}, \qquad x_\text{w,max} = \frac{v_0\,v_1}{g} . $$
+                Für $h = 0$ ist $v_1 = v_0$, also $\varphi^* = 45°$ ✓.</p>
+              <p><strong>(d)</strong>
+                $v_1 = \sqrt{169 + 2 \cdot 9{,}81 \cdot 2{,}0}\,\mathrm{m/s} = \sqrt{208{,}2}\,\mathrm{m/s} = 14{,}43\,\mathrm{m/s}$,
+                $$ \tan\varphi^* = \frac{13{,}0}{14{,}43} = 0{,}901 \;\Rightarrow\; \varphi^* = 42{,}0°, \qquad x_\text{w,max} = \frac{13{,}0 \cdot 14{,}43}{9{,}81}\,\mathrm{m} = 19{,}1\,\mathrm{m} $$
+                Das passt zu Beispiel 2: Bei 40° waren es $19{,}08\,\mathrm{m}$,
+                bei 45° $19{,}04\,\mathrm{m}$, das Maximum liegt mit
+                $19{,}12\,\mathrm{m}$ knapp darüber.</p>
+              <p><strong>Zum Nachdenken:</strong> Spitzen-Kugelstoßer stoßen
+                trotzdem meist deutlich flacher als 42° ab. Unsere Rechnung
+                nimmt an, dass $v_0$ nicht vom Winkel abhängt. Der menschliche
+                Körper kann aber waagerecht mehr Kraft aufbringen als senkrecht
+                nach oben – also wird $v_0$ bei flachem Abstoß größer, und
+                dieser Gewinn wiegt den etwas ungünstigeren Winkel auf.</p>
+            </details>
+          </div>
+        </section>
+
+      </div></article>
+  </main>
+</body>
+</html>

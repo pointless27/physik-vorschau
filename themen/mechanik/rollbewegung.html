@@ -1,0 +1,723 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="robots" content="noindex">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Rollbewegung</title>
+  <meta name="description" content="Rollen als Kombination aus Translation und Rotation: Rollbedingung, Zykloide, Energie beim Rollen, Wettrennen auf der schiefen Ebene und Rollreibung – mit Herleitungen, Beispielen und Aufgaben.">
+
+  <link rel="stylesheet" href="../../css/stil.css">
+
+  <link rel="stylesheet" href="../../extern/katex/katex.min.css">
+  <script defer src="../../extern/katex/katex.min.js"></script>
+  <script defer src="../../extern/katex/contrib/auto-render.min.js" onload="starteFormeln()"></script>
+
+  <script src="../../js/daten.js"></script>
+  <script src="../../js/seite.js"></script>
+  <script src="../../js/effekte.js"></script>
+  <script src="../../js/interaktiv.js"></script>
+  <script src="../../js/modelle/rollbewegung.js"></script>
+  <script type="application/json" id="symbole">
+  {
+    "R": "Radius des rollenden Körpers",
+    "ω": "Winkelgeschwindigkeit",
+    "φ": "Drehwinkel",
+    "t": "Zeit",
+    "π": "Kreiszahl π ≈ 3,14159",
+    "x": "x-Koordinate (Rollrichtung)",
+    "y": "y-Koordinate (Höhe)",
+    "A": "Auflagepunkt (momentane Drehachse)",
+    "P": "beliebiger Punkt auf dem Rand",
+    "v_S": "Geschwindigkeit des Schwerpunkts",
+    "a_S": "Beschleunigung des Schwerpunkts",
+    "v_P": "Geschwindigkeit des Punkts P",
+    "v_A": "Geschwindigkeit des Auflagepunkts",
+    "r_SP": "Vektor vom Schwerpunkt zum Punkt P",
+    "α": "Neigungswinkel der Ebene",
+    "α_ω": "Winkelbeschleunigung",
+    "M": "Masse des rollenden Körpers",
+    "m": "Masse",
+    "g": "Fallbeschleunigung",
+    "h": "Höhe",
+    "s": "Weg entlang der Ebene",
+    "E_kin": "kinetische Energie",
+    "E_rot": "Rotationsenergie",
+    "E_trans": "kinetische Energie der Schwerpunktsbewegung",
+    "I": "Trägheitsmoment",
+    "I_S": "Trägheitsmoment um die Schwerpunktsachse",
+    "I_A": "Trägheitsmoment um den Auflagepunkt",
+    "k": "Formfaktor des Trägheitsmoments (I = k M R²)",
+    "D": "Drehmoment",
+    "F_α": "Hangabtriebskraft",
+    "F_N": "Normalkraft",
+    "F_H": "Haftreibungskraft",
+    "μ_H": "Haftreibungszahl",
+    "μ_G": "Gleitreibungszahl",
+    "v": "Geschwindigkeit",
+    "v_0": "Anfangsgeschwindigkeit",
+    "v_f": "Endgeschwindigkeit",
+    "a": "Beschleunigung",
+    "D_R": "Rollreibungsmoment",
+    "μ_r": "Rollreibungslänge",
+    "F_R": "Rollreibungskraft",
+    "c_R": "Rollreibungsbeiwert",
+    "D_α": "Drehmoment der Hangabtriebskraft",
+    "F_S": "Seilkraft (Schnur des Jo-Jos)",
+    "r": "Radius der Achse, auf die die Schnur gewickelt ist"
+  }
+  </script>
+</head>
+<body data-thema="rollbewegung">
+  <main>
+    <article class="thema">
+      <header>
+        <h1>Rollbewegung</h1>
+        <p class="untertitel">Räder, Kugeln und Dosen: Warum der tiefste Punkt
+          eines rollenden Rades stillsteht, eine volle Dose die leere überholt
+          und ein Fahrrad so weit ausrollt.</p>
+      </header>
+
+      <div class="tabs">
+
+        <section class="tab" id="verstehen" data-titel="Verstehen">
+
+          <p>Das Rad ist vielleicht die wichtigste Erfindung der Menschheit. Ein
+            rollendes Rad macht zwei Dinge gleichzeitig: Es bewegt sich als Ganzes
+            vorwärts und dreht sich dabei um seine Achse. Beides ist fest
+            aneinander gekoppelt – bei jeder Umdrehung kommt das Rad genau um
+            seinen Umfang voran.</p>
+
+          <h2>Der stillstehende Punkt</h2>
+
+          <p>Hier steckt eine Überraschung: Der Punkt des Rades, der gerade den
+            Boden berührt, steht in diesem Moment <em>still</em>. Würde er sich
+            bewegen, würde das Rad über den Boden schleifen. Der oberste Punkt
+            dagegen ist doppelt so schnell wie das Fahrrad selbst – deshalb
+            erscheinen auf Fotos von fahrenden Rädern die oberen Speichen
+            verwischt, die unteren aber scharf.</p>
+
+          <figure class="interaktiv" data-modell="zykloide">
+            <span class="titel">Zum Ausprobieren</span>
+            <figcaption>Ein Rad rollt nach rechts; ein Punkt darauf hinterlässt
+              eine Spur. Sitzt er am Rand (wie ein Steinchen im Reifenprofil),
+              entsteht eine Bogenlinie mit Spitzen, die <em>Zykloide</em>. Der
+              Pfeil zeigt seine Geschwindigkeit. Achte darauf, wie er am Boden
+              kurz stehen bleibt. Schieb den Punkt nach innen, wie ein Reflektor an
+              den Speichen: Die Spitzen werden zu sanften Wellen.</figcaption>
+          </figure>
+
+          <h2>Das Wettrennen auf der Rampe</h2>
+
+          <p>Lass eine volle und eine leere Konservendose gleichzeitig eine Rampe
+            hinunterrollen. Welche gewinnt? Die schwere, möchte man meinen – aber
+            die Masse ist gar nicht entscheidend. Entscheidend ist, wie die Masse
+            <em>verteilt</em> ist.</p>
+
+          <p>Ein rollender Körper muss seine Lageenergie auf zwei Konten verteilen:
+            auf die Bewegung vorwärts und auf die Drehung. Bei einem Ring oder
+            einer leeren Dose sitzt die ganze Masse außen, die Drehung „kostet“
+            viel – für das Vorwärtskommen bleibt weniger. Eine Vollkugel hat ihre
+            Masse nahe der Mitte und ist deshalb von allen rollenden Körpern am
+            schnellsten. Und ein Klotz, der ohne Reibung rutscht, schlägt sie alle,
+            weil er gar nichts in Drehung stecken muss.</p>
+
+          <figure class="interaktiv" data-modell="rollrennen">
+            <span class="titel">Zum Ausprobieren</span>
+            <figcaption>Vier Körper starten gleichzeitig auf derselben schiefen
+              Ebene (hier nebeneinander in Bahnen gezeichnet). Verändere Neigung
+              und Größe der Körper: Die Reihenfolge bleibt immer gleich, und auch
+              die Größe spielt keine Rolle. Die Striche auf den Körpern zeigen
+              ihre Drehung.</figcaption>
+          </figure>
+
+          <div class="alltag">
+            <span class="titel">Aus dem Alltag</span>
+            <p>Ein rohes und ein gekochtes Ei rollen unterschiedlich: Im rohen Ei
+              schwappt das flüssige Innere und dreht sich nicht richtig mit. Beim
+              Andrehen auf dem Tisch merkst du den Unterschied sofort – das gekochte
+              Ei dreht sich lange und gleichmäßig, das rohe kommt schnell ins
+              Trudeln.</p>
+          </div>
+
+          <h2>Warum Rollen so sparsam ist</h2>
+
+          <p>Einen schweren Schrank über den Boden zu schieben, ist mühsam – auf
+            Rollen geht es fast mühelos. Beim Rollen reibt nichts über den Boden;
+            gebremst wird ein Rad nur durch die <em>Rollreibung</em>: Rad und
+            Boden verformen sich ein wenig, und dabei geht etwas Energie
+            verloren. Ein harter Stahlreifen auf einer Stahlschiene verformt sich
+            kaum, deshalb rollen Züge so leicht. Ein schlaffer Fahrradreifen
+            dagegen walkt bei jeder Umdrehung kräftig durch – das spürst du beim
+            Treten.</p>
+
+          <p>Übrigens braucht ein Rad zum Rollen Haftreibung, sobald es schneller
+            oder langsamer werden soll: Auf Glatteis drehen die Räder durch oder
+            blockieren, statt zu rollen.</p>
+
+          <div class="merkkasten">
+            <span class="titel">Das Wichtigste in Kürze</span>
+            <ul>
+              <li>Rollen ist Vorwärtsbewegung und Drehung zugleich; pro Umdrehung
+                kommt ein Rad um seinen Umfang voran.</li>
+              <li>Der Berührpunkt steht kurz still, der oberste Punkt ist doppelt so
+                schnell wie die Achse.</li>
+              <li>Beim Rollen bergab gewinnt, wer seine Masse nahe der Achse hat:
+                Vollkugel vor Vollzylinder vor Ring – unabhängig von Masse und
+                Größe.</li>
+              <li>Rollreibung entsteht durch Verformung und ist viel kleiner als
+                Gleitreibung.</li>
+            </ul>
+          </div>
+        </section>
+
+        <section class="tab" id="vertiefung" data-titel="Vertiefung">
+
+          <p>Bisher haben wir reine Translation oder reine Rotation um eine feste
+            Achse betrachtet (siehe <a href="drehbewegung.html">Drehbewegung</a>).
+            Beim Rollen kommt beides zusammen: Ein runder Körper (Kugel, Zylinder,
+            Rad) bewegt sich auf einer Unterlage, die er in einem Punkt (Kugel)
+            bzw. entlang einer Linie (Zylinder) berührt.</p>
+
+          <h2>Rollbedingung und Zykloide</h2>
+
+          <p>Der Schwerpunkt bewege sich mit $v_\text{S}$, der Körper drehe sich mit
+            $\omega$ um die Schwerpunktachse. Die Geschwindigkeit eines beliebigen
+            Punkts $P$ ist die Summe aus Schwerpunktbewegung und Drehung:</p>
+
+          $$ \vec{v}_P = \vec{v}_\text{S} + \vec{\omega} \times \vec{r}_{\text{S}P} . $$
+
+          <p>Am Auflagepunkt $A$ zeigt die Drehgeschwindigkeit $\omega R$ genau
+            entgegen $\vec{v}_\text{S}$. Rollt der Körper, ohne zu gleiten, muss
+            $\vec{v}_A = 0$ sein. Daraus folgt die <em>Rollbedingung</em></p>
+
+          $$ v_\text{S} = \omega R, \qquad a_\text{S} = \alpha R . $$
+
+          <p>Weil $A$ momentan ruht, kann man die Bewegung in jedem Augenblick
+            auch als reine Drehung um die Auflagelinie auffassen (die
+            <em>momentane Drehachse</em>). Jeder Punkt bewegt sich dann senkrecht
+            zu seiner Verbindungslinie mit $A$, und zwar mit
+            $v_P = \omega\,|\overline{AP}|$: Der Mittelpunkt hat $v_\text{S}$, der
+            oberste Punkt $2 v_\text{S}$, die Punkte auf Höhe der Achse
+            $\sqrt{2}\,v_\text{S}$ (Abb. 1).</p>
+
+          <p>Ein Punkt auf dem Rand beschreibt eine <em>Zykloide</em>. Mit dem
+            Drehwinkel $\varphi = \omega t$ und dem Startpunkt am Boden ist</p>
+
+          $$ x(\varphi) = R\,(\varphi - \sin\varphi), \qquad y(\varphi) = R\,(1 - \cos\varphi) . $$
+
+          <p>Bei $\varphi = 0, 2\pi, 4\pi, \dots$ berührt der Punkt den Boden; die
+            Kurve hat dort Spitzen, an denen die Geschwindigkeit null ist.</p>
+
+          <figure class="abbildung">
+            <svg class="abb" viewBox="0 0 360 260" role="img"
+                 aria-label="Oben: Zykloide eines Randpunkts. Unten: rollendes Rad mit den Geschwindigkeiten von Mittelpunkt, oberstem Punkt und seitlichen Punkten">
+              <path class="achse" d="M10 95H350"/>
+              <polyline class="kurve kupfer" points="20,95 20,94.8 20.1,94.2 20.2,93.2 20.6,91.8 21.1,90 21.9,88 23,85.6 24.3,83 26.1,80.2 28.2,77.2 30.8,74.1 33.7,71 37,67.9 40.8,64.8 45,61.8 49.5,59 54.4,56.4 59.6,54 65.1,52 70.8,50.2 76.8,48.8 82.9,47.8 89.1,47.2 95.4,47 101.7,47.2 107.9,47.8 114,48.8 120,50.2 125.7,52 131.2,54 136.4,56.4 141.3,59 145.8,61.8 150,64.8 153.8,67.9 157.1,71 160,74.1 162.6,77.2 164.7,80.2 166.4,83 167.8,85.6 168.9,88 169.7,90 170.2,91.8 170.6,93.2 170.7,94.2 170.8,94.8 170.8,95 170.8,94.8 170.9,94.2 171,93.2 171.4,91.8 171.9,90 172.7,88 173.7,85.6 175.1,83 176.9,80.2 179,77.2 181.6,74.1 184.5,71 187.8,67.9 191.6,64.8 195.7,61.8 200.3,59"/>
+              <polyline class="kurve schwach" points="200.3,59 205.2,56.4 210.4,54 215.9,52 221.6,50.2 227.6,48.8 233.7,47.8 239.9,47.2 246.2,47 252.5,47.2 258.7,47.8 264.8,48.8 270.8,50.2 276.5,52 282,54 287.2,56.4 292.1,59 296.6,61.8 300.8,64.8 304.5,67.9 307.9,71 310.8,74.1 313.4,77.2 315.5,80.2 317.2,83 318.6,85.6 319.7,88 320.5,90 321,91.8 321.4,93.2 321.5,94.2 321.6,94.8 321.6,95"/>
+              <circle class="hilfslinie" cx="216" cy="71" r="24"/>
+              <path class="achse" d="M216 71L200.3 59"/>
+              <circle class="punkt" cx="216" cy="71" r="2.5"/>
+              <circle class="punkt kupfer" cx="200.3" cy="59" r="4"/>
+              <text x="20" y="30" font-size="12">Zykloide: Spur eines Randpunkts</text>
+              <text x="95" y="112" text-anchor="middle" font-size="11">2πR</text>
+
+              <path class="achse" d="M30 230H330"/>
+              <circle class="kurve" cx="150" cy="180" r="50"/>
+              <path class="hilfslinie" d="M150 230L150 130M150 230L200 180M150 230L100 180"/>
+              <path class="kurve blau" d="M150 180L177 180"/>
+              <polygon class="punkt blau" points="186,180 177,175.5 177,184.5"/>
+              <path class="kurve blau" d="M150 130L213 130"/>
+              <polygon class="punkt blau" points="222,130 213,125.5 213,134.5"/>
+              <path class="kurve blau" d="M200 180L229.6 209.6"/>
+              <polygon class="punkt blau" points="236,216 226.5,212.8 232.8,206.5"/>
+              <path class="kurve blau" d="M100 180L129.6 150.4"/>
+              <polygon class="punkt blau" points="136,144 132.8,153.5 126.5,147.2"/>
+              <circle class="punkt" cx="150" cy="180" r="3"/>
+              <circle class="punkt" cx="150" cy="130" r="3"/>
+              <circle class="punkt" cx="200" cy="180" r="3"/>
+              <circle class="punkt" cx="100" cy="180" r="3"/>
+              <circle class="punkt kupfer" cx="150" cy="230" r="4.5"/>
+              <text class="blau" x="160" y="173">v<tspan dy="4" font-size="9">S</tspan></text>
+              <text class="blau" x="226" y="134">2 v<tspan dy="4" font-size="9">S</tspan></text>
+              <text class="blau" x="242" y="220">√2 v<tspan dy="4" font-size="9">S</tspan></text>
+              <text class="kupfer" x="160" y="250">A: v = 0</text>
+              <text x="252" y="176" font-size="11">Rad rollt nach rechts</text>
+            </svg>
+            <figcaption>Abb. 1: Oben: Ein Randpunkt beschreibt eine Zykloide; nach
+              einer Umdrehung ist das Rad um $2\pi R$ weitergerollt. Unten: Die
+              Geschwindigkeiten stehen senkrecht auf der Verbindungslinie zum
+              Auflagepunkt $A$ (gestrichelt) und sind proportional zu ihrer Länge
+              – das Rad dreht sich momentan um $A$.</figcaption>
+          </figure>
+
+          <p><strong>Rolle der Reibung.</strong> Damit ein Körper rollt statt zu
+            rutschen, braucht es Haftreibung zwischen Körper und Unterlage, sobald
+            sich $v_\text{S}$ oder $\omega$ ändern sollen (Anrollen, Bremsen,
+            schiefe Ebene). Rollt ein Rad mit konstanter Geschwindigkeit auf
+            ebenem Boden, ist im Idealfall gar keine Reibungskraft nötig. Die
+            Haftreibung verrichtet beim reinen Rollen keine Arbeit, weil ihr
+            Angriffspunkt ruht – mechanische Energie geht also nicht
+            verloren.</p>
+
+          <h2>Kinetische Energie der Rollbewegung</h2>
+
+          <p>Die kinetische Energie ist die Summe aus der Energie der
+            Schwerpunktbewegung und der Rotationsenergie um die
+            Schwerpunktachse:</p>
+
+          $$ E_\text{kin} = \tfrac{1}{2} M v_\text{S}^2 + \tfrac{1}{2} I_\text{S}\,\omega^2 . $$
+
+          <p>Mit $v_\text{S} = \omega R$ wird daraus
+            $E_\text{kin} = \tfrac{1}{2}\left(I_\text{S} + M R^2\right)\omega^2 = \tfrac{1}{2} I_A\,\omega^2$:
+            die reine Rotationsenergie um die Auflagelinie $A$, deren
+            Trägheitsmoment nach dem Steinerschen Satz $I_A = I_\text{S} + M R^2$
+            ist. Beide Sichtweisen sind gleichwertig.</p>
+
+          <p>Es ist praktisch, das Trägheitsmoment als
+            $I_\text{S} = k\,M R^2$ zu schreiben. Die dimensionslose Zahl $k$
+            beschreibt nur die Massenverteilung: $k = \tfrac{2}{5}$ (Vollkugel),
+            $\tfrac{1}{2}$ (Vollzylinder), $\tfrac{2}{3}$ (Hohlkugel), $1$ (dünner
+            Ring, dünnwandiger Hohlzylinder). Dann ist</p>
+
+          $$ E_\text{kin} = \tfrac{1}{2}\,(1 + k)\,M v_\text{S}^2 , $$
+
+          <p>und der Anteil der Rotation an der gesamten Bewegungsenergie beträgt
+            $k/(1 + k)$.</p>
+
+          <h3 id="energiesatz-rampe">Herabrollen: der Energiesatz</h3>
+
+          <p>Ein Körper rollt aus der Ruhe eine schiefe Ebene der Höhe $h$
+            hinunter. Am Anfang hat er nur Lageenergie $M g h$, am Ende
+            ($h = 0$) nur Bewegungsenergie. Weil die Haftreibung keine Arbeit
+            verrichtet, gilt</p>
+
+          $$ M g h = \tfrac{1}{2}\left(M + \frac{I_\text{S}}{R^2}\right) v_\text{f}^2 \quad\Longrightarrow\quad v_\text{f} = \sqrt{\frac{2 M g h}{M + I_\text{S}/R^2}} = \sqrt{\frac{2 g h}{1 + k}} . $$
+
+          <p>Für den Vollzylinder ist $v_\text{f} = \sqrt{\tfrac{4}{3} g h}$, für
+            den Hohlzylinder $v_\text{f} = \sqrt{g h}$, für die Vollkugel
+            $\sqrt{\tfrac{10}{7} g h}$. Masse und Radius kürzen sich heraus.</p>
+
+          <p><strong>Experiment.</strong> Ein Vollzylinder und ein Hohlzylinder
+            gleicher Masse und gleichen Radius starten gleichzeitig auf einer
+            schiefen Ebene. Der Vollzylinder kommt deutlich früher unten an.</p>
+
+          <div class="merkkasten">
+            <span class="titel">Merke</span>
+            <p>Die Massenverteilung bestimmt die Endgeschwindigkeit beim Rollen:
+              Je mehr Masse weit von der Achse sitzt (großes $k$), desto mehr der
+              Lageenergie steckt in der Drehung und desto langsamer ist der
+              Schwerpunkt.</p>
+          </div>
+
+          <h2>Rollbewegung auf der schiefen Ebene: die Kräfte</h2>
+
+          <p>Auf einen Zylinder auf der schiefen Ebene (Neigung $\alpha$) wirken
+            die Gewichtskraft $M\vec{g}$, die Normalkraft und die Haftreibung
+            (Abb. 2). Die Gewichtskraft zerlegt man in</p>
+
+          $$ F_\text{N} = M g \cos\alpha \;\;\text{(senkrecht zur Unterlage)}, \qquad F_\alpha = M g \sin\alpha \;\;\text{(Hangabtrieb)} . $$
+
+          <figure class="abbildung">
+            <svg class="abb" viewBox="0 0 360 240" role="img"
+                 aria-label="Zylinder auf einer schiefen Ebene mit Gewichtskraft, Hangabtriebskraft, Normalkraft und Haftreibung am Auflagepunkt">
+              <polygon class="flaeche" points="30,80.1 330,220 30,220"/>
+              <path class="achse" d="M30 80.1L330 220M10 220H350"/>
+              <path class="achse" d="M290 220A40 40 0 0 1 293.7 203.1"/>
+              <text x="282" y="214" text-anchor="end" font-size="12">α</text>
+              <circle class="wagen" cx="163.5" cy="107.1" r="32"/>
+              <path class="hilfslinie" d="M163.5 107.1L134.8 168.7M163.5 182.1L192.3 120.5"/>
+              <path class="kurve" d="M163.5 107.1L163.5 173.1"/>
+              <polygon class="punkt" points="163.5,182.1 159,173.1 168,173.1"/>
+              <path class="kurve blau" d="M163.5 107.1L184.1 116.7"/>
+              <polygon class="punkt blau" points="192.3,120.5 182.2,120.7 186,112.6"/>
+              <path class="kurve duenn" d="M148 136.1L172.9 82.6"/>
+              <polygon class="punkt" points="176.7,74.5 177,84.5 168.8,80.7"/>
+              <path class="kurve kupfer" d="M150 136.1L134.6 128.9"/>
+              <polygon class="punkt kupfer" points="126.4,125.1 136.5,124.8 132.7,133"/>
+              <circle class="punkt" cx="163.5" cy="107.1" r="2.5"/>
+              <circle class="punkt kupfer" cx="150" cy="136.1" r="3"/>
+              <text x="170" y="196">M g</text>
+              <text class="blau" x="198" y="128">F<tspan dy="4" font-size="9">α</tspan></text>
+              <text x="182" y="70">F<tspan dy="4" font-size="9">N</tspan></text>
+              <text class="kupfer" x="124" y="106" text-anchor="end">F<tspan dy="4" font-size="9">H</tspan></text>
+              <text x="140" y="150" text-anchor="end" font-size="11">A</text>
+            </svg>
+            <figcaption>Abb. 2: Kräfte auf einen rollenden Zylinder. Die
+              Gewichtskraft greift im Schwerpunkt an und wird in den Hangabtrieb
+              $F_\alpha$ und eine Komponente senkrecht zur Ebene zerlegt; diese
+              hebt die Normalkraft $F_\text{N}$ auf. Die Haftreibung $F_\text{H}$
+              am Auflagepunkt $A$ zeigt hangaufwärts und erzeugt das Drehmoment um
+              den Schwerpunkt.</figcaption>
+          </figure>
+
+          <p><strong>Drehung um die Auflagelinie.</strong> Am einfachsten ist die
+            Rechnung um die momentane Drehachse $A$: Normalkraft und Haftreibung
+            greifen dort an und haben kein Drehmoment. Es bleibt der Hangabtrieb
+            mit dem Hebelarm $R$:</p>
+
+          $$ D = F_\alpha R = M g R \sin\alpha = I_A\,\alpha_\omega = \left(I_\text{S} + M R^2\right) \alpha_\omega . $$
+
+          <p>(Hier heißt die Winkelbeschleunigung $\alpha_\omega$, um sie vom
+            Neigungswinkel zu unterscheiden.) Die Beschleunigung des Schwerpunkts
+            ist mit der Rollbedingung</p>
+
+          $$ a_\text{S} = R\,\alpha_\omega = \frac{M g R^2 \sin\alpha}{I_\text{S} + M R^2} = \frac{g \sin\alpha}{1 + \dfrac{I_\text{S}}{M R^2}} = \frac{g \sin\alpha}{1 + k} . $$
+
+          <p>Ein reibungsfrei rutschender Körper hätte $a = F_\alpha/M = g\sin\alpha$.
+            Beim Rollen ist die Beschleunigung um den Faktor $1 + k$ kleiner, weil
+            ein Teil der Lageenergie in Rotationsenergie übergeht. Zur Kontrolle:
+            Mit $v_\text{f}^2 = 2 a_\text{S} s$ und $h = s \sin\alpha$ ergibt sich
+            wieder $v_\text{f} = \sqrt{2gh/(1+k)}$.</p>
+
+          <h3 id="haftbedingung">Wie groß muss die Haftreibung sein?</h3>
+
+          <p>Rechnet man stattdessen um den Schwerpunkt, so treibt nur die
+            Haftreibung die Drehung an: $F_\text{H} R = I_\text{S}\,\alpha_\omega$,
+            also $F_\text{H} = k M a_\text{S}$. Mit $a_\text{S}$ von oben ist</p>
+
+          $$ F_\text{H} = \frac{k}{1 + k}\,M g \sin\alpha . $$
+
+          <p>Haftreibung kann höchstens $\mu_\text{H} F_\text{N}$ betragen.
+            Reines Rollen ist daher nur möglich, solange</p>
+
+          $$ \frac{k}{1 + k}\,M g \sin\alpha \le \mu_\text{H} M g \cos\alpha \quad\Longleftrightarrow\quad \tan\alpha \le \frac{1 + k}{k}\,\mu_\text{H} . $$
+
+          <p>Bei steileren Rampen rollt und rutscht der Körper gleichzeitig. Für
+            einen Vollzylinder ($k = \tfrac{1}{2}$) liegt die Grenze bei
+            $\tan\alpha = 3\mu_\text{H}$ – rollen geht also viel steiler als ein
+            Klotz liegen bleibt ($\tan\alpha = \mu_\text{H}$).</p>
+
+          <h2>Rollreibung</h2>
+
+          <p>Ein realer Körper rollt auf ebenem Boden nicht ewig. Rad und Unterlage
+            verformen sich am Auflagepunkt; die Normalkraft greift dadurch nicht
+            genau unter dem Schwerpunkt an, sondern ein kleines Stück $\mu_\text{r}$
+            in Bewegungsrichtung davor (Abb. 3). Sie erzeugt so ein bremsendes
+            Drehmoment</p>
+
+          $$ D_\text{R} = \mu_\text{r}\,F_\text{N} . $$
+
+          <p>Der <em>Rollreibungskoeffizient</em> $\mu_\text{r}$ ist eine Länge
+            (Einheit $\mathrm{m}$), der Hebelarm der Normalkraft. Oft rechnet man
+            stattdessen mit einer Rollreibungskraft am Umfang,
+            $F_\text{R} = D_\text{R}/R = c_\text{R} F_\text{N}$ mit der
+            dimensionslosen Rollwiderstandszahl $c_\text{R} = \mu_\text{r}/R$.
+            Größere Räder rollen also bei gleichem $\mu_\text{r}$ leichter.</p>
+
+          <figure class="abbildung">
+            <svg class="abb" viewBox="0 0 360 220" role="img"
+                 aria-label="Rad auf einer leicht verformten Unterlage; die Normalkraft greift um die Strecke mu r vor dem Schwerpunkt an">
+              <path class="achse" d="M20 180H130Q165 186 186 182Q200 176 214 180H340"/>
+              <circle class="wagen" cx="170" cy="110" r="72"/>
+              <path class="hilfslinie" d="M170 176V200M190 110V200"/>
+              <circle class="punkt" cx="170" cy="110" r="3"/>
+              <path class="kurve" d="M190 181L190 129"/>
+              <polygon class="punkt" points="190,120 185.5,129 194.5,129"/>
+              <path class="kurve duenn" d="M170 110L170 163"/>
+              <polygon class="punkt" points="170,172 165.5,163 174.5,163"/>
+              <path class="kurve blau" d="M260 60H301"/>
+              <polygon class="punkt blau" points="310,60 301,55.5 301,64.5"/>
+              <path class="achse" d="M170 200H190"/>
+              <text x="196" y="138">F<tspan dy="4" font-size="9">N</tspan></text>
+              <text x="164" y="150" text-anchor="end">M g</text>
+              <text x="180" y="214" text-anchor="middle" font-size="12">μ<tspan dy="4" font-size="9">r</tspan></text>
+              <text class="blau" x="262" y="50">Fahrtrichtung</text>
+              <text x="240" y="196" font-size="11">Verformung (übertrieben)</text>
+            </svg>
+            <figcaption>Abb. 3: Rollreibung. Durch die Verformung greift die
+              Normalkraft $F_\text{N}$ um $\mu_\text{r}$ vor dem Schwerpunkt an.
+              Zusammen mit der Gewichtskraft bildet sie ein Kräftepaar mit dem
+              Drehmoment $\mu_\text{r} F_\text{N}$, das die Drehung bremst.</figcaption>
+          </figure>
+
+          <p><strong>Messung von $\mu_\text{r}$.</strong> Auf der schiefen Ebene
+            treibt das Drehmoment $D_\alpha = R\,M g \sin\alpha$ (um den
+            Auflagepunkt) die Rollbewegung an, $D_\text{R} = \mu_\text{r} M g \cos\alpha$
+            bremst sie. Für $D_\alpha \gt D_\text{R}$ rollt der Körper los. Man
+            stellt den Winkel ein, bei dem er gerade gleichmäßig weiterrollt
+            ($D_\alpha = D_\text{R}$), und erhält</p>
+
+          $$ \mu_\text{r} = R \tan\alpha . $$
+
+          <div class="tabelle-huelle">
+            <table>
+              <thead>
+                <tr><th>Paarung</th><th>Rollwiderstandszahl $c_\text{R} = \mu_\text{r}/R$</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>Stahlrad auf Stahlschiene (Eisenbahn)</td><td>$0{,}001$ bis $0{,}002$</td></tr>
+                <tr><td>Rennradreifen auf Asphalt</td><td>etwa $0{,}003$ bis $0{,}005$</td></tr>
+                <tr><td>Autoreifen auf Asphalt</td><td>etwa $0{,}01$ bis $0{,}015$</td></tr>
+                <tr><td>Autoreifen auf Sand</td><td>$0{,}15$ bis $0{,}3$</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p>Zum Vergleich: Die Gleitreibungszahl Stahl auf Stahl liegt bei etwa
+            $0{,}4$ bis $0{,}6$, die Haftreibungszahl noch höher – Rollen ist also
+            mehrere hundert Mal sparsamer als Gleiten.</p>
+        </section>
+
+        <section class="tab" id="beispiele" data-titel="Beispielrechnungen">
+
+          <div class="beispiel">
+            <h3>Beispiel 1: Wettrennen auf der Rampe</h3>
+            <p><strong>Gegeben:</strong> Eine Rampe ist $s = 3{,}0\,\mathrm{m}$ lang
+              und $h = 1{,}0\,\mathrm{m}$ hoch ($\sin\alpha = 1/3$). Aus der Ruhe
+              starten eine Vollkugel, ein Vollzylinder, ein dünnwandiger
+              Hohlzylinder und ein reibungsfrei rutschender Klotz.<br>
+              <strong>Gesucht:</strong> Endgeschwindigkeit und Laufzeit für alle
+              vier.</p>
+
+            <p><strong>1. Formeln:</strong> konstante Beschleunigung
+              $a = g\sin\alpha/(1 + k)$, also
+              $$ v_\text{f} = \sqrt{\frac{2 g h}{1 + k}}, \qquad t = \sqrt{\frac{2 s}{a}} = \sqrt{\frac{2 s\,(1 + k)}{g \sin\alpha}} $$
+              mit $g\sin\alpha = 9{,}81/3\,\mathrm{m/s^2} = 3{,}27\,\mathrm{m/s^2}$.</p>
+
+            <p><strong>2. Zahlen:</strong></p>
+            <div class="tabelle-huelle">
+              <table>
+                <thead><tr><th>Körper</th><th>$k$</th><th>$a$ in $\mathrm{m/s^2}$</th><th>$v_\text{f}$ in $\mathrm{m/s}$</th><th>$t$ in $\mathrm{s}$</th></tr></thead>
+                <tbody>
+                  <tr><td>Klotz (rutscht)</td><td>$0$</td><td>$3{,}27$</td><td>$4{,}43$</td><td>$1{,}35$</td></tr>
+                  <tr><td>Vollkugel</td><td>$\tfrac{2}{5}$</td><td>$2{,}34$</td><td>$3{,}74$</td><td>$1{,}60$</td></tr>
+                  <tr><td>Vollzylinder</td><td>$\tfrac{1}{2}$</td><td>$2{,}18$</td><td>$3{,}62$</td><td>$1{,}66$</td></tr>
+                  <tr><td>Hohlzylinder</td><td>$1$</td><td>$1{,}64$</td><td>$3{,}13$</td><td>$1{,}92$</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <p>Beispiel Vollzylinder:
+              $a = 3{,}27/1{,}5\,\mathrm{m/s^2} = 2{,}18\,\mathrm{m/s^2}$,
+              $v_\text{f} = \sqrt{2 \cdot 9{,}81 \cdot 1{,}0/1{,}5}\,\mathrm{m/s} = 3{,}62\,\mathrm{m/s}$,
+              $t = \sqrt{2 \cdot 3{,}0\,\mathrm{m}/2{,}18\,\mathrm{m/s^2}} = 1{,}66\,\mathrm{s}$.
+              Kontrolle: $v_\text{f} = a t = 2{,}18 \cdot 1{,}66\,\mathrm{m/s} = 3{,}62\,\mathrm{m/s}$ ✓.</p>
+
+            <p><strong>Ergebnis und Plausibilität:</strong> Kugel und Vollzylinder
+              liegen eng beieinander (60 ms Abstand), der Hohlzylinder ist eine
+              Viertelsekunde später unten – gut mit bloßem Auge zu sehen. Alle
+              Endgeschwindigkeiten liegen unter dem Wert des freien Falls aus 1 m
+              Höhe ($4{,}43\,\mathrm{m/s}$), den nur der rutschende Klotz
+              erreicht.</p>
+          </div>
+
+          <div class="beispiel">
+            <h3>Beispiel 2: Wie viel Energie steckt in den Laufrädern?</h3>
+            <p><strong>Gegeben:</strong> Ein Fahrrad mit Fahrerin
+              ($M = 85\,\mathrm{kg}$ einschließlich der Räder) fährt
+              $25\,\mathrm{km/h}$. Jedes der beiden Laufräder hat
+              $m = 1{,}0\,\mathrm{kg}$, praktisch alles davon in Felge und Reifen
+              beim Radius $R = 0{,}35\,\mathrm{m}$ (also $I \approx m R^2$).<br>
+              <strong>Gesucht:</strong> Translations- und Rotationsenergie.</p>
+
+            <p><strong>1. Translation</strong> mit
+              $v = 25/3{,}6\,\mathrm{m/s} = 6{,}94\,\mathrm{m/s}$:
+              $$ E_\text{trans} = \tfrac{1}{2} M v^2 = \tfrac{1}{2} \cdot 85\,\mathrm{kg} \cdot (6{,}94\,\mathrm{m/s})^2 = 2{,}05\,\mathrm{kJ} $$</p>
+
+            <p><strong>2. Rotation:</strong>
+              $\omega = v/R = 6{,}94/0{,}35\,\mathrm{s^{-1}} = 19{,}8\,\mathrm{s^{-1}}$,
+              $I = 1{,}0\,\mathrm{kg} \cdot (0{,}35\,\mathrm{m})^2 = 0{,}123\,\mathrm{kg\,m^2}$:
+              $$ E_\text{rot} = 2 \cdot \tfrac{1}{2} I \omega^2 = 0{,}123\,\mathrm{kg\,m^2} \cdot (19{,}8\,\mathrm{s^{-1}})^2 = 48\,\mathrm{J} $$
+              Einfacher: Für einen Ring ist $E_\text{rot} = \tfrac{1}{2} m v^2$,
+              also $2 \cdot \tfrac{1}{2} \cdot 1{,}0 \cdot 6{,}94^2\,\mathrm{J} = 48\,\mathrm{J}$ ✓.</p>
+
+            <p><strong>Ergebnis und Plausibilität:</strong> Die Drehung der Räder
+              macht nur gut 2 % der Bewegungsenergie aus. Beim Beschleunigen wirkt
+              die Felgenmasse aber doppelt: Ein Kilogramm am Felgenrand zählt wie
+              zwei Kilogramm am Rahmen. Deshalb lohnen sich leichte Felgen beim
+              Antritt mehr als ein leichter Rahmen.</p>
+          </div>
+
+          <div class="beispiel">
+            <h3>Beispiel 3: Rollwiderstand eines Autos</h3>
+            <p><strong>Gegeben:</strong> Ein Auto ($M = 1500\,\mathrm{kg}$) mit
+              $c_\text{R} = 0{,}012$ auf ebener Straße.<br>
+              <strong>Gesucht:</strong> (a) Rollwiderstandskraft und die dafür
+              nötige Leistung bei $100\,\mathrm{km/h}$, (b) wie weit das Auto aus
+              $50\,\mathrm{km/h}$ im Leerlauf ausrollen würde, wenn nur die
+              Rollreibung bremste, (c) ab welcher Hangneigung es von selbst
+              losrollt.</p>
+
+            <p><strong>1. Kraft:</strong>
+              $$ F_\text{R} = c_\text{R} M g = 0{,}012 \cdot 1500\,\mathrm{kg} \cdot 9{,}81\,\mathrm{m/s^2} = 177\,\mathrm{N} $$</p>
+
+            <p><strong>2. Leistung</strong> mit $v = 27{,}8\,\mathrm{m/s}$:
+              $P = F_\text{R} v = 177\,\mathrm{N} \cdot 27{,}8\,\mathrm{m/s} = 4{,}9\,\mathrm{kW}$.</p>
+
+            <p><strong>3. Ausrollweg</strong> ($v_0 = 13{,}9\,\mathrm{m/s}$,
+              Verzögerung $c_\text{R} g$, die kleine Rotationsenergie der Räder
+              vernachlässigt):
+              $$ s = \frac{v_0^2}{2 c_\text{R} g} = \frac{(13{,}9\,\mathrm{m/s})^2}{2 \cdot 0{,}012 \cdot 9{,}81\,\mathrm{m/s^2}} = \frac{193\,\mathrm{m^2/s^2}}{0{,}235\,\mathrm{m/s^2}} = 820\,\mathrm{m} $$</p>
+
+            <p><strong>4. Grenzneigung:</strong> $\tan\alpha = c_\text{R} = 0{,}012$,
+              also $\alpha = 0{,}69°$ – ein Gefälle von 1,2 %.</p>
+
+            <p><strong>Ergebnis und Plausibilität:</strong> Knapp 5 kW sind ein
+              merklicher, aber kleiner Teil der Motorleistung bei Tempo 100; der
+              größere Teil geht dort an den Luftwiderstand. Deshalb rollt ein Auto
+              in Wirklichkeit auch nicht 820 m weit aus, sondern deutlich kürzer.
+              Dass schon 1,2 % Gefälle reichen, kennt jeder, der die Handbremse
+              vergessen hat.</p>
+          </div>
+        </section>
+
+        <section class="tab" id="aufgaben" data-titel="Aufgaben">
+
+          <p>Die Aufgaben sind nach Schwierigkeit sortiert. Wenn nichts anderes
+            gesagt ist, gilt $g = 9{,}81\,\mathrm{m/s^2}$, die Körper sind homogen,
+            rollen ohne zu gleiten, und Luftwiderstand sowie Rollreibung werden
+            vernachlässigt.</p>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 1: Das Fahrradrad
+              <span class="schwierigkeit" data-stufe="leicht">leicht</span>
+            </h3>
+            <p>Ein Fahrrad fährt $25\,\mathrm{km/h}$, die Räder haben den Radius
+              $0{,}35\,\mathrm{m}$. Wie groß ist die Winkelgeschwindigkeit der
+              Räder (auch in Umdrehungen pro Minute)? Wie schnell bewegen sich der
+              oberste und der unterste Punkt des Reifens relativ zur Straße?</p>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>$\omega = v/R = 6{,}94\,\mathrm{m/s}/0{,}35\,\mathrm{m} = 19{,}8\,\mathrm{s^{-1}}$,
+                das sind $19{,}8/(2\pi) = 3{,}16$ Umdrehungen pro Sekunde oder
+                $190$ pro Minute. Oben: $2v = 50\,\mathrm{km/h}$, unten (am
+                Berührpunkt): $0$.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 2: Kugel gegen Klotz
+              <span class="schwierigkeit" data-stufe="leicht">leicht</span>
+            </h3>
+            <p>Eine Vollkugel rollt aus der Ruhe eine Rampe der Höhe
+              $0{,}80\,\mathrm{m}$ hinunter. Wie schnell ist sie unten? Wie schnell
+              wäre ein Klotz, der reibungsfrei rutscht?</p>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>Kugel: $v = \sqrt{2gh/(1 + 2/5)} = \sqrt{\tfrac{10}{7} \cdot 9{,}81 \cdot 0{,}80}\,\mathrm{m/s} = 3{,}35\,\mathrm{m/s}$.
+                Klotz: $v = \sqrt{2gh} = 3{,}96\,\mathrm{m/s}$. Die Kugel erreicht
+                $\sqrt{5/7} = 85\,\%$ davon.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 3: Wie viel steckt in der Drehung?
+              <span class="schwierigkeit" data-stufe="mittel">mittel</span>
+            </h3>
+            <p>Welcher Anteil der kinetischen Energie entfällt beim Rollen auf die
+              Rotation – für eine Vollkugel, einen Vollzylinder und einen dünnen
+              Ring? Zeige zuerst allgemein, dass der Anteil nur von $k$ abhängt.</p>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>Mit $I_\text{S} = k M R^2$ und $\omega = v/R$ ist
+                $E_\text{rot} = \tfrac{1}{2} k M v^2$ und
+                $E_\text{kin} = \tfrac{1}{2}(1 + k) M v^2$, also
+                $E_\text{rot}/E_\text{kin} = k/(1 + k)$.</p>
+              <p>Vollkugel: $\tfrac{2/5}{7/5} = \tfrac{2}{7} = 29\,\%$.
+                Vollzylinder: $\tfrac{1/2}{3/2} = \tfrac{1}{3} = 33\,\%$.
+                Ring: $\tfrac{1}{2} = 50\,\%$.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 4: Wann fängt es an zu rutschen?
+              <span class="schwierigkeit" data-stufe="mittel">mittel</span>
+            </h3>
+            <p>Auf einer Rampe mit der Haftreibungszahl $\mu_\text{H} = 0{,}30$
+              sollen eine Vollkugel, ein Vollzylinder und ein Ring rein rollen.
+              Bis zu welchem Neigungswinkel geht das jeweils? Leite die Bedingung
+              selbst her.</p>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>Schwerpunkt: $M a = M g \sin\alpha - F_\text{H}$. Drehung um den
+                Schwerpunkt: $F_\text{H} R = k M R^2 \cdot a/R$, also
+                $F_\text{H} = k M a$. Einsetzen ergibt
+                $a = g\sin\alpha/(1 + k)$ und
+                $F_\text{H} = \tfrac{k}{1+k} M g \sin\alpha$. Bedingung
+                $F_\text{H} \le \mu_\text{H} M g \cos\alpha$:
+                $$ \tan\alpha \le \frac{1 + k}{k}\,\mu_\text{H} $$
+                Vollkugel: $\tan\alpha \le 3{,}5 \cdot 0{,}30 = 1{,}05$, also
+                $\alpha \le 46{,}4°$. Vollzylinder: $\tan\alpha \le 0{,}90$,
+                $\alpha \le 42{,}0°$. Ring: $\tan\alpha \le 0{,}60$,
+                $\alpha \le 31{,}0°$. Zum Vergleich: Ein Klotz bleibt nur bis
+                $\arctan 0{,}30 = 16{,}7°$ liegen.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 5: Das Jo-Jo
+              <span class="schwierigkeit" data-stufe="schwer">schwer</span>
+            </h3>
+            <p>Ein Jo-Jo (Masse $50\,\mathrm{g}$) lässt sich als Vollzylinder mit
+              dem Radius $R = 3{,}0\,\mathrm{cm}$ beschreiben; die Schnur wickelt
+              sich von einer dünnen Achse mit $r = 0{,}50\,\mathrm{cm}$ ab. Man hält
+              das Schnurende fest und lässt das Jo-Jo fallen.</p>
+            <ol type="a">
+              <li>Mit welcher Beschleunigung fällt es, und wie groß ist die
+                Schnurkraft?</li>
+              <li>Wie schnell fällt und dreht es nach $80\,\mathrm{cm}$? Welcher
+                Anteil der Energie steckt in der Drehung?</li>
+            </ol>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p><strong>(a)</strong> Das Jo-Jo „rollt“ an der Schnur ab: Der
+                Berührpunkt ist die Achse mit dem Radius $r$, also $v = \omega r$.
+                Achse nach unten: $M a = M g - F_\text{S}$ und
+                $F_\text{S} r = I_\text{S} \cdot a/r$ mit $I_\text{S} = \tfrac{1}{2} M R^2$.
+                Daraus
+                $$ a = \frac{g}{1 + \dfrac{I_\text{S}}{M r^2}} = \frac{g}{1 + \dfrac{R^2}{2 r^2}} = \frac{9{,}81\,\mathrm{m/s^2}}{1 + 18} = 0{,}516\,\mathrm{m/s^2} $$
+                und $F_\text{S} = M(g - a) = 0{,}050\,\mathrm{kg} \cdot 9{,}29\,\mathrm{m/s^2} = 0{,}46\,\mathrm{N}$
+                – fast das volle Gewicht ($0{,}49\,\mathrm{N}$).</p>
+              <p><strong>(b)</strong>
+                $v = \sqrt{2 a h} = \sqrt{2 \cdot 0{,}516 \cdot 0{,}80}\,\mathrm{m/s} = 0{,}91\,\mathrm{m/s}$,
+                $\omega = v/r = 182\,\mathrm{s^{-1}}$, also 29 Umdrehungen pro
+                Sekunde. Der Rotationsanteil ist
+                $\tfrac{R^2/(2r^2)}{1 + R^2/(2r^2)} = \tfrac{18}{19} = 95\,\%$.</p>
+              <p><strong>Zum Nachdenken:</strong> Unten am Schnurende kehrt das
+                Jo-Jo um und klettert fast wieder nach oben, weil es seine
+                Drehenergie behält. Die Umkehr dauert nur kurz – in diesem Moment
+                ist die Schnurkraft ein Vielfaches des Gewichts. Das spürt man als
+                Ruck in der Hand.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 6: Die Bowlingkugel
+              <span class="schwierigkeit" data-stufe="schwer">schwer</span>
+            </h3>
+            <p>Eine Bowlingkugel ($7{,}0\,\mathrm{kg}$, Vollkugel) wird mit
+              $v_0 = 8{,}0\,\mathrm{m/s}$ ohne Drehung auf die Bahn gesetzt. Sie
+              rutscht zunächst; die Gleitreibungszahl ist
+              $\mu_\text{G} = 0{,}10$.</p>
+            <ol type="a">
+              <li>Nach welcher Zeit und welcher Strecke rollt sie rein, und wie
+                schnell ist sie dann?</li>
+              <li>Welcher Anteil der Bewegungsenergie wird dabei in Wärme
+                umgewandelt?</li>
+            </ol>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p><strong>(a)</strong> Die Gleitreibung $\mu_\text{G} M g$ bremst den
+                Schwerpunkt und dreht die Kugel an:
+                $v(t) = v_0 - \mu_\text{G} g t$ und
+                $\omega(t) R = \frac{\mu_\text{G} M g R}{I_\text{S}}\,R\,t = \tfrac{5}{2}\mu_\text{G} g t$.
+                Reines Rollen beginnt bei $v = \omega R$:
+                $$ v_0 - \mu_\text{G} g t = \tfrac{5}{2}\mu_\text{G} g t \quad\Rightarrow\quad t = \frac{2 v_0}{7 \mu_\text{G} g} = \frac{16\,\mathrm{m/s}}{7 \cdot 0{,}981\,\mathrm{m/s^2}} = 2{,}33\,\mathrm{s} $$
+                Dann ist $v = \tfrac{5}{7} v_0 = 5{,}71\,\mathrm{m/s}$ und die
+                Strecke
+                $s = v_0 t - \tfrac{1}{2}\mu_\text{G} g t^2 = 18{,}6\,\mathrm{m} - 2{,}7\,\mathrm{m} = 16\,\mathrm{m}$.</p>
+              <p><strong>(b)</strong> Vorher $\tfrac{1}{2} M v_0^2 = 224\,\mathrm{J}$.
+                Nachher $\tfrac{1}{2}(1 + \tfrac{2}{5}) M v^2 = 0{,}7 \cdot 7{,}0 \cdot 5{,}71^2\,\mathrm{J} = 160\,\mathrm{J}$.
+                Umgewandelt: $64\,\mathrm{J}$, also $\tfrac{2}{7} = 29\,\%$.</p>
+              <p><strong>Zum Nachdenken:</strong> Die Endgeschwindigkeit
+                $\tfrac{5}{7} v_0$ hängt nicht von $\mu_\text{G}$ ab. Begründung: Um
+                den Berührpunkt mit der Bahn hat die Reibungskraft kein Drehmoment,
+                also bleibt der Drehimpuls bezüglich dieses Punkts erhalten:
+                $M v_0 R = M v R + \tfrac{2}{5} M R^2 \cdot v/R$.</p>
+            </details>
+          </div>
+        </section>
+
+      </div></article>
+  </main>
+</body>
+</html>

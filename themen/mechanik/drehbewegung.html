@@ -1,0 +1,890 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="robots" content="noindex">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Drehbewegung: Drehmoment, Trägheitsmoment, Drehimpuls</title>
+  <meta name="description" content="Winkelgeschwindigkeit, Rotationsenergie, Trägheitsmoment, Steinerscher Satz, Drehmoment und Drehimpulserhaltung – verständlich erklärt und mit Herleitungen, Beispielen und Aufgaben.">
+
+  <link rel="stylesheet" href="../../css/stil.css">
+
+  <link rel="stylesheet" href="../../extern/katex/katex.min.css">
+  <script defer src="../../extern/katex/katex.min.js"></script>
+  <script defer src="../../extern/katex/contrib/auto-render.min.js" onload="starteFormeln()"></script>
+
+  <script src="../../js/daten.js"></script>
+  <script src="../../js/seite.js"></script>
+  <script src="../../js/effekte.js"></script>
+  <script src="../../js/interaktiv.js"></script>
+  <script src="../../js/modelle/drehbewegung.js"></script>
+  <script type="application/json" id="symbole">
+  {
+    "θ": "Drehwinkel",
+    "θ_rad": "Drehwinkel im Bogenmaß",
+    "θ_Grad": "Drehwinkel in Grad",
+    "π": "Kreiszahl π ≈ 3,14159",
+    "s": "Bogenlänge",
+    "r": "Abstand von der Drehachse",
+    "t": "Zeit",
+    "ω": "Winkelgeschwindigkeit",
+    "T": "Umlaufdauer",
+    "f": "Drehzahl (Umdrehungen pro Sekunde)",
+    "v": "Bahngeschwindigkeit",
+    "α": "Winkelbeschleunigung",
+    "a_ω": "andere Schreibweise für die Winkelbeschleunigung",
+    "a_t": "Tangentialbeschleunigung",
+    "a_r": "Radialbeschleunigung (Zentripetalbeschleunigung)",
+    "ω_1": "Winkelgeschwindigkeit 1 (erstes Rad bzw. vorher)",
+    "ω_2": "Winkelgeschwindigkeit 2 (zweites Rad bzw. nachher)",
+    "r_1": "Radius von Rad 1",
+    "r_2": "Radius von Rad 2",
+    "v_1": "Bahngeschwindigkeit am Rand von Rad 1",
+    "v_2": "Bahngeschwindigkeit am Rand von Rad 2",
+    "m": "Masse",
+    "m_i": "Masse des i-ten Massenpunkts",
+    "r_i": "Abstand des i-ten Massenpunkts von der Achse",
+    "i": "Nummer des Massenpunkts bzw. der Kraft",
+    "E_kin": "kinetische Energie",
+    "E_rot": "Rotationsenergie",
+    "E": "Rotationsenergie",
+    "I": "Trägheitsmoment",
+    "ρ": "Dichte",
+    "V": "Volumen",
+    "M": "Masse des Körpers",
+    "R": "Radius des Körpers",
+    "x": "x-Koordinate",
+    "y": "y-Koordinate",
+    "z": "z-Koordinate",
+    "a": "Abstand von der z-Achse",
+    "u": "Hilfsvariable cos ϑ",
+    "ϑ": "Polarwinkel (Kugelkoordinaten)",
+    "φ": "Azimutwinkel (Kugel- bzw. Zylinderkoordinaten)",
+    "I_Vollkugel": "Trägheitsmoment der Vollkugel",
+    "I_S": "Trägheitsmoment um die Achse durch den Schwerpunkt",
+    "I_A": "Trägheitsmoment um die parallele Achse A",
+    "r_S": "Ort des Schwerpunkts",
+    "d": "Abstand",
+    "F": "Kraft",
+    "F_i": "i-te Kraft",
+    "F_t": "Tangentialkomponente der Kraft",
+    "D": "Drehmoment",
+    "D_i": "Drehmoment der i-ten Kraft",
+    "τ": "Drehmoment (englische Schreibweise)",
+    "W": "Arbeit",
+    "P": "Leistung",
+    "p": "Impuls",
+    "p_x": "x-Komponente des Impulses",
+    "p_y": "y-Komponente des Impulses",
+    "p_z": "z-Komponente des Impulses",
+    "L": "Drehimpuls",
+    "L_x": "x-Komponente des Drehimpulses",
+    "L_y": "y-Komponente des Drehimpulses",
+    "L_z": "z-Komponente des Drehimpulses",
+    "I_1": "Trägheitsmoment vorher",
+    "I_2": "Trägheitsmoment nachher",
+    "L_R": "Drehimpuls des Rads",
+    "L_S": "Drehimpuls von Drehschemel und Person",
+    "b": "Breite der Tür",
+    "f_Kurbel": "Trittfrequenz an der Kurbel",
+    "ω_Kurbel": "Winkelgeschwindigkeit der Kurbel",
+    "ω_Ritzel": "Winkelgeschwindigkeit des Ritzels",
+    "I_K": "Trägheitsmoment einer Kugel um die Drehachse",
+    "m_St": "Masse der Stange",
+    "F_S": "Seilkraft",
+    "g": "Fallbeschleunigung",
+    "h": "Tiefe (Fallstrecke des Eimers)",
+    "I_R": "Trägheitsmoment des Rads",
+    "ω_R": "Winkelgeschwindigkeit des Rads",
+    "ω_S": "Winkelgeschwindigkeit von Stuhl und Person"
+  }
+  </script>
+</head>
+<body data-thema="drehbewegung">
+  <main>
+    <article class="thema">
+      <header>
+        <h1>Drehbewegung: Drehmoment, Trägheitsmoment, Drehimpuls</h1>
+        <p class="untertitel">Warum ein Schraubenschlüssel lang sein sollte, ein
+          Schwungrad schwer am Rand ist und Eiskunstläuferinnen bei der Pirouette
+          immer schneller werden.</p>
+      </header>
+
+      <div class="tabs">
+
+        <section class="tab" id="verstehen" data-titel="Verstehen">
+
+          <p>Setz dich auf einen Bürostuhl, lass dich anschubsen und zieh dann
+            die ausgestreckten Beine und Arme an den Körper: Du wirst plötzlich
+            schneller, ohne dass dich jemand weiter angeschoben hat. Drehbewegungen
+            haben ihre eigenen Regeln – aber sie sind eng verwandt mit denen der
+            geraden Bewegung, die du schon kennst.</p>
+
+          <h2>Wie schnell dreht sich etwas?</h2>
+
+          <p>Auf einem Kinderkarussell machen alle Kinder in derselben Zeit eine
+            Runde – das Karussell hat eine einzige <em>Winkelgeschwindigkeit</em>.
+            Wer aber außen sitzt, legt pro Runde einen viel längeren Weg zurück
+            und ist deshalb schneller unterwegs als jemand nahe der Mitte. Die
+            Bahngeschwindigkeit wächst mit dem Abstand von der Drehachse. Deshalb
+            fliegen am Rand auch zuerst die Mützen weg.</p>
+
+          <h2>Masse am Rand zählt mehr</h2>
+
+          <p>Bei der geraden Bewegung bestimmt die Masse, wie schwer sich etwas
+            in Gang setzen lässt. Bei der Drehung kommt es zusätzlich darauf an,
+            <em>wo</em> die Masse sitzt. Ein Kilogramm am Rand eines Rades wehrt
+            sich viel stärker gegen das Andrehen als ein Kilogramm nahe der Achse
+            – genauer: vier Mal so stark bei doppeltem Abstand. Diese
+            „Dreh-Trägheit“ heißt <em>Trägheitsmoment</em>.</p>
+
+          <div class="alltag">
+            <span class="titel">Aus dem Alltag</span>
+            <p>Seiltänzer tragen eine lange Stange. Deren Masse sitzt weit weg vom
+              Körper, das Trägheitsmoment ist riesig – kippt der Seiltänzer,
+              geschieht das so langsam, dass er Zeit hat, sich zu fangen.</p>
+          </div>
+
+          <p>Im Versuch unten treibt ein fallendes Gewicht über eine Schnur ein
+            Rad an. Schieb die beiden Zusatzmassen nach außen und beobachte, wie
+            träge das Rad wird.</p>
+
+          <figure class="interaktiv" data-modell="traegheitsrad">
+            <span class="titel">Zum Ausprobieren</span>
+            <figcaption>Eine Schnur ist um die Nabe gewickelt; ein Gewicht zieht
+              sie nach unten und versetzt das Rad in Drehung. Die beiden
+              Zusatzmassen lassen sich auf der Stange verschieben. Je weiter außen
+              sie sitzen, desto größer das Trägheitsmoment und desto langsamer
+              fällt das Gewicht – obwohl die Masse dieselbe bleibt.</figcaption>
+          </figure>
+
+          <h2>Der Hebel macht's: das Drehmoment</h2>
+
+          <p>Eine Tür öffnet sich leicht, wenn du an der Klinke drückst – drückst
+            du dagegen dicht am Scharnier, musst du dich gewaltig anstrengen. Was
+            eine Drehung beschleunigt, ist nicht die Kraft allein, sondern Kraft
+            mal Hebelarm: das <em>Drehmoment</em>. Deshalb haben Schraubenschlüssel
+            lange Griffe und Türklinken sitzen auf der Seite gegenüber dem
+            Scharnier.</p>
+
+          <h2>Der Schwung bleibt erhalten</h2>
+
+          <p>Ein drehender Körper hat einen <em>Drehimpuls</em> – sozusagen seinen
+            gespeicherten Drehschwung. Er hängt vom Trägheitsmoment und von der
+            Winkelgeschwindigkeit ab. Solange kein Drehmoment von außen wirkt,
+            bleibt er erhalten. Zieht die Eiskunstläuferin die Arme an, wird ihr
+            Trägheitsmoment kleiner – also muss sie sich schneller drehen, damit
+            der Drehimpuls gleich bleibt.</p>
+
+          <figure class="interaktiv" data-modell="drehstuhl">
+            <span class="titel">Zum Ausprobieren</span>
+            <figcaption>Eine Person auf einem Drehstuhl, von oben gesehen, hält in
+              jeder Hand eine Hantel. Starte die Drehung und verändere dann, wie
+              weit die Arme ausgestreckt sind. Der Drehimpuls bleibt immer gleich,
+              die Drehzahl und die Bewegungsenergie aber nicht. Die blassen Punkte
+              zeigen, wo die Hanteln in den letzten Zehntelsekunden
+              waren.</figcaption>
+          </figure>
+
+          <p>Dasselbe Prinzip nutzen Turmspringerinnen beim Salto (eng gehockt
+            drehen sie schnell, gestreckt tauchen sie fast ohne Drehung ein) und
+            Katzen, die sich im Fall auf die Pfoten drehen. Auch die Erde und alle
+            Planeten drehen sich seit Milliarden Jahren, weil kaum etwas ihren
+            Drehimpuls bremst.</p>
+
+          <div class="merkkasten">
+            <span class="titel">Das Wichtigste in Kürze</span>
+            <ul>
+              <li>Alle Punkte eines drehenden Körpers haben dieselbe
+                Winkelgeschwindigkeit, aber außen liegende Punkte sind schneller
+                unterwegs.</li>
+              <li>Das Trägheitsmoment ist die Trägheit gegen Drehung. Es hängt von
+                der Masse ab und vor allem davon, wie weit sie von der Achse
+                entfernt ist.</li>
+              <li>Drehungen werden durch Drehmomente beschleunigt: Kraft mal
+                Hebelarm.</li>
+              <li>Ohne äußeres Drehmoment bleibt der Drehimpuls erhalten – wer sich
+                kleiner macht, dreht schneller.</li>
+            </ul>
+          </div>
+        </section>
+
+        <section class="tab" id="vertiefung" data-titel="Vertiefung">
+
+          <p>Bisher haben wir nur Translationen betrachtet: Alle Punkte eines
+            Körpers bewegen sich gleich. Jetzt dreht sich ein Körper um eine
+            <em>feste Achse</em>. Jeder Massenpunkt läuft dann auf einer
+            Kreisbahn mit konstantem Abstand $r$ zur Achse.</p>
+
+          <h2>Grundbegriffe der Kreisbewegung</h2>
+
+          <p>Die Lage des Massenpunkts beschreibt der <em>Drehwinkel</em>
+            $\theta$, immer im Bogenmaß gemessen
+            ($\theta_\text{rad}/2\pi = \theta_\text{Grad}/360°$). Der zurückgelegte
+            Kreisbogen ist</p>
+
+          $$ s = \theta\,r . $$
+
+          <p>Für einen vollen Umlauf ist $\theta = 2\pi$ und $s = 2\pi r$. Daraus
+            folgen die Kenngrößen der Drehung:</p>
+
+          $$ \omega = \frac{\mathrm{d}\theta}{\mathrm{d}t}, \qquad T = \frac{2\pi}{\omega}, \qquad f = \frac{1}{T}, \qquad v = \frac{\mathrm{d}s}{\mathrm{d}t} = \omega\,r . $$
+
+          <p>$\omega$ heißt <em>Winkelgeschwindigkeit</em> (Einheit
+            $\mathrm{rad/s} = \mathrm{s^{-1}}$), $T$ ist die Umlaufdauer, $f$ die
+            Frequenz (Einheit $\mathrm{Hz} = \mathrm{s^{-1}}$). Als Vektor zeigt
+            $\vec{\omega}$ entlang der Drehachse, so dass die Drehung von seiner
+            Spitze aus gesehen gegen den Uhrzeigersinn läuft (Rechte-Hand-Regel).
+            Dann ist die Bahngeschwindigkeit</p>
+
+          $$ \vec{v} = \vec{\omega} \times \vec{r} . $$
+
+          <p>Auf der Kreisbahn steht $\vec{v}$ senkrecht auf $\vec{r}$ – auf einer
+            Ellipse, etwa einer Planetenbahn, gilt das im Allgemeinen nicht.</p>
+
+          <figure class="abbildung">
+            <svg class="abb" viewBox="0 0 360 230" role="img"
+                 aria-label="Massenpunkt auf einer Kreisbahn mit Drehwinkel, Bogen, Bahngeschwindigkeit und Radialbeschleunigung; rechts der Vektor der Winkelgeschwindigkeit entlang der Drehachse">
+              <circle class="hilfslinie" cx="130" cy="135" r="85"/>
+              <path class="achse" d="M130 135H230"/>
+              <path class="kurve blau" d="M215 135A85 85 0 0 0 184.6 69.9"/>
+              <path class="achse" d="M155 135A25 25 0 0 0 146.1 115.8"/>
+              <path class="kurve" d="M130 135L184.6 69.9"/>
+              <path class="kurve kupfer" d="M184.6 69.9L145.6 37.1"/>
+              <polygon class="punkt kupfer" points="138.7,31.3 148.5,33.7 142.7,40.6"/>
+              <path class="kurve duenn" d="M184.6 69.9L164.7 93.6"/>
+              <polygon class="punkt" points="158.9,100.5 161.3,90.8 168.2,96.5"/>
+              <circle class="punkt" cx="130" cy="135" r="3.5"/>
+              <circle class="punkt kupfer" cx="184.6" cy="69.9" r="5"/>
+              <text x="160" y="128" font-size="12">θ</text>
+              <text x="146" y="96" text-anchor="end">r</text>
+              <text class="blau" x="214" y="98">s = θ r</text>
+              <text class="kupfer" x="132" y="26" text-anchor="end">v</text>
+              <text x="174" y="112">a<tspan dy="4" font-size="9">r</tspan></text>
+
+              <path class="hilfslinie" d="M280 210V150"/>
+              <ellipse class="hilfslinie" cx="280" cy="150" rx="55" ry="18"/>
+              <path class="kurve blau" d="M280 150V61"/>
+              <polygon class="punkt blau" points="280,52 275.5,61 284.5,61"/>
+              <path class="kurve" d="M280 150L307.5 165.6"/>
+              <path class="kurve kupfer" d="M307.5 165.6L330.1 161.4"/>
+              <polygon class="punkt kupfer" points="338.9,159.7 330.9,165.8 329.2,156.9"/>
+              <circle class="punkt kupfer" cx="307.5" cy="165.6" r="4"/>
+              <text class="blau" x="290" y="66">ω</text>
+              <text x="290" y="178" font-size="12">r</text>
+              <text class="kupfer" x="334" y="150">v</text>
+              <text x="280" y="226" text-anchor="middle" font-size="11">Drehachse</text>
+            </svg>
+            <figcaption>Abb. 1: Links: Ein Massenpunkt läuft gegen den
+              Uhrzeigersinn auf der Kreisbahn. Der Bogen $s = \theta r$ wächst mit
+              dem Abstand $r$, ebenso die Bahngeschwindigkeit $v$ (tangential) und
+              die Radialbeschleunigung $a_\text{r}$ (zur Mitte). Rechts: Der Vektor
+              $\vec{\omega}$ liegt auf der Drehachse; $\vec{v} = \vec{\omega}
+              \times \vec{r}$.</figcaption>
+          </figure>
+
+          <p><strong>Experiment.</strong> Auf einer Drehscheibe sind Marken auf
+            verschiedenen Kreisen angebracht. Alle überstreichen in derselben Zeit
+            denselben Winkel, die äußeren aber einen längeren Bogen: gleiche
+            Winkelgeschwindigkeit, verschiedene Bahngeschwindigkeiten.</p>
+
+          <h3 id="beschleunigungen">Winkel-, Tangential- und Radialbeschleunigung</h3>
+
+          <p>Ändert sich die Drehzahl, definiert man die
+            <em>Winkelbeschleunigung</em></p>
+
+          $$ \alpha = \frac{\mathrm{d}\omega}{\mathrm{d}t} = \frac{\mathrm{d}^2\theta}{\mathrm{d}t^2} . $$
+
+          <p>(In manchen Skripten heißt sie $a_\omega$.) Weil $r$ konstant ist,
+            folgt für die <em>Tangentialbeschleunigung</em></p>
+
+          $$ a_\text{t} = \frac{\mathrm{d}v}{\mathrm{d}t} = \frac{\mathrm{d}\omega}{\mathrm{d}t}\,r + \omega\,\underbrace{\frac{\mathrm{d}r}{\mathrm{d}t}}_{=\,0} = \alpha\,r . $$
+
+          <p>Auch bei konstanter Drehzahl ändert sich die Richtung von $\vec{v}$
+            ständig. Dafür sorgt die <em>Radialbeschleunigung</em> (die
+            Zentripetalbeschleunigung), die zur Achse zeigt, also antiparallel zu
+            $\vec{r}$:</p>
+
+          $$ a_\text{r} = \frac{v^2}{r} = \omega^2 r = \omega\,v . $$
+
+          <p>Unabhängig vom Abstand zur Achse – für alle Punkte des starren Körpers
+            gleich – sind $\theta$, $\omega$ und $\alpha$. Vom Abstand abhängig
+            sind $s$, $v$, $a_\text{t}$ und $a_\text{r}$. Darum beschreibt man
+            Drehungen mit den Winkelgrößen.</p>
+
+          <p><strong>Beispiel Riementrieb.</strong> Zwei Räder mit den Radien
+            $r_1 \lt r_2$ sind über einen Keilriemen verbunden. Der Riemen rutscht
+            nicht, beide Radränder haben also dieselbe Bahngeschwindigkeit:</p>
+
+          $$ v_1 = v_2 \quad\Longrightarrow\quad \omega_1 r_1 = \omega_2 r_2 \quad\Longrightarrow\quad \frac{\omega_1}{\omega_2} = \frac{r_2}{r_1} \gt 1 . $$
+
+          <p>Das kleine Rad dreht sich schneller. Genauso funktionieren die Gänge
+            am Fahrrad.</p>
+
+          <h2>Rotationsenergie und Trägheitsmoment</h2>
+
+          <p>Ein Massenpunkt $m$ auf der Kreisbahn hat die kinetische Energie</p>
+
+          $$ E_\text{rot} = \tfrac{1}{2} m v^2 = \tfrac{1}{2} m\,(\omega r)^2 = \tfrac{1}{2}\,\underbrace{m r^2}_{I}\,\omega^2 . $$
+
+          <p>Die Größe $I = m r^2$ heißt <em>Trägheitsmoment</em> (Einheit
+            $\mathrm{kg\,m^2}$). Sie spielt für die Drehung die Rolle, die die Masse
+            für die Translation spielt:
+            $E_\text{rot} = \tfrac{1}{2} I \omega^2$ entspricht
+            $E_\text{kin} = \tfrac{1}{2} m v^2$.</p>
+
+          <p>Für ein System von Massenpunkten mit den Abständen $r_i$ zur Achse
+            addieren sich die Beiträge, und für einen ausgedehnten Körper wird die
+            Summe zum Integral über alle Massenelemente $\mathrm{d}m$:</p>
+
+          $$ I = \sum_i m_i r_i^2 \quad\longrightarrow\quad I = \int r^2\,\mathrm{d}m . $$
+
+          <p>Dabei ist $r$ der Abstand des Massenelements von der Drehachse (nicht
+            vom Ursprung!). Ist der Körper <em>homogen</em>, also die Dichte
+            $\rho = \mathrm{d}m/\mathrm{d}V$ überall gleich, so ist
+            $\mathrm{d}m = \rho\,\mathrm{d}V$ und</p>
+
+          $$ I = \rho \int r^2\,\mathrm{d}V . $$
+
+          <h3 id="massenpunkte">Beispiele mit zwei Massenpunkten</h3>
+
+          <p>Zwei Massen $m$ im Abstand $d$, starr verbunden:</p>
+          <ol>
+            <li>Achse <em>entlang</em> der Verbindungslinie: Beide Abstände sind
+              null, also $I = 0$.</li>
+            <li>Achse senkrecht durch die Mitte:
+              $I = 2\,m\,(d/2)^2 = \tfrac{1}{2} m d^2$.</li>
+            <li>Achse senkrecht durch eine der Massen:
+              $I = m \cdot 0 + m d^2 = m d^2$ – doppelt so viel wie durch die
+              Mitte.</li>
+          </ol>
+
+          <p>Das Trägheitsmoment ist also keine Eigenschaft des Körpers allein,
+            sondern hängt von der gewählten Achse ab.</p>
+
+          <h3 id="kugel">Trägheitsmoment einer Vollkugel</h3>
+
+          <p>Zur Berechnung des Integrals wählt man Koordinaten, die die Symmetrie
+            des Körpers widerspiegeln: kartesische für Quader
+            ($\mathrm{d}V = \mathrm{d}x\,\mathrm{d}y\,\mathrm{d}z$),
+            Zylinderkoordinaten für Zylinder
+            (<span data-symbole='{"ρ": "Abstand von der z-Achse (Zylinderkoordinate)"}'>$\mathrm{d}V = \rho\,\mathrm{d}\rho\,\mathrm{d}\varphi\,\mathrm{d}z$</span>)
+            und Kugelkoordinaten für Kugeln
+            ($\mathrm{d}V = r^2 \sin\vartheta\,\mathrm{d}r\,\mathrm{d}\vartheta\,\mathrm{d}\varphi$).</p>
+
+          <p>Für eine homogene Kugel (Radius $R$, Masse $M$) mit der $z$-Achse als
+            Drehachse ist der Abstand eines Punkts zur Achse
+            $a = \sqrt{x^2 + y^2} = r \sin\vartheta$. Damit</p>
+
+          $$ I = \rho \int a^2\,\mathrm{d}V = \rho \int_0^{2\pi}\!\!\int_0^{\pi}\!\!\int_0^R r^4 \sin^3\vartheta\,\mathrm{d}r\,\mathrm{d}\vartheta\,\mathrm{d}\varphi = 2\pi\rho\,\frac{R^5}{5} \int_0^{\pi} \sin^3\vartheta\,\mathrm{d}\vartheta . $$
+
+          <p>Mit $\int_0^\pi \sin^3\vartheta\,\mathrm{d}\vartheta = \tfrac{4}{3}$
+            (Substitution $u = \cos\vartheta$) und $M = \tfrac{4}{3}\pi R^3 \rho$
+            folgt</p>
+
+          $$ I_\text{Vollkugel} = 2\pi\rho\,\frac{R^5}{5} \cdot \frac{4}{3} = \frac{4}{3}\pi R^3 \rho \cdot \frac{2 R^2}{5} = \frac{2}{5}\,M R^2 . $$
+
+          <p>Sitzt die gesamte Masse in einer dünnen Kugelschale, ist
+            $I = \tfrac{2}{3} M R^2$ – mehr als bei der Vollkugel gleicher Masse,
+            weil die Masse im Mittel weiter von der Achse entfernt ist.</p>
+
+          <div class="tabelle-huelle">
+            <table>
+              <thead>
+                <tr><th>Körper (homogen, Masse $M$)</th><th>Achse</th><th>Trägheitsmoment</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>dünner Ring, Hohlzylinder (Radius $R$)</td><td>Symmetrieachse</td><td>$M R^2$</td></tr>
+                <tr><td>Vollzylinder, Scheibe (Radius $R$)</td><td>Symmetrieachse</td><td>$\tfrac{1}{2} M R^2$</td></tr>
+                <tr><td>Vollkugel (Radius $R$)</td><td>durch den Mittelpunkt</td><td>$\tfrac{2}{5} M R^2$</td></tr>
+                <tr><td>dünne Kugelschale (Radius $R$)</td><td>durch den Mittelpunkt</td><td>$\tfrac{2}{3} M R^2$</td></tr>
+                <tr><td>dünner Stab (Länge $L$)</td><td>senkrecht durch die Mitte</td><td>$\tfrac{1}{12} M L^2$</td></tr>
+                <tr><td>dünner Stab (Länge $L$)</td><td>senkrecht durch ein Ende</td><td>$\tfrac{1}{3} M L^2$</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h2>Der Steinersche Satz</h2>
+
+          <p>Bisher lief die Achse durch den Schwerpunkt ($I = I_\text{S}$). Wie
+            groß ist das Trägheitsmoment $I_\text{A}$ um eine dazu
+            <em>parallele</em> Achse im Abstand $d$ (Abb. 2)? Wir zerlegen den
+            (zur Achse senkrechten) Abstandsvektor jedes Massenelements in den
+            Abstand $\vec{r}_\text{S}$ zur Schwerpunktachse plus den festen
+            Versatz $\vec{d}$:</p>
+
+          $$ I_\text{A} = \int (\vec{r}_\text{S} + \vec{d})^2\,\mathrm{d}m = \int r_\text{S}^2\,\mathrm{d}m + 2\,\vec{d} \cdot \underbrace{\int \vec{r}_\text{S}\,\mathrm{d}m}_{=\,0} + d^2 \int \mathrm{d}m . $$
+
+          <p>Das mittlere Integral verschwindet nach der Definition des
+            Schwerpunkts. Es bleibt der <em>Steinersche Satz</em>:</p>
+
+          <div class="merkkasten">
+            <span class="titel">Steinerscher Satz</span>
+            $$ I_\text{A} = I_\text{S} + M d^2 $$
+            <p>Um jede Achse ist das Trägheitsmoment größer als um die parallele
+              Achse durch den Schwerpunkt. Beispiel Stab:
+              $\tfrac{1}{12} M L^2 + M (L/2)^2 = \tfrac{1}{3} M L^2$.</p>
+          </div>
+
+          <figure class="abbildung">
+            <svg class="abb" viewBox="0 0 360 200" role="img"
+                 aria-label="Stab mit Drehachse durch den Schwerpunkt und paralleler Achse durch das Stabende im Abstand d">
+              <path class="hilfslinie" d="M180 28V178"/>
+              <path class="kurve kupfer" d="M60 28V178"/>
+              <rect class="wagen" x="60" y="96" width="240" height="18" rx="3"/>
+              <circle class="punkt" cx="180" cy="105" r="4"/>
+              <path class="achse" d="M168 40A12 5 0 1 0 192 40"/>
+              <path class="kurve kupfer duenn" d="M48 40A12 5 0 1 0 72 40"/>
+              <path class="achse" d="M60 150H180"/>
+              <path class="achse" d="M60 144V156M180 144V156"/>
+              <text x="120" y="144" text-anchor="middle">d</text>
+              <text x="188" y="90">S</text>
+              <text x="200" y="40">Achse durch S: I<tspan dy="4" font-size="9">S</tspan></text>
+              <text class="kupfer" x="72" y="186">Achse A: I<tspan dy="4" font-size="9">A</tspan><tspan dy="-4"> = I</tspan><tspan dy="4" font-size="9">S</tspan><tspan dy="-4"> + M d²</tspan></text>
+            </svg>
+            <figcaption>Abb. 2: Der Steinersche Satz. Die Achse A ist parallel zur
+              Achse durch den Schwerpunkt S und um $d$ verschoben. Für einen Stab
+              der Länge $L$ und eine Achse durch das Ende ist
+              $d = L/2$.</figcaption>
+          </figure>
+
+          <h2>Kraft und Drehmoment</h2>
+
+          <p>Eine Kraft $\vec{F}$ greife an einem Massenpunkt $m$ auf der Kreisbahn
+            an. Beschleunigt wird die Drehung nur von ihrer
+            Tangentialkomponente $F_\text{t}$ – die Radialkomponente und eine
+            Komponente parallel zur Achse fängt das Achslager auf. Nach dem
+            zweiten Newtonschen Axiom ist</p>
+
+          $$ F_\text{t} = m\,a_\text{t} = m\,r\,\alpha \quad\Big|\cdot r \quad\Longrightarrow\quad F_\text{t}\,r = m r^2 \alpha = I \alpha . $$
+
+          <p>Entscheidend für die Winkelbeschleunigung ist also das Produkt
+            $F_\text{t}\,r$. Als Vektor schreibt man es mit dem Kreuzprodukt und
+            nennt es <em>Drehmoment</em> (in der Literatur auch $\vec{M}$ oder
+            $\vec{\tau}$):</p>
+
+          $$ \vec{D} = \vec{r} \times \vec{F}, \qquad |\vec{D}| = F\,r\,\sin\varphi . $$
+
+          <p>$\varphi$ ist der Winkel zwischen $\vec{r}$ und $\vec{F}$;
+            $r \sin\varphi$ ist der <em>Hebelarm</em>, der senkrechte Abstand der
+            Wirkungslinie der Kraft von der Achse (Abb. 3). Steht $\vec{F}$
+            senkrecht auf $\vec{r}$, ist $|\vec{D}| = F r$. Einheit:
+            $\mathrm{N\,m}$ (nicht in Joule angeben, obwohl die Einheit gleich
+            aussieht – ein Drehmoment ist keine Energie). Für die Drehung um eine
+            feste Achse gilt dann</p>
+
+          $$ \vec{D} = I\,\vec{\alpha} \qquad \text{(analog zu } \vec{F} = m\,\vec{a}\text{)} . $$
+
+          <figure class="abbildung">
+            <svg class="abb" viewBox="0 0 360 250" role="img"
+                 aria-label="Kraft an einem Hebel: Ortsvektor, Kraft unter dem Winkel phi, Zerlegung in Tangential- und Radialkomponente und Hebelarm">
+              <path class="hilfslinie" d="M185 217.9L285 44.7"/>
+              <path class="hilfslinie" d="M230 140V44.7H285M230 140H285V44.7"/>
+              <path class="kurve kupfer" d="M50 140L185 217.9"/>
+              <path class="achse" d="M190 209.2L181.3 204.2L176.3 212.9"/>
+              <path class="kurve blau" d="M50 140H221"/>
+              <polygon class="punkt blau" points="230,140 221,135.5 221,144.5"/>
+              <path class="kurve" d="M230 140L280.5 52.5"/>
+              <polygon class="punkt" points="285,44.7 284.4,54.7 276.6,50.2"/>
+              <path class="achse" d="M260 140A30 30 0 0 0 245 114"/>
+              <circle class="punkt" cx="50" cy="140" r="5"/>
+              <circle class="punkt" cx="230" cy="140" r="3"/>
+              <text class="blau" x="140" y="132" text-anchor="middle">r</text>
+              <text x="292" y="44">F</text>
+              <text x="264" y="126" font-size="12">φ</text>
+              <text x="210" y="92">F<tspan dy="4" font-size="9">t</tspan></text>
+              <text x="250" y="158">F<tspan dy="4" font-size="9">r</tspan></text>
+              <text class="kupfer" x="100" y="200" text-anchor="end">Hebelarm r sin φ</text>
+              <text x="44" y="126" text-anchor="end">Achse</text>
+              <text x="190" y="238" font-size="11">Wirkungslinie</text>
+            </svg>
+            <figcaption>Abb. 3: Eine Kraft $\vec{F}$ greift im Abstand $r$ von der
+              Achse an (die Achse zeigt aus der Bildebene heraus). Nur die
+              Tangentialkomponente $F_\text{t} = F \sin\varphi$ beschleunigt die
+              Drehung. Gleichwertig: Kraft mal Hebelarm $r \sin\varphi$, der
+              senkrechte Abstand der Wirkungslinie von der Achse.
+              $\vec{D} = \vec{r} \times \vec{F}$ zeigt hier aus der Ebene
+              heraus.</figcaption>
+          </figure>
+
+          <p><strong>Gleichgewicht.</strong> Ein starrer Körper ist in Ruhe (oder
+            bewegt sich gleichförmig), wenn sowohl die Summe der Kräfte als auch
+            die Summe der Drehmomente verschwindet:</p>
+
+          $$ \sum_i \vec{F}_i = 0 \;\;\text{(Translation)}, \qquad \sum_i \vec{D}_i = 0 \;\;\text{(Rotation)} . $$
+
+          <p>Das zweite ist das Hebelgesetz: Auf einer Wippe halten sich ein
+            schweres Kind nahe der Achse und ein leichtes weiter außen die
+            Waage.</p>
+
+          <h2>Arbeit und Leistung bei Drehungen</h2>
+
+          <p>Nur die Tangentialkomponente der Kraft verrichtet Arbeit, und mit
+            $\mathrm{d}s = r\,\mathrm{d}\theta$ wird</p>
+
+          $$ W = \int_{s_1}^{s_2} F_\text{t}\,\mathrm{d}s = \int_{\theta_1}^{\theta_2} F_\text{t}\,r\,\mathrm{d}\theta = \int_{\theta_1}^{\theta_2} D\,\mathrm{d}\theta \qquad \text{(analog zu } W = \textstyle\int F\,\mathrm{d}s\text{)} . $$
+
+          <p>Bei konstantem Drehmoment ist die Leistung</p>
+
+          $$ P = \frac{\mathrm{d}W}{\mathrm{d}t} = D\,\frac{\mathrm{d}\theta}{\mathrm{d}t} = D\,\omega . $$
+
+          <p>Deshalb geben Motorenhersteller Drehmoment <em>und</em> Drehzahl an:
+            Ein Motor mit $300\,\mathrm{N\,m}$ bei $3000$ Umdrehungen pro Minute
+            ($\omega = 314\,\mathrm{s^{-1}}$) leistet
+            $300 \cdot 314\,\mathrm{W} \approx 94\,\mathrm{kW}$.</p>
+
+          <h2>Drehimpuls</h2>
+
+          <p>Dem Impuls $\vec{p} = m\vec{v}$ der Translation entspricht bei der
+            Drehung der <em>Drehimpuls</em></p>
+
+          $$ \vec{L} = \vec{r} \times \vec{p}, \qquad \text{für die Kreisbahn: } |\vec{L}| = m\,v\,r = m\,\omega\,r^2 = I\,\omega . $$
+
+          <p>Bei Drehung um eine Symmetrieachse ist $\vec{L} = I\,\vec{\omega}$, der
+            Drehimpuls zeigt also entlang der Achse. (Bei unsymmetrischen Körpern
+            ist das nicht mehr so – siehe <a href="kreisel.html">Kreisel</a>.) In
+            kartesischen Koordinaten lautet das Kreuzprodukt</p>
+
+          $$ L_x = y\,p_z - z\,p_y, \qquad L_y = z\,p_x - x\,p_z, \qquad L_z = x\,p_y - y\,p_x . $$
+
+          <h3 id="drehimpulserhaltung">Drehimpulserhaltung</h3>
+
+          <p>Leitet man $\vec{L}$ nach der Zeit ab (Produktregel), so ist</p>
+
+          $$ \frac{\mathrm{d}\vec{L}}{\mathrm{d}t} = \underbrace{\frac{\mathrm{d}\vec{r}}{\mathrm{d}t} \times \vec{p}}_{\vec{v} \times m\vec{v} \,=\, 0} + \vec{r} \times \frac{\mathrm{d}\vec{p}}{\mathrm{d}t} = \vec{r} \times \vec{F} = \vec{D} . $$
+
+          <p>Das ist das Gegenstück zu $\mathrm{d}\vec{p}/\mathrm{d}t = \vec{F}$.
+            Daraus folgt sofort der Erhaltungssatz:</p>
+
+          <div class="merkkasten">
+            <span class="titel">Drehimpulserhaltung</span>
+            <p>Wirkt kein äußeres Drehmoment ($\vec{D} = 0$), so ist der
+              Gesamtdrehimpuls konstant: $\vec{L} = \text{const}$ – genau wie
+              $\vec{p} = \text{const}$ bei $\vec{F} = 0$. Bei fester Achse heißt
+              das $I_1 \omega_1 = I_2 \omega_2$.</p>
+          </div>
+
+          <p><strong>Experiment: Drehstuhl und Rad.</strong> Eine Person sitzt
+            ruhig auf einem Drehstuhl und hält ein schnell rotierendes Fahrrad-Rad
+            mit senkrechter Achse; sein Drehimpuls $\vec{L}_\text{R}$ zeige nach
+            oben. Dreht sie das Rad um, zeigt sein Drehimpuls nach unten. Weil auf
+            das System Person + Stuhl + Rad um die senkrechte Achse kein äußeres
+            Drehmoment wirkt, muss der Stuhl jetzt den Drehimpuls
+            $\vec{L}_\text{S} = 2\vec{L}_\text{R}$ aufnehmen: Er beginnt sich in
+            der ursprünglichen Drehrichtung des Rades zu drehen. Dreht sie das
+            Rad zurück, kommt der Stuhl wieder zur Ruhe.</p>
+
+          <h2>Translation und Rotation im Vergleich</h2>
+
+          <div class="tabelle-huelle">
+            <table>
+              <thead>
+                <tr><th>Translation</th><th>Rotation (feste Achse)</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>Weg $s$</td><td>Winkel $\theta$</td></tr>
+                <tr><td>Geschwindigkeit $v = \dot{s}$</td><td>Winkelgeschwindigkeit $\omega = \dot{\theta}$</td></tr>
+                <tr><td>Beschleunigung $a = \dot{v}$</td><td>Winkelbeschleunigung $\alpha = \dot{\omega}$</td></tr>
+                <tr><td>Masse $m$</td><td>Trägheitsmoment $I = \int r^2\,\mathrm{d}m$</td></tr>
+                <tr><td>Kraft $\vec{F}$</td><td>Drehmoment $\vec{D} = \vec{r} \times \vec{F}$</td></tr>
+                <tr><td>Impuls $\vec{p} = m\vec{v}$</td><td>Drehimpuls $\vec{L} = \vec{r} \times \vec{p} = I\vec{\omega}$</td></tr>
+                <tr><td>$\vec{F} = m\vec{a} = \dot{\vec{p}}$</td><td>$\vec{D} = I\vec{\alpha} = \dot{\vec{L}}$</td></tr>
+                <tr><td>$E_\text{kin} = \tfrac{1}{2} m v^2$</td><td>$E_\text{rot} = \tfrac{1}{2} I \omega^2$</td></tr>
+                <tr><td>$W = \int F\,\mathrm{d}s$, $P = F v$</td><td>$W = \int D\,\mathrm{d}\theta$, $P = D \omega$</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="tab" id="beispiele" data-titel="Beispielrechnungen">
+
+          <div class="beispiel">
+            <h3>Beispiel 1: Energie in einem Schwungrad</h3>
+            <p><strong>Gegeben:</strong> Ein Schwungrad ist eine massive
+              Stahlscheibe mit $M = 20\,\mathrm{kg}$ und $R = 0{,}25\,\mathrm{m}$.
+              Es dreht sich mit $3000$ Umdrehungen pro Minute.<br>
+              <strong>Gesucht:</strong> Gespeicherte Rotationsenergie und
+              Bahngeschwindigkeit am Rand.</p>
+
+            <p><strong>1. Trägheitsmoment</strong> (Vollzylinder):
+              $$ I = \tfrac{1}{2} M R^2 = \tfrac{1}{2} \cdot 20\,\mathrm{kg} \cdot (0{,}25\,\mathrm{m})^2 = 0{,}625\,\mathrm{kg\,m^2} $$</p>
+
+            <p><strong>2. Winkelgeschwindigkeit:</strong>
+              $$ \omega = 2\pi f = 2\pi \cdot \frac{3000}{60\,\mathrm{s}} = 2\pi \cdot 50\,\mathrm{s^{-1}} = 314{,}2\,\mathrm{s^{-1}} $$</p>
+
+            <p><strong>3. Energie:</strong>
+              $$ E_\text{rot} = \tfrac{1}{2} I \omega^2 = \tfrac{1}{2} \cdot 0{,}625\,\mathrm{kg\,m^2} \cdot (314{,}2\,\mathrm{s^{-1}})^2 = 3{,}08 \cdot 10^4\,\mathrm{kg\,m^2\,s^{-2}} = 30{,}8\,\mathrm{kJ} $$
+              Einheitencheck: $\mathrm{kg\,m^2/s^2} = \mathrm{J}$ ✓.</p>
+
+            <p><strong>4. Randgeschwindigkeit:</strong>
+              $v = \omega R = 314{,}2\,\mathrm{s^{-1}} \cdot 0{,}25\,\mathrm{m} = 78{,}5\,\mathrm{m/s} = 283\,\mathrm{km/h}$.</p>
+
+            <p><strong>Ergebnis und Plausibilität:</strong> Rund 31 kJ – damit
+              könnte man 100 kg etwa 31 m hochheben
+              ($30\,800/(100 \cdot 9{,}81)\,\mathrm{m}$). Das sind aber nur
+              8,6 Wh – etwa ein halber Handy-Akku. Schwungradspeicher drehen deshalb viel schneller: Weil $E \propto \omega^2$,
+              bringt die doppelte Drehzahl die vierfache Energie. Begrenzt wird das
+              durch die Festigkeit des Materials, denn am Rand herrschen enorme
+              Zentripetalbeschleunigungen
+              ($a_\text{r} = \omega^2 R \approx 25\,000\,\mathrm{m/s^2}$).</p>
+          </div>
+
+          <div class="beispiel">
+            <h3>Beispiel 2: Tür aufstoßen – Klinke oder Scharnier?</h3>
+            <p><strong>Gegeben:</strong> Eine Tür (dünne Platte, $m = 25\,\mathrm{kg}$,
+              Breite $b = 0{,}90\,\mathrm{m}$) dreht sich reibungsfrei in ihren
+              Scharnieren. Jemand drückt mit $F = 20\,\mathrm{N}$ stets senkrecht
+              zur Tür, (a) an der Klinke $0{,}85\,\mathrm{m}$ vom Scharnier,
+              (b) $0{,}30\,\mathrm{m}$ vom Scharnier.<br>
+              <strong>Gesucht:</strong> Winkelbeschleunigung und Zeit, bis die Tür
+              um $90°$ offen ist.</p>
+
+            <p><strong>1. Trägheitsmoment.</strong> Für die Drehung um die
+              Scharnierkante zählt nur der Abstand senkrecht zur Achse; die Tür
+              verhält sich wie ein Stab der Länge $b$, der um sein Ende dreht
+              (Steiner):
+              $$ I = \tfrac{1}{12} m b^2 + m \left(\tfrac{b}{2}\right)^2 = \tfrac{1}{3} m b^2 = \tfrac{1}{3} \cdot 25\,\mathrm{kg} \cdot (0{,}90\,\mathrm{m})^2 = 6{,}75\,\mathrm{kg\,m^2} $$</p>
+
+            <p><strong>2. Drehmoment und Winkelbeschleunigung:</strong>
+              $$ \text{(a)}\;\; D = 20\,\mathrm{N} \cdot 0{,}85\,\mathrm{m} = 17\,\mathrm{N\,m}, \qquad \alpha = \frac{D}{I} = \frac{17\,\mathrm{N\,m}}{6{,}75\,\mathrm{kg\,m^2}} = 2{,}52\,\mathrm{s^{-2}} $$
+              $$ \text{(b)}\;\; D = 20\,\mathrm{N} \cdot 0{,}30\,\mathrm{m} = 6{,}0\,\mathrm{N\,m}, \qquad \alpha = \frac{6{,}0\,\mathrm{N\,m}}{6{,}75\,\mathrm{kg\,m^2}} = 0{,}889\,\mathrm{s^{-2}} $$
+              Einheitencheck: $\mathrm{N\,m}/(\mathrm{kg\,m^2}) = \mathrm{kg\,m^2\,s^{-2}}/(\mathrm{kg\,m^2}) = \mathrm{s^{-2}}$ ✓.</p>
+
+            <p><strong>3. Zeit</strong> aus $\theta = \tfrac{1}{2} \alpha t^2$ mit
+              $\theta = \pi/2$ (konstante Winkelbeschleunigung, Analogie zu
+              $s = \tfrac{1}{2} a t^2$):
+              $$ t = \sqrt{\frac{2\theta}{\alpha}}: \qquad \text{(a)}\;\; t = \sqrt{\frac{3{,}14}{2{,}52\,\mathrm{s^{-2}}}} = 1{,}12\,\mathrm{s}, \qquad \text{(b)}\;\; t = \sqrt{\frac{3{,}14}{0{,}889\,\mathrm{s^{-2}}}} = 1{,}88\,\mathrm{s} $$</p>
+
+            <p><strong>Ergebnis und Plausibilität:</strong> Mit derselben Kraft
+              dauert das Öffnen nahe am Scharnier deutlich länger, weil das
+              Drehmoment nur gut ein Drittel so groß ist. Um die Tür in derselben
+              Zeit zu öffnen, müsste man dort mit $20 \cdot 0{,}85/0{,}30 = 57\,\mathrm{N}$
+              drücken. Eine gute Sekunde für eine normale Tür passt zur
+              Erfahrung.</p>
+          </div>
+
+          <div class="beispiel" data-symbole='{"I_1": "Trägheitsmoment mit ausgestreckten Armen", "I_2": "Trägheitsmoment mit angelegten Armen", "ω_1": "Winkelgeschwindigkeit mit ausgestreckten Armen", "ω_2": "Winkelgeschwindigkeit mit angelegten Armen", "f_1": "Drehzahl mit ausgestreckten Armen", "f_2": "Drehzahl mit angelegten Armen", "E_1": "Rotationsenergie vorher", "E_2": "Rotationsenergie nachher"}'>
+            <h3>Beispiel 3: Pirouette</h3>
+            <p><strong>Gegeben:</strong> Eine Eiskunstläuferin dreht sich mit
+              ausgestreckten Armen ($I_1 = 3{,}5\,\mathrm{kg\,m^2}$) mit
+              $1{,}5$ Umdrehungen pro Sekunde. Dann zieht sie die Arme eng an
+              ($I_2 = 1{,}0\,\mathrm{kg\,m^2}$). Die Reibung der Kufen
+              vernachlässigen wir.<br>
+              <strong>Gesucht:</strong> Neue Drehzahl, Rotationsenergie vorher und
+              nachher.</p>
+
+            <p><strong>1. Drehimpulserhaltung</strong> (kein äußeres Drehmoment um
+              die senkrechte Achse):
+              $$ I_1 \omega_1 = I_2 \omega_2 \quad\Rightarrow\quad f_2 = \frac{I_1}{I_2}\,f_1 = \frac{3{,}5}{1{,}0} \cdot 1{,}5\,\mathrm{s^{-1}} = 5{,}25\,\mathrm{s^{-1}} $$</p>
+
+            <p><strong>2. Energien</strong> mit $\omega_1 = 2\pi \cdot 1{,}5\,\mathrm{s^{-1}} = 9{,}42\,\mathrm{s^{-1}}$
+              und $\omega_2 = 3{,}5\,\omega_1 = 33{,}0\,\mathrm{s^{-1}}$:
+              $$ E_1 = \tfrac{1}{2} \cdot 3{,}5\,\mathrm{kg\,m^2} \cdot (9{,}42\,\mathrm{s^{-1}})^2 = 155\,\mathrm{J}, \qquad E_2 = \tfrac{1}{2} \cdot 1{,}0\,\mathrm{kg\,m^2} \cdot (33{,}0\,\mathrm{s^{-1}})^2 = 544\,\mathrm{J} $$</p>
+
+            <p><strong>3. Kontrolle:</strong> Mit $L$ konstant ist
+              $E = L^2/(2I)$, also $E_2/E_1 = I_1/I_2 = 3{,}5$ ✓
+              ($155 \cdot 3{,}5 = 544$).</p>
+
+            <p><strong>Ergebnis und Plausibilität:</strong> Gut fünf Umdrehungen
+              pro Sekunde erreichen Spitzenläuferinnen tatsächlich. Der Drehimpuls
+              bleibt gleich, die Energie aber nicht: Die fehlenden 389 J leisten
+              ihre Armmuskeln, die die Arme gegen die „Fliehkraft“ nach innen
+              ziehen müssen. Breitet sie die Arme wieder aus, wird sie langsamer,
+              und die Energie fließt zurück in die Muskeln (bzw. wird dort zu
+              Wärme).</p>
+          </div>
+        </section>
+
+        <section class="tab" id="aufgaben" data-titel="Aufgaben">
+
+          <p>Die Aufgaben sind nach Schwierigkeit sortiert. Wenn nichts anderes
+            gesagt ist, gilt $g = 9{,}81\,\mathrm{m/s^2}$; Reibung in Lagern und
+            Luftwiderstand werden vernachlässigt.</p>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 1: Wie schnell dreht sich die Erde?
+              <span class="schwierigkeit" data-stufe="leicht">leicht</span>
+            </h3>
+            <p>Die Erde (Radius $6371\,\mathrm{km}$) dreht sich in etwa
+              $24\,\mathrm{h}$ einmal um ihre Achse.</p>
+            <ol type="a">
+              <li>Wie groß ist ihre Winkelgeschwindigkeit?</li>
+              <li>Wie schnell bewegt sich ein Punkt am Äquator, wie schnell einer in
+                $50°$ nördlicher Breite (etwa in Mainz)?</li>
+            </ol>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p><strong>(a)</strong>
+                $\omega = 2\pi/T = 2\pi/86\,400\,\mathrm{s} = 7{,}27 \cdot 10^{-5}\,\mathrm{s^{-1}}$.
+                (Genau genommen zählt der Sterntag mit 23 h 56 min; der Unterschied
+                beträgt 0,3 %.)</p>
+              <p><strong>(b)</strong> Äquator:
+                $v = \omega R = 7{,}27 \cdot 10^{-5}\,\mathrm{s^{-1}} \cdot 6{,}371 \cdot 10^6\,\mathrm{m} = 463\,\mathrm{m/s} \approx 1670\,\mathrm{km/h}$.
+                In $50°$ Breite ist der Abstand zur Achse nur
+                $r = R \cos 50° = 4{,}10 \cdot 10^6\,\mathrm{m}$, also
+                $v = 298\,\mathrm{m/s} \approx 1070\,\mathrm{km/h}$. Die
+                Winkelgeschwindigkeit ist überall gleich.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 2: Schnellster Gang am Fahrrad
+              <span class="schwierigkeit" data-stufe="leicht">leicht</span>
+            </h3>
+            <p>Das vordere Kettenblatt hat 44 Zähne, das hintere Ritzel 11. Die
+              Radfahrerin tritt mit 90 Kurbelumdrehungen pro Minute; das Hinterrad
+              hat einen Radius von $0{,}35\,\mathrm{m}$. Wie schnell fährt sie?</p>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>Die Kette läuft über beide Zahnräder mit derselben
+                Geschwindigkeit, und die Radien verhalten sich wie die
+                Zähnezahlen. Wie beim Riementrieb ist
+                $\omega_\text{Ritzel} = \omega_\text{Kurbel} \cdot 44/11 = 4\,\omega_\text{Kurbel}$.
+                Mit $f_\text{Kurbel} = 1{,}5\,\mathrm{s^{-1}}$ dreht sich das
+                Hinterrad (fest mit dem Ritzel verbunden) mit
+                $f = 6{,}0\,\mathrm{s^{-1}}$:
+                $$ v = \omega R = 2\pi \cdot 6{,}0\,\mathrm{s^{-1}} \cdot 0{,}35\,\mathrm{m} = 13{,}2\,\mathrm{m/s} = 47{,}5\,\mathrm{km/h} $$
+                Das ist der Gang für eine schnelle Abfahrt.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe" data-symbole='{"R": "Radius einer Kugel", "d": "Abstand des Kugelmittelpunkts von der Drehachse"}'>
+            <h3>Aufgabe 3: Hantel mit Steiner
+              <span class="schwierigkeit" data-stufe="mittel">mittel</span>
+            </h3>
+            <p>Eine Hantel besteht aus zwei Vollkugeln ($m = 2{,}0\,\mathrm{kg}$,
+              $R = 5{,}0\,\mathrm{cm}$) an den Enden eines dünnen Stabs
+              ($m_\text{St} = 0{,}50\,\mathrm{kg}$, $L = 40\,\mathrm{cm}$). Die
+              Kugeln sitzen außen am Stab, ihre Mittelpunkte also
+              $25\,\mathrm{cm}$ von der Stabmitte entfernt.</p>
+            <ol type="a">
+              <li>Berechne das Trägheitsmoment um die Achse senkrecht zum Stab
+                durch seine Mitte.</li>
+              <li>Wie groß ist der Fehler, wenn man die Kugeln als Massenpunkte
+                behandelt und den Stab weglässt?</li>
+            </ol>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p><strong>(a)</strong> Jede Kugel nach Steiner:
+                $I_\text{K} = \tfrac{2}{5} m R^2 + m d^2 = \tfrac{2}{5} \cdot 2{,}0 \cdot 0{,}05^2\,\mathrm{kg\,m^2} + 2{,}0 \cdot 0{,}25^2\,\mathrm{kg\,m^2} = (0{,}0020 + 0{,}125)\,\mathrm{kg\,m^2} = 0{,}127\,\mathrm{kg\,m^2}$.
+                Stab: $\tfrac{1}{12} \cdot 0{,}50 \cdot 0{,}40^2\,\mathrm{kg\,m^2} = 0{,}0067\,\mathrm{kg\,m^2}$.
+                Zusammen
+                $I = 2 \cdot 0{,}127 + 0{,}0067 = 0{,}261\,\mathrm{kg\,m^2}$.</p>
+              <p><strong>(b)</strong> Massenpunkte: $2 \cdot 2{,}0 \cdot 0{,}25^2 = 0{,}250\,\mathrm{kg\,m^2}$,
+                also 4 % zu wenig. Den größten Teil liefert der Steiner-Anteil – die
+                Eigendrehung der Kugeln trägt kaum bei.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 4: Eimer am Brunnen
+              <span class="schwierigkeit" data-stufe="mittel">mittel</span>
+            </h3>
+            <p>Ein Eimer ($m = 5{,}0\,\mathrm{kg}$) hängt an einem Seil, das auf
+              eine Seilwinde gewickelt ist (Vollzylinder, $M = 10\,\mathrm{kg}$,
+              $R = 0{,}10\,\mathrm{m}$). Man lässt den Eimer los.</p>
+            <ol type="a">
+              <li>Mit welcher Beschleunigung fällt er, und wie groß ist die
+                Seilkraft?</li>
+              <li>Wie schnell ist der Eimer nach $3{,}0\,\mathrm{m}$? Prüfe das
+                Ergebnis mit dem Energiesatz.</li>
+            </ol>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p><strong>(a)</strong> Achse nach unten positiv. Eimer:
+                $m a = m g - F_\text{S}$. Winde:
+                $I \alpha = F_\text{S} R$ mit $\alpha = a/R$, also
+                $F_\text{S} = I a/R^2$. Einsetzen:
+                $$ a = \frac{m g}{m + I/R^2} = \frac{m g}{m + M/2} = \frac{5{,}0 \cdot 9{,}81}{5{,}0 + 5{,}0}\,\mathrm{m/s^2} = 4{,}91\,\mathrm{m/s^2} $$
+                $F_\text{S} = m (g - a) = 5{,}0\,\mathrm{kg} \cdot 4{,}91\,\mathrm{m/s^2} = 24{,}5\,\mathrm{N}$
+                – nur halb so viel wie das Gewicht des Eimers.</p>
+              <p><strong>(b)</strong>
+                $v = \sqrt{2 a h} = \sqrt{2 \cdot 4{,}91 \cdot 3{,}0}\,\mathrm{m/s} = 5{,}42\,\mathrm{m/s}$,
+                $\omega = v/R = 54{,}2\,\mathrm{s^{-1}}$. Energie: $m g h = 147\,\mathrm{J}$;
+                Eimer $\tfrac{1}{2} \cdot 5{,}0 \cdot 5{,}42^2\,\mathrm{J} = 73{,}6\,\mathrm{J}$,
+                Winde ($I = 0{,}050\,\mathrm{kg\,m^2}$)
+                $\tfrac{1}{2} \cdot 0{,}050 \cdot 54{,}2^2\,\mathrm{J} = 73{,}6\,\mathrm{J}$,
+                Summe $147\,\mathrm{J}$ ✓. Die Hälfte der Energie steckt in der
+                Drehung der Winde.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 5: Die Kugel in Scheiben geschnitten
+              <span class="schwierigkeit" data-stufe="schwer">schwer</span>
+            </h3>
+            <p>Berechne das Trägheitsmoment einer homogenen Vollkugel (Masse $M$,
+              Radius $R$) um eine Achse durch den Mittelpunkt auf einem anderen Weg
+              als in der Vertiefung: Zerlege die Kugel in dünne Kreisscheiben
+              senkrecht zur Achse.</p>
+            <ol type="a">
+              <li>Welches Trägheitsmoment hat eine Scheibe der Dicke
+                $\mathrm{d}z$ in der Höhe $z$?</li>
+              <li>Integriere und drücke das Ergebnis durch $M$ aus.</li>
+              <li>Leite daraus das Trägheitsmoment einer dünnen Kugelschale ab.</li>
+            </ol>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p><strong>(a)</strong> Die Scheibe hat den Radius
+                $a(z) = \sqrt{R^2 - z^2}$ und die Masse
+                $\mathrm{d}m = \rho\,\pi a^2\,\mathrm{d}z$. Als Vollzylinder hat sie
+                $\mathrm{d}I = \tfrac{1}{2} a^2\,\mathrm{d}m = \tfrac{1}{2}\pi\rho\,(R^2 - z^2)^2\,\mathrm{d}z$.</p>
+              <p><strong>(b)</strong>
+                $$ I = \tfrac{1}{2}\pi\rho \int_{-R}^{R} (R^4 - 2R^2 z^2 + z^4)\,\mathrm{d}z = \tfrac{1}{2}\pi\rho \left(2R^5 - \tfrac{4}{3}R^5 + \tfrac{2}{5}R^5\right) = \tfrac{1}{2}\pi\rho \cdot \tfrac{16}{15} R^5 = \tfrac{8}{15}\pi\rho R^5 $$
+                Mit $\rho = M/(\tfrac{4}{3}\pi R^3)$:
+                $I = \tfrac{8}{15} \cdot \tfrac{3}{4} M R^2 = \tfrac{2}{5} M R^2$ ✓.</p>
+              <p><strong>(c)</strong> Eine dünne Schale ist die Differenz zweier
+                Vollkugeln mit $R$ und $R + \mathrm{d}R$. Aus
+                $I = \tfrac{8}{15}\pi\rho R^5$ folgt
+                $\mathrm{d}I = \tfrac{8}{3}\pi\rho R^4\,\mathrm{d}R$, die Masse der
+                Schale ist $\mathrm{d}M = 4\pi\rho R^2\,\mathrm{d}R$. Also
+                $\mathrm{d}I = \tfrac{2}{3} R^2\,\mathrm{d}M$: Eine Schale der Masse
+                $M$ hat $I = \tfrac{2}{3} M R^2$.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe" data-symbole='{"I_S": "Trägheitsmoment von Stuhl und Person"}'>
+            <h3>Aufgabe 6: Drehstuhl mit Fahrrad-Rad
+              <span class="schwierigkeit" data-stufe="schwer">schwer</span>
+            </h3>
+            <p>Eine Person sitzt ruhig auf einem Drehstuhl
+              ($I_\text{S} = 3{,}0\,\mathrm{kg\,m^2}$ für Person und Stuhl) und hält
+              ein Rad ($I_\text{R} = 0{,}12\,\mathrm{kg\,m^2}$), das sich mit
+              $\omega_\text{R} = 20\,\mathrm{s^{-1}}$ um eine senkrechte Achse
+              dreht.</p>
+            <ol type="a">
+              <li>Sie dreht das Rad um $180°$. Wie schnell dreht sich danach der
+                Stuhl, und in welche Richtung?</li>
+              <li>Vergleiche die gesamte Rotationsenergie vorher und nachher. Woher
+                kommt der Unterschied?</li>
+            </ol>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p><strong>(a)</strong> Um die senkrechte Achse wirkt kein äußeres
+                Drehmoment (reibungsfreies Lager). Vorher
+                $L = I_\text{R}\omega_\text{R} = 2{,}4\,\mathrm{kg\,m^2/s}$ (nach
+                oben). Nachher:
+                $-I_\text{R}\omega_\text{R} + I_\text{S}\omega_\text{S} = 2{,}4\,\mathrm{kg\,m^2/s}$, also
+                $$ \omega_\text{S} = \frac{2\,I_\text{R}\omega_\text{R}}{I_\text{S}} = \frac{4{,}8\,\mathrm{kg\,m^2/s}}{3{,}0\,\mathrm{kg\,m^2}} = 1{,}6\,\mathrm{s^{-1}} $$
+                in der ursprünglichen Drehrichtung des Rades (etwa eine Umdrehung in
+                4 s).</p>
+              <p><strong>(b)</strong> Vorher
+                $\tfrac{1}{2} \cdot 0{,}12 \cdot 20^2\,\mathrm{J} = 24\,\mathrm{J}$,
+                nachher $24\,\mathrm{J} + \tfrac{1}{2} \cdot 3{,}0 \cdot 1{,}6^2\,\mathrm{J} = 27{,}8\,\mathrm{J}$.
+                Die zusätzlichen 3,8 J verrichtet die Person: Um das Rad zu kippen,
+                muss sie ein Drehmoment gegen den Widerstand des Kreisels aufbringen
+                (das spürt man deutlich).</p>
+              <p><strong>Zum Nachdenken:</strong> Was passiert, wenn sie das Rad nur
+                um $90°$ kippt (Achse waagerecht)? Dann hat das Rad keinen
+                senkrechten Drehimpuls mehr, und der Stuhl übernimmt
+                $2{,}4\,\mathrm{kg\,m^2/s}$, also $\omega_\text{S} = 0{,}8\,\mathrm{s^{-1}}$.
+                Der waagerechte Drehimpuls des Rades wird nicht ausgeglichen – den
+                nimmt über das Stuhllager die Erde auf.</p>
+            </details>
+          </div>
+        </section>
+
+      </div></article>
+  </main>
+</body>
+</html>

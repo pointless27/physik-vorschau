@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="robots" content="noindex">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Physik verstehen – Erklärungen für alle, Tiefe fürs Studium</title>
+  <meta name="description" content="Physik über Schulniveau hinaus: verständlich erklärt für Neugierige, mit voller Mathematik, Beispielrechnungen und Übungsaufgaben für Studierende.">
+
+  <link rel="stylesheet" href="css/stil.css">
+  <script src="js/daten.js"></script>
+  <script src="js/seite.js"></script>
+  <script src="js/uebersichten.js"></script>
+  <script src="js/effekte.js"></script>
+  <script src="js/sonnensystem.js"></script>
+</head>
+<body>
+  <main>
+
+    <section class="hero">
+      <div class="hero-intro">
+        <p class="oberzeile">Physik ohne Umwege</p>
+        <h1 data-worte>Physik, die man <span class="betont">versteht</span> –<br>und Physik, die man <span class="betont">rechnet</span>.</h1>
+        <p class="hero-text">
+          Physik und Mathematik gibt es hier auf zwei Ebenen: anschaulich erklärt für
+          alle, die Physik verstehen wollen – und mit der vollen Mathematik,
+          Herleitungen und Übungsaufgaben fürs Studium. Auf jeder Themenseite
+          wechselst du mit einem Klick zwischen beiden.
+        </p>
+        <a class="hero-knopf" href="#themen">Direkt zu den Themen
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+               stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M6 13l6 6 6-6"/></svg></a>
+      </div>
+
+      <div class="hero-bild" id="sonnensystem">
+        <span class="notiz notiz-1" data-info="kepler3">T² ∝ a³</span>
+        <span class="notiz notiz-2" data-info="gravitation">F = G·mM/r²</span>
+      </div>
+
+      <aside class="planet-info" id="planet-info" aria-live="polite"
+             aria-label="Fakten zum ausgewählten Himmelskörper"></aside>
+    </section>
+
+    <section class="aufbau-abschnitt">
+      <h2>Jedes Thema auf <span class="betont">zwei Ebenen</span></h2>
+      <p class="abschnitt-text">Die Themenseiten aus Physik und Mathematik
+        haben vier Reiter. Du kannst jederzeit wechseln – die Seite merkt sich,
+        ob du zuletzt „Verstehen“ oder „Vertiefung“ gelesen hast, und öffnet
+        das nächste Thema dort. Welche Reiter es in welchem Bereich gibt,
+        steht unten bei jedem Bereich.</p>
+      <div class="aufbau">
+        <p class="aufbau-gruppe aufbau-gruppe-alle">für alle</p>
+        <p class="aufbau-gruppe aufbau-gruppe-studium">fürs Studium</p>
+        <div class="aufbau-ebene" data-ebene="verstehen">
+          <span class="aufbau-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M9.5 18h5M10.3 21h3.4"/><path d="M8.6 14.6a6 6 0 1 1 6.8 0c-.9.7-1.4 1.7-1.4 3.4h-4c0-1.7-.5-2.7-1.4-3.4z"/></svg></span>
+          <h3>Verstehen</h3>
+          <span class="aufbau-notiz">für alle</span>
+          <p>Die Idee hinter dem Thema, mit Alltagsbeispielen, Analogien und
+            Grafiken zum Ausprobieren – ohne Formeln.</p>
+        </div>
+        <div class="aufbau-ebene" data-ebene="vertiefung">
+          <span class="aufbau-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M16.5 3.4c-2.1-.9-3.9.1-4.3 2.9l-1.9 11.4c-.4 2.8-2.2 3.8-4.3 2.9"/></svg></span>
+          <h3>Vertiefung</h3>
+          <span class="aufbau-notiz">fürs Studium</span>
+          <p>Definitionen, Herleitungen und Grenzfälle auf Studiumsniveau,
+            mit den Versuchen aus der Vorlesung.</p>
+        </div>
+        <div class="aufbau-ebene" data-ebene="beispiele">
+          <span class="aufbau-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2.5" width="14" height="19" rx="2"/><path d="M8.5 6h7v3.2h-7z"/><circle cx="9" cy="13.2" r=".9" fill="currentColor" stroke="none"/><circle cx="12" cy="13.2" r=".9" fill="currentColor" stroke="none"/><circle cx="15" cy="13.2" r=".9" fill="currentColor" stroke="none"/><circle cx="9" cy="17.2" r=".9" fill="currentColor" stroke="none"/><circle cx="12" cy="17.2" r=".9" fill="currentColor" stroke="none"/><circle cx="15" cy="17.2" r=".9" fill="currentColor" stroke="none"/></svg></span>
+          <h3>Beispiel&shy;rechnungen</h3>
+          <span class="aufbau-notiz">fürs Studium</span>
+          <p>Vollständig durchgerechnete Aufgaben mit allen Zwischenschritten
+            und Einheiten.</p>
+        </div>
+        <div class="aufbau-ebene" data-ebene="aufgaben">
+          <span class="aufbau-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 19.5l1-4.4L16 4.6a2.1 2.1 0 0 1 3 3L8.5 18.1z"/><path d="M14.4 6.2l3.4 3.4"/><path d="M13 20.5h6.5"/></svg></span>
+          <h3>Aufgaben</h3>
+          <span class="aufbau-notiz">fürs Studium</span>
+          <p>Zum Selbstüben, von leicht bis schwer – die Lösungen zum
+            Aufklappen.</p>
+        </div>
+      </div>
+    </section>
+
+    <div id="themen" class="bereiche-start">
+      <div class="zahlenleiste" id="site-zahlen"></div>
+      <div id="bereiche"></div>
+
+      <section class="gebiet-karte bereich-karte universum-start einblenden">
+        <div class="bereich-haupt">
+          <div class="bereich-titel">
+            <span class="karten-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4.5"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3"/><path d="M8.6 10.2c2.2-1.1 4.6-1.1 6.8 0"/></svg></span>
+            <h2><a class="bereich-link" href="themen/interaktives-universum.html">Interaktives Universum</a></h2>
+          </div>
+          <p class="bereich-text">3D-Modelle zum Ausprobieren: drehen, zoomen,
+            verändern. Sie ergänzen die Themenseiten dort, wo man etwas erst
+            richtig versteht, wenn man es selbst bewegt – vom Atomkern bis zum
+            beobachtbaren Universum.</p>
+          <p class="karte-gebiete"><span class="geplant-marke">Neu</span>
+            Größenverhältnisse des Universums – weitere Modelle folgen.</p>
+        </div>
+        <div class="bereich-seite">
+          <p class="bereich-notiz">das erste Modell ist online</p>
+          <ul class="bereich-reiter">
+            <li><span class="reiter-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="5" cy="17" r="1.5"/><circle cx="10" cy="14" r="3"/><circle cx="17.5" cy="9.5" r="5"/></svg></span><span>Größenverhältnisse des Universums</span></li>
+            <li><span class="reiter-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3" fill="currentColor"/><ellipse cx="12" cy="12" rx="9.5" ry="3.2"/><path d="M3 5.5c3 2 6 2.5 9 2.5s6-.5 9-2.5"/></svg></span><span>Schwarzes Loch &amp; Gravitationslinse</span></li>
+            <li><span class="reiter-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="6"/><path d="M6.3 10.2c3.8.9 7.6.9 11.4 0M6.3 13.8c3.8-.9 7.6-.9 11.4 0"/><ellipse cx="12" cy="12" rx="10.5" ry="4" transform="rotate(-25 12 12)" stroke-dasharray="2 2"/></svg></span><span>Satelliten-Tracker: Erde &amp; ISS</span></li>
+            <li><span class="reiter-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 3.5v17h17"/><path d="M6.5 7c3 3 6 6.5 11 10.5"/><circle cx="16" cy="7" r="1.6" fill="currentColor"/></svg></span><span>Lebenszyklus eines Sterns</span></li>
+          </ul>
+          <span class="bereich-weiter" aria-hidden="true">Zur Übersicht der Modelle →</span>
+        </div>
+      </section>
+    </div>
+
+  </main>
+</body>
+</html>

@@ -1,0 +1,536 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="robots" content="noindex">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Kreisprozesse: Wärmekraftmaschine und Wärmepumpe</title>
+  <meta name="description" content="Wie ein Kreisprozess Wärme in Arbeit verwandelt, warum der Wirkungsgrad nach dem zweiten Hauptsatz begrenzt ist und wie Kühlschrank und Wärmepumpe denselben Prozess rückwärts nutzen.">
+
+  <link rel="stylesheet" href="../../css/stil.css">
+
+  <link rel="stylesheet" href="../../extern/katex/katex.min.css">
+  <script defer src="../../extern/katex/katex.min.js"></script>
+  <script defer src="../../extern/katex/contrib/auto-render.min.js" onload="starteFormeln()"></script>
+
+  <script src="../../js/daten.js"></script>
+  <script src="../../js/seite.js"></script>
+  <script src="../../js/effekte.js"></script>
+  <script type="application/json" id="symbole">
+  {
+    "Q_1": "aufgenommene Wärme beim heißen Reservoir",
+    "Q_2": "abgegebene Wärme an das kalte Reservoir",
+    "W": "geleistete bzw. aufgewendete Arbeit (Betrag)",
+    "η": "Wirkungsgrad",
+    "T_1": "Temperatur des heißen Reservoirs",
+    "T_2": "Temperatur des kalten Reservoirs",
+    "p": "Druck",
+    "V": "Volumen",
+    "T": "Temperatur",
+    "S": "Entropie",
+    "n": "Stoffmenge",
+    "R": "universelle Gaskonstante, 8,314 J/(mol K)",
+    "γ": "Adiabatenexponent",
+    "ε": "Kompressionsverhältnis V_max/V_min (Otto) bzw. Leistungszahl ε_K und ε_WP",
+    "C_V": "Wärmekapazität bei konstantem Volumen",
+    "V_1": "Volumen im Zustand 1",
+    "V_2": "Volumen im Zustand 2",
+    "V_3": "Volumen im Zustand 3",
+    "V_4": "Volumen im Zustand 4",
+    "P": "Leistung",
+    "U": "innere Energie",
+    "Q": "Wärme",
+    "t": "Zeit",
+    "δ": "kleine Menge einer Prozessgröße"
+  }
+  </script>
+</head>
+<body data-thema="kreisprozesse">
+  <main>
+    <article class="thema">
+      <header>
+        <h1>Kreisprozesse: <span class="betont">Wärmekraftmaschine</span> und Wärmepumpe</h1>
+        <p class="untertitel">Warum man Wärme nie ganz in Arbeit verwandeln kann und wie man sie mit Arbeit bergauf pumpt.</p>
+      </header>
+
+      <div class="tabs">
+
+        <section class="tab" id="verstehen" data-titel="Verstehen">
+
+          <p>Ein Automotor, ein Dampfkraftwerk, ein Kühlschrank: In allen läuft
+            ein Stoff (Gas, Dampf, Kältemittel) in einem Kreis immer wieder durch
+            dieselben Zustände. Am Ende jeder Runde ist er wieder genau da,
+            wo er angefangen hat. Seine Energie ist dann dieselbe wie vorher.
+            Was er unterwegs aufgenommen hat, muss er also wieder abgegeben
+            haben, teils als Arbeit, teils als Wärme.</p>
+
+          <p>Eine <em>Wärmekraftmaschine</em> nimmt bei hoher Temperatur Wärme
+            auf, gibt einen Teil davon als nützliche Arbeit ab und muss den Rest
+            bei niedriger Temperatur wegwerfen (Abb. 1). Beim Automotor ist das
+            die Wärme der Verbrennung, die Abgase und Kühlwasser fortschaffen.
+            Der <em>Wirkungsgrad</em> ist der Anteil der Wärme, der in Arbeit
+            landet. Der Rest ist kein Konstruktionsfehler: Der zweite
+            Hauptsatz erzwingt, dass ein Teil der Wärme immer an die kalte Seite
+            abgegeben werden muss.</p>
+
+          <figure class="abbildung">
+            <svg class="abb" viewBox="0 0 360 230" role="img" aria-label="Energieflussbild einer Wärmekraftmaschine: Wärme Q1 vom heißen Reservoir, Arbeit W nach außen, Wärme Q2 an das kalte Reservoir">
+<defs><marker id="pfeil-abb1-text" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto"><path class="punkt" d="M0 0L10 5L0 10z"/></marker><marker id="pfeil-abb1-blau" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto"><path class="punkt blau" d="M0 0L10 5L0 10z"/></marker><marker id="pfeil-abb1-kupfer" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto"><path class="punkt kupfer" d="M0 0L10 5L0 10z"/></marker></defs>
+<rect class="flaeche kupfer" x="90" y="12" width="180" height="34" style="fill-opacity:0.3"/><rect class="achse" x="90" y="12" width="180" height="34" fill="none"/>
+<text x="180" y="34" text-anchor="middle">heißes Reservoir T₁</text>
+<rect class="flaeche" x="90" y="184" width="180" height="34" style="fill-opacity:0.3"/><rect class="achse" x="90" y="184" width="180" height="34" fill="none"/>
+<text x="180" y="206" text-anchor="middle">kaltes Reservoir T₂</text>
+<rect class="figur vorher" x="130" y="88" width="100" height="56" style="fill:var(--flaeche-2);stroke:currentColor;stroke-dasharray:none"/>
+<text x="180" y="121" text-anchor="middle">Maschine</text>
+<path class="punkt kupfer" d="M138 42H162V70H172L150 88L128 70H138Z"/>
+<text class="kupfer" x="120" y="66" text-anchor="end">Q₁</text>
+<path class="punkt" d="M230 111V121H290V128L312 116L290 104V111Z"/>
+<text x="300" y="98" text-anchor="middle">W</text>
+<path class="punkt blau" d="M143 144H157V160H165L150 178L135 160H143Z"/>
+<text class="blau" x="120" y="166" text-anchor="end">Q₂</text>
+<text class="klein" x="215" y="176">Q₁ = W + Q₂</text>
+</svg>
+            <figcaption>Abb. 1: Energiefluss einer Wärmekraftmaschine. Die
+              aufgenommene Wärme $Q_1$ teilt sich in Arbeit $W$ und abgegebene
+              Wärme $Q_2$. Die Pfeilbreiten zeigen ungefähr ein
+              Beispiel mit $\eta = 40\,\%$.</figcaption>
+          </figure>
+
+          <p>Je größer der Temperaturunterschied zwischen heißer und kalter
+            Seite, desto mehr Wärme lässt sich in Arbeit verwandeln. Der
+            theoretische Höchstwert, der <em>Carnot-Wirkungsgrad</em>, hängt nur
+            von den beiden Temperaturen ab. Reale Maschinen bleiben darunter.
+            Ein Kraftwerk mit $540\,{}^\circ\mathrm{C}$ Dampf und
+            $20\,{}^\circ\mathrm{C}$ Kühlwasser könnte höchstens knapp $64\,\%$
+            erreichen und kommt auf etwa $40\,\%$.</p>
+
+          <p>Läuft der Kreis rückwärts, entsteht ein Kühlschrank oder eine
+            <em>Wärmepumpe</em>: Man steckt Arbeit hinein und bekommt Wärme vom
+            Kalten zum Warmen. Eine Wärmepumpe im Haus holt dafür Wärme aus
+            Luft, Erde oder Grundwasser und liefert dem Heizkreis ein Vielfaches
+            des eingesetzten Stroms. Das ist kein Widerspruch zur Energieerhaltung:
+            Der Strom treibt nur den Transport an, den Großteil der Wärme
+            stellt die Umgebung.</p>
+
+          <div class="alltag">
+            <span class="titel">Aus dem Alltag</span>
+            <p>Ein Benzinmotor setzt rund ein Drittel der Energie im Kraftstoff
+              in Bewegung um, ein Dieselmotor etwas mehr. Der Rest geht als Wärme
+              durch Abgas und Kühler verloren, das ist auch der Grund, warum du
+              im Winter im Auto die Heizung gratis bekommst. Ein Elektromotor
+              kommt dagegen auf über $90\,\%$, denn er ist keine
+              Wärmekraftmaschine.</p>
+          </div>
+
+          <div class="merkkasten">
+            <span class="titel">Das Wichtigste in Kürze</span>
+            <p>Ein Kreisprozess führt den Stoff zum Anfangszustand zurück. Eine
+              Wärmekraftmaschine verwandelt nur einen Teil der Wärme in Arbeit, der
+              Rest muss an ein kälteres Reservoir abgegeben werden. Der beste
+              mögliche Wirkungsgrad hängt nur von den beiden Temperaturen ab. Der
+              umgekehrte Kreis ist Kühlschrank bzw. Wärmepumpe.</p>
+          </div>
+        </section>
+
+        <section class="tab" id="vertiefung" data-titel="Vertiefung">
+
+          <h2>Energiebilanz und Wirkungsgrad</h2>
+
+          <p>Nach einem vollen Umlauf ist $\Delta U = 0$. Nach dem ersten
+            Hauptsatz ist dann die insgesamt verrichtete Arbeit gleich der
+            Differenz der Wärmen. Mit den Beträgen $Q_1$ (aufgenommen bei
+            $T_1$) und $Q_2$ (abgegeben bei $T_2 \lt T_1$) gilt für eine
+            Wärmekraftmaschine</p>
+          $$ W = Q_1 - Q_2, \qquad \eta = \frac{W}{Q_1} = 1 - \frac{Q_2}{Q_1} . $$
+          <p>Im $p$-$V$-Diagramm ist die Arbeit die vom Prozess eingeschlossene
+            Fläche. Wird der Kreis im Uhrzeigersinn durchlaufen, leistet das
+            System Arbeit (Motor). Gegen den Uhrzeigersinn muss Arbeit
+            zugeführt werden (Kältemaschine, Wärmepumpe).</p>
+
+          <h2>Obere Grenze aus dem zweiten Hauptsatz</h2>
+
+          <p>Die Entropie der beiden Reservoire ändert sich um
+            $-Q_1/T_1$ (das heiße verliert) und $+Q_2/T_2$ (das kalte gewinnt).
+            Der Stoff selbst hat nach einem Umlauf wieder dieselbe Entropie. Der
+            zweite Hauptsatz verlangt</p>
+          $$ \Delta S = \frac{Q_2}{T_2} - \frac{Q_1}{T_1} \ge 0
+             \quad\Rightarrow\quad \frac{Q_2}{Q_1} \ge \frac{T_2}{T_1}
+             \quad\Rightarrow\quad \eta \le 1 - \frac{T_2}{T_1} = \eta_\text{C} . $$
+          <p>Das Gleichheitszeichen gilt nur für reversible Prozesse. Der
+            <em>Carnot-Wirkungsgrad</em> $\eta_\text{C}$ ist die Obergrenze
+            für jede Maschine zwischen diesen zwei Temperaturen, ganz gleich, wie sie
+            gebaut ist und welcher Stoff darin arbeitet. Er erreicht nie eins,
+            denn dafür müsste $T_2 = 0$ sein.</p>
+
+          <h2>Der Carnot-Prozess</h2>
+
+          <p>Der Carnot-Prozess erreicht diese Grenze. Er besteht aus zwei
+            Isothermen und zwei Adiabaten (Abb. 2):</p>
+          <ol>
+            <li><strong>1 → 2, isotherme Expansion bei $T_1$:</strong> Das Gas nimmt
+              $Q_1 = nRT_1\ln(V_2/V_1)$ auf und verrichtet gleichviel Arbeit
+              ($\Delta U = 0$).</li>
+            <li><strong>2 → 3, adiabatische Expansion:</strong> $T$ sinkt von $T_1$
+              auf $T_2$, es fließt keine Wärme.</li>
+            <li><strong>3 → 4, isotherme Kompression bei $T_2$:</strong> Das Gas
+              gibt $Q_2 = nRT_2\ln(V_3/V_4)$ ab.</li>
+            <li><strong>4 → 1, adiabatische Kompression:</strong> $T$ steigt von $T_2$
+              auf $T_1$.</li>
+          </ol>
+
+          <figure class="abbildung">
+            <svg class="abb" viewBox="0 0 360 225" role="img" aria-label="Carnot-Prozess im p-V-Diagramm: zwei Isothermen und zwei Adiabaten, Umlauf im Uhrzeigersinn, eingeschlossene Fläche ist die Arbeit">
+<defs><marker id="pfeil-abb2-text" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto"><path class="punkt" d="M0 0L10 5L0 10z"/></marker><marker id="pfeil-abb2-blau" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto"><path class="punkt blau" d="M0 0L10 5L0 10z"/></marker><marker id="pfeil-abb2-kupfer" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto"><path class="punkt kupfer" d="M0 0L10 5L0 10z"/></marker></defs>
+<path class="achse" d="M45 190H345" marker-end="url(#pfeil-abb2-text)"/>
+<path class="achse" d="M45 190V12" marker-end="url(#pfeil-abb2-text)"/>
+<text x="338" y="208">V</text><text x="26" y="22">p</text>
+<path class="flaeche" d="M89 40 L90.1 43.5 L91.1 46.9 L92.2 50.1 L93.2 53.1 L94.3 56.1 L95.3 58.9 L96.4 61.6 L97.4 64.2 L98.5 66.6 L99.6 69 L100.6 71.3 L101.7 73.5 L102.7 75.7 L103.8 77.7 L104.8 79.7 L105.9 81.6 L107 83.5 L108 85.3 L109.1 87 L110.1 88.6 L111.2 90.3 L112.2 91.8 L113.3 93.4 L114.3 94.8 L115.4 96.2 L116.5 97.6 L117.5 99 L118.6 100.3 L119.6 101.6 L120.7 102.8 L121.7 104 L122.8 105.2 L123.8 106.3 L124.9 107.4 L126 108.5 L127 109.5 L128.1 110.6 L129.1 111.5 L130.2 112.5 L131.2 113.5 L132.3 114.4 L133.4 115.3 L134.4 116.2 L135.5 117 L136.5 117.9 L137.6 118.7 L138.6 119.5 L139.7 120.3 L140.7 121.1 L141.8 121.8 L141.8 121.8 L145.3 125.8 L148.9 129.4 L152.4 132.7 L156 135.7 L159.5 138.5 L163 141 L166.6 143.4 L170.1 145.5 L173.7 147.6 L177.2 149.4 L180.7 151.2 L184.3 152.8 L187.8 154.3 L191.4 155.8 L194.9 157.1 L198.4 158.4 L202 159.5 L205.5 160.7 L209.1 161.7 L212.6 162.7 L216.1 163.6 L219.7 164.5 L223.2 165.3 L226.8 166.1 L230.3 166.9 L233.8 167.6 L237.4 168.3 L240.9 168.9 L244.5 169.6 L248 170.2 L251.5 170.7 L255.1 171.3 L258.6 171.8 L262.2 172.3 L265.7 172.7 L269.2 173.2 L272.8 173.6 L276.3 174 L279.9 174.4 L283.4 174.8 L286.9 175.2 L290.5 175.5 L294 175.9 L297.6 176.2 L301.1 176.5 L304.6 176.8 L308.2 177.1 L311.7 177.4 L315.3 177.7 L318.8 177.9 L318.8 177.9 L315.8 177.8 L312.8 177.7 L309.8 177.5 L306.8 177.4 L303.9 177.3 L300.9 177.1 L297.9 177 L294.9 176.8 L291.9 176.6 L288.9 176.5 L285.9 176.3 L282.9 176.1 L280 176 L277 175.8 L274 175.6 L271 175.4 L268 175.2 L265 175 L262 174.8 L259.1 174.6 L256.1 174.4 L253.1 174.1 L250.1 173.9 L247.1 173.7 L244.1 173.4 L241.1 173.2 L238.1 172.9 L235.2 172.6 L232.2 172.4 L229.2 172.1 L226.2 171.8 L223.2 171.5 L220.2 171.2 L217.2 170.8 L214.3 170.5 L211.3 170.2 L208.3 169.8 L205.3 169.4 L202.3 169 L199.3 168.6 L196.3 168.2 L193.3 167.8 L190.4 167.3 L187.4 166.8 L184.4 166.3 L181.4 165.8 L178.4 165.3 L175.4 164.7 L172.4 164.1 L169.5 163.5 L169.5 163.5 L167.8 162.9 L166.2 162.3 L164.6 161.7 L163 161 L161.4 160.4 L159.8 159.7 L158.2 158.9 L156.6 158.2 L155 157.4 L153.4 156.6 L151.8 155.8 L150.1 154.9 L148.5 154 L146.9 153 L145.3 152 L143.7 151 L142.1 149.9 L140.5 148.8 L138.9 147.6 L137.3 146.3 L135.7 145 L134.1 143.7 L132.4 142.3 L130.8 140.7 L129.2 139.2 L127.6 137.5 L126 135.8 L124.4 133.9 L122.8 132 L121.2 129.9 L119.6 127.7 L118 125.4 L116.4 123 L114.7 120.4 L113.1 117.6 L111.5 114.7 L109.9 111.6 L108.3 108.2 L106.7 104.6 L105.1 100.8 L103.5 96.6 L101.9 92.2 L100.3 87.4 L98.7 82.2 L97 76.6 L95.4 70.5 L93.8 63.9 L92.2 56.6 L90.6 48.7 L89 40 Z"/>
+<path class="kurve kupfer" d="M89 40 L90.1 43.5 L91.1 46.9 L92.2 50.1 L93.2 53.1 L94.3 56.1 L95.3 58.9 L96.4 61.6 L97.4 64.2 L98.5 66.6 L99.6 69 L100.6 71.3 L101.7 73.5 L102.7 75.7 L103.8 77.7 L104.8 79.7 L105.9 81.6 L107 83.5 L108 85.3 L109.1 87 L110.1 88.6 L111.2 90.3 L112.2 91.8 L113.3 93.4 L114.3 94.8 L115.4 96.2 L116.5 97.6 L117.5 99 L118.6 100.3 L119.6 101.6 L120.7 102.8 L121.7 104 L122.8 105.2 L123.8 106.3 L124.9 107.4 L126 108.5 L127 109.5 L128.1 110.6 L129.1 111.5 L130.2 112.5 L131.2 113.5 L132.3 114.4 L133.4 115.3 L134.4 116.2 L135.5 117 L136.5 117.9 L137.6 118.7 L138.6 119.5 L139.7 120.3 L140.7 121.1 L141.8 121.8"/>
+<path class="kurve" d="M141.8 121.8 L145.3 125.8 L148.9 129.4 L152.4 132.7 L156 135.7 L159.5 138.5 L163 141 L166.6 143.4 L170.1 145.5 L173.7 147.6 L177.2 149.4 L180.7 151.2 L184.3 152.8 L187.8 154.3 L191.4 155.8 L194.9 157.1 L198.4 158.4 L202 159.5 L205.5 160.7 L209.1 161.7 L212.6 162.7 L216.1 163.6 L219.7 164.5 L223.2 165.3 L226.8 166.1 L230.3 166.9 L233.8 167.6 L237.4 168.3 L240.9 168.9 L244.5 169.6 L248 170.2 L251.5 170.7 L255.1 171.3 L258.6 171.8 L262.2 172.3 L265.7 172.7 L269.2 173.2 L272.8 173.6 L276.3 174 L279.9 174.4 L283.4 174.8 L286.9 175.2 L290.5 175.5 L294 175.9 L297.6 176.2 L301.1 176.5 L304.6 176.8 L308.2 177.1 L311.7 177.4 L315.3 177.7 L318.8 177.9"/>
+<path class="kurve blau" d="M318.8 177.9 L315.8 177.8 L312.8 177.7 L309.8 177.5 L306.8 177.4 L303.9 177.3 L300.9 177.1 L297.9 177 L294.9 176.8 L291.9 176.6 L288.9 176.5 L285.9 176.3 L282.9 176.1 L280 176 L277 175.8 L274 175.6 L271 175.4 L268 175.2 L265 175 L262 174.8 L259.1 174.6 L256.1 174.4 L253.1 174.1 L250.1 173.9 L247.1 173.7 L244.1 173.4 L241.1 173.2 L238.1 172.9 L235.2 172.6 L232.2 172.4 L229.2 172.1 L226.2 171.8 L223.2 171.5 L220.2 171.2 L217.2 170.8 L214.3 170.5 L211.3 170.2 L208.3 169.8 L205.3 169.4 L202.3 169 L199.3 168.6 L196.3 168.2 L193.3 167.8 L190.4 167.3 L187.4 166.8 L184.4 166.3 L181.4 165.8 L178.4 165.3 L175.4 164.7 L172.4 164.1 L169.5 163.5"/>
+<path class="kurve" d="M169.5 163.5 L167.8 162.9 L166.2 162.3 L164.6 161.7 L163 161 L161.4 160.4 L159.8 159.7 L158.2 158.9 L156.6 158.2 L155 157.4 L153.4 156.6 L151.8 155.8 L150.1 154.9 L148.5 154 L146.9 153 L145.3 152 L143.7 151 L142.1 149.9 L140.5 148.8 L138.9 147.6 L137.3 146.3 L135.7 145 L134.1 143.7 L132.4 142.3 L130.8 140.7 L129.2 139.2 L127.6 137.5 L126 135.8 L124.4 133.9 L122.8 132 L121.2 129.9 L119.6 127.7 L118 125.4 L116.4 123 L114.7 120.4 L113.1 117.6 L111.5 114.7 L109.9 111.6 L108.3 108.2 L106.7 104.6 L105.1 100.8 L103.5 96.6 L101.9 92.2 L100.3 87.4 L98.7 82.2 L97 76.6 L95.4 70.5 L93.8 63.9 L92.2 56.6 L90.6 48.7 L89 40"/>
+<circle class="punkt" cx="89" cy="40" r="3.5"/>
+<text x="81" y="34" text-anchor="end">1</text>
+<circle class="punkt" cx="141.8" cy="121.8" r="3.5"/>
+<text x="149.8" y="113.8" text-anchor="start">2</text>
+<circle class="punkt" cx="318.8" cy="177.9" r="3.5"/>
+<text x="326.8" y="171.9" text-anchor="start">3</text>
+<circle class="punkt" cx="169.5" cy="163.5" r="3.5"/>
+<text x="161.5" y="177.5" text-anchor="end">4</text>
+<text class="klein kupfer" x="335" y="40" text-anchor="end">Isotherme T₁ (Q₁ rein)</text>
+<text class="klein blau" x="335" y="56" text-anchor="end">Isotherme T₂ (Q₂ raus)</text>
+<text class="klein" x="335" y="72" text-anchor="end">eingeschlossene Fläche = Arbeit W</text>
+</svg>
+            <figcaption>Abb. 2: Carnot-Prozess eines idealen Gases
+              ($\gamma = 5/3$, $T_2/T_1 = 0{,}5$) im $p$-$V$-Diagramm,
+              Umlauf im Uhrzeigersinn. Die eingeschlossene Fläche ist die Arbeit
+              $W$ pro Umlauf.</figcaption>
+          </figure>
+
+          <p>Die beiden Adiabaten bedeuten $T_1V_2^{\gamma-1} = T_2V_3^{\gamma-1}$
+            und $T_1V_1^{\gamma-1} = T_2V_4^{\gamma-1}$. Teilt man beide
+            Gleichungen, ergibt sich $V_2/V_1 = V_3/V_4$. Damit sind die
+            Logarithmen in $Q_1$ und $Q_2$ gleich, und</p>
+          $$ \eta = 1 - \frac{Q_2}{Q_1} = 1 - \frac{nRT_2\ln(V_3/V_4)}{nRT_1\ln(V_2/V_1)} = 1 - \frac{T_2}{T_1} . $$
+          <p>Die Arbeit pro Umlauf ist
+          $W = nR\,(T_1 - T_2)\ln(V_2/V_1)$. Die Arbeiten der beiden Adiabaten
+          heben sich auf, weil sie dieselbe Temperaturdifferenz überbrücken.</p>
+
+          <p>Im $T$-$S$-Diagramm (Abb. 3, die $T$-Achse beginnt bei null, der Umlauf
+            geht im Uhrzeigersinn) wird der Carnot-Prozess zu einem
+            Rechteck: Isothermen sind waagerecht, Adiabaten (ohne Wärmeaustausch)
+            sind senkrecht, weil $\mathrm{d}S = \delta Q/T = 0$. Die Fläche bis
+            zur $S$-Achse unter einer Isothermen ist die Wärme
+            $T\,\Delta S$. Hier kann man den Wirkungsgrad ablesen:
+            $\eta = W/Q_1 = (T_1 - T_2)\Delta S/(T_1\Delta S) = 1 - T_2/T_1$.</p>
+
+          <figure class="abbildung">
+            <svg class="abb" viewBox="0 0 360 225" role="img" aria-label="Carnot-Prozess im T-S-Diagramm: ein Rechteck, die Fläche oberhalb von T2 ist die Arbeit, die Fläche darunter die abgegebene Wärme">
+<defs><marker id="pfeil-abb3-text" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto"><path class="punkt" d="M0 0L10 5L0 10z"/></marker><marker id="pfeil-abb3-blau" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto"><path class="punkt blau" d="M0 0L10 5L0 10z"/></marker><marker id="pfeil-abb3-kupfer" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto"><path class="punkt kupfer" d="M0 0L10 5L0 10z"/></marker></defs>
+<path class="achse" d="M60 190H345" marker-end="url(#pfeil-abb3-text)"/>
+<path class="achse" d="M60 190V12" marker-end="url(#pfeil-abb3-text)"/>
+<text x="338" y="208">S</text><text x="44" y="22">T</text>
+<rect class="flaeche kupfer" x="130" y="50" width="160" height="80" style="fill-opacity:0.25"/>
+<rect class="flaeche" x="130" y="130" width="160" height="60"/>
+<path class="kurve" d="M130 50H290V130H130Z" fill="none"/>
+<path class="hilfslinie" d="M60 50H130M60 130H130M130 190V130M290 190V130"/>
+<text x="54" y="54" text-anchor="end">T₁</text><text x="54" y="134" text-anchor="end">T₂</text>
+<text class="klein" x="130" y="204" text-anchor="middle">S₁</text><text class="klein" x="290" y="204" text-anchor="middle">S₂</text>
+<text class="kupfer" x="210" y="95" text-anchor="middle">Arbeit W</text>
+<text class="blau" x="210" y="165" text-anchor="middle">abgegebene Wärme Q₂</text>
+<text class="klein" x="210" y="44" text-anchor="middle">Isotherme T₁: Q₁ = T₁ ΔS (ganze Fläche bis zur S-Achse)</text>
+</svg>
+            <figcaption>Abb. 3: Carnot-Prozess im $T$-$S$-Diagramm. Die
+              gesamte Fläche bis zur $S$-Achse ist $Q_1 = T_1\Delta S$, der
+              untere Teil $Q_2 = T_2\Delta S$, der obere Teil ist die Arbeit
+              $W = (T_1 - T_2)\Delta S$.</figcaption>
+          </figure>
+
+          <h2>Der Otto-Prozess</h2>
+
+          <p>Der Benzinmotor wird näherungsweise durch den Otto-Prozess
+            beschrieben: zwei Adiabaten und zwei Isochoren.
+            Die Reihenfolge: 1 → 2 adiabatische Kompression ($V_1 \to V_2$,
+            mit $V_1 \gt V_2$), 2 → 3 isochore Wärmezufuhr (Zündung),
+            3 → 4 adiabatische Expansion, 4 → 1 isochore Wärmeabgabe
+            (Ausstoßen). Auf den Isochoren leistet das Gas keine Arbeit, die
+            Wärmen sind $Q_1 = C_V\,(T_3 - T_2)$ und $Q_2 = C_V\,(T_4 - T_1)$. Mit
+            $T_2 = T_1\varepsilon^{\gamma-1}$ und $T_3 = T_4\varepsilon^{\gamma-1}$
+            für das Kompressionsverhältnis $\varepsilon = V_1/V_2$ folgt</p>
+          $$ \eta_\text{Otto} = 1 - \frac{Q_2}{Q_1} = 1 - \frac{T_4 - T_1}{T_3 - T_2} = 1 - \varepsilon^{1-\gamma} . $$
+          <p>Der Wirkungsgrad hängt nur vom Kompressionsverhältnis ab. Höheres
+            $\varepsilon$ bringt mehr, aber im Ottomotor lässt sich
+            $\varepsilon$ nur bis etwa $10$ bis $13$ steigern (je nach Kraftstoff und
+            Brennraum), weil das Gemisch sonst vor der Flammenfront von selbst
+            zündet (Klopfen). Der Dieselmotor verdichtet nur Luft
+            und kann $\varepsilon \approx 16$ bis $20$ nutzen. Sein Prozess
+            (Wärmezufuhr bei konstantem Druck) wird hier nicht behandelt,
+            die Formel gilt für ihn nicht, aber der Vorteil kommt vom höheren $\varepsilon$. Auch der Otto-Wirkungsgrad
+            liegt unter dem Carnot-Wert zwischen der höchsten und der tiefsten
+            Temperatur des Prozesses, denn auf den Isochoren wird Wärme bei
+            wechselnder Temperatur aufgenommen.</p>
+
+          <h2>Kältemaschine und Wärmepumpe</h2>
+
+          <p>Wird der Carnot-Kreis rückwärts durchlaufen, nimmt das System bei
+            $T_2$ (kalt) die Wärme $Q_2$ auf, gibt bei $T_1$ (warm) die Wärme
+            $Q_1$ ab und braucht dafür die Arbeit $W = Q_1 - Q_2$. Bewertet
+            wird mit der <em>Leistungszahl</em> (Nutzen durch Aufwand):</p>
+          $$ \varepsilon_\text{K} = \frac{Q_2}{W} \le \frac{T_2}{T_1 - T_2} \;\;(\text{Kältemaschine}), \qquad
+             \varepsilon_\text{WP} = \frac{Q_1}{W} \le \frac{T_1}{T_1 - T_2} \;\;(\text{Wärmepumpe}) . $$
+          <p>Die Wärmepumpe liefert also mehr Wärme als die aufgewendete Arbeit,
+            und zwar umso mehr, je kleiner der Temperaturhub $T_1 - T_2$ ist.
+            Für jedes Gerät gilt $\varepsilon_\text{WP} = \varepsilon_\text{K} + 1$ (wegen $Q_1 = Q_2 + W$). Reale Geräte
+            erreichen etwa die Hälfte bis ein Drittel des Carnot-Werts.</p>
+
+          <p>Reale Maschinen laufen zudem nicht reversibel: Sie haben Reibung,
+            endliche Temperaturunterschiede beim Wärmeübergang und laufen
+            in endlicher Zeit. Für eine Maschine, die bei maximaler Leistung
+            arbeitet, ergibt eine einfache Rechnung (Curzon-Ahlborn)
+            $\eta = 1 - \sqrt{T_2/T_1}$. Bei $T_1 = 800\,\mathrm{K}$ und
+            $T_2 = 300\,\mathrm{K}$ sind das $39\,\%$ statt der Carnot-Grenze von
+            $62{,}5\,\%$, nahe an den $40\,\%$ eines Kraftwerks.</p>
+
+          <div class="merkkasten">
+            <span class="titel">Merke</span>
+            <p>Kreisprozess: $\Delta U = 0$, $W = Q_1 - Q_2$,
+              $\eta = W/Q_1$. Zweiter Hauptsatz:
+              $\eta \le \eta_\text{C} = 1 - T_2/T_1$. Carnot-Prozess = zwei
+              Isothermen + zwei Adiabaten, im $T$-$S$-Diagramm ein Rechteck.
+              Otto: $\eta = 1 - \varepsilon^{1-\gamma}$. Wärmepumpe:
+              $\varepsilon_\text{WP} \le T_1/(T_1 - T_2)$, Kältemaschine:
+              $\varepsilon_\text{K} \le T_2/(T_1 - T_2)$.</p>
+          </div>
+        </section>
+
+        <section class="tab" id="beispiele" data-titel="Beispielrechnungen">
+
+          <div class="beispiel">
+            <h3>Beispiel 1: Dampfkraftwerk</h3>
+            <p><strong>Gegeben:</strong> Ein Kraftwerk hat Dampftemperatur
+              $540\,{}^\circ\mathrm{C}$, Kühlwasser $20\,{}^\circ\mathrm{C}$ und die elektrische Leistung
+              $P = 500\,\mathrm{MW}$ bei einem Wirkungsgrad von $40\,\%$.<br>
+              <strong>Gesucht:</strong> Carnot-Wirkungsgrad, zugeführte und abgegebene
+              Wärmeleistung.</p>
+
+            <p><strong>1. Temperaturen in Kelvin.</strong>
+              $$ T_1 = 813{,}15\,\mathrm{K}, \qquad T_2 = 293{,}15\,\mathrm{K} $$</p>
+
+            <p><strong>2. Carnot-Wirkungsgrad.</strong>
+              $$ \eta_\text{C} = 1 - \frac{T_2}{T_1} = 1 - \frac{293{,}15\,\mathrm{K}}{813{,}15\,\mathrm{K}} = 0{,}639 $$</p>
+
+            <p><strong>3. Wärmeleistungen.</strong>
+              $$ P_1 = \frac{P}{\eta} = \frac{500\,\mathrm{MW}}{0{,}40} = 1250\,\mathrm{MW}, \qquad
+                 P_2 = P_1 - P = 750\,\mathrm{MW} $$
+              Einheitencheck: $\mathrm{MW}$ ✓</p>
+
+            <p><strong>Ergebnis und Plausibilität:</strong> Das Kraftwerk erreicht
+              $0{,}40/0{,}639 = 63\,\%$ des Carnot-Werts. Es führt $1250\,\mathrm{MW}$ an Wärme
+              zu und gibt $750\,\mathrm{MW}$ ans Kühlwasser oder die Luft ab, mehr als die
+              elektrische Leistung selbst. Diese Abwärme erklärt die großen
+              Kühltürme.</p>
+          </div>
+
+          <div class="beispiel">
+            <h3>Beispiel 2: Ottomotor</h3>
+            <p><strong>Gegeben:</strong> Ein Ottomotor hat das Kompressionsverhältnis
+              $\varepsilon = 10$, das Gas verhalte sich wie ideale Luft mit
+              $\gamma = 1{,}4$. Die Ansaugtemperatur ist $300\,\mathrm{K}$.<br>
+              <strong>Gesucht:</strong> der ideale Wirkungsgrad und die Temperatur nach der
+              Verdichtung.</p>
+
+            <p><strong>1. Wirkungsgrad.</strong>
+              $$ \eta = 1 - \varepsilon^{1-\gamma} = 1 - 10^{-0{,}4} = 1 - 0{,}398 = 0{,}60 $$</p>
+
+            <p><strong>2. Temperatur nach der adiabatischen Kompression.</strong>
+              $$ T_2 = T_1\,\varepsilon^{\gamma-1} = 300\,\mathrm{K} \cdot 10^{0{,}4} = 754\,\mathrm{K} $$
+              Einheitencheck: $\mathrm{K} \cdot 1 = \mathrm{K}$ ✓</p>
+
+            <p><strong>Ergebnis und Plausibilität:</strong> Der ideale Prozess käme auf
+              $60\,\%$. Reale Ottomotoren erreichen nur etwa $30$ bis $35\,\%$,
+              wegen Reibung, Wärmeverlust an die Zylinderwand und unvollständiger
+              Verbrennung. Vergleich mit Carnot: Mit $T_\text{min} = 300\,\mathrm{K}$ als
+              kältester Temperatur und, angenommen, $T_\text{max} = 2500\,\mathrm{K}$ als heißester
+              ergäbe sich $\eta_\text{C} = 88\,\%$, der Otto-Wert liegt klar
+              darunter. Die ideale Verdichtungstemperatur von $754\,\mathrm{K}$ liegt schon
+              im Bereich der Selbstzündung von Benzin, das begrenzt $\varepsilon$
+              (real ist die Temperatur wegen der Wärmeverluste niedriger).</p>
+          </div>
+
+          <div class="beispiel">
+            <h3>Beispiel 3: Wärmepumpe</h3>
+            <p><strong>Gegeben:</strong> Eine Wärmepumpe liefert einem Heizkreis
+              $8{,}0\,\mathrm{kW}$ bei $35\,{}^\circ\mathrm{C}$ Vorlauftemperatur. Außen herrschen
+              $0\,{}^\circ\mathrm{C}$. Die reale Leistungszahl beträgt $4{,}0$.<br>
+              <strong>Gesucht:</strong> Carnot-Leistungszahl, elektrische Leistung und
+              der Anteil Umweltwärme.</p>
+
+            <p><strong>1. Carnot-Grenze.</strong>
+              $$ \varepsilon_\text{WP,max} = \frac{T_1}{T_1 - T_2} = \frac{308{,}15\,\mathrm{K}}{35\,\mathrm{K}} = 8{,}8 $$</p>
+
+            <p><strong>2. Elektrische Leistung.</strong>
+              $$ P = \frac{Q_1/t}{\varepsilon_\text{WP}} = \frac{8{,}0\,\mathrm{kW}}{4{,}0} = 2{,}0\,\mathrm{kW} $$</p>
+
+            <p><strong>3. Aus der Umgebung.</strong>
+              $$ Q_2/t = 8{,}0\,\mathrm{kW} - 2{,}0\,\mathrm{kW} = 6{,}0\,\mathrm{kW} $$
+              Einheitencheck: $\mathrm{kW} - \mathrm{kW} = \mathrm{kW}$ ✓</p>
+
+            <p><strong>Ergebnis und Plausibilität:</strong> Die Carnot-Grenze liegt bei
+              $8{,}8$, das Gerät schafft $4{,}0$, also etwas weniger als die Hälfte,
+              was für reale Geräte üblich ist. Von $8{,}0\,\mathrm{kW}$ Heizleistung
+              kommen $2{,}0\,\mathrm{kW}$ aus der Steckdose und $6{,}0\,\mathrm{kW}$ ($75\,\%$) aus
+              der Umgebung. Bei größerem Hub, etwa im Winter bei $-10\,{}^\circ\mathrm{C}$,
+              fällt die Zahl.</p>
+          </div>
+        </section>
+
+        <section class="tab" id="aufgaben" data-titel="Aufgaben">
+
+          <p>Verwende $R = 8{,}3145\,\mathrm{J/(mol\,K)}$. Wo nichts anderes steht, ist das
+            Arbeitsmittel ein ideales Gas mit $\gamma = 1{,}4$.</p>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 1
+              <span class="schwierigkeit" data-stufe="leicht">leicht</span>
+            </h3>
+            <p>Eine Maschine nimmt je Umlauf $800\,\mathrm{J}$ Wärme bei $600\,\mathrm{K}$ auf
+              und gibt $500\,\mathrm{J}$ bei $300\,\mathrm{K}$ ab. Berechne Arbeit und
+              Wirkungsgrad und prüfe, ob das mit dem zweiten Hauptsatz vereinbar ist.</p>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>$W = Q_1 - Q_2 = 800\,\mathrm{J} - 500\,\mathrm{J} = 300\,\mathrm{J}$,
+                $\eta = 300/800 = 0{,}375$. Die Obergrenze ist
+                $\eta_\text{C} = 1 - 300/600 = 0{,}50$. Weil
+                $0{,}375 \lt 0{,}50$ ist, ist die Maschine möglich. Zur
+                Kontrolle über die Entropie:
+                $\Delta S = 500/300 - 800/600 = 1{,}67 - 1{,}33 = +0{,}33\,\mathrm{J/K} \gt 0$ ✓.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 2
+              <span class="schwierigkeit" data-stufe="leicht">leicht</span>
+            </h3>
+            <p>Eine Carnot-Maschine arbeitet zwischen $500\,\mathrm{K}$ und
+              $300\,\mathrm{K}$ und nimmt je Umlauf $2000\,\mathrm{J}$ Wärme auf. Wie groß
+              sind Wirkungsgrad, Arbeit und abgegebene Wärme?</p>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              $$ \eta = 1 - \frac{300}{500} = 0{,}40, \qquad W = \eta Q_1 = 800\,\mathrm{J}, \qquad Q_2 = Q_1 - W = 1200\,\mathrm{J} . $$
+              <p>Kontrolle: $Q_2/Q_1 = 0{,}6 = T_2/T_1$ ✓.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 3
+              <span class="schwierigkeit" data-stufe="mittel">mittel</span>
+            </h3>
+            <p>Ein Kühlschrank hält innen $4\,{}^\circ\mathrm{C}$, die Küche hat
+              $22\,{}^\circ\mathrm{C}$. Er soll dem Innenraum die Wärmeleistung
+              $120\,\mathrm{W}$ entziehen, seine reale Leistungszahl ist $3{,}0$.</p>
+            <ol type="a">
+              <li>Wie groß ist die Carnot-Leistungszahl?</li>
+              <li>Welche elektrische Leistung nimmt er real auf, welche
+                wäre mindestens nötig?</li>
+              <li>Wie viel Wärme gibt er an die Küche ab (real)?</li>
+            </ol>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p><strong>a)</strong>
+                $\varepsilon_\text{K,max} = \dfrac{T_2}{T_1 - T_2} = \dfrac{277{,}15\,\mathrm{K}}{18\,\mathrm{K}} = 15{,}4$.</p>
+              <p><strong>b)</strong> Real:
+                $P = 120\,\mathrm{W}/3{,}0 = 40\,\mathrm{W}$. Mindestens:
+                $P_\text{min} = 120\,\mathrm{W}/15{,}4 = 7{,}8\,\mathrm{W}$. Der Kühlschrank
+                braucht also etwa das Fünffache des theoretischen Minimums.</p>
+              <p><strong>c)</strong> Energieerhaltung:
+                $Q_1/t = 120\,\mathrm{W} + 40\,\mathrm{W} = 160\,\mathrm{W}$ gehen an die
+                Küche, mehr als dem Innenraum entzogen wird.
+                Deshalb kann man die Küche nicht mit offener Kühlschranktür kühlen.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 4
+              <span class="schwierigkeit" data-stufe="mittel">mittel</span>
+            </h3>
+            <p>Berechne den idealen Otto-Wirkungsgrad für die
+              Kompressionsverhältnisse $\varepsilon = 8$ und $\varepsilon = 12$.
+              Um wie viel steigt er? Warum bringt eine weitere Erhöhung immer
+              weniger?</p>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              $$ \eta(8) = 1 - 8^{-0{,}4} = 1 - 0{,}435 = 0{,}565, \qquad
+                 \eta(12) = 1 - 12^{-0{,}4} = 1 - 0{,}370 = 0{,}630 . $$
+              <p>Der Anstieg beträgt $6{,}5$ Prozentpunkte. Die Funktion
+                $\eta(\varepsilon) = 1 - \varepsilon^{-0{,}4}$ ist konkav, ihre
+                Steigung $0{,}4\,\varepsilon^{-1{,}4}$ nimmt ab. Von $12$ auf
+                $16$ gewinnt man nur noch $\eta(16) - \eta(12) = 0{,}670 - 0{,}630 = 4{,}0$
+                Prozentpunkte.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 5
+              <span class="schwierigkeit" data-stufe="schwer">schwer</span>
+            </h3>
+            <p>$0{,}040\,\mathrm{mol}$ eines idealen Gases ($\gamma = 1{,}4$) durchlaufen einen
+              Carnot-Prozess zwischen $T_1 = 500\,\mathrm{K}$ und $T_2 = 300\,\mathrm{K}$. Die
+              isotherme Expansion bei $T_1$ verdreifacht das Volumen
+              ($V_2 = 3V_1$). Bestimme $Q_1$, $Q_2$, $W$ und das Volumenverhältnis
+              $V_3/V_2$ der folgenden Adiabate.</p>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>Wärme bei $T_1$:
+                $$ Q_1 = nRT_1\ln\frac{V_2}{V_1} = 0{,}040 \cdot 8{,}3145 \cdot 500 \cdot \ln 3\,\mathrm{J} = 183\,\mathrm{J} . $$
+                Aus $T_1V_2^{\gamma-1} = T_2V_3^{\gamma-1}$ folgt
+                $$ \frac{V_3}{V_2} = \left(\frac{T_1}{T_2}\right)^{1/(\gamma-1)} = \left(\frac53\right)^{2{,}5} = 3{,}59 . $$
+                Wegen $V_3/V_4 = V_2/V_1 = 3$ ist der Logarithmus in $Q_2$
+                derselbe:
+                $$ Q_2 = nRT_2\ln\frac{V_3}{V_4} = 0{,}040 \cdot 8{,}3145 \cdot 300 \cdot \ln 3\,\mathrm{J} = 110\,\mathrm{J} . $$
+                $$ W = Q_1 - Q_2 = 73\,\mathrm{J}, \qquad \eta = \frac{73}{183} = 0{,}40 = 1 - \frac{300}{500} . $$
+                Das stimmt mit dem Carnot-Wert überein ✓.
+                Zur Kontrolle über die Formel
+                $W = nR\,(T_1 - T_2)\ln 3 = 0{,}040 \cdot 8{,}3145 \cdot 200 \cdot 1{,}0986\,\mathrm{J} = 73\,\mathrm{J}$ ✓.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 6
+              <span class="schwierigkeit" data-stufe="schwer">schwer</span>
+            </h3>
+            <p>Ein Haus braucht im Jahr $20\,000\,\mathrm{kWh}$ Heizwärme.
+              Vergleiche die dafür nötige Primärenergie bei</p>
+            <ol type="a">
+              <li>einer Gasheizung (Nutzungsgrad $0{,}95$),</li>
+              <li>einer Elektroheizung, deren Strom aus einem Kraftwerk mit
+                $\eta = 0{,}40$ kommt,</li>
+              <li>einer Wärmepumpe mit Jahresarbeitszahl $3{,}5$ am selben
+                Kraftwerk.</li>
+            </ol>
+            <p>Welche Carnot-Leistungszahl ergibt sich bei $35\,{}^\circ\mathrm{C}$
+              Vorlauf und $5\,{}^\circ\mathrm{C}$ Außentemperatur? Welchen Bruchteil davon
+              erreicht die Wärmepumpe?</p>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p><strong>a)</strong> Primärenergie: $20\,000/0{,}95\,\mathrm{kWh} = 21\,053\,\mathrm{kWh}$.</p>
+              <p><strong>b)</strong> Der Strombedarf ist $20\,000\,\mathrm{kWh}$, die
+                Primärenergie
+                $20\,000/0{,}40\,\mathrm{kWh} = 50\,000\,\mathrm{kWh}$.</p>
+              <p><strong>c)</strong> Strom:
+                $20\,000/3{,}5\,\mathrm{kWh} = 5714\,\mathrm{kWh}$, Primärenergie
+                $5714/0{,}40\,\mathrm{kWh} = 14\,286\,\mathrm{kWh}$.</p>
+              <p>Die Wärmepumpe braucht also nur etwa zwei Drittel der
+                Primärenergie der Gasheizung und weniger als ein Drittel der
+                Elektroheizung. Als grober Vergleich bei einer Auslegungstemperatur ist die
+                Carnot-Leistungszahl
+                $\varepsilon_\text{WP,max} = 308{,}15/30 = 10{,}3$. Die Wärmepumpe
+                erreicht davon $3{,}5/10{,}3 = 34\,\%$, ein üblicher Gütegrad.</p>
+            </details>
+          </div>
+
+        </section>
+
+      </div></article>
+  </main>
+</body>
+</html>

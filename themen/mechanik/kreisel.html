@@ -1,0 +1,763 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="robots" content="noindex">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Trägheitstensor und Kreisel</title>
+  <meta name="description" content="Rotation um freie Achsen: Trägheitstensor, Hauptträgheitsmomente, Kreiseltypen, Nutation und Präzession – verständlich erklärt und mit Herleitungen, Beispielen und Aufgaben.">
+
+  <link rel="stylesheet" href="../../css/stil.css">
+
+  <link rel="stylesheet" href="../../extern/katex/katex.min.css">
+  <script defer src="../../extern/katex/katex.min.js"></script>
+  <script defer src="../../extern/katex/contrib/auto-render.min.js" onload="starteFormeln()"></script>
+
+  <script src="../../js/daten.js"></script>
+  <script src="../../js/seite.js"></script>
+  <script src="../../js/effekte.js"></script>
+  <script src="../../js/interaktiv.js"></script>
+  <script src="../../js/modelle/kreisel.js"></script>
+  <script type="application/json" id="symbole">
+  {
+    "r": "Ortsvektor (bzw. Abstand des Schwerpunkts vom Auflagepunkt)",
+    "m": "Masse",
+    "v": "Geschwindigkeit",
+    "ω": "Winkelgeschwindigkeit",
+    "t": "Zeit",
+    "g": "Fallbeschleunigung",
+    "x": "x-Koordinate",
+    "y": "y-Koordinate",
+    "z": "z-Koordinate",
+    "ω_x": "x-Komponente der Winkelgeschwindigkeit",
+    "ω_y": "y-Komponente der Winkelgeschwindigkeit",
+    "ω_z": "z-Komponente der Winkelgeschwindigkeit",
+    "a": "beliebiger Vektor",
+    "b": "beliebiger Vektor",
+    "c": "beliebiger Vektor",
+    "L": "Drehimpuls",
+    "L_x": "x-Komponente des Drehimpulses",
+    "L_y": "y-Komponente des Drehimpulses",
+    "L_z": "z-Komponente des Drehimpulses",
+    "I": "Trägheitsmoment (bzw. Trägheitstensor)",
+    "I_xx": "Trägheitsmoment um die x-Achse",
+    "I_yy": "Trägheitsmoment um die y-Achse",
+    "I_zz": "Trägheitsmoment um die z-Achse",
+    "I_xy": "Deviationsmoment (xy)",
+    "I_yx": "Deviationsmoment (yx)",
+    "I_xz": "Deviationsmoment (xz)",
+    "I_zx": "Deviationsmoment (zx)",
+    "I_yz": "Deviationsmoment (yz)",
+    "I_zy": "Deviationsmoment (zy)",
+    "I_ij": "Komponente des Trägheitstensors",
+    "i": "Index (x, y oder z)",
+    "j": "Index (x, y oder z)",
+    "ω_i": "Komponente der Winkelgeschwindigkeit",
+    "ω_j": "Komponente der Winkelgeschwindigkeit",
+    "E_rot": "Rotationsenergie",
+    "E": "Rotationsenergie",
+    "α": "Winkel der Drehachse gegen die x-Achse",
+    "β": "Winkel der Drehachse gegen die y-Achse",
+    "γ": "Winkel der Drehachse gegen die z-Achse",
+    "R": "Vektor zum Trägheitsellipsoid (Länge 1/√I)",
+    "I_a": "Hauptträgheitsmoment a",
+    "I_b": "Hauptträgheitsmoment b",
+    "I_c": "Hauptträgheitsmoment c",
+    "ω_a": "Winkelgeschwindigkeit um Hauptachse a",
+    "ω_b": "Winkelgeschwindigkeit um Hauptachse b",
+    "ω_c": "Winkelgeschwindigkeit um Hauptachse c",
+    "L_a": "Drehimpuls entlang Hauptachse a",
+    "L_b": "Drehimpuls entlang Hauptachse b",
+    "L_c": "Drehimpuls entlang Hauptachse c",
+    "e_a": "Einheitsvektor entlang Hauptachse a",
+    "I_⊥": "Trägheitsmoment um eine Achse senkrecht zur Figurenachse",
+    "ω_⊥": "Anteil der Winkelgeschwindigkeit senkrecht zur Figurenachse",
+    "ω_N": "Nutationsfrequenz (Winkelgeschwindigkeit der Nutation)",
+    "D": "Drehmoment",
+    "ϕ": "Präzessionswinkel",
+    "ω_P": "Präzessionsfrequenz (Winkelgeschwindigkeit der Präzession)",
+    "T_P": "Dauer eines Präzessionsumlaufs",
+    "π": "Kreiszahl π ≈ 3,14159",
+    "s": "Seitenlänge der Platte",
+    "φ": "Neigungswinkel der Frisbee",
+    "r_1,2": "Orte der beiden Massenpunkte"
+  }
+  </script>
+</head>
+<body data-thema="kreisel">
+  <main>
+    <article class="thema">
+      <header>
+        <h1>Trägheitstensor und Kreisel</h1>
+        <p class="untertitel">Warum ein Kreisel nicht umfällt, eine geworfene
+          Frisbee taumelt und die Erdachse in 26&nbsp;000 Jahren einmal im Kreis
+          wandert.</p>
+      </header>
+
+      <div class="tabs">
+
+        <section class="tab" id="verstehen" data-titel="Verstehen">
+
+          <p>Ein Kreisel, der stillsteht, fällt sofort um. Dreht er sich schnell,
+            bleibt er auf seiner Spitze stehen – und wenn er sich neigt, kippt er
+            nicht, sondern beginnt, mit seiner Achse langsam im Kreis zu wandern.
+            Das wirkt wie Zauberei, folgt aber aus einer einzigen Regel, die du
+            von der <a href="drehbewegung.html">Drehbewegung</a> kennst: Ein
+            Drehmoment ändert den Drehimpuls.</p>
+
+          <h2>Der Drehimpuls als Pfeil</h2>
+
+          <p>Ein drehender Körper hat einen Drehimpuls, und der hat eine
+            Richtung: Er zeigt entlang der Drehachse. Je schneller und je schwerer
+            der Kreisel, desto länger ist dieser Pfeil. Ohne äußeres Drehmoment
+            behält der Pfeil Länge <em>und Richtung</em> – deshalb fliegt ein
+            Football mit Drall stabil, ein Frisbee bleibt flach in der Luft, und
+            die Erdachse zeigt über das ganze Jahr in dieselbe Richtung zum
+            Polarstern.</p>
+
+          <h2>Präzession: Ausweichen statt Umfallen</h2>
+
+          <p>Neigt sich ein Kreisel, will ihn die Schwerkraft umkippen. Sie übt ein
+            Drehmoment aus – aber dieses Drehmoment zeigt <em>zur Seite</em>,
+            senkrecht zur Kreiselachse. Und weil ein Drehmoment den Drehimpuls in
+            seine eigene Richtung verändert, schiebt es die Achse seitwärts statt
+            nach unten. Die Kreiselachse wandert so im Kreis herum: Das ist die
+            <em>Präzession</em>. Je schneller sich der Kreisel dreht, desto
+            langsamer präzediert er.</p>
+
+          <figure class="interaktiv" data-modell="praezession">
+            <span class="titel">Zum Ausprobieren</span>
+            <figcaption>Ein schnell drehendes Rad sitzt am Ende einer waagerechten
+              Achse, die nur an einem Ende auf einer Spitze gelagert ist. Statt
+              herunterzufallen, wandert die Achse im Kreis. Der kupferfarbene Pfeil
+              ist der Drehimpuls, der blaue das Drehmoment der Gewichtskraft – es
+              zeigt immer in die Richtung, in die die Achse gerade ausweicht.
+              Lass das Rad langsamer drehen oder schieb es weiter nach
+              außen.</figcaption>
+          </figure>
+
+          <div class="alltag">
+            <span class="titel">Aus dem Alltag</span>
+            <p>Auch die Erde ist ein Kreisel. Weil sie am Äquator etwas dicker ist,
+              ziehen Sonne und Mond an diesem „Wulst“ und versuchen, die schräge
+              Erdachse aufzurichten. Die Achse weicht aus und beschreibt in etwa
+              26&nbsp;000 Jahren einen Kreis. In 12&nbsp;000 Jahren wird deshalb
+              nicht mehr der Polarstern, sondern die Wega über dem Nordpol
+              stehen.</p>
+          </div>
+
+          <h2>Wie die Masse verteilt ist, bestimmt die Drehung</h2>
+
+          <p>Bisher drehte sich alles um eine festgehaltene Achse. Ein frei
+            fliegender Körper sucht sich seine Drehachse aber selbst. Jeder Körper
+            hat drei besondere, zueinander senkrechte Achsen, die
+            <em>Hauptachsen</em>. Dreht er sich genau um eine davon, bleibt die
+            Drehung ruhig. Bei allen anderen Achsen beginnt er zu taumeln.</p>
+
+          <p>Wirf ein Buch (mit Gummiband zugebunden) hochkant in die Luft und gib
+            ihm dabei Drall – einmal um die längste, einmal um die kürzeste und
+            einmal um die mittlere Achse. Um die längste und die kürzeste Achse
+            dreht es sich sauber. Um die mittlere Achse überschlägt es sich
+            jedes Mal wild. Astronauten haben diesen „Tennisschläger-Effekt“ in
+            der Schwerelosigkeit mit einer Flügelmutter vorgeführt, die sich alle
+            paar Sekunden von selbst umdreht.</p>
+
+          <div class="merkkasten">
+            <span class="titel">Das Wichtigste in Kürze</span>
+            <ul>
+              <li>Ohne äußeres Drehmoment behält ein drehender Körper die Richtung
+                seines Drehimpulses – das stabilisiert Kreisel, Frisbees und
+                Geschosse.</li>
+              <li>Ein Drehmoment quer zum Drehimpuls kippt den Kreisel nicht,
+                sondern lässt seine Achse im Kreis wandern (Präzession).</li>
+              <li>Jeder Körper hat drei Hauptachsen. Nur um sie dreht er sich
+                ohne zu taumeln; um die mittlere ist die Drehung instabil.</li>
+            </ul>
+          </div>
+        </section>
+
+        <section class="tab" id="vertiefung" data-titel="Vertiefung">
+
+          <p>Bisher drehten sich die Körper um eine <em>raumfeste</em> Achse;
+            auch beim <a href="rollbewegung.html">Herabrollen</a> blieb die
+            Richtung der Drehachse fest. Jetzt lassen wir eine <em>freie
+            Achse</em> zu: Sie geht durch den Schwerpunkt, darf aber ihre Richtung
+            im Raum ändern. Dann ist der Drehimpuls im Allgemeinen nicht mehr
+            parallel zur Winkelgeschwindigkeit.</p>
+
+          <h2>Der Trägheitstensor</h2>
+
+          <p>Für ein Massenelement $\mathrm{d}m$ am Ort $\vec{r}$ (vom Schwerpunkt
+            aus) ist $\vec{v} = \vec{\omega} \times \vec{r}$. Mit dem doppelten
+            Kreuzprodukt
+            $\vec{a} \times (\vec{b} \times \vec{c}) = \vec{b}\,(\vec{a} \cdot \vec{c}) - \vec{c}\,(\vec{a} \cdot \vec{b})$
+            wird</p>
+
+          $$ \mathrm{d}\vec{L} = \mathrm{d}m\,\vec{r} \times (\vec{\omega} \times \vec{r}) = \mathrm{d}m \left( r^2 \vec{\omega} - (\vec{r} \cdot \vec{\omega})\,\vec{r} \right), \qquad \vec{L} = \int \left( r^2 \vec{\omega} - (\vec{r} \cdot \vec{\omega})\,\vec{r} \right) \mathrm{d}m . $$
+
+          <p>Schreibt man $r^2 = x^2 + y^2 + z^2$ und
+            $\vec{r} \cdot \vec{\omega} = x\omega_x + y\omega_y + z\omega_z$ aus
+            und sortiert nach den Komponenten von $\vec{\omega}$, so ergibt sich
+            ein lineares Gleichungssystem:</p>
+
+          $$ \begin{pmatrix} L_x \\ L_y \\ L_z \end{pmatrix} = \begin{pmatrix} I_{xx} & I_{xy} & I_{xz} \\ I_{yx} & I_{yy} & I_{yz} \\ I_{zx} & I_{zy} & I_{zz} \end{pmatrix} \begin{pmatrix} \omega_x \\ \omega_y \\ \omega_z \end{pmatrix}, \qquad \vec{L} = \tilde{I}\,\vec{\omega} $$
+
+          <p>mit den Elementen</p>
+
+          $$ I_{xx} = \int (y^2 + z^2)\,\mathrm{d}m = \int (r^2 - x^2)\,\mathrm{d}m, \qquad I_{xy} = -\int x\,y\,\mathrm{d}m $$
+
+          <p>und entsprechend für die anderen. $\tilde{I}$ ist der
+            <em>Trägheitstensor</em>, ein Tensor 2. Stufe. Er ist symmetrisch
+            ($I_{xy} = I_{yx}$, $I_{xz} = I_{zx}$, $I_{yz} = I_{zy}$) und hat
+            daher nur sechs unabhängige Elemente. Die Diagonalelemente sind die
+            gewohnten Trägheitsmomente um die Koordinatenachsen, die
+            Nichtdiagonalelemente heißen <em>Deviationsmomente</em>. Sind sie
+            nicht null, ist $\vec{L}$ nicht parallel zu $\vec{\omega}$ (Abb.
+            1).</p>
+
+          <figure class="abbildung">
+            <svg class="abb" viewBox="0 0 360 240" role="img"
+                 aria-label="Hantel schräg zur Drehachse: Der Drehimpuls steht senkrecht auf der Hantel und nicht parallel zur Winkelgeschwindigkeit">
+              <path class="hilfslinie" d="M180 230V130"/>
+              <path class="kurve blau" d="M180 130V39"/>
+              <polygon class="punkt blau" points="180,30 175.5,39 184.5,39"/>
+              <path class="kurve" d="M253.7 78.4L106.3 181.6"/>
+              <circle class="ball" cx="253.7" cy="78.4" r="9"/>
+              <circle class="ball" cx="106.3" cy="181.6" r="9"/>
+              <path class="kurve kupfer" d="M180 130L136.4 67.7"/>
+              <polygon class="punkt kupfer" points="131.2,60.4 140.1,65.2 132.7,70.3"/>
+              <circle class="punkt" cx="180" cy="130" r="3"/>
+              <path class="hilfslinie" d="M106.3 181.6H253.7M253.7 78.4H106.3"/>
+              <text class="blau" x="190" y="40">ω</text>
+              <text class="kupfer" x="122" y="56" text-anchor="end">L</text>
+              <text x="266" y="76">m</text>
+              <text x="92" y="196" text-anchor="end">m</text>
+              <text x="190" y="226" font-size="11">Drehachse (fest gelagert)</text>
+            </svg>
+            <figcaption>Abb. 1: Eine Hantel dreht sich um eine Achse, die schräg zu
+              ihr steht. Jede Masse läuft auf einem Kreis (gestrichelt, von der
+              Seite gesehen). Der Drehimpuls $\vec{L}$ steht senkrecht auf der
+              Hantel und läuft mit ihr um die Achse herum. Weil sich $\vec{L}$
+              ständig ändert, müssen die Lager ein Drehmoment aufbringen – eine
+              solche „Unwucht“ lässt Räder flattern.</figcaption>
+          </figure>
+
+          <p>Die Rotationsenergie lautet in Tensorschreibweise</p>
+
+          $$ E_\text{rot} = \tfrac{1}{2}\,\vec{\omega}^{\mathsf{T}}\,\tilde{I}\,\vec{\omega} = \tfrac{1}{2} \sum_{i,j} I_{ij}\,\omega_i \omega_j . $$
+
+          <p>Schließt die Drehachse mit den Koordinatenachsen die Winkel
+            $\alpha, \beta, \gamma$ ein, also
+            $\vec{\omega} = \omega\,(\cos\alpha, \cos\beta, \cos\gamma)$, so ist
+            das skalare Trägheitsmoment um diese Achse
+            ($E_\text{rot} = \tfrac{1}{2} I \omega^2$)</p>
+
+          $$ I = I_{xx}\cos^2\alpha + I_{yy}\cos^2\beta + I_{zz}\cos^2\gamma + 2 I_{xy}\cos\alpha\cos\beta + 2 I_{xz}\cos\alpha\cos\gamma + 2 I_{yz}\cos\beta\cos\gamma . $$
+
+          <h2>Trägheitsellipsoid und Hauptachsen</h2>
+
+          <p>Trägt man in jeder Richtung vom Schwerpunkt aus einen Vektor
+            $\vec{R}$ der Länge $R = 1/\sqrt{I}$ ab (mit $I$ um diese Richtung),
+            so gilt mit $x = R\cos\alpha$ usw.</p>
+
+          $$ I_{xx} x^2 + I_{yy} y^2 + I_{zz} z^2 + 2 I_{xy} x y + 2 I_{xz} x z + 2 I_{yz} y z = 1 . $$
+
+          <p>Die Endpunkte liegen auf einem Ellipsoid, dem
+            <em>Trägheitsellipsoid</em>. Es ist dort lang, wo das Trägheitsmoment
+            klein ist ($R \propto 1/\sqrt{I}$). Seine drei Symmetrieachsen $a, b, c$
+            sind die <em>Hauptträgheitsachsen</em> des Körpers. Legt man das
+            Koordinatensystem entlang dieser Achsen, verschwinden alle
+            Deviationsmomente und der Tensor wird diagonal:</p>
+
+          $$ \tilde{I} = \begin{pmatrix} I_a & 0 & 0 \\ 0 & I_b & 0 \\ 0 & 0 & I_c \end{pmatrix}, \qquad I_a \le I_b \le I_c . $$
+
+          <p>$I_a, I_b, I_c$ heißen <em>Hauptträgheitsmomente</em>; nach
+            Konvention ist $a$ die Achse mit dem kleinsten Moment (meist die
+            längste Ausdehnung des Körpers) und $c$ die mit dem größten. Sie sind
+            die Eigenwerte des Tensors und folgen aus der Determinantengleichung
+            (Hauptachsentransformation = Diagonalisierung)</p>
+
+          $$ \det\!\left(\tilde{I} - I\,\mathbb{1}\right) = \begin{vmatrix} I_{xx} - I & I_{xy} & I_{xz} \\ I_{yx} & I_{yy} - I & I_{yz} \\ I_{zx} & I_{zy} & I_{zz} - I \end{vmatrix} = 0 . $$
+
+          <p>Im Allgemeinen sind $I_a, I_b, I_c$ also <em>nicht</em> gleich den
+            Diagonalelementen $I_{xx}, I_{yy}, I_{zz}$ eines beliebigen
+            Koordinatensystems. Im Hauptachsensystem gilt einfach</p>
+
+          $$ \vec{L} = \begin{pmatrix} I_a \omega_a \\ I_b \omega_b \\ I_c \omega_c \end{pmatrix}, \qquad E_\text{rot} = \tfrac{1}{2}\left(I_a \omega_a^2 + I_b \omega_b^2 + I_c \omega_c^2\right) = \frac{L_a^2}{2 I_a} + \frac{L_b^2}{2 I_b} + \frac{L_c^2}{2 I_c} , $$
+
+          <p>und das Trägheitsmoment um eine Achse durch den Schwerpunkt, die mit
+            den Hauptachsen die Winkel $\alpha, \beta, \gamma$ bildet, ist</p>
+
+          $$ I = I_a \cos^2\alpha + I_b \cos^2\beta + I_c \cos^2\gamma . $$
+
+          <figure class="abbildung">
+            <svg class="abb" viewBox="0 0 360 230" role="img"
+                 aria-label="Schnitt durch ein Trägheitsellipsoid mit den Hauptachsen, einer Drehachse omega und dem Drehimpuls L senkrecht zur Tangentialebene">
+              <ellipse class="flaeche" cx="180" cy="120" rx="120" ry="60"/>
+              <ellipse class="kurve" cx="180" cy="120" rx="120" ry="60"/>
+              <path class="achse" d="M40 120H320M180 200V40"/>
+              <path class="hilfslinie" d="M193.2 51L306.2 91.4"/>
+              <path class="kurve blau" d="M180 120L242.3 76.4"/>
+              <polygon class="punkt blau" points="249.7,71.2 244.9,80.1 239.7,72.7"/>
+              <path class="kurve kupfer" d="M180 120L207.2 43.7"/>
+              <polygon class="punkt kupfer" points="210.2,35.2 211.4,45.2 202.9,42.2"/>
+              <circle class="punkt" cx="249.7" cy="71.2" r="3"/>
+              <text x="324" y="124">a</text>
+              <text x="172" y="50" text-anchor="end">c</text>
+              <text class="blau" x="258" y="70">ω</text>
+              <text class="kupfer" x="218" y="36">L</text>
+              <text x="62" y="214" font-size="11">lang in Richtung kleiner Trägheitsmomente</text>
+            </svg>
+            <figcaption>Abb. 2: Schnitt durch das Trägheitsellipsoid eines
+              länglichen Körpers ($I_a \lt I_c$). Der Drehimpuls zeigt senkrecht
+              zur Tangentialebene (gestrichelt) im Durchstoßpunkt der Drehachse
+              $\vec{\omega}$. Nur entlang einer Hauptachse sind $\vec{L}$ und
+              $\vec{\omega}$ parallel.</figcaption>
+          </figure>
+
+          <h3 id="kreiseltypen">Kreiseltypen</h3>
+
+          <p>Ein starrer Körper, der sich um einen festen Punkt dreht, heißt
+            <em>Kreisel</em>. Nach den Hauptträgheitsmomenten unterscheidet man:</p>
+          <ul>
+            <li><strong>asymmetrischer Kreisel:</strong>
+              $I_a \ne I_b \ne I_c$ (Ziegelstein, Buch, die meisten Moleküle);</li>
+            <li><strong>symmetrischer Kreisel:</strong> zwei Momente gleich.
+              Gestreckt (prolat, zigarrenförmig): $I_a \lt I_b = I_c$, der
+              Querschnitt senkrecht zur $a$-Achse ist ein Kreis. Abgeplattet
+              (oblat, diskusförmig): $I_a = I_b \lt I_c$. Die besondere Achse heißt
+              <em>Figurenachse</em>;</li>
+            <li><strong>Kugelkreisel:</strong> $I_a = I_b = I_c$ (Kugel, Würfel).</li>
+          </ul>
+
+          <p>Drehungen von Molekülen sind ein Beispiel aus der Forschung: Sie
+            liegen im Gigahertz-Bereich und werden mit Mikrowellen- und
+            Infrarotspektroskopie untersucht; aus den Spektren erhält man die
+            Hauptträgheitsmomente und damit Bindungslängen.</p>
+
+          <h2>Freie Achsen</h2>
+
+          <p>$\vec{L}$ und $\vec{\omega}$ sind genau dann parallel, wenn</p>
+          <ol>
+            <li>der Körper ein Kugelkreisel ist, oder</li>
+            <li>er sich um eine Hauptachse dreht, z.&nbsp;B.
+              $\vec{L} = I_a \omega_a\,\hat{e}_a$, oder</li>
+            <li>er ein symmetrischer Kreisel ist und $\vec{\omega}$ in der Ebene
+              der beiden gleichen Hauptachsen liegt (etwa $\omega_a = 0$ bei
+              $I_b = I_c$): Dann ist $\vec{L} = I_b\,\vec{\omega}$.</li>
+          </ol>
+
+          <p>Wirkt kein Drehmoment, ist $\vec{L}$ konstant. In diesen Fällen
+            bleibt daher auch $\vec{\omega}$ fest im Raum, und der Körper rotiert
+            gleichmäßig um eine raumfeste Achse – wie um eine starre Achse, nur
+            ohne Lager. Solche Achsen heißen <em>freie Achsen</em>. Ein
+            hochgeworfener rotierender Bierdeckel zeigt das schön.</p>
+
+          <p><strong>Stabilität.</strong> Die Drehung um die Achse mit dem
+            größten und die mit dem kleinsten Hauptträgheitsmoment ist stabil:
+            Kleine Störungen bleiben klein. Die Drehung um die mittlere Achse
+            ($I_b$) ist instabil – das ist der Tennisschläger-Effekt aus dem
+            Verstehen-Tab. Verliert der Körper durch innere Reibung Energie, ist
+            auf Dauer nur die Achse mit dem größten Moment stabil, denn bei
+            festem $L$ hat sie die kleinste Energie $L^2/(2 I_c)$. Der erste
+            US-Satellit Explorer 1 (1958) ging deshalb von der Drehung um seine
+            Längsachse in ein Taumeln über.</p>
+
+          <h2>Der kräftefreie symmetrische Kreisel: Nutation</h2>
+
+          <p>Ein symmetrischer Kreisel ($I_a = I_b = I_\perp$, Figurenachse $c$)
+            sei im Schwerpunkt gelagert, so dass kein Drehmoment wirkt. Dann
+            gibt es drei Achsen:</p>
+          <ol>
+            <li>die <strong>Drehimpulsachse</strong> $\vec{L}$ – wegen
+              $\vec{D} = 0$ fest im Raum;</li>
+            <li>die <strong>momentane Drehachse</strong> $\vec{\omega}$ – im
+              Allgemeinen nicht raumfest;</li>
+            <li>die <strong>Figurenachse</strong> $\hat{c}$ – nur raumfest, wenn
+              $\vec{L}$ entlang dieser Hauptachse liegt.</li>
+          </ol>
+
+          <p>Liegen alle drei aufeinander, dreht sich der Kreisel ruhig um seine
+            Figurenachse. Gibt man ihm einen seitlichen Stoß, stehen sie nicht
+            mehr parallel, und der Kreisel beginnt zu „torkeln“: Die Figurenachse
+            läuft auf einem Kegel um $\vec{L}$ (<em>Nutationskegel</em>), und
+            $\vec{\omega}$ läuft auf einem engeren Kegel ebenfalls um $\vec{L}$
+            (<em>Rastpolkegel</em>). Diese Bewegung heißt <em>Nutation</em>.</p>
+
+          <p>Ihre Frequenz folgt elegant: Zerlegt man $\vec{\omega}$ in einen
+            Anteil $\omega_c \hat{c}$ entlang der Figurenachse und einen Anteil
+            $\vec{\omega}_\perp$ senkrecht dazu, ist
+            $\vec{L} = I_c \omega_c \hat{c} + I_\perp \vec{\omega}_\perp$. Daraus
+            folgt
+            $\vec{\omega} = \vec{L}/I_\perp + (1 - I_c/I_\perp)\,\omega_c\,\hat{c}$.
+            Die Figurenachse bewegt sich mit
+            $\dot{\hat{c}} = \vec{\omega} \times \hat{c} = (\vec{L}/I_\perp) \times \hat{c}$,
+            denn $\hat{c} \times \hat{c} = 0$. Sie läuft also gleichmäßig um
+            $\vec{L}$ mit der Nutationsfrequenz</p>
+
+          $$ \omega_\text{N} = \frac{L}{I_\perp} . $$
+
+          <p>Zwei Erhaltungssätze schränken die Bewegung ein:
+            $L_a^2 + L_b^2 + L_c^2 = \text{const}$ (Drehimpulserhaltung, eine
+            Kugel im $\vec{L}$-Raum) und
+            $\frac{L_a^2}{I_a} + \frac{L_b^2}{I_b} + \frac{L_c^2}{I_c} = \text{const}$
+            (Energieerhaltung, ein Ellipsoid). Die erlaubten Zustände liegen auf
+            der Schnittlinie – die scheinbar komplizierte Bewegung ist gerade
+            nötig, damit beide Erhaltungssätze gelten.</p>
+
+          <p><strong>Experiment.</strong> Ein Kreisel liegt auf einem
+            Luftkissen (praktisch kräftefrei) und dreht sich ruhig um seine
+            Figurenachse. Ein kurzer Schlag gegen die Achse bringt ihn zum
+            Nutieren. Klebt man ein Papier mit Punkten auf die Oberseite, sieht
+            man von oben: Ohne Störung bleibt nur der Mittelpunkt (Figurenachse =
+            Drehachse) in Ruhe; nach dem Schlag ruht ein Punkt neben der Mitte –
+            dort stößt momentan die Drehachse $\vec{\omega}$ durch, während die
+            Figurenachse um $\vec{L}$ kreist.</p>
+
+          <h2>Präzession</h2>
+
+          <p>Jetzt wirke ein äußeres Drehmoment, etwa weil der Kreisel nicht im
+            Schwerpunkt unterstützt wird. Dann ändert sich der Drehimpuls:</p>
+
+          $$ \vec{D} = \frac{\mathrm{d}\vec{L}}{\mathrm{d}t}, \qquad \vec{D} = \vec{r} \times m\vec{g} , $$
+
+          <p>wobei $\vec{r}$ vom Unterstützungspunkt zum Schwerpunkt zeigt. Wir
+            betrachten den Spezialfall, dass $\vec{L}$, $\vec{\omega}$ und
+            $\hat{c}$ aufeinander liegen (keine Nutation) und der Kreisel sehr
+            schnell dreht.</p>
+
+          <p><strong>Experiment: hängender Kreisel.</strong> Ein schnell drehendes
+            Rad sitzt am Ende einer waagerechten Achse, die am anderen Ende an
+            einem Faden hängt. Statt herunterzukippen, dreht sich die Achse
+            langsam in der waagerechten Ebene. Das Drehmoment
+            $\vec{D} = \vec{r} \times m\vec{g}$ ist waagerecht und senkrecht zu
+            $\vec{L}$. Es ändert daher nur die <em>Richtung</em> von $\vec{L}$,
+            nicht den Betrag (Abb. 3):</p>
+
+          $$ |\mathrm{d}\vec{L}| = L\,\mathrm{d}\phi \quad\Longrightarrow\quad D = \frac{|\mathrm{d}\vec{L}|}{\mathrm{d}t} = L\,\frac{\mathrm{d}\phi}{\mathrm{d}t} = L\,\omega_\text{P} . $$
+
+          <figure class="abbildung">
+            <svg class="abb" viewBox="0 0 360 180" role="img"
+                 aria-label="Draufsicht auf die Präzession: Drehimpuls, Drehmoment senkrecht dazu, Änderung dL und Winkel d phi">
+              <path class="hilfslinie" d="M60 130L253.2 78.2"/>
+              <polygon class="punkt" points="253.2,78.2 245.7,84.8 243.3,76.2"/>
+              <path class="kurve kupfer" d="M60 130H251"/>
+              <polygon class="punkt kupfer" points="260,130 251,125.5 251,134.5"/>
+              <path class="kurve blau" d="M260 130L254.4 87.1"/>
+              <polygon class="punkt blau" points="253.2,78.2 258.9,86.5 249.9,87.7"/>
+              <path class="kurve blau" d="M60 130V69"/>
+              <polygon class="punkt blau" points="60,60 55.5,69 64.5,69"/>
+              <path class="achse" d="M120 130A60 60 0 0 0 118 114.5"/>
+              <circle class="punkt" cx="60" cy="130" r="4"/>
+              <text class="kupfer" x="160" y="150" text-anchor="middle">L (Zeitpunkt t)</text>
+              <text x="200" y="84" text-anchor="end" font-size="12">L + dL</text>
+              <text class="blau" x="266" y="108">dL</text>
+              <text class="blau" x="68" y="70">D</text>
+              <text x="128" y="122" font-size="12">dφ</text>
+              <text x="54" y="152" text-anchor="middle" font-size="11">Lager</text>
+            </svg>
+            <figcaption>Abb. 3: Präzession, von oben gesehen. Das Drehmoment
+              $\vec{D}$ steht senkrecht auf $\vec{L}$; in der Zeit $\mathrm{d}t$
+              kommt $\mathrm{d}\vec{L} = \vec{D}\,\mathrm{d}t$ hinzu, parallel zu
+              $\vec{D}$. Der Drehimpuls dreht sich um $\mathrm{d}\phi$, seine Länge
+              bleibt gleich.</figcaption>
+          </figure>
+
+          <p>Die <em>Präzessionsfrequenz</em> ist damit</p>
+
+          <div class="merkkasten">
+            <span class="titel">Präzession des schnellen Kreisels</span>
+            $$ \omega_\text{P} = \frac{\mathrm{d}\phi}{\mathrm{d}t} = \frac{D}{L} = \frac{m g r}{I\,\omega} $$
+            <p>Je schneller der Kreisel dreht, desto langsamer präzediert er.
+              $\vec{\omega}_\text{P}$ zeigt entlang der Senkrechten.</p>
+          </div>
+
+          <p><strong>Geneigter Kreisel.</strong> Bildet die Kreiselachse den
+            Winkel $\gamma$ mit der Senkrechten, ist $D = m g r \sin\gamma$, und
+            $\vec{L}$ läuft auf einem Kegel (dem <em>Präzessionskegel</em> mit
+            Öffnungswinkel $2\gamma$), so dass
+            $|\mathrm{d}\vec{L}| = L \sin\gamma\,\mathrm{d}\phi$. Der Faktor
+            $\sin\gamma$ kürzt sich:</p>
+
+          $$ \omega_\text{P} = \frac{m g r \sin\gamma}{I \omega \sin\gamma} = \frac{m g r}{I\,\omega} . $$
+
+          <p>Die Präzessionsfrequenz hängt also nicht von der Neigung ab. Die
+            Rechnung ist eine Näherung für schnelle Kreisel
+            ($\omega_\text{P} \ll \omega$); dann ist der Drehimpuls der
+            Präzessionsbewegung selbst vernachlässigbar.</p>
+
+          <p><strong>Allgemeiner Fall.</strong> Lässt man den Kreisel einfach los,
+            überlagern sich Präzession und Nutation: Von oben gesehen beschreibt
+            die Figurenachse eine Kreisbahn mit kleinen Schleifen oder Bögen
+            darauf. Reibung dämpft die Nutation meist rasch weg.</p>
+
+          <p><strong>Anwendungen.</strong> Atomkerne mit Spin besitzen einen
+            Drehimpuls und ein magnetisches Moment. In einem Magnetfeld wirkt auf
+            sie ein Drehmoment, und die Spins präzedieren mit einer Frequenz, die
+            vom Feld und vom Kern abhängt. Die Kernspinresonanz (NMR) und die
+            Magnetresonanztomographie in der Medizin beruhen genau auf dieser
+            Präzession.</p>
+        </section>
+
+        <section class="tab" id="beispiele" data-titel="Beispielrechnungen">
+
+          <div class="beispiel">
+            <h3>Beispiel 1: Der Fahrradkreisel im Hörsaal</h3>
+            <p><strong>Gegeben:</strong> Ein Fahrrad-Laufrad
+              ($m = 2{,}5\,\mathrm{kg}$, $I = 0{,}12\,\mathrm{kg\,m^2}$ um seine
+              Achse) dreht sich mit 5 Umdrehungen pro Sekunde. Seine Achse ist
+              waagerecht und hängt $r = 0{,}20\,\mathrm{m}$ neben dem Radmittelpunkt
+              an einem Seil.<br>
+              <strong>Gesucht:</strong> Drehimpuls, Drehmoment,
+              Präzessionsfrequenz und -dauer.</p>
+
+            <p><strong>1. Drehimpuls:</strong>
+              $\omega = 2\pi \cdot 5\,\mathrm{s^{-1}} = 31{,}4\,\mathrm{s^{-1}}$,
+              $$ L = I\omega = 0{,}12\,\mathrm{kg\,m^2} \cdot 31{,}4\,\mathrm{s^{-1}} = 3{,}77\,\mathrm{kg\,m^2/s} $$</p>
+
+            <p><strong>2. Drehmoment</strong> der Gewichtskraft um den
+              Aufhängepunkt:
+              $$ D = m g r = 2{,}5\,\mathrm{kg} \cdot 9{,}81\,\mathrm{m/s^2} \cdot 0{,}20\,\mathrm{m} = 4{,}91\,\mathrm{N\,m} $$</p>
+
+            <p><strong>3. Präzession:</strong>
+              $$ \omega_\text{P} = \frac{D}{L} = \frac{4{,}91\,\mathrm{N\,m}}{3{,}77\,\mathrm{kg\,m^2/s}} = 1{,}30\,\mathrm{s^{-1}}, \qquad T_\text{P} = \frac{2\pi}{\omega_\text{P}} = 4{,}8\,\mathrm{s} $$
+              Einheitencheck: $\mathrm{N\,m}/(\mathrm{kg\,m^2\,s^{-1}}) = \mathrm{kg\,m^2\,s^{-2}}/(\mathrm{kg\,m^2\,s^{-1}}) = \mathrm{s^{-1}}$ ✓.</p>
+
+            <p><strong>Ergebnis und Plausibilität:</strong> Das Rad wandert in
+              knapp 5 s einmal im Kreis – genau das sieht man im Hörsaal. Die
+              Näherung ist gut erfüllt: $\omega_\text{P}/\omega = 0{,}04$. Wird das
+              Rad durch Reibung langsamer, präzediert es immer schneller, bis es
+              schließlich doch herunterkippt.</p>
+          </div>
+
+          <div class="beispiel" data-symbole='{"b": "Koordinatenabstand der Massenpunkte", "I_x": "Trägheitsmoment um die x-Achse"}'>
+            <h3>Beispiel 2: Trägheitstensor einer schrägen Hantel</h3>
+            <p><strong>Gegeben:</strong> Zwei Massenpunkte $m$ sitzen bei
+              $\vec{r}_{1,2} = \pm(b, b, 0)$, verbunden durch eine masselose
+              Stange.<br>
+              <strong>Gesucht:</strong> Trägheitstensor, Hauptträgheitsmomente
+              und der Drehimpuls bei Drehung um die $x$-Achse.</p>
+
+            <p><strong>1. Elemente</strong> (Summen statt Integrale; beide Massen
+              liefern dasselbe):
+              $$ I_{xx} = 2m(y^2 + z^2) = 2 m b^2, \quad I_{yy} = 2m(x^2 + z^2) = 2 m b^2, \quad I_{zz} = 2m(x^2 + y^2) = 4 m b^2 $$
+              $$ I_{xy} = -2m\,x y = -2 m b^2, \qquad I_{xz} = I_{yz} = 0 $$
+              $$ \tilde{I} = m b^2 \begin{pmatrix} 2 & -2 & 0 \\ -2 & 2 & 0 \\ 0 & 0 & 4 \end{pmatrix} $$</p>
+
+            <p><strong>2. Hauptträgheitsmomente</strong> aus
+              $\det(\tilde{I} - I\,\mathbb{1}) = 0$ (in Einheiten $m b^2$):
+              $$ (4 - I)\left[(2 - I)^2 - 4\right] = 0 \quad\Rightarrow\quad I = 4 \;\text{ oder }\; 2 - I = \pm 2 \;\Rightarrow\; I \in \{0,\, 4,\, 4\} $$
+              Die Achse mit $I_a = 0$ ist die Stange selbst (Richtung
+              $(1, 1, 0)/\sqrt{2}$); senkrecht dazu ist $I = 4 m b^2 = 2 m (\sqrt{2} b)^2$
+              – zwei Massen im Abstand $\sqrt{2}\,b$ ✓.</p>
+
+            <p><strong>3. Drehung um die $x$-Achse:</strong>
+              $\vec{\omega} = (\omega, 0, 0)$,
+              $$ \vec{L} = \tilde{I}\,\vec{\omega} = m b^2 \omega\,(2, -2, 0) $$
+              $\vec{L}$ ist um $45°$ gegen $\vec{\omega}$ geneigt. Energie:
+              $E = \tfrac{1}{2}\vec{\omega}^{\mathsf{T}}\tilde{I}\vec{\omega} = \tfrac{1}{2} \cdot 2 m b^2 \omega^2 = m b^2 \omega^2$.</p>
+
+            <p><strong>Ergebnis und Plausibilität:</strong> Kontrolle mit dem
+              Abstand zur $x$-Achse: Jede Masse ist $b$ entfernt, also
+              $I_x = 2 m b^2$ ✓. Weil $\vec{L}$ nicht parallel zu $\vec{\omega}$
+              ist und mit der Hantel umläuft, braucht man Lager, die ein
+              Drehmoment aufnehmen – genau das passiert bei Abb. 1 der
+              Vertiefung. Ein Auswuchtgewicht am Autoreifen beseitigt solche
+              Deviationsmomente.</p>
+          </div>
+
+          <div class="beispiel" data-symbole='{"M": "Erdmasse", "R": "Erdradius"}'>
+            <h3>Beispiel 3: Wie stark ziehen Sonne und Mond an der Erdachse?</h3>
+            <p><strong>Gegeben:</strong> Trägheitsmoment der Erde
+              $I = 0{,}331\,M R^2$ mit $M = 5{,}97 \cdot 10^{24}\,\mathrm{kg}$,
+              $R = 6371\,\mathrm{km}$; Sterntag $86\,164\,\mathrm{s}$;
+              Präzessionsperiode etwa $25\,800$ Jahre; Achsneigung
+              $\gamma = 23{,}4°$.<br>
+              <strong>Gesucht:</strong> das mittlere Drehmoment, das Sonne und
+              Mond auf die Erde ausüben.</p>
+            <p><strong>1. Drehimpuls:</strong>
+              $$ I = 0{,}331 \cdot 5{,}97 \cdot 10^{24}\,\mathrm{kg} \cdot (6{,}371 \cdot 10^6\,\mathrm{m})^2 = 8{,}02 \cdot 10^{37}\,\mathrm{kg\,m^2} $$
+              $$ L = I \cdot \frac{2\pi}{86\,164\,\mathrm{s}} = 8{,}02 \cdot 10^{37}\,\mathrm{kg\,m^2} \cdot 7{,}29 \cdot 10^{-5}\,\mathrm{s^{-1}} = 5{,}85 \cdot 10^{33}\,\mathrm{kg\,m^2/s} $$</p>
+
+            <p><strong>2. Präzessionsfrequenz:</strong>
+              $$ \omega_\text{P} = \frac{2\pi}{25\,800 \cdot 3{,}156 \cdot 10^7\,\mathrm{s}} = 7{,}72 \cdot 10^{-12}\,\mathrm{s^{-1}} $$</p>
+
+            <p><strong>3. Drehmoment</strong> für den geneigten Kreisel
+              ($\mathrm{d}L/\mathrm{d}t = L \sin\gamma\,\omega_\text{P}$):
+              $$ D = L\,\omega_\text{P} \sin\gamma = 5{,}85 \cdot 10^{33} \cdot 7{,}72 \cdot 10^{-12} \cdot 0{,}397\,\mathrm{N\,m} = 1{,}8 \cdot 10^{22}\,\mathrm{N\,m} $$</p>
+
+            <p><strong>Ergebnis und Plausibilität:</strong> Eine gewaltige Zahl –
+              aber verglichen mit dem Drehimpuls der Erde winzig: Es dauert
+              tausende Jahre, bis die Achse merklich wandert. Dass die Erde
+              präzediert, war schon Hipparchos um 130 v. Chr. aufgefallen, als er
+              Sternpositionen mit älteren Aufzeichnungen verglich.</p>
+          </div>
+        </section>
+
+        <section class="tab" id="aufgaben" data-titel="Aufgaben">
+
+          <p>Die Aufgaben sind nach Schwierigkeit sortiert. Wenn nichts anderes
+            gesagt ist, gilt $g = 9{,}81\,\mathrm{m/s^2}$, Reibung wird
+            vernachlässigt, und Kreisel drehen schnell
+            ($\omega_\text{P} \ll \omega$).</p>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 1: Welcher Kreiseltyp?
+              <span class="schwierigkeit" data-stufe="leicht">leicht</span>
+            </h3>
+            <p>Ordne zu (asymmetrisch, prolat, oblat, Kugelkreisel): Würfel,
+              Bleistift, Münze, Ziegelstein, Fußball, Rugbyball.</p>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>Würfel: Kugelkreisel (aus Symmetriegründen sind alle drei
+                Hauptmomente gleich, obwohl er keine Kugel ist). Bleistift und
+                Rugbyball: prolat ($I_a \lt I_b = I_c$). Münze: oblat
+                ($I_a = I_b \lt I_c$). Ziegelstein: asymmetrisch. Fußball:
+                Kugelkreisel.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 2: Der Spielzeugkreisel
+              <span class="schwierigkeit" data-stufe="leicht">leicht</span>
+            </h3>
+            <p>Ein Spielzeugkreisel ($m = 100\,\mathrm{g}$) ist im Wesentlichen eine
+              Scheibe mit $R = 3{,}0\,\mathrm{cm}$; sein Schwerpunkt liegt
+              $2{,}5\,\mathrm{cm}$ über der Spitze. Er dreht sich mit 20
+              Umdrehungen pro Sekunde und steht leicht schräg. Wie lange dauert ein
+              Präzessionsumlauf? Was ändert sich, wenn er auf die halbe Drehzahl
+              abgebremst ist?</p>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>$I = \tfrac{1}{2} m R^2 = \tfrac{1}{2} \cdot 0{,}10 \cdot 0{,}030^2\,\mathrm{kg\,m^2} = 4{,}5 \cdot 10^{-5}\,\mathrm{kg\,m^2}$,
+                $\omega = 126\,\mathrm{s^{-1}}$, $L = 5{,}65 \cdot 10^{-3}\,\mathrm{kg\,m^2/s}$.
+                $$ \omega_\text{P} = \frac{m g r}{L} = \frac{0{,}10 \cdot 9{,}81 \cdot 0{,}025}{5{,}65 \cdot 10^{-3}}\,\mathrm{s^{-1}} = 4{,}3\,\mathrm{s^{-1}}, \qquad T_\text{P} = 1{,}4\,\mathrm{s} $$
+                Die Neigung spielt keine Rolle. Bei halber Drehzahl verdoppelt sich
+                $\omega_\text{P}$, ein Umlauf dauert nur noch 0,7 s – kurz bevor
+                ein Kreisel umfällt, eiert er immer schneller.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 3: Die schräg gedrehte Platte
+              <span class="schwierigkeit" data-stufe="mittel">mittel</span>
+            </h3>
+            <p>Eine dünne quadratische Platte (Masse $m$, Seitenlänge $s$) hat die
+              Hauptträgheitsmomente $I_a = I_b = \tfrac{1}{12} m s^2$ (Achsen in
+              der Ebene, parallel zu den Kanten) und $I_c = \tfrac{1}{6} m s^2$
+              (senkrecht zur Platte).</p>
+            <ol type="a">
+              <li>Wie groß ist das Trägheitsmoment um eine Diagonale der
+                Platte?</li>
+              <li>Wie groß ist es um eine Achse durch den Mittelpunkt, die mit der
+                Plattennormalen und mit der $a$-Achse je $45°$ bildet?</li>
+            </ol>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>Formel $I = I_a\cos^2\alpha + I_b\cos^2\beta + I_c\cos^2\gamma$.</p>
+              <p><strong>(a)</strong> Diagonale: $\alpha = \beta = 45°$,
+                $\gamma = 90°$:
+                $I = \tfrac{1}{2} \cdot \tfrac{1}{12} m s^2 + \tfrac{1}{2} \cdot \tfrac{1}{12} m s^2 = \tfrac{1}{12} m s^2$
+                – genauso viel wie um die Achse parallel zur Kante. (In der Ebene
+                ist das Quadrat ein symmetrischer Fall: alle Achsen in der Ebene
+                sind gleichwertig.)</p>
+              <p><strong>(b)</strong> $\alpha = 45°$, $\beta = 90°$, $\gamma = 45°$:
+                $I = \tfrac{1}{2} \cdot \tfrac{1}{12} m s^2 + \tfrac{1}{2} \cdot \tfrac{1}{6} m s^2 = \tfrac{1}{8} m s^2$.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 4: Wie schnell muss das Rad drehen?
+              <span class="schwierigkeit" data-stufe="mittel">mittel</span>
+            </h3>
+            <p>Die Präzessionsformel gilt nur für $\omega_\text{P} \ll \omega$.
+              Leite daraus eine Mindest-Winkelgeschwindigkeit für den
+              Fahrradkreisel aus Beispiel 1 ab ($m = 2{,}5\,\mathrm{kg}$,
+              $I = 0{,}12\,\mathrm{kg\,m^2}$, $r = 0{,}20\,\mathrm{m}$). Bei welcher
+              Drehzahl ist $\omega_\text{P} = \omega/10$?</p>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>$\omega_\text{P}/\omega = m g r/(I\omega^2) \ll 1$, also
+                $\omega \gg \sqrt{m g r/I}$. Hier:
+                $\sqrt{2{,}5 \cdot 9{,}81 \cdot 0{,}20/0{,}12}\,\mathrm{s^{-1}} = \sqrt{40{,}9}\,\mathrm{s^{-1}} = 6{,}4\,\mathrm{s^{-1}}$.
+                Für $\omega_\text{P} = \omega/10$ braucht man
+                $\omega = \sqrt{10} \cdot 6{,}4\,\mathrm{s^{-1}} = 20\,\mathrm{s^{-1}}$,
+                also gut 3 Umdrehungen pro Sekunde. Darunter sackt das Rad beim
+                Loslassen merklich ab und nutiert stark.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe" data-symbole='{"R": "Radius der Frisbee"}'>
+            <h3>Aufgabe 5: Die taumelnde Frisbee
+              <span class="schwierigkeit" data-stufe="schwer">schwer</span>
+            </h3>
+            <p>Eine Frisbee lässt sich als dünner Ring (Masse $m$, Radius $R$)
+              beschreiben. Sie wird mit $\omega_c = 2\pi \cdot 6\,\mathrm{s^{-1}}$ um
+              ihre Figurenachse geworfen, aber mit einem leichten Taumeln.</p>
+            <ol type="a">
+              <li>Bestimme die Hauptträgheitsmomente des Rings.</li>
+              <li>Zeige mit der Nutationsformel, dass die Figurenachse bei kleinem
+                Taumeln ungefähr doppelt so schnell um $\vec{L}$ läuft, wie sich die
+                Frisbee dreht. Wie oft pro Sekunde taumelt sie?</li>
+            </ol>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p><strong>(a)</strong> Um die Figurenachse: $I_c = m R^2$. Für eine
+                Achse in der Ringebene: Jedes Massenelement hat zu ihr den
+                Abstand $R|\sin\varphi|$; Mittelwert von $\sin^2\varphi$ ist
+                $\tfrac{1}{2}$, also $I_\perp = \tfrac{1}{2} m R^2$. (Allgemein gilt
+                für ebene Körper $I_c = I_a + I_b$.)</p>
+              <p><strong>(b)</strong> Bei kleinem Taumeln ist
+                $L \approx I_c \omega_c$, also
+                $$ \omega_\text{N} = \frac{L}{I_\perp} \approx \frac{I_c}{I_\perp}\,\omega_c = 2\,\omega_c . $$
+                Die Frisbee taumelt 12-mal pro Sekunde. Dasselbe gilt für eine
+                dünne Scheibe ($I_c = \tfrac{1}{2} m R^2$,
+                $I_\perp = \tfrac{1}{4} m R^2$).</p>
+              <p><strong>Zum Nachdenken:</strong> Richard Feynman beobachtete in
+                der Mensa einen geworfenen Teller, der taumelte und sich drehte,
+                und rechnete aus Spaß dieses Verhältnis 2 : 1 nach. Er erzählte
+                später, dass ihn diese Spielerei zurück zur Freude an der Physik
+                gebracht habe.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 6: Präzession unabhängig von der Neigung?
+              <span class="schwierigkeit" data-stufe="schwer">schwer</span>
+            </h3>
+            <p>Ein schneller Kreisel (Masse $m$, Trägheitsmoment $I$ um die
+              Figurenachse, Schwerpunkt im Abstand $r$ von der Spitze) steht unter
+              dem Winkel $\gamma$ zur Senkrechten auf einer Spitze.</p>
+            <ol type="a">
+              <li>Bestimme Betrag und Richtung des Drehmoments mit
+                $\vec{r} = r\,(\sin\gamma\cos\phi, \sin\gamma\sin\phi, \cos\gamma)$
+                und $m\vec{g} = (0, 0, -mg)$.</li>
+              <li>Zeige, dass $\vec{L} = L\,\hat{r}$ mit
+                $\dot{\phi} = m g r/(I\omega)$ die Gleichung
+                $\mathrm{d}\vec{L}/\mathrm{d}t = \vec{D}$ erfüllt.</li>
+            </ol>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p><strong>(a)</strong>
+                $$ \vec{D} = \vec{r} \times m\vec{g} = m g r\,(-\sin\gamma\sin\phi,\; \sin\gamma\cos\phi,\; 0) $$
+                Betrag $m g r \sin\gamma$, Richtung waagerecht und senkrecht zur
+                Vertikalebene, in der die Kreiselachse liegt.</p>
+              <p><strong>(b)</strong> Bei festem $\gamma$ und $L = I\omega$ ist
+                $$ \frac{\mathrm{d}\vec{L}}{\mathrm{d}t} = L\,\dot{\phi}\,(-\sin\gamma\sin\phi,\; \sin\gamma\cos\phi,\; 0) $$
+                Der Vergleich mit (a) gibt $L\dot{\phi} = m g r$, also
+                $\dot{\phi} = m g r/(I\omega)$ – unabhängig von $\gamma$ ✓. Der
+                Kreisel präzediert gegen den Uhrzeigersinn (von oben), wenn
+                $\vec{L}$ von der Spitze weg zeigt.</p>
+              <p><strong>Zum Nachdenken:</strong> Die Rechnung ist nicht exakt: Die
+                Präzession selbst ist auch eine Drehung und trägt etwas zum
+                Drehimpuls bei. Dieser Anteil ist um den Faktor
+                $\omega_\text{P}/\omega$ kleiner – genau deshalb ist die Formel eine
+                Näherung für schnelle Kreisel.</p>
+            </details>
+          </div>
+        </section>
+
+      </div></article>
+  </main>
+</body>
+</html>

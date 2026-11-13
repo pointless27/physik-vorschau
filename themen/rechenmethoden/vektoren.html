@@ -1,0 +1,1041 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="robots" content="noindex">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Vektorrechnung</title>
+  <meta name="description" content="Vektorrechnung anschaulich: Komponenten, Betrag, Addition, Skalarprodukt, Kreuzprodukt und Spatprodukt mit Abbildungen, Beispielen und Aufgaben.">
+
+  <link rel="stylesheet" href="../../css/stil.css">
+
+  <link rel="stylesheet" href="../../extern/katex/katex.min.css">
+  <script defer src="../../extern/katex/katex.min.js"></script>
+  <script defer src="../../extern/katex/contrib/auto-render.min.js" onload="starteFormeln()"></script>
+
+  <script src="../../js/daten.js"></script>
+  <script src="../../js/seite.js"></script>
+  <script src="../../js/effekte.js"></script>
+  <script src="../../js/interaktiv.js"></script>
+  <script src="../../js/modelle/vektoren.js"></script>
+  <script type="application/json" id="symbole">
+  {
+    "a": "Vektor a (ohne Pfeil: sein Betrag)",
+    "a_x": "x-Komponente von a",
+    "a_y": "y-Komponente von a",
+    "a_z": "z-Komponente von a",
+    "a_i": "i-te Komponente von a",
+    "b": "Vektor b (ohne Pfeil: sein Betrag)",
+    "b_x": "x-Komponente von b",
+    "b_y": "y-Komponente von b",
+    "b_z": "z-Komponente von b",
+    "b_i": "i-te Komponente von b",
+    "c": "dritter Vektor c",
+    "e_x": "Einheitsvektor in x-Richtung (Länge 1)",
+    "e_y": "Einheitsvektor in y-Richtung (Länge 1)",
+    "e_z": "Einheitsvektor in z-Richtung (Länge 1)",
+    "e_i": "Einheitsvektor der Achse i",
+    "e_j": "Einheitsvektor der Achse j",
+    "x": "x-Achse bzw. x-Koordinate",
+    "y": "y-Achse bzw. y-Koordinate",
+    "z": "z-Achse bzw. z-Koordinate",
+    "r": "Ortsvektor (vom Ursprung zum Punkt)",
+    "r_A": "Ortsvektor des Punktes A",
+    "r_B": "Ortsvektor des Punktes B",
+    "A": "Punkt A",
+    "B": "Punkt B",
+    "P": "Punkt P",
+    "α": "Winkel zwischen den beiden Vektoren",
+    "λ": "reelle Zahl, mit der der Vektor multipliziert wird",
+    "δ_ij": "Kronecker-Delta: 1 für i = j, sonst 0",
+    "i": "Laufindex für die Komponenten (x, y, z)",
+    "j": "Laufindex für die Komponenten (x, y, z)",
+    "W": "Arbeit",
+    "F": "Kraft",
+    "s": "Wegvektor (Verschiebung)",
+    "M": "Drehmoment",
+    "L": "Drehimpuls",
+    "p": "Impuls",
+    "m": "Masse",
+    "v": "Geschwindigkeit",
+    "V": "Volumen des Spats",
+    "h": "Höhe des Spats"
+  }
+  </script>
+</head>
+<body data-thema="vektoren">
+  <main>
+    <article class="thema">
+      <header>
+        <h1>Vektorrechnung</h1>
+        <p class="untertitel">Pfeile, mit denen man rechnen kann: Addieren,
+          Strecken, Skalar- und Kreuzprodukt – das Handwerkszeug für Kräfte,
+          Geschwindigkeiten und Drehungen.</p>
+      </header>
+
+      <div class="tabs">
+
+        <section class="tab" id="verstehen" data-titel="Verstehen">
+
+          <p>Stell dir vor, jemand beschreibt dir den Weg zum Bäcker: „300
+            Meter nach Osten, dann 400 Meter nach Norden.“ Am Ziel bist du
+            700 Meter gelaufen – aber nur 500 Meter Luftlinie vom Start
+            entfernt. Und „500 Meter“ allein hätte dir nicht weitergeholfen:
+            Du musst auch wissen, <em>in welche Richtung</em>. Genau dafür
+            gibt es Vektoren.</p>
+
+          <p>Diese Seite ist ein Werkzeugkasten. Du lernst, wie man mit
+            Vektoren rechnet und – noch wichtiger – was die Rechnungen
+            bedeuten. Beweise lassen wir weg; die Rechenregeln selbst wirst du
+            in der ganzen Physik ständig brauchen.</p>
+
+          <h2 id="was-ist-ein-vektor">Was ist ein Vektor?</h2>
+
+          <p>Manche Größen sind mit einer Zahl und einer Einheit vollständig
+            beschrieben: Masse, Temperatur, Zeit, Energie. Solche Größen
+            heißen <strong>Skalare</strong>. Bei anderen gehört eine Richtung
+            dazu: Eine Verschiebung, eine Geschwindigkeit oder eine Kraft ist
+            erst vollständig angegeben, wenn man weiß, wohin sie zeigt. Das
+            sind <strong>Vektoren</strong>.</p>
+
+          <p>Am besten stellst du dir einen Vektor als <strong>Pfeil</strong>
+            vor. Die Länge des Pfeils ist der <strong>Betrag</strong> (wie
+            viel), die Pfeilrichtung die Richtung (wohin). Man schreibt
+            Vektoren mit einem Pfeil über dem Buchstaben, $\vec a$, und den
+            Betrag als $|\vec a|$ oder kurz $a$. Wichtig: Ein Vektor sagt
+            nichts darüber, <em>wo</em> er anfängt. Zwei Pfeile mit gleicher
+            Länge und gleicher Richtung sind derselbe Vektor, auch wenn sie an
+            verschiedenen Stellen gezeichnet sind (Abb. 1). Ein Vektor ist
+            eben eine Verschiebung: „4 Kästchen nach rechts, 2 nach oben“ gilt
+            überall gleich.</p>
+
+          <figure class="abbildung">
+            <svg class="abb" viewBox="0 0 360 180" role="img"
+                 aria-label="Drei gleich lange, parallele blaue Pfeile an verschiedenen Stellen eines Kästchengitters und ein gleich langer orangefarbener Pfeil in anderer Richtung">
+              <defs><marker id="pfeil-abb1-blau" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto"><path class="punkt blau" d="M0 0L10 5L0 10z"/></marker><marker id="pfeil-abb1-kupfer" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto"><path class="punkt kupfer" d="M0 0L10 5L0 10z"/></marker></defs>
+              <path class="gitter" d="M10 10L10 170"/>
+              <path class="gitter" d="M30 10L30 170"/>
+              <path class="gitter" d="M50 10L50 170"/>
+              <path class="gitter" d="M70 10L70 170"/>
+              <path class="gitter" d="M90 10L90 170"/>
+              <path class="gitter" d="M110 10L110 170"/>
+              <path class="gitter" d="M130 10L130 170"/>
+              <path class="gitter" d="M150 10L150 170"/>
+              <path class="gitter" d="M170 10L170 170"/>
+              <path class="gitter" d="M190 10L190 170"/>
+              <path class="gitter" d="M210 10L210 170"/>
+              <path class="gitter" d="M230 10L230 170"/>
+              <path class="gitter" d="M250 10L250 170"/>
+              <path class="gitter" d="M270 10L270 170"/>
+              <path class="gitter" d="M290 10L290 170"/>
+              <path class="gitter" d="M310 10L310 170"/>
+              <path class="gitter" d="M330 10L330 170"/>
+              <path class="gitter" d="M350 10L350 170"/>
+              <path class="gitter" d="M10 10L350 10"/>
+              <path class="gitter" d="M10 30L350 30"/>
+              <path class="gitter" d="M10 50L350 50"/>
+              <path class="gitter" d="M10 70L350 70"/>
+              <path class="gitter" d="M10 90L350 90"/>
+              <path class="gitter" d="M10 110L350 110"/>
+              <path class="gitter" d="M10 130L350 130"/>
+              <path class="gitter" d="M10 150L350 150"/>
+              <path class="gitter" d="M10 170L350 170"/>
+              <path class="kurve blau" d="M30 150L110 110" marker-end="url(#pfeil-abb1-blau)"/>
+              <text class="blau" x="64.2" y="122.4" text-anchor="middle" font-style="italic">a</text>
+              <path class="kurve blau" d="M90 70L170 30" marker-end="url(#pfeil-abb1-blau)"/>
+              <text class="blau" x="124.2" y="42.4" text-anchor="middle" font-style="italic">a</text>
+              <path class="kurve blau" d="M170 150L250 110" marker-end="url(#pfeil-abb1-blau)"/>
+              <text class="blau" x="204.2" y="122.4" text-anchor="middle" font-style="italic">a</text>
+              <path class="kurve kupfer" d="M270 150L310 70" marker-end="url(#pfeil-abb1-kupfer)"/>
+              <text class="kupfer" x="301.6" y="119.8" text-anchor="middle" font-style="italic">b</text>
+            </svg>
+            <figcaption>Abb. 1: Die drei blauen Pfeile sind derselbe Vektor
+              $\vec a$ – gleiche Länge, gleiche Richtung, nur woanders
+              angesetzt. Der orange Pfeil $\vec b$ ist genauso lang, zeigt
+              aber in eine andere Richtung und ist deshalb ein anderer
+              Vektor.</figcaption>
+          </figure>
+
+          <h2 id="komponenten">Vektoren als Zahlenspalten</h2>
+
+          <p>Pfeile zeichnen ist anschaulich, aber zum Rechnen braucht man
+            Zahlen. Dazu legt man ein <strong>Koordinatensystem</strong> fest:
+            einen Nullpunkt, den <em>Ursprung</em>, und drei zueinander
+            senkrechte Achsen $x$, $y$ und $z$. Entlang jeder Achse gibt es
+            einen Pfeil der Länge 1, den <strong>Einheitsvektor</strong>
+            $\hat e_x$, $\hat e_y$ bzw. $\hat e_z$. Jeder Vektor lässt sich
+            dann als „so viele Schritte in $x$-Richtung, so viele in
+            $y$-Richtung, so viele in $z$-Richtung“ schreiben:</p>
+
+          $$ \vec a = a_x\,\hat e_x + a_y\,\hat e_y + a_z\,\hat e_z = \begin{pmatrix} a_x \\ a_y \\ a_z \end{pmatrix} $$
+
+          <p>Die Zahlen $a_x$, $a_y$, $a_z$ heißen
+            <strong>Komponenten</strong>. Den Vektor aus Abb. 2 schreibt man
+            also als $\vec a = (4, 3, 0)$ – im Text meist als Zeile, in
+            Rechnungen lieber als Spalte.</p>
+
+          <figure class="abbildung">
+            <svg class="abb" viewBox="0 0 360 260" role="img"
+                 aria-label="Vektor a mit den Komponenten 4 und 3 in einem Koordinatengitter, dazu die Einheitsvektoren in x- und y-Richtung">
+              <defs><marker id="pfeil-abb2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="currentColor"/></marker><marker id="pfeil-abb2-blau" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto"><path class="punkt blau" d="M0 0L10 5L0 10z"/></marker><marker id="pfeil-abb2-kupfer" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto"><path class="punkt kupfer" d="M0 0L10 5L0 10z"/></marker></defs>
+              <path class="gitter" d="M98 220L98 28"/>
+              <path class="gitter" d="M146 220L146 28"/>
+              <path class="gitter" d="M194 220L194 28"/>
+              <path class="gitter" d="M242 220L242 28"/>
+              <path class="gitter" d="M290 220L290 28"/>
+              <path class="gitter" d="M50 172L314 172"/>
+              <path class="gitter" d="M50 124L314 124"/>
+              <path class="gitter" d="M50 76L314 76"/>
+              <path class="gitter" d="M50 28L314 28"/>
+              <path class="achse" d="M30 220L342 220" marker-end="url(#pfeil-abb2)"/>
+              <path class="achse" d="M50 240L50 14" marker-end="url(#pfeil-abb2)"/>
+              <text x="338" y="238" text-anchor="end" font-style="italic">x</text>
+              <text x="36" y="22" text-anchor="middle" font-style="italic">y</text>
+              <text class="klein" x="98" y="237" text-anchor="middle">1</text>
+              <text class="klein" x="146" y="237" text-anchor="middle">2</text>
+              <text class="klein" x="194" y="237" text-anchor="middle">3</text>
+              <text class="klein" x="242" y="237" text-anchor="middle">4</text>
+              <text class="klein" x="290" y="237" text-anchor="middle">5</text>
+              <text class="klein" x="42" y="176" text-anchor="end">1</text>
+              <text class="klein" x="42" y="128" text-anchor="end">2</text>
+              <text class="klein" x="42" y="80" text-anchor="end">3</text>
+              <path class="hilfslinie" d="M242 220L242 76"/>
+              <path class="kurve blau" d="M50 220L242 76" marker-end="url(#pfeil-abb2-blau)"/>
+              <path class="kurve kupfer" d="M50 220L98 220" marker-end="url(#pfeil-abb2-kupfer)"/>
+              <path class="kurve kupfer" d="M50 220L50 172" marker-end="url(#pfeil-abb2-kupfer)"/>
+              <text class="kupfer" x="74" y="253" text-anchor="middle">ê<tspan dy="4" font-size="10">x</tspan><tspan dy="-4"> </tspan></text>
+              <text class="kupfer" x="36" y="200" text-anchor="end">ê<tspan dy="4" font-size="10">y</tspan><tspan dy="-4"> </tspan></text>
+              <text class="blau" x="137.6" y="140.8" text-anchor="middle" font-style="italic">a</text>
+              <text class="halo" x="170" y="210" text-anchor="middle">a<tspan dy="4" font-size="10">x</tspan><tspan dy="-4"> </tspan> = 4</text>
+              <text class="halo" x="250" y="152" text-anchor="start">a<tspan dy="4" font-size="10">y</tspan><tspan dy="-4"> </tspan> = 3</text>
+              <circle class="punkt blau" cx="242" cy="76" r="3"/>
+            </svg>
+            <figcaption>Abb. 2: Der Vektor $\vec a$ besteht aus 4 Schritten
+              der Länge 1 in $x$-Richtung und 3 Schritten in $y$-Richtung:
+              $\vec a = 4\,\hat e_x + 3\,\hat e_y$. Die Komponenten bilden
+              mit $\vec a$ ein rechtwinkliges Dreieck.</figcaption>
+          </figure>
+
+          <p>Die Länge des Pfeils folgt deshalb aus dem Satz des Pythagoras –
+            in drei Dimensionen einfach mit einem Summanden mehr:</p>
+
+          $$ |\vec a| = \sqrt{a_x^2 + a_y^2 + a_z^2} $$
+
+          <p>Für $\vec a = (4, 3, 0)$ ist das $\sqrt{16 + 9} = 5$. Teilt man
+            einen Vektor durch seine Länge, bleibt nur die Richtung übrig: Der
+            <strong>Einheitsvektor</strong> $\hat a = \vec a / |\vec a|$ hat
+            die Länge 1 und zeigt in dieselbe Richtung wie $\vec a$, hier
+            $\hat a = \tfrac15\,(4, 3, 0)$.</p>
+
+          <p>Ein besonders wichtiger Vektor ist der
+            <strong>Ortsvektor</strong> $\vec r$: Er zeigt vom Ursprung zu
+            einem Punkt $P$, und seine Komponenten sind genau die Koordinaten
+            des Punktes (Abb. 3). Den Vektor von einem Punkt $A$ zu einem
+            Punkt $B$ bekommst du, indem du die Ortsvektoren voneinander
+            abziehst – „Spitze minus Fuß“:</p>
+
+          $$ \overrightarrow{AB} = \vec r_B - \vec r_A $$
+
+          <figure class="abbildung">
+            <svg class="abb" viewBox="0 0 360 255" role="img"
+                 aria-label="Räumliches Koordinatensystem im Schrägbild mit x-, y- und z-Achse, Einheitsvektoren und dem Ortsvektor r zum Punkt P(2, 4, 3); gestrichelte Hilfslinien zeigen die Koordinaten">
+              <defs><marker id="pfeil-abb3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="currentColor"/></marker><marker id="pfeil-abb3-blau" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto"><path class="punkt blau" d="M0 0L10 5L0 10z"/></marker><marker id="pfeil-abb3-kupfer" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto"><path class="punkt kupfer" d="M0 0L10 5L0 10z"/></marker></defs>
+              <path class="achse" d="M130 185L79.1 235.9" marker-end="url(#pfeil-abb3)"/>
+              <path class="achse" d="M130 185L342 185" marker-end="url(#pfeil-abb3)"/>
+              <path class="achse" d="M130 185L130 21" marker-end="url(#pfeil-abb3)"/>
+              <text x="69.1" y="239.9" text-anchor="end" font-style="italic">x</text>
+              <text x="340" y="203" text-anchor="end" font-style="italic">y</text>
+              <text x="142" y="26" text-anchor="start" font-style="italic">z</text>
+              <path class="achse" d="M170 182L170 188"/>
+              <path class="achse" d="M210 182L210 188"/>
+              <path class="achse" d="M250 182L250 188"/>
+              <path class="achse" d="M290 182L290 188"/>
+              <path class="achse" d="M330 182L330 188"/>
+              <path class="achse" d="M127 145L133 145"/>
+              <path class="achse" d="M112.9 199.1L118.9 199.1"/>
+              <path class="achse" d="M127 105L133 105"/>
+              <path class="achse" d="M98.7 213.3L104.7 213.3"/>
+              <path class="achse" d="M127 65L133 65"/>
+              <path class="achse" d="M84.6 227.4L90.6 227.4"/>
+              <text class="klein" x="210" y="202" text-anchor="middle">2</text>
+              <text class="klein" x="290" y="202" text-anchor="middle">4</text>
+              <text class="klein" x="123" y="69" text-anchor="end">3</text>
+              <text class="klein" x="94.7" y="217.3" text-anchor="end">2</text>
+              <path class="hilfslinie" d="M101.7 213.3L261.7 213.3"/>
+              <path class="hilfslinie" d="M290 185L261.7 213.3"/>
+              <path class="hilfslinie" d="M261.7 213.3L261.7 93.3"/>
+              <path class="hilfslinie" d="M130 65L261.7 93.3"/>
+              <path class="kurve kupfer" d="M130 185L115.9 199.1" marker-end="url(#pfeil-abb3-kupfer)"/>
+              <path class="kurve kupfer" d="M130 185L170 185" marker-end="url(#pfeil-abb3-kupfer)"/>
+              <path class="kurve kupfer" d="M130 185L130 145" marker-end="url(#pfeil-abb3-kupfer)"/>
+              <path class="kurve blau" d="M130 185L261.7 93.3" marker-end="url(#pfeil-abb3-blau)"/>
+              <text class="blau" x="188.4" y="132.5" text-anchor="middle" font-style="italic">r</text>
+              <circle class="punkt" cx="261.7" cy="93.3" r="3"/>
+              <text x="270.7" y="87.3" text-anchor="start">P(2 | 4 | 3)</text>
+              <text class="klein" x="122" y="179" text-anchor="end">0</text>
+            </svg>
+            <figcaption>Abb. 3: Räumliches Koordinatensystem im Schrägbild.
+              Der Ortsvektor $\vec r = (2, 4, 3)$ führt vom Ursprung zum
+              Punkt $P$: 2 Schritte in $x$-Richtung (nach vorn), 4 in
+              $y$-Richtung, 3 nach oben. Orange: die Einheitsvektoren
+              $\hat e_x$, $\hat e_y$, $\hat e_z$.</figcaption>
+          </figure>
+
+          <p>Drei Achsen kann man auf zwei spiegelbildliche Arten anordnen.
+            In der Physik verwendet man immer ein
+            <strong>Rechtssystem</strong>: Spreize Daumen, Zeigefinger und
+            Mittelfinger der <em>rechten</em> Hand, sodass sie paarweise
+            senkrecht stehen. Zeigt der Daumen in $x$-Richtung und der
+            Zeigefinger in $y$-Richtung, dann zeigt der Mittelfinger in
+            $z$-Richtung. Diese Festlegung wird beim Kreuzprodukt
+            wichtig.</p>
+
+          <h2 id="rechenregeln">Addieren, abziehen, strecken</h2>
+
+          <p><strong>Addieren</strong> heißt: Pfeile aneinanderhängen. Du
+            setzt den Fuß von $\vec b$ an die Spitze von $\vec a$; der
+            Summenpfeil $\vec a + \vec b$ läuft vom Fuß von $\vec a$ zur
+            Spitze von $\vec b$. Das ist genau die Wegbeschreibung vom Anfang:
+            erst die eine Verschiebung, dann die andere. In Komponenten ist
+            das ganz einfach – man addiert jede Zeile für sich:</p>
+
+          $$ \vec a + \vec b = \begin{pmatrix} a_x + b_x \\ a_y + b_y \\ a_z + b_z \end{pmatrix}, \qquad \text{z.\,B.} \quad \begin{pmatrix} 4 \\ 1 \\ 0 \end{pmatrix} + \begin{pmatrix} 1 \\ 3 \\ 0 \end{pmatrix} = \begin{pmatrix} 5 \\ 4 \\ 0 \end{pmatrix} $$
+
+          <p>Die Reihenfolge ist egal, $\vec a + \vec b = \vec b + \vec a$:
+            Beide Wege führen zur gegenüberliegenden Ecke desselben
+            Parallelogramms (Abb. 4 links). Auch bei drei und mehr Summanden
+            darf man Klammern beliebig setzen.</p>
+
+          <p><strong>Abziehen</strong> heißt: den Gegenvektor addieren. Der
+            Gegenvektor $-\vec b$ ist so lang wie $\vec b$, zeigt aber genau
+            entgegengesetzt. Anschaulich ist $\vec a - \vec b$ der Pfeil, der
+            von der Spitze von $\vec b$ zur Spitze von $\vec a$ führt
+            (Abb. 4 rechts) – also wieder „Spitze minus Fuß“. Zieht man einen
+            Vektor von sich selbst ab, bleibt der <strong>Nullvektor</strong>
+            $\vec 0$ übrig, der einzige Vektor ohne Richtung.</p>
+
+          <figure class="abbildung">
+            <div class="abb-reihe">
+              <svg class="abb" viewBox="0 0 200 170" role="img"
+                 aria-label="Addition: Pfeil b an die Spitze von a gehängt, der Summenpfeil a + b führt vom Fuß von a zur Spitze von b; gestrichelt die andere Reihenfolge">
+              <defs><marker id="pfeil-abb4-blau" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto"><path class="punkt blau" d="M0 0L10 5L0 10z"/></marker><marker id="pfeil-abb4-kupfer" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto"><path class="punkt kupfer" d="M0 0L10 5L0 10z"/></marker><marker id="pfeil-abb4-text" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto"><path class="punkt" d="M0 0L10 5L0 10z"/></marker></defs>
+              <path class="hilfslinie" d="M30 150L60 60"/>
+              <path class="hilfslinie" d="M60 60L180 30"/>
+              <path class="kurve blau" d="M30 150L150 120" marker-end="url(#pfeil-abb4-blau)"/>
+              <path class="kurve kupfer" d="M150 120L180 30" marker-end="url(#pfeil-abb4-kupfer)"/>
+              <path class="kurve" d="M30 150L180 30" marker-end="url(#pfeil-abb4-text)"/>
+              <text class="blau" x="93.2" y="151.6" text-anchor="middle" font-style="italic">a</text>
+              <text class="kupfer" x="176.4" y="82.8" text-anchor="middle" font-style="italic">b</text>
+              <text class="halo" x="96.3" y="83.1" text-anchor="middle" font-style="italic">a + b</text>
+            </svg>
+              <svg class="abb" viewBox="0 0 200 170" role="img"
+                 aria-label="Differenz: a und b vom selben Punkt aus, der Pfeil a − b führt von der Spitze von b zur Spitze von a">
+              <defs><marker id="pfeil-abb4r-blau" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto"><path class="punkt blau" d="M0 0L10 5L0 10z"/></marker><marker id="pfeil-abb4r-kupfer" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto"><path class="punkt kupfer" d="M0 0L10 5L0 10z"/></marker><marker id="pfeil-abb4r-text" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto"><path class="punkt" d="M0 0L10 5L0 10z"/></marker></defs>
+              <path class="kurve blau" d="M30 150L150 120" marker-end="url(#pfeil-abb4r-blau)"/>
+              <path class="kurve kupfer" d="M30 150L60 60" marker-end="url(#pfeil-abb4r-kupfer)"/>
+              <path class="kurve" d="M60 60L150 120" marker-end="url(#pfeil-abb4r-text)"/>
+              <text class="blau" x="93.2" y="151.6" text-anchor="middle" font-style="italic">a</text>
+              <text class="kupfer" x="33.6" y="105.2" text-anchor="middle" font-style="italic">b</text>
+              <text class="halo" x="96.7" y="106.5" text-anchor="middle" font-style="italic">a − b</text>
+            </svg>
+            </div>
+            <figcaption>Abb. 4: Links die Addition: $\vec b$ wird an die
+              Spitze von $\vec a$ gehängt. Gestrichelt die umgekehrte
+              Reihenfolge – sie endet an derselben Stelle. Rechts die
+              Differenz: $\vec a - \vec b$ führt von der Spitze von $\vec b$
+              zur Spitze von $\vec a$, denn $\vec b + (\vec a - \vec b) =
+              \vec a$.</figcaption>
+          </figure>
+
+          <p><strong>Strecken</strong>: Multipliziert man einen Vektor mit
+            einer Zahl $\lambda$, wird jede Komponente mit $\lambda$
+            multipliziert. Der Pfeil wird dabei $|\lambda|$-mal so lang; ist
+            $\lambda$ negativ, kehrt er außerdem seine Richtung um. $2\vec a$
+            ist also doppelt so lang wie $\vec a$, $-\tfrac12\,\vec a$ halb so
+            lang und umgedreht. Es gelten die vertrauten Klammerregeln, etwa
+            $\lambda\,(\vec a + \vec b) = \lambda\vec a + \lambda\vec b$.</p>
+
+          <div class="alltag">
+            <span class="titel">Aus dem Alltag</span>
+            <p>Ein Flugzeug fliegt relativ zur Luft mit $200\,\mathrm{km/h}$
+              genau nach Norden, gleichzeitig weht der Wind mit
+              $50\,\mathrm{km/h}$ nach Osten. Über dem Boden bewegt es sich
+              mit der Vektorsumme beider Geschwindigkeiten: mit
+              $\sqrt{200^2 + 50^2}\,\mathrm{km/h} \approx 206\,\mathrm{km/h}$
+              in eine Richtung etwa $14^\circ$ östlich von Norden. Wer genau
+              im Norden ankommen will, muss deshalb schräg gegen den Wind
+              steuern.</p>
+          </div>
+
+          <h2 id="skalarprodukt">Das Skalarprodukt: Wie sehr zeigen zwei Pfeile in dieselbe Richtung?</h2>
+
+          <p>Vektoren kann man auf zwei Arten miteinander multiplizieren. Die
+            erste liefert eine Zahl, einen Skalar – daher der Name
+            <strong>Skalarprodukt</strong>. Man multipliziert die Komponenten
+            zeilenweise und addiert:</p>
+
+          $$ \vec a \cdot \vec b = a_x b_x + a_y b_y + a_z b_z $$
+
+          <p>Für $\vec a = (4, 1, 0)$ und $\vec b = (1, 3, 0)$ ist
+            $\vec a\cdot\vec b = 4 + 3 + 0 = 7$. Das Erstaunliche: Dieselbe
+            Zahl bekommt man auch ganz ohne Koordinaten, nur aus den Längen
+            der Pfeile und dem Winkel $\alpha$ zwischen ihnen:</p>
+
+          $$ \vec a \cdot \vec b = |\vec a|\,|\vec b|\,\cos\alpha $$
+
+          <p>Daran sieht man, was das Skalarprodukt bedeutet. Die Länge
+            $|\vec b|\cos\alpha$ ist der <strong>Schatten</strong> von
+            $\vec b$ auf der Richtung von $\vec a$: So lang ist der Teil von
+            $\vec b$, der in Richtung $\vec a$ zeigt (Abb. 5). Das
+            Skalarprodukt misst also, <em>wie sehr</em> zwei Pfeile in
+            dieselbe Richtung zeigen:</p>
+
+          <ul>
+            <li>gleiche Richtung ($\alpha = 0^\circ$): $\vec a\cdot\vec b = ab$,
+              so groß wie möglich;</li>
+            <li>senkrecht ($\alpha = 90^\circ$): $\vec a\cdot\vec b = 0$ – das
+              ist der schnellste Test, ob zwei Vektoren senkrecht aufeinander
+              stehen;</li>
+            <li>stumpfer Winkel ($\alpha \gt 90^\circ$): Das Skalarprodukt
+              wird negativ, der Schatten fällt nach hinten.</li>
+          </ul>
+
+          <figure class="abbildung">
+            <svg class="abb" viewBox="0 0 360 200" role="img"
+                 aria-label="Der Pfeil b wirft einen Schatten auf die Richtung von a; der Schatten hat die Länge Betrag b mal cos alpha">
+              <defs><marker id="pfeil-abb5-blau" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto"><path class="punkt blau" d="M0 0L10 5L0 10z"/></marker><marker id="pfeil-abb5-kupfer" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto"><path class="punkt kupfer" d="M0 0L10 5L0 10z"/></marker></defs>
+              <path class="kurve band kupfer" d="M40 165L174 165"/>
+              <path class="kurve blau" d="M40 165L330 165" marker-end="url(#pfeil-abb5-blau)"/>
+              <path class="kurve kupfer" d="M40 165L174 60.3" marker-end="url(#pfeil-abb5-kupfer)"/>
+              <path class="hilfslinie" d="M174 60.3L174 165"/>
+              <path class="hilfslinie" d="M165 165V156H174"/>
+              <path class="achse" d="M74 165A34 34 0 0 0 66.8 144.1"/>
+              <text x="84.4" y="153.7" text-anchor="middle" font-style="italic">α</text>
+              <text class="blau" x="318" y="155" text-anchor="middle" font-style="italic">a</text>
+              <text class="kupfer" x="99" y="106.4" text-anchor="middle" font-style="italic">b</text>
+              <text class="kupfer" x="107" y="187" text-anchor="middle">|b| cos α</text>
+            </svg>
+            <figcaption>Abb. 5: Fällt Licht senkrecht auf die Richtung von
+              $\vec a$, wirft $\vec b$ einen Schatten der Länge
+              $|\vec b|\cos\alpha$ (orange getönt). Das Skalarprodukt ist
+              dieser Schatten mal die Länge von $\vec a$.</figcaption>
+          </figure>
+
+          <p>Zwei nützliche Folgerungen: Das Skalarprodukt eines Vektors mit
+            sich selbst ist sein Betragsquadrat, $\vec a\cdot\vec a = a^2$.
+            Und weil sich das Skalarprodukt aus den Komponenten leicht
+            ausrechnen lässt, bekommt man so den Winkel zwischen zwei
+            beliebigen Vektoren:</p>
+
+          $$ \cos\alpha = \frac{\vec a\cdot\vec b}{|\vec a|\,|\vec b|} $$
+
+          <p>Im Beispiel von oben ist $\cos\alpha = 7/(\sqrt{17}\cdot\sqrt{10})
+            = 0{,}537$, also $\alpha \approx 57{,}5^\circ$.</p>
+
+          <p>Für die Einheitsvektoren der Achsen heißt das: Jeder hat mit
+            sich selbst das Skalarprodukt 1, zwei verschiedene das
+            Skalarprodukt 0, weil sie senkrecht stehen. Im Studium fasst man
+            das kurz als $\hat e_i\cdot\hat e_j = \delta_{ij}$ zusammen (das
+            <em>Kronecker-Delta</em> $\delta_{ij}$ ist 1 für $i = j$ und sonst
+            0) und schreibt das Skalarprodukt als Summe
+            $\vec a\cdot\vec b = \sum_i a_i b_i$.</p>
+
+          <div class="alltag">
+            <span class="titel">Aus der Physik</span>
+            <p>Ziehst du einen Rollkoffer schräg am Griff hinter dir her,
+              zählt für die Arbeit nur der Teil deiner Kraft, der in
+              Laufrichtung zeigt: Die
+              <a href="../mechanik/arbeit-leistung.html">Arbeit</a> ist das
+              Skalarprodukt $W = \vec F\cdot\vec s$ aus Kraft und Weg. Bei
+              einem Winkel von $60^\circ$ ist $\cos 60^\circ = \tfrac12$ – nur
+              die Hälfte deiner Kraft zieht den Koffer nach vorn. Der
+              senkrechte Anteil hält bloß den Griff hoch und verrichtet auf
+              ebener Strecke keine Arbeit.</p>
+          </div>
+
+          <h2 id="kreuzprodukt">Das Kreuzprodukt: ein Pfeil senkrecht auf beiden</h2>
+
+          <p>Die zweite Multiplikation liefert wieder einen Vektor. Das
+            <strong>Kreuzprodukt</strong> $\vec a\times\vec b$ (gesprochen
+            „a kreuz b“) gibt es nur im dreidimensionalen Raum. Es ist durch
+            drei Eigenschaften festgelegt (Abb. 6):</p>
+
+          <ol>
+            <li><strong>Richtung:</strong> $\vec a\times\vec b$ steht senkrecht
+              auf $\vec a$ und auf $\vec b$, also senkrecht auf der Ebene, die
+              die beiden aufspannen.</li>
+            <li><strong>Seite:</strong> Von den zwei möglichen Seiten wählt
+              man die der rechten Hand: Daumen in Richtung $\vec a$,
+              Zeigefinger in Richtung $\vec b$ – dann zeigt der Mittelfinger
+              in Richtung $\vec a\times\vec b$.</li>
+            <li><strong>Länge:</strong>
+              $|\vec a\times\vec b| = |\vec a|\,|\vec b|\,\sin\alpha$. Das ist
+              genau der Flächeninhalt des Parallelogramms, das $\vec a$ und
+              $\vec b$ aufspannen.</li>
+          </ol>
+
+          <figure class="abbildung">
+            <svg class="abb" viewBox="0 0 360 220" role="img"
+                 aria-label="Die Vektoren a und b spannen ein getöntes Parallelogramm auf; das Kreuzprodukt a kreuz b steht senkrecht darauf und ist so lang, wie die Fläche groß ist">
+              <defs><marker id="pfeil-abb6-blau" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto"><path class="punkt blau" d="M0 0L10 5L0 10z"/></marker><marker id="pfeil-abb6-kupfer" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto"><path class="punkt kupfer" d="M0 0L10 5L0 10z"/></marker><marker id="pfeil-abb6-text" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto"><path class="punkt" d="M0 0L10 5L0 10z"/></marker></defs>
+              <path class="flaeche" d="M120 190L270 190L345 145L195 145z"/>
+              <path class="hilfslinie" d="M270 190L345 145"/>
+              <path class="hilfslinie" d="M195 145L345 145"/>
+              <path class="hilfslinie" d="M120 180H130V190"/>
+              <path class="kurve blau" d="M120 190L270 190" marker-end="url(#pfeil-abb6-blau)"/>
+              <path class="kurve kupfer" d="M120 190L195 145" marker-end="url(#pfeil-abb6-kupfer)"/>
+              <path class="kurve" d="M120 190L120 38" marker-end="url(#pfeil-abb6-text)"/>
+              <path class="achse" d="M150 190A30 30 0 0 0 145.7 174.6"/>
+              <text class="klein" x="161.4" y="182.5" text-anchor="middle" font-style="italic">α</text>
+              <text class="blau" x="195" y="208" text-anchor="middle" font-style="italic">a</text>
+              <text class="kupfer" x="151.3" y="161.2" text-anchor="middle" font-style="italic">b</text>
+              <text x="130" y="50" text-anchor="start" font-style="italic">a × b</text>
+              <text class="klein" x="250" y="172" text-anchor="middle">Fläche = |a × b|</text>
+            </svg>
+            <figcaption>Abb. 6: $\vec a$ und $\vec b$ liegen in der
+              waagerechten Ebene und spannen das getönte Parallelogramm auf.
+              $\vec a\times\vec b$ steht senkrecht darauf (rechte Hand: Daumen
+              $\vec a$, Zeigefinger $\vec b$, Mittelfinger nach oben) und ist
+              so lang, wie die Fläche groß ist. $\vec b\times\vec a$ zeigt
+              genau nach unten.</figcaption>
+          </figure>
+
+          <p>Während das Skalarprodukt fragt „Wie parallel?“, fragt das
+            Kreuzprodukt also „Wie senkrecht?“: Parallele Vektoren spannen
+            keine Fläche auf, ihr Kreuzprodukt ist der Nullvektor. Am größten
+            ist es, wenn die beiden senkrecht aufeinander stehen.</p>
+
+          <p>Eine Besonderheit musst du dir merken: Vertauscht man die
+            Reihenfolge, kehrt sich das Ergebnis um – probier es mit der
+            rechten Hand aus:</p>
+
+          $$ \vec b\times\vec a = -\,\vec a\times\vec b $$
+
+          <p>Für die Einheitsvektoren gilt im Rechtssystem
+            $\hat e_x\times\hat e_y = \hat e_z$,
+            $\hat e_y\times\hat e_z = \hat e_x$ und
+            $\hat e_z\times\hat e_x = \hat e_y$ – immer im Kreis
+            $x \to y \to z \to x$. Daraus folgt die Formel in
+            Komponenten:</p>
+
+          $$ \vec a\times\vec b = \begin{pmatrix} a_y b_z - a_z b_y \\ a_z b_x - a_x b_z \\ a_x b_y - a_y b_x \end{pmatrix} $$
+
+          <p>Sie sieht wild aus, folgt aber einem einfachen Muster: Für jede
+            Komponente nimmt man die <em>beiden anderen</em> Zeilen und
+            multipliziert über Kreuz (Abb. 7). Zur Kontrolle prüfst du am
+            Ende mit dem Skalarprodukt, ob das Ergebnis wirklich senkrecht auf
+            $\vec a$ und $\vec b$ steht – beide Skalarprodukte müssen null
+            sein.</p>
+
+          <figure class="abbildung">
+            <svg class="abb" viewBox="0 0 360 185" role="img"
+                 aria-label="Rechenschema für das Kreuzprodukt: Komponenten von a und b untereinander, die ersten beiden Zeilen unten wiederholt; für jede Komponente werden die beiden folgenden Zeilen über Kreuz multipliziert">
+              <defs></defs>
+              <text class="blau" x="62" y="16" text-anchor="middle" font-style="italic">a</text>
+              <text class="kupfer" x="132" y="16" text-anchor="middle" font-style="italic">b</text>
+              <text x="62" y="40" text-anchor="middle">a<tspan dy="4" font-size="10">x</tspan><tspan dy="-4"> </tspan></text>
+              <text x="132" y="40" text-anchor="middle">b<tspan dy="4" font-size="10">x</tspan><tspan dy="-4"> </tspan></text>
+              <text x="62" y="72" text-anchor="middle">a<tspan dy="4" font-size="10">y</tspan><tspan dy="-4"> </tspan></text>
+              <text x="132" y="72" text-anchor="middle">b<tspan dy="4" font-size="10">y</tspan><tspan dy="-4"> </tspan></text>
+              <text x="62" y="104" text-anchor="middle">a<tspan dy="4" font-size="10">z</tspan><tspan dy="-4"> </tspan></text>
+              <text x="132" y="104" text-anchor="middle">b<tspan dy="4" font-size="10">z</tspan><tspan dy="-4"> </tspan></text>
+              <text x="62" y="136" text-anchor="middle" opacity="0.55">a<tspan dy="4" font-size="10">x</tspan><tspan dy="-4"> </tspan></text>
+              <text x="132" y="136" text-anchor="middle" opacity="0.55">b<tspan dy="4" font-size="10">x</tspan><tspan dy="-4"> </tspan></text>
+              <text x="62" y="168" text-anchor="middle" opacity="0.55">a<tspan dy="4" font-size="10">y</tspan><tspan dy="-4"> </tspan></text>
+              <text x="132" y="168" text-anchor="middle" opacity="0.55">b<tspan dy="4" font-size="10">y</tspan><tspan dy="-4"> </tspan></text>
+              <path class="hilfslinie" d="M40 120L154 120"/>
+              <path class="kurve blau duenn" d="M75 68L119 100"/>
+              <path class="kurve kupfer duenn" d="M75 100L119 68"/>
+              <text x="176" y="88" text-anchor="start">(a × b)<tspan dy="4" font-size="10">x</tspan><tspan dy="-4"> = </tspan>a<tspan dy="4" font-size="10">y</tspan><tspan dy="-4">b</tspan><tspan dy="4" font-size="10">z</tspan><tspan dy="-4"> − </tspan>a<tspan dy="4" font-size="10">z</tspan><tspan dy="-4">b</tspan><tspan dy="4" font-size="10">y</tspan><tspan dy="-4"> </tspan></text>
+              <path class="kurve blau duenn" d="M75 100L119 132"/>
+              <path class="kurve kupfer duenn" d="M75 132L119 100"/>
+              <text x="176" y="120" text-anchor="start">(a × b)<tspan dy="4" font-size="10">y</tspan><tspan dy="-4"> = </tspan>a<tspan dy="4" font-size="10">z</tspan><tspan dy="-4">b</tspan><tspan dy="4" font-size="10">x</tspan><tspan dy="-4"> − </tspan>a<tspan dy="4" font-size="10">x</tspan><tspan dy="-4">b</tspan><tspan dy="4" font-size="10">z</tspan><tspan dy="-4"> </tspan></text>
+              <path class="kurve blau duenn" d="M75 132L119 164"/>
+              <path class="kurve kupfer duenn" d="M75 164L119 132"/>
+              <text x="176" y="152" text-anchor="start">(a × b)<tspan dy="4" font-size="10">z</tspan><tspan dy="-4"> = </tspan>a<tspan dy="4" font-size="10">x</tspan><tspan dy="-4">b</tspan><tspan dy="4" font-size="10">y</tspan><tspan dy="-4"> − </tspan>a<tspan dy="4" font-size="10">y</tspan><tspan dy="-4">b</tspan><tspan dy="4" font-size="10">x</tspan><tspan dy="-4"> </tspan></text>
+            </svg>
+            <figcaption>Abb. 7: Rechenschema. Schreib die Komponenten von
+              $\vec a$ und $\vec b$ untereinander und wiederhole die ersten
+              beiden Zeilen unten. Jede Komponente des Ergebnisses kommt aus
+              den beiden Zeilen, die auf ihren Namen folgen: blaue Linie mal
+              plus, orange Linie mal minus.</figcaption>
+          </figure>
+
+          <div class="alltag">
+            <span class="titel">Aus der Physik</span>
+            <p>Wenn du mit einem Schraubenschlüssel eine Schraube anziehst,
+              kommt es auf zwei Dinge an: wie weit außen du anfasst und wie
+              senkrecht zum Griff du drückst. Beides steckt im
+              <a href="../mechanik/drehbewegung.html">Drehmoment</a>
+              $\vec M = \vec r\times\vec F$. Drückst du in Richtung des Griffs,
+              passiert gar nichts ($\sin 0^\circ = 0$). Und $\vec M$ zeigt
+              entlang der Schraubenachse – bei einer gewöhnlichen Schraube,
+              die du im Uhrzeigersinn drehst, in die Wand hinein. Auch der
+              Drehimpuls $\vec L = \vec r\times\vec p$ ist ein
+              Kreuzprodukt.</p>
+          </div>
+
+          <p>Im Vektor-Labor kannst du Summe, Skalarprodukt und Kreuzprodukt
+            in der Ebene ausprobieren. Zieh an den Spitzen der beiden Pfeile
+            und beobachte, wie sich die Zahlen ändern.</p>
+
+          <figure class="interaktiv" data-modell="vektorlabor">
+            <span class="titel">Zum Ausprobieren</span>
+            <figcaption>Zwei Vektoren $\vec a$ (blau) und $\vec b$ (orange)
+              in der $xy$-Ebene. Zieh ihre Spitzen mit der Maus oder dem
+              Finger – oder wähle sie mit der Tab-Taste aus und verschiebe sie
+              mit den Pfeiltasten. „Summe“ zeigt das Parallelogramm,
+              „Skalarprodukt“ den Schatten von $\vec b$ auf $\vec a$,
+              „Kreuzprodukt“ die aufgespannte Fläche. Das Kreuzprodukt steht
+              senkrecht auf dem Bildschirm: Ein Punkt im Kreis heißt „zeigt
+              auf dich zu“, ein Kreuz im Kreis „zeigt in den Bildschirm
+              hinein“. Stell die Pfeile einmal senkrecht und einmal parallel
+              zueinander!</figcaption>
+          </figure>
+
+          <h2 id="spatprodukt">Spatprodukt und doppeltes Kreuzprodukt</h2>
+
+          <p>Kombiniert man beide Produkte, entsteht das
+            <strong>Spatprodukt</strong> dreier Vektoren:</p>
+
+          $$ V = (\vec a\times\vec b)\cdot\vec c $$
+
+          <p>Seine Bedeutung zeigt Abb. 8: Drei Vektoren spannen einen
+            schiefen Quader auf, einen <strong>Spat</strong>.
+            $|\vec a\times\vec b|$ ist die Grundfläche, und das Skalarprodukt
+            mit $\vec c$ nimmt davon den Anteil von $\vec c$, der senkrecht
+            auf der Grundfläche steht – die Höhe $h$. Zusammen ergibt das
+            Grundfläche mal Höhe, also das Volumen. Ist das Spatprodukt null,
+            liegen die drei Vektoren in einer Ebene. Ist es negativ, bilden
+            $\vec a$, $\vec b$, $\vec c$ in dieser Reihenfolge ein
+            Linkssystem; das Volumen ist dann der Betrag. Im Kreis vertauschen
+            darf man die drei, ohne dass sich etwas ändert:
+            $(\vec a\times\vec b)\cdot\vec c = (\vec b\times\vec c)\cdot\vec a
+            = (\vec c\times\vec a)\cdot\vec b$.</p>
+
+          <figure class="abbildung">
+            <svg class="abb" viewBox="0 0 360 225" role="img"
+                 aria-label="Drei Vektoren a, b und c spannen einen schiefen Quader auf; die Grundfläche aus a und b ist getönt, a kreuz b steht senkrecht auf ihr, gestrichelt die Höhe h des Spats">
+              <defs><marker id="pfeil-abb8" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="currentColor"/></marker><marker id="pfeil-abb8-blau" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto"><path class="punkt blau" d="M0 0L10 5L0 10z"/></marker><marker id="pfeil-abb8-kupfer" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto"><path class="punkt kupfer" d="M0 0L10 5L0 10z"/></marker><marker id="pfeil-abb8-text" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto"><path class="punkt" d="M0 0L10 5L0 10z"/></marker></defs>
+              <path class="flaeche" d="M70 195L230 195L300 155L140 155z"/>
+              <path class="hilfslinie" d="M140 155L300 155"/>
+              <path class="hilfslinie" d="M140 155L180 35"/>
+              <path class="achse" d="M230 195L300 155"/>
+              <path class="achse" d="M230 195L270 75"/>
+              <path class="achse" d="M300 155L340 35"/>
+              <path class="achse" d="M110 75L270 75"/>
+              <path class="achse" d="M110 75L180 35"/>
+              <path class="achse" d="M270 75L340 35"/>
+              <path class="achse" d="M180 35L340 35"/>
+              <path class="achse" d="M70 195L70 45" marker-end="url(#pfeil-abb8)"/>
+              <path class="hilfslinie" d="M110 75L70 75"/>
+              <path class="kurve blau" d="M70 195L230 195" marker-end="url(#pfeil-abb8-blau)"/>
+              <path class="kurve kupfer" d="M70 195L140 155" marker-end="url(#pfeil-abb8-kupfer)"/>
+              <path class="kurve" d="M70 195L110 75" marker-end="url(#pfeil-abb8-text)"/>
+              <text class="blau" x="150" y="213" text-anchor="middle" font-style="italic">a</text>
+              <text class="kupfer" x="110.5" y="188.6" text-anchor="middle" font-style="italic">b</text>
+              <text x="100.4" y="142.5" text-anchor="middle" font-style="italic">c</text>
+              <text x="62" y="55" text-anchor="end" font-style="italic">a × b</text>
+              <text x="90" y="68" text-anchor="middle" font-style="italic">h</text>
+              <text class="klein" x="200" y="182" text-anchor="middle">Grundfläche</text>
+            </svg>
+            <figcaption>Abb. 8: Ein Spat aus $\vec a$, $\vec b$ und $\vec c$.
+              Die Grundfläche ist $|\vec a\times\vec b|$, die Höhe $h$ ist der
+              Anteil von $\vec c$ in Richtung von $\vec a\times\vec b$. Das
+              Spatprodukt ist Grundfläche mal Höhe.</figcaption>
+          </figure>
+
+          <p>Zum Schluss eine Regel, die dir in der Mechanik und der
+            Elektrodynamik oft begegnen wird. Für ein doppeltes Kreuzprodukt
+            gilt</p>
+
+          $$ \vec a\times(\vec b\times\vec c) = \vec b\,(\vec a\cdot\vec c) - \vec c\,(\vec a\cdot\vec b) , $$
+
+          <p>wegen der Buchstabenfolge rechts „BAC-CAB-Regel“ genannt.
+            Achtung: Beim Kreuzprodukt kommt es auf die Klammern an –
+            $(\vec a\times\vec b)\times\vec c$ ist im Allgemeinen etwas
+            anderes.</p>
+
+          <h2 id="ueberblick">Alles auf einen Blick</h2>
+
+          <div class="tabelle-huelle">
+            <table>
+              <thead><tr><th>Rechnung</th><th>Ergebnis</th><th>Bedeutung</th><th>Beispiel aus der Physik</th></tr></thead>
+              <tbody>
+                <tr><td>$\vec a + \vec b$</td><td>Vektor</td><td>Pfeile aneinanderhängen</td><td>Kräfte zusammensetzen</td></tr>
+                <tr><td>$\lambda\,\vec a$</td><td>Vektor</td><td>strecken, bei $\lambda \lt 0$ umdrehen</td><td>Impuls $\vec p = m\vec v$</td></tr>
+                <tr><td>$\vec a\cdot\vec b$</td><td>Zahl</td><td>Wie parallel? Null heißt senkrecht.</td><td>Arbeit $W = \vec F\cdot\vec s$</td></tr>
+                <tr><td>$\vec a\times\vec b$</td><td>Vektor</td><td>senkrecht auf beiden, Länge = Fläche</td><td>Drehmoment $\vec M = \vec r\times\vec F$</td></tr>
+                <tr><td>$(\vec a\times\vec b)\cdot\vec c$</td><td>Zahl</td><td>Volumen des Spats</td><td>Volumen einer Kristallzelle</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="merkkasten">
+            <span class="titel">Das Wichtigste in Kürze</span>
+            <p>Ein Vektor ist ein Pfeil mit Länge und Richtung, egal wo er
+              angesetzt wird. Gerechnet wird mit seinen Komponenten: Addieren
+              und Strecken gehen Zeile für Zeile, die Länge liefert der
+              Pythagoras. Das Skalarprodukt ist eine Zahl und misst, wie sehr
+              zwei Pfeile in dieselbe Richtung zeigen – null heißt senkrecht.
+              Das Kreuzprodukt ist ein Pfeil senkrecht auf beiden, so lang
+              wie die aufgespannte Fläche; seine Richtung zeigt die rechte
+              Hand.</p>
+          </div>
+        </section>
+
+        <section class="tab" id="vertiefung" data-titel="Vertiefung"></section>
+
+        <section class="tab" id="beispiele" data-titel="Beispielrechnungen">
+
+          <div class="beispiel" data-symbole='{"A": "Startpunkt der Drohne", "B": "Punkt nach dem Geradeausflug", "C": "Endpunkt nach dem Steigflug", "r_A": "Ortsvektor von A", "r_B": "Ortsvektor von B", "r_C": "Ortsvektor von C", "e": "Einheitsvektor in Flugrichtung"}'>
+            <h3>Beispiel 1: Flugweg einer Drohne</h3>
+            <p><strong>Gegeben:</strong> Eine Drohne startet im Punkt
+              $A = (2, -1, 1)\,\mathrm{m}$, fliegt geradeaus und in gleicher
+              Höhe zum Punkt $B = (8, 7, 1)\,\mathrm{m}$ und steigt dann
+              senkrecht zum Punkt $C = (8, 7, 6)\,\mathrm{m}$ (z-Achse nach
+              oben).<br>
+              <strong>Gesucht:</strong> (a) die Verschiebungsvektoren
+              $\overrightarrow{AB}$, $\overrightarrow{BC}$ und
+              $\overrightarrow{AC}$, (b) die geflogene Strecke und die
+              Luftlinie von $A$ nach $C$, (c) der Einheitsvektor in
+              Flugrichtung auf dem ersten Abschnitt.</p>
+
+            <p><strong>1. Verschiebungen („Spitze minus Fuß“).</strong>
+              $$ \overrightarrow{AB} = \vec r_B - \vec r_A = \begin{pmatrix} 8 - 2 \\ 7 - (-1) \\ 1 - 1 \end{pmatrix}\,\mathrm{m} = \begin{pmatrix} 6 \\ 8 \\ 0 \end{pmatrix}\,\mathrm{m}, \qquad \overrightarrow{BC} = \begin{pmatrix} 0 \\ 0 \\ 5 \end{pmatrix}\,\mathrm{m} $$
+              Die Gesamtverschiebung ist die Summe der beiden Abschnitte:
+              $$ \overrightarrow{AC} = \overrightarrow{AB} + \overrightarrow{BC} = \begin{pmatrix} 6 \\ 8 \\ 5 \end{pmatrix}\,\mathrm{m} $$
+              Probe: $\vec r_C - \vec r_A = (8 - 2,\ 7 + 1,\ 6 - 1)\,\mathrm{m}$
+              liefert dasselbe.</p>
+
+            <p><strong>2. Längen der Abschnitte.</strong>
+              $$ |\overrightarrow{AB}| = \sqrt{6^2 + 8^2 + 0^2}\,\mathrm{m} = \sqrt{100}\,\mathrm{m} = 10\,\mathrm{m}, \qquad |\overrightarrow{BC}| = 5\,\mathrm{m} $$
+              Die Drohne fliegt also $10\,\mathrm{m} + 5\,\mathrm{m} = 15\,\mathrm{m}$.</p>
+
+            <p><strong>3. Luftlinie.</strong>
+              $$ |\overrightarrow{AC}| = \sqrt{6^2 + 8^2 + 5^2}\,\mathrm{m} = \sqrt{125}\,\mathrm{m} = 11{,}2\,\mathrm{m} $$</p>
+
+            <p><strong>4. Einheitsvektor.</strong> Teilen durch die Länge:
+              $$ \hat e = \frac{\overrightarrow{AB}}{|\overrightarrow{AB}|} = \frac{1}{10\,\mathrm{m}}\begin{pmatrix} 6 \\ 8 \\ 0 \end{pmatrix}\,\mathrm{m} = \begin{pmatrix} 0{,}6 \\ 0{,}8 \\ 0 \end{pmatrix} $$
+              Einheitencheck: $\mathrm{m}/\mathrm{m}$ – ein Einheitsvektor hat
+              keine Einheit, er gibt nur die Richtung an. Kontrolle:
+              $0{,}6^2 + 0{,}8^2 = 1$.</p>
+
+            <p><strong>Ergebnis und Plausibilität:</strong> Die Luftlinie
+              ($11{,}2\,\mathrm{m}$) ist kürzer als der geflogene Weg
+              ($15\,\mathrm{m}$) – ein Umweg ist nie kürzer als der direkte
+              Weg. Weil $\overrightarrow{AB}\cdot\overrightarrow{BC} = 0$ ist,
+              stehen die beiden Abschnitte senkrecht aufeinander, und die
+              Luftlinie folgt auch aus dem Pythagoras:
+              $\sqrt{10^2 + 5^2}\,\mathrm{m} = \sqrt{125}\,\mathrm{m}$.</p>
+          </div>
+
+          <div class="beispiel" data-symbole='{"h_1": "Richtung der 1. Bindung (C zu H)", "h_2": "Richtung der 2. Bindung", "h_3": "Richtung der 3. Bindung", "h_4": "Richtung der 4. Bindung", "α": "Winkel zwischen zwei Bindungen"}'>
+            <h3>Beispiel 2: Der Bindungswinkel im Methan</h3>
+            <p><strong>Gegeben:</strong> Im Methan-Molekül
+              $\mathrm{CH_4}$ sitzt das Kohlenstoffatom im Mittelpunkt eines
+              Würfels, die vier Wasserstoffatome sitzen an vier Ecken, von
+              denen keine zwei durch eine Würfelkante verbunden sind. Mit dem
+              Würfelmittelpunkt als Ursprung zeigen die vier Bindungen in die
+              Richtungen
+              $$ \vec h_1 = \begin{pmatrix} 1 \\ 1 \\ 1 \end{pmatrix}, \quad \vec h_2 = \begin{pmatrix} 1 \\ -1 \\ -1 \end{pmatrix}, \quad \vec h_3 = \begin{pmatrix} -1 \\ 1 \\ -1 \end{pmatrix}, \quad \vec h_4 = \begin{pmatrix} -1 \\ -1 \\ 1 \end{pmatrix} $$
+              (in beliebiger Längeneinheit).<br>
+              <strong>Gesucht:</strong> (a) der Winkel zwischen zwei
+              Bindungen, (b) die Summe aller vier Bindungsvektoren.</p>
+
+            <p><strong>1. Skalarprodukt</strong> von $\vec h_1$ und
+              $\vec h_2$, Zeile für Zeile:
+              $$ \vec h_1\cdot\vec h_2 = 1 \cdot 1 + 1 \cdot (-1) + 1 \cdot (-1) = -1 $$</p>
+
+            <p><strong>2. Längen:</strong>
+              $$ |\vec h_1| = |\vec h_2| = \sqrt{1^2 + 1^2 + 1^2} = \sqrt 3 $$</p>
+
+            <p><strong>3. Winkel:</strong>
+              $$ \cos\alpha = \frac{\vec h_1\cdot\vec h_2}{|\vec h_1|\,|\vec h_2|} = \frac{-1}{\sqrt 3 \cdot \sqrt 3} = -\frac13 \quad\Rightarrow\quad \alpha = 109{,}47^\circ $$
+              Jedes andere Paar liefert ebenfalls das Skalarprodukt $-1$ –
+              alle sechs Bindungswinkel sind gleich.</p>
+
+            <p><strong>4. Summe:</strong>
+              $$ \vec h_1 + \vec h_2 + \vec h_3 + \vec h_4 = \begin{pmatrix} 1 + 1 - 1 - 1 \\ 1 - 1 + 1 - 1 \\ 1 - 1 - 1 + 1 \end{pmatrix} = \vec 0 $$</p>
+
+            <p><strong>Ergebnis und Plausibilität:</strong> Der Winkel
+              $109{,}5^\circ$ ist der bekannte <em>Tetraederwinkel</em>; genau
+              diesen Wert misst man im Methan. Er ist größer als $90^\circ$,
+              weil die vier Bindungen so weit wie möglich auseinander zeigen.
+              Einheitencheck: Zähler und Nenner tragen dieselbe Einheit
+              (Länge zum Quadrat), $\cos\alpha$ ist also dimensionslos – die
+              Längeneinheit spielt keine Rolle. Dass sich die vier Pfeile zum
+              Nullvektor addieren, ist der Grund, warum Methan trotz
+              polarer C-H-Bindungen insgesamt unpolar ist: Die vier Anteile
+              heben sich gegenseitig auf.</p>
+          </div>
+
+          <div class="beispiel" data-symbole='{"A": "Ecke der Dachfläche (Traufe)", "B": "Ecke der Dachfläche (Traufe)", "C": "Spitze der Dachfläche (First)", "n": "Normaleneinheitsvektor der Dachfläche", "β": "Dachneigung gegen die Waagerechte"}'>
+            <h3>Beispiel 3: Fläche und Neigung einer Dachfläche</h3>
+            <p><strong>Gegeben:</strong> Die dreieckige Seitenfläche eines
+              Walmdachs hat die Ecken $A = (0, 0, 3)\,\mathrm{m}$,
+              $B = (6, 0, 3)\,\mathrm{m}$ und $C = (3, 4, 6)\,\mathrm{m}$
+              (z-Achse nach oben).<br>
+              <strong>Gesucht:</strong> (a) der Flächeninhalt, (b) ein
+              Einheitsvektor senkrecht zur Dachfläche, (c) die Dachneigung
+              $\beta$ gegen die Waagerechte.</p>
+
+            <p><strong>1. Kantenvektoren:</strong>
+              $$ \overrightarrow{AB} = \begin{pmatrix} 6 \\ 0 \\ 0 \end{pmatrix}\,\mathrm{m}, \qquad \overrightarrow{AC} = \begin{pmatrix} 3 \\ 4 \\ 3 \end{pmatrix}\,\mathrm{m} $$</p>
+
+            <p><strong>2. Kreuzprodukt</strong> nach dem Schema aus Abb. 7:
+              $$ \overrightarrow{AB}\times\overrightarrow{AC} = \begin{pmatrix} 0 \cdot 3 - 0 \cdot 4 \\ 0 \cdot 3 - 6 \cdot 3 \\ 6 \cdot 4 - 0 \cdot 3 \end{pmatrix}\,\mathrm{m^2} = \begin{pmatrix} 0 \\ -18 \\ 24 \end{pmatrix}\,\mathrm{m^2} $$
+              Einheitencheck: $\mathrm{m}\cdot\mathrm{m} = \mathrm{m^2}$ – eine
+              Fläche, wie es sein soll.</p>
+
+            <p><strong>3. Flächeninhalt.</strong> Der Betrag ist die Fläche
+              des Parallelogramms, das Dreieck ist halb so groß:
+              $$ |\overrightarrow{AB}\times\overrightarrow{AC}| = \sqrt{0^2 + 18^2 + 24^2}\,\mathrm{m^2} = \sqrt{900}\,\mathrm{m^2} = 30\,\mathrm{m^2} \quad\Rightarrow\quad A_\text{Dreieck} = 15\,\mathrm{m^2} $$</p>
+
+            <p><strong>4. Normaleneinheitsvektor:</strong>
+              $$ \hat n = \frac{1}{30\,\mathrm{m^2}}\begin{pmatrix} 0 \\ -18 \\ 24 \end{pmatrix}\,\mathrm{m^2} = \begin{pmatrix} 0 \\ -0{,}6 \\ 0{,}8 \end{pmatrix} $$
+              Kontrolle mit dem Skalarprodukt:
+              $\hat n\cdot\overrightarrow{AB} = 0$ und
+              $\hat n\cdot\overrightarrow{AC} = (0 - 2{,}4 + 2{,}4)\,\mathrm{m} = 0$
+              – $\hat n$ steht senkrecht auf beiden Kanten.</p>
+
+            <p><strong>5. Neigung.</strong> Die Dachfläche ist um denselben
+              Winkel gegen die Waagerechte gekippt wie ihre Normale gegen die
+              Senkrechte $\hat e_z$:
+              $$ \cos\beta = \hat n\cdot\hat e_z = 0{,}8 \quad\Rightarrow\quad \beta = 36{,}9^\circ $$</p>
+
+            <p><strong>Ergebnis und Plausibilität:</strong> Die Dachfläche
+              ist $15\,\mathrm{m^2}$ groß und $36{,}9^\circ$ geneigt. Ohne
+              Vektoren geht es hier zufällig auch: Die Grundkante ist
+              $6\,\mathrm{m}$ lang, die Spitze liegt $4\,\mathrm{m}$ weiter
+              innen und $3\,\mathrm{m}$ höher. Die Höhe des Dreiecks in der
+              Dachfläche ist also $\sqrt{4^2 + 3^2}\,\mathrm{m} = 5\,\mathrm{m}$,
+              die Fläche $\tfrac12 \cdot 6\,\mathrm{m} \cdot 5\,\mathrm{m} =
+              15\,\mathrm{m^2}$ und $\tan\beta = 3/4$. Das Kreuzprodukt
+              funktioniert aber auch dann, wenn die Fläche schief im Raum
+              liegt und es keine so bequeme Kante gibt.</p>
+          </div>
+        </section>
+
+        <section class="tab" id="aufgaben" data-titel="Aufgaben">
+
+          <p>Die Aufgaben sind nach Schwierigkeit sortiert. Versuch es erst
+            selbst – die Lösungen sind zugeklappt. Alle Koordinatensysteme
+            sind Rechtssysteme.</p>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 1: Rechnen mit Komponenten
+              <span class="schwierigkeit" data-stufe="leicht">leicht</span>
+            </h3>
+            <p>Gegeben sind $\vec a = (2, -1, 3)$ und $\vec b = (1, 4, -2)$.</p>
+            <ol type="a">
+              <li>Berechne $\vec a + \vec b$ und $3\vec a - 2\vec b$.</li>
+              <li>Wie lang ist $\vec a$? Gib den Einheitsvektor $\hat a$ an.</li>
+            </ol>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>(a) Zeile für Zeile:
+                $$ \vec a + \vec b = \begin{pmatrix} 2 + 1 \\ -1 + 4 \\ 3 - 2 \end{pmatrix} = \begin{pmatrix} 3 \\ 3 \\ 1 \end{pmatrix}, \qquad 3\vec a - 2\vec b = \begin{pmatrix} 6 - 2 \\ -3 - 8 \\ 9 + 4 \end{pmatrix} = \begin{pmatrix} 4 \\ -11 \\ 13 \end{pmatrix} $$</p>
+              <p>(b)
+                $$ |\vec a| = \sqrt{2^2 + (-1)^2 + 3^2} = \sqrt{14} \approx 3{,}74, \qquad \hat a = \frac{1}{\sqrt{14}}\begin{pmatrix} 2 \\ -1 \\ 3 \end{pmatrix} \approx \begin{pmatrix} 0{,}535 \\ -0{,}267 \\ 0{,}802 \end{pmatrix} $$
+                Probe: $0{,}535^2 + 0{,}267^2 + 0{,}802^2 \approx 1{,}00$.
+                Achtung beim Quadrieren negativer Komponenten:
+                $(-1)^2 = +1$.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe" data-symbole='{"v": "Geschwindigkeit über Grund", "t": "Zeit für die Überquerung", "d": "Abdrift flussabwärts", "φ": "Winkel gegen die Senkrechte zum Ufer"}'>
+            <h3>Aufgabe 2: Quer über den Fluss
+              <span class="schwierigkeit" data-stufe="leicht">leicht</span>
+            </h3>
+            <p>Ein Fluss ist $60\,\mathrm{m}$ breit und strömt mit
+              $0{,}50\,\mathrm{m/s}$. Eine Schwimmerin schwimmt relativ zum
+              Wasser mit $1{,}2\,\mathrm{m/s}$, immer senkrecht zum Ufer
+              ausgerichtet. Lege die $x$-Achse flussabwärts und die $y$-Achse
+              quer zum Fluss.</p>
+            <ol type="a">
+              <li>Wie lautet ihr Geschwindigkeitsvektor über Grund, und wie
+                schnell ist sie?</li>
+              <li>Wie lange braucht sie bis zum anderen Ufer, und wie weit
+                wird sie dabei abgetrieben?</li>
+            </ol>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>(a) Die Geschwindigkeiten addieren sich als Vektoren:
+                $$ \vec v = \begin{pmatrix} 0{,}50 \\ 0 \end{pmatrix}\,\mathrm{\tfrac{m}{s}} + \begin{pmatrix} 0 \\ 1{,}2 \end{pmatrix}\,\mathrm{\tfrac{m}{s}} = \begin{pmatrix} 0{,}50 \\ 1{,}2 \end{pmatrix}\,\mathrm{\tfrac{m}{s}}, \qquad |\vec v| = \sqrt{0{,}25 + 1{,}44}\,\mathrm{\tfrac{m}{s}} = 1{,}3\,\mathrm{\tfrac{m}{s}} $$</p>
+              <p>(b) Für das Überqueren zählt nur die $y$-Komponente, die
+                Strömung ändert daran nichts:
+                $$ t = \frac{60\,\mathrm{m}}{1{,}2\,\mathrm{m/s}} = 50\,\mathrm{s}, \qquad d = 0{,}50\,\mathrm{\tfrac{m}{s}} \cdot 50\,\mathrm{s} = 25\,\mathrm{m} $$
+                Kontrolle: Der tatsächliche Weg ist
+                $1{,}3\,\mathrm{m/s} \cdot 50\,\mathrm{s} = 65\,\mathrm{m}$, und
+                tatsächlich ist $\sqrt{60^2 + 25^2} = 65$. Ihre Bahn ist um
+                $\varphi = \arctan(0{,}50/1{,}2) = 22{,}6^\circ$ gegen die
+                Senkrechte zum Ufer geneigt.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe" data-symbole='{"F": "Zugkraft am Koffergriff", "s_1": "Weg auf ebener Strecke", "s_2": "Weg auf der Rampe", "W_1": "Arbeit auf ebener Strecke", "W_2": "Arbeit auf der Rampe", "α": "Winkel zwischen Kraft und Weg"}'>
+            <h3>Aufgabe 3: Rollkoffer auf Ebene und Rampe
+              <span class="schwierigkeit" data-stufe="mittel">mittel</span>
+            </h3>
+            <p>Du ziehst einen Rollkoffer mit der Kraft
+              $\vec F = (40, 0, 30)\,\mathrm{N}$ ($x$ in Laufrichtung, $z$
+              nach oben).</p>
+            <ol type="a">
+              <li>Wie groß ist die Kraft, und unter welchem Winkel zur
+                Waagerechten ziehst du?</li>
+              <li>Welche Arbeit verrichtest du auf dem ebenen Weg
+                $\vec s_1 = (25, 0, 0)\,\mathrm{m}$?</li>
+              <li>Danach geht es eine Rampe hinauf:
+                $\vec s_2 = (24, 0, 7)\,\mathrm{m}$, bei gleicher Kraft.
+                Welche Arbeit verrichtest du jetzt, und welchen Winkel bilden
+                Kraft und Weg?</li>
+            </ol>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>(a) $|\vec F| = \sqrt{40^2 + 30^2}\,\mathrm{N} =
+                50\,\mathrm{N}$. Der Winkel zur Waagerechten folgt aus
+                $\cos\alpha = 40/50 = 0{,}8$, also $\alpha = 36{,}9^\circ$.</p>
+              <p>(b)
+                $$ W_1 = \vec F\cdot\vec s_1 = (40 \cdot 25 + 0 + 30 \cdot 0)\,\mathrm{N\,m} = 1000\,\mathrm{J} $$
+                Nur die waagerechte Komponente $40\,\mathrm{N}$ zählt.</p>
+              <p>(c)
+                $$ W_2 = \vec F\cdot\vec s_2 = (40 \cdot 24 + 0 + 30 \cdot 7)\,\mathrm{N\,m} = (960 + 210)\,\mathrm{J} = 1170\,\mathrm{J} $$
+                Die Rampe ist $|\vec s_2| = \sqrt{24^2 + 7^2}\,\mathrm{m} =
+                25\,\mathrm{m}$ lang, also gleich lang wie der ebene Weg. Der
+                Winkel:
+                $$ \cos\alpha = \frac{W_2}{|\vec F|\,|\vec s_2|} = \frac{1170\,\mathrm{J}}{50\,\mathrm{N} \cdot 25\,\mathrm{m}} = 0{,}936 \quad\Rightarrow\quad \alpha = 20{,}6^\circ $$
+                Plausibel: Die Rampe steigt um $\arctan(7/24) = 16{,}3^\circ$
+                an, die Kraft zeigt $36{,}9^\circ$ nach oben – dazwischen
+                liegen $20{,}6^\circ$. Auf der Rampe zeigt die Kraft also
+                „mehr in Wegrichtung“, deshalb ist die Arbeit größer; der
+                zusätzliche Teil steckt in der Höhenenergie des Koffers.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 4: Kreuzprodukt von Hand
+              <span class="schwierigkeit" data-stufe="mittel">mittel</span>
+            </h3>
+            <p>Gegeben sind $\vec a = (1, 2, 0)$ und $\vec b = (3, -1, 2)$.</p>
+            <ol type="a">
+              <li>Berechne $\vec c = \vec a\times\vec b$.</li>
+              <li>Prüfe mit dem Skalarprodukt, dass $\vec c$ senkrecht auf
+                $\vec a$ und auf $\vec b$ steht.</li>
+              <li>Wie groß ist das Parallelogramm, das $\vec a$ und $\vec b$
+                aufspannen, und wie groß das Dreieck mit den Seiten $\vec a$
+                und $\vec b$?</li>
+              <li>Was ergibt $\vec b\times\vec a$?</li>
+            </ol>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>(a) Mit dem Schema aus Abb. 7:
+                $$ \vec c = \begin{pmatrix} 2 \cdot 2 - 0 \cdot (-1) \\ 0 \cdot 3 - 1 \cdot 2 \\ 1 \cdot (-1) - 2 \cdot 3 \end{pmatrix} = \begin{pmatrix} 4 \\ -2 \\ -7 \end{pmatrix} $$</p>
+              <p>(b) $\vec a\cdot\vec c = 4 - 4 + 0 = 0$ und
+                $\vec b\cdot\vec c = 12 + 2 - 14 = 0$. Beide null, also
+                senkrecht – das Ergebnis aus (a) stimmt.</p>
+              <p>(c) Parallelogramm:
+                $|\vec c| = \sqrt{16 + 4 + 49} = \sqrt{69} \approx 8{,}31$
+                (Flächeneinheiten), das Dreieck ist halb so groß,
+                $\approx 4{,}15$.</p>
+              <p>(d) $\vec b\times\vec a = -\vec c = (-4, 2, 7)$ – gleiche
+                Länge, entgegengesetzte Richtung.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe" data-symbole='{"a": "1. Gittervektor der Kristallzelle", "b": "2. Gittervektor", "c": "3. Gittervektor", "V": "Volumen der Zelle", "t": "z-Komponente des dritten Gittervektors"}'>
+            <h3>Aufgabe 5: Volumen einer Kristallzelle
+              <span class="schwierigkeit" data-stufe="schwer">schwer</span>
+            </h3>
+            <p>Ein Kristall ist aus lauter gleichen, schiefen Zellen
+              aufgebaut, die von den Gittervektoren
+              $\vec a = (4, 0, 0)\,\text{\AA}$, $\vec b = (1, 3, 0)\,\text{\AA}$
+              und $\vec c = (1, 1, 5)\,\text{\AA}$ aufgespannt werden
+              ($1\,\text{\AA} = 10^{-10}\,\mathrm{m}$, ein Ångström).</p>
+            <ol type="a">
+              <li>Berechne das Volumen einer Zelle in $\text{\AA}^3$ und in
+                $\mathrm{m^3}$.</li>
+              <li>Für welchen Wert $t$ liegt $\vec c = (1, 1, t)\,\text{\AA}$ in
+                derselben Ebene wie $\vec a$ und $\vec b$?</li>
+              <li>Prüfe, dass $(\vec c\times\vec a)\cdot\vec b$ dasselbe
+                Ergebnis liefert wie in (a).</li>
+            </ol>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>(a) Am bequemsten zuerst $\vec a\times\vec b$, weil darin
+                viele Nullen stehen:
+                $$ \vec a\times\vec b = \begin{pmatrix} 0 \cdot 0 - 0 \cdot 3 \\ 0 \cdot 1 - 4 \cdot 0 \\ 4 \cdot 3 - 0 \cdot 1 \end{pmatrix}\text{\AA}^2 = \begin{pmatrix} 0 \\ 0 \\ 12 \end{pmatrix}\text{\AA}^2 $$
+                $$ V = (\vec a\times\vec b)\cdot\vec c = 12\,\text{\AA}^2 \cdot 5\,\text{\AA} = 60\,\text{\AA}^3 = 60 \cdot 10^{-30}\,\mathrm{m^3} = 6{,}0 \cdot 10^{-29}\,\mathrm{m^3} $$
+                Anschaulich: Die Grundfläche aus $\vec a$ und $\vec b$ liegt
+                in der $xy$-Ebene und ist $12\,\text{\AA}^2$ groß, die Höhe ist
+                die $z$-Komponente von $\vec c$, also $5\,\text{\AA}$.</p>
+              <p>(b) Mit $\vec c = (1, 1, t)\,\text{\AA}$ ist
+                $V = 12\,t\,\text{\AA}^3$. Das verschwindet nur für $t = 0$:
+                Dann liegt $\vec c$ in der $xy$-Ebene, also in derselben
+                Ebene wie $\vec a$ und $\vec b$, und der Spat ist platt.</p>
+              <p>(c)
+                $$ \vec c\times\vec a = \begin{pmatrix} 1 \cdot 0 - 5 \cdot 0 \\ 5 \cdot 4 - 1 \cdot 0 \\ 1 \cdot 0 - 1 \cdot 4 \end{pmatrix}\text{\AA}^2 = \begin{pmatrix} 0 \\ 20 \\ -4 \end{pmatrix}\text{\AA}^2, \qquad (\vec c\times\vec a)\cdot\vec b = (0 + 60 + 0)\,\text{\AA}^3 = 60\,\text{\AA}^3 $$
+                Zyklisches Vertauschen ändert das Spatprodukt nicht.</p>
+              <p><strong>Zum Nachdenken:</strong> Was kommt heraus, wenn du
+                $\vec a$ und $\vec b$ vertauschst? (Antwort: $-60\,\text{\AA}^3$
+                – die Reihenfolge $\vec b, \vec a, \vec c$ bildet ein
+                Linkssystem. Das Volumen ist der Betrag des
+                Spatprodukts.)</p>
+            </details>
+          </div>
+
+          <div class="aufgabe" data-symbole='{"F": "Kraft auf die Perle", "d": "Richtung der Stange", "F_∥": "Kraftanteil längs der Stange", "F_⊥": "Kraftanteil senkrecht zur Stange"}'>
+            <h3>Aufgabe 6: Perle auf einer schiefen Stange
+              <span class="schwierigkeit" data-stufe="schwer">schwer</span>
+            </h3>
+            <p>Eine Perle kann nur entlang einer geraden Stange mit der
+              Richtung $\vec d = (1, 2, 2)$ gleiten. Auf sie wirkt die Kraft
+              $\vec F = (3, 1, 2)\,\mathrm{N}$. Die Stange nimmt jeden
+              Kraftanteil senkrecht zu ihr auf; nur der Anteil längs der
+              Stange beschleunigt die Perle.</p>
+            <ol type="a">
+              <li>Zerlege $\vec F$ in einen Anteil $\vec F_\parallel$ längs
+                der Stange und einen Anteil $\vec F_\perp$ senkrecht dazu.
+                Tipp: $\vec F_\parallel$ ist der „Schatten“ von $\vec F$ auf
+                $\vec d$, also
+                $\vec F_\parallel = \dfrac{\vec F\cdot\vec d}{d^2}\,\vec d$.</li>
+              <li>Prüfe, dass $\vec F_\perp$ senkrecht auf der Stange steht
+                und dass $|\vec F_\parallel|^2 + |\vec F_\perp|^2 = |\vec F|^2$
+                gilt.</li>
+              <li>Zeige mit der BAC-CAB-Regel, dass auch
+                $\vec F_\perp = \dfrac{\vec d\times(\vec F\times\vec d)}{d^2}$
+                gilt, und rechne es für die Zahlen nach.</li>
+            </ol>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>(a) $\vec F\cdot\vec d = (3 + 2 + 4)\,\mathrm{N} =
+                9\,\mathrm{N}$ und $d^2 = 1 + 4 + 4 = 9$, also
+                $$ \vec F_\parallel = \frac{9\,\mathrm{N}}{9}\begin{pmatrix} 1 \\ 2 \\ 2 \end{pmatrix} = \begin{pmatrix} 1 \\ 2 \\ 2 \end{pmatrix}\,\mathrm{N}, \qquad \vec F_\perp = \vec F - \vec F_\parallel = \begin{pmatrix} 2 \\ -1 \\ 0 \end{pmatrix}\,\mathrm{N} $$</p>
+              <p>(b) $\vec F_\perp\cdot\vec d = (2 - 2 + 0)\,\mathrm{N} = 0$
+                – senkrecht. Und $|\vec F_\parallel|^2 + |\vec F_\perp|^2 =
+                (9 + 5)\,\mathrm{N^2} = 14\,\mathrm{N^2} = |\vec F|^2$, denn
+                $3^2 + 1^2 + 2^2 = 14$. Die Perle wird von
+                $|\vec F_\parallel| = 3\,\mathrm{N}$ beschleunigt, die Stange
+                nimmt $|\vec F_\perp| = \sqrt 5\,\mathrm{N} \approx
+                2{,}24\,\mathrm{N}$ auf.</p>
+              <p>(c) BAC-CAB mit $\vec a \to \vec d$, $\vec b \to \vec F$,
+                $\vec c \to \vec d$:
+                $$ \vec d\times(\vec F\times\vec d) = \vec F\,(\vec d\cdot\vec d) - \vec d\,(\vec d\cdot\vec F) = d^2\,\vec F - (\vec F\cdot\vec d)\,\vec d $$
+                Geteilt durch $d^2$ ist das $\vec F - \vec F_\parallel =
+                \vec F_\perp$. Zum Nachrechnen:
+                $$ \vec F\times\vec d = \begin{pmatrix} 1 \cdot 2 - 2 \cdot 2 \\ 2 \cdot 1 - 3 \cdot 2 \\ 3 \cdot 2 - 1 \cdot 1 \end{pmatrix}\,\mathrm{N} = \begin{pmatrix} -2 \\ -4 \\ 5 \end{pmatrix}\,\mathrm{N}, \qquad \vec d\times(\vec F\times\vec d) = \begin{pmatrix} 2 \cdot 5 - 2 \cdot (-4) \\ 2 \cdot (-2) - 1 \cdot 5 \\ 1 \cdot (-4) - 2 \cdot (-2) \end{pmatrix}\,\mathrm{N} = \begin{pmatrix} 18 \\ -9 \\ 0 \end{pmatrix}\,\mathrm{N} $$
+                und $(18, -9, 0)\,\mathrm{N} / 9 = (2, -1, 0)\,\mathrm{N}$ –
+                wie in (a).</p>
+              <p><strong>Zum Nachdenken:</strong> Warum ändert sich
+                $\vec F_\parallel$ nicht, wenn du statt $\vec d$ den doppelt so
+                langen Vektor $2\vec d$ nimmst? (Im Zähler steht $\vec d$
+                zweimal, im Nenner $d^2$ – der Faktor kürzt sich weg. Es kommt
+                nur auf die Richtung der Stange an.)</p>
+            </details>
+          </div>
+        </section>
+
+      </div></article>
+  </main>
+</body>
+</html>

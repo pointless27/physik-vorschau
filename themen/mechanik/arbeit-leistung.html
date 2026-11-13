@@ -1,0 +1,606 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="robots" content="noindex">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Arbeit und Leistung</title>
+  <meta name="description" content="Mechanische Arbeit als Kraft mal Weg, das Wegintegral, Leistung und konservative Kraftfelder – verständlich erklärt, mit Beispielrechnungen und Übungsaufgaben.">
+
+  <link rel="stylesheet" href="../../css/stil.css">
+
+  <link rel="stylesheet" href="../../extern/katex/katex.min.css">
+  <script defer src="../../extern/katex/katex.min.js"></script>
+  <script defer src="../../extern/katex/contrib/auto-render.min.js" onload="starteFormeln()"></script>
+
+  <script src="../../js/daten.js"></script>
+  <script src="../../js/seite.js"></script>
+  <script src="../../js/effekte.js"></script>
+  <script src="../../js/interaktiv.js"></script>
+  <script src="../../js/modelle/arbeit-leistung.js"></script>
+  <script type="application/json" id="symbole">
+  {
+    "W": "Arbeit",
+    "F": "Kraft",
+    "r": "Ortsvektor",
+    "θ": "Winkel zwischen Kraft und Weg",
+    "s": "Weg",
+    "F_x": "x-Komponente der Kraft",
+    "F_y": "y-Komponente der Kraft",
+    "F_z": "z-Komponente der Kraft",
+    "x": "x-Koordinate",
+    "y": "y-Koordinate",
+    "z": "z-Koordinate (Höhe)",
+    "W_i": "Arbeit auf dem i-ten Wegstück",
+    "r_i": "Ort des i-ten Wegstücks",
+    "x_i": "Ort des i-ten Wegstücks",
+    "i": "Nummer des Wegstücks",
+    "r_1": "Anfangspunkt des Wegs",
+    "r_2": "Endpunkt des Wegs",
+    "x_1": "Anfangsauslenkung",
+    "x_2": "Endauslenkung",
+    "z_1": "Anfangshöhe",
+    "z_2": "Endhöhe",
+    "m": "Masse",
+    "g": "Fallbeschleunigung",
+    "h": "Höhe",
+    "W_a": "Arbeit entlang Weg a",
+    "W_b": "Arbeit entlang Weg b",
+    "r_(a)": "Ort auf Weg a",
+    "r_(b)": "Ort auf Weg b",
+    "f": "Betrag der Zentralkraft als Funktion des Abstands",
+    "c": "Konstante (Stärke des Kraftfelds)",
+    "E_pot": "potentielle Energie",
+    "P": "Leistung",
+    "t": "Zeit",
+    "v": "Geschwindigkeit",
+    "k": "Federkonstante",
+    "W_1": "Arbeit im ersten Teilstück",
+    "W_2": "Arbeit im zweiten Teilstück",
+    "W_G": "Arbeit der Gewichtskraft",
+    "F_1": "erstes Kraftfeld",
+    "F_2": "zweites Kraftfeld (mit Wirbel)",
+    "W_I": "Arbeit entlang Weg I",
+    "W_II": "Arbeit entlang Weg II",
+    "F_max": "größte übertragbare Antriebskraft",
+    "μ_H": "Haftreibungszahl"
+  }
+  </script>
+</head>
+<body data-thema="arbeit-leistung">
+  <main>
+    <article class="thema">
+      <header>
+        <h1>Arbeit und Leistung</h1>
+        <p class="untertitel">Was Physiker unter Arbeit verstehen, warum Tragen
+          keine Arbeit ist – und wie schnell man sie verrichten kann.</p>
+      </header>
+
+      <div class="tabs">
+
+        <section class="tab" id="verstehen" data-titel="Verstehen">
+
+          <p>Trag eine schwere Einkaufstasche zehn Minuten lang durch die
+            Fußgängerzone, und du bist erschöpft. Ein Physiker würde dir trotzdem
+            sagen: An der Tasche hast du keine Arbeit verrichtet. Das klingt
+            gemein, hat aber einen guten Grund – im physikalischen Sinn ist
+            Arbeit etwas ganz Bestimmtes.</p>
+
+          <h2>Arbeit ist Kraft mal Weg</h2>
+
+          <p><em>Arbeit</em> wird verrichtet, wenn eine Kraft einen Körper ein
+            Stück <em>in ihre Richtung</em> bewegt. Hebst du einen 10-kg-Koffer
+            einen Meter hoch, verrichtest du ungefähr 100 Joule Arbeit (Kraft
+            100 N mal Weg 1 m). Doppelt so hoch: doppelte Arbeit. Doppelt so
+            schwer: auch doppelte Arbeit.</p>
+
+          <p>Beim Tragen zeigt deine Kraft nach oben, die Tasche bewegt sich aber
+            waagerecht. Die Kraft hilft der Bewegung also gar nicht – sie
+            verrichtet keine Arbeit. Dass du trotzdem müde wirst, liegt an deinen
+            Muskeln: Sie halten die Tasche nicht starr, sondern spannen sich
+            ständig neu an, und dabei verbrauchen sie Energie, die zu Wärme wird.
+            Ein Tisch könnte die Tasche ewig halten, ohne zu ermüden.</p>
+
+          <p>Zieht man schräg, zum Beispiel einen Schlitten an einem Seil, zählt
+            nur der Teil der Kraft, der in Wegrichtung zeigt. Der Rest zieht den
+            Schlitten nur ein bisschen nach oben.</p>
+
+          <figure class="interaktiv" data-modell="schlitten">
+            <span class="titel">Zum Ausprobieren</span>
+            <figcaption>Ändere den Winkel des Seils. Der blaue Pfeil ist der
+              Anteil der Kraft in Wegrichtung – nur er verrichtet Arbeit. Im
+              Diagramm darunter ist die Arbeit die getönte Fläche: Kraft in
+              Wegrichtung mal zurückgelegter Weg. Bei 90° zieht das Seil senkrecht
+              nach oben, und die Fläche verschwindet.</figcaption>
+          </figure>
+
+          <h2>Leistung: wie schnell gearbeitet wird</h2>
+
+          <p>Ob du die Treppe in den dritten Stock hinaufschleichst oder rennst –
+            die Arbeit ist dieselbe, denn du hebst dein Gewicht um dieselbe Höhe.
+            Beim Rennen verrichtest du sie aber schneller, und genau das spürst
+            du. Die <em>Leistung</em> ist Arbeit pro Zeit und wird in Watt
+            gemessen: Ein Watt heißt ein Joule pro Sekunde.</p>
+
+          <figure class="interaktiv" data-modell="treppe">
+            <span class="titel">Zum Ausprobieren</span>
+            <figcaption>Gib deine Masse ein und stopp beim nächsten Treppenhaus
+              die Zeit: Wie viel Watt leistest du? Die Balken vergleichen deine
+              Leistung mit Geräten und Sportlern. Die Achse ist logarithmisch,
+              jeder Teilschritt nach rechts bedeutet ein Vielfaches.</figcaption>
+          </figure>
+
+          <div class="alltag">
+            <span class="titel">Aus dem Alltag</span>
+            <p>Auf der Stromrechnung steht die Energie in Kilowattstunden: eine
+              Leistung von 1000 Watt, eine Stunde lang. Das sind 3,6 Millionen
+              Joule – genug, um eine Tonne 367 Meter hoch zu heben. Für etwa
+              30 Cent. Der Grund, warum Strom so billig wirkt: Muskelkraft ist
+              teuer. Wer eine Kilowattstunde selbst „erstrampeln“ wollte, müsste
+              einen ganzen Arbeitstag lang kräftig in die Pedale treten.</p>
+          </div>
+          <div class="merkkasten">
+            <span class="titel">Das Wichtigste in Kürze</span>
+            <ul>
+              <li>Arbeit = Kraft in Wegrichtung × Weg, gemessen in Joule.</li>
+              <li>Eine Kraft senkrecht zum Weg verrichtet keine Arbeit – etwa
+                beim waagerechten Tragen.</li>
+              <li>Leistung = Arbeit pro Zeit, gemessen in Watt. Wer dieselbe
+                Arbeit schneller erledigt, leistet mehr.</li>
+            </ul>
+          </div>
+        </section>
+
+        <section class="tab" id="vertiefung" data-titel="Vertiefung">
+
+          <h2>Arbeit bei konstanter Kraft</h2>
+
+          <p>Ein Massenpunkt bewege sich in einem Kraftfeld $\vec{F}(\vec{r})$
+            um die Verschiebung $\Delta\vec{r}$. Ist die Kraft längs dieses Wegs
+            konstant, verrichtet sie die Arbeit</p>
+
+          $$ W = \vec{F} \cdot \Delta\vec{r} = F\,\Delta r\,\cos\theta , $$
+
+          <p>wobei $\theta$ der Winkel zwischen Kraft und Verschiebung ist.
+            Arbeit ist ein Skalar (Skalarprodukt zweier Vektoren). Ihre Einheit
+            ist das Joule:</p>
+
+          $$ [W] = 1\,\mathrm{N \cdot m} = 1\,\mathrm{\frac{kg\,m^2}{s^2}} = 1\,\mathrm{J} . $$
+
+          <figure class="abbildung">
+            <svg class="abb" viewBox="0 0 360 200" role="img"
+                 aria-label="Kraft unter einem Winkel zur Verschiebung, zerlegt in eine Komponente in Wegrichtung">
+              <defs>
+                <marker id="pfeil-abb1" viewBox="0 0 10 10" refX="9" refY="5"
+                        markerWidth="7" markerHeight="7" orient="auto">
+                  <path d="M0 0L10 5L0 10z" fill="currentColor"/>
+                </marker>
+              </defs>
+              <path class="achse" d="M20 150H340"/>
+              <rect class="wagen" x="60" y="120" width="60" height="30" rx="2"/>
+              <path class="hilfslinie" d="M218.3 66.2V135"/>
+              <path class="kurve kupfer" d="M120 135L211.7 70.8"/>
+              <polygon class="punkt kupfer" points="218.3,66.2 209.5,67.5 214,74"/>
+              <path class="kurve blau" d="M120 135L210.3 135"/>
+              <polygon class="punkt blau" points="218.3,135 210.3,131 210.3,139"/>
+              <path class="hilfslinie" d="M155 135A35 35 0 0 0 148.7 114.9"/>
+              <text x="160" y="128">θ</text>
+              <text class="kupfer" x="224" y="64">F</text>
+              <text class="blau" x="226" y="140">F cos θ</text>
+              <path class="achse" d="M60 178H300" marker-end="url(#pfeil-abb1)"/>
+              <text x="180" y="194" text-anchor="middle">Verschiebung Δr</text>
+            </svg>
+            <figcaption>Abb. 1: Nur die Komponente $F\cos\theta$ der Kraft in
+              Richtung der Verschiebung verrichtet Arbeit. Die Komponente
+              senkrecht dazu trägt nichts bei.</figcaption>
+          </figure>
+
+          <p>Wichtige Sonderfälle:</p>
+          <ul>
+            <li>$\theta = 0$: Kraft und Weg gleichgerichtet, $W = F\,\Delta r \gt 0$.</li>
+            <li>$\theta = 90°$, also $\vec{F} \perp \Delta\vec{r}$: $W = 0$.
+              Beispiel Kreisbewegung: Die Zentripetalkraft zeigt stets zum
+              Mittelpunkt, die Bewegung verläuft tangential – sie verrichtet
+              keine Arbeit, und das Tempo bleibt gleich.</li>
+            <li>$\theta = 180°$: Kraft gegen den Weg, $W = -F\,\Delta r \lt 0$.
+              Beispiel: Die Gewichtskraft beim Heben eines Körpers.</li>
+          </ul>
+
+          <p><strong>Vorzeichen.</strong> $W$ ist immer die Arbeit einer
+            bestimmten Kraft. Wir folgen der Konvention von Demtröder: Bewegt
+            sich ein Körper <em>in</em> Richtung der Feldkraft (ein Stein fällt),
+            ist $W \gt 0$ – das Feld verrichtet Arbeit, und die (potentielle)
+            Energie des Systems nimmt ab. Bewegt er sich <em>gegen</em> die
+            Feldkraft (man hebt den Stein), ist $W \lt 0$ – am System wird Arbeit
+            verrichtet, seine Energie nimmt zu. Wer den Stein hebt, verrichtet
+            dabei selbst die positive Arbeit $-W$.</p>
+
+          <h2>Arbeit bei veränderlicher Kraft: das Wegintegral</h2>
+
+          <p>Ändert sich die Kraft längs des Wegs, zerlegt man den Weg in kleine
+            Stücke $\Delta\vec{r}_i$, auf denen die Kraft näherungsweise konstant
+            ist, und summiert die Einzelbeiträge:</p>
+
+          $$ W = \sum_i \Delta W_i = \sum_i \vec{F}(\vec{r}_i) \cdot \Delta\vec{r}_i \quad\xrightarrow{\;\Delta r_i \to 0\;}\quad W = \int_{\vec{r}_1}^{\vec{r}_2} \vec{F}(\vec{r}) \cdot \mathrm{d}\vec{r} . $$
+
+          <p>Dieses <em>Wegintegral</em> (Linienintegral) hängt im Allgemeinen
+            vom Weg zwischen den Punkten $\vec{r}_1$ und $\vec{r}_2$ ab. In
+            kartesischen Koordinaten ist
+            $\vec{F} \cdot \mathrm{d}\vec{r} = F_x\,\mathrm{d}x + F_y\,\mathrm{d}y + F_z\,\mathrm{d}z$,
+            also</p>
+
+          $$ W = \int_{x_1}^{x_2} F_x\,\mathrm{d}x + \int_{y_1}^{y_2} F_y\,\mathrm{d}y + \int_{z_1}^{z_2} F_z\,\mathrm{d}z , $$
+
+          <p>wobei man in jedem Teilintegral die übrigen Koordinaten längs des
+            Wegs einsetzen muss. In einer Dimension ist das Integral einfach die
+            Fläche unter der Kurve $F(x)$ (Abb. 2).</p>
+
+          <figure class="abbildung">
+            <svg class="abb" viewBox="0 0 360 210" role="img"
+                 aria-label="Kraft-Weg-Diagramm: Die Arbeit ist die Fläche unter der Kurve, angenähert durch schmale Rechtecke">
+              <defs>
+                <marker id="pfeil-abb2" viewBox="0 0 10 10" refX="9" refY="5"
+                        markerWidth="7" markerHeight="7" orient="auto">
+                  <path d="M0 0L10 5L0 10z" fill="currentColor"/>
+                </marker>
+              </defs>
+              <polygon class="flaeche" points="120,180 120,146.4 260,79.2 260,180"/>
+              <path class="hilfslinie" d="M120 180V146.4H148V180M148 133H176V180M176 119.5H204V180M204 106.1H232V180M232 92.6H260V180"/>
+              <path class="achse" d="M50 180H335" marker-end="url(#pfeil-abb2)"/>
+              <path class="achse" d="M50 180V22" marker-end="url(#pfeil-abb2)"/>
+              <path class="kurve blau" d="M50 180L310 55.2"/>
+              <text x="330" y="198" text-anchor="end">x</text>
+              <text x="58" y="28">F(x)</text>
+              <text x="120" y="198" text-anchor="middle">x₁</text>
+              <text x="260" y="198" text-anchor="middle">x₂</text>
+              <text class="blau" x="190" y="164" text-anchor="middle">W</text>
+              <text x="160" y="96" text-anchor="end" font-size="11">F(xᵢ)·Δxᵢ</text>
+            </svg>
+            <figcaption>Abb. 2: Bei veränderlicher Kraft ist die Arbeit die
+              Fläche unter $F(x)$ zwischen $x_1$ und $x_2$. Die gestrichelten
+              Rechtecke sind die Einzelbeiträge $F(x_i)\,\Delta x_i$; für
+              $\Delta x_i \to 0$ wird die Summe zum Integral. (Hier wächst die
+              Kraft linear, wie beim Dehnen einer Feder.)</figcaption>
+          </figure>
+
+          <h2>Leistung</h2>
+
+          <p>Die <em>Leistung</em> gibt an, wie schnell Arbeit verrichtet
+            wird:</p>
+
+          $$ P = \frac{\mathrm{d}W}{\mathrm{d}t}, \qquad [P] = 1\,\mathrm{\frac{J}{s}} = 1\,\mathrm{\frac{N\,m}{s}} = 1\,\mathrm{\frac{kg\,m^2}{s^3}} = 1\,\mathrm{W} . $$
+
+          <p>Mit $\mathrm{d}W = \vec{F} \cdot \mathrm{d}\vec{r} = \vec{F} \cdot \vec{v}\,\mathrm{d}t$
+            folgt</p>
+
+          $$ P = \vec{F} \cdot \vec{v}, \qquad |P| = |\vec{F} \cdot \vec{v}| . $$
+
+          <p>Ein Motor, der ein Auto gegen den Fahrwiderstand $F$ mit konstanter
+            Geschwindigkeit $v$ bewegt, muss also $P = F v$ aufbringen. Ältere
+            Einheiten: $1\,\mathrm{PS} = 735{,}5\,\mathrm{W}$. Umgekehrt ist die
+            Kilowattstunde eine Energie-, keine Leistungseinheit:
+            $1\,\mathrm{kWh} = 1000\,\mathrm{W} \cdot 3600\,\mathrm{s} = 3{,}6\,\mathrm{MJ}$.</p>
+
+          <h2>Wegunabhängige Arbeit und konservative Kraftfelder</h2>
+
+          <p>Ein Kraftfeld $\vec{F}(\vec{r})$, das nur vom Ort und nicht von der
+            Zeit abhängt, heißt <em>konservativ</em>, wenn die Arbeit zwischen
+            zwei Punkten nicht vom Weg abhängt: Für zwei beliebige Wege (a) und
+            (b) von $\vec{r}_1$ nach $\vec{r}_2$ ist $W_a = W_b$. Gleichwertig
+            dazu verschwindet die Arbeit auf jedem geschlossenen Weg. Denn läuft
+            man auf (a) hin und auf (b) zurück, so ist</p>
+
+          $$ W_a - W_b = \int_{\vec{r}_1}^{\vec{r}_2} \vec{F} \cdot \mathrm{d}\vec{r}_{(a)} + \int_{\vec{r}_2}^{\vec{r}_1} \vec{F} \cdot \mathrm{d}\vec{r}_{(b)} = \oint \vec{F} \cdot \mathrm{d}\vec{r} = 0 . $$
+
+          <figure class="abbildung">
+            <svg class="abb" viewBox="0 0 360 215" role="img"
+                 aria-label="Drei verschiedene Wege zwischen zwei Punkten in einem homogenen Kraftfeld">
+              <path class="hilfslinie" d="M40 25V205M100 25V205M160 25V205M220 25V205M280 25V205M335 25V205"/>
+              <polygon class="punkt" points="40,205 37,197 43,197"/>
+              <polygon class="punkt" points="100,205 97,197 103,197"/>
+              <polygon class="punkt" points="160,205 157,197 163,197"/>
+              <polygon class="punkt" points="220,205 217,197 223,197"/>
+              <polygon class="punkt" points="280,205 277,197 283,197"/>
+              <polygon class="punkt" points="335,205 332,197 338,197"/>
+              <path class="kurve" d="M70 170H290V60" stroke-dasharray="6 4"/>
+              <path class="kurve blau" d="M70 170L290 60"/>
+              <path class="kurve kupfer" d="M70 170C55 50 200 25 290 60"/>
+              <circle class="punkt" cx="70" cy="170" r="4.5"/>
+              <circle class="punkt" cx="290" cy="60" r="4.5"/>
+              <text x="62" y="190" text-anchor="end">r₁</text>
+              <text x="300" y="50">r₂</text>
+              <text class="blau" x="190" y="128">Weg a</text>
+              <text class="kupfer" x="108" y="56">Weg b</text>
+              <text x="200" y="164">Weg c</text>
+              <text x="346" y="20" text-anchor="end" font-size="11">F = m g</text>
+            </svg>
+            <figcaption>Abb. 3: Im homogenen Schwerefeld (Feldlinien nach unten)
+              verrichtet die Gewichtskraft auf allen drei Wegen von $\vec{r}_1$
+              nach $\vec{r}_2$ dieselbe Arbeit $W = -m g\,(z_2 - z_1)$. Auf den
+              waagerechten Stücken ist sie null, nur der Höhenunterschied
+              zählt.</figcaption>
+          </figure>
+
+          <p><strong>Beispiele für konservative Felder:</strong></p>
+          <ol type="a">
+            <li><em>Homogenes Kraftfeld</em>, $\vec{F} = (0, 0, F_z)$ mit
+              $F_z = \text{const}$, etwa die Gewichtskraft $F_z = -m g$. Dann ist
+              $\vec{F} \cdot \mathrm{d}\vec{r} = F_z\,\mathrm{d}z$ und
+              $$ W = \int_{z_1}^{z_2} F_z\,\mathrm{d}z = F_z\,(z_2 - z_1) $$
+              – nur die Höhen von Anfangs- und Endpunkt zählen (Abb. 3).</li>
+            <li><em>Zentralkraftfeld</em>, $\vec{F} = f(r)\,\hat{r}$: Die Kraft
+              hat nur eine Radialkomponente, und ihr Betrag hängt nur vom Abstand
+              ab (Gravitation, Coulomb-Kraft). Wegen
+              $\hat{r} \cdot \mathrm{d}\vec{r} = \mathrm{d}r$ ist
+              $$ W = \int_{r_1}^{r_2} f(r)\,\mathrm{d}r , $$
+              und das hängt nur von $r_1$ und $r_2$ ab. Bewegungen auf einer
+              Kugelschale um das Zentrum tragen nichts bei.</li>
+          </ol>
+
+          <p><strong>Nicht konservativ</strong> sind dagegen</p>
+          <ul>
+            <li>zeitabhängige Kraftfelder,</li>
+            <li>Kräfte, die von der Geschwindigkeit abhängen, vor allem
+              Reibungskräfte: Sie zeigen stets gegen die Bewegung, und auf einem
+              geschlossenen Weg ist ihre Arbeit immer negativ,</li>
+            <li>ortsabhängige Felder mit „Wirbeln“, etwa
+              $\vec{F} = c\,(-y, x, 0)$, das um die $z$-Achse kreist (siehe
+              Aufgabe 5).</li>
+          </ul>
+
+          <p>Nicht jedes Feld, das keine Zentralkraft ist, ist deshalb schon
+            nicht konservativ – das homogene Feld ist ein Gegenbeispiel. Das
+            allgemeine Kriterium lautet $\nabla \times \vec{F} = 0$ (auf einem
+            einfach zusammenhängenden Gebiet); es wird in der Vektoranalysis
+            behandelt. Nur in konservativen Feldern lässt sich eine potentielle
+            Energie definieren – darum geht es beim Thema
+            <a href="energieerhaltung.html">Energieerhaltung</a>.</p>
+
+          <div class="merkkasten">
+            <span class="titel">Merke</span>
+            $$ W = \int_{\vec{r}_1}^{\vec{r}_2} \vec{F} \cdot \mathrm{d}\vec{r} \;\;(\text{konstante Kraft: } W = F\,\Delta r \cos\theta), \qquad P = \frac{\mathrm{d}W}{\mathrm{d}t} = \vec{F} \cdot \vec{v} $$
+            <p>Konservatives Feld: Arbeit wegunabhängig ⇔
+              $\oint \vec{F} \cdot \mathrm{d}\vec{r} = 0$.</p>
+          </div>
+        </section>
+
+        <section class="tab" id="beispiele" data-titel="Beispielrechnungen">
+
+          <div class="beispiel">
+            <h3>Beispiel 1: Ein Rollkoffer zum Bahnhof</h3>
+            <p><strong>Gegeben:</strong> Ein Rollkoffer wird mit
+              $F = 60\,\mathrm{N}$ an einem Griff gezogen, der $\theta = 35°$
+              gegen die Waagerechte geneigt ist, über eine ebene Strecke von
+              $s = 200\,\mathrm{m}$. Anschließend hebt man den Koffer
+              ($m = 20\,\mathrm{kg}$) $1{,}0\,\mathrm{m}$ hoch in den Zug.<br>
+              <strong>Gesucht:</strong> die Arbeit beim Ziehen und beim Heben.</p>
+
+            <p><strong>1. Ziehen.</strong> Nur die waagerechte Komponente zählt:
+              $$ W_1 = F\,s\cos\theta = 60\,\mathrm{N} \cdot 200\,\mathrm{m} \cdot \cos 35° = 12\,000\,\mathrm{J} \cdot 0{,}819 = 9{,}8\,\mathrm{kJ} $$</p>
+
+            <p><strong>2. Heben.</strong> Die Hand übt (bei langsamem Heben) die
+              Kraft $m g$ nach oben aus, Kraft und Weg sind parallel:
+              $$ W_2 = m g h = 20\,\mathrm{kg} \cdot 9{,}81\,\mathrm{\tfrac{m}{s^2}} \cdot 1{,}0\,\mathrm{m} = 196\,\mathrm{J} $$
+              Die Gewichtskraft verrichtet dabei $-196\,\mathrm{J}$.</p>
+
+            <p><strong>Ergebnis und Plausibilität:</strong> Das Ziehen über 200 m
+              kostet rund fünfzigmal so viel Arbeit wie das Heben – obwohl es sich
+              viel leichter anfühlt. Die 60 N müssen ja nur die Rollreibung
+              überwinden, diese aber über einen langen Weg. Zum Vergleich: 9,8 kJ
+              sind etwa so viel Energie, wie in 0,4 g Schokolade steckt.</p>
+            </div>
+
+          <div class="beispiel">
+            <h3>Beispiel 2: Eine Feder spannen</h3>
+            <p><strong>Gegeben:</strong> Eine Feder mit $k = 400\,\mathrm{N/m}$
+              wird aus der Ruhelage gedehnt, erst auf $10\,\mathrm{cm}$, dann
+              weiter auf $20\,\mathrm{cm}$.<br>
+              <strong>Gesucht:</strong> die Arbeit, die man dafür in jedem der
+              beiden Schritte aufwenden muss.</p>
+
+            <p><strong>1. Kraft.</strong> Um die Feder zu halten, muss man mit
+              $F(x) = k x$ ziehen (Gegenkraft zur Rückstellkraft $-k x$). Die
+              Kraft ist nicht konstant, also braucht man das Integral:
+              $$ W = \int_{x_1}^{x_2} k x\,\mathrm{d}x = \tfrac{1}{2}\,k\,(x_2^2 - x_1^2) $$</p>
+
+            <p><strong>2. Erster Schritt</strong> ($0 \to 0{,}10\,\mathrm{m}$):
+              $$ W_1 = \tfrac{1}{2} \cdot 400\,\mathrm{\tfrac{N}{m}} \cdot (0{,}10\,\mathrm{m})^2 = 200\,\mathrm{\tfrac{N}{m}} \cdot 0{,}010\,\mathrm{m^2} = 2{,}0\,\mathrm{J} $$</p>
+
+            <p><strong>3. Zweiter Schritt</strong> ($0{,}10 \to 0{,}20\,\mathrm{m}$):
+              $$ W_2 = \tfrac{1}{2} \cdot 400\,\mathrm{\tfrac{N}{m}} \cdot \left[(0{,}20\,\mathrm{m})^2 - (0{,}10\,\mathrm{m})^2\right] = 200\,\mathrm{\tfrac{N}{m}} \cdot 0{,}030\,\mathrm{m^2} = 6{,}0\,\mathrm{J} $$
+              Einheitencheck: $\mathrm{N/m \cdot m^2} = \mathrm{N\,m} = \mathrm{J}$ ✓</p>
+
+            <p><strong>Ergebnis und Plausibilität:</strong> Die zweiten 10 cm
+              kosten dreimal so viel wie die ersten, weil die Kraft mit der Dehnung
+              wächst. Im $F$-$x$-Diagramm (Abb. 2 der Vertiefung) ist das die
+              Fläche eines Dreiecks (2 J) bzw. eines dreimal so großen Trapezes
+              (6 J). Mit konstanter Endkraft $F = 80\,\mathrm{N}$ hätte man für
+              20 cm $16\,\mathrm{J}$ gebraucht – genau das Doppelte der
+              tatsächlichen $8\,\mathrm{J}$.</p>
+          </div>
+
+          <div class="beispiel">
+            <h3>Beispiel 3: Wie viel leistest du auf der Treppe?</h3>
+            <p><strong>Gegeben:</strong> Eine Person ($m = 70\,\mathrm{kg}$)
+              läuft in $t = 12\,\mathrm{s}$ drei Stockwerke à $3{,}0\,\mathrm{m}$
+              hoch.<br>
+              <strong>Gesucht:</strong> verrichtete Arbeit (gegen die
+              Schwerkraft) und mittlere Leistung.</p>
+
+            <p><strong>1. Arbeit:</strong> Höhe $h = 9{,}0\,\mathrm{m}$,
+              $$ W = m g h = 70\,\mathrm{kg} \cdot 9{,}81\,\mathrm{\tfrac{m}{s^2}} \cdot 9{,}0\,\mathrm{m} = 6180\,\mathrm{J} = 6{,}2\,\mathrm{kJ} $$</p>
+
+            <p><strong>2. Leistung:</strong>
+              $$ \bar{P} = \frac{W}{t} = \frac{6180\,\mathrm{J}}{12\,\mathrm{s}} = 515\,\mathrm{W} = \frac{515}{735{,}5}\,\mathrm{PS} = 0{,}70\,\mathrm{PS} $$</p>
+
+            <p><strong>Ergebnis und Plausibilität:</strong> Gut 500 W sind für
+              einen kurzen Sprint realistisch, über längere Zeit schafft ein
+              untrainierter Mensch eher 100 W. Der Körper braucht dafür noch
+              deutlich mehr Energie, weil die Muskeln nur etwa ein Viertel der
+              chemischen Energie in mechanische Arbeit umsetzen.</p>
+            </div>
+        </section>
+
+        <section class="tab" id="aufgaben" data-titel="Aufgaben">
+
+          <p>Die Aufgaben sind nach Schwierigkeit sortiert. Wenn nichts anderes
+            gesagt ist, gilt $g = 9{,}81\,\mathrm{m/s^2}$.</p>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 1: Einkaufswagen
+              <span class="schwierigkeit" data-stufe="leicht">leicht</span>
+            </h3>
+            <p>Du schiebst einen Einkaufswagen mit $40\,\mathrm{N}$, die
+              $30°$ schräg nach unten zeigen, $50\,\mathrm{m}$ weit über einen
+              ebenen Parkplatz. Wie viel Arbeit verrichtest du?</p>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>$$ W = F s \cos\theta = 40\,\mathrm{N} \cdot 50\,\mathrm{m} \cdot \cos 30° = 2000\,\mathrm{J} \cdot 0{,}866 = 1{,}7\,\mathrm{kJ} $$
+                Die senkrechte Komponente drückt den Wagen nur auf den Boden
+                (und erhöht damit sogar die Rollreibung).</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 2: Tragen ist keine Arbeit?
+              <span class="schwierigkeit" data-stufe="leicht">leicht</span>
+            </h3>
+            <p>Ein Getränkekasten ($12\,\mathrm{kg}$) wird
+              $1{,}2\,\mathrm{m}$ hochgehoben und dann $30\,\mathrm{m}$ weit
+              waagerecht getragen. Wie viel Arbeit verrichtet die tragende Person
+              jeweils am Kasten?</p>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>Heben: $W = m g h = 12 \cdot 9{,}81 \cdot 1{,}2\,\mathrm{J} = 141\,\mathrm{J}$.
+                Tragen: Die Haltekraft zeigt senkrecht nach oben, der Weg verläuft
+                waagerecht, $\theta = 90°$, also $W = 0$. Dass man trotzdem ermüdet,
+                liegt an der Muskelphysiologie, nicht an der am Kasten verrichteten
+                Arbeit.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 3: Leistung auf der Autobahn
+              <span class="schwierigkeit" data-stufe="mittel">mittel</span>
+            </h3>
+            <p>Ein Auto braucht bei $120\,\mathrm{km/h}$ eine Antriebskraft von
+              $600\,\mathrm{N}$, um gegen Luft- und Rollwiderstand die
+              Geschwindigkeit zu halten. (a) Welche Leistung gibt der Motor ab?
+              (b) Nimm an, die Antriebskraft sei reiner Luftwiderstand
+              ($\propto v^2$). Welche Leistung braucht das Auto dann bei
+              $160\,\mathrm{km/h}$?</p>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p><strong>(a)</strong> $v = 33{,}3\,\mathrm{m/s}$,
+                $P = F v = 600\,\mathrm{N} \cdot 33{,}3\,\mathrm{m/s} = 20\,\mathrm{kW} \approx 27\,\mathrm{PS}$.</p>
+              <p><strong>(b)</strong> $F = 600\,\mathrm{N} \cdot (160/120)^2 = 1067\,\mathrm{N}$,
+                $v = 44{,}4\,\mathrm{m/s}$:
+                $P = 1067\,\mathrm{N} \cdot 44{,}4\,\mathrm{m/s} = 47\,\mathrm{kW}$.
+                Wegen $F \propto v^2$ ist $P = F v \propto v^3$: Ein Drittel mehr
+                Tempo kostet das $(4/3)^3 = 2{,}4$-Fache an Leistung. Deshalb
+                steigt der Verbrauch bei hohem Tempo so stark.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 4: Zwei Wege auf den Berg
+              <span class="schwierigkeit" data-stufe="mittel">mittel</span>
+            </h3>
+            <p>Eine Wanderin trägt einen Rucksack ($8{,}0\,\mathrm{kg}$) auf
+              einen Gipfel, $400\,\mathrm{m}$ höher als der Parkplatz. Weg A ist
+              ein steiler Pfad von $1{,}2\,\mathrm{km}$ Länge, Weg B ein flacher
+              Serpentinenweg von $3{,}5\,\mathrm{km}$. Wie viel Arbeit verrichtet
+              die Gewichtskraft am Rucksack auf jedem Weg? Warum ist das Ergebnis
+              für die Wanderin trotzdem nicht egal?</p>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>Die Schwerkraft ist ein homogenes, konservatives Feld, die Arbeit
+                hängt nur vom Höhenunterschied ab:
+                $$ W_\text{G} = -m g\,\Delta z = -8{,}0\,\mathrm{kg} \cdot 9{,}81\,\mathrm{m/s^2} \cdot 400\,\mathrm{m} = -31\,\mathrm{kJ} $$
+                auf beiden Wegen gleich. Auf dem langen Weg kommen aber
+                Reibungsverluste (Schuhe, Muskeln) hinzu, und auf dem steilen Weg
+                ist die Leistung pro Schritt höher. Die Länge des Wegs spielt nur
+                für nicht konservative Kräfte eine Rolle.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 5: Ein Feld mit Wirbel
+              <span class="schwierigkeit" data-stufe="schwer">schwer</span>
+            </h3>
+            <p>Gegeben sind zwei ebene Kraftfelder mit
+              $c = 2{,}0\,\mathrm{N/m}$:
+              $$ \vec{F}_1 = c\,(y, x), \qquad \vec{F}_2 = c\,(-y, x) . $$
+              Berechne für beide Felder die Arbeit von $(0, 0)$ nach
+              $(1\,\mathrm{m}, 1\,\mathrm{m})$ auf zwei Wegen: Weg I zuerst
+              längs der $x$-Achse, dann parallel zur $y$-Achse; Weg II zuerst längs
+              der $y$-Achse, dann parallel zur $x$-Achse. Welches Feld ist
+              konservativ?</p>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>Auf einem Wegstück parallel zur $x$-Achse ist nur
+                $F_x\,\mathrm{d}x$ beizutragen, parallel zur $y$-Achse nur
+                $F_y\,\mathrm{d}y$; die jeweils andere Koordinate ist konstant.</p>
+              <p><strong>Feld 1:</strong> Weg I: auf $y = 0$ ist $F_x = c\,y = 0$;
+                dann bei $x = 1\,\mathrm{m}$: $F_y = c \cdot 1\,\mathrm{m}$, also
+                $W = \int_0^{1\,\mathrm{m}} c \cdot 1\,\mathrm{m}\,\mathrm{d}y = 2{,}0\,\mathrm{J}$.
+                Weg II: auf $x = 0$ ist $F_y = 0$; dann bei $y = 1\,\mathrm{m}$:
+                $F_x = c \cdot 1\,\mathrm{m}$, also wieder $2{,}0\,\mathrm{J}$.
+                Gleich – und das gilt für jeden Weg, denn
+                $\vec{F}_1 = -\nabla E_\text{pot}$ mit $E_\text{pot} = -c\,x y$.</p>
+              <p><strong>Feld 2:</strong> Weg I: $F_x = -c\,y = 0$ auf $y = 0$,
+                dann $F_y = c\,x = c \cdot 1\,\mathrm{m}$: $W_\text{I} = +2{,}0\,\mathrm{J}$.
+                Weg II: $F_y = c\,x = 0$ auf $x = 0$, dann
+                $F_x = -c \cdot 1\,\mathrm{m}$: $W_\text{II} = -2{,}0\,\mathrm{J}$.
+                Verschieden! Feld 2 ist nicht konservativ; auf dem geschlossenen
+                Weg (I hin, II zurück) ist
+                $\oint \vec{F}_2 \cdot \mathrm{d}\vec{r} = 4{,}0\,\mathrm{J} \neq 0$.</p>
+              <p><strong>Zum Nachdenken:</strong> $\vec{F}_2$ zeigt überall
+                tangential um den Ursprung herum. Wer im Kreis „mit dem Wirbel“
+                läuft, gewinnt bei jeder Runde Energie – ein solches Feld kann es
+                für eine Kraft wie die Gravitation deshalb nicht geben.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 6: Beschleunigen mit konstanter Leistung
+              <span class="schwierigkeit" data-stufe="schwer">schwer</span>
+            </h3>
+            <p>Ein Auto ($m = 1200\,\mathrm{kg}$) beschleunigt aus dem Stand mit
+              der konstanten Motorleistung $P = 50\,\mathrm{kW}$. Reibung und
+              Luftwiderstand vernachlässigen wir.</p>
+            <ol type="a">
+              <li>Wie lange braucht es bis $100\,\mathrm{km/h}$? (Hinweis: Die
+                Arbeit des Motors wird vollständig zu Bewegungsenergie
+                $\tfrac{1}{2} m v^2$.)</li>
+              <li>Wie groß ist die Antriebskraft als Funktion von $v$? Was ist
+                daran bei kleinen Geschwindigkeiten unphysikalisch?</li>
+              <li>Die Reifen übertragen höchstens
+                $\mu_\text{H} m g$ mit $\mu_\text{H} = 0{,}8$. Bis zu welcher
+                Geschwindigkeit begrenzt das die Beschleunigung?</li>
+            </ol>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p><strong>(a)</strong> $P t = \tfrac{1}{2} m v^2$, also
+                $$ t = \frac{m v^2}{2P} = \frac{1200\,\mathrm{kg} \cdot (27{,}8\,\mathrm{m/s})^2}{2 \cdot 50\,000\,\mathrm{W}} = \frac{926\,000\,\mathrm{J}}{100\,000\,\mathrm{W}} = 9{,}3\,\mathrm{s} $$</p>
+              <p><strong>(b)</strong> $P = F v \Rightarrow F = P/v$. Für
+                $v \to 0$ würde die Kraft unendlich groß – kein Motor und kein
+                Reifen kann das liefern.</p>
+              <p><strong>(c)</strong>
+                $F_\text{max} = 0{,}8 \cdot 1200 \cdot 9{,}81\,\mathrm{N} = 9420\,\mathrm{N}$.
+                Die Leistung begrenzt erst ab
+                $v = P / F_\text{max} = 50\,000 / 9420\,\mathrm{m/s} = 5{,}3\,\mathrm{m/s} \approx 19\,\mathrm{km/h}$.
+                Darunter würden die Räder bei Vollgas durchdrehen – die
+                Beschleunigung ist auf $\mu_\text{H} g \approx 7{,}8\,\mathrm{m/s^2}$
+                begrenzt, und der Motor kann nur $F_\text{max}\,v \lt 50\,\mathrm{kW}$
+                abgeben. Weil in dieser ersten Phase nicht die volle Leistung
+                genutzt wird, dauert der Spurt in Wirklichkeit etwas länger als
+                die 9,3 s aus (a).</p>
+            </details>
+          </div>
+        </section>
+
+      </div></article>
+  </main>
+</body>
+</html>

@@ -1,0 +1,494 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="robots" content="noindex">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sternentwicklung: Vom Gasnebel zum Weißen Zwerg</title>
+  <meta name="description" content="Wie Sterne in kalten Gaswolken entstehen, warum schwere Sterne kurz leben, wie aus der Sonne ein Roter Riese und ein Weißer Zwerg wird und warum schwere Sterne als Supernova enden – verständlich erklärt.">
+
+  <link rel="stylesheet" href="../../css/stil.css">
+
+  <link rel="stylesheet" href="../../extern/katex/katex.min.css">
+  <script defer src="../../extern/katex/katex.min.js"></script>
+  <script defer src="../../extern/katex/contrib/auto-render.min.js" onload="starteFormeln()"></script>
+
+  <script src="../../js/daten.js"></script>
+  <script src="../../js/seite.js"></script>
+  <script src="../../js/effekte.js"></script>
+  <script src="../../js/interaktiv.js"></script>
+  <script src="../../js/modelle/sternentwicklung.js"></script>
+  <script type="application/json" id="symbole">
+  {
+    "G": "Gravitationskonstante",
+    "M": "Masse des Sterns",
+    "R": "Radius des Sterns",
+    "L": "Leuchtkraft (abgestrahlte Leistung)",
+    "T": "Temperatur",
+    "t": "Lebensdauer",
+    "M_⊙": "Sonnenmasse",
+    "R_⊙": "Sonnenradius",
+    "L_⊙": "Leuchtkraft der Sonne",
+    "T_⊙": "Oberflächentemperatur der Sonne",
+    "E": "Energie",
+    "m": "Masse",
+    "c": "Lichtgeschwindigkeit",
+    "E_nuk": "durch Kernfusion freigesetzte Energie",
+    "t_KH": "Kelvin-Helmholtz-Zeit (Leuchtdauer allein durch Schrumpfen)",
+    "t_nuk": "nukleare Lebensdauer",
+    "M_J": "Jeans-Masse (ab dieser Masse stürzt eine Wolke ein)",
+    "k": "Boltzmann-Konstante",
+    "μ": "mittlere Teilchenmasse in atomaren Masseneinheiten",
+    "m_u": "atomare Masseneinheit",
+    "ρ_0": "Dichte der Wolke",
+    "t_ff": "Freifallzeit",
+    "π": "Kreiszahl π ≈ 3,14159",
+    "σ": "Stefan-Boltzmann-Konstante"
+  }
+  </script>
+</head>
+<body data-thema="sternentwicklung">
+  <main>
+    <article class="thema">
+      <header>
+        <h1>Sternentwicklung: Vom Gasnebel zum <span class="betont">Weißen Zwerg</span></h1>
+        <p class="untertitel">Sterne werden geboren, leben Millionen bis Billionen Jahre und sterben – manche leise, manche in der größten Explosion, die das Universum kennt. Die Masse entscheidet über alles.</p>
+      </header>
+
+      <section class="erklaerung">
+
+        <p>Schau in einer klaren Winternacht zum Sternbild Orion: Links oben
+          leuchtet der rötliche Beteigeuze, rechts unten der bläulich-weiße
+          Rigel. Beide sind erst wenige Millionen Jahre alt – und beide werden
+          bald sterben. Die Sonne ist schon 4,6 Milliarden Jahre alt und hat
+          noch einmal so lange vor sich. Warum altern Sterne so verschieden
+          schnell? Über das ganze Leben eines Sterns entscheidet fast nur eine
+          Zahl: seine Masse bei der Geburt. Diese Seite folgt ihm von der
+          kalten Gaswolke bis zum Weißen Zwerg; was danach übrig bleibt,
+          beschreibt die Seite <a href="sternleichen.html">Sternleichen</a>.</p>
+
+        <h2 id="sternentstehung">Geburt in einer kalten Wolke</h2>
+        <p>Der Raum zwischen den Sternen ist nicht leer. Dort treiben riesige
+          Wolken aus Gas und Staub, die <strong>Molekülwolken</strong>: eiskalt,
+          nur 10 bis 50 Kelvin, und mit hundert bis zehntausend Teilchen pro
+          Kubikzentimeter dünner als jedes Vakuum im Labor. Weil sie aber
+          Lichtjahre groß sind, enthalten sie bis zu einer Million
+          Sonnenmassen.</p>
+        <p>In jeder Wolke ringen zwei Kräfte miteinander. Die
+          <a href="../mechanik/gravitation.html">Schwerkraft</a> zieht alles
+          zusammen, die Wärmebewegung der Teilchen drückt auseinander. Oberhalb
+          einer Grenzmasse, der <strong>Jeans-Masse</strong>, siegt die
+          Schwerkraft, und die Wolke stürzt in sich zusammen. Je kälter und
+          dichter das Gas, desto kleiner ist diese Grenze. Oft gibt erst ein
+          Stoß von außen den Ausschlag, etwa die Druckwelle einer nahen
+          Supernova.</p>
+
+        <details class="rechnung">
+          <summary><span class="rechnung-notiz">Nachgerechnet</span> Stürzt eine kleine Dunkelwolke in sich zusammen?</summary>
+          <p>Die Wolke habe $50\,M_\odot$, $T = 10\,\mathrm{K}$ und
+            $10^{10}$ Teilchen pro Kubikmeter mit im Mittel $\mu = 2{,}3$
+            atomaren Masseneinheiten, also die Dichte
+            $\rho_0 = 3{,}8 \cdot 10^{-17}\,\mathrm{kg/m^3}$. Wärmeenergie und
+            Gravitationsenergie einer Kugel verglichen ergibt:</p>
+          $$ M_\text{J} \simeq \left(\frac{5 k T}{G \mu m_\text{u}}\right)^{3/2} \left(\frac{3}{4\pi \rho_0}\right)^{1/2} \approx 1{,}1 \cdot 10^{31}\,\mathrm{kg} \approx 5{,}6\,M_\odot . $$
+          <p>Die Wolke hat fast das Zehnfache und stürzt zusammen, in der
+            Freifallzeit</p>
+          $$ t_\text{ff} = \left(\frac{3\pi}{32\,G\,\rho_0}\right)^{1/2} \approx 1{,}1 \cdot 10^{13}\,\mathrm{s} \approx 340\,000\,\mathrm{a} , $$
+          <p>verglichen mit dem Leben der Sonne ein Wimpernschlag.</p>
+        </details>
+
+        <p>Beim Einsturz wird die Wolke dichter, und die Jeans-Masse sinkt
+          weiter. Kleinere Klumpen im Inneren stürzen für sich zusammen: Die
+          Wolke <strong>fragmentiert</strong>. Deshalb entstehen Sterne fast
+          nie allein, sondern in Haufen und als Doppelsterne. Im Zentrum jedes
+          Klumpens bildet sich ein <strong>Protostern</strong>, umgeben von
+          einer flachen Scheibe, aus der weiter Gas auf ihn regnet und aus der
+          später Planeten entstehen. Im Orionnebel hat das Hubble-Teleskop
+          Dutzende solcher Scheiben fotografiert.</p>
+
+        <h2 id="vor-hauptreihe">Ein Stern zündet</h2>
+        <p>Ein Protostern leuchtet schon, obwohl in ihm noch nichts
+          verschmilzt. Seine Energiequelle ist die Schwerkraft selbst: Er
+          schrumpft langsam, und die dabei frei werdende Lageenergie heizt zur
+          Hälfte sein Inneres, die andere Hälfte strahlt er ab.</p>
+
+        <div class="alltag">
+          <span class="titel">Eine Analogie</span>
+          <p>Pumpst du einen Fahrradreifen kräftig auf, wird die Pumpe warm:
+            Zusammengedrücktes Gas heizt sich auf. Ein Protostern ist eine
+            Pumpe ohne Kolben – die Schwerkraft drückt.</p>
+        </div>
+
+        <p>Mit jedem Schrumpfen wird es im Kern heißer. Bei rund zehn
+          Millionen Kelvin sind die Wasserstoffkerne so schnell, dass sie
+          trotz ihrer elektrischen Abstoßung verschmelzen: Die
+          <strong>Kernfusion</strong> zündet. Ihre Energie hält den Druck
+          aufrecht, das Schrumpfen hört auf, und der Stern ist auf der
+          <strong>Hauptreihe</strong> angekommen. Bei der Sonne dauerte der
+          Weg dorthin etwa 40 Millionen Jahre. Klumpen unter etwa 0,08
+          Sonnenmassen werden nie heiß genug. Sie bleiben <strong>Braune
+          Zwerge</strong>, Zwitter zwischen Stern und Planet, die langsam
+          auskühlen.</p>
+
+        <details class="rechnung">
+          <summary><span class="rechnung-notiz">Nachgerechnet</span> Wie lange reicht Schrumpfen, wie lange Fusion?</summary>
+          <p>Beim Schrumpfen gibt die Sonne grob die Energie $GM^2/(2R)$ ab
+            ($M_\odot = 1{,}99 \cdot 10^{30}\,\mathrm{kg}$,
+            $R_\odot = 6{,}96 \cdot 10^{8}\,\mathrm{m}$,
+            $L_\odot = 3{,}83 \cdot 10^{26}\,\mathrm{W}$):</p>
+          $$ \Delta E \approx \frac{G M_\odot^2}{2 R_\odot} = 1{,}9 \cdot 10^{41}\,\mathrm{J}, \qquad t_\text{KH} = \frac{\Delta E}{L_\odot} \approx 1{,}6 \cdot 10^{7}\,\mathrm{a} . $$
+          <p>Die Fusion verwandelt $0{,}7\,\%$ der Masse nach $E = mc^2$
+            (siehe <a href="../mechanik/energieerhaltung.html">Energieerhaltung</a>)
+            in Energie; heiß genug sind die inneren $10\,\%$ der Sonne:</p>
+          $$ E_\text{nuk} = 0{,}1 \cdot 0{,}007 \cdot M_\odot c^2 = 1{,}3 \cdot 10^{44}\,\mathrm{J}, \qquad t_\text{nuk} = \frac{E_\text{nuk}}{L_\odot} \approx 10^{10}\,\mathrm{a} . $$
+          <p>Schrumpfen reicht für 16 Millionen Jahre, Gesteine auf Erde und
+            Mond sind aber über 4 Milliarden Jahre alt. Nur die Fusion reicht
+            lange genug, 650-mal länger.</p>
+        </details>
+
+        <h2 id="hauptreihe">Das lange, ruhige Leben</h2>
+        <p>Auf der Hauptreihe verbringt ein Stern rund 90 % seines Lebens. Er
+          ist dann ein Gleichgewicht: Die Schwerkraft will ihn zusammenpressen,
+          der Druck des heißen Gases hält dagegen, und die Fusion im Kern
+          liefert genau so viel Wärme, wie an der Oberfläche abgestrahlt wird.
+          Das regelt sich von selbst. Läuft die Fusion zu schnell, dehnt sich
+          der Kern aus, kühlt ab, und die Fusion wird wieder langsamer – ein
+          eingebauter Thermostat.</p>
+
+        <div class="alltag">
+          <span class="titel">Eine Analogie</span>
+          <p>Ein Heißluftballon hängt an Seilen am Boden. Der Brenner heizt,
+            der Ballon zieht nach oben, die Seile halten dagegen. Geht das Gas
+            aus, sackt der Ballon zusammen. Beim Stern sind die „Seile“ die
+            Schwerkraft und der „Brenner“ die Kernfusion. Und wer stärker
+            heizt, verbraucht schneller.</p>
+        </div>
+
+        <p>Sterne bis etwa 1,2 Sonnenmassen wie die Sonne verschmelzen
+          Wasserstoff Schritt für Schritt zu Helium
+          (<strong>Proton-Proton-Kette</strong>). Schwerere Sterne mit
+          heißerem Kern nutzen den <strong>CNO-Zyklus</strong>, in dem Kerne
+          von Kohlenstoff, Stickstoff und Sauerstoff als Helfer dienen, wie ein
+          Katalysator in der Chemie. Ganz unverändert bleibt ein Stern auch
+          hier nicht: Aus vier Wasserstoffkernen wird ein Heliumkern, der Kern
+          zieht sich etwas zusammen und brennt heißer. Die Sonne leuchtete bei
+          ihrer Geburt nur mit 70 % ihrer heutigen Kraft.</p>
+        <p>Und warum leben schwere Sterne so kurz? Ein schwerer Stern hat zwar
+          mehr Brennstoff, aber sein Gewicht presst den Kern stärker zusammen,
+          der wird heißer, und die Fusion läuft viel heftiger. Bei doppelter
+          Masse leuchtet ein Stern gut elfmal so hell. Modellrechnungen ergeben
+          diese Zeiten auf der Hauptreihe:
+          </p>
+
+        <div class="tabelle-huelle">
+          <table>
+            <thead><tr><th>Masse (in Sonnenmassen)</th><th>Zeit auf der Hauptreihe</th></tr></thead>
+            <tbody>
+              <tr><td>0,1 (Roter Zwerg)</td><td>über eine Billion Jahre</td></tr>
+              <tr><td>1 (Sonne)</td><td>etwa 10 Milliarden Jahre</td></tr>
+              <tr><td>2 (etwa Sirius A)</td><td>1,1 Milliarden Jahre</td></tr>
+              <tr><td>5</td><td>95 Millionen Jahre</td></tr>
+              <tr><td>15</td><td>12 Millionen Jahre</td></tr>
+              <tr><td>25</td><td>6 Millionen Jahre</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <p>Die Roten Zwerge sparen so sehr, dass noch keiner von ihnen
+          gestorben ist. Dafür ist das Universum mit 13,8 Milliarden Jahren
+          einfach zu jung.</p>
+
+        <details class="rechnung">
+          <summary><span class="rechnung-notiz">Nachgerechnet</span> Wie lange lebt ein Stern mit zehn Sonnenmassen?</summary>
+          <p>Lebensdauer ist Vorrat durch Verbrauch, also proportional zu
+            $M/L$, und grob gilt $L \propto M^{3{,}5}$. Mit der Sonne als
+            Maßstab:</p>
+          $$ t \approx 10^{10}\,\mathrm{a} \cdot \frac{M/M_\odot}{L/L_\odot} = 10^{10}\,\mathrm{a} \cdot \frac{10}{10^{3{,}5}} = 10^{10}\,\mathrm{a} \cdot \frac{10}{3200} \approx 3 \cdot 10^{7}\,\mathrm{a} . $$
+          <p>Rund 30 Millionen Jahre; die Modellrechnung für $9\,M_\odot$
+            ergibt 26 Millionen. Ein solcher Stern, geboren als die Dinosaurier
+            ausstarben (vor 66 Millionen Jahren), wäre längst explodiert.</p>
+        </details>
+
+        <h2 id="ende-hauptreihe">Rote Riesen: wenn der Wasserstoff ausgeht</h2>
+        <p>Im Kern der Sonne ist heute etwa die Hälfte des Wasserstoffs
+          verbraucht. Ist der Rest in gut fünf Milliarden Jahren aufgebraucht,
+          erlischt die Fusion im Kern. Zurück bleibt eine Kugel aus
+          Helium-Asche, die keine Energie mehr liefert. Jetzt gewinnt die
+          Schwerkraft: Der Kern schrumpft und wird heißer. Dadurch zündet der
+          Wasserstoff in einer Schale rund um den Kern, heftiger als zuvor im
+          Kern selbst. Der Stern wird heller, seine Hülle bläht sich gewaltig
+          auf und kühlt dabei ab. Er wird zum <strong>Roten Riesen</strong>.</p>
+
+        <details class="rechnung">
+          <summary><span class="rechnung-notiz">Nachgerechnet</span> Wie groß wird die Sonne als Roter Riese?</summary>
+          <p>Auf dem Höhepunkt der Riesenphase leuchtet die Sonne etwa mit
+            $L = 2500\,L_\odot$ bei $T = 3100\,\mathrm{K}$ (heute
+            $T_\odot = 5772\,\mathrm{K}$). Aus dem Stefan-Boltzmann-Gesetz
+            $L = 4\pi R^2 \sigma T^4$ folgt im Verhältnis zur heutigen Sonne</p>
+          $$ \frac{R}{R_\odot} = \sqrt{\frac{L}{L_\odot}} \cdot \left(\frac{T_\odot}{T}\right)^2 = \sqrt{2500} \cdot \left(\frac{5772\,\mathrm{K}}{3100\,\mathrm{K}}\right)^2 \approx 173 . $$
+          <p>Das sind $1{,}2 \cdot 10^{11}\,\mathrm{m}$ oder $0{,}81$
+            Astronomische Einheiten (Abstand Erde–Sonne): Merkur und Venus
+            werden verschluckt, die Erde liegt knapp außerhalb. Ob sie wirklich
+            entkommt, ist unter Fachleuten umstritten.
+            </p>
+        </details>
+
+        <p>Den Lebensweg eines Sterns zeigt man im
+          <strong>Hertzsprung-Russell-Diagramm</strong>, kurz HR-Diagramm:
+          waagerecht die Oberflächentemperatur (heiß ist links), senkrecht die
+          Leuchtkraft. Wähle unten einen Stern: Sein ganzer Lebensweg
+          erscheint im Diagramm, die Nummern führen durch seine Phasen.</p>
+
+        <figure class="interaktiv" data-modell="hrspur">
+          <span class="titel">Zum Ausprobieren</span>
+          <figcaption>Lebenswege von fünf Sternen im Hertzsprung-Russell-Diagramm,
+            von einem Roten Zwerg bis zu einem der schwersten Sterne der
+            Milchstraße. Die Farben zeigen, wie Sterne der jeweiligen
+            Temperatur aussehen. Die gestrichelten Linien verbinden Sterne
+            gleicher Größe, die Punkte sind bekannte Sterne. Die weiße Linie
+            ist der Weg des gewählten Sterns, der goldene Ring seine heutige
+            Lage. Vergleiche, wie lange die fünf Sterne leben und wo ihr Weg
+            endet. Die Wege sind vereinfacht nach Modellrechnungen
+            gezeichnet.</figcaption>
+        </figure>
+
+        <h2 id="heliumbrennen">Helium zündet</h2>
+        <p>Im schrumpfenden Kern steigt die Temperatur weiter. Bei rund 100
+          Millionen Kelvin verschmilzt Helium zu Kohlenstoff; dafür müssen sich
+          drei Heliumkerne fast gleichzeitig treffen
+          (<strong>Tripel-Alpha-Prozess</strong>). Dass das überhaupt klappt,
+          liegt an einem besonders günstigen Energiezustand des
+          Kohlenstoffkerns. Fred Hoyle sagte ihn 1954 voraus, weil es sonst
+          kaum Kohlenstoff gäbe – und damit auch uns nicht. Ein Teil des
+          Kohlenstoffs wird weiter zu Sauerstoff.</p>
+        <p>Bei Sternen wie der Sonne zündet das Helium explosiv. Ihr Kern ist
+          dann so dicht, dass sich die Elektronen gegenseitig im Weg stehen:
+          Nach den Regeln der Quantenphysik dürfen zwei Elektronen nicht
+          denselben Zustand besetzen. Dieses Gedränge, die
+          <strong>Entartung</strong>, erzeugt einen Druck, der nicht von der
+          Temperatur abhängt. Damit fällt der Thermostat aus. Zündet das
+          Helium, wird es heißer, aber der Kern dehnt sich nicht aus und kühlt
+          nicht. Die Fusion beschleunigt sich selbst, bis sie für einige
+          Sekunden so viel Energie freisetzt wie eine ganze Galaxie: der
+          <strong>Helium-Flash</strong>. Von außen sieht man davon nichts; die
+          Energie hebt das Gedränge im Kern auf, danach brennt das Helium
+          ruhig, etwa 100 Millionen Jahre lang. In Sternen über etwa zwei Sonnenmassen ist der Kern nicht
+          entartet, und das Helium zündet ohne Flash.
+          </p>
+
+        <h2 id="agb">Das Ende sonnenähnlicher Sterne</h2>
+        <p>Ist auch das Helium im Kern verbraucht, wiederholt sich das Spiel
+          eine Stufe höher. Ein Kern aus Kohlenstoff und Sauerstoff schrumpft,
+          darum brennen jetzt zwei Schalen: innen Helium, außen Wasserstoff
+          (Abb. 1). Der Stern bläht sich ein zweites Mal auf, noch größer und
+          heller als zuvor. Diese Phase heißt <strong>asymptotischer
+          Riesenast</strong>, kurz AGB (englisch <em>asymptotic giant
+          branch</em>). Die Heliumschale zündet dabei immer wieder ruckartig,
+          und der Stern pulsiert.</p>
+
+        <figure class="abbildung">
+          <svg class="abb" viewBox="0 0 300 300" role="img" aria-label="Viertelschnitt durch einen AGB-Stern: winziger entarteter Kern aus Kohlenstoff und Sauerstoff, darum eine Heliumbrennschale und eine Wasserstoffbrennschale, außen eine riesige konvektive Hülle, von der ein Sternwind Masse fortträgt">
+          <defs><marker id="pfeil-abb1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5 0 10z" fill="currentColor"/></marker></defs>
+          <path class="flaeche" d="M26.0 272.0L262.0 272.0A236.0 236.0 0 0 0 26.0 36.0Z"/>
+          <path class="hilfslinie" d="M262.0 272.0A236.0 236.0 0 0 0 26.0 36.0"/>
+          <path class="kurve kupfer" d="M82.0 272.0A56.0 56.0 0 0 0 26.0 216.0"/>
+          <path class="kurve kupfer" d="M64.0 272.0A38.0 38.0 0 0 0 26.0 234.0"/>
+          <path class="punkt" d="M26.0 272.0L50.0 272.0A24.0 24.0 0 0 0 26.0 248.0Z"/>
+          <path class="achse" d="M26.0 272.0H262.0M26.0 272.0V36.0"/>
+          <path class="hilfslinie" d="M48.6 263.8L100.0 258.0"/><text class="klein" x="104.0" y="262.0">Kern aus C und O, entartet</text>
+          <path class="hilfslinie" d="M51.4 243.8L100.0 232.0"/><text class="klein kupfer" x="104.0" y="236.0">Helium-Brennschale</text>
+          <path class="hilfslinie" d="M45.2 219.4L100.0 206.0"/><text class="klein kupfer" x="104.0" y="210.0">Wasserstoff-Brennschale</text>
+          <text class="klein" x="104" y="128">umgewälzte Hülle</text>
+          <text class="klein" x="104" y="143">aus H und He,</text>
+          <text class="klein" x="104" y="158">100 bis 500 R☉</text>
+          <line class="achse" x1="259.8" y1="209.4" x2="282.9" y2="203.2" marker-end="url(#pfeil-abb1)"/>
+          <line class="achse" x1="197.1" y1="100.9" x2="214.1" y2="83.9" marker-end="url(#pfeil-abb1)"/>
+          <line class="achse" x1="88.6" y1="38.2" x2="94.8" y2="15.1" marker-end="url(#pfeil-abb1)"/>
+          <text class="klein" x="218.1" y="97.9">Sternwind</text>
+          <text class="klein" x="150" y="296" text-anchor="middle">AGB-Stern (nicht maßstäblich)</text>
+          </svg>
+          <figcaption>Abb. 1: Viertelschnitt durch einen AGB-Stern. Der Kern
+            ist kaum größer als die Erde, enthält aber eine halbe bis eine
+            ganze Sonnenmasse. Die Hülle reicht einige hundert Sonnenradien
+            weit; maßstäblich gezeichnet wäre der Kern unsichtbar.</figcaption>
+        </figure>
+
+        <p>Zwischen den Schalen bauen sich Eisenkerne durch langsames
+          Einfangen von Neutronen zu Elementen wie Strontium, Barium und Blei
+          auf (<strong>s-Prozess</strong>, s für englisch <em>slow</em>). Dass
+          das gerade jetzt geschieht, verrät das Licht dieser Sterne: Es zeigt
+          Technetium, ein Element ohne stabile Form, das nach rund 200 000
+          Jahren zur Hälfte zerfallen ist. Es muss im Stern frisch entstanden
+          sein.</p>
+        <p>Die riesige Hülle ist nur noch schwach gebunden. In der kühlen
+          Atmosphäre bilden sich Staubkörner, das Sternlicht schiebt sie nach
+          außen, und sie reißen das Gas mit. Dieser <strong>Sternwind</strong>
+          trägt fast die ganze Hülle ab, bis der heiße Kern frei liegt. Sein
+          ultraviolettes Licht bringt das davonziehende Gas zum Leuchten: ein
+          <strong>planetarischer Nebel</strong>. Mit Planeten hat er nichts zu
+          tun; den Namen bekam er, als man in kleinen Fernrohren nur runde
+          Scheibchen sah.</p>
+        <p>Zurück bleibt der nackte Kern, ein <strong>Weißer Zwerg</strong>:
+          meist etwa 0,6 Sonnenmassen in einer Kugel von der Größe der Erde.
+          Ein Teelöffel seiner Materie wöge mehrere Tonnen. Ihn trägt allein
+          das Gedränge der Elektronen; ohne Fusion kühlt er über Milliarden
+          Jahre langsam aus. Dieses Schicksal erwartet auch die Sonne. Mehr
+          dazu auf der Seite
+          <a href="sternleichen.html#weisse-zwerge">Sternleichen</a>.</p>
+
+        <h2 id="massereich">Schwere Sterne: Zwiebelschalen und Supernova</h2>
+        <p>Sterne mit mehr als etwa acht Sonnenmassen pressen ihren Kern so
+          stark zusammen, dass nach dem Helium auch Kohlenstoff zündet, dann
+          Neon, Sauerstoff und Silizium. Jede neue Stufe brennt im Zentrum,
+          die älteren wandern als Schalen nach außen. Der Stern bekommt einen
+          Aufbau wie eine Zwiebel (Abb. 2). Jede Stufe liefert weniger
+          Energie als die vorige, und ab dem Kohlenstoff tragen
+          <strong>Neutrinos</strong> den größten Teil davon fort: fast
+          masselose Teilchen, die ungehindert durch den ganzen Stern fliegen.
+          Deshalb rasen die Stufen immer schneller ab. Außen merkt man davon
+          fast nichts; der Stern ist ein <strong>Roter Überriese</strong> wie
+          Beteigeuze.
+          </p>
+
+        <figure class="abbildung">
+          <svg class="abb" viewBox="0 0 300 302" role="img" aria-label="Zwiebelschalenaufbau eines Sterns mit 25 Sonnenmassen kurz vor der Supernova: von außen nach innen Schalen aus Wasserstoff, Helium, Kohlenstoff, Neon, Sauerstoff und Silizium um einen Eisenkern, darunter die Dauer der einzelnen Brennphasen">
+          <circle class="flaeche" cx="150" cy="124" r="105"/>
+          <circle class="hilfslinie" cx="150" cy="124" r="105"/>
+          <circle class="hilfslinie" cx="150" cy="124" r="88"/>
+          <circle class="hilfslinie" cx="150" cy="124" r="72"/>
+          <circle class="hilfslinie" cx="150" cy="124" r="57"/>
+          <circle class="hilfslinie" cx="150" cy="124" r="43"/>
+          <circle class="hilfslinie" cx="150" cy="124" r="30"/>
+          <circle class="punkt kupfer" cx="150" cy="124" r="16"/>
+          <text class="klein halo" x="150" y="31.5" text-anchor="middle">H</text>
+          <text class="klein halo" x="150" y="48.0" text-anchor="middle">He</text>
+          <text class="klein halo" x="150" y="63.5" text-anchor="middle">C</text>
+          <text class="klein halo" x="150" y="78.0" text-anchor="middle">Ne</text>
+          <text class="klein halo" x="150" y="91.5" text-anchor="middle">O</text>
+          <text class="klein halo" x="150" y="105.0" text-anchor="middle">Si</text>
+          <text class="klein auf-ball" x="150" y="128" text-anchor="middle">Fe</text>
+          <text class="klein" x="150" y="250" text-anchor="middle">Dauer der Brennphasen im Kern:</text>
+          <text class="klein" x="40" y="267">H: 7 Mio. Jahre</text>
+          <text class="klein" x="40" y="282">He: 0,5 Mio. Jahre</text>
+          <text class="klein" x="40" y="297">C: 600 Jahre</text>
+          <text class="klein" x="170" y="267">Ne: 1 Jahr</text>
+          <text class="klein" x="170" y="282">O: 6 Monate</text>
+          <text class="klein" x="170" y="297">Si: 1 Tag</text>
+          <text class="klein" x="150" y="14" text-anchor="middle">25 M☉ kurz vor dem Kollaps</text>
+          </svg>
+          <figcaption>Abb. 2: Zwiebelschalen eines Sterns mit 25 Sonnenmassen
+            kurz vor dem Kernkollaps, mit der Dauer jeder Brennphase im Kern.
+            Nicht maßstäblich: Die Hülle ist rund hunderttausendmal so groß wie
+            der Eisenkern.</figcaption>
+        </figure>
+
+        <p>Eisen ist der Endpunkt: Durch Verschmelzen lässt sich aus ihm keine
+          Energie mehr gewinnen. Wächst der Eisenkern über rund 1,4
+          Sonnenmassen, kann ihn nichts mehr halten. In weniger als einer
+          Sekunde stürzt er zu einem <strong>Neutronenstern</strong> von etwa
+          20 Kilometern Durchmesser zusammen. Die frei werdende Energie, fast
+          ganz in Neutrinos, sprengt den Rest des Sterns: eine
+          <strong>Supernova</strong>, die für einige Wochen so hell leuchtet wie
+          eine ganze Galaxie. Bei den schwersten Sternen bleibt statt des
+          Neutronensterns ein Schwarzes Loch (siehe
+          <a href="sternleichen.html#kernkollaps">Sternleichen</a>). Als 1987
+          ein Stern in einer Nachbargalaxie explodierte, fingen Detektoren in
+          Japan und den USA rund zwanzig seiner Neutrinos auf – einige Stunden
+          bevor das Licht ankam.</p>
+
+        <div class="tabelle-huelle">
+          <table>
+            <thead><tr><th>Anfangsmasse (in Sonnenmassen)</th><th>Lebensweg und Ende</th></tr></thead>
+            <tbody>
+              <tr><td>unter 0,08</td><td>keine Wasserstofffusion: Brauner Zwerg, kühlt langsam aus</td></tr>
+              <tr><td>0,08 bis 0,5</td><td>Roter Zwerg, Hunderte Milliarden Jahre und mehr; wird einmal ein Weißer Zwerg aus Helium</td></tr>
+              <tr><td>0,5 bis 8</td><td>Roter Riese → Helium brennt → AGB-Stern → planetarischer Nebel → Weißer Zwerg</td></tr>
+              <tr><td>8 bis etwa 25</td><td>Roter Überriese → Supernova → Neutronenstern</td></tr>
+              <tr><td>über etwa 25</td><td>Überriese mit starkem Wind → Supernova oder stiller Kollaps → Schwarzes Loch</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="alltag">
+          <span class="titel">Du bist Sternenstaub</span>
+          <p>Der Kohlenstoff in deinen Zellen, der Sauerstoff in deiner
+            Atemluft, das Eisen in deinem Blut: All das ist im Inneren von
+            Sternen entstanden und bei ihrem Tod ins All geblasen worden. Aus
+            diesem angereicherten Gas bildeten sich später Sonne und Erde.</p>
+        </div>
+
+        <h2 id="sternhaufen">Sternhaufen als Uhren</h2>
+        <p>Wie alt ein einzelner Stern ist, sieht man ihm kaum an. Bei
+          Sternhaufen geht es. Alle Sterne eines Haufens sind gleichzeitig aus
+          derselben Wolke entstanden und unterscheiden sich nur in ihrer Masse.
+          Die schweren altern am schnellsten. Trägt man die Sterne eines Haufens
+          ins HR-Diagramm ein, fehlt deshalb der obere Teil der Hauptreihe:
+          Diese Sterne sind schon Riesen oder tot. Die Stelle, an der die
+          Hauptreihe abknickt, wandert mit der Zeit immer weiter nach unten
+          (Abb. 3) und zeigt das Alter des Haufens wie der Zeiger einer Uhr.
+          Die Plejaden haben noch helle blaue Sterne und sind etwa 100
+          Millionen Jahre alt; die ältesten Kugelsternhaufen knicken knapp
+          unter einer Sonnenmasse ab und sind über zwölf Milliarden Jahre
+          alt.</p>
+
+        <figure class="abbildung">
+          <svg class="abb" viewBox="0 0 380 290" role="img" aria-label="Schematisches Hertzsprung-Russell-Diagramm von Sternhaufen dreier Alter: Alle liegen unten auf derselben Hauptreihe, doch je älter der Haufen, desto weiter unten knickt sie zum Riesenast ab">
+          <defs><marker id="pfeil-abb3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5 0 10z" fill="currentColor"/></marker></defs>
+          <text class="klein" x="39.0" y="248.0" text-anchor="end">10<tspan dy="-4" font-size="8">−3</tspan></text>
+          <text class="klein" x="39.0" y="223.8" text-anchor="end">10<tspan dy="-4" font-size="8">−2</tspan></text>
+          <text class="klein" x="39.0" y="199.6" text-anchor="end">10<tspan dy="-4" font-size="8">−1</tspan></text>
+          <text class="klein" x="39.0" y="175.3" text-anchor="end">10<tspan dy="-4" font-size="8">0</tspan></text>
+          <text class="klein" x="39.0" y="151.1" text-anchor="end">10<tspan dy="-4" font-size="8">1</tspan></text>
+          <text class="klein" x="39.0" y="126.9" text-anchor="end">10<tspan dy="-4" font-size="8">2</tspan></text>
+          <text class="klein" x="39.0" y="102.7" text-anchor="end">10<tspan dy="-4" font-size="8">3</tspan></text>
+          <text class="klein" x="39.0" y="78.4" text-anchor="end">10<tspan dy="-4" font-size="8">4</tspan></text>
+          <text class="klein" x="39.0" y="54.2" text-anchor="end">10<tspan dy="-4" font-size="8">5</tspan></text>
+          <text class="klein" x="39.0" y="30.0" text-anchor="end">10<tspan dy="-4" font-size="8">6</tspan></text>
+          <text class="klein" x="91.3" y="261.0" text-anchor="middle">30 000</text>
+          <text class="klein" x="219.5" y="261.0" text-anchor="middle">10 000</text>
+          <text class="klein" x="300.4" y="261.0" text-anchor="middle">5 000</text>
+          <text class="klein" x="360.0" y="261.0" text-anchor="middle">3 000</text>
+          <path class="achse" d="M44.0 14.0V244.0H368.0" marker-start="url(#pfeil-abb3)"/>
+          <text class="klein" x="368.0" y="282.0" text-anchor="end">Oberflächentemperatur in K</text>
+          <text class="klein" x="54.0" y="20.0">Leuchtkraft in L☉</text>
+          <polyline class="kurve" points="368.0,244.0 352.4,227.1 335.5,208.2 312.6,191.3 293.6,178.6 283.0,171.3 269.7,161.7 253.0,150.9 231.8,139.8 198.2,122.9 157.6,101.0 112.6,76.8 73.3,55.6 44.0,35.6"/>
+          <polyline class="kurve blau" points="99.3,69.6 326.4,67.2 338.7,64.8"/>
+          <polyline class="kurve kupfer" points="227.0,137.4 300.4,135.6 317.9,118.6 329.3,99.8"/>
+          <polyline class="kurve " points="283.0,171.3 300.4,161.7 312.6,147.1 329.3,115.6 342.0,91.4"/>
+          <circle class="punkt blau" cx="99.3" cy="69.6" r="4"/>
+          <circle class="punkt kupfer" cx="227.0" cy="137.4" r="4"/>
+          <circle class="punkt" cx="283.0" cy="171.3" r="4"/>
+          <text class="klein blau" x="113.3" y="60.6">10 Mio. Jahre</text>
+          <text class="klein kupfer" x="217.0" y="153.4" text-anchor="end">1 Mrd. Jahre</text>
+          <text class="klein" x="273.0" y="187.3" text-anchor="end">10 Mrd. Jahre</text>
+          <circle class="punkt" cx="60.0" cy="219.8" r="4"/>
+          <text class="klein" x="70.0" y="223.8">Abknickpunkt</text>
+          <text class="klein" x="312.1" y="213.8" text-anchor="middle" transform="rotate(36.6 312.1 213.8)">Hauptreihe</text>
+          </svg>
+          <figcaption>Abb. 3: Schematische HR-Diagramme von drei Sternhaufen
+            mit 10 Millionen, 1 Milliarde und 10 Milliarden Jahren Alter. Je
+            älter der Haufen, desto weiter unten knickt seine Hauptreihe (lange
+            Linie) in den Riesenast ab. Die Riesenäste sind nur
+            angedeutet.</figcaption>
+        </figure>
+
+        <div class="merkkasten">
+          <span class="titel">Das Wichtigste in Kürze</span>
+          <ul>
+            <li>Sterne entstehen, wenn kalte, dichte Teile einer Molekülwolke
+              unter ihrer Schwerkraft zusammenstürzen.</li>
+            <li>Ein Stern ist ein Gleichgewicht aus Schwerkraft und Gasdruck;
+              die Kernfusion hält den Druck aufrecht.</li>
+            <li>Je schwerer ein Stern, desto <em>kürzer</em> lebt er: Rote
+              Zwerge Billionen Jahre, die Sonne 10 Milliarden, schwere Sterne
+              nur Millionen Jahre.</li>
+            <li>Ohne Wasserstoff im Kern wird ein Stern zum Roten Riesen. Bis
+              etwa acht Sonnenmassen endet er als Weißer Zwerg, darüber als
+              Supernova mit Neutronenstern oder Schwarzem Loch.</li>
+            <li>Fast alle Elemente schwerer als Helium stammen aus Sternen.</li>
+          </ul>
+        </div>
+      </section>
+    </article>
+  </main>
+</body>
+</html>

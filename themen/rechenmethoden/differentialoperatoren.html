@@ -1,0 +1,1272 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="robots" content="noindex">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Gradient, Divergenz und Rotation</title>
+  <meta name="description" content="Vektoranalysis anschaulich: Skalar- und Vektorfelder, partielle Ableitungen, Gradient, Nabla-Operator, Divergenz, Rotation und Laplace-Operator – mit Abbildungen, Beispielen aus der Physik und Aufgaben.">
+
+  <link rel="stylesheet" href="../../css/stil.css">
+
+  <link rel="stylesheet" href="../../extern/katex/katex.min.css">
+  <script defer src="../../extern/katex/katex.min.js"></script>
+  <script defer src="../../extern/katex/contrib/auto-render.min.js" onload="starteFormeln()"></script>
+
+  <script src="../../js/daten.js"></script>
+  <script src="../../js/seite.js"></script>
+  <script src="../../js/effekte.js"></script>
+  <script src="../../js/interaktiv.js"></script>
+  <script src="../../js/modelle/differentialoperatoren.js"></script>
+  <script type="application/json" id="symbole">
+  {
+    "x": "x-Koordinate",
+    "y": "y-Koordinate",
+    "z": "z-Koordinate",
+    "f": "Skalarfeld (eine Zahl an jedem Ort)",
+    "g": "zweites Skalarfeld",
+    "h": "Höhe des Geländes",
+    "T": "Temperatur",
+    "F": "Vektorfeld (z. B. Kraft)",
+    "F_x": "x-Komponente des Feldes F",
+    "F_y": "y-Komponente des Feldes F",
+    "F_z": "z-Komponente des Feldes F",
+    "G": "zweites Vektorfeld bzw. Gravitationskonstante",
+    "V": "potentielle Energie (Potential)",
+    "r": "Ortsvektor; ohne Pfeil: Abstand vom Ursprung",
+    "e_x": "Einheitsvektor in x-Richtung",
+    "e_y": "Einheitsvektor in y-Richtung",
+    "e_z": "Einheitsvektor in z-Richtung",
+    "e_r": "Einheitsvektor vom Ursprung weg",
+    "n": "Einheitsvektor der gewählten Richtung",
+    "α": "Winkel zwischen Gradient und gewählter Richtung",
+    "v": "Geschwindigkeit (Strömungsfeld)",
+    "ω": "Winkelgeschwindigkeit",
+    "M": "Masse des anziehenden Körpers",
+    "m": "Masse des angezogenen Körpers",
+    "d": "kleiner Abstand",
+    "t": "Zeit",
+    "D": "Temperaturleitfähigkeit",
+    "E": "elektrisches Feld",
+    "B": "magnetische Flussdichte",
+    "ρ": "Ladungs- bzw. Massendichte",
+    "ε_0": "elektrische Feldkonstante",
+    "μ_0": "magnetische Feldkonstante",
+    "j": "Stromdichte",
+    "a": "Halbachse des Hügels in x-Richtung bzw. beliebiger Vektor",
+    "b": "Halbachse des Hügels in y-Richtung bzw. beliebiger Vektor",
+    "c": "beliebiger Vektor",
+    "C": "beliebige Konstante",
+    "P": "betrachteter Punkt",
+    "p": "Druck",
+    "s": "zurückgelegte Strecke",
+    "π": "Kreiszahl 3,14159…"
+  }
+  </script>
+</head>
+<body data-thema="differentialoperatoren">
+  <main>
+    <article class="thema">
+      <header>
+        <h1>Gradient, Divergenz und Rotation</h1>
+        <p class="untertitel">Wie man Felder ableitet: wohin es am steilsten
+          bergauf geht, wo etwas herausquillt und wo sich etwas dreht.</p>
+      </header>
+
+      <div class="tabs">
+
+        <section class="tab" id="verstehen" data-titel="Verstehen">
+
+          <p>Schau dir eine Wetterkarte an. An jedem Ort gibt es eine
+            Temperatur – eine einzelne Zahl. Und an jedem Ort weht der Wind mit
+            einer bestimmten Stärke in eine bestimmte Richtung – ein Pfeil. Drei
+            Fragen liegen nahe: In welche Richtung wird es am schnellsten
+            wärmer? Wo strömt Luft auseinander, wie bei einem Hoch? Und wo
+            dreht sie sich, wie in einem Tief? Für jede dieser Fragen gibt es
+            eine Rechenvorschrift: <strong>Gradient</strong>,
+            <strong>Divergenz</strong> und <strong>Rotation</strong>. Sie
+            stecken in fast allen Grundgleichungen der Physik, von der
+            Gravitation über die Strömungslehre bis zu den Maxwell-Gleichungen.
+            Du solltest die <a href="vektoren.html">Vektorrechnung</a> kennen,
+            insbesondere Skalar- und Kreuzprodukt.</p>
+
+          <h2 id="felder">Felder: eine Größe an jedem Ort</h2>
+
+          <p>Ordnest du jedem Punkt $\vec r = (x, y, z)$ des Raums eine Zahl
+            zu, hast du ein <strong>Skalarfeld</strong> $f(\vec r)$: die
+            Temperatur im Zimmer, der Luftdruck, die Höhe des Geländes auf einer
+            Landkarte. Ordnest du jedem Punkt einen Vektor zu, ist es ein
+            <strong>Vektorfeld</strong> $\vec F(\vec r)$: die
+            Strömungsgeschwindigkeit in einem Fluss, die Gravitationskraft auf
+            einen Probekörper, das elektrische Feld. Ein Vektorfeld besteht aus
+            drei Skalarfeldern, seinen Komponenten $F_x$, $F_y$, $F_z$.</p>
+
+          <p>Skalarfelder zeichnet man mit <strong>Höhenlinien</strong> (in 3D:
+            Niveauflächen), auf denen $f$ überall gleich ist. Vektorfelder
+            zeichnet man als Pfeile an vielen Punkten (Abb. 1).</p>
+
+          <figure class="abbildung">
+            <div class="abb-reihe">
+            <svg class="abb" viewBox="0 0 220 160" role="img"
+                 aria-label="Höhenlinien eines Hügels: vier ineinanderliegende Ellipsen für 100, 200, 300 und 400 Meter, innen dunkler getönt, der Gipfel hat 500 Meter">
+              <path class="flaeche" d="M201.3 80L201 74.7L200 69.4L198.2 64.2L195.8 59.2L192.8 54.3L189.1 49.6L184.8 45.1L180 40.9L174.6 36.9L168.7 33.4L162.4 30.1L155.7 27.3L148.6 24.8L141.2 22.8L133.6 21.2L125.9 20L118 19.3L110 19.1L102 19.3L94.1 20L86.4 21.2L78.8 22.8L71.4 24.8L64.3 27.3L57.6 30.1L51.3 33.4L45.4 36.9L40 40.9L35.2 45.1L30.9 49.6L27.2 54.3L24.2 59.2L21.8 64.2L20 69.4L19 74.7L18.7 80L19 85.3L20 90.6L21.8 95.8L24.2 100.8L27.2 105.7L30.9 110.4L35.2 114.9L40 119.1L45.4 123.1L51.3 126.6L57.6 129.9L64.3 132.7L71.4 135.2L78.8 137.2L86.4 138.8L94.1 140L102 140.7L110 140.9L118 140.7L125.9 140L133.6 138.8L141.2 137.2L148.6 135.2L155.7 132.7L162.4 129.9L168.7 126.6L174.6 123.1L180 119.1L184.8 114.9L189.1 110.4L192.8 105.7L195.8 100.8L198.2 95.8L200 90.6L201 85.3L201.3 80Z"/>
+              <path class="flaeche" d="M178.9 80L178.7 76L177.9 72L176.6 68.1L174.8 64.3L172.5 60.6L169.7 57L166.5 53.6L162.8 50.5L158.7 47.5L154.3 44.8L149.5 42.4L144.5 40.2L139.1 38.4L133.6 36.8L127.8 35.6L122 34.8L116 34.2L110 34.1L104 34.2L98 34.8L92.2 35.6L86.4 36.8L80.9 38.4L75.5 40.2L70.5 42.4L65.7 44.8L61.3 47.5L57.2 50.5L53.5 53.6L50.3 57L47.5 60.6L45.2 64.3L43.4 68.1L42.1 72L41.3 76L41.1 80L41.3 84L42.1 88L43.4 91.9L45.2 95.7L47.5 99.4L50.3 103L53.5 106.4L57.2 109.5L61.3 112.5L65.7 115.2L70.5 117.6L75.5 119.8L80.9 121.6L86.4 123.2L92.2 124.4L98 125.2L104 125.8L110 125.9L116 125.8L122 125.2L127.8 124.4L133.6 123.2L139.1 121.6L144.5 119.8L149.5 117.6L154.3 115.2L158.7 112.5L162.8 109.5L166.5 106.4L169.7 103L172.5 99.4L174.8 95.7L176.6 91.9L177.9 88L178.7 84L178.9 80Z"/>
+              <path class="flaeche" d="M161.5 80L161.3 77L160.7 74L159.7 71.1L158.4 68.3L156.6 65.5L154.6 62.8L152.2 60.3L149.4 57.9L146.4 55.7L143.1 53.7L139.5 51.9L135.7 50.3L131.7 48.9L127.6 47.8L123.3 46.9L118.9 46.2L114.5 45.8L110 45.7L105.5 45.8L101.1 46.2L96.7 46.9L92.4 47.8L88.3 48.9L84.3 50.3L80.5 51.9L76.9 53.7L73.6 55.7L70.6 57.9L67.8 60.3L65.4 62.8L63.4 65.5L61.6 68.3L60.3 71.1L59.3 74L58.7 77L58.5 80L58.7 83L59.3 86L60.3 88.9L61.6 91.7L63.4 94.5L65.4 97.2L67.8 99.7L70.6 102.1L73.6 104.3L76.9 106.3L80.5 108.1L84.3 109.7L88.3 111.1L92.4 112.2L96.7 113.1L101.1 113.8L105.5 114.2L110 114.3L114.5 114.2L118.9 113.8L123.3 113.1L127.6 112.2L131.7 111.1L135.7 109.7L139.5 108.1L143.1 106.3L146.4 104.3L149.4 102.1L152.2 99.7L154.6 97.2L156.6 94.5L158.4 91.7L159.7 88.9L160.7 86L161.3 83L161.5 80Z"/>
+              <path class="flaeche" d="M144 80L143.9 78L143.5 76.1L142.9 74.1L142 72.2L140.8 70.4L139.5 68.7L137.9 67L136.1 65.4L134 64L131.9 62.6L129.5 61.4L127 60.4L124.4 59.5L121.6 58.7L118.8 58.1L115.9 57.7L113 57.4L110 57.3L107 57.4L104.1 57.7L101.2 58.1L98.4 58.7L95.6 59.5L93 60.4L90.5 61.4L88.1 62.6L86 64L83.9 65.4L82.1 67L80.5 68.7L79.2 70.4L78 72.2L77.1 74.1L76.5 76.1L76.1 78L76 80L76.1 82L76.5 83.9L77.1 85.9L78 87.8L79.2 89.6L80.5 91.3L82.1 93L83.9 94.6L86 96L88.1 97.4L90.5 98.6L93 99.6L95.6 100.5L98.4 101.3L101.2 101.9L104.1 102.3L107 102.6L110 102.7L113 102.6L115.9 102.3L118.8 101.9L121.6 101.3L124.4 100.5L127 99.6L129.5 98.6L131.9 97.4L134 96L136.1 94.6L137.9 93L139.5 91.3L140.8 89.6L142 87.8L142.9 85.9L143.5 83.9L143.9 82L144 80Z"/>
+              <path class="kurve blau duenn" d="M201.3 80L201 74.7L200 69.4L198.2 64.2L195.8 59.2L192.8 54.3L189.1 49.6L184.8 45.1L180 40.9L174.6 36.9L168.7 33.4L162.4 30.1L155.7 27.3L148.6 24.8L141.2 22.8L133.6 21.2L125.9 20L118 19.3L110 19.1L102 19.3L94.1 20L86.4 21.2L78.8 22.8L71.4 24.8L64.3 27.3L57.6 30.1L51.3 33.4L45.4 36.9L40 40.9L35.2 45.1L30.9 49.6L27.2 54.3L24.2 59.2L21.8 64.2L20 69.4L19 74.7L18.7 80L19 85.3L20 90.6L21.8 95.8L24.2 100.8L27.2 105.7L30.9 110.4L35.2 114.9L40 119.1L45.4 123.1L51.3 126.6L57.6 129.9L64.3 132.7L71.4 135.2L78.8 137.2L86.4 138.8L94.1 140L102 140.7L110 140.9L118 140.7L125.9 140L133.6 138.8L141.2 137.2L148.6 135.2L155.7 132.7L162.4 129.9L168.7 126.6L174.6 123.1L180 119.1L184.8 114.9L189.1 110.4L192.8 105.7L195.8 100.8L198.2 95.8L200 90.6L201 85.3L201.3 80"/>
+              <path class="kurve blau duenn" d="M178.9 80L178.7 76L177.9 72L176.6 68.1L174.8 64.3L172.5 60.6L169.7 57L166.5 53.6L162.8 50.5L158.7 47.5L154.3 44.8L149.5 42.4L144.5 40.2L139.1 38.4L133.6 36.8L127.8 35.6L122 34.8L116 34.2L110 34.1L104 34.2L98 34.8L92.2 35.6L86.4 36.8L80.9 38.4L75.5 40.2L70.5 42.4L65.7 44.8L61.3 47.5L57.2 50.5L53.5 53.6L50.3 57L47.5 60.6L45.2 64.3L43.4 68.1L42.1 72L41.3 76L41.1 80L41.3 84L42.1 88L43.4 91.9L45.2 95.7L47.5 99.4L50.3 103L53.5 106.4L57.2 109.5L61.3 112.5L65.7 115.2L70.5 117.6L75.5 119.8L80.9 121.6L86.4 123.2L92.2 124.4L98 125.2L104 125.8L110 125.9L116 125.8L122 125.2L127.8 124.4L133.6 123.2L139.1 121.6L144.5 119.8L149.5 117.6L154.3 115.2L158.7 112.5L162.8 109.5L166.5 106.4L169.7 103L172.5 99.4L174.8 95.7L176.6 91.9L177.9 88L178.7 84L178.9 80"/>
+              <path class="kurve blau duenn" d="M161.5 80L161.3 77L160.7 74L159.7 71.1L158.4 68.3L156.6 65.5L154.6 62.8L152.2 60.3L149.4 57.9L146.4 55.7L143.1 53.7L139.5 51.9L135.7 50.3L131.7 48.9L127.6 47.8L123.3 46.9L118.9 46.2L114.5 45.8L110 45.7L105.5 45.8L101.1 46.2L96.7 46.9L92.4 47.8L88.3 48.9L84.3 50.3L80.5 51.9L76.9 53.7L73.6 55.7L70.6 57.9L67.8 60.3L65.4 62.8L63.4 65.5L61.6 68.3L60.3 71.1L59.3 74L58.7 77L58.5 80L58.7 83L59.3 86L60.3 88.9L61.6 91.7L63.4 94.5L65.4 97.2L67.8 99.7L70.6 102.1L73.6 104.3L76.9 106.3L80.5 108.1L84.3 109.7L88.3 111.1L92.4 112.2L96.7 113.1L101.1 113.8L105.5 114.2L110 114.3L114.5 114.2L118.9 113.8L123.3 113.1L127.6 112.2L131.7 111.1L135.7 109.7L139.5 108.1L143.1 106.3L146.4 104.3L149.4 102.1L152.2 99.7L154.6 97.2L156.6 94.5L158.4 91.7L159.7 88.9L160.7 86L161.3 83L161.5 80"/>
+              <path class="kurve blau duenn" d="M144 80L143.9 78L143.5 76.1L142.9 74.1L142 72.2L140.8 70.4L139.5 68.7L137.9 67L136.1 65.4L134 64L131.9 62.6L129.5 61.4L127 60.4L124.4 59.5L121.6 58.7L118.8 58.1L115.9 57.7L113 57.4L110 57.3L107 57.4L104.1 57.7L101.2 58.1L98.4 58.7L95.6 59.5L93 60.4L90.5 61.4L88.1 62.6L86 64L83.9 65.4L82.1 67L80.5 68.7L79.2 70.4L78 72.2L77.1 74.1L76.5 76.1L76.1 78L76 80L76.1 82L76.5 83.9L77.1 85.9L78 87.8L79.2 89.6L80.5 91.3L82.1 93L83.9 94.6L86 96L88.1 97.4L90.5 98.6L93 99.6L95.6 100.5L98.4 101.3L101.2 101.9L104.1 102.3L107 102.6L110 102.7L113 102.6L115.9 102.3L118.8 101.9L121.6 101.3L124.4 100.5L127 99.6L129.5 98.6L131.9 97.4L134 96L136.1 94.6L137.9 93L139.5 91.3L140.8 89.6L142 87.8L142.9 85.9L143.5 83.9L143.9 82L144 80"/>
+              <text class="klein halo" x="110" y="17.7" text-anchor="middle">100</text>
+              <text class="klein halo" x="110" y="32.6" text-anchor="middle">200</text>
+              <text class="klein halo" x="110" y="44.3" text-anchor="middle">300</text>
+              <text class="klein halo" x="110" y="55.9" text-anchor="middle">400</text>
+              <circle class="punkt" cx="110" cy="80" r="2.5"/>
+              <text class="klein halo" x="110" y="93.2" text-anchor="middle">500 m</text>
+              <text class="klein" x="110" y="153.2" text-anchor="middle">Höhe h(x, y) in m</text>
+            </svg>
+            <svg class="abb" viewBox="0 0 220 160" role="img"
+                 aria-label="Vektorfeld: an jedem Gitterpunkt ein Pfeil für den Wind; die Pfeile kreisen gegen den Uhrzeigersinn um ein Tief in der Mitte und zeigen dabei leicht nach innen">
+              <g class="pfeil blau duenn"><line x1="7.2" y1="117.4" x2="16.5" y2="126.5"/><polygon points="20.8,130.6 18.6,124.3 14.4,128.6"/></g>
+              <g class="pfeil blau duenn"><line x1="8.8" y1="92" x2="15.9" y2="103"/><polygon points="19.2,108 18.4,101.3 13.4,104.6"/></g>
+              <g class="pfeil blau duenn"><line x1="10.9" y1="67" x2="15.2" y2="79.3"/><polygon points="17.2,85 18,78.3 12.3,80.3"/></g>
+              <g class="pfeil blau duenn"><line x1="13.1" y1="42.5" x2="14.3" y2="55.5"/><polygon points="14.9,61.5 17.3,55.2 11.3,55.8"/></g>
+              <g class="pfeil blau duenn"><line x1="15.2" y1="18.5" x2="13.6" y2="31.5"/><polygon points="12.8,37.5 16.5,31.9 10.6,31.1"/></g>
+              <g class="pfeil blau duenn"><line x1="30.4" y1="118.3" x2="40.8" y2="126.1"/><polygon points="45.6,129.7 42.6,123.7 39,128.5"/></g>
+              <g class="pfeil blau duenn"><line x1="32.2" y1="92.5" x2="40.2" y2="102.8"/><polygon points="43.8,107.5 42.5,101 37.8,104.6"/></g>
+              <g class="pfeil blau duenn"><line x1="34.8" y1="67" x2="39.2" y2="79.3"/><polygon points="41.2,85 42,78.3 36.3,80.3"/></g>
+              <g class="pfeil blau duenn"><line x1="37.9" y1="42.5" x2="38.1" y2="55.5"/><polygon points="38.1,61.5 41.1,55.5 35.1,55.6"/></g>
+              <g class="pfeil blau duenn"><line x1="40.4" y1="18.8" x2="37.1" y2="31.4"/><polygon points="35.6,37.2 40,32.2 34.2,30.7"/></g>
+              <g class="pfeil blau duenn"><line x1="53.4" y1="119.9" x2="65.2" y2="125.5"/><polygon points="70.6,128.1 66.5,122.8 63.9,128.2"/></g>
+              <g class="pfeil blau duenn"><line x1="55.2" y1="93.4" x2="64.5" y2="102.5"/><polygon points="68.8,106.6 66.6,100.3 62.4,104.6"/></g>
+              <g class="pfeil blau duenn"><line x1="58.8" y1="67" x2="63.2" y2="79.3"/><polygon points="65.2,85 66,78.3 60.3,80.3"/></g>
+              <g class="pfeil blau duenn"><line x1="63.2" y1="42.5" x2="61.6" y2="55.5"/><polygon points="60.8,61.5 64.5,55.9 58.6,55.1"/></g>
+              <g class="pfeil blau duenn"><line x1="66.1" y1="19.4" x2="60.5" y2="31.2"/><polygon points="57.9,36.6 63.2,32.5 57.8,29.9"/></g>
+              <g class="pfeil blau duenn"><line x1="76.5" y1="122.8" x2="89.5" y2="124.4"/><polygon points="95.5,125.2 89.9,121.5 89.1,127.4"/></g>
+              <g class="pfeil blau duenn"><line x1="77.4" y1="95.9" x2="89.2" y2="101.5"/><polygon points="94.6,104.1 90.5,98.8 87.9,104.2"/></g>
+              <g class="pfeil blau duenn"><line x1="82.8" y1="67" x2="87.2" y2="79.3"/><polygon points="89.2,85 90,78.3 84.3,80.3"/></g>
+              <g class="pfeil blau duenn"><line x1="90.1" y1="43.4" x2="84.5" y2="55.2"/><polygon points="81.9,60.6 87.2,56.5 81.8,53.9"/></g>
+              <g class="pfeil blau duenn"><line x1="92.6" y1="21.2" x2="83.5" y2="30.5"/><polygon points="79.4,34.8 85.7,32.6 81.4,28.4"/></g>
+              <g class="pfeil blau duenn"><line x1="101" y1="127.2" x2="113.3" y2="122.8"/><polygon points="119,120.8 112.3,120 114.3,125.7"/></g>
+              <g class="pfeil blau duenn"><line x1="101" y1="103.2" x2="113.3" y2="98.8"/><polygon points="119,96.8 112.3,96 114.3,101.7"/></g>
+              <g class="pfeil blau duenn"><line x1="119" y1="48.8" x2="106.7" y2="53.2"/><polygon points="101,55.1 107.7,56 105.7,50.3"/></g>
+              <g class="pfeil blau duenn"><line x1="119" y1="24.8" x2="106.7" y2="29.2"/><polygon points="101,31.2 107.7,32 105.7,26.3"/></g>
+              <g class="pfeil blau duenn"><line x1="127.4" y1="130.8" x2="136.5" y2="121.5"/><polygon points="140.6,117.2 134.3,119.4 138.6,123.6"/></g>
+              <g class="pfeil blau duenn"><line x1="129.9" y1="108.6" x2="135.5" y2="96.8"/><polygon points="138.1,91.4 132.8,95.5 138.2,98.1"/></g>
+              <g class="pfeil blau duenn"><line x1="137.2" y1="85" x2="132.8" y2="72.7"/><polygon points="130.8,67 130,73.7 135.7,71.7"/></g>
+              <g class="pfeil blau duenn"><line x1="142.6" y1="56.1" x2="130.8" y2="50.5"/><polygon points="125.4,47.9 129.5,53.2 132.1,47.8"/></g>
+              <g class="pfeil blau duenn"><line x1="143.5" y1="29.2" x2="130.5" y2="27.6"/><polygon points="124.5,26.8 130.1,30.5 130.9,24.6"/></g>
+              <g class="pfeil blau duenn"><line x1="153.9" y1="132.6" x2="159.5" y2="120.8"/><polygon points="162.1,115.4 156.8,119.5 162.2,122.1"/></g>
+              <g class="pfeil blau duenn"><line x1="156.8" y1="109.5" x2="158.4" y2="96.5"/><polygon points="159.2,90.5 155.5,96.1 161.4,96.9"/></g>
+              <g class="pfeil blau duenn"><line x1="161.2" y1="85" x2="156.8" y2="72.7"/><polygon points="154.8,67 154,73.7 159.7,71.7"/></g>
+              <g class="pfeil blau duenn"><line x1="164.8" y1="58.6" x2="155.5" y2="49.5"/><polygon points="151.2,45.4 153.4,51.7 157.6,47.4"/></g>
+              <g class="pfeil blau duenn"><line x1="166.6" y1="32.1" x2="154.8" y2="26.5"/><polygon points="149.4,23.9 153.5,29.2 156.1,23.8"/></g>
+              <g class="pfeil blau duenn"><line x1="179.6" y1="133.2" x2="182.9" y2="120.6"/><polygon points="184.4,114.8 180,119.8 185.8,121.3"/></g>
+              <g class="pfeil blau duenn"><line x1="182.1" y1="109.5" x2="181.9" y2="96.5"/><polygon points="181.9,90.5 178.9,96.5 184.9,96.4"/></g>
+              <g class="pfeil blau duenn"><line x1="185.2" y1="85" x2="180.8" y2="72.7"/><polygon points="178.8,67 178,73.7 183.7,71.7"/></g>
+              <g class="pfeil blau duenn"><line x1="187.8" y1="59.5" x2="179.8" y2="49.2"/><polygon points="176.2,44.5 177.5,51 182.2,47.4"/></g>
+              <g class="pfeil blau duenn"><line x1="189.6" y1="33.7" x2="179.2" y2="25.9"/><polygon points="174.4,22.3 177.4,28.3 181,23.5"/></g>
+              <g class="pfeil blau duenn"><line x1="204.8" y1="133.5" x2="206.4" y2="120.5"/><polygon points="207.2,114.5 203.5,120.1 209.4,120.9"/></g>
+              <g class="pfeil blau duenn"><line x1="206.9" y1="109.5" x2="205.7" y2="96.5"/><polygon points="205.1,90.5 202.7,96.8 208.7,96.2"/></g>
+              <g class="pfeil blau duenn"><line x1="209.1" y1="85" x2="204.8" y2="72.7"/><polygon points="202.8,67 202,73.7 207.7,71.7"/></g>
+              <g class="pfeil blau duenn"><line x1="211.2" y1="60" x2="204.1" y2="49"/><polygon points="200.8,44 201.6,50.7 206.6,47.4"/></g>
+              <g class="pfeil blau duenn"><line x1="212.8" y1="34.6" x2="203.5" y2="25.5"/><polygon points="199.2,21.4 201.4,27.7 205.6,23.4"/></g>
+              <text class="kupfer halo" x="110" y="73.6" text-anchor="middle">T</text>
+              <text class="klein" x="110" y="149.2" text-anchor="middle">Windgeschwindigkeit v(x, y)</text>
+            </svg>
+            </div>
+            <figcaption>Abb. 1: Links ein Skalarfeld: die Höhe
+              $h(x, y)$ eines Hügels, gezeichnet als Höhenlinien für 100, 200,
+              300 und 400&nbsp;m. Rechts ein Vektorfeld: der Wind um ein
+              Tiefdruckgebiet T. Jeder Pfeil zeigt Richtung und Stärke des
+              Windes an seinem Ort.</figcaption>
+          </figure>
+
+          <h2 id="partielle-ableitungen">Partielle Ableitungen: eine Richtung nach der anderen</h2>
+
+          <p>Wie ändert sich ein Feld, wenn du ein Stück weitergehst? Das hängt
+            davon ab, in welche Richtung du gehst. Deshalb leitet man zunächst
+            nach jeder Koordinate einzeln ab und hält die anderen fest. Das
+            heißt <strong>partielle Ableitung</strong> und wird mit einem runden
+            $\partial$ geschrieben. Für $f(x, y) = x^2 y$:</p>
+
+          $$ \frac{\partial f}{\partial x} = 2xy \quad (y \text{ fest}), \qquad \frac{\partial f}{\partial y} = x^2 \quad (x \text{ fest}) $$
+
+          <p>Mehr ist es nicht: Die anderen Variablen behandelst du wie
+            Zahlen. Auch höhere Ableitungen gehen so. Bei den gemischten ist die
+            Reihenfolge egal (Satz von Schwarz), solange die Ableitungen stetig
+            sind – hier
+            $\frac{\partial^2 f}{\partial x\,\partial y} = \frac{\partial^2 f}{\partial y\,\partial x} = 2x$.</p>
+
+          <p>Gehst du in alle Richtungen ein winziges Stück
+            $\mathrm{d}\vec r = (\mathrm{d}x, \mathrm{d}y, \mathrm{d}z)$, addieren
+            sich die Änderungen. Das ist das <strong>totale Differential</strong>:</p>
+
+          $$ \mathrm{d}f = \frac{\partial f}{\partial x}\,\mathrm{d}x + \frac{\partial f}{\partial y}\,\mathrm{d}y + \frac{\partial f}{\partial z}\,\mathrm{d}z $$
+
+          <div class="alltag">
+            <span class="titel">Beispiel: Gas, Temperatur und Druck</span>
+            <p>Beim idealen Gas hängt das Volumen von Temperatur und Druck ab,
+              $V \propto T/p$. Steigt die Temperatur um 1&nbsp;% und der Druck
+              um 1&nbsp;%, heben sich beide Einflüsse in erster Näherung auf.
+              Das totale Differential sagt genau das: Die relative Änderung des
+              Volumens ist $\mathrm{d}T/T - \mathrm{d}p/p$. So schätzt man auch
+              in der Fehlerrechnung ab, wie Messfehler mehrerer Größen in ein
+              Ergebnis eingehen.</p>
+          </div>
+
+          <h2 id="gradient">Der Gradient: der steilste Weg bergauf</h2>
+
+          <p>Die drei partiellen Ableitungen fasst man zu einem Vektor
+            zusammen, dem <strong>Gradienten</strong>:</p>
+
+          $$ \operatorname{grad} f = \begin{pmatrix} \partial f/\partial x \\ \partial f/\partial y \\ \partial f/\partial z \end{pmatrix} = \frac{\partial f}{\partial x}\,\hat e_x + \frac{\partial f}{\partial y}\,\hat e_y + \frac{\partial f}{\partial z}\,\hat e_z $$
+
+          <p>Aus einem Skalarfeld wird so ein Vektorfeld. Was bedeutet der
+            Pfeil? Damit lässt sich das totale Differential als
+            <a href="vektoren.html#skalarprodukt">Skalarprodukt</a> schreiben:
+            $\mathrm{d}f = \operatorname{grad} f\cdot\mathrm{d}\vec r$. Gehst du
+            einen kleinen Schritt der Länge $\mathrm{d}s$ in Richtung des
+            Einheitsvektors $\hat n$, ändert sich $f$ also um</p>
+
+          $$ \frac{\mathrm{d}f}{\mathrm{d}s} = \operatorname{grad} f\cdot\hat n = |\operatorname{grad} f|\cos\alpha $$
+
+          <p>Diese <strong>Richtungsableitung</strong> ist am größten für
+            $\alpha = 0$, also genau in Richtung des Gradienten. Und sie ist
+            null für $\alpha = 90^\circ$, also längs der Höhenlinie, auf der sich
+            $f$ nicht ändert. Daraus folgen die drei Eigenschaften, die du dir
+            merken solltest (Abb. 2):</p>
+
+          <ul>
+            <li>Der Gradient zeigt in die Richtung, in der $f$ am schnellsten
+              wächst – auf der Landkarte: steilster Weg bergauf.</li>
+            <li>Sein Betrag ist diese größte Steigung. Wo Höhenlinien dicht
+              liegen, ist er groß.</li>
+            <li>Er steht überall senkrecht auf den Höhenlinien bzw.
+              Niveauflächen.</li>
+          </ul>
+
+          <figure class="abbildung">
+            <div class="abb-reihe">
+            <svg class="abb" viewBox="0 0 240 200" role="img"
+                 aria-label="Höhenlinien des Hügels mit blauen Gradientenpfeilen an Gitterpunkten; jeder Pfeil zeigt bergauf, senkrecht zur Höhenlinie, und ist dort am längsten, wo die Höhenlinien am dichtesten liegen">
+              <path class="kurve schwach" d="M222.8 100L222.4 94L221.2 88.1L219.3 82.3L216.6 76.6L213.1 71L209 65.7L204.2 60.7L198.7 56L192.7 51.6L186.1 47.5L178.9 43.9L171.4 40.7L163.4 37.9L155.1 35.6L146.6 33.8L137.8 32.5L129 31.8L120 31.5L111 31.8L102.2 32.5L93.4 33.8L84.9 35.6L76.6 37.9L68.6 40.7L61.1 43.9L53.9 47.5L47.3 51.6L41.3 56L35.8 60.7L31 65.7L26.9 71L23.4 76.6L20.7 82.3L18.8 88.1L17.6 94L17.2 100L17.6 106L18.8 111.9L20.7 117.7L23.4 123.4L26.9 129L31 134.3L35.8 139.3L41.3 144L47.3 148.4L53.9 152.5L61.1 156.1L68.6 159.3L76.6 162.1L84.9 164.4L93.4 166.2L102.2 167.5L111 168.2L120 168.5L129 168.2L137.8 167.5L146.6 166.2L155.1 164.4L163.4 162.1L171.4 159.3L178.9 156.1L186.1 152.5L192.7 148.4L198.7 144L204.2 139.3L209 134.3L213.1 129L216.6 123.4L219.3 117.7L221.2 111.9L222.4 106L222.8 100"/>
+              <path class="kurve schwach" d="M197.5 100L197.2 95.5L196.4 91L194.9 86.6L192.9 82.3L190.3 78.2L187.1 74.2L183.5 70.4L179.4 66.8L174.8 63.4L169.8 60.4L164.5 57.7L158.8 55.2L152.8 53.2L146.5 51.4L140.1 50.1L133.5 49.1L126.8 48.5L120 48.3L113.2 48.5L106.5 49.1L99.9 50.1L93.5 51.4L87.2 53.2L81.2 55.2L75.5 57.7L70.2 60.4L65.2 63.4L60.6 66.8L56.5 70.4L52.9 74.2L49.7 78.2L47.1 82.3L45.1 86.6L43.6 91L42.8 95.5L42.5 100L42.8 104.5L43.6 109L45.1 113.4L47.1 117.7L49.7 121.8L52.9 125.8L56.5 129.6L60.6 133.2L65.2 136.6L70.2 139.6L75.5 142.3L81.2 144.8L87.2 146.8L93.5 148.6L99.9 149.9L106.5 150.9L113.2 151.5L120 151.7L126.8 151.5L133.5 150.9L140.1 149.9L146.5 148.6L152.8 146.8L158.8 144.8L164.5 142.3L169.8 139.6L174.8 136.6L179.4 133.2L183.5 129.6L187.1 125.8L190.3 121.8L192.9 117.7L194.9 113.4L196.4 109L197.2 104.5L197.5 100"/>
+              <path class="kurve schwach" d="M177.9 100L177.7 96.6L177 93.3L175.9 90L174.4 86.8L172.5 83.7L170.1 80.7L167.4 77.9L164.3 75.2L160.9 72.7L157.2 70.4L153.2 68.4L148.9 66.6L144.5 65L139.8 63.7L135 62.7L130.1 62L125 61.6L120 61.4L115 61.6L109.9 62L105 62.7L100.2 63.7L95.5 65L91.1 66.6L86.8 68.4L82.8 70.4L79.1 72.7L75.7 75.2L72.6 77.9L69.9 80.7L67.5 83.7L65.6 86.8L64.1 90L63 93.3L62.3 96.6L62.1 100L62.3 103.4L63 106.7L64.1 110L65.6 113.2L67.5 116.3L69.9 119.3L72.6 122.1L75.7 124.8L79.1 127.3L82.8 129.6L86.8 131.6L91.1 133.4L95.5 135L100.2 136.3L105 137.3L109.9 138L115 138.4L120 138.6L125 138.4L130.1 138L135 137.3L139.8 136.3L144.5 135L148.9 133.4L153.2 131.6L157.2 129.6L160.9 127.3L164.3 124.8L167.4 122.1L170.1 119.3L172.5 116.3L174.4 113.2L175.9 110L177 106.7L177.7 103.4L177.9 100"/>
+              <path class="kurve schwach" d="M158.3 100L158.1 97.8L157.7 95.6L157 93.4L156 91.3L154.7 89.2L153.1 87.2L151.3 85.4L149.3 83.6L147.1 82L144.6 80.5L141.9 79.1L139.1 77.9L136.2 76.9L133.1 76L129.9 75.4L126.6 74.9L123.3 74.6L120 74.5L116.7 74.6L113.4 74.9L110.1 75.4L106.9 76L103.8 76.9L100.9 77.9L98.1 79.1L95.4 80.5L92.9 82L90.7 83.6L88.7 85.4L86.9 87.2L85.3 89.2L84 91.3L83 93.4L82.3 95.6L81.9 97.8L81.7 100L81.9 102.2L82.3 104.4L83 106.6L84 108.7L85.3 110.8L86.9 112.8L88.7 114.6L90.7 116.4L92.9 118L95.4 119.5L98.1 120.9L100.9 122.1L103.8 123.1L106.9 124L110.1 124.6L113.4 125.1L116.7 125.4L120 125.5L123.3 125.4L126.6 125.1L129.9 124.6L133.1 124L136.2 123.1L139.1 122.1L141.9 120.9L144.6 119.5L147.1 118L149.3 116.4L151.3 114.6L153.1 112.8L154.7 110.8L156 108.7L157 106.6L157.7 104.4L158.1 102.2L158.3 100"/>
+              <text class="klein halo" x="120" y="28.3" text-anchor="middle">100</text>
+              <text class="klein halo" x="120" y="45.1" text-anchor="middle">200</text>
+              <text class="klein halo" x="120" y="58.2" text-anchor="middle">300</text>
+              <text class="klein halo" x="120" y="71.3" text-anchor="middle">400</text>
+              <g class="pfeil blau duenn"><line x1="23.6" y1="156.4" x2="25.1" y2="154.5"/><polygon points="27.4,151.6 22.8,152.6 27.5,156.3"/></g>
+              <g class="pfeil blau duenn"><line x1="21.5" y1="129.6" x2="24.7" y2="127.5"/><polygon points="29.5,124.4 23.1,125 26.3,130"/></g>
+              <g class="pfeil blau duenn"><line x1="20.3" y1="100" x2="24.7" y2="100"/><polygon points="30.7,100 24.7,97 24.7,103"/></g>
+              <g class="pfeil blau duenn"><line x1="21.5" y1="70.4" x2="24.7" y2="72.5"/><polygon points="29.5,75.6 26.3,70 23.1,75"/></g>
+              <g class="pfeil blau duenn"><line x1="23.6" y1="43.6" x2="25.1" y2="45.5"/><polygon points="27.4,48.4 27.5,43.7 22.8,47.4"/></g>
+              <g class="pfeil blau duenn"><line x1="51.7" y1="183" x2="52.3" y2="181.4"/><polygon points="53.3,179 49.5,180.4 55.2,182.5"/></g>
+              <g class="pfeil blau duenn"><line x1="49.9" y1="158.8" x2="52.2" y2="154.5"/><polygon points="55.1,149.2 49.6,153 54.9,155.9"/></g>
+              <g class="pfeil blau duenn"><line x1="46.9" y1="132" x2="53.6" y2="126"/><polygon points="58.1,122 51.6,123.7 55.7,128.2"/></g>
+              <g class="pfeil blau duenn"><line x1="45.3" y1="100" x2="53.7" y2="100"/><polygon points="59.7,100 53.7,97 53.7,103"/></g>
+              <g class="pfeil blau duenn"><line x1="46.9" y1="68" x2="53.6" y2="74"/><polygon points="58.1,78 55.7,71.8 51.6,76.3"/></g>
+              <g class="pfeil blau duenn"><line x1="49.9" y1="41.2" x2="52.2" y2="45.5"/><polygon points="55.1,50.8 54.9,44.1 49.6,47"/></g>
+              <g class="pfeil blau duenn"><line x1="51.7" y1="17" x2="52.3" y2="18.6"/><polygon points="53.3,21 55.2,17.5 49.5,19.6"/></g>
+              <g class="pfeil blau duenn"><line x1="78.8" y1="184.2" x2="79.4" y2="181.6"/><polygon points="80.2,177.8 76.4,181 82.3,182.3"/></g>
+              <g class="pfeil blau duenn"><line x1="77" y1="161.4" x2="80.1" y2="152.3"/><polygon points="82,146.6 77.2,151.3 82.9,153.2"/></g>
+              <g class="pfeil blau duenn"><line x1="74.3" y1="134.9" x2="81.4" y2="124.1"/><polygon points="84.7,119.1 78.9,122.5 83.9,125.8"/></g>
+              <g class="pfeil blau duenn"><line x1="72.8" y1="100" x2="80.2" y2="100"/><polygon points="86.2,100 80.2,97 80.2,103"/></g>
+              <g class="pfeil blau duenn"><line x1="74.3" y1="65.1" x2="81.4" y2="75.9"/><polygon points="84.7,80.9 83.9,74.2 78.9,77.5"/></g>
+              <g class="pfeil blau duenn"><line x1="77" y1="38.6" x2="80.1" y2="47.7"/><polygon points="82,53.4 82.9,46.8 77.2,48.7"/></g>
+              <g class="pfeil blau duenn"><line x1="78.8" y1="15.8" x2="79.4" y2="18.4"/><polygon points="80.2,22.2 82.3,17.7 76.4,19"/></g>
+              <g class="pfeil blau duenn"><line x1="106.2" y1="185" x2="106.4" y2="181.8"/><polygon points="106.8,177 103.4,181.6 109.4,182"/></g>
+              <g class="pfeil blau duenn"><line x1="105.5" y1="163.3" x2="106.9" y2="150.7"/><polygon points="107.5,144.7 103.9,150.3 109.9,151"/></g>
+              <g class="pfeil blau duenn"><line x1="104.3" y1="136.8" x2="107.4" y2="123"/><polygon points="108.7,117.2 104.5,122.4 110.3,123.7"/></g>
+              <g class="pfeil blau duenn"><line x1="103.7" y1="100" x2="105.9" y2="100"/><polygon points="109.3,100 105.9,97 105.9,103"/></g>
+              <g class="pfeil blau duenn"><line x1="104.3" y1="63.2" x2="107.4" y2="77"/><polygon points="108.7,82.8 110.3,76.3 104.5,77.6"/></g>
+              <g class="pfeil blau duenn"><line x1="105.5" y1="36.7" x2="106.9" y2="49.3"/><polygon points="107.5,55.3 109.9,49 103.9,49.7"/></g>
+              <g class="pfeil blau duenn"><line x1="106.2" y1="15" x2="106.4" y2="18.2"/><polygon points="106.8,23 109.4,18 103.4,18.4"/></g>
+              <g class="pfeil blau duenn"><line x1="133.8" y1="185" x2="133.6" y2="181.8"/><polygon points="133.2,177 130.6,182 136.6,181.6"/></g>
+              <g class="pfeil blau duenn"><line x1="134.5" y1="163.3" x2="133.1" y2="150.7"/><polygon points="132.5,144.7 130.1,151 136.1,150.3"/></g>
+              <g class="pfeil blau duenn"><line x1="135.7" y1="136.8" x2="132.6" y2="123"/><polygon points="131.3,117.2 129.7,123.7 135.5,122.4"/></g>
+              <g class="pfeil blau duenn"><line x1="136.3" y1="100" x2="134.1" y2="100"/><polygon points="130.7,100 134.1,103 134.1,97"/></g>
+              <g class="pfeil blau duenn"><line x1="135.7" y1="63.2" x2="132.6" y2="77"/><polygon points="131.3,82.8 135.5,77.6 129.7,76.3"/></g>
+              <g class="pfeil blau duenn"><line x1="134.5" y1="36.7" x2="133.1" y2="49.3"/><polygon points="132.5,55.3 136.1,49.7 130.1,49"/></g>
+              <g class="pfeil blau duenn"><line x1="133.8" y1="15" x2="133.6" y2="18.2"/><polygon points="133.2,23 136.6,18.4 130.6,18"/></g>
+              <g class="pfeil blau duenn"><line x1="161.2" y1="184.2" x2="160.6" y2="181.6"/><polygon points="159.8,177.8 157.7,182.3 163.6,181"/></g>
+              <g class="pfeil blau duenn"><line x1="163" y1="161.4" x2="159.9" y2="152.3"/><polygon points="158,146.6 157.1,153.2 162.8,151.3"/></g>
+              <g class="pfeil blau duenn"><line x1="165.7" y1="134.9" x2="158.6" y2="124.1"/><polygon points="155.3,119.1 156.1,125.8 161.1,122.5"/></g>
+              <g class="pfeil blau duenn"><line x1="167.2" y1="100" x2="159.8" y2="100"/><polygon points="153.8,100 159.8,103 159.8,97"/></g>
+              <g class="pfeil blau duenn"><line x1="165.7" y1="65.1" x2="158.6" y2="75.9"/><polygon points="155.3,80.9 161.1,77.5 156.1,74.2"/></g>
+              <g class="pfeil blau duenn"><line x1="163" y1="38.6" x2="159.9" y2="47.7"/><polygon points="158,53.4 162.8,48.7 157.1,46.8"/></g>
+              <g class="pfeil blau duenn"><line x1="161.2" y1="15.8" x2="160.6" y2="18.4"/><polygon points="159.8,22.2 163.6,19 157.7,17.7"/></g>
+              <g class="pfeil blau duenn"><line x1="188.3" y1="183" x2="187.7" y2="181.4"/><polygon points="186.7,179 184.8,182.5 190.5,180.4"/></g>
+              <g class="pfeil blau duenn"><line x1="190.1" y1="158.8" x2="187.8" y2="154.5"/><polygon points="184.9,149.2 185.1,155.9 190.4,153"/></g>
+              <g class="pfeil blau duenn"><line x1="193.1" y1="132" x2="186.4" y2="126"/><polygon points="181.9,122 184.3,128.2 188.4,123.7"/></g>
+              <g class="pfeil blau duenn"><line x1="194.7" y1="100" x2="186.3" y2="100"/><polygon points="180.3,100 186.3,103 186.3,97"/></g>
+              <g class="pfeil blau duenn"><line x1="193.1" y1="68" x2="186.4" y2="74"/><polygon points="181.9,78 188.4,76.3 184.3,71.8"/></g>
+              <g class="pfeil blau duenn"><line x1="190.1" y1="41.2" x2="187.8" y2="45.5"/><polygon points="184.9,50.8 190.4,47 185.1,44.1"/></g>
+              <g class="pfeil blau duenn"><line x1="188.3" y1="17" x2="187.7" y2="18.6"/><polygon points="186.7,21 190.5,19.6 184.8,17.5"/></g>
+              <g class="pfeil blau duenn"><line x1="216.4" y1="156.4" x2="214.9" y2="154.5"/><polygon points="212.6,151.6 212.5,156.3 217.2,152.6"/></g>
+              <g class="pfeil blau duenn"><line x1="218.5" y1="129.6" x2="215.3" y2="127.5"/><polygon points="210.5,124.4 213.7,130 216.9,125"/></g>
+              <g class="pfeil blau duenn"><line x1="219.7" y1="100" x2="215.3" y2="100"/><polygon points="209.3,100 215.3,103 215.3,97"/></g>
+              <g class="pfeil blau duenn"><line x1="218.5" y1="70.4" x2="215.3" y2="72.5"/><polygon points="210.5,75.6 216.9,75 213.7,70"/></g>
+              <g class="pfeil blau duenn"><line x1="216.4" y1="43.6" x2="214.9" y2="45.5"/><polygon points="212.6,48.4 217.2,47.4 212.5,43.7"/></g>
+              <circle class="punkt" cx="120" cy="100" r="2.5"/>
+            </svg>
+            <svg class="abb" viewBox="0 0 240 200" role="img"
+                 aria-label="Ausschnitt um einen Punkt P: die Höhenlinie durch P, senkrecht dazu der blaue Gradientenpfeil bergauf, daneben ein orangefarbener Einheitsvektor n unter dem Winkel alpha zum Gradienten; die gestrichelte Linie zeigt den Schatten des Gradienten auf n">
+              <path class="kurve blau duenn" d="M26.1 50.2L30.5 56.8L35.1 63.1L39.8 69.2L44.6 75L49.6 80.6L54.7 86L59.9 91.1L65.2 95.9L70.7 100.5L76.3 104.9L82 109.1L87.9 112.9L93.9 116.6L100 120L106.2 123.2L112.6 126.1L119.1 128.8L125.8 131.2L132.5 133.4L139.4 135.4L146.4 137.1L153.6 138.5L160.8 139.8L168.2 140.7L175.8 141.5L183.4 142L191.2 142.2L199.2 142.3"/>
+              <text class="klein blau" x="12" y="160" text-anchor="start">Höhenlinie</text>
+              <text class="klein blau" x="12" y="173" text-anchor="start">h = konstant</text>
+              <g class="pfeil blau"><line x1="100" y1="120" x2="132.4" y2="59.1"/><polygon points="136.6,51.1 128.4,57 136.4,61.2"/></g>
+              <text class="blau" x="144.6" y="55.1" text-anchor="start">grad <tspan font-style="italic">h</tspan></text>
+              <g class="pfeil kupfer"><line x1="100" y1="120" x2="151.2" y2="106.3"/><polygon points="159.9,104 150,101.9 152.4,110.6"/></g>
+              <text class="kupfer" x="165.9" y="118" text-anchor="start" font-style="italic">n̂</text>
+              <path class="kurve kupfer duenn" d="M129 112.2A30 30 0 0 0 114.1 93.5"/>
+              <text class="kupfer" x="131.3" y="99.1" text-anchor="middle" font-style="italic">α</text>
+              <path class="hilfslinie" d="M136.6 51.1L151.4 106.2"/>
+              <circle class="punkt" cx="100" cy="120" r="3.5"/>
+              <text class="halo" x="92" y="136" text-anchor="end">P</text>
+              <text class="klein" x="120" y="190" text-anchor="middle">bergab</text>
+              <text class="klein" x="120" y="14" text-anchor="middle">bergauf</text>
+            </svg>
+            </div>
+            <figcaption>Abb. 2: Links die Höhenlinien des Hügels aus Abb. 1 mit
+              dem Gradienten der Höhe an vielen Punkten. Die Pfeile zeigen
+              bergauf, senkrecht zu den Höhenlinien, und sind dort am längsten,
+              wo der Hang am steilsten ist. Rechts ein Ausschnitt um einen Punkt
+              $P$: Gehst du in Richtung $\hat n$, steigt das Gelände nur mit
+              $|\operatorname{grad} h|\cos\alpha$ – dem Schatten des
+              Gradienten auf $\hat n$.</figcaption>
+          </figure>
+
+          <div class="alltag">
+            <span class="titel">Beispiel: Wasser findet den Weg</span>
+            <p>Ein Wassertropfen auf einem Hang „kennt“ den Gradienten: Er
+              rinnt in Richtung $-\operatorname{grad} h$, den steilsten Weg
+              bergab, quer zu den Höhenlinien. Ebenso fließt Wärme vom Warmen
+              zum Kalten, in Richtung $-\operatorname{grad} T$, und Luft vom
+              hohen zum tiefen Druck.</p>
+          </div>
+
+          <h2 id="nabla">Der Nabla-Operator</h2>
+
+          <p>Man kann den Gradienten so lesen, als würde ein „Vektor aus
+            Ableitungen“ mit der Zahl $f$ multipliziert. Dieser Vektor heißt
+            <strong>Nabla</strong>:</p>
+
+          $$ \nabla = \begin{pmatrix} \partial/\partial x \\ \partial/\partial y \\ \partial/\partial z \end{pmatrix}, \qquad \operatorname{grad} f = \nabla f $$
+
+          <p>Nabla allein ist keine Zahl und kein Pfeil, sondern eine
+            Rechenvorschrift, die auf etwas wirken muss, das rechts davon
+            steht (ein <strong>Operator</strong>). Das Schöne: Mit einem Vektor
+            kann man nicht nur eine Zahl multiplizieren, sondern auch ein
+            Skalarprodukt und ein Kreuzprodukt bilden. Genau das sind die
+            beiden anderen Operatoren dieser Seite:</p>
+
+          $$ \nabla f = \operatorname{grad} f, \qquad \nabla\cdot\vec F = \operatorname{div}\vec F, \qquad \nabla\times\vec F = \operatorname{rot}\vec F $$
+
+          <h2 id="potential">Kräfte als Gradient eines Potentials</h2>
+
+          <p>In der Mechanik ist der Gradient vor allem eines: der Weg von der
+            potentiellen Energie $V(\vec r)$ zur Kraft. Für viele Kräfte –
+            Gravitation, Federkraft, elektrische Kraft zwischen Ladungen –
+            gilt</p>
+
+          $$ \vec F = -\nabla V $$
+
+          <p>Die Kraft zeigt also in die Richtung, in der die potentielle
+            Energie am schnellsten <em>abnimmt</em> – ein Ball rollt bergab.
+            Solche Kräfte heißen <strong>konservativ</strong>: Die Arbeit, die
+            sie verrichten, hängt nur von Start und Ziel ab, nicht vom Weg (mehr
+            dazu bei <a href="../mechanik/energieerhaltung.html">Energieerhaltung</a>).
+            Die Flächen gleicher Energie heißen Äquipotentialflächen; die Kraft
+            steht senkrecht auf ihnen.</p>
+
+          <p>Ein wichtiger Baustein dafür ist der Abstand
+            $r = \sqrt{x^2 + y^2 + z^2}$ vom Ursprung. Mit der Kettenregel ist
+            $\partial r/\partial x = x/r$, für $y$ und $z$ ebenso, also</p>
+
+          $$ \nabla r = \frac{\vec r}{r} = \hat e_r, \qquad \nabla g(r) = g'(r)\,\hat e_r $$
+
+          <p>Der Abstand wächst am schnellsten, wenn du direkt vom Ursprung
+            weggehst – natürlich. Hängt ein Feld nur von $r$ ab, zeigt sein
+            Gradient deshalb immer radial. Für die
+            <a href="../mechanik/gravitation.html">Gravitation</a> mit
+            $V = -GMm/r$ folgt sofort
+            $\vec F = -\frac{GMm}{r^2}\,\hat e_r$: eine Anziehung zum Zentrum hin
+            (Beispiel 2).</p>
+
+          <h2 id="divergenz">Die Divergenz: Quellen und Senken</h2>
+
+          <p>Das Skalarprodukt von Nabla mit einem Vektorfeld heißt
+            <strong>Divergenz</strong>:</p>
+
+          $$ \operatorname{div}\vec F = \nabla\cdot\vec F = \frac{\partial F_x}{\partial x} + \frac{\partial F_y}{\partial y} + \frac{\partial F_z}{\partial z} $$
+
+          <p>Aus einem Vektorfeld wird wieder ein Skalarfeld. Stell dir
+            $\vec F$ als Strömung vor und um einen Punkt eine kleine gedachte
+            Kugel. Die Divergenz misst, wie viel pro Volumen netto aus dieser
+            Kugel <em>herausfließt</em>. Ist $\operatorname{div}\vec F \gt 0$,
+            entsteht dort etwas – eine <strong>Quelle</strong>. Ist sie
+            negativ, verschwindet etwas – eine <strong>Senke</strong>. Ist sie
+            null, fließt genauso viel hinein wie heraus (Abb. 3).</p>
+
+          <figure class="abbildung">
+            <div class="abb-reihe">
+            <svg class="abb" viewBox="0 0 200 212" role="img"
+                 aria-label="Quellfeld: alle Pfeile zeigen vom Ursprung weg und werden nach außen länger; aus dem gestrichelten Kreis fließt mehr heraus als hinein">
+              <circle class="hilfslinie" cx="100" cy="92" r="28.6"/>
+              <g class="pfeil blau duenn"><line x1="32.5" y1="159.5" x2="15.7" y2="176.3"/><polygon points="11.5,180.5 17.8,178.4 13.6,174.2"/></g>
+              <g class="pfeil blau duenn"><line x1="32.5" y1="137" x2="16.5" y2="147.7"/><polygon points="11.5,151 18.1,150.2 14.8,145.2"/></g>
+              <g class="pfeil blau duenn"><line x1="32.5" y1="114.5" x2="17.2" y2="119.6"/><polygon points="11.5,121.5 18.1,122.5 16.2,116.8"/></g>
+              <g class="pfeil blau duenn"><line x1="32.5" y1="92" x2="17.5" y2="92"/><polygon points="11.5,92 17.5,95 17.5,89"/></g>
+              <g class="pfeil blau duenn"><line x1="32.5" y1="69.5" x2="17.2" y2="64.4"/><polygon points="11.5,62.5 16.2,67.2 18.1,61.5"/></g>
+              <g class="pfeil blau duenn"><line x1="32.5" y1="47" x2="16.5" y2="36.3"/><polygon points="11.5,33 14.8,38.8 18.1,33.8"/></g>
+              <g class="pfeil blau duenn"><line x1="32.5" y1="24.5" x2="15.7" y2="7.7"/><polygon points="11.5,3.5 13.6,9.8 17.8,5.6"/></g>
+              <g class="pfeil blau duenn"><line x1="55" y1="159.5" x2="44.3" y2="175.5"/><polygon points="41,180.5 46.8,177.2 41.8,173.9"/></g>
+              <g class="pfeil blau duenn"><line x1="55" y1="137" x2="45.2" y2="146.8"/><polygon points="41,151 47.3,148.9 43.1,144.7"/></g>
+              <g class="pfeil blau duenn"><line x1="55" y1="114.5" x2="46.3" y2="118.8"/><polygon points="41,121.5 47.7,121.5 45,116.1"/></g>
+              <g class="pfeil blau duenn"><line x1="55" y1="92" x2="47" y2="92"/><polygon points="41,92 47,95 47,89"/></g>
+              <g class="pfeil blau duenn"><line x1="55" y1="69.5" x2="46.3" y2="65.2"/><polygon points="41,62.5 45,67.9 47.7,62.5"/></g>
+              <g class="pfeil blau duenn"><line x1="55" y1="47" x2="45.2" y2="37.2"/><polygon points="41,33 43.1,39.3 47.3,35.1"/></g>
+              <g class="pfeil blau duenn"><line x1="55" y1="24.5" x2="44.3" y2="8.5"/><polygon points="41,3.5 41.8,10.1 46.8,6.8"/></g>
+              <g class="pfeil blau duenn"><line x1="77.5" y1="159.5" x2="72.4" y2="174.8"/><polygon points="70.5,180.5 75.2,175.8 69.5,173.9"/></g>
+              <g class="pfeil blau duenn"><line x1="77.5" y1="137" x2="73.2" y2="145.7"/><polygon points="70.5,151 75.9,147 70.5,144.3"/></g>
+              <g class="pfeil blau duenn"><line x1="77.5" y1="114.5" x2="74.7" y2="117.3"/><polygon points="70.5,121.5 76.8,119.4 72.6,115.2"/></g>
+              <g class="pfeil blau duenn"><line x1="77.5" y1="92" x2="74.7" y2="92"/><polygon points="70.5,92 74.7,95 74.7,89"/></g>
+              <g class="pfeil blau duenn"><line x1="77.5" y1="69.5" x2="74.7" y2="66.7"/><polygon points="70.5,62.5 72.6,68.8 76.8,64.6"/></g>
+              <g class="pfeil blau duenn"><line x1="77.5" y1="47" x2="73.2" y2="38.3"/><polygon points="70.5,33 70.5,39.7 75.9,37"/></g>
+              <g class="pfeil blau duenn"><line x1="77.5" y1="24.5" x2="72.4" y2="9.2"/><polygon points="70.5,3.5 69.5,10.1 75.2,8.2"/></g>
+              <g class="pfeil blau duenn"><line x1="100" y1="159.5" x2="100" y2="174.5"/><polygon points="100,180.5 103,174.5 97,174.5"/></g>
+              <g class="pfeil blau duenn"><line x1="100" y1="137" x2="100" y2="145"/><polygon points="100,151 103,145 97,145"/></g>
+              <g class="pfeil blau duenn"><line x1="100" y1="114.5" x2="100" y2="117.3"/><polygon points="100,121.5 103,117.3 97,117.3"/></g>
+              <g class="pfeil blau duenn"><line x1="100" y1="69.5" x2="100" y2="66.7"/><polygon points="100,62.5 97,66.7 103,66.7"/></g>
+              <g class="pfeil blau duenn"><line x1="100" y1="47" x2="100" y2="39"/><polygon points="100,33 97,39 103,39"/></g>
+              <g class="pfeil blau duenn"><line x1="100" y1="24.5" x2="100" y2="9.5"/><polygon points="100,3.5 97,9.5 103,9.5"/></g>
+              <g class="pfeil blau duenn"><line x1="122.5" y1="159.5" x2="127.6" y2="174.8"/><polygon points="129.5,180.5 130.5,173.9 124.8,175.8"/></g>
+              <g class="pfeil blau duenn"><line x1="122.5" y1="137" x2="126.8" y2="145.7"/><polygon points="129.5,151 129.5,144.3 124.1,147"/></g>
+              <g class="pfeil blau duenn"><line x1="122.5" y1="114.5" x2="125.3" y2="117.3"/><polygon points="129.5,121.5 127.4,115.2 123.2,119.4"/></g>
+              <g class="pfeil blau duenn"><line x1="122.5" y1="92" x2="125.3" y2="92"/><polygon points="129.5,92 125.3,89 125.3,95"/></g>
+              <g class="pfeil blau duenn"><line x1="122.5" y1="69.5" x2="125.3" y2="66.7"/><polygon points="129.5,62.5 123.2,64.6 127.4,68.8"/></g>
+              <g class="pfeil blau duenn"><line x1="122.5" y1="47" x2="126.8" y2="38.3"/><polygon points="129.5,33 124.1,37 129.5,39.7"/></g>
+              <g class="pfeil blau duenn"><line x1="122.5" y1="24.5" x2="127.6" y2="9.2"/><polygon points="129.5,3.5 124.8,8.2 130.5,10.1"/></g>
+              <g class="pfeil blau duenn"><line x1="145" y1="159.5" x2="155.7" y2="175.5"/><polygon points="159,180.5 158.2,173.9 153.2,177.2"/></g>
+              <g class="pfeil blau duenn"><line x1="145" y1="137" x2="154.8" y2="146.8"/><polygon points="159,151 156.9,144.7 152.7,148.9"/></g>
+              <g class="pfeil blau duenn"><line x1="145" y1="114.5" x2="153.7" y2="118.8"/><polygon points="159,121.5 155,116.1 152.3,121.5"/></g>
+              <g class="pfeil blau duenn"><line x1="145" y1="92" x2="153" y2="92"/><polygon points="159,92 153,89 153,95"/></g>
+              <g class="pfeil blau duenn"><line x1="145" y1="69.5" x2="153.7" y2="65.2"/><polygon points="159,62.5 152.3,62.5 155,67.9"/></g>
+              <g class="pfeil blau duenn"><line x1="145" y1="47" x2="154.8" y2="37.2"/><polygon points="159,33 152.7,35.1 156.9,39.3"/></g>
+              <g class="pfeil blau duenn"><line x1="145" y1="24.5" x2="155.7" y2="8.5"/><polygon points="159,3.5 153.2,6.8 158.2,10.1"/></g>
+              <g class="pfeil blau duenn"><line x1="167.5" y1="159.5" x2="184.3" y2="176.3"/><polygon points="188.5,180.5 186.4,174.2 182.2,178.4"/></g>
+              <g class="pfeil blau duenn"><line x1="167.5" y1="137" x2="183.5" y2="147.7"/><polygon points="188.5,151 185.2,145.2 181.9,150.2"/></g>
+              <g class="pfeil blau duenn"><line x1="167.5" y1="114.5" x2="182.8" y2="119.6"/><polygon points="188.5,121.5 183.8,116.8 181.9,122.5"/></g>
+              <g class="pfeil blau duenn"><line x1="167.5" y1="92" x2="182.5" y2="92"/><polygon points="188.5,92 182.5,89 182.5,95"/></g>
+              <g class="pfeil blau duenn"><line x1="167.5" y1="69.5" x2="182.8" y2="64.4"/><polygon points="188.5,62.5 181.9,61.5 183.8,67.2"/></g>
+              <g class="pfeil blau duenn"><line x1="167.5" y1="47" x2="183.5" y2="36.3"/><polygon points="188.5,33 181.9,33.8 185.2,38.8"/></g>
+              <g class="pfeil blau duenn"><line x1="167.5" y1="24.5" x2="184.3" y2="7.7"/><polygon points="188.5,3.5 182.2,5.6 186.4,9.8"/></g>
+              <text class="klein" x="100" y="203.8" text-anchor="middle">Quelle: div > 0</text>
+            </svg>
+            <svg class="abb" viewBox="0 0 200 212" role="img"
+                 aria-label="Senkenfeld: alle Pfeile zeigen zum Ursprung hin; in den gestrichelten Kreis fließt mehr hinein als heraus">
+              <circle class="hilfslinie" cx="100" cy="92" r="28.6"/>
+              <g class="pfeil blau duenn"><line x1="11.5" y1="180.5" x2="28.3" y2="163.7"/><polygon points="32.5,159.5 26.2,161.6 30.4,165.8"/></g>
+              <g class="pfeil blau duenn"><line x1="11.5" y1="151" x2="27.5" y2="140.3"/><polygon points="32.5,137 25.9,137.8 29.2,142.8"/></g>
+              <g class="pfeil blau duenn"><line x1="11.5" y1="121.5" x2="26.8" y2="116.4"/><polygon points="32.5,114.5 25.9,113.5 27.8,119.2"/></g>
+              <g class="pfeil blau duenn"><line x1="11.5" y1="92" x2="26.5" y2="92"/><polygon points="32.5,92 26.5,89 26.5,95"/></g>
+              <g class="pfeil blau duenn"><line x1="11.5" y1="62.5" x2="26.8" y2="67.6"/><polygon points="32.5,69.5 27.8,64.8 25.9,70.5"/></g>
+              <g class="pfeil blau duenn"><line x1="11.5" y1="33" x2="27.5" y2="43.7"/><polygon points="32.5,47 29.2,41.2 25.9,46.2"/></g>
+              <g class="pfeil blau duenn"><line x1="11.5" y1="3.5" x2="28.3" y2="20.3"/><polygon points="32.5,24.5 30.4,18.2 26.2,22.4"/></g>
+              <g class="pfeil blau duenn"><line x1="41" y1="180.5" x2="51.7" y2="164.5"/><polygon points="55,159.5 49.2,162.8 54.2,166.1"/></g>
+              <g class="pfeil blau duenn"><line x1="41" y1="151" x2="50.8" y2="141.2"/><polygon points="55,137 48.7,139.1 52.9,143.3"/></g>
+              <g class="pfeil blau duenn"><line x1="41" y1="121.5" x2="49.7" y2="117.2"/><polygon points="55,114.5 48.3,114.5 51,119.9"/></g>
+              <g class="pfeil blau duenn"><line x1="41" y1="92" x2="49" y2="92"/><polygon points="55,92 49,89 49,95"/></g>
+              <g class="pfeil blau duenn"><line x1="41" y1="62.5" x2="49.7" y2="66.8"/><polygon points="55,69.5 51,64.1 48.3,69.5"/></g>
+              <g class="pfeil blau duenn"><line x1="41" y1="33" x2="50.8" y2="42.8"/><polygon points="55,47 52.9,40.7 48.7,44.9"/></g>
+              <g class="pfeil blau duenn"><line x1="41" y1="3.5" x2="51.7" y2="19.5"/><polygon points="55,24.5 54.2,17.9 49.2,21.2"/></g>
+              <g class="pfeil blau duenn"><line x1="70.5" y1="180.5" x2="75.6" y2="165.2"/><polygon points="77.5,159.5 72.8,164.2 78.5,166.1"/></g>
+              <g class="pfeil blau duenn"><line x1="70.5" y1="151" x2="74.8" y2="142.3"/><polygon points="77.5,137 72.1,141 77.5,143.7"/></g>
+              <g class="pfeil blau duenn"><line x1="70.5" y1="121.5" x2="73.3" y2="118.7"/><polygon points="77.5,114.5 71.2,116.6 75.4,120.8"/></g>
+              <g class="pfeil blau duenn"><line x1="70.5" y1="92" x2="73.3" y2="92"/><polygon points="77.5,92 73.3,89 73.3,95"/></g>
+              <g class="pfeil blau duenn"><line x1="70.5" y1="62.5" x2="73.3" y2="65.3"/><polygon points="77.5,69.5 75.4,63.2 71.2,67.4"/></g>
+              <g class="pfeil blau duenn"><line x1="70.5" y1="33" x2="74.8" y2="41.7"/><polygon points="77.5,47 77.5,40.3 72.1,43"/></g>
+              <g class="pfeil blau duenn"><line x1="70.5" y1="3.5" x2="75.6" y2="18.8"/><polygon points="77.5,24.5 78.5,17.9 72.8,19.8"/></g>
+              <g class="pfeil blau duenn"><line x1="100" y1="180.5" x2="100" y2="165.5"/><polygon points="100,159.5 97,165.5 103,165.5"/></g>
+              <g class="pfeil blau duenn"><line x1="100" y1="151" x2="100" y2="143"/><polygon points="100,137 97,143 103,143"/></g>
+              <g class="pfeil blau duenn"><line x1="100" y1="121.5" x2="100" y2="118.7"/><polygon points="100,114.5 97,118.7 103,118.7"/></g>
+              <g class="pfeil blau duenn"><line x1="100" y1="62.5" x2="100" y2="65.3"/><polygon points="100,69.5 103,65.3 97,65.3"/></g>
+              <g class="pfeil blau duenn"><line x1="100" y1="33" x2="100" y2="41"/><polygon points="100,47 103,41 97,41"/></g>
+              <g class="pfeil blau duenn"><line x1="100" y1="3.5" x2="100" y2="18.5"/><polygon points="100,24.5 103,18.5 97,18.5"/></g>
+              <g class="pfeil blau duenn"><line x1="129.5" y1="180.5" x2="124.4" y2="165.2"/><polygon points="122.5,159.5 121.5,166.1 127.2,164.2"/></g>
+              <g class="pfeil blau duenn"><line x1="129.5" y1="151" x2="125.2" y2="142.3"/><polygon points="122.5,137 122.5,143.7 127.9,141"/></g>
+              <g class="pfeil blau duenn"><line x1="129.5" y1="121.5" x2="126.7" y2="118.7"/><polygon points="122.5,114.5 124.6,120.8 128.8,116.6"/></g>
+              <g class="pfeil blau duenn"><line x1="129.5" y1="92" x2="126.7" y2="92"/><polygon points="122.5,92 126.7,95 126.7,89"/></g>
+              <g class="pfeil blau duenn"><line x1="129.5" y1="62.5" x2="126.7" y2="65.3"/><polygon points="122.5,69.5 128.8,67.4 124.6,63.2"/></g>
+              <g class="pfeil blau duenn"><line x1="129.5" y1="33" x2="125.2" y2="41.7"/><polygon points="122.5,47 127.9,43 122.5,40.3"/></g>
+              <g class="pfeil blau duenn"><line x1="129.5" y1="3.5" x2="124.4" y2="18.8"/><polygon points="122.5,24.5 127.2,19.8 121.5,17.9"/></g>
+              <g class="pfeil blau duenn"><line x1="159" y1="180.5" x2="148.3" y2="164.5"/><polygon points="145,159.5 145.8,166.1 150.8,162.8"/></g>
+              <g class="pfeil blau duenn"><line x1="159" y1="151" x2="149.2" y2="141.2"/><polygon points="145,137 147.1,143.3 151.3,139.1"/></g>
+              <g class="pfeil blau duenn"><line x1="159" y1="121.5" x2="150.3" y2="117.2"/><polygon points="145,114.5 149,119.9 151.7,114.5"/></g>
+              <g class="pfeil blau duenn"><line x1="159" y1="92" x2="151" y2="92"/><polygon points="145,92 151,95 151,89"/></g>
+              <g class="pfeil blau duenn"><line x1="159" y1="62.5" x2="150.3" y2="66.8"/><polygon points="145,69.5 151.7,69.5 149,64.1"/></g>
+              <g class="pfeil blau duenn"><line x1="159" y1="33" x2="149.2" y2="42.8"/><polygon points="145,47 151.3,44.9 147.1,40.7"/></g>
+              <g class="pfeil blau duenn"><line x1="159" y1="3.5" x2="148.3" y2="19.5"/><polygon points="145,24.5 150.8,21.2 145.8,17.9"/></g>
+              <g class="pfeil blau duenn"><line x1="188.5" y1="180.5" x2="171.7" y2="163.7"/><polygon points="167.5,159.5 169.6,165.8 173.8,161.6"/></g>
+              <g class="pfeil blau duenn"><line x1="188.5" y1="151" x2="172.5" y2="140.3"/><polygon points="167.5,137 170.8,142.8 174.1,137.8"/></g>
+              <g class="pfeil blau duenn"><line x1="188.5" y1="121.5" x2="173.2" y2="116.4"/><polygon points="167.5,114.5 172.2,119.2 174.1,113.5"/></g>
+              <g class="pfeil blau duenn"><line x1="188.5" y1="92" x2="173.5" y2="92"/><polygon points="167.5,92 173.5,95 173.5,89"/></g>
+              <g class="pfeil blau duenn"><line x1="188.5" y1="62.5" x2="173.2" y2="67.6"/><polygon points="167.5,69.5 174.1,70.5 172.2,64.8"/></g>
+              <g class="pfeil blau duenn"><line x1="188.5" y1="33" x2="172.5" y2="43.7"/><polygon points="167.5,47 174.1,46.2 170.8,41.2"/></g>
+              <g class="pfeil blau duenn"><line x1="188.5" y1="3.5" x2="171.7" y2="20.3"/><polygon points="167.5,24.5 173.8,22.4 169.6,18.2"/></g>
+              <text class="klein" x="100" y="203.8" text-anchor="middle">Senke: div &lt; 0</text>
+            </svg>
+            <svg class="abb" viewBox="0 0 200 212" role="img"
+                 aria-label="Gleichmäßige Strömung: alle Pfeile gleich lang nach rechts; was links in den gestrichelten Kreis hineinfließt, fließt rechts wieder hinaus">
+              <circle class="hilfslinie" cx="100" cy="92" r="28.6"/>
+              <g class="pfeil blau duenn"><line x1="13.9" y1="170" x2="24.1" y2="170"/><polygon points="30.1,170 24.1,167 24.1,173"/></g>
+              <g class="pfeil blau duenn"><line x1="13.9" y1="144" x2="24.1" y2="144"/><polygon points="30.1,144 24.1,141 24.1,147"/></g>
+              <g class="pfeil blau duenn"><line x1="13.9" y1="118" x2="24.1" y2="118"/><polygon points="30.1,118 24.1,115 24.1,121"/></g>
+              <g class="pfeil blau duenn"><line x1="13.9" y1="92" x2="24.1" y2="92"/><polygon points="30.1,92 24.1,89 24.1,95"/></g>
+              <g class="pfeil blau duenn"><line x1="13.9" y1="66" x2="24.1" y2="66"/><polygon points="30.1,66 24.1,63 24.1,69"/></g>
+              <g class="pfeil blau duenn"><line x1="13.9" y1="40" x2="24.1" y2="40"/><polygon points="30.1,40 24.1,37 24.1,43"/></g>
+              <g class="pfeil blau duenn"><line x1="13.9" y1="14" x2="24.1" y2="14"/><polygon points="30.1,14 24.1,11 24.1,17"/></g>
+              <g class="pfeil blau duenn"><line x1="39.9" y1="170" x2="50.1" y2="170"/><polygon points="56.1,170 50.1,167 50.1,173"/></g>
+              <g class="pfeil blau duenn"><line x1="39.9" y1="144" x2="50.1" y2="144"/><polygon points="56.1,144 50.1,141 50.1,147"/></g>
+              <g class="pfeil blau duenn"><line x1="39.9" y1="118" x2="50.1" y2="118"/><polygon points="56.1,118 50.1,115 50.1,121"/></g>
+              <g class="pfeil blau duenn"><line x1="39.9" y1="92" x2="50.1" y2="92"/><polygon points="56.1,92 50.1,89 50.1,95"/></g>
+              <g class="pfeil blau duenn"><line x1="39.9" y1="66" x2="50.1" y2="66"/><polygon points="56.1,66 50.1,63 50.1,69"/></g>
+              <g class="pfeil blau duenn"><line x1="39.9" y1="40" x2="50.1" y2="40"/><polygon points="56.1,40 50.1,37 50.1,43"/></g>
+              <g class="pfeil blau duenn"><line x1="39.9" y1="14" x2="50.1" y2="14"/><polygon points="56.1,14 50.1,11 50.1,17"/></g>
+              <g class="pfeil blau duenn"><line x1="65.9" y1="170" x2="76.1" y2="170"/><polygon points="82.1,170 76.1,167 76.1,173"/></g>
+              <g class="pfeil blau duenn"><line x1="65.9" y1="144" x2="76.1" y2="144"/><polygon points="82.1,144 76.1,141 76.1,147"/></g>
+              <g class="pfeil blau duenn"><line x1="65.9" y1="118" x2="76.1" y2="118"/><polygon points="82.1,118 76.1,115 76.1,121"/></g>
+              <g class="pfeil blau duenn"><line x1="65.9" y1="92" x2="76.1" y2="92"/><polygon points="82.1,92 76.1,89 76.1,95"/></g>
+              <g class="pfeil blau duenn"><line x1="65.9" y1="66" x2="76.1" y2="66"/><polygon points="82.1,66 76.1,63 76.1,69"/></g>
+              <g class="pfeil blau duenn"><line x1="65.9" y1="40" x2="76.1" y2="40"/><polygon points="82.1,40 76.1,37 76.1,43"/></g>
+              <g class="pfeil blau duenn"><line x1="65.9" y1="14" x2="76.1" y2="14"/><polygon points="82.1,14 76.1,11 76.1,17"/></g>
+              <g class="pfeil blau duenn"><line x1="91.9" y1="170" x2="102.1" y2="170"/><polygon points="108.1,170 102.1,167 102.1,173"/></g>
+              <g class="pfeil blau duenn"><line x1="91.9" y1="144" x2="102.1" y2="144"/><polygon points="108.1,144 102.1,141 102.1,147"/></g>
+              <g class="pfeil blau duenn"><line x1="91.9" y1="118" x2="102.1" y2="118"/><polygon points="108.1,118 102.1,115 102.1,121"/></g>
+              <g class="pfeil blau duenn"><line x1="91.9" y1="92" x2="102.1" y2="92"/><polygon points="108.1,92 102.1,89 102.1,95"/></g>
+              <g class="pfeil blau duenn"><line x1="91.9" y1="66" x2="102.1" y2="66"/><polygon points="108.1,66 102.1,63 102.1,69"/></g>
+              <g class="pfeil blau duenn"><line x1="91.9" y1="40" x2="102.1" y2="40"/><polygon points="108.1,40 102.1,37 102.1,43"/></g>
+              <g class="pfeil blau duenn"><line x1="91.9" y1="14" x2="102.1" y2="14"/><polygon points="108.1,14 102.1,11 102.1,17"/></g>
+              <g class="pfeil blau duenn"><line x1="117.9" y1="170" x2="128.1" y2="170"/><polygon points="134.1,170 128.1,167 128.1,173"/></g>
+              <g class="pfeil blau duenn"><line x1="117.9" y1="144" x2="128.1" y2="144"/><polygon points="134.1,144 128.1,141 128.1,147"/></g>
+              <g class="pfeil blau duenn"><line x1="117.9" y1="118" x2="128.1" y2="118"/><polygon points="134.1,118 128.1,115 128.1,121"/></g>
+              <g class="pfeil blau duenn"><line x1="117.9" y1="92" x2="128.1" y2="92"/><polygon points="134.1,92 128.1,89 128.1,95"/></g>
+              <g class="pfeil blau duenn"><line x1="117.9" y1="66" x2="128.1" y2="66"/><polygon points="134.1,66 128.1,63 128.1,69"/></g>
+              <g class="pfeil blau duenn"><line x1="117.9" y1="40" x2="128.1" y2="40"/><polygon points="134.1,40 128.1,37 128.1,43"/></g>
+              <g class="pfeil blau duenn"><line x1="117.9" y1="14" x2="128.1" y2="14"/><polygon points="134.1,14 128.1,11 128.1,17"/></g>
+              <g class="pfeil blau duenn"><line x1="143.9" y1="170" x2="154.1" y2="170"/><polygon points="160.1,170 154.1,167 154.1,173"/></g>
+              <g class="pfeil blau duenn"><line x1="143.9" y1="144" x2="154.1" y2="144"/><polygon points="160.1,144 154.1,141 154.1,147"/></g>
+              <g class="pfeil blau duenn"><line x1="143.9" y1="118" x2="154.1" y2="118"/><polygon points="160.1,118 154.1,115 154.1,121"/></g>
+              <g class="pfeil blau duenn"><line x1="143.9" y1="92" x2="154.1" y2="92"/><polygon points="160.1,92 154.1,89 154.1,95"/></g>
+              <g class="pfeil blau duenn"><line x1="143.9" y1="66" x2="154.1" y2="66"/><polygon points="160.1,66 154.1,63 154.1,69"/></g>
+              <g class="pfeil blau duenn"><line x1="143.9" y1="40" x2="154.1" y2="40"/><polygon points="160.1,40 154.1,37 154.1,43"/></g>
+              <g class="pfeil blau duenn"><line x1="143.9" y1="14" x2="154.1" y2="14"/><polygon points="160.1,14 154.1,11 154.1,17"/></g>
+              <g class="pfeil blau duenn"><line x1="169.9" y1="170" x2="180.1" y2="170"/><polygon points="186.1,170 180.1,167 180.1,173"/></g>
+              <g class="pfeil blau duenn"><line x1="169.9" y1="144" x2="180.1" y2="144"/><polygon points="186.1,144 180.1,141 180.1,147"/></g>
+              <g class="pfeil blau duenn"><line x1="169.9" y1="118" x2="180.1" y2="118"/><polygon points="186.1,118 180.1,115 180.1,121"/></g>
+              <g class="pfeil blau duenn"><line x1="169.9" y1="92" x2="180.1" y2="92"/><polygon points="186.1,92 180.1,89 180.1,95"/></g>
+              <g class="pfeil blau duenn"><line x1="169.9" y1="66" x2="180.1" y2="66"/><polygon points="186.1,66 180.1,63 180.1,69"/></g>
+              <g class="pfeil blau duenn"><line x1="169.9" y1="40" x2="180.1" y2="40"/><polygon points="186.1,40 180.1,37 180.1,43"/></g>
+              <g class="pfeil blau duenn"><line x1="169.9" y1="14" x2="180.1" y2="14"/><polygon points="186.1,14 180.1,11 180.1,17"/></g>
+              <text class="klein" x="100" y="203.8" text-anchor="middle">gleichmäßig: div = 0</text>
+            </svg>
+            </div>
+            <figcaption>Abb. 3: Drei ebene Felder mit einem gedachten
+              Prüfkreis. Links $\vec F = (x, y)$: Aus jedem Kreis fließt mehr
+              heraus als hinein, $\operatorname{div}\vec F = 2$. Mitte
+              $\vec F = (-x, -y)$: eine Senke, $\operatorname{div}\vec F = -2$.
+              Rechts $\vec F = (1, 0)$: Was links hineinfließt, fließt rechts
+              wieder heraus, $\operatorname{div}\vec F = 0$.</figcaption>
+          </figure>
+
+          <p>Warum gerade die Summe der Ableitungen? Fließt ein Feld in
+            $x$-Richtung und wird dabei stärker ($\partial F_x/\partial x \gt 0$),
+            dann fließt durch die rechte Seite eines kleinen Würfels mehr heraus,
+            als links hineinkommt. Dasselbe gilt für $y$ und $z$; die Summe ist
+            der gesamte Überschuss. Für das Ortsvektorfeld $\vec F = \vec r$ ist
+            jede Ableitung 1, also $\nabla\cdot\vec r = 3$.</p>
+
+          <p>In der Physik steht die Divergenz überall dort, wo etwas erhalten
+            bleibt oder erzeugt wird. Wasser ist praktisch nicht
+            zusammendrückbar, deshalb gilt für seine Strömung
+            $\nabla\cdot\vec v = 0$. Elektrische Feldlinien entspringen bei
+            Ladungen, $\nabla\cdot\vec E = \rho/\varepsilon_0$
+            (<a href="integralsaetze.html#gauss-gesetz">Gaußsches Gesetz</a>).
+            Magnetfeldlinien haben nirgends einen Anfang:
+            $\nabla\cdot\vec B = 0$.</p>
+
+          <h2 id="rotation">Die Rotation: Wirbel</h2>
+
+          <p>Das Kreuzprodukt von Nabla mit einem Vektorfeld heißt
+            <strong>Rotation</strong>. Ausgeschrieben, wie beim
+            <a href="vektoren.html#kreuzprodukt">Kreuzprodukt</a>:</p>
+
+          $$ \operatorname{rot}\vec F = \nabla\times\vec F = \begin{pmatrix} \partial F_z/\partial y - \partial F_y/\partial z \\ \partial F_x/\partial z - \partial F_z/\partial x \\ \partial F_y/\partial x - \partial F_x/\partial y \end{pmatrix} $$
+
+          <p>Das Ergebnis ist wieder ein Vektorfeld. Anschaulich: Setz ein
+            winziges Schaufelrad in die Strömung. Dreht es sich, hat das Feld
+            dort eine Rotation. Die Richtung von $\operatorname{rot}\vec F$ ist
+            die Drehachse (Rechte-Hand-Regel), der Betrag ist doppelt so groß
+            wie die Winkelgeschwindigkeit des Rädchens. Für die Strömung eines
+            starr rotierenden Körpers, $\vec v = \vec\omega\times\vec r$, ergibt
+            sich genau</p>
+
+          $$ \nabla\times(\vec\omega\times\vec r) = 2\vec\omega $$
+
+          <p>Vorsicht, die Anschauung täuscht leicht (Abb. 4): Eine Strömung,
+            die geradeaus läuft, aber oben schneller ist als unten, dreht das
+            Rädchen trotzdem. Und ein Strudel, dessen Wasser innen schneller
+            kreist als außen, dreht es <em>nicht</em> – das Rädchen fährt
+            zwar im Kreis, behält aber seine Ausrichtung, so wie eine Gondel im
+            Riesenrad.</p>
+
+          <figure class="abbildung">
+            <div class="abb-reihe">
+            <svg class="abb" viewBox="0 0 200 212" role="img"
+                 aria-label="Starrer Wirbel: Pfeile kreisen gegen den Uhrzeigersinn um den Ursprung und werden nach außen länger; ein Schaufelrad bei (1,5 | 1,5) dreht sich gegen den Uhrzeigersinn">
+              <g class="pfeil blau duenn"><line x1="14.2" y1="162.2" x2="25.6" y2="173.6"/><polygon points="29.8,177.8 27.7,171.4 23.4,175.7"/></g>
+              <g class="pfeil blau duenn"><line x1="16.8" y1="136.2" x2="23.9" y2="146.8"/><polygon points="27.2,151.8 26.4,145.1 21.4,148.5"/></g>
+              <g class="pfeil blau duenn"><line x1="19.4" y1="110.2" x2="22.7" y2="120.1"/><polygon points="24.6,125.8 25.5,119.2 19.9,121.1"/></g>
+              <g class="pfeil blau duenn"><line x1="22" y1="84.2" x2="22" y2="93.8"/><polygon points="22,99.8 25,93.8 19,93.8"/></g>
+              <g class="pfeil blau duenn"><line x1="24.6" y1="58.2" x2="21.3" y2="68.1"/><polygon points="19.4,73.8 24.1,69.1 18.5,67.2"/></g>
+              <g class="pfeil blau duenn"><line x1="27.2" y1="32.2" x2="20.1" y2="42.8"/><polygon points="16.8,47.8 22.6,44.5 17.6,41.1"/></g>
+              <g class="pfeil blau duenn"><line x1="29.8" y1="6.2" x2="18.4" y2="17.6"/><polygon points="14.2,21.8 20.6,19.7 16.3,15.4"/></g>
+              <g class="pfeil blau duenn"><line x1="40.2" y1="164.8" x2="50.8" y2="171.9"/><polygon points="55.8,175.2 52.5,169.4 49.1,174.4"/></g>
+              <g class="pfeil blau duenn"><line x1="42.8" y1="138.8" x2="49" y2="145"/><polygon points="53.2,149.2 51.1,142.8 46.8,147.1"/></g>
+              <g class="pfeil blau duenn"><line x1="45.4" y1="112.8" x2="47.9" y2="117.8"/><polygon points="50.6,123.2 50.6,116.5 45.2,119.2"/></g>
+              <g class="pfeil blau duenn"><line x1="48" y1="86.8" x2="48" y2="91.2"/><polygon points="48,97.2 51,91.2 45,91.2"/></g>
+              <g class="pfeil blau duenn"><line x1="50.6" y1="60.8" x2="48.1" y2="65.8"/><polygon points="45.4,71.2 50.8,67.2 45.4,64.5"/></g>
+              <g class="pfeil blau duenn"><line x1="53.2" y1="34.8" x2="47" y2="41"/><polygon points="42.8,45.2 49.2,43.1 44.9,38.8"/></g>
+              <g class="pfeil blau duenn"><line x1="55.8" y1="8.8" x2="45.2" y2="15.9"/><polygon points="40.2,19.2 46.9,18.4 43.5,13.4"/></g>
+              <g class="pfeil blau duenn"><line x1="66.2" y1="167.4" x2="76.1" y2="170.7"/><polygon points="81.8,172.6 77.1,167.9 75.2,173.5"/></g>
+              <g class="pfeil blau duenn"><line x1="68.8" y1="141.4" x2="73.8" y2="143.9"/><polygon points="79.2,146.6 75.2,141.2 72.5,146.6"/></g>
+              <g class="pfeil blau duenn"><line x1="71.4" y1="115.4" x2="73.5" y2="117.5"/><polygon points="76.6,120.6 75.6,115.4 71.4,119.6"/></g>
+              <g class="pfeil blau duenn"><line x1="74" y1="89.4" x2="74" y2="91.5"/><polygon points="74,94.6 77,91.5 71,91.5"/></g>
+              <g class="pfeil blau duenn"><line x1="76.6" y1="63.4" x2="74.5" y2="65.5"/><polygon points="71.4,68.6 76.6,67.6 72.4,63.4"/></g>
+              <g class="pfeil blau duenn"><line x1="79.2" y1="37.4" x2="74.2" y2="39.9"/><polygon points="68.8,42.6 75.5,42.6 72.8,37.2"/></g>
+              <g class="pfeil blau duenn"><line x1="81.8" y1="11.4" x2="71.9" y2="14.7"/><polygon points="66.2,16.6 72.8,17.5 70.9,11.9"/></g>
+              <g class="pfeil blau duenn"><line x1="92.2" y1="170" x2="101.8" y2="170"/><polygon points="107.8,170 101.8,167 101.8,173"/></g>
+              <g class="pfeil blau duenn"><line x1="94.8" y1="144" x2="99.2" y2="144"/><polygon points="105.2,144 99.2,141 99.2,147"/></g>
+              <g class="pfeil blau duenn"><line x1="97.4" y1="118" x2="99.5" y2="118"/><polygon points="102.6,118 99.5,115 99.5,121"/></g>
+              <g class="pfeil blau duenn"><line x1="102.6" y1="66" x2="100.5" y2="66"/><polygon points="97.4,66 100.5,69 100.5,63"/></g>
+              <g class="pfeil blau duenn"><line x1="105.2" y1="40" x2="100.8" y2="40"/><polygon points="94.8,40 100.8,43 100.8,37"/></g>
+              <g class="pfeil blau duenn"><line x1="107.8" y1="14" x2="98.2" y2="14"/><polygon points="92.2,14 98.2,17 98.2,11"/></g>
+              <g class="pfeil blau duenn"><line x1="118.2" y1="172.6" x2="128.1" y2="169.3"/><polygon points="133.8,167.4 127.2,166.5 129.1,172.1"/></g>
+              <g class="pfeil blau duenn"><line x1="120.8" y1="146.6" x2="125.8" y2="144.1"/><polygon points="131.2,141.4 124.5,141.4 127.2,146.8"/></g>
+              <g class="pfeil blau duenn"><line x1="123.4" y1="120.6" x2="125.5" y2="118.5"/><polygon points="128.6,115.4 123.4,116.4 127.6,120.6"/></g>
+              <g class="pfeil blau duenn"><line x1="126" y1="94.6" x2="126" y2="92.5"/><polygon points="126,89.4 123,92.5 129,92.5"/></g>
+              <g class="pfeil blau duenn"><line x1="133.8" y1="16.6" x2="123.9" y2="13.3"/><polygon points="118.2,11.4 122.9,16.1 124.8,10.5"/></g>
+              <g class="pfeil blau duenn"><line x1="144.2" y1="175.2" x2="154.8" y2="168.1"/><polygon points="159.8,164.8 153.1,165.6 156.5,170.6"/></g>
+              <g class="pfeil blau duenn"><line x1="146.8" y1="149.2" x2="153" y2="143"/><polygon points="157.2,138.8 150.8,140.9 155.1,145.2"/></g>
+              <g class="pfeil blau duenn"><line x1="149.4" y1="123.2" x2="151.9" y2="118.2"/><polygon points="154.6,112.8 149.2,116.8 154.6,119.5"/></g>
+              <g class="pfeil blau duenn"><line x1="152" y1="97.2" x2="152" y2="92.8"/><polygon points="152,86.8 149,92.8 155,92.8"/></g>
+              <g class="pfeil blau duenn"><line x1="159.8" y1="19.2" x2="149.2" y2="12.1"/><polygon points="144.2,8.8 147.5,14.6 150.9,9.6"/></g>
+              <g class="pfeil blau duenn"><line x1="170.2" y1="177.8" x2="181.6" y2="166.4"/><polygon points="185.8,162.2 179.4,164.3 183.7,168.6"/></g>
+              <g class="pfeil blau duenn"><line x1="172.8" y1="151.8" x2="179.9" y2="141.2"/><polygon points="183.2,136.2 177.4,139.5 182.4,142.9"/></g>
+              <g class="pfeil blau duenn"><line x1="175.4" y1="125.8" x2="178.7" y2="115.9"/><polygon points="180.6,110.2 175.9,114.9 181.5,116.8"/></g>
+              <g class="pfeil blau duenn"><line x1="178" y1="99.8" x2="178" y2="90.2"/><polygon points="178,84.2 175,90.2 181,90.2"/></g>
+              <g class="pfeil blau duenn"><line x1="180.6" y1="73.8" x2="177.3" y2="63.9"/><polygon points="175.4,58.2 174.5,64.8 180.1,62.9"/></g>
+              <g class="pfeil blau duenn"><line x1="183.2" y1="47.8" x2="176.1" y2="37.2"/><polygon points="172.8,32.2 173.6,38.9 178.6,35.5"/></g>
+              <g class="pfeil blau duenn"><line x1="185.8" y1="21.8" x2="174.4" y2="10.4"/><polygon points="170.2,6.2 172.3,12.6 176.6,8.3"/></g>
+              <circle class="flaeche kupfer" cx="139" cy="53" r="11"/>
+              <path class="kurve kupfer duenn" d="M139 53L149.3 49.2"/>
+              <path class="kurve kupfer duenn" d="M139 53L135.2 42.7"/>
+              <path class="kurve kupfer duenn" d="M139 53L128.7 56.8"/>
+              <path class="kurve kupfer duenn" d="M139 53L142.8 63.3"/>
+              <path class="kurve kupfer duenn" d="M153.7 44.5A17 17 0 0 0 124.3 44.5"/>
+              <g class="pfeil kupfer"><line x1="127.3" y1="39.3" x2="126" y2="41.6"/><polygon points="124,44.9 129,43.3 122.9,39.8"/></g>
+              <text class="klein" x="100" y="203.8" text-anchor="middle">starrer Wirbel: rot ≠ 0</text>
+            </svg>
+            <svg class="abb" viewBox="0 0 200 212" role="img"
+                 aria-label="Scherströmung: alle Pfeile waagerecht, oben nach rechts, unten nach links, nach außen länger; ein Schaufelrad bei (1,5 | 1,5) dreht sich im Uhrzeigersinn, obwohl die Strömung geradeaus läuft">
+              <g class="pfeil blau duenn"><line x1="32.5" y1="170" x2="17.5" y2="170"/><polygon points="11.5,170 17.5,173 17.5,167"/></g>
+              <g class="pfeil blau duenn"><line x1="29" y1="144" x2="21" y2="144"/><polygon points="15,144 21,147 21,141"/></g>
+              <g class="pfeil blau duenn"><line x1="25.5" y1="118" x2="22.7" y2="118"/><polygon points="18.5,118 22.7,121 22.7,115"/></g>
+              <g class="pfeil blau duenn"><line x1="18.5" y1="66" x2="21.3" y2="66"/><polygon points="25.5,66 21.3,63 21.3,69"/></g>
+              <g class="pfeil blau duenn"><line x1="15" y1="40" x2="23" y2="40"/><polygon points="29,40 23,37 23,43"/></g>
+              <g class="pfeil blau duenn"><line x1="11.5" y1="14" x2="26.5" y2="14"/><polygon points="32.5,14 26.5,11 26.5,17"/></g>
+              <g class="pfeil blau duenn"><line x1="58.5" y1="170" x2="43.5" y2="170"/><polygon points="37.5,170 43.5,173 43.5,167"/></g>
+              <g class="pfeil blau duenn"><line x1="55" y1="144" x2="47" y2="144"/><polygon points="41,144 47,147 47,141"/></g>
+              <g class="pfeil blau duenn"><line x1="51.5" y1="118" x2="48.7" y2="118"/><polygon points="44.5,118 48.7,121 48.7,115"/></g>
+              <g class="pfeil blau duenn"><line x1="44.5" y1="66" x2="47.3" y2="66"/><polygon points="51.5,66 47.3,63 47.3,69"/></g>
+              <g class="pfeil blau duenn"><line x1="41" y1="40" x2="49" y2="40"/><polygon points="55,40 49,37 49,43"/></g>
+              <g class="pfeil blau duenn"><line x1="37.5" y1="14" x2="52.5" y2="14"/><polygon points="58.5,14 52.5,11 52.5,17"/></g>
+              <g class="pfeil blau duenn"><line x1="84.5" y1="170" x2="69.5" y2="170"/><polygon points="63.5,170 69.5,173 69.5,167"/></g>
+              <g class="pfeil blau duenn"><line x1="81" y1="144" x2="73" y2="144"/><polygon points="67,144 73,147 73,141"/></g>
+              <g class="pfeil blau duenn"><line x1="77.5" y1="118" x2="74.7" y2="118"/><polygon points="70.5,118 74.7,121 74.7,115"/></g>
+              <g class="pfeil blau duenn"><line x1="70.5" y1="66" x2="73.3" y2="66"/><polygon points="77.5,66 73.3,63 73.3,69"/></g>
+              <g class="pfeil blau duenn"><line x1="67" y1="40" x2="75" y2="40"/><polygon points="81,40 75,37 75,43"/></g>
+              <g class="pfeil blau duenn"><line x1="63.5" y1="14" x2="78.5" y2="14"/><polygon points="84.5,14 78.5,11 78.5,17"/></g>
+              <g class="pfeil blau duenn"><line x1="110.5" y1="170" x2="95.5" y2="170"/><polygon points="89.5,170 95.5,173 95.5,167"/></g>
+              <g class="pfeil blau duenn"><line x1="107" y1="144" x2="99" y2="144"/><polygon points="93,144 99,147 99,141"/></g>
+              <g class="pfeil blau duenn"><line x1="103.5" y1="118" x2="100.7" y2="118"/><polygon points="96.5,118 100.7,121 100.7,115"/></g>
+              <g class="pfeil blau duenn"><line x1="96.5" y1="66" x2="99.3" y2="66"/><polygon points="103.5,66 99.3,63 99.3,69"/></g>
+              <g class="pfeil blau duenn"><line x1="93" y1="40" x2="101" y2="40"/><polygon points="107,40 101,37 101,43"/></g>
+              <g class="pfeil blau duenn"><line x1="89.5" y1="14" x2="104.5" y2="14"/><polygon points="110.5,14 104.5,11 104.5,17"/></g>
+              <g class="pfeil blau duenn"><line x1="136.5" y1="170" x2="121.5" y2="170"/><polygon points="115.5,170 121.5,173 121.5,167"/></g>
+              <g class="pfeil blau duenn"><line x1="133" y1="144" x2="125" y2="144"/><polygon points="119,144 125,147 125,141"/></g>
+              <g class="pfeil blau duenn"><line x1="129.5" y1="118" x2="126.7" y2="118"/><polygon points="122.5,118 126.7,121 126.7,115"/></g>
+              <g class="pfeil blau duenn"><line x1="115.5" y1="14" x2="130.5" y2="14"/><polygon points="136.5,14 130.5,11 130.5,17"/></g>
+              <g class="pfeil blau duenn"><line x1="162.5" y1="170" x2="147.5" y2="170"/><polygon points="141.5,170 147.5,173 147.5,167"/></g>
+              <g class="pfeil blau duenn"><line x1="159" y1="144" x2="151" y2="144"/><polygon points="145,144 151,147 151,141"/></g>
+              <g class="pfeil blau duenn"><line x1="155.5" y1="118" x2="152.7" y2="118"/><polygon points="148.5,118 152.7,121 152.7,115"/></g>
+              <g class="pfeil blau duenn"><line x1="141.5" y1="14" x2="156.5" y2="14"/><polygon points="162.5,14 156.5,11 156.5,17"/></g>
+              <g class="pfeil blau duenn"><line x1="188.5" y1="170" x2="173.5" y2="170"/><polygon points="167.5,170 173.5,173 173.5,167"/></g>
+              <g class="pfeil blau duenn"><line x1="185" y1="144" x2="177" y2="144"/><polygon points="171,144 177,147 177,141"/></g>
+              <g class="pfeil blau duenn"><line x1="181.5" y1="118" x2="178.7" y2="118"/><polygon points="174.5,118 178.7,121 178.7,115"/></g>
+              <g class="pfeil blau duenn"><line x1="174.5" y1="66" x2="177.3" y2="66"/><polygon points="181.5,66 177.3,63 177.3,69"/></g>
+              <g class="pfeil blau duenn"><line x1="171" y1="40" x2="179" y2="40"/><polygon points="185,40 179,37 179,43"/></g>
+              <g class="pfeil blau duenn"><line x1="167.5" y1="14" x2="182.5" y2="14"/><polygon points="188.5,14 182.5,11 182.5,17"/></g>
+              <circle class="flaeche kupfer" cx="139" cy="53" r="11"/>
+              <path class="kurve kupfer duenn" d="M139 53L149.3 49.2"/>
+              <path class="kurve kupfer duenn" d="M139 53L135.2 42.7"/>
+              <path class="kurve kupfer duenn" d="M139 53L128.7 56.8"/>
+              <path class="kurve kupfer duenn" d="M139 53L142.8 63.3"/>
+              <path class="kurve kupfer duenn" d="M124.3 44.5A17 17 0 0 1 153.7 44.5"/>
+              <g class="pfeil kupfer"><line x1="150.7" y1="39.3" x2="152" y2="41.6"/><polygon points="154,44.9 155.1,39.8 149,43.3"/></g>
+              <text class="klein" x="100" y="203.8" text-anchor="middle">Scherung: rot ≠ 0</text>
+            </svg>
+            <svg class="abb" viewBox="0 0 200 212" role="img"
+                 aria-label="Strudel: Pfeile kreisen um den Ursprung und werden nach außen kürzer; ein Schaufelrad bei (1,5 | 1,5) wandert zwar im Kreis, dreht sich aber nicht um sich selbst">
+              <g class="pfeil blau duenn"><line x1="19.6" y1="167.6" x2="21.5" y2="169.5"/><polygon points="24.4,172.4 23.6,167.4 19.4,171.6"/></g>
+              <g class="pfeil blau duenn"><line x1="19.8" y1="140.7" x2="21.6" y2="143.3"/><polygon points="24.2,147.3 24.1,141.7 19.1,145"/></g>
+              <g class="pfeil blau duenn"><line x1="20.6" y1="113.7" x2="21.7" y2="117.1"/><polygon points="23.4,122.3 24.6,116.2 18.9,118.1"/></g>
+              <g class="pfeil blau duenn"><line x1="22" y1="87.2" x2="22" y2="91"/><polygon points="22,96.8 25,91 19,91"/></g>
+              <g class="pfeil blau duenn"><line x1="23.4" y1="61.7" x2="22.3" y2="65.1"/><polygon points="20.6,70.3 25.1,66.1 19.4,64.2"/></g>
+              <g class="pfeil blau duenn"><line x1="24.2" y1="36.7" x2="22.4" y2="39.3"/><polygon points="19.8,43.3 24.9,41 19.9,37.7"/></g>
+              <g class="pfeil blau duenn"><line x1="24.4" y1="11.6" x2="22.5" y2="13.5"/><polygon points="19.6,16.4 24.6,15.6 20.4,11.4"/></g>
+              <g class="pfeil blau duenn"><line x1="44.7" y1="167.8" x2="47.3" y2="169.6"/><polygon points="51.3,172.2 49,167.1 45.7,172.1"/></g>
+              <g class="pfeil blau duenn"><line x1="44.4" y1="140.4" x2="47.3" y2="143.3"/><polygon points="51.6,147.6 49.5,141.2 45.2,145.5"/></g>
+              <g class="pfeil blau duenn"><line x1="45.1" y1="112.3" x2="48.2" y2="118.4"/><polygon points="50.9,123.7 50.9,117 45.5,119.7"/></g>
+              <g class="pfeil blau duenn"><line x1="48" y1="84.8" x2="48" y2="93.2"/><polygon points="48,99.2 51,93.2 45,93.2"/></g>
+              <g class="pfeil blau duenn"><line x1="50.9" y1="60.3" x2="47.8" y2="66.4"/><polygon points="45.1,71.7 50.5,67.7 45.1,65"/></g>
+              <g class="pfeil blau duenn"><line x1="51.6" y1="36.4" x2="48.7" y2="39.3"/><polygon points="44.4,43.6 50.8,41.5 46.5,37.2"/></g>
+              <g class="pfeil blau duenn"><line x1="51.3" y1="11.8" x2="48.7" y2="13.6"/><polygon points="44.7,16.2 50.3,16.1 47,11.1"/></g>
+              <g class="pfeil blau duenn"><line x1="69.7" y1="168.6" x2="73.1" y2="169.7"/><polygon points="78.3,171.4 74.1,166.9 72.2,172.6"/></g>
+              <g class="pfeil blau duenn"><line x1="68.3" y1="141.1" x2="74.4" y2="144.2"/><polygon points="79.7,146.9 75.7,141.5 73,146.9"/></g>
+              <g class="pfeil blau duenn"><line x1="66.8" y1="110.8" x2="76.9" y2="120.9"/><polygon points="81.2,125.2 79,118.8 74.8,123"/></g>
+              <g class="pfeil blau duenn"><line x1="74" y1="81" x2="74" y2="97"/><polygon points="74,103 77,97 71,97"/></g>
+              <g class="pfeil blau duenn"><line x1="81.2" y1="58.9" x2="71.1" y2="68.9"/><polygon points="66.8,73.2 73.2,71 69,66.8"/></g>
+              <g class="pfeil blau duenn"><line x1="79.7" y1="37.1" x2="73.6" y2="40.2"/><polygon points="68.3,42.9 75,42.9 72.3,37.5"/></g>
+              <g class="pfeil blau duenn"><line x1="78.3" y1="12.6" x2="74.9" y2="13.7"/><polygon points="69.7,15.4 75.8,16.6 73.9,10.9"/></g>
+              <g class="pfeil blau duenn"><line x1="95.2" y1="170" x2="99" y2="170"/><polygon points="104.8,170 99,167 99,173"/></g>
+              <g class="pfeil blau duenn"><line x1="92.8" y1="144" x2="101.2" y2="144"/><polygon points="107.2,144 101.2,141 101.2,147"/></g>
+              <g class="pfeil blau duenn"><line x1="89" y1="118" x2="105" y2="118"/><polygon points="111,118 105,115 105,121"/></g>
+              <g class="pfeil blau duenn"><line x1="111" y1="66" x2="95" y2="66"/><polygon points="89,66 95,69 95,63"/></g>
+              <g class="pfeil blau duenn"><line x1="107.2" y1="40" x2="98.8" y2="40"/><polygon points="92.8,40 98.8,43 98.8,37"/></g>
+              <g class="pfeil blau duenn"><line x1="104.8" y1="14" x2="101" y2="14"/><polygon points="95.2,14 101,17 101,11"/></g>
+              <g class="pfeil blau duenn"><line x1="121.7" y1="171.4" x2="125.1" y2="170.3"/><polygon points="130.3,168.6 124.2,167.4 126.1,173.1"/></g>
+              <g class="pfeil blau duenn"><line x1="120.3" y1="146.9" x2="126.4" y2="143.8"/><polygon points="131.7,141.1 125,141.1 127.7,146.5"/></g>
+              <g class="pfeil blau duenn"><line x1="118.8" y1="125.2" x2="128.9" y2="115.1"/><polygon points="133.2,110.8 126.8,113 131,117.2"/></g>
+              <g class="pfeil blau duenn"><line x1="126" y1="103" x2="126" y2="87"/><polygon points="126,81 123,87 129,87"/></g>
+              <g class="pfeil blau duenn"><line x1="130.3" y1="15.4" x2="126.9" y2="14.3"/><polygon points="121.7,12.6 125.9,17.1 127.8,11.4"/></g>
+              <g class="pfeil blau duenn"><line x1="148.7" y1="172.2" x2="151.3" y2="170.4"/><polygon points="155.3,167.8 149.7,167.9 153,172.9"/></g>
+              <g class="pfeil blau duenn"><line x1="148.4" y1="147.6" x2="151.3" y2="144.7"/><polygon points="155.6,140.4 149.2,142.5 153.5,146.8"/></g>
+              <g class="pfeil blau duenn"><line x1="149.1" y1="123.7" x2="152.2" y2="117.6"/><polygon points="154.9,112.3 149.5,116.3 154.9,119"/></g>
+              <g class="pfeil blau duenn"><line x1="152" y1="99.2" x2="152" y2="90.8"/><polygon points="152,84.8 149,90.8 155,90.8"/></g>
+              <g class="pfeil blau duenn"><line x1="155.3" y1="16.2" x2="152.7" y2="14.4"/><polygon points="148.7,11.8 151,16.9 154.3,11.9"/></g>
+              <g class="pfeil blau duenn"><line x1="175.6" y1="172.4" x2="177.5" y2="170.5"/><polygon points="180.4,167.6 175.4,168.4 179.6,172.6"/></g>
+              <g class="pfeil blau duenn"><line x1="175.8" y1="147.3" x2="177.6" y2="144.7"/><polygon points="180.2,140.7 175.1,143 180.1,146.3"/></g>
+              <g class="pfeil blau duenn"><line x1="176.6" y1="122.3" x2="177.7" y2="118.9"/><polygon points="179.4,113.7 174.9,117.9 180.6,119.8"/></g>
+              <g class="pfeil blau duenn"><line x1="178" y1="96.8" x2="178" y2="93"/><polygon points="178,87.2 175,93 181,93"/></g>
+              <g class="pfeil blau duenn"><line x1="179.4" y1="70.3" x2="178.3" y2="66.9"/><polygon points="176.6,61.7 175.4,67.8 181.1,65.9"/></g>
+              <g class="pfeil blau duenn"><line x1="180.2" y1="43.3" x2="178.4" y2="40.7"/><polygon points="175.8,36.7 175.9,42.3 180.9,39"/></g>
+              <g class="pfeil blau duenn"><line x1="180.4" y1="16.4" x2="178.5" y2="14.5"/><polygon points="175.6,11.6 176.4,16.6 180.6,12.4"/></g>
+              <circle class="flaeche kupfer" cx="139" cy="53" r="11"/>
+              <path class="kurve kupfer duenn" d="M139 53L149.3 49.2"/>
+              <path class="kurve kupfer duenn" d="M139 53L135.2 42.7"/>
+              <path class="kurve kupfer duenn" d="M139 53L128.7 56.8"/>
+              <path class="kurve kupfer duenn" d="M139 53L142.8 63.3"/>
+              <text class="klein" x="100" y="203.8" text-anchor="middle">Strudel: rot = 0 (außer Mitte)</text>
+            </svg>
+            </div>
+            <figcaption>Abb. 4: Links ein starrer Wirbel $\vec v = (-y, x)$:
+              Das Schaufelrad dreht sich gegen den Uhrzeigersinn,
+              $\operatorname{rot}\vec v = 2\,\hat e_z$. Mitte eine Scherströmung
+              $\vec v = (y, 0)$: Obwohl alles geradeaus fließt, dreht sich das
+              Rad im Uhrzeigersinn, $\operatorname{rot}\vec v = -\hat e_z$.
+              Rechts ein Strudel $\vec v = (-y, x)/(x^2 + y^2)$: Außerhalb der
+              Mitte ist $\operatorname{rot}\vec v = \vec 0$, das Rad dreht
+              sich nicht um sich selbst.</figcaption>
+          </figure>
+
+          <p>Im Feldlabor kannst du beides selbst prüfen. Zieh den Kreis durch
+            die Felder und schau, was über den Rand hinein- und hinausfließt
+            und was an ihm entlangströmt.</p>
+
+          <figure class="interaktiv" data-modell="feldlabor">
+            <span class="titel">Zum Ausprobieren</span>
+            <figcaption>Feldlabor: Wähle ein ebenes Vektorfeld und zieh den
+              gestrichelten Prüfkreis (Maus, Finger oder Tab und Pfeiltasten).
+              „quer“ zeigt in Orange, wie stark das Feld am Rand nach außen bzw.
+              innen zeigt – netto ist das der Fluss, und Fluss pro Fläche ist die
+              Divergenz. „längs“ zeigt in Blau den Anteil längs des Rands und ein
+              Schaufelrad – Umlauf pro Fläche ist die Rotation. Probier
+              besonders „Dehnung“, „Scherung“ und „Strudel“.</figcaption>
+          </figure>
+
+          <p>Felder ohne Rotation heißen <strong>wirbelfrei</strong>. Das ist
+            genau der Test, ob eine Kraft konservativ ist: Ist
+            $\nabla\times\vec F = \vec 0$, dann gibt es ein Potential $V$ mit
+            $\vec F = -\nabla V$ – zumindest in einem Gebiet ohne Löcher, in
+            dem sich jede geschlossene Kurve zusammenziehen lässt. Der Strudel
+            zeigt, warum diese Bedingung nötig ist: Um seine Mitte herum ist er
+            überall wirbelfrei, und trotzdem strömt er im Kreis. In der
+            Elektrodynamik erzeugen Ströme Magnetfeldwirbel,
+            $\nabla\times\vec B = \mu_0\vec j$.</p>
+
+          <h2 id="laplace">Der Laplace-Operator</h2>
+
+          <p>Bildest du erst den Gradienten und davon die Divergenz, erhältst
+            du den <strong>Laplace-Operator</strong>:</p>
+
+          $$ \Delta f = \nabla\cdot\nabla f = \frac{\partial^2 f}{\partial x^2} + \frac{\partial^2 f}{\partial y^2} + \frac{\partial^2 f}{\partial z^2} $$
+
+          <p>Er macht aus einem Skalarfeld wieder ein Skalarfeld und vergleicht
+            den Wert an einem Punkt mit seiner Umgebung. In einer Dimension ist
+            er die zweite Ableitung, und die misst, wie stark der Mittelwert der
+            beiden Nachbarn vom Wert in der Mitte abweicht (Abb. 5):</p>
+
+          $$ f''(x) \approx \frac{f(x+d) + f(x-d) - 2f(x)}{d^2} $$
+
+          <figure class="abbildung">
+            <svg class="abb" viewBox="0 0 340 200" role="img"
+                 aria-label="Eine nach oben gekrümmte blaue Kurve f; bei x und den Nachbarstellen x minus d und x plus d sind Punkte markiert; die orange Sehne zwischen den Nachbarn liegt über f(x), ihr Mittelpunkt markiert den Mittelwert der Nachbarn">
+              <path class="achse" d="M30 170L332 170"/>
+              <path class="kurve blau" d="M40 63L47 71.4L54 79.2L61 86.7L68 93.6L75 100.1L82 106.1L89 111.6L96 116.6L103 121.2L110 125.2L117 128.9L124 132L131 134.7L138 136.8L145 138.6L152 139.8L159 140.6L166 140.8L173 140.7L180 140L187 138.9L194 137.2L201 135.2L208 132.6L215 129.6L222 126.1L229 122.1L236 117.6L243 112.7L250 107.2L257 101.4L264 95L271 88.2L278 80.9L285 73.1L292 64.8L299 56.1L306 46.8L313 37.2L320 27"/>
+              <path class="hilfslinie" d="M110 170L110 125.2"/>
+              <circle class="punkt" cx="110" cy="125.2" r="3.5"/>
+              <path class="hilfslinie" d="M190 170L190 138.2"/>
+              <circle class="punkt" cx="190" cy="138.2" r="3.5"/>
+              <path class="hilfslinie" d="M270 170L270 89.2"/>
+              <circle class="punkt" cx="270" cy="89.2" r="3.5"/>
+              <path class="kurve kupfer duenn" d="M110 125.2L270 89.2"/>
+              <circle class="punkt kupfer" cx="190" cy="107.2" r="3.5"/>
+              <text class="klein" x="110" y="186" text-anchor="middle">x − d</text>
+              <text class="klein" x="190" y="186" text-anchor="middle" font-style="italic">x</text>
+              <text class="klein" x="270" y="186" text-anchor="middle">x + d</text>
+              <path class="kurve kupfer duenn" d="M190 77.2L190 100.2"/>
+              <text class="klein kupfer halo" x="190" y="71.2" text-anchor="middle">Mittelwert der Nachbarn</text>
+              <text class="klein halo" x="198" y="150.2" text-anchor="start">f(x)</text>
+              <text class="blau" x="316" y="22.9" text-anchor="end" font-style="italic">f</text>
+            </svg>
+            <figcaption>Abb. 5: Ist eine Kurve nach oben gekrümmt, liegt der
+              Mittelwert der Nachbarn (orange) über dem Wert in der Mitte, und
+              die zweite Ableitung ist positiv. In drei Dimensionen vergleicht
+              $\Delta f$ ebenso den Wert in einem Punkt mit dem Mittelwert auf
+              einer kleinen Kugel um ihn.</figcaption>
+          </figure>
+
+          <p>Ist $\Delta T \gt 0$, ist es an einem Ort kälter als im Mittel
+            ringsum, und er wird durch Wärmeleitung aufgeheizt. Das ist die
+            Wärmeleitungsgleichung $\partial T/\partial t = D\,\Delta T$. Wo
+            $\Delta f = 0$ gilt (Laplace-Gleichung), hat ein Feld weder
+            Buckel noch Mulden; das gilt etwa für das Gravitationspotential im
+            leeren Raum. Mit Masse darin wird daraus die Poisson-Gleichung
+            $\Delta\Phi = 4\pi G\rho$ (hier ist $\Phi = V/m$ die potentielle
+            Energie pro Masse und $\rho$ die Massendichte).</p>
+
+          <h2 id="rechenregeln">Rechenregeln</h2>
+
+          <p>Zwei Kombinationen sind immer null, für jedes glatte Feld. Beide
+            folgen daraus, dass gemischte Ableitungen vertauschbar sind:</p>
+
+          $$ \nabla\times(\nabla f) = \vec 0, \qquad \nabla\cdot(\nabla\times\vec F) = 0 $$
+
+          <p>Die erste sagt: Ein Gradientenfeld ist immer wirbelfrei –
+            Bergauf-Pfeile laufen nie im Kreis. Die zweite: Ein Wirbelfeld hat
+            nie Quellen. Weil $\nabla\cdot\vec B = 0$ ist, lässt sich das
+            Magnetfeld deshalb als Rotation eines anderen Feldes schreiben
+            (Aufgabe 6). Für Produkte gelten Produktregeln, die man sich mit
+            „Nabla wirkt auf jeden Faktor einmal“ merkt:</p>
+
+          <div class="tabelle-huelle">
+            <table>
+              <thead><tr><th>Regel</th><th>Bemerkung</th></tr></thead>
+              <tbody>
+                <tr><td>$\nabla(fg) = f\,\nabla g + g\,\nabla f$</td><td>wie die gewöhnliche Produktregel</td></tr>
+                <tr><td>$\nabla\cdot(f\vec F) = f\,\nabla\cdot\vec F + \vec F\cdot\nabla f$</td><td>Skalarfeld mal Vektorfeld</td></tr>
+                <tr><td>$\nabla\times(f\vec F) = f\,\nabla\times\vec F + \nabla f\times\vec F$</td><td>Reihenfolge im Kreuzprodukt beachten</td></tr>
+                <tr><td>$\nabla\times(\nabla\times\vec F) = \nabla(\nabla\cdot\vec F) - \Delta\vec F$</td><td>wie $\vec a\times(\vec b\times\vec c)$; $\Delta$ wirkt kartesisch auf jede Komponente</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <p>Ist $f$ eine Konstante, fällt jeweils der Term mit $\nabla f$
+            weg. Alle Formeln auf dieser Seite gelten in kartesischen
+            Koordinaten. In <a href="koordinatensysteme.html">krummlinigen
+            Koordinaten</a> sehen die Operatoren anders aus, weil sich die
+            Einheitsvektoren mit dem Ort ändern – das zeigt die Seite über
+            <a href="operatoren-krummlinig.html">Differentialoperatoren in
+            krummlinigen Koordinaten</a>.</p>
+
+          <h2 id="ueberblick">Alles auf einen Blick</h2>
+
+          <div class="tabelle-huelle">
+            <table>
+              <thead><tr><th>Operator</th><th>wirkt auf → liefert</th><th>Bedeutung</th><th>Physik</th></tr></thead>
+              <tbody>
+                <tr><td>$\operatorname{grad} f = \nabla f$</td><td>Skalarfeld → Vektorfeld</td><td>Richtung und Betrag des steilsten Anstiegs</td><td>$\vec F = -\nabla V$</td></tr>
+                <tr><td>$\operatorname{div}\vec F = \nabla\cdot\vec F$</td><td>Vektorfeld → Skalarfeld</td><td>Quellstärke: Ausfluss pro Volumen</td><td>$\nabla\cdot\vec E = \rho/\varepsilon_0$</td></tr>
+                <tr><td>$\operatorname{rot}\vec F = \nabla\times\vec F$</td><td>Vektorfeld → Vektorfeld</td><td>Wirbelstärke: Drehachse eines Schaufelrads</td><td>$\nabla\times\vec B = \mu_0\vec j$</td></tr>
+                <tr><td>$\Delta f = \nabla\cdot\nabla f$</td><td>Skalarfeld → Skalarfeld</td><td>Abweichung vom Mittel der Umgebung</td><td>$\partial T/\partial t = D\,\Delta T$</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="merkkasten">
+            <span class="titel">Das Wichtigste in Kürze</span>
+            <p>Felder ordnen jedem Ort eine Zahl oder einen Pfeil zu. Der
+              Gradient eines Skalarfelds zeigt bergauf, senkrecht zu den
+              Höhenlinien, und ist so lang wie die größte Steigung; Kräfte sind
+              oft der negative Gradient einer potentiellen Energie. Die
+              Divergenz eines Vektorfelds misst, wie viel aus einem kleinen
+              Volumen herausfließt, die Rotation, wie stark es ein kleines
+              Schaufelrad dreht. Gradientenfelder sind wirbelfrei,
+              Wirbelfelder quellenfrei.</p>
+          </div>
+        </section>
+
+        <section class="tab" id="vertiefung" data-titel="Vertiefung"></section>
+
+        <section class="tab" id="beispiele" data-titel="Beispielrechnungen">
+
+          <div class="beispiel" data-symbole='{"h_0": "Gipfelhöhe des Hügels", "P": "Standort der Wanderin", "n": "Einheitsvektor in Richtung Gipfel"}'>
+            <h3>Beispiel 1: Der steilste Weg auf den Hügel</h3>
+            <p><strong>Gegeben:</strong> Der Hügel aus Abb. 1 hat die Höhe
+              $h(x, y) = h_0\,\mathrm{e}^{-(x^2/a^2 + y^2/b^2)}$ mit
+              $h_0 = 500\,\mathrm{m}$, $a = 3\,\mathrm{km}$, $b = 2\,\mathrm{km}$;
+              der Gipfel liegt im Ursprung. Eine Wanderin steht bei
+              $P = (1{,}5;\ 1{,}0)\,\mathrm{km}$.<br>
+              <strong>Gesucht:</strong> (a) ihre Höhe, (b) Richtung und
+              Steigung des steilsten Wegs bergauf, (c) die Steigung, wenn sie
+              direkt auf den Gipfel zugeht.</p>
+
+            <p><strong>1. Höhe:</strong>
+              $$ h(P) = 500\,\mathrm{m}\cdot\mathrm{e}^{-(1{,}5^2/9 + 1{,}0^2/4)} = 500\,\mathrm{m}\cdot\mathrm{e}^{-0{,}5} = 303{,}3\,\mathrm{m} $$</p>
+
+            <p><strong>2. Partielle Ableitungen</strong> mit der Kettenregel:
+              $$ \frac{\partial h}{\partial x} = -\frac{2x}{a^2}\,h, \qquad \frac{\partial h}{\partial y} = -\frac{2y}{b^2}\,h $$
+              $$ \nabla h(P) = 303{,}3\,\mathrm{m}\cdot\begin{pmatrix} -2\cdot 1{,}5/9 \\ -2\cdot 1{,}0/4 \end{pmatrix}\,\mathrm{km^{-1}} = \begin{pmatrix} -101{,}1 \\ -151{,}6 \end{pmatrix}\frac{\mathrm{m}}{\mathrm{km}} $$</p>
+
+            <p><strong>3. Steilster Anstieg.</strong> Der Betrag ist
+              $$ |\nabla h| = \sqrt{101{,}1^2 + 151{,}6^2}\;\frac{\mathrm{m}}{\mathrm{km}} = 182{,}2\,\frac{\mathrm{m}}{\mathrm{km}} = 0{,}182 $$
+              also 18,2&nbsp;% Steigung bzw. ein Hangwinkel von
+              $\arctan 0{,}182 = 10{,}3^\circ$. Die Richtung ist
+              $\nabla h/|\nabla h| = (-0{,}555;\ -0{,}832)$.
+              Einheitencheck: $\mathrm{m/km}$ ist ein Höhenunterschied pro
+              Strecke, also dimensionslos ($1\,\mathrm{m/km} = 10^{-3}$).</p>
+
+            <p><strong>4. Direkt zum Gipfel.</strong> Die Richtung zum Gipfel
+              ist $\hat n = -P/|P| = (-1{,}5;\ -1{,}0)/1{,}803 = (-0{,}832;\ -0{,}555)$.
+              Richtungsableitung:
+              $$ \nabla h\cdot\hat n = (101{,}1\cdot 0{,}832 + 151{,}6\cdot 0{,}555)\,\frac{\mathrm{m}}{\mathrm{km}} = 168{,}2\,\frac{\mathrm{m}}{\mathrm{km}} $$</p>
+
+            <p><strong>Ergebnis und Plausibilität:</strong> Die Wanderin
+              steht auf 303&nbsp;m. Am steilsten (18,2&nbsp;%) geht es
+              <em>nicht</em> direkt auf den Gipfel zu, sondern stärker in
+              $y$-Richtung, weil der Hügel in $y$-Richtung schmaler und damit
+              steiler ist. Direkt zum Gipfel sind es 16,8&nbsp;%. Probe: Der
+              Winkel zwischen beiden Richtungen ist
+              $\alpha = \arccos(168{,}2/182{,}2) = 22{,}6^\circ$, und tatsächlich
+              ist $0{,}555\cdot 0{,}832 + 0{,}832\cdot 0{,}555 = 0{,}923 = \cos 22{,}6^\circ$.
+              Bei einem runden Hügel ($a = b$) würden beide Richtungen
+              übereinstimmen.</p>
+          </div>
+
+          <div class="beispiel" data-symbole='{"G": "Gravitationskonstante", "M": "Erdmasse", "R_E": "Erdradius", "g": "Fallbeschleunigung (Betrag)"}'>
+            <h3>Beispiel 2: Die Schwerkraft aus dem Potential</h3>
+            <p><strong>Gegeben:</strong> Die potentielle Energie einer Masse
+              $m$ im Schwerefeld der Erde ist $V(r) = -GMm/r$ mit
+              $GM = 3{,}986\cdot 10^{14}\,\mathrm{m^3/s^2}$,
+              $R_E = 6371\,\mathrm{km}$. Die Raumstation ISS fliegt
+              $420\,\mathrm{km}$ hoch.<br>
+              <strong>Gesucht:</strong> (a) $\nabla r$ aus den partiellen
+              Ableitungen, (b) die Kraft $\vec F = -\nabla V$, (c) die
+              Fallbeschleunigung am Boden und an der ISS.</p>
+
+            <p><strong>1. Gradient des Abstands.</strong> Mit
+              $r = (x^2 + y^2 + z^2)^{1/2}$ und der Kettenregel:
+              $$ \frac{\partial r}{\partial x} = \frac12 (x^2 + y^2 + z^2)^{-1/2}\cdot 2x = \frac{x}{r} $$
+              Ebenso $\partial r/\partial y = y/r$, $\partial r/\partial z = z/r$, also
+              $\nabla r = \vec r/r = \hat e_r$.</p>
+
+            <p><strong>2. Kraft.</strong> $V$ hängt nur über $r$ vom Ort ab:
+              $\nabla V = V'(r)\,\nabla r$ mit $V'(r) = +GMm/r^2$. Damit
+              $$ \vec F = -\nabla V = -\frac{GMm}{r^2}\,\hat e_r $$
+              Das Minuszeichen heißt: Die Kraft zeigt zum Erdmittelpunkt.</p>
+
+            <p><strong>3. Zahlen.</strong> Die Beschleunigung ist
+              $g = |\vec F|/m = GM/r^2$:
+              $$ g_\text{Boden} = \frac{3{,}986\cdot 10^{14}\,\mathrm{m^3/s^2}}{(6{,}371\cdot 10^{6}\,\mathrm{m})^2} = 9{,}82\,\mathrm{m/s^2} $$
+              $$ g_\text{ISS} = \frac{3{,}986\cdot 10^{14}\,\mathrm{m^3/s^2}}{(6{,}791\cdot 10^{6}\,\mathrm{m})^2} = 8{,}64\,\mathrm{m/s^2} $$
+              Einheitencheck: $\mathrm{m^3/s^2}/\mathrm{m^2} = \mathrm{m/s^2}$.</p>
+
+            <p><strong>Ergebnis und Plausibilität:</strong> Am Boden kommt der
+              bekannte Wert $9{,}8\,\mathrm{m/s^2}$ heraus. In der ISS ist die
+              Schwerkraft noch 88&nbsp;% so groß – die Astronauten schweben
+              nicht, weil die Schwerkraft fehlt, sondern weil sie mit der Station
+              frei fallen. Die Äquipotentialflächen $V = \text{konst.}$ sind
+              Kugeln um die Erde, und die Kraft steht senkrecht auf ihnen, wie
+              es beim Gradienten sein muss.</p>
+          </div>
+
+          <div class="beispiel" data-symbole='{"v_max": "Strömungsgeschwindigkeit in der Flussmitte", "b": "halbe Breite des Flusses", "v_x": "Strömungsgeschwindigkeit flussabwärts", "T": "Dauer einer Umdrehung des Blatts"}'>
+            <h3>Beispiel 3: Ein Blatt dreht sich im Fluss</h3>
+            <p><strong>Gegeben:</strong> Ein Fluss ist $30\,\mathrm{m}$ breit.
+              Die $x$-Achse zeigt flussabwärts entlang der Mitte, die $y$-Achse
+              quer dazu, $-b \le y \le b$ mit $b = 15\,\mathrm{m}$. In der Mitte
+              fließt das Wasser mit $v_\text{max} = 1{,}2\,\mathrm{m/s}$, an den
+              Ufern steht es:
+              $\vec v = v_\text{max}\,(1 - y^2/b^2)\,\hat e_x$.<br>
+              <strong>Gesucht:</strong> (a) $\nabla\cdot\vec v$, (b)
+              $\nabla\times\vec v$, (c) wie schnell sich ein Blatt dreht, das
+              bei $y = 7{,}5\,\mathrm{m}$ treibt.</p>
+
+            <p><strong>1. Divergenz.</strong> Nur $v_x$ ist ungleich null, und es
+              hängt nicht von $x$ ab:
+              $$ \nabla\cdot\vec v = \frac{\partial v_x}{\partial x} = 0 $$</p>
+
+            <p><strong>2. Rotation.</strong> Von den sechs Ableitungen in der
+              Formel bleibt nur $\partial v_x/\partial y$ übrig, und zwar in der
+              $z$-Komponente:
+              $$ \nabla\times\vec v = -\frac{\partial v_x}{\partial y}\,\hat e_z = \frac{2 v_\text{max}\,y}{b^2}\,\hat e_z $$</p>
+
+            <p><strong>3. Zahlen</strong> bei $y = 7{,}5\,\mathrm{m}$:
+              $$ |\nabla\times\vec v| = \frac{2\cdot 1{,}2\,\mathrm{m/s}\cdot 7{,}5\,\mathrm{m}}{(15\,\mathrm{m})^2} = 0{,}080\,\mathrm{s^{-1}} $$
+              Das Blatt dreht sich mit der halben Wirbelstärke,
+              $\omega = 0{,}040\,\mathrm{s^{-1}}$, also einmal in
+              $$ T = \frac{2\pi}{\omega} = \frac{2\pi}{0{,}040\,\mathrm{s^{-1}}} = 157\,\mathrm{s} $$
+              Einheitencheck: $(\mathrm{m/s})\cdot\mathrm{m}/\mathrm{m^2} = \mathrm{s^{-1}}$.</p>
+
+            <p><strong>Ergebnis und Plausibilität:</strong> Das Wasser wird
+              nirgends zusammengedrückt ($\nabla\cdot\vec v = 0$), wie es sein
+              muss. Obwohl es nur geradeaus fließt, dreht sich das Blatt in
+              gut zweieinhalb Minuten einmal herum, und zwar gegen den
+              Uhrzeigersinn (von oben, $z$-Komponente positiv): Seine
+              flussmittige Seite treibt schneller als die ufernahe. In der
+              Flussmitte ist die Rotation null, an den Ufern am größten
+              ($0{,}16\,\mathrm{s^{-1}}$); am anderen Ufer ($y \lt 0$) dreht
+              sich das Blatt andersherum.</p>
+          </div>
+        </section>
+
+        <section class="tab" id="aufgaben" data-titel="Aufgaben">
+
+          <p>Die Aufgaben sind nach Schwierigkeit sortiert. Versuch es erst
+            selbst – die Lösungen sind zugeklappt. Alle Rechnungen in
+            kartesischen Koordinaten; Zahlen ohne Einheit sind reine
+            Rechenübungen.</p>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 1: Der erste Gradient
+              <span class="schwierigkeit" data-stufe="leicht">leicht</span>
+            </h3>
+            <p>Gegeben ist das Skalarfeld $f(x, y, z) = x^2 y + 3yz^2$.</p>
+            <ol type="a">
+              <li>Berechne die drei partiellen Ableitungen und
+                $\nabla f$.</li>
+              <li>In welche Richtung wächst $f$ im Punkt $(1;\ 2;\ -1)$ am
+                schnellsten, und wie groß ist dort die größte Steigung?</li>
+              <li>Prüfe für $\partial^2 f/\partial y\,\partial z$, dass die
+                Reihenfolge der Ableitungen egal ist.</li>
+            </ol>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>(a) $\partial f/\partial x = 2xy$ ($y$, $z$ fest),
+                $\partial f/\partial y = x^2 + 3z^2$,
+                $\partial f/\partial z = 6yz$. Also
+                $\nabla f = (2xy;\ x^2 + 3z^2;\ 6yz)$.</p>
+              <p>(b) Im Punkt: $\nabla f = (4;\ 1 + 3;\ -12) = (4;\ 4;\ -12)$.
+                In diese Richtung wächst $f$ am schnellsten, mit der Steigung
+                $|\nabla f| = \sqrt{16 + 16 + 144} = \sqrt{176} \approx 13{,}3$.</p>
+              <p>(c) Erst nach $y$, dann nach $z$:
+                $\partial_z(x^2 + 3z^2) = 6z$. Erst nach $z$, dann nach $y$:
+                $\partial_y(6yz) = 6z$. Gleich.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 2: Quelle oder Wirbel?
+              <span class="schwierigkeit" data-stufe="leicht">leicht</span>
+            </h3>
+            <p>Berechne Divergenz und Rotation der Felder</p>
+            $$ \vec F = \begin{pmatrix} x^2 \\ -2xy \\ 0 \end{pmatrix}, \qquad \vec G = \begin{pmatrix} -y \\ x \\ z \end{pmatrix} $$
+            <ol type="a">
+              <li>$\nabla\cdot\vec F$ und $\nabla\times\vec F$,</li>
+              <li>$\nabla\cdot\vec G$ und $\nabla\times\vec G$. Beschreibe in
+                Worten, was $\vec G$ tut.</li>
+            </ol>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>(a) $\nabla\cdot\vec F = 2x - 2x + 0 = 0$: quellenfrei.
+                Rotation: Die $x$- und $y$-Komponente enthalten Ableitungen
+                nach $z$ bzw. von $F_z = 0$, sie sind null. Die $z$-Komponente ist
+                $\partial F_y/\partial x - \partial F_x/\partial y = -2y - 0$.
+                Also $\nabla\times\vec F = (0;\ 0;\ -2y)$.</p>
+              <p>(b) $\nabla\cdot\vec G = 0 + 0 + 1 = 1$;
+                $\nabla\times\vec G = (0 - 0;\ 0 - 0;\ 1 - (-1)) = (0;\ 0;\ 2)$.
+                $\vec G$ dreht sich gegen den Uhrzeigersinn um die $z$-Achse
+                (wie ein starrer Körper mit $\vec\omega = \hat e_z$, deshalb
+                Rotation $2\hat e_z$) und strömt zugleich in $z$-Richtung
+                auseinander (für $z \gt 0$ nach oben, für $z \lt 0$ nach unten) –
+                eine Quelle mit Wirbel.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe" data-symbole='{"T_0": "Temperatur im Ursprung", "u": "Geschwindigkeit der Fliege"}'>
+            <h3>Aufgabe 3: Eine Fliege im Klassenzimmer
+              <span class="schwierigkeit" data-stufe="mittel">mittel</span>
+            </h3>
+            <p>In einem Klassenzimmer ist die Temperatur
+              $T(x, y, z) = T_0 + (0{,}40\,\mathrm{K/m})\,x + (0{,}60\,\mathrm{K/m})\,z$
+              mit $T_0 = 19\,{}^\circ\mathrm{C}$; die $x$-Achse zeigt zur Heizung,
+              die $z$-Achse nach oben.</p>
+            <ol type="a">
+              <li>Berechne $\nabla T$, seinen Betrag und den Winkel gegen die
+                Waagerechte.</li>
+              <li>Eine Fliege fliegt mit $u = 0{,}50\,\mathrm{m/s}$ waagerecht
+                unter $45^\circ$ zwischen der $x$- und der $y$-Achse. Wie
+                schnell ändert sich die Temperatur, die sie spürt?</li>
+              <li>Wie sehen die Flächen gleicher Temperatur aus?</li>
+            </ol>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>(a) $\nabla T = (0{,}40;\ 0;\ 0{,}60)\,\mathrm{K/m}$, überall
+                gleich. Betrag
+                $\sqrt{0{,}16 + 0{,}36}\,\mathrm{K/m} = 0{,}721\,\mathrm{K/m}$.
+                Winkel gegen die Waagerechte:
+                $\arctan(0{,}60/0{,}40) = 56{,}3^\circ$ – am schnellsten wird es
+                wärmer, wenn man schräg nach oben auf die Heizung zugeht.</p>
+              <p>(b) Mit der Kettenregel ist
+                $\frac{\mathrm{d}T}{\mathrm{d}t} = \nabla T\cdot\vec u$ und
+                $\vec u = 0{,}50\,\mathrm{m/s}\cdot(0{,}707;\ 0{,}707;\ 0)$:
+                $$ \frac{\mathrm{d}T}{\mathrm{d}t} = 0{,}40\,\mathrm{K/m}\cdot 0{,}354\,\mathrm{m/s} = 0{,}141\,\mathrm{K/s} $$
+                Der $y$-Anteil der Bewegung trägt nichts bei, weil $T$ nicht von
+                $y$ abhängt.</p>
+              <p>(c) $T = \text{konst.}$ heißt
+                $0{,}40\,x + 0{,}60\,z = \text{konst.}$: parallele, schräge
+                Ebenen. Ihr Normalenvektor ist $(0{,}40;\ 0;\ 0{,}60)$ – der
+                Gradient steht senkrecht auf ihnen.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe" data-symbole='{"A": "Startpunkt", "B": "Zielpunkt", "W": "Arbeit der Kraft"}'>
+            <h3>Aufgabe 4: Gibt es ein Potential?
+              <span class="schwierigkeit" data-stufe="mittel">mittel</span>
+            </h3>
+            <p>Gegeben ist das Kraftfeld
+              $\vec F = (2xy + z;\ x^2;\ x)$ (alle Größen ohne Einheit).</p>
+            <ol type="a">
+              <li>Zeige, dass $\vec F$ wirbelfrei ist.</li>
+              <li>Finde eine potentielle Energie $V$ mit $\vec F = -\nabla V$.</li>
+              <li>Welche Arbeit verrichtet $\vec F$ auf einem beliebigen Weg von
+                $A = (0;\ 0;\ 0)$ nach $B = (1;\ 2;\ 3)$?</li>
+            </ol>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>(a) Komponentenweise:
+                $\partial F_z/\partial y - \partial F_y/\partial z = 0 - 0 = 0$,
+                $\partial F_x/\partial z - \partial F_z/\partial x = 1 - 1 = 0$,
+                $\partial F_y/\partial x - \partial F_x/\partial y = 2x - 2x = 0$.
+                Also $\nabla\times\vec F = \vec 0$; der ganze Raum hat keine
+                Löcher, also gibt es ein Potential.</p>
+              <p>(b) Gesucht ist $-V$ mit $\partial(-V)/\partial x = 2xy + z$.
+                Integrieren nach $x$: $-V = x^2 y + xz + c(y, z)$. Ableiten nach
+                $y$ gibt $x^2 + \partial c/\partial y$, das soll $x^2$ sein, also
+                hängt $c$ nicht von $y$ ab. Ableiten nach $z$ gibt
+                $x + \partial c/\partial z = x$, also auch nicht von $z$. Damit
+                $$ V = -(x^2 y + xz) + C $$
+                Probe: $-\nabla V = (2xy + z;\ x^2;\ x)$.</p>
+              <p>(c) Für konservative Kräfte ist die Arbeit die Abnahme der
+                potentiellen Energie: $W = V(A) - V(B) = 0 - (-(1\cdot 2 + 1\cdot 3)) = 5$,
+                auf jedem Weg.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 5: Das Feld einer Punktladung
+              <span class="schwierigkeit" data-stufe="schwer">schwer</span>
+            </h3>
+            <p>Die Felder einer Punktmasse und einer Punktladung haben die
+              Form $\vec E = \vec r/r^3$ (bis auf Konstanten).</p>
+            <ol type="a">
+              <li>Zeige mit $\nabla r = \vec r/r$, dass
+                $\nabla(1/r) = -\vec r/r^3$. Was folgt daraus für
+                $\nabla\times\vec E$?</li>
+              <li>Berechne $\nabla\cdot\vec E$ für $r \ne 0$.</li>
+              <li>Folgere $\Delta(1/r) = 0$ für $r \ne 0$.</li>
+            </ol>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>(a) Kettenregel:
+                $\nabla(1/r) = -\frac{1}{r^2}\nabla r = -\frac{\vec r}{r^3}$.
+                Also ist $\vec E = -\nabla(1/r)$ ein Gradientenfeld, und wegen
+                $\nabla\times\nabla f = \vec 0$ ist $\nabla\times\vec E = \vec 0$.</p>
+              <p>(b) Die $x$-Komponente ist $x/r^3 = x\,r^{-3}$. Produkt- und
+                Kettenregel mit $\partial r/\partial x = x/r$:
+                $$ \frac{\partial}{\partial x}\frac{x}{r^3} = \frac{1}{r^3} - 3x\,r^{-4}\,\frac{x}{r} = \frac{1}{r^3} - \frac{3x^2}{r^5} $$
+                Für $y$ und $z$ ebenso. Summe:
+                $$ \nabla\cdot\vec E = \frac{3}{r^3} - \frac{3(x^2 + y^2 + z^2)}{r^5} = \frac{3}{r^3} - \frac{3}{r^3} = 0 $$</p>
+              <p>(c) $\Delta(1/r) = \nabla\cdot\nabla(1/r) = -\nabla\cdot\vec E = 0$.</p>
+              <p><strong>Zum Nachdenken:</strong> Das Feld zeigt überall vom
+                Ursprung weg – wie kann es quellenfrei sein? Durch jede Kugel um
+                den Ursprung fließt derselbe Fluss
+                $\frac{1}{r^2}\cdot 4\pi r^2 = 4\pi$, egal wie groß sie ist. Die
+                Pfeile werden nach außen genau so schnell schwächer, wie die
+                Kugeloberfläche wächst. Die ganze Quelle sitzt im Punkt
+                $r = 0$, wo das Feld nicht definiert ist – dort sitzt die Ladung
+                bzw. die Masse.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe" data-symbole='{"A": "Vektorpotential", "A_x": "x-Komponente von A", "A_y": "y-Komponente von A", "A_z": "z-Komponente von A", "B_0": "Stärke des homogenen Magnetfelds"}'>
+            <h3>Aufgabe 6: Ein Feld, viele Potentiale
+              <span class="schwierigkeit" data-stufe="schwer">schwer</span>
+            </h3>
+            <p>Weil Magnetfelder quellenfrei sind, schreibt man sie als
+              Rotation eines Vektorpotentials: $\vec B = \nabla\times\vec A$.</p>
+            <ol type="a">
+              <li>Zeige komponentenweise, dass $\nabla\cdot(\nabla\times\vec A) = 0$
+                für jedes glatte Feld $\vec A$.</li>
+              <li>Berechne $\nabla\times\vec A$ für
+                $\vec A = \frac{B_0}{2}(-y;\ x;\ 0)$ und für
+                $\vec A' = B_0\,(0;\ x;\ 0)$.</li>
+              <li>Zeige, dass sich $\vec A'$ und $\vec A$ um einen Gradienten
+                unterscheiden. Warum ist es kein Zufall, dass beide dasselbe
+                $\vec B$ liefern?</li>
+            </ol>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>(a)
+                $$ \nabla\cdot(\nabla\times\vec A) = \frac{\partial}{\partial x}\Big(\frac{\partial A_z}{\partial y} - \frac{\partial A_y}{\partial z}\Big) + \frac{\partial}{\partial y}\Big(\frac{\partial A_x}{\partial z} - \frac{\partial A_z}{\partial x}\Big) + \frac{\partial}{\partial z}\Big(\frac{\partial A_y}{\partial x} - \frac{\partial A_x}{\partial y}\Big) $$
+                Jede zweite Ableitung kommt zweimal vor, einmal mit Plus und
+                einmal mit Minus, z.&nbsp;B.
+                $\partial^2 A_z/\partial x\,\partial y$ und
+                $-\partial^2 A_z/\partial y\,\partial x$. Weil die Reihenfolge
+                egal ist, heben sich alle sechs Terme paarweise auf.</p>
+              <p>(b) Für $\vec A$ ist nur die $z$-Komponente der Rotation
+                ungleich null:
+                $\partial A_y/\partial x - \partial A_x/\partial y = \frac{B_0}{2} - (-\frac{B_0}{2}) = B_0$.
+                Für $\vec A'$: $\partial A'_y/\partial x - 0 = B_0$. Beide
+                liefern $\vec B = B_0\,\hat e_z$, ein homogenes Feld in
+                $z$-Richtung.</p>
+              <p>(c) $\vec A' - \vec A = \frac{B_0}{2}(y;\ x;\ 0) = \nabla\big(\tfrac{B_0}{2}xy\big)$,
+                wie man durch Ableiten prüft. Und die Rotation eines Gradienten
+                ist immer null, $\nabla\times\nabla f = \vec 0$. Deshalb darf man
+                zu $\vec A$ jeden Gradienten addieren, ohne $\vec B$ zu ändern.</p>
+              <p><strong>Zum Nachdenken:</strong> Das Vektorpotential ist also
+                nicht eindeutig – ähnlich wie man bei der potentiellen Energie
+                den Nullpunkt frei wählen darf. Diese Freiheit heißt in der
+                Elektrodynamik Eichfreiheit.</p>
+            </details>
+          </div>
+        </section>
+
+      </div></article>
+  </main>
+</body>
+</html>

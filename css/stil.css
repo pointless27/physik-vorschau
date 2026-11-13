@@ -1,0 +1,20 @@
+/* =========================================================================
+   STYLESHEET DER GESAMTEN WEBSITE – nur ein Inhaltsverzeichnis
+   =========================================================================
+   Jede HTML-Seite bindet nur diese Datei ein. Die Regeln stehen in
+   css/teile/, geordnet nach Seitenbereich. Die Reihenfolge unten ist
+   wichtig (spätere Regeln gewinnen bei Gleichstand) – nicht umsortieren.
+   Regeln für kleine Bildschirme stehen am Ende des jeweiligen Teils.
+   ========================================================================= */
+
+@import url("teile/variablen.css");       /* Schriften, Farben, Abstände  ← hier Farben ändern */
+@import url("teile/grundlayout.css");     /* Grundlayout, Typografie, Karo-Hintergrund */
+@import url("teile/kopf-fuss.css");       /* Kopfzeile, Menü, Fußzeile */
+@import url("teile/startseite.css");      /* Hero, Sonnensystem, Bereichs-Karten */
+@import url("teile/uebersichten.css");    /* Themenübersicht, Bereichsseiten, Interaktives Universum */
+@import url("teile/themenseite.css");     /* Themenseiten: Reiter, Seitenleiste, Kästen, Aufgaben */
+@import url("teile/formeln.css");         /* Tabellen, Formeln, Abbildungen (.abb) */
+@import url("teile/interaktiv.css");      /* interaktive Grafiken (js/interaktiv.js) */
+@import url("teile/sonderseiten.css");    /* Textseiten, 404-Seite */
+@import url("teile/universum.css");       /* Interaktives Universum: 3D-Bühne (three.js) */
+@import url("teile/effekte.css");         /* Rand-Deko, Animationen, Effekte (immer zuletzt) */

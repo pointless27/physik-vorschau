@@ -1,0 +1,170 @@
+/* =========================================================================
+   GRUNDLAYOUT UND TYPOGRAFIE
+   =========================================================================
+   Seitenränder, Schriftgrößen, Überschriften, Karo-Papier, Sterne.
+   Eingebunden über css/stil.css – Reihenfolge dort nicht ändern. */
+
+/* -------------------------------------------------------------------------
+   2. GRUNDLAYOUT UND TYPOGRAFIE
+   ------------------------------------------------------------------------- */
+* { box-sizing: border-box; }
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--hintergrund);
+  color: var(--text);
+  font-family: var(--schrift-text);
+  font-size: 1.04rem;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Karo-Papier-Hintergrund (wie in der Mitschrift) – nach unten ausblendend */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  pointer-events: none;
+  background-image:
+    linear-gradient(var(--karo) 1px, transparent 1px),
+    linear-gradient(90deg, var(--karo) 1px, transparent 1px);
+  background-size: 28px 28px;
+  -webkit-mask-image: linear-gradient(to bottom, #000 0%, rgba(0,0,0,0.55) 45%, transparent 100%);
+          mask-image: linear-gradient(to bottom, #000 0%, rgba(0,0,0,0.55) 45%, transparent 100%);
+}
+
+/* Sterne als stille Deko über die ganze Seite: vierzackige Funkelsterne und
+   kleine Punkte, kein Leuchten, keine Bewegung. Zwei verschieden große
+   Musterkacheln überlagern sich, damit keine Wiederholung auffällt. Die
+   Farbe kommt aus --stern; die Kacheln dienen nur als Maske. */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: var(--stern);
+  --stern-kacheln: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='560' height='560'%3E%3Cpath d='M185.6 88.2Q185.6 92.9 190.3 92.9Q185.6 92.9 185.6 97.6Q185.6 92.9 180.9 92.9Q185.6 92.9 185.6 88.2Z' fill-opacity='0.55'/%3E%3Cpath d='M452.2 57.9Q452.2 62.5 456.7 62.5Q452.2 62.5 452.2 67.0Q452.2 62.5 447.7 62.5Q452.2 62.5 452.2 57.9Z' fill-opacity='1'/%3E%3Cpath d='M315.1 515.2Q315.1 519.8 319.7 519.8Q315.1 519.8 315.1 524.5Q315.1 519.8 310.4 519.8Q315.1 519.8 315.1 515.2Z' fill-opacity='1'/%3E%3Cpath d='M520.0 317.2Q520.0 321.3 524.1 321.3Q520.0 321.3 520.0 325.4Q520.0 321.3 515.9 321.3Q520.0 321.3 520.0 317.2Z' fill-opacity='0.55'/%3E%3Ccircle cx='28.8' cy='478.6' r='0.9' fill-opacity='0.5'/%3E%3Ccircle cx='302.5' cy='319.3' r='1.0' fill-opacity='1'/%3E%3Ccircle cx='103.1' cy='325.2' r='1.1' fill-opacity='0.8'/%3E%3Ccircle cx='57.0' cy='397.5' r='1.0' fill-opacity='1'/%3E%3Ccircle cx='117.1' cy='379.9' r='1.0' fill-opacity='0.8'/%3E%3Ccircle cx='260.9' cy='514.6' r='0.9' fill-opacity='0.5'/%3E%3Ccircle cx='443.1' cy='390.2' r='0.8' fill-opacity='1'/%3E%3Ccircle cx='169.3' cy='277.3' r='0.9' fill-opacity='0.8'/%3E%3Ccircle cx='162.5' cy='546.0' r='0.8' fill-opacity='0.8'/%3E%3Ccircle cx='94.4' cy='192.5' r='1.3' fill-opacity='0.8'/%3E%3Ccircle cx='24.7' cy='373.2' r='1.2' fill-opacity='1'/%3E%3Ccircle cx='440.2' cy='456.4' r='0.9' fill-opacity='0.8'/%3E%3C/svg%3E"), url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='910' height='910'%3E%3Cpath d='M158.1 616.7Q158.1 623.1 164.6 623.1Q158.1 623.1 158.1 629.5Q158.1 623.1 151.7 623.1Q158.1 623.1 158.1 616.7Z' fill-opacity='0.75'/%3E%3Cpath d='M759.1 883.0Q759.1 888.9 765.1 888.9Q759.1 888.9 759.1 894.8Q759.1 888.9 753.2 888.9Q759.1 888.9 759.1 883.0Z' fill-opacity='1'/%3E%3Cpath d='M710.5 17.2Q710.5 24.5 717.8 24.5Q710.5 24.5 710.5 31.8Q710.5 24.5 703.2 24.5Q710.5 24.5 710.5 17.2Z' fill-opacity='0.75'/%3E%3Cpath d='M217.8 213.5Q217.8 218.2 222.4 218.2Q217.8 218.2 217.8 222.8Q217.8 218.2 213.1 218.2Q217.8 218.2 217.8 213.5Z' fill-opacity='1'/%3E%3Ccircle cx='699.7' cy='370.7' r='1.0' fill-opacity='0.8'/%3E%3Ccircle cx='491.3' cy='630.3' r='1.1' fill-opacity='0.8'/%3E%3Ccircle cx='24.0' cy='672.9' r='0.8' fill-opacity='0.5'/%3E%3Ccircle cx='412.6' cy='502.0' r='0.9' fill-opacity='0.8'/%3E%3Ccircle cx='139.6' cy='604.3' r='1.0' fill-opacity='0.5'/%3E%3Ccircle cx='70.5' cy='181.4' r='1.1' fill-opacity='1'/%3E%3Ccircle cx='685.3' cy='692.6' r='1.0' fill-opacity='1'/%3E%3Ccircle cx='67.1' cy='509.4' r='1.0' fill-opacity='0.8'/%3E%3Ccircle cx='184.8' cy='837.5' r='1.2' fill-opacity='0.8'/%3E%3Ccircle cx='267.0' cy='865.9' r='1.0' fill-opacity='0.8'/%3E%3C/svg%3E");
+  -webkit-mask-image: var(--stern-kacheln);
+          mask-image: var(--stern-kacheln);
+  -webkit-mask-size: 560px 560px, 910px 910px;
+          mask-size: 560px 560px, 910px 910px;
+  -webkit-mask-position: 0 0, 230px 140px;
+          mask-position: 0 0, 230px 140px;
+}
+/* Kein Stern mitten in den Randformeln (Wunsch des Betreibers 2026-11-13):
+   Sterne und Formeln (.deko-formel-1/2/3 in effekte.css) liegen beide fest
+   im Fenster, daher je Formel eine ovale Aussparung an derselben Stelle.
+   Positionen = Formelmitte; bei Änderungen dort hier mitziehen. */
+@media (min-width: 96rem) {
+  body::after {
+    --stern-loch: transparent 75%, #000 100%;
+    --stern-mitte-links:  calc(50% - var(--breite-seite) / 2 - 11.5rem);
+    --stern-mitte-rechts: calc(50% + var(--breite-seite) / 2 + 11.5rem);
+    -webkit-mask-image:
+      radial-gradient(ellipse 7rem 2.2rem at var(--stern-mitte-links) calc(58vh - 1rem - max(4.5vh, 6rem)), var(--stern-loch)),
+      radial-gradient(ellipse 4.5rem 2rem at var(--stern-mitte-rechts) calc(20vh + 1rem), var(--stern-loch)),
+      radial-gradient(ellipse 7rem 2.4rem at var(--stern-mitte-rechts) calc(100% - max(11vh, 13rem) - 1.2rem), var(--stern-loch)),
+      var(--stern-kacheln);
+            mask-image:
+      radial-gradient(ellipse 7rem 2.2rem at var(--stern-mitte-links) calc(58vh - 1rem - max(4.5vh, 6rem)), var(--stern-loch)),
+      radial-gradient(ellipse 4.5rem 2rem at var(--stern-mitte-rechts) calc(20vh + 1rem), var(--stern-loch)),
+      radial-gradient(ellipse 7rem 2.4rem at var(--stern-mitte-rechts) calc(100% - max(11vh, 13rem) - 1.2rem), var(--stern-loch)),
+      var(--stern-kacheln);
+    -webkit-mask-size: 100% 100%, 100% 100%, 100% 100%, 560px 560px, 910px 910px;
+            mask-size: 100% 100%, 100% 100%, 100% 100%, 560px 560px, 910px 910px;
+    -webkit-mask-position: 0 0, 0 0, 0 0, 0 0, 230px 140px;
+            mask-position: 0 0, 0 0, 0 0, 0 0, 230px 140px;
+    -webkit-mask-repeat: no-repeat, no-repeat, no-repeat, repeat, repeat;
+            mask-repeat: no-repeat, no-repeat, no-repeat, repeat, repeat;
+    -webkit-mask-composite: source-in, source-in, source-in, source-over, source-over;
+            mask-composite: intersect, intersect, intersect, add, add;
+  }
+}
+
+main {
+  max-width: var(--breite-seite);
+  margin: 0 auto;
+  padding: 2rem 1.5rem 4rem;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--schrift-titel);
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  line-height: 1.15;
+}
+
+h1 { font-size: clamp(1.9rem, 1.3rem + 2.4vw, 2.9rem); margin: 0.5rem 0 0.6rem; }
+h2 { font-size: clamp(1.35rem, 1.15rem + 0.9vw, 1.75rem); margin: 2.4rem 0 0.75rem; }
+h3 { font-size: 1.2rem; margin: 1.75rem 0 0.5rem; }
+
+/* Wegen der klebenden Kopfzeile: Sprungziele nicht unter die Leiste rutschen */
+[id] { scroll-margin-top: 5.5rem; }
+.tab [id] { scroll-margin-top: 9rem; }   /* zusätzlich unter der klebenden Tab-Leiste */
+
+p { margin: 0 0 1rem; }
+
+a {
+  color: var(--akzent);
+  text-underline-offset: 0.18em;
+  text-decoration-thickness: 1px;
+  transition: color 0.15s ease;
+}
+a:hover { text-decoration-thickness: 2px; }
+
+img, svg { max-width: 100%; height: auto; }
+/* KaTeX zeichnet Vektorpfeile, Wurzelzeichen usw. als kleine SVGs mit
+   eigenen Maßen – die Regel oben würde sie auf Breite 0 zusammendrücken */
+.katex svg { max-width: none; height: inherit; }
+
+:focus-visible {
+  outline: 2px solid var(--akzent);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* Kleine Überzeile: Strich + Versalien */
+.oberzeile {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--akzent);
+  margin: 0 0 0.5rem;
+}
+.oberzeile::before {
+  content: "";
+  width: 2rem;
+  height: 2px;
+  background: var(--akzent);
+}
+
+/* Hervorgehobenes Wort in Überschriften: kursiv + handgezogene Unterstreichung */
+.betont {
+  font-style: italic;
+  color: var(--akzent);
+  background:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 12' preserveAspectRatio='none'%3E%3Cpath d='M2 8 C 40 2, 90 11, 130 6 S 185 4, 198 7' fill='none' stroke='%23d97a1f' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E")
+    no-repeat left 92% / 100% 0.35em;
+  padding-bottom: 0.1em;
+}
+
+
+/* Kleine Bildschirme */
+@media (max-width: 52rem) {
+  main { padding: 1.5rem 1.1rem 3rem; }
+}
+@media (max-width: 30rem) {
+  body { font-size: 1rem; }
+}

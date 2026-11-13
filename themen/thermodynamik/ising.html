@@ -1,0 +1,1090 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="robots" content="noindex">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Das Ising-Modell: Simulation und Quantenphasenübergang</title>
+  <meta name="description" content="Das Ising-Modell: Spins auf einem Gitter, Phasenübergang in zwei Dimensionen, Monte-Carlo-Simulation mit Metropolis- und Wolff-Algorithmus, Fehleranalyse, endliche Gitter und die Ising-Kette im Querfeld mit ihrem Quantenphasenübergang.">
+
+  <link rel="stylesheet" href="../../css/stil.css">
+
+  <link rel="stylesheet" href="../../extern/katex/katex.min.css">
+  <script defer src="../../extern/katex/katex.min.js"></script>
+  <script defer src="../../extern/katex/contrib/auto-render.min.js" onload="starteFormeln()"></script>
+
+  <script src="../../js/daten.js"></script>
+  <script src="../../js/seite.js"></script>
+  <script src="../../js/effekte.js"></script>
+  <script src="../../js/interaktiv.js"></script>
+  <script src="../../js/modelle/ising.js"></script>
+  <script type="application/json" id="symbole">
+  {
+    "s_i": "Spin am Gitterplatz i (+1 oder −1)",
+    "s_j": "Spin am Gitterplatz j, meist ein Nachbar von i",
+    "J": "Kopplungsstärke zwischen Nachbarn",
+    "H": "Hamilton-Funktion bzw. Hamilton-Operator",
+    "Z": "Zustandssumme",
+    "β": "inverse Temperatur 1/(k_B T)",
+    "k_B": "Boltzmann-Konstante",
+    "T": "absolute Temperatur",
+    "T_c": "kritische Temperatur (Curie-Temperatur)",
+    "N": "Zahl der Spins bzw. Gitterplätze",
+    "L": "Kantenlänge des Gitters in Gitterplätzen",
+    "m": "Magnetisierung pro Spin",
+    "M": "Gesamtmagnetisierung, Summe aller Spins",
+    "E": "Energie einer Konfiguration",
+    "e": "Energie pro Spin",
+    "χ": "magnetische Suszeptibilität pro Spin",
+    "c": "Wärmekapazität pro Spin",
+    "ξ": "Korrelationslänge",
+    "ν": "kritischer Exponent der Korrelationslänge",
+    "γ": "kritischer Exponent der Suszeptibilität",
+    "α": "kritischer Exponent der Wärmekapazität",
+    "z": "dynamischer Exponent des Algorithmus",
+    "τ": "Autokorrelationszeit in Sweeps",
+    "τ_int": "integrierte Autokorrelationszeit",
+    "ρ": "normierte Autokorrelationsfunktion",
+    "x": "Konfiguration (Stellung aller Spins)",
+    "P": "Wahrscheinlichkeit einer Konfiguration",
+    "W": "Übergangswahrscheinlichkeit der Markov-Kette",
+    "p": "Annahmewahrscheinlichkeit",
+    "P_add": "Wahrscheinlichkeit, einen gleich gerichteten Nachbarn in den Cluster aufzunehmen",
+    "n": "Zahl der Messwerte",
+    "A": "Messgröße",
+    "A_k": "k-ter Messwert",
+    "θ": "aus Mittelwerten berechnete Größe",
+    "θ_k": "Jackknife-Wert ohne den k-ten Messwert bzw. Block",
+    "σ": "Standardabweichung",
+    "h": "Querfeld (transversales Magnetfeld in Energieeinheiten)",
+    "t": "Hüpfamplitude zwischen benachbarten Plätzen",
+    "U": "Abstoßung zweier Elektronen auf demselben Platz",
+    "S": "Spinoperator (Spin 1/2)",
+    "σ": "Pauli-Matrix (Spinkomponente mit Eigenwerten ±1)",
+    "σ_i": "Pauli-Matrix am Platz i",
+    "σ_j": "Pauli-Matrix am Platz j",
+    "σ_A": "Standardabweichung der Messwerte",
+    "σ_m": "Standardabweichung der Magnetisierung",
+    "σ_θ": "Fehler der Größe θ",
+    "ε": "Anregungsenergie eines Quasiteilchens (Index: Wellenzahl)",
+    "π": "Kreiszahl",
+    "ϑ": "Kippwinkel der Spins gegen die z-Richtung",
+    "a": "Zahl der gleich gerichteten Randnachbarn des Clusters",
+    "b": "Zahl der entgegengesetzt gerichteten Randnachbarn des Clusters",
+    "d": "Raumdimension des Gitters",
+    "f": "Vergrößerungsfaktor der Kantenlänge",
+    "i": "Nummer des Gitterplatzes",
+    "s": "Stichproben-Standardabweichung",
+    "y": "Koordinatenachse",
+    "B_k": "Vorfaktor der Paarterme, 2J sin k",
+    "j": "Nummer des Gitterplatzes",
+    "k": "Wellenzahl (in Einheiten der inversen Gitterkonstante)",
+    "ε_k": "Anregungsenergie eines Quasiteilchens mit Wellenzahl k",
+    "η_k": "Vernichter eines Quasiteilchens (Bogoliubov)",
+    "u_k": "Koeffizient der Bogoliubov-Transformation",
+    "v_k": "Koeffizient der Bogoliubov-Transformation"
+  }
+  </script>
+</head>
+<body data-thema="ising">
+  <main>
+    <article class="thema">
+      <header>
+        <h1>Das <span class="betont">Ising-Modell</span></h1>
+        <p class="untertitel">Spins auf dem Gitter: Phasenübergang, Monte-Carlo-Simulation und ein Übergang, den nicht die Wärme, sondern die Quantenmechanik treibt.</p>
+      </header>
+
+      <div class="tabs">
+
+        <section class="tab" id="verstehen" data-titel="Verstehen">
+
+          <p>Ein Magnet hält einen Eisennagel fest. Erhitzt man den Nagel auf
+            etwa $770\,{}^\circ\mathrm{C}$, fällt er ab: Oberhalb dieser
+            Curie-Temperatur ist Eisen nicht mehr ferromagnetisch. Der Grund
+            steckt im Inneren. Jedes Eisenatom wirkt wie eine winzige
+            Kompassnadel. Benachbarte Nadeln richten sich gern gleich aus, weil
+            das Energie spart. Die Wärmebewegung rüttelt sie dagegen ständig
+            durcheinander. Bei tiefer Temperatur gewinnt die Ordnung, bei hoher
+            das Durcheinander, und dazwischen liegt eine scharfe Grenze.</p>
+
+          <p>Das <em>Ising-Modell</em> ist die einfachste Form dieser Idee. Auf
+            jedem Platz eines Gitters sitzt ein „Spin“, der nur nach oben oder
+            nach unten zeigen kann. Zwei Nachbarn, die gleich stehen, haben
+            weniger Energie als zwei, die verschieden stehen. Mehr steckt nicht
+            drin, und trotzdem zeigt das Modell auf einem ebenen Gitter einen
+            echten Phasenübergang (auf einer bloßen Kette dagegen nicht).</p>
+
+          <p>Ausrechnen lässt sich das meist nicht von Hand. Schon ein kleines
+            Gitter aus $10 \times 10$ Spins hat $2^{100}$, also rund
+            $10^{30}$ mögliche Stellungen. Deshalb lässt man den Computer würfeln.
+            Er greift einen Spin heraus und klappt ihn um, wenn das Energie spart.
+            Kostet das Umklappen Energie, entscheidet ein Zufallswurf, und die
+            Chance dafür ist umso größer, je wärmer es ist. Nach Millionen solcher
+            Würfe sieht das Gitter so aus wie ein Stück Material bei dieser
+            Temperatur (Abb. 1). Weil der Zufall die Hauptrolle spielt, heißt das
+            Verfahren nach dem berühmten Spielcasino <em>Monte-Carlo-Simulation</em>.</p>
+
+          <figure class="abbildung">
+            <svg class="abb" viewBox="0 0 360 170" role="img" aria-label="Drei Spin-Gitter aus einer Monte-Carlo-Simulation des zweidimensionalen Ising-Modells: bei tiefer Temperatur fast alle Spins gleich, bei der kritischen Temperatur Cluster aller Größen, bei hoher Temperatur ungeordnet">
+<rect class="achse" x="7" y="9" width="100.0" height="100.0" fill="none"/>
+<path class="punkt kupfer" d="M8 10h3.5v3.5h-3.5zM11.5 10h3.5v3.5h-3.5zM15 10h3.5v3.5h-3.5zM18.5 10h3.5v3.5h-3.5zM22 10h3.5v3.5h-3.5zM25.5 10h3.5v3.5h-3.5zM29 10h3.5v3.5h-3.5zM32.5 10h3.5v3.5h-3.5zM36 10h3.5v3.5h-3.5zM39.5 10h3.5v3.5h-3.5zM43 10h3.5v3.5h-3.5zM46.5 10h3.5v3.5h-3.5zM50 10h3.5v3.5h-3.5zM53.5 10h3.5v3.5h-3.5zM57 10h3.5v3.5h-3.5zM60.5 10h3.5v3.5h-3.5zM64 10h3.5v3.5h-3.5zM67.5 10h3.5v3.5h-3.5zM71 10h3.5v3.5h-3.5zM74.5 10h3.5v3.5h-3.5zM78 10h3.5v3.5h-3.5zM81.5 10h3.5v3.5h-3.5zM85 10h3.5v3.5h-3.5zM88.5 10h3.5v3.5h-3.5zM92 10h3.5v3.5h-3.5zM95.5 10h3.5v3.5h-3.5zM99 10h3.5v3.5h-3.5zM102.5 10h3.5v3.5h-3.5zM8 13.5h3.5v3.5h-3.5zM11.5 13.5h3.5v3.5h-3.5zM15 13.5h3.5v3.5h-3.5zM18.5 13.5h3.5v3.5h-3.5zM22 13.5h3.5v3.5h-3.5zM25.5 13.5h3.5v3.5h-3.5zM29 13.5h3.5v3.5h-3.5zM32.5 13.5h3.5v3.5h-3.5zM36 13.5h3.5v3.5h-3.5zM39.5 13.5h3.5v3.5h-3.5zM43 13.5h3.5v3.5h-3.5zM46.5 13.5h3.5v3.5h-3.5zM50 13.5h3.5v3.5h-3.5zM53.5 13.5h3.5v3.5h-3.5zM57 13.5h3.5v3.5h-3.5zM60.5 13.5h3.5v3.5h-3.5zM64 13.5h3.5v3.5h-3.5zM67.5 13.5h3.5v3.5h-3.5zM71 13.5h3.5v3.5h-3.5zM74.5 13.5h3.5v3.5h-3.5zM78 13.5h3.5v3.5h-3.5zM81.5 13.5h3.5v3.5h-3.5zM85 13.5h3.5v3.5h-3.5zM88.5 13.5h3.5v3.5h-3.5zM92 13.5h3.5v3.5h-3.5zM95.5 13.5h3.5v3.5h-3.5zM99 13.5h3.5v3.5h-3.5zM102.5 13.5h3.5v3.5h-3.5zM8 17h3.5v3.5h-3.5zM11.5 17h3.5v3.5h-3.5zM15 17h3.5v3.5h-3.5zM18.5 17h3.5v3.5h-3.5zM22 17h3.5v3.5h-3.5zM25.5 17h3.5v3.5h-3.5zM29 17h3.5v3.5h-3.5zM32.5 17h3.5v3.5h-3.5zM36 17h3.5v3.5h-3.5zM39.5 17h3.5v3.5h-3.5zM43 17h3.5v3.5h-3.5zM46.5 17h3.5v3.5h-3.5zM50 17h3.5v3.5h-3.5zM53.5 17h3.5v3.5h-3.5zM57 17h3.5v3.5h-3.5zM60.5 17h3.5v3.5h-3.5zM64 17h3.5v3.5h-3.5zM67.5 17h3.5v3.5h-3.5zM71 17h3.5v3.5h-3.5zM74.5 17h3.5v3.5h-3.5zM78 17h3.5v3.5h-3.5zM81.5 17h3.5v3.5h-3.5zM85 17h3.5v3.5h-3.5zM88.5 17h3.5v3.5h-3.5zM92 17h3.5v3.5h-3.5zM95.5 17h3.5v3.5h-3.5zM99 17h3.5v3.5h-3.5zM102.5 17h3.5v3.5h-3.5zM8 20.5h3.5v3.5h-3.5zM11.5 20.5h3.5v3.5h-3.5zM15 20.5h3.5v3.5h-3.5zM18.5 20.5h3.5v3.5h-3.5zM22 20.5h3.5v3.5h-3.5zM25.5 20.5h3.5v3.5h-3.5zM29 20.5h3.5v3.5h-3.5zM32.5 20.5h3.5v3.5h-3.5zM36 20.5h3.5v3.5h-3.5zM39.5 20.5h3.5v3.5h-3.5zM43 20.5h3.5v3.5h-3.5zM46.5 20.5h3.5v3.5h-3.5zM50 20.5h3.5v3.5h-3.5zM53.5 20.5h3.5v3.5h-3.5zM57 20.5h3.5v3.5h-3.5zM60.5 20.5h3.5v3.5h-3.5zM64 20.5h3.5v3.5h-3.5zM67.5 20.5h3.5v3.5h-3.5zM71 20.5h3.5v3.5h-3.5zM74.5 20.5h3.5v3.5h-3.5zM78 20.5h3.5v3.5h-3.5zM81.5 20.5h3.5v3.5h-3.5zM85 20.5h3.5v3.5h-3.5zM88.5 20.5h3.5v3.5h-3.5zM92 20.5h3.5v3.5h-3.5zM95.5 20.5h3.5v3.5h-3.5zM99 20.5h3.5v3.5h-3.5zM102.5 20.5h3.5v3.5h-3.5zM8 24h3.5v3.5h-3.5zM11.5 24h3.5v3.5h-3.5zM15 24h3.5v3.5h-3.5zM18.5 24h3.5v3.5h-3.5zM22 24h3.5v3.5h-3.5zM25.5 24h3.5v3.5h-3.5zM29 24h3.5v3.5h-3.5zM32.5 24h3.5v3.5h-3.5zM36 24h3.5v3.5h-3.5zM39.5 24h3.5v3.5h-3.5zM43 24h3.5v3.5h-3.5zM46.5 24h3.5v3.5h-3.5zM50 24h3.5v3.5h-3.5zM53.5 24h3.5v3.5h-3.5zM57 24h3.5v3.5h-3.5zM60.5 24h3.5v3.5h-3.5zM64 24h3.5v3.5h-3.5zM67.5 24h3.5v3.5h-3.5zM71 24h3.5v3.5h-3.5zM74.5 24h3.5v3.5h-3.5zM78 24h3.5v3.5h-3.5zM81.5 24h3.5v3.5h-3.5zM85 24h3.5v3.5h-3.5zM88.5 24h3.5v3.5h-3.5zM92 24h3.5v3.5h-3.5zM95.5 24h3.5v3.5h-3.5zM99 24h3.5v3.5h-3.5zM102.5 24h3.5v3.5h-3.5zM8 27.5h3.5v3.5h-3.5zM11.5 27.5h3.5v3.5h-3.5zM15 27.5h3.5v3.5h-3.5zM18.5 27.5h3.5v3.5h-3.5zM22 27.5h3.5v3.5h-3.5zM25.5 27.5h3.5v3.5h-3.5zM29 27.5h3.5v3.5h-3.5zM32.5 27.5h3.5v3.5h-3.5zM36 27.5h3.5v3.5h-3.5zM39.5 27.5h3.5v3.5h-3.5zM43 27.5h3.5v3.5h-3.5zM46.5 27.5h3.5v3.5h-3.5zM50 27.5h3.5v3.5h-3.5zM53.5 27.5h3.5v3.5h-3.5zM57 27.5h3.5v3.5h-3.5zM60.5 27.5h3.5v3.5h-3.5zM64 27.5h3.5v3.5h-3.5zM67.5 27.5h3.5v3.5h-3.5zM71 27.5h3.5v3.5h-3.5zM74.5 27.5h3.5v3.5h-3.5zM78 27.5h3.5v3.5h-3.5zM81.5 27.5h3.5v3.5h-3.5zM85 27.5h3.5v3.5h-3.5zM88.5 27.5h3.5v3.5h-3.5zM92 27.5h3.5v3.5h-3.5zM95.5 27.5h3.5v3.5h-3.5zM99 27.5h3.5v3.5h-3.5zM102.5 27.5h3.5v3.5h-3.5zM8 31h3.5v3.5h-3.5zM11.5 31h3.5v3.5h-3.5zM15 31h3.5v3.5h-3.5zM18.5 31h3.5v3.5h-3.5zM22 31h3.5v3.5h-3.5zM25.5 31h3.5v3.5h-3.5zM29 31h3.5v3.5h-3.5zM32.5 31h3.5v3.5h-3.5zM36 31h3.5v3.5h-3.5zM43 31h3.5v3.5h-3.5zM46.5 31h3.5v3.5h-3.5zM50 31h3.5v3.5h-3.5zM53.5 31h3.5v3.5h-3.5zM57 31h3.5v3.5h-3.5zM60.5 31h3.5v3.5h-3.5zM64 31h3.5v3.5h-3.5zM67.5 31h3.5v3.5h-3.5zM71 31h3.5v3.5h-3.5zM74.5 31h3.5v3.5h-3.5zM78 31h3.5v3.5h-3.5zM81.5 31h3.5v3.5h-3.5zM85 31h3.5v3.5h-3.5zM88.5 31h3.5v3.5h-3.5zM92 31h3.5v3.5h-3.5zM95.5 31h3.5v3.5h-3.5zM99 31h3.5v3.5h-3.5zM102.5 31h3.5v3.5h-3.5zM8 34.5h3.5v3.5h-3.5zM11.5 34.5h3.5v3.5h-3.5zM15 34.5h3.5v3.5h-3.5zM18.5 34.5h3.5v3.5h-3.5zM22 34.5h3.5v3.5h-3.5zM25.5 34.5h3.5v3.5h-3.5zM29 34.5h3.5v3.5h-3.5zM39.5 34.5h3.5v3.5h-3.5zM43 34.5h3.5v3.5h-3.5zM46.5 34.5h3.5v3.5h-3.5zM50 34.5h3.5v3.5h-3.5zM53.5 34.5h3.5v3.5h-3.5zM57 34.5h3.5v3.5h-3.5zM60.5 34.5h3.5v3.5h-3.5zM64 34.5h3.5v3.5h-3.5zM67.5 34.5h3.5v3.5h-3.5zM71 34.5h3.5v3.5h-3.5zM74.5 34.5h3.5v3.5h-3.5zM78 34.5h3.5v3.5h-3.5zM81.5 34.5h3.5v3.5h-3.5zM85 34.5h3.5v3.5h-3.5zM88.5 34.5h3.5v3.5h-3.5zM92 34.5h3.5v3.5h-3.5zM95.5 34.5h3.5v3.5h-3.5zM99 34.5h3.5v3.5h-3.5zM102.5 34.5h3.5v3.5h-3.5zM8 38h3.5v3.5h-3.5zM11.5 38h3.5v3.5h-3.5zM15 38h3.5v3.5h-3.5zM18.5 38h3.5v3.5h-3.5zM22 38h3.5v3.5h-3.5zM25.5 38h3.5v3.5h-3.5zM29 38h3.5v3.5h-3.5zM32.5 38h3.5v3.5h-3.5zM36 38h3.5v3.5h-3.5zM39.5 38h3.5v3.5h-3.5zM43 38h3.5v3.5h-3.5zM46.5 38h3.5v3.5h-3.5zM50 38h3.5v3.5h-3.5zM53.5 38h3.5v3.5h-3.5zM57 38h3.5v3.5h-3.5zM60.5 38h3.5v3.5h-3.5zM64 38h3.5v3.5h-3.5zM67.5 38h3.5v3.5h-3.5zM71 38h3.5v3.5h-3.5zM74.5 38h3.5v3.5h-3.5zM78 38h3.5v3.5h-3.5zM81.5 38h3.5v3.5h-3.5zM85 38h3.5v3.5h-3.5zM88.5 38h3.5v3.5h-3.5zM92 38h3.5v3.5h-3.5zM95.5 38h3.5v3.5h-3.5zM99 38h3.5v3.5h-3.5zM102.5 38h3.5v3.5h-3.5zM8 41.5h3.5v3.5h-3.5zM11.5 41.5h3.5v3.5h-3.5zM15 41.5h3.5v3.5h-3.5zM18.5 41.5h3.5v3.5h-3.5zM22 41.5h3.5v3.5h-3.5zM25.5 41.5h3.5v3.5h-3.5zM29 41.5h3.5v3.5h-3.5zM32.5 41.5h3.5v3.5h-3.5zM36 41.5h3.5v3.5h-3.5zM39.5 41.5h3.5v3.5h-3.5zM43 41.5h3.5v3.5h-3.5zM46.5 41.5h3.5v3.5h-3.5zM50 41.5h3.5v3.5h-3.5zM53.5 41.5h3.5v3.5h-3.5zM57 41.5h3.5v3.5h-3.5zM60.5 41.5h3.5v3.5h-3.5zM64 41.5h3.5v3.5h-3.5zM67.5 41.5h3.5v3.5h-3.5zM71 41.5h3.5v3.5h-3.5zM74.5 41.5h3.5v3.5h-3.5zM78 41.5h3.5v3.5h-3.5zM81.5 41.5h3.5v3.5h-3.5zM85 41.5h3.5v3.5h-3.5zM88.5 41.5h3.5v3.5h-3.5zM92 41.5h3.5v3.5h-3.5zM95.5 41.5h3.5v3.5h-3.5zM99 41.5h3.5v3.5h-3.5zM102.5 41.5h3.5v3.5h-3.5zM8 45h3.5v3.5h-3.5zM11.5 45h3.5v3.5h-3.5zM15 45h3.5v3.5h-3.5zM18.5 45h3.5v3.5h-3.5zM22 45h3.5v3.5h-3.5zM25.5 45h3.5v3.5h-3.5zM29 45h3.5v3.5h-3.5zM32.5 45h3.5v3.5h-3.5zM36 45h3.5v3.5h-3.5zM39.5 45h3.5v3.5h-3.5zM43 45h3.5v3.5h-3.5zM46.5 45h3.5v3.5h-3.5zM50 45h3.5v3.5h-3.5zM53.5 45h3.5v3.5h-3.5zM57 45h3.5v3.5h-3.5zM60.5 45h3.5v3.5h-3.5zM64 45h3.5v3.5h-3.5zM67.5 45h3.5v3.5h-3.5zM71 45h3.5v3.5h-3.5zM74.5 45h3.5v3.5h-3.5zM78 45h3.5v3.5h-3.5zM81.5 45h3.5v3.5h-3.5zM85 45h3.5v3.5h-3.5zM88.5 45h3.5v3.5h-3.5zM92 45h3.5v3.5h-3.5zM95.5 45h3.5v3.5h-3.5zM99 45h3.5v3.5h-3.5zM102.5 45h3.5v3.5h-3.5zM8 48.5h3.5v3.5h-3.5zM11.5 48.5h3.5v3.5h-3.5zM15 48.5h3.5v3.5h-3.5zM18.5 48.5h3.5v3.5h-3.5zM22 48.5h3.5v3.5h-3.5zM25.5 48.5h3.5v3.5h-3.5zM29 48.5h3.5v3.5h-3.5zM32.5 48.5h3.5v3.5h-3.5zM36 48.5h3.5v3.5h-3.5zM39.5 48.5h3.5v3.5h-3.5zM43 48.5h3.5v3.5h-3.5zM46.5 48.5h3.5v3.5h-3.5zM50 48.5h3.5v3.5h-3.5zM53.5 48.5h3.5v3.5h-3.5zM57 48.5h3.5v3.5h-3.5zM60.5 48.5h3.5v3.5h-3.5zM64 48.5h3.5v3.5h-3.5zM67.5 48.5h3.5v3.5h-3.5zM71 48.5h3.5v3.5h-3.5zM74.5 48.5h3.5v3.5h-3.5zM78 48.5h3.5v3.5h-3.5zM81.5 48.5h3.5v3.5h-3.5zM85 48.5h3.5v3.5h-3.5zM88.5 48.5h3.5v3.5h-3.5zM92 48.5h3.5v3.5h-3.5zM95.5 48.5h3.5v3.5h-3.5zM99 48.5h3.5v3.5h-3.5zM102.5 48.5h3.5v3.5h-3.5zM8 52h3.5v3.5h-3.5zM11.5 52h3.5v3.5h-3.5zM15 52h3.5v3.5h-3.5zM18.5 52h3.5v3.5h-3.5zM22 52h3.5v3.5h-3.5zM25.5 52h3.5v3.5h-3.5zM29 52h3.5v3.5h-3.5zM32.5 52h3.5v3.5h-3.5zM36 52h3.5v3.5h-3.5zM39.5 52h3.5v3.5h-3.5zM43 52h3.5v3.5h-3.5zM46.5 52h3.5v3.5h-3.5zM50 52h3.5v3.5h-3.5zM53.5 52h3.5v3.5h-3.5zM57 52h3.5v3.5h-3.5zM60.5 52h3.5v3.5h-3.5zM64 52h3.5v3.5h-3.5zM67.5 52h3.5v3.5h-3.5zM71 52h3.5v3.5h-3.5zM74.5 52h3.5v3.5h-3.5zM78 52h3.5v3.5h-3.5zM81.5 52h3.5v3.5h-3.5zM85 52h3.5v3.5h-3.5zM88.5 52h3.5v3.5h-3.5zM92 52h3.5v3.5h-3.5zM95.5 52h3.5v3.5h-3.5zM99 52h3.5v3.5h-3.5zM102.5 52h3.5v3.5h-3.5zM8 55.5h3.5v3.5h-3.5zM11.5 55.5h3.5v3.5h-3.5zM15 55.5h3.5v3.5h-3.5zM18.5 55.5h3.5v3.5h-3.5zM22 55.5h3.5v3.5h-3.5zM25.5 55.5h3.5v3.5h-3.5zM29 55.5h3.5v3.5h-3.5zM32.5 55.5h3.5v3.5h-3.5zM36 55.5h3.5v3.5h-3.5zM39.5 55.5h3.5v3.5h-3.5zM43 55.5h3.5v3.5h-3.5zM46.5 55.5h3.5v3.5h-3.5zM50 55.5h3.5v3.5h-3.5zM53.5 55.5h3.5v3.5h-3.5zM57 55.5h3.5v3.5h-3.5zM60.5 55.5h3.5v3.5h-3.5zM64 55.5h3.5v3.5h-3.5zM67.5 55.5h3.5v3.5h-3.5zM71 55.5h3.5v3.5h-3.5zM74.5 55.5h3.5v3.5h-3.5zM78 55.5h3.5v3.5h-3.5zM81.5 55.5h3.5v3.5h-3.5zM85 55.5h3.5v3.5h-3.5zM88.5 55.5h3.5v3.5h-3.5zM92 55.5h3.5v3.5h-3.5zM95.5 55.5h3.5v3.5h-3.5zM99 55.5h3.5v3.5h-3.5zM102.5 55.5h3.5v3.5h-3.5zM8 59h3.5v3.5h-3.5zM11.5 59h3.5v3.5h-3.5zM15 59h3.5v3.5h-3.5zM18.5 59h3.5v3.5h-3.5zM22 59h3.5v3.5h-3.5zM25.5 59h3.5v3.5h-3.5zM29 59h3.5v3.5h-3.5zM32.5 59h3.5v3.5h-3.5zM36 59h3.5v3.5h-3.5zM39.5 59h3.5v3.5h-3.5zM43 59h3.5v3.5h-3.5zM46.5 59h3.5v3.5h-3.5zM50 59h3.5v3.5h-3.5zM53.5 59h3.5v3.5h-3.5zM57 59h3.5v3.5h-3.5zM60.5 59h3.5v3.5h-3.5zM64 59h3.5v3.5h-3.5zM67.5 59h3.5v3.5h-3.5zM71 59h3.5v3.5h-3.5zM74.5 59h3.5v3.5h-3.5zM78 59h3.5v3.5h-3.5zM81.5 59h3.5v3.5h-3.5zM85 59h3.5v3.5h-3.5zM88.5 59h3.5v3.5h-3.5zM92 59h3.5v3.5h-3.5zM95.5 59h3.5v3.5h-3.5zM99 59h3.5v3.5h-3.5zM102.5 59h3.5v3.5h-3.5zM8 62.5h3.5v3.5h-3.5zM11.5 62.5h3.5v3.5h-3.5zM15 62.5h3.5v3.5h-3.5zM18.5 62.5h3.5v3.5h-3.5zM22 62.5h3.5v3.5h-3.5zM25.5 62.5h3.5v3.5h-3.5zM29 62.5h3.5v3.5h-3.5zM32.5 62.5h3.5v3.5h-3.5zM36 62.5h3.5v3.5h-3.5zM39.5 62.5h3.5v3.5h-3.5zM43 62.5h3.5v3.5h-3.5zM46.5 62.5h3.5v3.5h-3.5zM50 62.5h3.5v3.5h-3.5zM53.5 62.5h3.5v3.5h-3.5zM57 62.5h3.5v3.5h-3.5zM60.5 62.5h3.5v3.5h-3.5zM64 62.5h3.5v3.5h-3.5zM67.5 62.5h3.5v3.5h-3.5zM71 62.5h3.5v3.5h-3.5zM74.5 62.5h3.5v3.5h-3.5zM78 62.5h3.5v3.5h-3.5zM81.5 62.5h3.5v3.5h-3.5zM85 62.5h3.5v3.5h-3.5zM88.5 62.5h3.5v3.5h-3.5zM92 62.5h3.5v3.5h-3.5zM95.5 62.5h3.5v3.5h-3.5zM99 62.5h3.5v3.5h-3.5zM102.5 62.5h3.5v3.5h-3.5zM8 66h3.5v3.5h-3.5zM11.5 66h3.5v3.5h-3.5zM15 66h3.5v3.5h-3.5zM18.5 66h3.5v3.5h-3.5zM22 66h3.5v3.5h-3.5zM25.5 66h3.5v3.5h-3.5zM29 66h3.5v3.5h-3.5zM32.5 66h3.5v3.5h-3.5zM36 66h3.5v3.5h-3.5zM39.5 66h3.5v3.5h-3.5zM43 66h3.5v3.5h-3.5zM46.5 66h3.5v3.5h-3.5zM50 66h3.5v3.5h-3.5zM53.5 66h3.5v3.5h-3.5zM57 66h3.5v3.5h-3.5zM60.5 66h3.5v3.5h-3.5zM64 66h3.5v3.5h-3.5zM67.5 66h3.5v3.5h-3.5zM71 66h3.5v3.5h-3.5zM74.5 66h3.5v3.5h-3.5zM78 66h3.5v3.5h-3.5zM81.5 66h3.5v3.5h-3.5zM85 66h3.5v3.5h-3.5zM88.5 66h3.5v3.5h-3.5zM92 66h3.5v3.5h-3.5zM95.5 66h3.5v3.5h-3.5zM99 66h3.5v3.5h-3.5zM102.5 66h3.5v3.5h-3.5zM8 69.5h3.5v3.5h-3.5zM11.5 69.5h3.5v3.5h-3.5zM15 69.5h3.5v3.5h-3.5zM18.5 69.5h3.5v3.5h-3.5zM22 69.5h3.5v3.5h-3.5zM25.5 69.5h3.5v3.5h-3.5zM29 69.5h3.5v3.5h-3.5zM32.5 69.5h3.5v3.5h-3.5zM36 69.5h3.5v3.5h-3.5zM39.5 69.5h3.5v3.5h-3.5zM43 69.5h3.5v3.5h-3.5zM46.5 69.5h3.5v3.5h-3.5zM50 69.5h3.5v3.5h-3.5zM53.5 69.5h3.5v3.5h-3.5zM57 69.5h3.5v3.5h-3.5zM60.5 69.5h3.5v3.5h-3.5zM64 69.5h3.5v3.5h-3.5zM67.5 69.5h3.5v3.5h-3.5zM71 69.5h3.5v3.5h-3.5zM74.5 69.5h3.5v3.5h-3.5zM78 69.5h3.5v3.5h-3.5zM81.5 69.5h3.5v3.5h-3.5zM85 69.5h3.5v3.5h-3.5zM88.5 69.5h3.5v3.5h-3.5zM92 69.5h3.5v3.5h-3.5zM95.5 69.5h3.5v3.5h-3.5zM99 69.5h3.5v3.5h-3.5zM102.5 69.5h3.5v3.5h-3.5zM8 73h3.5v3.5h-3.5zM11.5 73h3.5v3.5h-3.5zM15 73h3.5v3.5h-3.5zM18.5 73h3.5v3.5h-3.5zM22 73h3.5v3.5h-3.5zM25.5 73h3.5v3.5h-3.5zM29 73h3.5v3.5h-3.5zM32.5 73h3.5v3.5h-3.5zM36 73h3.5v3.5h-3.5zM39.5 73h3.5v3.5h-3.5zM43 73h3.5v3.5h-3.5zM46.5 73h3.5v3.5h-3.5zM50 73h3.5v3.5h-3.5zM53.5 73h3.5v3.5h-3.5zM57 73h3.5v3.5h-3.5zM60.5 73h3.5v3.5h-3.5zM64 73h3.5v3.5h-3.5zM67.5 73h3.5v3.5h-3.5zM71 73h3.5v3.5h-3.5zM74.5 73h3.5v3.5h-3.5zM78 73h3.5v3.5h-3.5zM81.5 73h3.5v3.5h-3.5zM85 73h3.5v3.5h-3.5zM88.5 73h3.5v3.5h-3.5zM92 73h3.5v3.5h-3.5zM95.5 73h3.5v3.5h-3.5zM99 73h3.5v3.5h-3.5zM102.5 73h3.5v3.5h-3.5zM8 76.5h3.5v3.5h-3.5zM11.5 76.5h3.5v3.5h-3.5zM15 76.5h3.5v3.5h-3.5zM18.5 76.5h3.5v3.5h-3.5zM22 76.5h3.5v3.5h-3.5zM25.5 76.5h3.5v3.5h-3.5zM29 76.5h3.5v3.5h-3.5zM32.5 76.5h3.5v3.5h-3.5zM36 76.5h3.5v3.5h-3.5zM39.5 76.5h3.5v3.5h-3.5zM43 76.5h3.5v3.5h-3.5zM46.5 76.5h3.5v3.5h-3.5zM50 76.5h3.5v3.5h-3.5zM53.5 76.5h3.5v3.5h-3.5zM57 76.5h3.5v3.5h-3.5zM60.5 76.5h3.5v3.5h-3.5zM64 76.5h3.5v3.5h-3.5zM67.5 76.5h3.5v3.5h-3.5zM71 76.5h3.5v3.5h-3.5zM74.5 76.5h3.5v3.5h-3.5zM78 76.5h3.5v3.5h-3.5zM81.5 76.5h3.5v3.5h-3.5zM85 76.5h3.5v3.5h-3.5zM88.5 76.5h3.5v3.5h-3.5zM92 76.5h3.5v3.5h-3.5zM95.5 76.5h3.5v3.5h-3.5zM99 76.5h3.5v3.5h-3.5zM102.5 76.5h3.5v3.5h-3.5zM8 80h3.5v3.5h-3.5zM11.5 80h3.5v3.5h-3.5zM15 80h3.5v3.5h-3.5zM18.5 80h3.5v3.5h-3.5zM22 80h3.5v3.5h-3.5zM25.5 80h3.5v3.5h-3.5zM29 80h3.5v3.5h-3.5zM32.5 80h3.5v3.5h-3.5zM36 80h3.5v3.5h-3.5zM39.5 80h3.5v3.5h-3.5zM43 80h3.5v3.5h-3.5zM46.5 80h3.5v3.5h-3.5zM50 80h3.5v3.5h-3.5zM53.5 80h3.5v3.5h-3.5zM57 80h3.5v3.5h-3.5zM60.5 80h3.5v3.5h-3.5zM64 80h3.5v3.5h-3.5zM67.5 80h3.5v3.5h-3.5zM71 80h3.5v3.5h-3.5zM74.5 80h3.5v3.5h-3.5zM78 80h3.5v3.5h-3.5zM81.5 80h3.5v3.5h-3.5zM85 80h3.5v3.5h-3.5zM88.5 80h3.5v3.5h-3.5zM92 80h3.5v3.5h-3.5zM95.5 80h3.5v3.5h-3.5zM99 80h3.5v3.5h-3.5zM102.5 80h3.5v3.5h-3.5zM8 83.5h3.5v3.5h-3.5zM11.5 83.5h3.5v3.5h-3.5zM15 83.5h3.5v3.5h-3.5zM18.5 83.5h3.5v3.5h-3.5zM22 83.5h3.5v3.5h-3.5zM25.5 83.5h3.5v3.5h-3.5zM29 83.5h3.5v3.5h-3.5zM32.5 83.5h3.5v3.5h-3.5zM36 83.5h3.5v3.5h-3.5zM39.5 83.5h3.5v3.5h-3.5zM43 83.5h3.5v3.5h-3.5zM46.5 83.5h3.5v3.5h-3.5zM50 83.5h3.5v3.5h-3.5zM53.5 83.5h3.5v3.5h-3.5zM57 83.5h3.5v3.5h-3.5zM60.5 83.5h3.5v3.5h-3.5zM64 83.5h3.5v3.5h-3.5zM67.5 83.5h3.5v3.5h-3.5zM71 83.5h3.5v3.5h-3.5zM74.5 83.5h3.5v3.5h-3.5zM78 83.5h3.5v3.5h-3.5zM81.5 83.5h3.5v3.5h-3.5zM85 83.5h3.5v3.5h-3.5zM88.5 83.5h3.5v3.5h-3.5zM92 83.5h3.5v3.5h-3.5zM95.5 83.5h3.5v3.5h-3.5zM99 83.5h3.5v3.5h-3.5zM102.5 83.5h3.5v3.5h-3.5zM8 87h3.5v3.5h-3.5zM11.5 87h3.5v3.5h-3.5zM15 87h3.5v3.5h-3.5zM18.5 87h3.5v3.5h-3.5zM22 87h3.5v3.5h-3.5zM25.5 87h3.5v3.5h-3.5zM29 87h3.5v3.5h-3.5zM32.5 87h3.5v3.5h-3.5zM36 87h3.5v3.5h-3.5zM39.5 87h3.5v3.5h-3.5zM43 87h3.5v3.5h-3.5zM46.5 87h3.5v3.5h-3.5zM50 87h3.5v3.5h-3.5zM53.5 87h3.5v3.5h-3.5zM57 87h3.5v3.5h-3.5zM60.5 87h3.5v3.5h-3.5zM64 87h3.5v3.5h-3.5zM67.5 87h3.5v3.5h-3.5zM71 87h3.5v3.5h-3.5zM74.5 87h3.5v3.5h-3.5zM78 87h3.5v3.5h-3.5zM81.5 87h3.5v3.5h-3.5zM85 87h3.5v3.5h-3.5zM88.5 87h3.5v3.5h-3.5zM92 87h3.5v3.5h-3.5zM95.5 87h3.5v3.5h-3.5zM99 87h3.5v3.5h-3.5zM102.5 87h3.5v3.5h-3.5zM8 90.5h3.5v3.5h-3.5zM11.5 90.5h3.5v3.5h-3.5zM15 90.5h3.5v3.5h-3.5zM18.5 90.5h3.5v3.5h-3.5zM22 90.5h3.5v3.5h-3.5zM25.5 90.5h3.5v3.5h-3.5zM29 90.5h3.5v3.5h-3.5zM32.5 90.5h3.5v3.5h-3.5zM36 90.5h3.5v3.5h-3.5zM39.5 90.5h3.5v3.5h-3.5zM43 90.5h3.5v3.5h-3.5zM46.5 90.5h3.5v3.5h-3.5zM50 90.5h3.5v3.5h-3.5zM53.5 90.5h3.5v3.5h-3.5zM57 90.5h3.5v3.5h-3.5zM60.5 90.5h3.5v3.5h-3.5zM64 90.5h3.5v3.5h-3.5zM67.5 90.5h3.5v3.5h-3.5zM71 90.5h3.5v3.5h-3.5zM74.5 90.5h3.5v3.5h-3.5zM78 90.5h3.5v3.5h-3.5zM81.5 90.5h3.5v3.5h-3.5zM85 90.5h3.5v3.5h-3.5zM88.5 90.5h3.5v3.5h-3.5zM92 90.5h3.5v3.5h-3.5zM95.5 90.5h3.5v3.5h-3.5zM99 90.5h3.5v3.5h-3.5zM102.5 90.5h3.5v3.5h-3.5zM8 94h3.5v3.5h-3.5zM11.5 94h3.5v3.5h-3.5zM15 94h3.5v3.5h-3.5zM18.5 94h3.5v3.5h-3.5zM22 94h3.5v3.5h-3.5zM25.5 94h3.5v3.5h-3.5zM29 94h3.5v3.5h-3.5zM32.5 94h3.5v3.5h-3.5zM36 94h3.5v3.5h-3.5zM39.5 94h3.5v3.5h-3.5zM43 94h3.5v3.5h-3.5zM46.5 94h3.5v3.5h-3.5zM50 94h3.5v3.5h-3.5zM53.5 94h3.5v3.5h-3.5zM57 94h3.5v3.5h-3.5zM60.5 94h3.5v3.5h-3.5zM64 94h3.5v3.5h-3.5zM67.5 94h3.5v3.5h-3.5zM71 94h3.5v3.5h-3.5zM74.5 94h3.5v3.5h-3.5zM78 94h3.5v3.5h-3.5zM81.5 94h3.5v3.5h-3.5zM85 94h3.5v3.5h-3.5zM88.5 94h3.5v3.5h-3.5zM92 94h3.5v3.5h-3.5zM95.5 94h3.5v3.5h-3.5zM99 94h3.5v3.5h-3.5zM102.5 94h3.5v3.5h-3.5zM8 97.5h3.5v3.5h-3.5zM11.5 97.5h3.5v3.5h-3.5zM15 97.5h3.5v3.5h-3.5zM18.5 97.5h3.5v3.5h-3.5zM22 97.5h3.5v3.5h-3.5zM25.5 97.5h3.5v3.5h-3.5zM29 97.5h3.5v3.5h-3.5zM32.5 97.5h3.5v3.5h-3.5zM36 97.5h3.5v3.5h-3.5zM39.5 97.5h3.5v3.5h-3.5zM43 97.5h3.5v3.5h-3.5zM46.5 97.5h3.5v3.5h-3.5zM50 97.5h3.5v3.5h-3.5zM53.5 97.5h3.5v3.5h-3.5zM57 97.5h3.5v3.5h-3.5zM60.5 97.5h3.5v3.5h-3.5zM67.5 97.5h3.5v3.5h-3.5zM71 97.5h3.5v3.5h-3.5zM74.5 97.5h3.5v3.5h-3.5zM78 97.5h3.5v3.5h-3.5zM81.5 97.5h3.5v3.5h-3.5zM85 97.5h3.5v3.5h-3.5zM88.5 97.5h3.5v3.5h-3.5zM92 97.5h3.5v3.5h-3.5zM95.5 97.5h3.5v3.5h-3.5zM99 97.5h3.5v3.5h-3.5zM102.5 97.5h3.5v3.5h-3.5zM8 101h3.5v3.5h-3.5zM11.5 101h3.5v3.5h-3.5zM15 101h3.5v3.5h-3.5zM18.5 101h3.5v3.5h-3.5zM22 101h3.5v3.5h-3.5zM25.5 101h3.5v3.5h-3.5zM29 101h3.5v3.5h-3.5zM32.5 101h3.5v3.5h-3.5zM36 101h3.5v3.5h-3.5zM39.5 101h3.5v3.5h-3.5zM43 101h3.5v3.5h-3.5zM46.5 101h3.5v3.5h-3.5zM50 101h3.5v3.5h-3.5zM53.5 101h3.5v3.5h-3.5zM57 101h3.5v3.5h-3.5zM60.5 101h3.5v3.5h-3.5zM64 101h3.5v3.5h-3.5zM67.5 101h3.5v3.5h-3.5zM71 101h3.5v3.5h-3.5zM74.5 101h3.5v3.5h-3.5zM78 101h3.5v3.5h-3.5zM81.5 101h3.5v3.5h-3.5zM85 101h3.5v3.5h-3.5zM88.5 101h3.5v3.5h-3.5zM92 101h3.5v3.5h-3.5zM95.5 101h3.5v3.5h-3.5zM99 101h3.5v3.5h-3.5zM102.5 101h3.5v3.5h-3.5zM8 104.5h3.5v3.5h-3.5zM11.5 104.5h3.5v3.5h-3.5zM15 104.5h3.5v3.5h-3.5zM18.5 104.5h3.5v3.5h-3.5zM22 104.5h3.5v3.5h-3.5zM25.5 104.5h3.5v3.5h-3.5zM29 104.5h3.5v3.5h-3.5zM32.5 104.5h3.5v3.5h-3.5zM36 104.5h3.5v3.5h-3.5zM39.5 104.5h3.5v3.5h-3.5zM43 104.5h3.5v3.5h-3.5zM46.5 104.5h3.5v3.5h-3.5zM50 104.5h3.5v3.5h-3.5zM53.5 104.5h3.5v3.5h-3.5zM57 104.5h3.5v3.5h-3.5zM60.5 104.5h3.5v3.5h-3.5zM64 104.5h3.5v3.5h-3.5zM67.5 104.5h3.5v3.5h-3.5zM71 104.5h3.5v3.5h-3.5zM74.5 104.5h3.5v3.5h-3.5zM78 104.5h3.5v3.5h-3.5zM81.5 104.5h3.5v3.5h-3.5zM85 104.5h3.5v3.5h-3.5zM88.5 104.5h3.5v3.5h-3.5zM92 104.5h3.5v3.5h-3.5zM95.5 104.5h3.5v3.5h-3.5zM99 104.5h3.5v3.5h-3.5zM102.5 104.5h3.5v3.5h-3.5z" style="fill-opacity:0.75"/>
+<path class="punkt blau" d="M39.5 31h3.5v3.5h-3.5zM32.5 34.5h3.5v3.5h-3.5zM36 34.5h3.5v3.5h-3.5zM64 97.5h3.5v3.5h-3.5z" style="fill-opacity:0.75"/>
+<text class="klein" x="57.0" y="132" text-anchor="middle">kalt: T = 1,5 J/k</text>
+<text class="klein" x="57.0" y="148" text-anchor="middle">Magnetisierung 0,99</text>
+<rect class="achse" x="125" y="9" width="100.0" height="100.0" fill="none"/>
+<path class="punkt kupfer" d="M126 10h3.5v3.5h-3.5zM129.5 10h3.5v3.5h-3.5zM143.5 10h3.5v3.5h-3.5zM147 10h3.5v3.5h-3.5zM185.5 10h3.5v3.5h-3.5zM189 10h3.5v3.5h-3.5zM203 10h3.5v3.5h-3.5zM206.5 10h3.5v3.5h-3.5zM210 10h3.5v3.5h-3.5zM213.5 10h3.5v3.5h-3.5zM217 10h3.5v3.5h-3.5zM220.5 10h3.5v3.5h-3.5zM147 13.5h3.5v3.5h-3.5zM206.5 13.5h3.5v3.5h-3.5zM210 13.5h3.5v3.5h-3.5zM213.5 13.5h3.5v3.5h-3.5zM220.5 13.5h3.5v3.5h-3.5zM143.5 17h3.5v3.5h-3.5zM147 17h3.5v3.5h-3.5zM150.5 17h3.5v3.5h-3.5zM210 17h3.5v3.5h-3.5zM213.5 17h3.5v3.5h-3.5zM217 17h3.5v3.5h-3.5zM217 20.5h3.5v3.5h-3.5zM217 24h3.5v3.5h-3.5zM129.5 31h3.5v3.5h-3.5zM210 31h3.5v3.5h-3.5zM126 34.5h3.5v3.5h-3.5zM129.5 34.5h3.5v3.5h-3.5zM140 34.5h3.5v3.5h-3.5zM199.5 34.5h3.5v3.5h-3.5zM210 34.5h3.5v3.5h-3.5zM126 38h3.5v3.5h-3.5zM154 41.5h3.5v3.5h-3.5zM168 41.5h3.5v3.5h-3.5zM171.5 41.5h3.5v3.5h-3.5zM199.5 41.5h3.5v3.5h-3.5zM203 41.5h3.5v3.5h-3.5zM168 45h3.5v3.5h-3.5zM171.5 45h3.5v3.5h-3.5zM175 45h3.5v3.5h-3.5zM178.5 45h3.5v3.5h-3.5zM182 45h3.5v3.5h-3.5zM203 45h3.5v3.5h-3.5zM206.5 45h3.5v3.5h-3.5zM168 48.5h3.5v3.5h-3.5zM171.5 48.5h3.5v3.5h-3.5zM175 48.5h3.5v3.5h-3.5zM178.5 48.5h3.5v3.5h-3.5zM182 48.5h3.5v3.5h-3.5zM185.5 48.5h3.5v3.5h-3.5zM189 48.5h3.5v3.5h-3.5zM203 48.5h3.5v3.5h-3.5zM217 48.5h3.5v3.5h-3.5zM126 52h3.5v3.5h-3.5zM143.5 52h3.5v3.5h-3.5zM175 52h3.5v3.5h-3.5zM178.5 52h3.5v3.5h-3.5zM210 52h3.5v3.5h-3.5zM213.5 52h3.5v3.5h-3.5zM217 52h3.5v3.5h-3.5zM175 55.5h3.5v3.5h-3.5zM185.5 55.5h3.5v3.5h-3.5zM206.5 55.5h3.5v3.5h-3.5zM210 55.5h3.5v3.5h-3.5zM213.5 55.5h3.5v3.5h-3.5zM129.5 59h3.5v3.5h-3.5zM175 59h3.5v3.5h-3.5zM185.5 59h3.5v3.5h-3.5zM206.5 59h3.5v3.5h-3.5zM213.5 59h3.5v3.5h-3.5zM217 59h3.5v3.5h-3.5zM220.5 59h3.5v3.5h-3.5zM143.5 62.5h3.5v3.5h-3.5zM171.5 62.5h3.5v3.5h-3.5zM175 62.5h3.5v3.5h-3.5zM196 62.5h3.5v3.5h-3.5zM213.5 62.5h3.5v3.5h-3.5zM217 62.5h3.5v3.5h-3.5zM220.5 62.5h3.5v3.5h-3.5zM189 66h3.5v3.5h-3.5zM192.5 66h3.5v3.5h-3.5zM196 66h3.5v3.5h-3.5zM126 69.5h3.5v3.5h-3.5zM150.5 69.5h3.5v3.5h-3.5zM189 69.5h3.5v3.5h-3.5zM192.5 69.5h3.5v3.5h-3.5zM196 69.5h3.5v3.5h-3.5zM220.5 69.5h3.5v3.5h-3.5zM171.5 73h3.5v3.5h-3.5zM185.5 73h3.5v3.5h-3.5zM189 73h3.5v3.5h-3.5zM192.5 73h3.5v3.5h-3.5zM196 73h3.5v3.5h-3.5zM210 73h3.5v3.5h-3.5zM185.5 76.5h3.5v3.5h-3.5zM189 76.5h3.5v3.5h-3.5zM192.5 76.5h3.5v3.5h-3.5zM196 76.5h3.5v3.5h-3.5zM199.5 76.5h3.5v3.5h-3.5zM203 76.5h3.5v3.5h-3.5zM206.5 76.5h3.5v3.5h-3.5zM210 76.5h3.5v3.5h-3.5zM213.5 76.5h3.5v3.5h-3.5zM220.5 76.5h3.5v3.5h-3.5zM185.5 80h3.5v3.5h-3.5zM189 80h3.5v3.5h-3.5zM192.5 80h3.5v3.5h-3.5zM196 80h3.5v3.5h-3.5zM199.5 80h3.5v3.5h-3.5zM203 80h3.5v3.5h-3.5zM206.5 80h3.5v3.5h-3.5zM210 80h3.5v3.5h-3.5zM150.5 83.5h3.5v3.5h-3.5zM157.5 83.5h3.5v3.5h-3.5zM189 83.5h3.5v3.5h-3.5zM192.5 83.5h3.5v3.5h-3.5zM206.5 83.5h3.5v3.5h-3.5zM189 87h3.5v3.5h-3.5zM192.5 87h3.5v3.5h-3.5zM185.5 90.5h3.5v3.5h-3.5zM189 90.5h3.5v3.5h-3.5zM192.5 90.5h3.5v3.5h-3.5zM210 90.5h3.5v3.5h-3.5zM213.5 90.5h3.5v3.5h-3.5zM217 90.5h3.5v3.5h-3.5zM129.5 94h3.5v3.5h-3.5zM157.5 94h3.5v3.5h-3.5zM161 94h3.5v3.5h-3.5zM182 94h3.5v3.5h-3.5zM185.5 94h3.5v3.5h-3.5zM189 94h3.5v3.5h-3.5zM192.5 94h3.5v3.5h-3.5zM203 94h3.5v3.5h-3.5zM206.5 94h3.5v3.5h-3.5zM210 94h3.5v3.5h-3.5zM213.5 94h3.5v3.5h-3.5zM217 94h3.5v3.5h-3.5zM157.5 97.5h3.5v3.5h-3.5zM161 97.5h3.5v3.5h-3.5zM189 97.5h3.5v3.5h-3.5zM203 97.5h3.5v3.5h-3.5zM206.5 97.5h3.5v3.5h-3.5zM210 97.5h3.5v3.5h-3.5zM213.5 97.5h3.5v3.5h-3.5zM217 97.5h3.5v3.5h-3.5zM206.5 101h3.5v3.5h-3.5zM210 101h3.5v3.5h-3.5zM213.5 101h3.5v3.5h-3.5zM217 101h3.5v3.5h-3.5zM126 104.5h3.5v3.5h-3.5zM129.5 104.5h3.5v3.5h-3.5zM161 104.5h3.5v3.5h-3.5zM203 104.5h3.5v3.5h-3.5zM206.5 104.5h3.5v3.5h-3.5zM210 104.5h3.5v3.5h-3.5zM213.5 104.5h3.5v3.5h-3.5zM217 104.5h3.5v3.5h-3.5z" style="fill-opacity:0.75"/>
+<path class="punkt blau" d="M133 10h3.5v3.5h-3.5zM136.5 10h3.5v3.5h-3.5zM140 10h3.5v3.5h-3.5zM150.5 10h3.5v3.5h-3.5zM154 10h3.5v3.5h-3.5zM157.5 10h3.5v3.5h-3.5zM161 10h3.5v3.5h-3.5zM164.5 10h3.5v3.5h-3.5zM168 10h3.5v3.5h-3.5zM171.5 10h3.5v3.5h-3.5zM175 10h3.5v3.5h-3.5zM178.5 10h3.5v3.5h-3.5zM182 10h3.5v3.5h-3.5zM192.5 10h3.5v3.5h-3.5zM196 10h3.5v3.5h-3.5zM199.5 10h3.5v3.5h-3.5zM126 13.5h3.5v3.5h-3.5zM129.5 13.5h3.5v3.5h-3.5zM133 13.5h3.5v3.5h-3.5zM136.5 13.5h3.5v3.5h-3.5zM140 13.5h3.5v3.5h-3.5zM143.5 13.5h3.5v3.5h-3.5zM150.5 13.5h3.5v3.5h-3.5zM154 13.5h3.5v3.5h-3.5zM157.5 13.5h3.5v3.5h-3.5zM161 13.5h3.5v3.5h-3.5zM164.5 13.5h3.5v3.5h-3.5zM168 13.5h3.5v3.5h-3.5zM171.5 13.5h3.5v3.5h-3.5zM175 13.5h3.5v3.5h-3.5zM178.5 13.5h3.5v3.5h-3.5zM182 13.5h3.5v3.5h-3.5zM185.5 13.5h3.5v3.5h-3.5zM189 13.5h3.5v3.5h-3.5zM192.5 13.5h3.5v3.5h-3.5zM196 13.5h3.5v3.5h-3.5zM199.5 13.5h3.5v3.5h-3.5zM203 13.5h3.5v3.5h-3.5zM217 13.5h3.5v3.5h-3.5zM126 17h3.5v3.5h-3.5zM129.5 17h3.5v3.5h-3.5zM133 17h3.5v3.5h-3.5zM136.5 17h3.5v3.5h-3.5zM140 17h3.5v3.5h-3.5zM154 17h3.5v3.5h-3.5zM157.5 17h3.5v3.5h-3.5zM161 17h3.5v3.5h-3.5zM164.5 17h3.5v3.5h-3.5zM168 17h3.5v3.5h-3.5zM171.5 17h3.5v3.5h-3.5zM175 17h3.5v3.5h-3.5zM178.5 17h3.5v3.5h-3.5zM182 17h3.5v3.5h-3.5zM185.5 17h3.5v3.5h-3.5zM189 17h3.5v3.5h-3.5zM192.5 17h3.5v3.5h-3.5zM196 17h3.5v3.5h-3.5zM199.5 17h3.5v3.5h-3.5zM203 17h3.5v3.5h-3.5zM206.5 17h3.5v3.5h-3.5zM220.5 17h3.5v3.5h-3.5zM126 20.5h3.5v3.5h-3.5zM129.5 20.5h3.5v3.5h-3.5zM133 20.5h3.5v3.5h-3.5zM136.5 20.5h3.5v3.5h-3.5zM140 20.5h3.5v3.5h-3.5zM143.5 20.5h3.5v3.5h-3.5zM147 20.5h3.5v3.5h-3.5zM150.5 20.5h3.5v3.5h-3.5zM154 20.5h3.5v3.5h-3.5zM157.5 20.5h3.5v3.5h-3.5zM161 20.5h3.5v3.5h-3.5zM164.5 20.5h3.5v3.5h-3.5zM168 20.5h3.5v3.5h-3.5zM171.5 20.5h3.5v3.5h-3.5zM175 20.5h3.5v3.5h-3.5zM178.5 20.5h3.5v3.5h-3.5zM182 20.5h3.5v3.5h-3.5zM185.5 20.5h3.5v3.5h-3.5zM189 20.5h3.5v3.5h-3.5zM192.5 20.5h3.5v3.5h-3.5zM196 20.5h3.5v3.5h-3.5zM199.5 20.5h3.5v3.5h-3.5zM203 20.5h3.5v3.5h-3.5zM206.5 20.5h3.5v3.5h-3.5zM210 20.5h3.5v3.5h-3.5zM213.5 20.5h3.5v3.5h-3.5zM220.5 20.5h3.5v3.5h-3.5zM126 24h3.5v3.5h-3.5zM129.5 24h3.5v3.5h-3.5zM133 24h3.5v3.5h-3.5zM136.5 24h3.5v3.5h-3.5zM140 24h3.5v3.5h-3.5zM143.5 24h3.5v3.5h-3.5zM147 24h3.5v3.5h-3.5zM150.5 24h3.5v3.5h-3.5zM154 24h3.5v3.5h-3.5zM157.5 24h3.5v3.5h-3.5zM161 24h3.5v3.5h-3.5zM164.5 24h3.5v3.5h-3.5zM168 24h3.5v3.5h-3.5zM171.5 24h3.5v3.5h-3.5zM175 24h3.5v3.5h-3.5zM178.5 24h3.5v3.5h-3.5zM182 24h3.5v3.5h-3.5zM185.5 24h3.5v3.5h-3.5zM189 24h3.5v3.5h-3.5zM192.5 24h3.5v3.5h-3.5zM196 24h3.5v3.5h-3.5zM199.5 24h3.5v3.5h-3.5zM203 24h3.5v3.5h-3.5zM206.5 24h3.5v3.5h-3.5zM210 24h3.5v3.5h-3.5zM213.5 24h3.5v3.5h-3.5zM220.5 24h3.5v3.5h-3.5zM126 27.5h3.5v3.5h-3.5zM129.5 27.5h3.5v3.5h-3.5zM133 27.5h3.5v3.5h-3.5zM136.5 27.5h3.5v3.5h-3.5zM140 27.5h3.5v3.5h-3.5zM143.5 27.5h3.5v3.5h-3.5zM147 27.5h3.5v3.5h-3.5zM150.5 27.5h3.5v3.5h-3.5zM154 27.5h3.5v3.5h-3.5zM157.5 27.5h3.5v3.5h-3.5zM161 27.5h3.5v3.5h-3.5zM164.5 27.5h3.5v3.5h-3.5zM168 27.5h3.5v3.5h-3.5zM171.5 27.5h3.5v3.5h-3.5zM175 27.5h3.5v3.5h-3.5zM178.5 27.5h3.5v3.5h-3.5zM182 27.5h3.5v3.5h-3.5zM185.5 27.5h3.5v3.5h-3.5zM189 27.5h3.5v3.5h-3.5zM192.5 27.5h3.5v3.5h-3.5zM196 27.5h3.5v3.5h-3.5zM199.5 27.5h3.5v3.5h-3.5zM203 27.5h3.5v3.5h-3.5zM206.5 27.5h3.5v3.5h-3.5zM210 27.5h3.5v3.5h-3.5zM213.5 27.5h3.5v3.5h-3.5zM217 27.5h3.5v3.5h-3.5zM220.5 27.5h3.5v3.5h-3.5zM126 31h3.5v3.5h-3.5zM133 31h3.5v3.5h-3.5zM136.5 31h3.5v3.5h-3.5zM140 31h3.5v3.5h-3.5zM143.5 31h3.5v3.5h-3.5zM147 31h3.5v3.5h-3.5zM150.5 31h3.5v3.5h-3.5zM154 31h3.5v3.5h-3.5zM157.5 31h3.5v3.5h-3.5zM161 31h3.5v3.5h-3.5zM164.5 31h3.5v3.5h-3.5zM168 31h3.5v3.5h-3.5zM171.5 31h3.5v3.5h-3.5zM175 31h3.5v3.5h-3.5zM178.5 31h3.5v3.5h-3.5zM182 31h3.5v3.5h-3.5zM185.5 31h3.5v3.5h-3.5zM189 31h3.5v3.5h-3.5zM192.5 31h3.5v3.5h-3.5zM196 31h3.5v3.5h-3.5zM199.5 31h3.5v3.5h-3.5zM203 31h3.5v3.5h-3.5zM206.5 31h3.5v3.5h-3.5zM213.5 31h3.5v3.5h-3.5zM217 31h3.5v3.5h-3.5zM220.5 31h3.5v3.5h-3.5zM133 34.5h3.5v3.5h-3.5zM136.5 34.5h3.5v3.5h-3.5zM143.5 34.5h3.5v3.5h-3.5zM147 34.5h3.5v3.5h-3.5zM150.5 34.5h3.5v3.5h-3.5zM154 34.5h3.5v3.5h-3.5zM157.5 34.5h3.5v3.5h-3.5zM161 34.5h3.5v3.5h-3.5zM164.5 34.5h3.5v3.5h-3.5zM168 34.5h3.5v3.5h-3.5zM171.5 34.5h3.5v3.5h-3.5zM175 34.5h3.5v3.5h-3.5zM178.5 34.5h3.5v3.5h-3.5zM182 34.5h3.5v3.5h-3.5zM185.5 34.5h3.5v3.5h-3.5zM189 34.5h3.5v3.5h-3.5zM192.5 34.5h3.5v3.5h-3.5zM196 34.5h3.5v3.5h-3.5zM203 34.5h3.5v3.5h-3.5zM206.5 34.5h3.5v3.5h-3.5zM213.5 34.5h3.5v3.5h-3.5zM217 34.5h3.5v3.5h-3.5zM220.5 34.5h3.5v3.5h-3.5zM129.5 38h3.5v3.5h-3.5zM133 38h3.5v3.5h-3.5zM136.5 38h3.5v3.5h-3.5zM140 38h3.5v3.5h-3.5zM143.5 38h3.5v3.5h-3.5zM147 38h3.5v3.5h-3.5zM150.5 38h3.5v3.5h-3.5zM154 38h3.5v3.5h-3.5zM157.5 38h3.5v3.5h-3.5zM161 38h3.5v3.5h-3.5zM164.5 38h3.5v3.5h-3.5zM168 38h3.5v3.5h-3.5zM171.5 38h3.5v3.5h-3.5zM175 38h3.5v3.5h-3.5zM178.5 38h3.5v3.5h-3.5zM182 38h3.5v3.5h-3.5zM185.5 38h3.5v3.5h-3.5zM189 38h3.5v3.5h-3.5zM192.5 38h3.5v3.5h-3.5zM196 38h3.5v3.5h-3.5zM199.5 38h3.5v3.5h-3.5zM203 38h3.5v3.5h-3.5zM206.5 38h3.5v3.5h-3.5zM210 38h3.5v3.5h-3.5zM213.5 38h3.5v3.5h-3.5zM217 38h3.5v3.5h-3.5zM220.5 38h3.5v3.5h-3.5zM126 41.5h3.5v3.5h-3.5zM129.5 41.5h3.5v3.5h-3.5zM133 41.5h3.5v3.5h-3.5zM136.5 41.5h3.5v3.5h-3.5zM140 41.5h3.5v3.5h-3.5zM143.5 41.5h3.5v3.5h-3.5zM147 41.5h3.5v3.5h-3.5zM150.5 41.5h3.5v3.5h-3.5zM157.5 41.5h3.5v3.5h-3.5zM161 41.5h3.5v3.5h-3.5zM164.5 41.5h3.5v3.5h-3.5zM175 41.5h3.5v3.5h-3.5zM178.5 41.5h3.5v3.5h-3.5zM182 41.5h3.5v3.5h-3.5zM185.5 41.5h3.5v3.5h-3.5zM189 41.5h3.5v3.5h-3.5zM192.5 41.5h3.5v3.5h-3.5zM196 41.5h3.5v3.5h-3.5zM206.5 41.5h3.5v3.5h-3.5zM210 41.5h3.5v3.5h-3.5zM213.5 41.5h3.5v3.5h-3.5zM217 41.5h3.5v3.5h-3.5zM220.5 41.5h3.5v3.5h-3.5zM126 45h3.5v3.5h-3.5zM129.5 45h3.5v3.5h-3.5zM133 45h3.5v3.5h-3.5zM136.5 45h3.5v3.5h-3.5zM140 45h3.5v3.5h-3.5zM143.5 45h3.5v3.5h-3.5zM147 45h3.5v3.5h-3.5zM150.5 45h3.5v3.5h-3.5zM154 45h3.5v3.5h-3.5zM157.5 45h3.5v3.5h-3.5zM161 45h3.5v3.5h-3.5zM164.5 45h3.5v3.5h-3.5zM185.5 45h3.5v3.5h-3.5zM189 45h3.5v3.5h-3.5zM192.5 45h3.5v3.5h-3.5zM196 45h3.5v3.5h-3.5zM199.5 45h3.5v3.5h-3.5zM210 45h3.5v3.5h-3.5zM213.5 45h3.5v3.5h-3.5zM217 45h3.5v3.5h-3.5zM220.5 45h3.5v3.5h-3.5zM126 48.5h3.5v3.5h-3.5zM129.5 48.5h3.5v3.5h-3.5zM133 48.5h3.5v3.5h-3.5zM136.5 48.5h3.5v3.5h-3.5zM140 48.5h3.5v3.5h-3.5zM143.5 48.5h3.5v3.5h-3.5zM147 48.5h3.5v3.5h-3.5zM150.5 48.5h3.5v3.5h-3.5zM154 48.5h3.5v3.5h-3.5zM157.5 48.5h3.5v3.5h-3.5zM161 48.5h3.5v3.5h-3.5zM164.5 48.5h3.5v3.5h-3.5zM192.5 48.5h3.5v3.5h-3.5zM196 48.5h3.5v3.5h-3.5zM199.5 48.5h3.5v3.5h-3.5zM206.5 48.5h3.5v3.5h-3.5zM210 48.5h3.5v3.5h-3.5zM213.5 48.5h3.5v3.5h-3.5zM220.5 48.5h3.5v3.5h-3.5zM129.5 52h3.5v3.5h-3.5zM133 52h3.5v3.5h-3.5zM136.5 52h3.5v3.5h-3.5zM140 52h3.5v3.5h-3.5zM147 52h3.5v3.5h-3.5zM150.5 52h3.5v3.5h-3.5zM154 52h3.5v3.5h-3.5zM157.5 52h3.5v3.5h-3.5zM161 52h3.5v3.5h-3.5zM164.5 52h3.5v3.5h-3.5zM168 52h3.5v3.5h-3.5zM171.5 52h3.5v3.5h-3.5zM182 52h3.5v3.5h-3.5zM185.5 52h3.5v3.5h-3.5zM189 52h3.5v3.5h-3.5zM192.5 52h3.5v3.5h-3.5zM196 52h3.5v3.5h-3.5zM199.5 52h3.5v3.5h-3.5zM203 52h3.5v3.5h-3.5zM206.5 52h3.5v3.5h-3.5zM220.5 52h3.5v3.5h-3.5zM126 55.5h3.5v3.5h-3.5zM129.5 55.5h3.5v3.5h-3.5zM133 55.5h3.5v3.5h-3.5zM136.5 55.5h3.5v3.5h-3.5zM140 55.5h3.5v3.5h-3.5zM143.5 55.5h3.5v3.5h-3.5zM147 55.5h3.5v3.5h-3.5zM150.5 55.5h3.5v3.5h-3.5zM154 55.5h3.5v3.5h-3.5zM157.5 55.5h3.5v3.5h-3.5zM161 55.5h3.5v3.5h-3.5zM164.5 55.5h3.5v3.5h-3.5zM168 55.5h3.5v3.5h-3.5zM171.5 55.5h3.5v3.5h-3.5zM178.5 55.5h3.5v3.5h-3.5zM182 55.5h3.5v3.5h-3.5zM189 55.5h3.5v3.5h-3.5zM192.5 55.5h3.5v3.5h-3.5zM196 55.5h3.5v3.5h-3.5zM199.5 55.5h3.5v3.5h-3.5zM203 55.5h3.5v3.5h-3.5zM217 55.5h3.5v3.5h-3.5zM220.5 55.5h3.5v3.5h-3.5zM126 59h3.5v3.5h-3.5zM133 59h3.5v3.5h-3.5zM136.5 59h3.5v3.5h-3.5zM140 59h3.5v3.5h-3.5zM143.5 59h3.5v3.5h-3.5zM147 59h3.5v3.5h-3.5zM150.5 59h3.5v3.5h-3.5zM154 59h3.5v3.5h-3.5zM157.5 59h3.5v3.5h-3.5zM161 59h3.5v3.5h-3.5zM164.5 59h3.5v3.5h-3.5zM168 59h3.5v3.5h-3.5zM171.5 59h3.5v3.5h-3.5zM178.5 59h3.5v3.5h-3.5zM182 59h3.5v3.5h-3.5zM189 59h3.5v3.5h-3.5zM192.5 59h3.5v3.5h-3.5zM196 59h3.5v3.5h-3.5zM199.5 59h3.5v3.5h-3.5zM203 59h3.5v3.5h-3.5zM210 59h3.5v3.5h-3.5zM126 62.5h3.5v3.5h-3.5zM129.5 62.5h3.5v3.5h-3.5zM133 62.5h3.5v3.5h-3.5zM136.5 62.5h3.5v3.5h-3.5zM140 62.5h3.5v3.5h-3.5zM147 62.5h3.5v3.5h-3.5zM150.5 62.5h3.5v3.5h-3.5zM154 62.5h3.5v3.5h-3.5zM157.5 62.5h3.5v3.5h-3.5zM161 62.5h3.5v3.5h-3.5zM164.5 62.5h3.5v3.5h-3.5zM168 62.5h3.5v3.5h-3.5zM178.5 62.5h3.5v3.5h-3.5zM182 62.5h3.5v3.5h-3.5zM185.5 62.5h3.5v3.5h-3.5zM189 62.5h3.5v3.5h-3.5zM192.5 62.5h3.5v3.5h-3.5zM199.5 62.5h3.5v3.5h-3.5zM203 62.5h3.5v3.5h-3.5zM206.5 62.5h3.5v3.5h-3.5zM210 62.5h3.5v3.5h-3.5zM126 66h3.5v3.5h-3.5zM129.5 66h3.5v3.5h-3.5zM133 66h3.5v3.5h-3.5zM136.5 66h3.5v3.5h-3.5zM140 66h3.5v3.5h-3.5zM143.5 66h3.5v3.5h-3.5zM147 66h3.5v3.5h-3.5zM150.5 66h3.5v3.5h-3.5zM154 66h3.5v3.5h-3.5zM157.5 66h3.5v3.5h-3.5zM161 66h3.5v3.5h-3.5zM164.5 66h3.5v3.5h-3.5zM168 66h3.5v3.5h-3.5zM171.5 66h3.5v3.5h-3.5zM175 66h3.5v3.5h-3.5zM178.5 66h3.5v3.5h-3.5zM182 66h3.5v3.5h-3.5zM185.5 66h3.5v3.5h-3.5zM199.5 66h3.5v3.5h-3.5zM203 66h3.5v3.5h-3.5zM206.5 66h3.5v3.5h-3.5zM210 66h3.5v3.5h-3.5zM213.5 66h3.5v3.5h-3.5zM217 66h3.5v3.5h-3.5zM220.5 66h3.5v3.5h-3.5zM129.5 69.5h3.5v3.5h-3.5zM133 69.5h3.5v3.5h-3.5zM136.5 69.5h3.5v3.5h-3.5zM140 69.5h3.5v3.5h-3.5zM143.5 69.5h3.5v3.5h-3.5zM147 69.5h3.5v3.5h-3.5zM154 69.5h3.5v3.5h-3.5zM157.5 69.5h3.5v3.5h-3.5zM161 69.5h3.5v3.5h-3.5zM164.5 69.5h3.5v3.5h-3.5zM168 69.5h3.5v3.5h-3.5zM171.5 69.5h3.5v3.5h-3.5zM175 69.5h3.5v3.5h-3.5zM178.5 69.5h3.5v3.5h-3.5zM182 69.5h3.5v3.5h-3.5zM185.5 69.5h3.5v3.5h-3.5zM199.5 69.5h3.5v3.5h-3.5zM203 69.5h3.5v3.5h-3.5zM206.5 69.5h3.5v3.5h-3.5zM210 69.5h3.5v3.5h-3.5zM213.5 69.5h3.5v3.5h-3.5zM217 69.5h3.5v3.5h-3.5zM126 73h3.5v3.5h-3.5zM129.5 73h3.5v3.5h-3.5zM133 73h3.5v3.5h-3.5zM136.5 73h3.5v3.5h-3.5zM140 73h3.5v3.5h-3.5zM143.5 73h3.5v3.5h-3.5zM147 73h3.5v3.5h-3.5zM150.5 73h3.5v3.5h-3.5zM154 73h3.5v3.5h-3.5zM157.5 73h3.5v3.5h-3.5zM161 73h3.5v3.5h-3.5zM164.5 73h3.5v3.5h-3.5zM168 73h3.5v3.5h-3.5zM175 73h3.5v3.5h-3.5zM178.5 73h3.5v3.5h-3.5zM182 73h3.5v3.5h-3.5zM199.5 73h3.5v3.5h-3.5zM203 73h3.5v3.5h-3.5zM206.5 73h3.5v3.5h-3.5zM213.5 73h3.5v3.5h-3.5zM217 73h3.5v3.5h-3.5zM220.5 73h3.5v3.5h-3.5zM126 76.5h3.5v3.5h-3.5zM129.5 76.5h3.5v3.5h-3.5zM133 76.5h3.5v3.5h-3.5zM136.5 76.5h3.5v3.5h-3.5zM140 76.5h3.5v3.5h-3.5zM143.5 76.5h3.5v3.5h-3.5zM147 76.5h3.5v3.5h-3.5zM150.5 76.5h3.5v3.5h-3.5zM154 76.5h3.5v3.5h-3.5zM157.5 76.5h3.5v3.5h-3.5zM161 76.5h3.5v3.5h-3.5zM164.5 76.5h3.5v3.5h-3.5zM168 76.5h3.5v3.5h-3.5zM171.5 76.5h3.5v3.5h-3.5zM175 76.5h3.5v3.5h-3.5zM178.5 76.5h3.5v3.5h-3.5zM182 76.5h3.5v3.5h-3.5zM217 76.5h3.5v3.5h-3.5zM126 80h3.5v3.5h-3.5zM129.5 80h3.5v3.5h-3.5zM133 80h3.5v3.5h-3.5zM136.5 80h3.5v3.5h-3.5zM140 80h3.5v3.5h-3.5zM143.5 80h3.5v3.5h-3.5zM147 80h3.5v3.5h-3.5zM150.5 80h3.5v3.5h-3.5zM154 80h3.5v3.5h-3.5zM157.5 80h3.5v3.5h-3.5zM161 80h3.5v3.5h-3.5zM164.5 80h3.5v3.5h-3.5zM168 80h3.5v3.5h-3.5zM171.5 80h3.5v3.5h-3.5zM175 80h3.5v3.5h-3.5zM178.5 80h3.5v3.5h-3.5zM182 80h3.5v3.5h-3.5zM213.5 80h3.5v3.5h-3.5zM217 80h3.5v3.5h-3.5zM220.5 80h3.5v3.5h-3.5zM126 83.5h3.5v3.5h-3.5zM129.5 83.5h3.5v3.5h-3.5zM133 83.5h3.5v3.5h-3.5zM136.5 83.5h3.5v3.5h-3.5zM140 83.5h3.5v3.5h-3.5zM143.5 83.5h3.5v3.5h-3.5zM147 83.5h3.5v3.5h-3.5zM154 83.5h3.5v3.5h-3.5zM161 83.5h3.5v3.5h-3.5zM164.5 83.5h3.5v3.5h-3.5zM168 83.5h3.5v3.5h-3.5zM171.5 83.5h3.5v3.5h-3.5zM175 83.5h3.5v3.5h-3.5zM178.5 83.5h3.5v3.5h-3.5zM182 83.5h3.5v3.5h-3.5zM185.5 83.5h3.5v3.5h-3.5zM196 83.5h3.5v3.5h-3.5zM199.5 83.5h3.5v3.5h-3.5zM203 83.5h3.5v3.5h-3.5zM210 83.5h3.5v3.5h-3.5zM213.5 83.5h3.5v3.5h-3.5zM217 83.5h3.5v3.5h-3.5zM220.5 83.5h3.5v3.5h-3.5zM126 87h3.5v3.5h-3.5zM129.5 87h3.5v3.5h-3.5zM133 87h3.5v3.5h-3.5zM136.5 87h3.5v3.5h-3.5zM140 87h3.5v3.5h-3.5zM143.5 87h3.5v3.5h-3.5zM147 87h3.5v3.5h-3.5zM150.5 87h3.5v3.5h-3.5zM154 87h3.5v3.5h-3.5zM157.5 87h3.5v3.5h-3.5zM161 87h3.5v3.5h-3.5zM164.5 87h3.5v3.5h-3.5zM168 87h3.5v3.5h-3.5zM171.5 87h3.5v3.5h-3.5zM175 87h3.5v3.5h-3.5zM178.5 87h3.5v3.5h-3.5zM182 87h3.5v3.5h-3.5zM185.5 87h3.5v3.5h-3.5zM196 87h3.5v3.5h-3.5zM199.5 87h3.5v3.5h-3.5zM203 87h3.5v3.5h-3.5zM206.5 87h3.5v3.5h-3.5zM210 87h3.5v3.5h-3.5zM213.5 87h3.5v3.5h-3.5zM217 87h3.5v3.5h-3.5zM220.5 87h3.5v3.5h-3.5zM126 90.5h3.5v3.5h-3.5zM129.5 90.5h3.5v3.5h-3.5zM133 90.5h3.5v3.5h-3.5zM136.5 90.5h3.5v3.5h-3.5zM140 90.5h3.5v3.5h-3.5zM143.5 90.5h3.5v3.5h-3.5zM147 90.5h3.5v3.5h-3.5zM150.5 90.5h3.5v3.5h-3.5zM154 90.5h3.5v3.5h-3.5zM157.5 90.5h3.5v3.5h-3.5zM161 90.5h3.5v3.5h-3.5zM164.5 90.5h3.5v3.5h-3.5zM168 90.5h3.5v3.5h-3.5zM171.5 90.5h3.5v3.5h-3.5zM175 90.5h3.5v3.5h-3.5zM178.5 90.5h3.5v3.5h-3.5zM182 90.5h3.5v3.5h-3.5zM196 90.5h3.5v3.5h-3.5zM199.5 90.5h3.5v3.5h-3.5zM203 90.5h3.5v3.5h-3.5zM206.5 90.5h3.5v3.5h-3.5zM220.5 90.5h3.5v3.5h-3.5zM126 94h3.5v3.5h-3.5zM133 94h3.5v3.5h-3.5zM136.5 94h3.5v3.5h-3.5zM140 94h3.5v3.5h-3.5zM143.5 94h3.5v3.5h-3.5zM147 94h3.5v3.5h-3.5zM150.5 94h3.5v3.5h-3.5zM154 94h3.5v3.5h-3.5zM164.5 94h3.5v3.5h-3.5zM168 94h3.5v3.5h-3.5zM171.5 94h3.5v3.5h-3.5zM175 94h3.5v3.5h-3.5zM178.5 94h3.5v3.5h-3.5zM196 94h3.5v3.5h-3.5zM199.5 94h3.5v3.5h-3.5zM220.5 94h3.5v3.5h-3.5zM126 97.5h3.5v3.5h-3.5zM129.5 97.5h3.5v3.5h-3.5zM133 97.5h3.5v3.5h-3.5zM136.5 97.5h3.5v3.5h-3.5zM140 97.5h3.5v3.5h-3.5zM143.5 97.5h3.5v3.5h-3.5zM147 97.5h3.5v3.5h-3.5zM150.5 97.5h3.5v3.5h-3.5zM154 97.5h3.5v3.5h-3.5zM164.5 97.5h3.5v3.5h-3.5zM168 97.5h3.5v3.5h-3.5zM171.5 97.5h3.5v3.5h-3.5zM175 97.5h3.5v3.5h-3.5zM178.5 97.5h3.5v3.5h-3.5zM182 97.5h3.5v3.5h-3.5zM185.5 97.5h3.5v3.5h-3.5zM192.5 97.5h3.5v3.5h-3.5zM196 97.5h3.5v3.5h-3.5zM199.5 97.5h3.5v3.5h-3.5zM220.5 97.5h3.5v3.5h-3.5zM126 101h3.5v3.5h-3.5zM129.5 101h3.5v3.5h-3.5zM133 101h3.5v3.5h-3.5zM136.5 101h3.5v3.5h-3.5zM140 101h3.5v3.5h-3.5zM143.5 101h3.5v3.5h-3.5zM147 101h3.5v3.5h-3.5zM150.5 101h3.5v3.5h-3.5zM154 101h3.5v3.5h-3.5zM157.5 101h3.5v3.5h-3.5zM161 101h3.5v3.5h-3.5zM164.5 101h3.5v3.5h-3.5zM168 101h3.5v3.5h-3.5zM171.5 101h3.5v3.5h-3.5zM175 101h3.5v3.5h-3.5zM178.5 101h3.5v3.5h-3.5zM182 101h3.5v3.5h-3.5zM185.5 101h3.5v3.5h-3.5zM189 101h3.5v3.5h-3.5zM192.5 101h3.5v3.5h-3.5zM196 101h3.5v3.5h-3.5zM199.5 101h3.5v3.5h-3.5zM203 101h3.5v3.5h-3.5zM220.5 101h3.5v3.5h-3.5zM133 104.5h3.5v3.5h-3.5zM136.5 104.5h3.5v3.5h-3.5zM140 104.5h3.5v3.5h-3.5zM143.5 104.5h3.5v3.5h-3.5zM147 104.5h3.5v3.5h-3.5zM150.5 104.5h3.5v3.5h-3.5zM154 104.5h3.5v3.5h-3.5zM157.5 104.5h3.5v3.5h-3.5zM164.5 104.5h3.5v3.5h-3.5zM168 104.5h3.5v3.5h-3.5zM171.5 104.5h3.5v3.5h-3.5zM175 104.5h3.5v3.5h-3.5zM178.5 104.5h3.5v3.5h-3.5zM182 104.5h3.5v3.5h-3.5zM185.5 104.5h3.5v3.5h-3.5zM189 104.5h3.5v3.5h-3.5zM192.5 104.5h3.5v3.5h-3.5zM196 104.5h3.5v3.5h-3.5zM199.5 104.5h3.5v3.5h-3.5zM220.5 104.5h3.5v3.5h-3.5z" style="fill-opacity:0.75"/>
+<text class="klein" x="175.0" y="132" text-anchor="middle">kritisch: T = 2,27 J/k</text>
+<text class="klein" x="175.0" y="148" text-anchor="middle">Magnetisierung 0,6</text>
+<rect class="achse" x="243" y="9" width="100.0" height="100.0" fill="none"/>
+<path class="punkt kupfer" d="M244 10h3.5v3.5h-3.5zM247.5 10h3.5v3.5h-3.5zM254.5 10h3.5v3.5h-3.5zM272 10h3.5v3.5h-3.5zM275.5 10h3.5v3.5h-3.5zM296.5 10h3.5v3.5h-3.5zM300 10h3.5v3.5h-3.5zM303.5 10h3.5v3.5h-3.5zM307 10h3.5v3.5h-3.5zM310.5 10h3.5v3.5h-3.5zM314 10h3.5v3.5h-3.5zM317.5 10h3.5v3.5h-3.5zM321 10h3.5v3.5h-3.5zM338.5 10h3.5v3.5h-3.5zM247.5 13.5h3.5v3.5h-3.5zM251 13.5h3.5v3.5h-3.5zM254.5 13.5h3.5v3.5h-3.5zM272 13.5h3.5v3.5h-3.5zM275.5 13.5h3.5v3.5h-3.5zM279 13.5h3.5v3.5h-3.5zM282.5 13.5h3.5v3.5h-3.5zM289.5 13.5h3.5v3.5h-3.5zM293 13.5h3.5v3.5h-3.5zM300 13.5h3.5v3.5h-3.5zM303.5 13.5h3.5v3.5h-3.5zM307 13.5h3.5v3.5h-3.5zM310.5 13.5h3.5v3.5h-3.5zM314 13.5h3.5v3.5h-3.5zM251 17h3.5v3.5h-3.5zM265 17h3.5v3.5h-3.5zM286 17h3.5v3.5h-3.5zM289.5 17h3.5v3.5h-3.5zM296.5 17h3.5v3.5h-3.5zM300 17h3.5v3.5h-3.5zM303.5 17h3.5v3.5h-3.5zM307 17h3.5v3.5h-3.5zM310.5 17h3.5v3.5h-3.5zM317.5 17h3.5v3.5h-3.5zM324.5 17h3.5v3.5h-3.5zM244 20.5h3.5v3.5h-3.5zM247.5 20.5h3.5v3.5h-3.5zM265 20.5h3.5v3.5h-3.5zM268.5 20.5h3.5v3.5h-3.5zM272 20.5h3.5v3.5h-3.5zM286 20.5h3.5v3.5h-3.5zM296.5 20.5h3.5v3.5h-3.5zM307 20.5h3.5v3.5h-3.5zM324.5 20.5h3.5v3.5h-3.5zM335 20.5h3.5v3.5h-3.5zM338.5 20.5h3.5v3.5h-3.5zM247.5 24h3.5v3.5h-3.5zM258 24h3.5v3.5h-3.5zM261.5 24h3.5v3.5h-3.5zM268.5 24h3.5v3.5h-3.5zM272 24h3.5v3.5h-3.5zM286 24h3.5v3.5h-3.5zM289.5 24h3.5v3.5h-3.5zM293 24h3.5v3.5h-3.5zM303.5 24h3.5v3.5h-3.5zM310.5 24h3.5v3.5h-3.5zM317.5 24h3.5v3.5h-3.5zM324.5 24h3.5v3.5h-3.5zM331.5 24h3.5v3.5h-3.5zM335 24h3.5v3.5h-3.5zM247.5 27.5h3.5v3.5h-3.5zM251 27.5h3.5v3.5h-3.5zM254.5 27.5h3.5v3.5h-3.5zM258 27.5h3.5v3.5h-3.5zM261.5 27.5h3.5v3.5h-3.5zM272 27.5h3.5v3.5h-3.5zM303.5 27.5h3.5v3.5h-3.5zM307 27.5h3.5v3.5h-3.5zM244 31h3.5v3.5h-3.5zM247.5 31h3.5v3.5h-3.5zM251 31h3.5v3.5h-3.5zM254.5 31h3.5v3.5h-3.5zM258 31h3.5v3.5h-3.5zM268.5 31h3.5v3.5h-3.5zM272 31h3.5v3.5h-3.5zM275.5 31h3.5v3.5h-3.5zM279 31h3.5v3.5h-3.5zM282.5 31h3.5v3.5h-3.5zM307 31h3.5v3.5h-3.5zM314 31h3.5v3.5h-3.5zM244 34.5h3.5v3.5h-3.5zM254.5 34.5h3.5v3.5h-3.5zM258 34.5h3.5v3.5h-3.5zM268.5 34.5h3.5v3.5h-3.5zM272 34.5h3.5v3.5h-3.5zM275.5 34.5h3.5v3.5h-3.5zM282.5 34.5h3.5v3.5h-3.5zM286 34.5h3.5v3.5h-3.5zM289.5 34.5h3.5v3.5h-3.5zM293 34.5h3.5v3.5h-3.5zM303.5 34.5h3.5v3.5h-3.5zM307 34.5h3.5v3.5h-3.5zM321 34.5h3.5v3.5h-3.5zM338.5 34.5h3.5v3.5h-3.5zM244 38h3.5v3.5h-3.5zM247.5 38h3.5v3.5h-3.5zM251 38h3.5v3.5h-3.5zM261.5 38h3.5v3.5h-3.5zM265 38h3.5v3.5h-3.5zM286 38h3.5v3.5h-3.5zM296.5 38h3.5v3.5h-3.5zM300 38h3.5v3.5h-3.5zM244 41.5h3.5v3.5h-3.5zM247.5 41.5h3.5v3.5h-3.5zM251 41.5h3.5v3.5h-3.5zM254.5 41.5h3.5v3.5h-3.5zM258 41.5h3.5v3.5h-3.5zM261.5 41.5h3.5v3.5h-3.5zM265 41.5h3.5v3.5h-3.5zM268.5 41.5h3.5v3.5h-3.5zM272 41.5h3.5v3.5h-3.5zM279 41.5h3.5v3.5h-3.5zM282.5 41.5h3.5v3.5h-3.5zM286 41.5h3.5v3.5h-3.5zM289.5 41.5h3.5v3.5h-3.5zM293 41.5h3.5v3.5h-3.5zM296.5 41.5h3.5v3.5h-3.5zM303.5 41.5h3.5v3.5h-3.5zM321 41.5h3.5v3.5h-3.5zM328 41.5h3.5v3.5h-3.5zM331.5 41.5h3.5v3.5h-3.5zM335 41.5h3.5v3.5h-3.5zM244 45h3.5v3.5h-3.5zM247.5 45h3.5v3.5h-3.5zM251 45h3.5v3.5h-3.5zM254.5 45h3.5v3.5h-3.5zM261.5 45h3.5v3.5h-3.5zM265 45h3.5v3.5h-3.5zM275.5 45h3.5v3.5h-3.5zM279 45h3.5v3.5h-3.5zM289.5 45h3.5v3.5h-3.5zM293 45h3.5v3.5h-3.5zM328 45h3.5v3.5h-3.5zM331.5 45h3.5v3.5h-3.5zM244 48.5h3.5v3.5h-3.5zM247.5 48.5h3.5v3.5h-3.5zM251 48.5h3.5v3.5h-3.5zM254.5 48.5h3.5v3.5h-3.5zM258 48.5h3.5v3.5h-3.5zM261.5 48.5h3.5v3.5h-3.5zM265 48.5h3.5v3.5h-3.5zM268.5 48.5h3.5v3.5h-3.5zM275.5 48.5h3.5v3.5h-3.5zM289.5 48.5h3.5v3.5h-3.5zM293 48.5h3.5v3.5h-3.5zM317.5 48.5h3.5v3.5h-3.5zM321 48.5h3.5v3.5h-3.5zM331.5 48.5h3.5v3.5h-3.5zM335 48.5h3.5v3.5h-3.5zM338.5 48.5h3.5v3.5h-3.5zM251 52h3.5v3.5h-3.5zM254.5 52h3.5v3.5h-3.5zM258 52h3.5v3.5h-3.5zM265 52h3.5v3.5h-3.5zM289.5 52h3.5v3.5h-3.5zM293 52h3.5v3.5h-3.5zM303.5 52h3.5v3.5h-3.5zM307 52h3.5v3.5h-3.5zM310.5 52h3.5v3.5h-3.5zM321 52h3.5v3.5h-3.5zM331.5 52h3.5v3.5h-3.5zM335 52h3.5v3.5h-3.5zM338.5 52h3.5v3.5h-3.5zM254.5 55.5h3.5v3.5h-3.5zM258 55.5h3.5v3.5h-3.5zM268.5 55.5h3.5v3.5h-3.5zM282.5 55.5h3.5v3.5h-3.5zM293 55.5h3.5v3.5h-3.5zM307 55.5h3.5v3.5h-3.5zM310.5 55.5h3.5v3.5h-3.5zM314 55.5h3.5v3.5h-3.5zM317.5 55.5h3.5v3.5h-3.5zM331.5 55.5h3.5v3.5h-3.5zM335 55.5h3.5v3.5h-3.5zM338.5 55.5h3.5v3.5h-3.5zM254.5 59h3.5v3.5h-3.5zM265 59h3.5v3.5h-3.5zM268.5 59h3.5v3.5h-3.5zM275.5 59h3.5v3.5h-3.5zM296.5 59h3.5v3.5h-3.5zM303.5 59h3.5v3.5h-3.5zM310.5 59h3.5v3.5h-3.5zM314 59h3.5v3.5h-3.5zM317.5 59h3.5v3.5h-3.5zM321 59h3.5v3.5h-3.5zM244 62.5h3.5v3.5h-3.5zM251 62.5h3.5v3.5h-3.5zM254.5 62.5h3.5v3.5h-3.5zM261.5 62.5h3.5v3.5h-3.5zM265 62.5h3.5v3.5h-3.5zM268.5 62.5h3.5v3.5h-3.5zM272 62.5h3.5v3.5h-3.5zM279 62.5h3.5v3.5h-3.5zM293 62.5h3.5v3.5h-3.5zM296.5 62.5h3.5v3.5h-3.5zM300 62.5h3.5v3.5h-3.5zM303.5 62.5h3.5v3.5h-3.5zM307 62.5h3.5v3.5h-3.5zM310.5 62.5h3.5v3.5h-3.5zM317.5 62.5h3.5v3.5h-3.5zM331.5 62.5h3.5v3.5h-3.5zM247.5 66h3.5v3.5h-3.5zM251 66h3.5v3.5h-3.5zM254.5 66h3.5v3.5h-3.5zM261.5 66h3.5v3.5h-3.5zM265 66h3.5v3.5h-3.5zM268.5 66h3.5v3.5h-3.5zM272 66h3.5v3.5h-3.5zM275.5 66h3.5v3.5h-3.5zM279 66h3.5v3.5h-3.5zM286 66h3.5v3.5h-3.5zM293 66h3.5v3.5h-3.5zM296.5 66h3.5v3.5h-3.5zM300 66h3.5v3.5h-3.5zM303.5 66h3.5v3.5h-3.5zM310.5 66h3.5v3.5h-3.5zM317.5 66h3.5v3.5h-3.5zM331.5 66h3.5v3.5h-3.5zM335 66h3.5v3.5h-3.5zM254.5 69.5h3.5v3.5h-3.5zM258 69.5h3.5v3.5h-3.5zM261.5 69.5h3.5v3.5h-3.5zM265 69.5h3.5v3.5h-3.5zM268.5 69.5h3.5v3.5h-3.5zM272 69.5h3.5v3.5h-3.5zM275.5 69.5h3.5v3.5h-3.5zM282.5 69.5h3.5v3.5h-3.5zM286 69.5h3.5v3.5h-3.5zM289.5 69.5h3.5v3.5h-3.5zM293 69.5h3.5v3.5h-3.5zM296.5 69.5h3.5v3.5h-3.5zM300 69.5h3.5v3.5h-3.5zM317.5 69.5h3.5v3.5h-3.5zM321 69.5h3.5v3.5h-3.5zM324.5 69.5h3.5v3.5h-3.5zM265 73h3.5v3.5h-3.5zM275.5 73h3.5v3.5h-3.5zM279 73h3.5v3.5h-3.5zM282.5 73h3.5v3.5h-3.5zM286 73h3.5v3.5h-3.5zM289.5 73h3.5v3.5h-3.5zM293 73h3.5v3.5h-3.5zM296.5 73h3.5v3.5h-3.5zM300 73h3.5v3.5h-3.5zM310.5 73h3.5v3.5h-3.5zM314 73h3.5v3.5h-3.5zM317.5 73h3.5v3.5h-3.5zM321 73h3.5v3.5h-3.5zM324.5 73h3.5v3.5h-3.5zM331.5 73h3.5v3.5h-3.5zM335 73h3.5v3.5h-3.5zM338.5 73h3.5v3.5h-3.5zM254.5 76.5h3.5v3.5h-3.5zM258 76.5h3.5v3.5h-3.5zM261.5 76.5h3.5v3.5h-3.5zM265 76.5h3.5v3.5h-3.5zM279 76.5h3.5v3.5h-3.5zM286 76.5h3.5v3.5h-3.5zM289.5 76.5h3.5v3.5h-3.5zM293 76.5h3.5v3.5h-3.5zM307 76.5h3.5v3.5h-3.5zM310.5 76.5h3.5v3.5h-3.5zM324.5 76.5h3.5v3.5h-3.5zM328 76.5h3.5v3.5h-3.5zM331.5 76.5h3.5v3.5h-3.5zM261.5 80h3.5v3.5h-3.5zM265 80h3.5v3.5h-3.5zM275.5 80h3.5v3.5h-3.5zM286 80h3.5v3.5h-3.5zM289.5 80h3.5v3.5h-3.5zM293 80h3.5v3.5h-3.5zM296.5 80h3.5v3.5h-3.5zM321 80h3.5v3.5h-3.5zM324.5 80h3.5v3.5h-3.5zM328 80h3.5v3.5h-3.5zM331.5 80h3.5v3.5h-3.5zM244 83.5h3.5v3.5h-3.5zM247.5 83.5h3.5v3.5h-3.5zM254.5 83.5h3.5v3.5h-3.5zM261.5 83.5h3.5v3.5h-3.5zM265 83.5h3.5v3.5h-3.5zM275.5 83.5h3.5v3.5h-3.5zM293 83.5h3.5v3.5h-3.5zM296.5 83.5h3.5v3.5h-3.5zM300 83.5h3.5v3.5h-3.5zM303.5 83.5h3.5v3.5h-3.5zM310.5 83.5h3.5v3.5h-3.5zM314 83.5h3.5v3.5h-3.5zM317.5 83.5h3.5v3.5h-3.5zM321 83.5h3.5v3.5h-3.5zM324.5 83.5h3.5v3.5h-3.5zM328 83.5h3.5v3.5h-3.5zM331.5 83.5h3.5v3.5h-3.5zM247.5 87h3.5v3.5h-3.5zM251 87h3.5v3.5h-3.5zM254.5 87h3.5v3.5h-3.5zM258 87h3.5v3.5h-3.5zM261.5 87h3.5v3.5h-3.5zM272 87h3.5v3.5h-3.5zM275.5 87h3.5v3.5h-3.5zM293 87h3.5v3.5h-3.5zM296.5 87h3.5v3.5h-3.5zM300 87h3.5v3.5h-3.5zM303.5 87h3.5v3.5h-3.5zM310.5 87h3.5v3.5h-3.5zM314 87h3.5v3.5h-3.5zM317.5 87h3.5v3.5h-3.5zM321 87h3.5v3.5h-3.5zM324.5 87h3.5v3.5h-3.5zM328 87h3.5v3.5h-3.5zM331.5 87h3.5v3.5h-3.5zM247.5 90.5h3.5v3.5h-3.5zM254.5 90.5h3.5v3.5h-3.5zM258 90.5h3.5v3.5h-3.5zM261.5 90.5h3.5v3.5h-3.5zM268.5 90.5h3.5v3.5h-3.5zM272 90.5h3.5v3.5h-3.5zM275.5 90.5h3.5v3.5h-3.5zM289.5 90.5h3.5v3.5h-3.5zM293 90.5h3.5v3.5h-3.5zM296.5 90.5h3.5v3.5h-3.5zM300 90.5h3.5v3.5h-3.5zM303.5 90.5h3.5v3.5h-3.5zM307 90.5h3.5v3.5h-3.5zM310.5 90.5h3.5v3.5h-3.5zM314 90.5h3.5v3.5h-3.5zM317.5 90.5h3.5v3.5h-3.5zM247.5 94h3.5v3.5h-3.5zM251 94h3.5v3.5h-3.5zM254.5 94h3.5v3.5h-3.5zM268.5 94h3.5v3.5h-3.5zM272 94h3.5v3.5h-3.5zM275.5 94h3.5v3.5h-3.5zM279 94h3.5v3.5h-3.5zM282.5 94h3.5v3.5h-3.5zM286 94h3.5v3.5h-3.5zM289.5 94h3.5v3.5h-3.5zM303.5 94h3.5v3.5h-3.5zM307 94h3.5v3.5h-3.5zM310.5 94h3.5v3.5h-3.5zM314 94h3.5v3.5h-3.5zM335 94h3.5v3.5h-3.5zM251 97.5h3.5v3.5h-3.5zM279 97.5h3.5v3.5h-3.5zM282.5 97.5h3.5v3.5h-3.5zM286 97.5h3.5v3.5h-3.5zM289.5 97.5h3.5v3.5h-3.5zM300 97.5h3.5v3.5h-3.5zM307 97.5h3.5v3.5h-3.5zM310.5 97.5h3.5v3.5h-3.5zM335 97.5h3.5v3.5h-3.5zM338.5 97.5h3.5v3.5h-3.5zM247.5 101h3.5v3.5h-3.5zM251 101h3.5v3.5h-3.5zM254.5 101h3.5v3.5h-3.5zM286 101h3.5v3.5h-3.5zM289.5 101h3.5v3.5h-3.5zM293 101h3.5v3.5h-3.5zM303.5 101h3.5v3.5h-3.5zM310.5 101h3.5v3.5h-3.5zM328 101h3.5v3.5h-3.5zM335 101h3.5v3.5h-3.5zM244 104.5h3.5v3.5h-3.5zM254.5 104.5h3.5v3.5h-3.5zM272 104.5h3.5v3.5h-3.5zM279 104.5h3.5v3.5h-3.5zM289.5 104.5h3.5v3.5h-3.5zM300 104.5h3.5v3.5h-3.5zM303.5 104.5h3.5v3.5h-3.5zM335 104.5h3.5v3.5h-3.5zM338.5 104.5h3.5v3.5h-3.5z" style="fill-opacity:0.75"/>
+<path class="punkt blau" d="M251 10h3.5v3.5h-3.5zM258 10h3.5v3.5h-3.5zM261.5 10h3.5v3.5h-3.5zM265 10h3.5v3.5h-3.5zM268.5 10h3.5v3.5h-3.5zM279 10h3.5v3.5h-3.5zM282.5 10h3.5v3.5h-3.5zM286 10h3.5v3.5h-3.5zM289.5 10h3.5v3.5h-3.5zM293 10h3.5v3.5h-3.5zM324.5 10h3.5v3.5h-3.5zM328 10h3.5v3.5h-3.5zM331.5 10h3.5v3.5h-3.5zM335 10h3.5v3.5h-3.5zM244 13.5h3.5v3.5h-3.5zM258 13.5h3.5v3.5h-3.5zM261.5 13.5h3.5v3.5h-3.5zM265 13.5h3.5v3.5h-3.5zM268.5 13.5h3.5v3.5h-3.5zM286 13.5h3.5v3.5h-3.5zM296.5 13.5h3.5v3.5h-3.5zM317.5 13.5h3.5v3.5h-3.5zM321 13.5h3.5v3.5h-3.5zM324.5 13.5h3.5v3.5h-3.5zM328 13.5h3.5v3.5h-3.5zM331.5 13.5h3.5v3.5h-3.5zM335 13.5h3.5v3.5h-3.5zM338.5 13.5h3.5v3.5h-3.5zM244 17h3.5v3.5h-3.5zM247.5 17h3.5v3.5h-3.5zM254.5 17h3.5v3.5h-3.5zM258 17h3.5v3.5h-3.5zM261.5 17h3.5v3.5h-3.5zM268.5 17h3.5v3.5h-3.5zM272 17h3.5v3.5h-3.5zM275.5 17h3.5v3.5h-3.5zM279 17h3.5v3.5h-3.5zM282.5 17h3.5v3.5h-3.5zM293 17h3.5v3.5h-3.5zM314 17h3.5v3.5h-3.5zM321 17h3.5v3.5h-3.5zM328 17h3.5v3.5h-3.5zM331.5 17h3.5v3.5h-3.5zM335 17h3.5v3.5h-3.5zM338.5 17h3.5v3.5h-3.5zM251 20.5h3.5v3.5h-3.5zM254.5 20.5h3.5v3.5h-3.5zM258 20.5h3.5v3.5h-3.5zM261.5 20.5h3.5v3.5h-3.5zM275.5 20.5h3.5v3.5h-3.5zM279 20.5h3.5v3.5h-3.5zM282.5 20.5h3.5v3.5h-3.5zM289.5 20.5h3.5v3.5h-3.5zM293 20.5h3.5v3.5h-3.5zM300 20.5h3.5v3.5h-3.5zM303.5 20.5h3.5v3.5h-3.5zM310.5 20.5h3.5v3.5h-3.5zM314 20.5h3.5v3.5h-3.5zM317.5 20.5h3.5v3.5h-3.5zM321 20.5h3.5v3.5h-3.5zM328 20.5h3.5v3.5h-3.5zM331.5 20.5h3.5v3.5h-3.5zM244 24h3.5v3.5h-3.5zM251 24h3.5v3.5h-3.5zM254.5 24h3.5v3.5h-3.5zM265 24h3.5v3.5h-3.5zM275.5 24h3.5v3.5h-3.5zM279 24h3.5v3.5h-3.5zM282.5 24h3.5v3.5h-3.5zM296.5 24h3.5v3.5h-3.5zM300 24h3.5v3.5h-3.5zM307 24h3.5v3.5h-3.5zM314 24h3.5v3.5h-3.5zM321 24h3.5v3.5h-3.5zM328 24h3.5v3.5h-3.5zM338.5 24h3.5v3.5h-3.5zM244 27.5h3.5v3.5h-3.5zM265 27.5h3.5v3.5h-3.5zM268.5 27.5h3.5v3.5h-3.5zM275.5 27.5h3.5v3.5h-3.5zM279 27.5h3.5v3.5h-3.5zM282.5 27.5h3.5v3.5h-3.5zM286 27.5h3.5v3.5h-3.5zM289.5 27.5h3.5v3.5h-3.5zM293 27.5h3.5v3.5h-3.5zM296.5 27.5h3.5v3.5h-3.5zM300 27.5h3.5v3.5h-3.5zM310.5 27.5h3.5v3.5h-3.5zM314 27.5h3.5v3.5h-3.5zM317.5 27.5h3.5v3.5h-3.5zM321 27.5h3.5v3.5h-3.5zM324.5 27.5h3.5v3.5h-3.5zM328 27.5h3.5v3.5h-3.5zM331.5 27.5h3.5v3.5h-3.5zM335 27.5h3.5v3.5h-3.5zM338.5 27.5h3.5v3.5h-3.5zM261.5 31h3.5v3.5h-3.5zM265 31h3.5v3.5h-3.5zM286 31h3.5v3.5h-3.5zM289.5 31h3.5v3.5h-3.5zM293 31h3.5v3.5h-3.5zM296.5 31h3.5v3.5h-3.5zM300 31h3.5v3.5h-3.5zM303.5 31h3.5v3.5h-3.5zM310.5 31h3.5v3.5h-3.5zM317.5 31h3.5v3.5h-3.5zM321 31h3.5v3.5h-3.5zM324.5 31h3.5v3.5h-3.5zM328 31h3.5v3.5h-3.5zM331.5 31h3.5v3.5h-3.5zM335 31h3.5v3.5h-3.5zM338.5 31h3.5v3.5h-3.5zM247.5 34.5h3.5v3.5h-3.5zM251 34.5h3.5v3.5h-3.5zM261.5 34.5h3.5v3.5h-3.5zM265 34.5h3.5v3.5h-3.5zM279 34.5h3.5v3.5h-3.5zM296.5 34.5h3.5v3.5h-3.5zM300 34.5h3.5v3.5h-3.5zM310.5 34.5h3.5v3.5h-3.5zM314 34.5h3.5v3.5h-3.5zM317.5 34.5h3.5v3.5h-3.5zM324.5 34.5h3.5v3.5h-3.5zM328 34.5h3.5v3.5h-3.5zM331.5 34.5h3.5v3.5h-3.5zM335 34.5h3.5v3.5h-3.5zM254.5 38h3.5v3.5h-3.5zM258 38h3.5v3.5h-3.5zM268.5 38h3.5v3.5h-3.5zM272 38h3.5v3.5h-3.5zM275.5 38h3.5v3.5h-3.5zM279 38h3.5v3.5h-3.5zM282.5 38h3.5v3.5h-3.5zM289.5 38h3.5v3.5h-3.5zM293 38h3.5v3.5h-3.5zM303.5 38h3.5v3.5h-3.5zM307 38h3.5v3.5h-3.5zM310.5 38h3.5v3.5h-3.5zM314 38h3.5v3.5h-3.5zM317.5 38h3.5v3.5h-3.5zM321 38h3.5v3.5h-3.5zM324.5 38h3.5v3.5h-3.5zM328 38h3.5v3.5h-3.5zM331.5 38h3.5v3.5h-3.5zM335 38h3.5v3.5h-3.5zM338.5 38h3.5v3.5h-3.5zM275.5 41.5h3.5v3.5h-3.5zM300 41.5h3.5v3.5h-3.5zM307 41.5h3.5v3.5h-3.5zM310.5 41.5h3.5v3.5h-3.5zM314 41.5h3.5v3.5h-3.5zM317.5 41.5h3.5v3.5h-3.5zM324.5 41.5h3.5v3.5h-3.5zM338.5 41.5h3.5v3.5h-3.5zM258 45h3.5v3.5h-3.5zM268.5 45h3.5v3.5h-3.5zM272 45h3.5v3.5h-3.5zM282.5 45h3.5v3.5h-3.5zM286 45h3.5v3.5h-3.5zM296.5 45h3.5v3.5h-3.5zM300 45h3.5v3.5h-3.5zM303.5 45h3.5v3.5h-3.5zM307 45h3.5v3.5h-3.5zM310.5 45h3.5v3.5h-3.5zM314 45h3.5v3.5h-3.5zM317.5 45h3.5v3.5h-3.5zM321 45h3.5v3.5h-3.5zM324.5 45h3.5v3.5h-3.5zM335 45h3.5v3.5h-3.5zM338.5 45h3.5v3.5h-3.5zM272 48.5h3.5v3.5h-3.5zM279 48.5h3.5v3.5h-3.5zM282.5 48.5h3.5v3.5h-3.5zM286 48.5h3.5v3.5h-3.5zM296.5 48.5h3.5v3.5h-3.5zM300 48.5h3.5v3.5h-3.5zM303.5 48.5h3.5v3.5h-3.5zM307 48.5h3.5v3.5h-3.5zM310.5 48.5h3.5v3.5h-3.5zM314 48.5h3.5v3.5h-3.5zM324.5 48.5h3.5v3.5h-3.5zM328 48.5h3.5v3.5h-3.5zM244 52h3.5v3.5h-3.5zM247.5 52h3.5v3.5h-3.5zM261.5 52h3.5v3.5h-3.5zM268.5 52h3.5v3.5h-3.5zM272 52h3.5v3.5h-3.5zM275.5 52h3.5v3.5h-3.5zM279 52h3.5v3.5h-3.5zM282.5 52h3.5v3.5h-3.5zM286 52h3.5v3.5h-3.5zM296.5 52h3.5v3.5h-3.5zM300 52h3.5v3.5h-3.5zM314 52h3.5v3.5h-3.5zM317.5 52h3.5v3.5h-3.5zM324.5 52h3.5v3.5h-3.5zM328 52h3.5v3.5h-3.5zM244 55.5h3.5v3.5h-3.5zM247.5 55.5h3.5v3.5h-3.5zM251 55.5h3.5v3.5h-3.5zM261.5 55.5h3.5v3.5h-3.5zM265 55.5h3.5v3.5h-3.5zM272 55.5h3.5v3.5h-3.5zM275.5 55.5h3.5v3.5h-3.5zM279 55.5h3.5v3.5h-3.5zM286 55.5h3.5v3.5h-3.5zM289.5 55.5h3.5v3.5h-3.5zM296.5 55.5h3.5v3.5h-3.5zM300 55.5h3.5v3.5h-3.5zM303.5 55.5h3.5v3.5h-3.5zM321 55.5h3.5v3.5h-3.5zM324.5 55.5h3.5v3.5h-3.5zM328 55.5h3.5v3.5h-3.5zM244 59h3.5v3.5h-3.5zM247.5 59h3.5v3.5h-3.5zM251 59h3.5v3.5h-3.5zM258 59h3.5v3.5h-3.5zM261.5 59h3.5v3.5h-3.5zM272 59h3.5v3.5h-3.5zM279 59h3.5v3.5h-3.5zM282.5 59h3.5v3.5h-3.5zM286 59h3.5v3.5h-3.5zM289.5 59h3.5v3.5h-3.5zM293 59h3.5v3.5h-3.5zM300 59h3.5v3.5h-3.5zM307 59h3.5v3.5h-3.5zM324.5 59h3.5v3.5h-3.5zM328 59h3.5v3.5h-3.5zM331.5 59h3.5v3.5h-3.5zM335 59h3.5v3.5h-3.5zM338.5 59h3.5v3.5h-3.5zM247.5 62.5h3.5v3.5h-3.5zM258 62.5h3.5v3.5h-3.5zM275.5 62.5h3.5v3.5h-3.5zM282.5 62.5h3.5v3.5h-3.5zM286 62.5h3.5v3.5h-3.5zM289.5 62.5h3.5v3.5h-3.5zM314 62.5h3.5v3.5h-3.5zM321 62.5h3.5v3.5h-3.5zM324.5 62.5h3.5v3.5h-3.5zM328 62.5h3.5v3.5h-3.5zM335 62.5h3.5v3.5h-3.5zM338.5 62.5h3.5v3.5h-3.5zM244 66h3.5v3.5h-3.5zM258 66h3.5v3.5h-3.5zM282.5 66h3.5v3.5h-3.5zM289.5 66h3.5v3.5h-3.5zM307 66h3.5v3.5h-3.5zM314 66h3.5v3.5h-3.5zM321 66h3.5v3.5h-3.5zM324.5 66h3.5v3.5h-3.5zM328 66h3.5v3.5h-3.5zM338.5 66h3.5v3.5h-3.5zM244 69.5h3.5v3.5h-3.5zM247.5 69.5h3.5v3.5h-3.5zM251 69.5h3.5v3.5h-3.5zM279 69.5h3.5v3.5h-3.5zM303.5 69.5h3.5v3.5h-3.5zM307 69.5h3.5v3.5h-3.5zM310.5 69.5h3.5v3.5h-3.5zM314 69.5h3.5v3.5h-3.5zM328 69.5h3.5v3.5h-3.5zM331.5 69.5h3.5v3.5h-3.5zM335 69.5h3.5v3.5h-3.5zM338.5 69.5h3.5v3.5h-3.5zM244 73h3.5v3.5h-3.5zM247.5 73h3.5v3.5h-3.5zM251 73h3.5v3.5h-3.5zM254.5 73h3.5v3.5h-3.5zM258 73h3.5v3.5h-3.5zM261.5 73h3.5v3.5h-3.5zM268.5 73h3.5v3.5h-3.5zM272 73h3.5v3.5h-3.5zM303.5 73h3.5v3.5h-3.5zM307 73h3.5v3.5h-3.5zM328 73h3.5v3.5h-3.5zM244 76.5h3.5v3.5h-3.5zM247.5 76.5h3.5v3.5h-3.5zM251 76.5h3.5v3.5h-3.5zM268.5 76.5h3.5v3.5h-3.5zM272 76.5h3.5v3.5h-3.5zM275.5 76.5h3.5v3.5h-3.5zM282.5 76.5h3.5v3.5h-3.5zM296.5 76.5h3.5v3.5h-3.5zM300 76.5h3.5v3.5h-3.5zM303.5 76.5h3.5v3.5h-3.5zM314 76.5h3.5v3.5h-3.5zM317.5 76.5h3.5v3.5h-3.5zM321 76.5h3.5v3.5h-3.5zM335 76.5h3.5v3.5h-3.5zM338.5 76.5h3.5v3.5h-3.5zM244 80h3.5v3.5h-3.5zM247.5 80h3.5v3.5h-3.5zM251 80h3.5v3.5h-3.5zM254.5 80h3.5v3.5h-3.5zM258 80h3.5v3.5h-3.5zM268.5 80h3.5v3.5h-3.5zM272 80h3.5v3.5h-3.5zM279 80h3.5v3.5h-3.5zM282.5 80h3.5v3.5h-3.5zM300 80h3.5v3.5h-3.5zM303.5 80h3.5v3.5h-3.5zM307 80h3.5v3.5h-3.5zM310.5 80h3.5v3.5h-3.5zM314 80h3.5v3.5h-3.5zM317.5 80h3.5v3.5h-3.5zM335 80h3.5v3.5h-3.5zM338.5 80h3.5v3.5h-3.5zM251 83.5h3.5v3.5h-3.5zM258 83.5h3.5v3.5h-3.5zM268.5 83.5h3.5v3.5h-3.5zM272 83.5h3.5v3.5h-3.5zM279 83.5h3.5v3.5h-3.5zM282.5 83.5h3.5v3.5h-3.5zM286 83.5h3.5v3.5h-3.5zM289.5 83.5h3.5v3.5h-3.5zM307 83.5h3.5v3.5h-3.5zM335 83.5h3.5v3.5h-3.5zM338.5 83.5h3.5v3.5h-3.5zM244 87h3.5v3.5h-3.5zM265 87h3.5v3.5h-3.5zM268.5 87h3.5v3.5h-3.5zM279 87h3.5v3.5h-3.5zM282.5 87h3.5v3.5h-3.5zM286 87h3.5v3.5h-3.5zM289.5 87h3.5v3.5h-3.5zM307 87h3.5v3.5h-3.5zM335 87h3.5v3.5h-3.5zM338.5 87h3.5v3.5h-3.5zM244 90.5h3.5v3.5h-3.5zM251 90.5h3.5v3.5h-3.5zM265 90.5h3.5v3.5h-3.5zM279 90.5h3.5v3.5h-3.5zM282.5 90.5h3.5v3.5h-3.5zM286 90.5h3.5v3.5h-3.5zM321 90.5h3.5v3.5h-3.5zM324.5 90.5h3.5v3.5h-3.5zM328 90.5h3.5v3.5h-3.5zM331.5 90.5h3.5v3.5h-3.5zM335 90.5h3.5v3.5h-3.5zM338.5 90.5h3.5v3.5h-3.5zM244 94h3.5v3.5h-3.5zM258 94h3.5v3.5h-3.5zM261.5 94h3.5v3.5h-3.5zM265 94h3.5v3.5h-3.5zM293 94h3.5v3.5h-3.5zM296.5 94h3.5v3.5h-3.5zM300 94h3.5v3.5h-3.5zM317.5 94h3.5v3.5h-3.5zM321 94h3.5v3.5h-3.5zM324.5 94h3.5v3.5h-3.5zM328 94h3.5v3.5h-3.5zM331.5 94h3.5v3.5h-3.5zM338.5 94h3.5v3.5h-3.5zM244 97.5h3.5v3.5h-3.5zM247.5 97.5h3.5v3.5h-3.5zM254.5 97.5h3.5v3.5h-3.5zM258 97.5h3.5v3.5h-3.5zM261.5 97.5h3.5v3.5h-3.5zM265 97.5h3.5v3.5h-3.5zM268.5 97.5h3.5v3.5h-3.5zM272 97.5h3.5v3.5h-3.5zM275.5 97.5h3.5v3.5h-3.5zM293 97.5h3.5v3.5h-3.5zM296.5 97.5h3.5v3.5h-3.5zM303.5 97.5h3.5v3.5h-3.5zM314 97.5h3.5v3.5h-3.5zM317.5 97.5h3.5v3.5h-3.5zM321 97.5h3.5v3.5h-3.5zM324.5 97.5h3.5v3.5h-3.5zM328 97.5h3.5v3.5h-3.5zM331.5 97.5h3.5v3.5h-3.5zM244 101h3.5v3.5h-3.5zM258 101h3.5v3.5h-3.5zM261.5 101h3.5v3.5h-3.5zM265 101h3.5v3.5h-3.5zM268.5 101h3.5v3.5h-3.5zM272 101h3.5v3.5h-3.5zM275.5 101h3.5v3.5h-3.5zM279 101h3.5v3.5h-3.5zM282.5 101h3.5v3.5h-3.5zM296.5 101h3.5v3.5h-3.5zM300 101h3.5v3.5h-3.5zM307 101h3.5v3.5h-3.5zM314 101h3.5v3.5h-3.5zM317.5 101h3.5v3.5h-3.5zM321 101h3.5v3.5h-3.5zM324.5 101h3.5v3.5h-3.5zM331.5 101h3.5v3.5h-3.5zM338.5 101h3.5v3.5h-3.5zM247.5 104.5h3.5v3.5h-3.5zM251 104.5h3.5v3.5h-3.5zM258 104.5h3.5v3.5h-3.5zM261.5 104.5h3.5v3.5h-3.5zM265 104.5h3.5v3.5h-3.5zM268.5 104.5h3.5v3.5h-3.5zM275.5 104.5h3.5v3.5h-3.5zM282.5 104.5h3.5v3.5h-3.5zM286 104.5h3.5v3.5h-3.5zM293 104.5h3.5v3.5h-3.5zM296.5 104.5h3.5v3.5h-3.5zM307 104.5h3.5v3.5h-3.5zM310.5 104.5h3.5v3.5h-3.5zM314 104.5h3.5v3.5h-3.5zM317.5 104.5h3.5v3.5h-3.5zM321 104.5h3.5v3.5h-3.5zM324.5 104.5h3.5v3.5h-3.5zM328 104.5h3.5v3.5h-3.5zM331.5 104.5h3.5v3.5h-3.5z" style="fill-opacity:0.75"/>
+<text class="klein" x="293.0" y="132" text-anchor="middle">heiß: T = 4 J/k</text>
+<text class="klein" x="293.0" y="148" text-anchor="middle">Magnetisierung 0,04</text>
+</svg>
+            <figcaption>Abb. 1: Simulation des Ising-Modells auf einem Gitter mit
+              $28 \times 28$ Plätzen (orange: Spin oben, blau: Spin unten). Kalt
+              stehen fast alle Spins gleich. Bei der kritischen Temperatur gibt es
+              Inseln jeder Größe, heiß herrscht Unordnung.</figcaption>
+          </figure>
+
+          <p>Am mühsamsten ist die Gegend um die kritische Temperatur. Dort
+            entstehen riesige Inseln, und wenn der Computer immer nur einzelne
+            Spins umklappt, braucht so eine Insel sehr lange, bis sie sich
+            umdreht. Bessere Verfahren klappen deshalb gleich ganze Inseln auf
+            einmal um. Im Reiter „Vertiefung“ kannst du die einfache Simulation
+            selbst laufen lassen.</p>
+
+          <p>Die Ordnung lässt sich auch ohne Wärme zerstören. Legt man ein
+            Magnetfeld quer zur bevorzugten Richtung an, will es die Spins zur
+            Seite kippen. In der Quantenmechanik zeigt ein Spin dann nicht mehr
+            fest nach oben oder unten, sondern befindet sich in einer
+            Überlagerung von beidem. Ist das Querfeld stärker als die Kopplung
+            der Nachbarn, verschwindet die Ordnung selbst am absoluten Nullpunkt.
+            Einen solchen Übergang, angetrieben von der Quantenmechanik und nicht
+            von der Wärme, nennt man <em>Quantenphasenübergang</em>.</p>
+
+          <div class="alltag">
+            <span class="titel">Aus dem Alltag</span>
+            <p>Dasselbe Modell beschreibt auch Dinge ohne Magnetismus. In Messing
+              sitzt auf jedem Gitterplatz entweder ein Kupfer- oder ein Zinkatom,
+              das sind die zwei Stellungen „oben“ und „unten“. Unterhalb von
+              rund $460\,{}^\circ\mathrm{C}$ ordnen sich die Atome in einem
+              regelmäßigen Muster an, darüber sind sie zufällig verteilt. Der
+              Übergang verhält sich genau wie beim Magneten.</p>
+          </div>
+
+          <div class="merkkasten">
+            <span class="titel">Das Wichtigste in Kürze</span>
+            <p>Im Ising-Modell zeigen Spins auf einem Gitter nach oben oder unten,
+              Nachbarn bevorzugen die gleiche Stellung und die Wärme stört. Auf
+              einem ebenen Gitter gibt es eine scharfe Übergangstemperatur.
+              Untersucht wird das Modell meist mit Monte-Carlo-Simulationen, bei
+              denen der Computer Spins nach Zufallsregeln umklappt. Ein Querfeld
+              kann die Ordnung sogar am absoluten Nullpunkt zerstören.</p>
+          </div>
+        </section>
+
+        <section class="tab" id="vertiefung" data-titel="Vertiefung">
+
+          <h2 id="modell">Das Modell und seine Messgrößen</h2>
+
+          <p>Auf den $N = L^2$ Plätzen eines quadratischen $L \times L$-Gitters mit
+            periodischen Rändern sitzen Spins $s_i = \pm 1$. Die Energie einer
+            Konfiguration ist</p>
+          $$ H = -J\sum_{\langle i,j \rangle} s_i s_j , $$
+          <p>wobei die Summe jedes Paar nächster Nachbarn genau einmal zählt (auf
+            dem Quadratgitter sind das $2N$ Paare). Für $J \gt 0$ ist die Kopplung
+            ferromagnetisch, und die beiden Grundzustände „alle oben“ und „alle
+            unten“ haben die Energie $-2NJ$. Im kanonischen Ensemble hat eine
+            Konfiguration $x$ die Wahrscheinlichkeit
+            $P(x) = \mathrm{e}^{-\beta H(x)}/Z$ mit $\beta = 1/(k_\mathrm{B}T)$.
+            Ein äußeres Feld lassen wir weg.</p>
+
+          <p>Gemessen werden Größen pro Spin: die Magnetisierung
+            $m = M/N = \frac1N\sum_i s_i$ und die Energie $e = E/N$. Die
+            Antwortgrößen folgen aus den Schwankungen. Aus
+            $\langle E\rangle = -\partial\ln Z/\partial\beta$ ergibt eine weitere
+            Ableitung $\partial\langle E\rangle/\partial\beta = -(\langle E^2\rangle - \langle E\rangle^2)$,
+            und mit einem Feldterm $-h\sum_i s_i$ gilt ebenso
+            $\partial\langle M\rangle/\partial h = \beta(\langle M^2\rangle - \langle M\rangle^2)$.
+            Pro Spin heißt das</p>
+          $$ \chi = \beta N\left(\langle m^2\rangle - \langle m\rangle^2\right), \qquad c = k_\mathrm{B}\,\beta^2 N\left(\langle e^2\rangle - \langle e\rangle^2\right) . $$
+          <p>Auf einem endlichen Gitter ist $\langle m\rangle$ streng genommen null,
+            weil das System mit der Zeit zwischen „überwiegend oben“ und
+            „überwiegend unten“ wechselt. In Simulationen misst man deshalb
+            $\langle |m| \rangle$ und setzt es in $\chi$ an die Stelle von
+            $\langle m\rangle$.</p>
+
+          <p>In einer Dimension gibt es bei $T \gt 0$ keinen Phasenübergang: Eine
+            einzelne Domänenwand kostet nur die Energie $2J$, kann aber an $N$
+            Stellen sitzen, und dieser Entropiegewinn siegt immer. In zwei
+            Dimensionen ist das anders. Onsager löste 1944 das Modell auf dem
+            Quadratgitter exakt. Der Phasenübergang liegt bei</p>
+          $$ k_\mathrm{B}T_c = \frac{2J}{\ln\left(1 + \sqrt2\right)} \approx 2{,}269\,J , $$
+          <p>gleichbedeutend mit $\sinh(2J/k_\mathrm{B}T_c) = 1$. Unterhalb von
+            $T_c$ hat das unendliche Gitter die spontane Magnetisierung
+            $m = \left[1 - \sinh^{-4}(2\beta J)\right]^{1/8}$ (von Onsager
+            angegeben, 1952 von Yang bewiesen). Die Herleitung ist lang, wir
+            brauchen hier nur das Ergebnis.</p>
+
+          <p>Nahe $T_c$ folgen alle Größen Potenzgesetzen in der reduzierten
+            Temperatur $(T - T_c)/T_c$:</p>
+          $$ \xi \propto |T - T_c|^{-\nu}, \qquad \chi \propto |T - T_c|^{-\gamma}, \qquad c \propto |T - T_c|^{-\alpha}, \qquad |m| \propto (T_c - T)^{1/8} . $$
+          <p>Für das zweidimensionale Ising-Modell sind die kritischen Exponenten
+            $\nu = 1$, $\gamma = 7/4$ und $\alpha = 0$. Der Wert $\alpha = 0$
+            bedeutet hier eine logarithmische Divergenz,
+            $c \propto -\ln|T - T_c|$. Der Exponent $1/8$ der Magnetisierung
+            heißt in der Literatur meist $\beta$, was mit der inversen
+            Temperatur nichts zu tun hat. Die Exponenten hängen nur von der
+            Dimension und der Symmetrie ab, nicht von Gitterform oder Material
+            (<em>Universalität</em>, erklärt durch die Renormierungsgruppe). Der
+            kritische Punkt von Flüssigkeit und Gas gehört zum Beispiel zur
+            Klasse des dreidimensionalen Ising-Modells (siehe
+            <a href="phasenuebergaenge.html">Phasenübergänge</a>).</p>
+
+          <h2 id="monte-carlo">Monte-Carlo-Simulation</h2>
+
+          <p>Ein $32 \times 32$-Gitter hat $2^{1024} \approx 10^{308}$
+            Konfigurationen. Alle aufzusummieren ist unmöglich, und zufällig
+            herausgegriffene Konfigurationen helfen auch nicht, weil fast alle
+            ein verschwindend kleines Boltzmann-Gewicht haben. Man erzeugt deshalb
+            Konfigurationen gleich mit der Wahrscheinlichkeit $P(x)$
+            (<em>importance sampling</em>). Dann ist jeder Erwartungswert ein
+            einfacher Mittelwert über die erzeugten Konfigurationen.</p>
+
+          <p>Dazu dient eine <em>Markov-Kette</em> $x_0 \to x_1 \to x_2 \to \dots$:
+            Der nächste Zustand hängt nur vom jetzigen ab, mit
+            Übergangswahrscheinlichkeiten $W(x \to x')$, die nicht von der
+            Schrittnummer (der „Monte-Carlo-Zeit“) abhängen und
+            $\sum_{x'} W(x \to x') = 1$ erfüllen. Die Verteilung $P$ ist
+            stationär, wenn</p>
+          $$ \sum_x P(x)\,W(x \to x') = P(x') . $$
+          <p>Hinreichend dafür ist die <em>detaillierte Bilanz</em></p>
+          $$ P(x)\,W(x \to x') = P(x')\,W(x' \to x) , $$
+          <p>denn summiert man sie über $x$, steht rechts wegen der Normierung
+            von $W$ genau $P(x')$. Ist die Kette außerdem <em>ergodisch</em>
+            (jede Konfiguration in endlich vielen Schritten erreichbar), läuft sie
+            von jedem Start aus gegen $P$.</p>
+
+          <p>Der <em>Metropolis-Algorithmus</em> schlägt vor, einen zufällig
+            gewählten Spin $s_i$ umzuklappen, und nimmt den Vorschlag mit</p>
+          $$ p = \min\left(1,\ \mathrm{e}^{-\beta\,\Delta E}\right) $$
+          <p>an. Weil Vorschlag und Rückweg gleich wahrscheinlich sind, ist das
+            Verhältnis der Übergangswahrscheinlichkeiten für $\Delta E \gt 0$
+            gleich $\mathrm{e}^{-\beta\Delta E}/1 = P(x')/P(x)$, die detaillierte
+            Bilanz gilt also. Beim Umklappen ändern nur die Bindungen zu den
+            Nachbarn von $i$ ihr Vorzeichen:</p>
+          $$ \Delta E = 2J\,s_i\sum_{j\ \text{Nachbar von}\ i} s_j . $$
+          <p>Hier steht $s_i$ vor dem Umklappen. Auf dem Quadratgitter kommen nur
+            $\Delta E \in \{-8J, -4J, 0, 4J, 8J\}$ vor, man braucht also nur zwei
+            Exponentialfunktionen, die man einmal in einer Tabelle ablegt. $N$
+            Versuche heißen ein <em>Sweep</em>. In der Praxis startet man
+            entweder „kalt“ (alle Spins gleich) oder „heiß“ (zufällig), lässt das
+            System einige tausend Sweeps lang <em>thermalisieren</em> und misst
+            erst dann. Ob die Thermalisierung reicht, sieht man, wenn ein kalter
+            und ein heißer Start auf dieselben Mittelwerte führen.</p>
+
+          <p>Im folgenden Modell läuft genau dieser Algorithmus auf einem Gitter
+            aus $48 \times 48$ Spins.</p>
+
+          <figure class="interaktiv" data-modell="isinggitter">
+            <span class="titel">Zum Ausprobieren</span>
+            <figcaption>Metropolis-Simulation eines $48 \times 48$-Gitters mit
+              periodischen Rändern (orange: $s_i = +1$, blau: $s_i = -1$). Dazu
+              läuft die Magnetisierung $m$ über die letzten 300 Sweeps mit. Wähle
+              eine Temperatur (in Einheiten von $J/k_\mathrm{B}$) und starte die
+              Simulation. Vergleiche einen geordneten mit einem zufälligen Start:
+              Bei $T = 1{,}5$ bleiben aus dem zufälligen Start oft lange Streifen
+              übrig, bei $T = 2{,}27$ schwankt $m$ stark und träge, bei
+              $T = 3{,}5$ schnell um null.</figcaption>
+          </figure>
+
+          <h2 id="verlangsamen">Kritisches Verlangsamen</h2>
+
+          <p>Aufeinanderfolgende Konfigurationen der Kette sind nicht unabhängig.
+            Wie viele Sweeps vergehen, bis das System seinen alten Zustand
+            „vergessen“ hat, misst die Autokorrelationszeit $\tau$. Nahe $T_c$
+            wächst sie mit der Korrelationslänge,
+            $\tau \propto \xi^{z} \propto |T - T_c|^{-z\nu}$. Der
+            <em>dynamische Exponent</em> $z$ ist keine Eigenschaft des Modells,
+            sondern des Algorithmus. Auf einem endlichen Gitter kann $\xi$ nicht
+            größer als $L$ werden, bei $T_c$ gilt daher $\tau \propto L^z$. Für
+            Metropolis im zweidimensionalen Ising-Modell ist
+            $z \approx 2{,}17$.</p>
+
+          <p>Die Rechenzeit für eine feste Zahl unabhängiger Konfigurationen wächst
+            wie $N\tau \propto L^{d+z}$, hier also wie $L^{4{,}17}$. Ein doppelt so
+            großes Gitter kostet rund 18-mal so viel Zeit. Der Grund ist
+            anschaulich: Einzelne Spinflips verschieben die Ränder großer Inseln
+            nur zufällig hin und her, und bis eine ganze Insel umgeklappt ist,
+            vergeht sehr viel Zeit.</p>
+
+          <h2 id="wolff">Der Wolff-Algorithmus</h2>
+
+          <p>Der Wolff-Algorithmus klappt statt einzelner Spins ganze Cluster um:</p>
+          <ol>
+            <li>Wähle einen zufälligen Startspin.</li>
+            <li>Prüfe jeden Nachbarn mit gleicher Stellung, der noch nicht im
+              Cluster ist, und nimm ihn mit der Wahrscheinlichkeit $P_\text{add}$
+              auf.</li>
+            <li>Wiederhole Schritt 2 für alle neu aufgenommenen Spins, bis keine
+              ungeprüften Nachbarn mehr übrig sind.</li>
+            <li>Klappe den ganzen Cluster um. Dieser Zug wird immer angenommen.</li>
+          </ol>
+
+          <p>Dass das ohne Annahmeschritt funktioniert, liegt an der Wahl von
+            $P_\text{add}$. Am Rand des Clusters liegen Bindungen zu Spins
+            außerhalb. In der Konfiguration $x$ seien $a$ davon „gleich“ (der
+            Nachbar wurde geprüft, aber nicht aufgenommen) und $b$ „verschieden“.
+            Die Wahrscheinlichkeit, genau diesen Cluster zu bauen, enthält für den
+            Rand den Faktor $(1 - P_\text{add})^a$. Nach dem Umklappen ($x'$) sind
+            die Rollen vertauscht: Für den Rückweg braucht man den Faktor
+            $(1 - P_\text{add})^b$, und die Energie ändert sich um
+            $E(x') - E(x) = 2J(a - b)$. Das Innere des Clusters trägt in beide
+            Richtungen gleich bei. Die detaillierte Bilanz verlangt daher</p>
+          $$ (1 - P_\text{add})^{a - b} = \mathrm{e}^{-2\beta J(a - b)} \quad\Rightarrow\quad P_\text{add} = 1 - \mathrm{e}^{-2\beta J} . $$
+          <p>Bei hoher Temperatur geht $P_\text{add}$ gegen null und die Cluster
+            sind klein, bei tiefer Temperatur geht es gegen eins. Nahe $T_c$ haben
+            die Cluster wie die Inseln alle Größen (Abb. 2), und darum wirkt der
+            Algorithmus genau dort. Das kritische Verlangsamen verschwindet nicht
+            ganz, aber der dynamische Exponent sinkt in zwei Dimensionen auf etwa
+            $z \approx 0{,}25$. Eine Verdopplung von $L$ kostet dann rund das
+            Fünffache statt das 18-Fache.</p>
+          <figure class="abbildung">
+            <svg class="abb" viewBox="0 0 360 232" role="img" aria-label="Gitter aus 24 mal 24 Spins bei der kritischen Temperatur, ein Wolff-Cluster aus 69 blauen Spins ist hervorgehoben und umrandet">
+<path class="punkt kupfer" d="M64 8h9v9h-9zM73 8h9v9h-9zM172 8h9v9h-9zM73 17h9v9h-9zM127 17h9v9h-9zM199 17h9v9h-9zM64 26h9v9h-9zM73 26h9v9h-9zM127 26h9v9h-9zM64 35h9v9h-9zM208 35h9v9h-9zM46 44h9v9h-9zM55 44h9v9h-9zM64 44h9v9h-9zM73 44h9v9h-9zM100 44h9v9h-9zM109 44h9v9h-9zM118 44h9v9h-9zM127 44h9v9h-9zM136 44h9v9h-9zM145 44h9v9h-9zM208 44h9v9h-9zM10 53h9v9h-9zM46 53h9v9h-9zM55 53h9v9h-9zM82 53h9v9h-9zM91 53h9v9h-9zM127 53h9v9h-9zM136 53h9v9h-9zM46 62h9v9h-9zM55 62h9v9h-9zM82 62h9v9h-9zM145 62h9v9h-9zM28 71h9v9h-9zM46 71h9v9h-9zM55 71h9v9h-9zM64 71h9v9h-9zM82 71h9v9h-9zM46 80h9v9h-9zM55 80h9v9h-9zM64 80h9v9h-9zM154 80h9v9h-9zM163 80h9v9h-9zM37 89h9v9h-9zM154 89h9v9h-9zM163 89h9v9h-9zM172 89h9v9h-9zM181 89h9v9h-9zM37 98h9v9h-9zM64 98h9v9h-9zM172 98h9v9h-9zM181 98h9v9h-9zM28 107h9v9h-9zM37 107h9v9h-9zM172 107h9v9h-9zM181 107h9v9h-9zM37 116h9v9h-9zM136 116h9v9h-9zM181 116h9v9h-9zM199 125h9v9h-9zM28 134h9v9h-9zM37 134h9v9h-9zM109 134h9v9h-9zM46 143h9v9h-9zM46 152h9v9h-9zM91 152h9v9h-9zM217 152h9v9h-9zM28 161h9v9h-9zM37 161h9v9h-9zM46 161h9v9h-9zM64 161h9v9h-9zM73 161h9v9h-9zM82 161h9v9h-9zM91 161h9v9h-9zM100 161h9v9h-9zM28 170h9v9h-9zM37 170h9v9h-9zM46 170h9v9h-9zM55 170h9v9h-9zM64 170h9v9h-9zM73 170h9v9h-9zM82 170h9v9h-9zM91 170h9v9h-9zM100 170h9v9h-9zM109 170h9v9h-9zM28 179h9v9h-9zM37 179h9v9h-9zM82 179h9v9h-9zM91 179h9v9h-9zM28 188h9v9h-9zM37 188h9v9h-9zM46 188h9v9h-9zM28 197h9v9h-9zM37 197h9v9h-9zM46 197h9v9h-9zM55 197h9v9h-9zM64 197h9v9h-9zM73 197h9v9h-9zM82 197h9v9h-9zM109 197h9v9h-9zM19 206h9v9h-9zM28 206h9v9h-9zM163 206h9v9h-9zM64 215h9v9h-9zM73 215h9v9h-9zM163 215h9v9h-9zM172 215h9v9h-9z" style="fill-opacity:0.3"/>
+<path class="punkt blau" d="M10 8h9v9h-9zM19 8h9v9h-9zM28 8h9v9h-9zM37 8h9v9h-9zM46 8h9v9h-9zM55 8h9v9h-9zM82 8h9v9h-9zM91 8h9v9h-9zM100 8h9v9h-9zM109 8h9v9h-9zM118 8h9v9h-9zM127 8h9v9h-9zM136 8h9v9h-9zM145 8h9v9h-9zM154 8h9v9h-9zM163 8h9v9h-9zM181 8h9v9h-9zM190 8h9v9h-9zM199 8h9v9h-9zM208 8h9v9h-9zM217 8h9v9h-9zM10 17h9v9h-9zM19 17h9v9h-9zM28 17h9v9h-9zM37 17h9v9h-9zM46 17h9v9h-9zM55 17h9v9h-9zM64 17h9v9h-9zM82 17h9v9h-9zM91 17h9v9h-9zM100 17h9v9h-9zM109 17h9v9h-9zM118 17h9v9h-9zM136 17h9v9h-9zM145 17h9v9h-9zM154 17h9v9h-9zM163 17h9v9h-9zM172 17h9v9h-9zM181 17h9v9h-9zM190 17h9v9h-9zM208 17h9v9h-9zM217 17h9v9h-9zM10 26h9v9h-9zM19 26h9v9h-9zM28 26h9v9h-9zM37 26h9v9h-9zM46 26h9v9h-9zM55 26h9v9h-9zM82 26h9v9h-9zM91 26h9v9h-9zM100 26h9v9h-9zM109 26h9v9h-9zM118 26h9v9h-9zM136 26h9v9h-9zM145 26h9v9h-9zM154 26h9v9h-9zM163 26h9v9h-9zM172 26h9v9h-9zM181 26h9v9h-9zM190 26h9v9h-9zM199 26h9v9h-9zM208 26h9v9h-9zM217 26h9v9h-9zM10 35h9v9h-9zM19 35h9v9h-9zM28 35h9v9h-9zM37 35h9v9h-9zM46 35h9v9h-9zM55 35h9v9h-9zM73 35h9v9h-9zM82 35h9v9h-9zM91 35h9v9h-9zM100 35h9v9h-9zM109 35h9v9h-9zM118 35h9v9h-9zM127 35h9v9h-9zM136 35h9v9h-9zM145 35h9v9h-9zM154 35h9v9h-9zM163 35h9v9h-9zM172 35h9v9h-9zM181 35h9v9h-9zM190 35h9v9h-9zM199 35h9v9h-9zM217 35h9v9h-9zM10 44h9v9h-9zM19 44h9v9h-9zM28 44h9v9h-9zM37 44h9v9h-9zM82 44h9v9h-9zM91 44h9v9h-9zM154 44h9v9h-9zM163 44h9v9h-9zM172 44h9v9h-9zM181 44h9v9h-9zM190 44h9v9h-9zM199 44h9v9h-9zM217 44h9v9h-9zM19 53h9v9h-9zM28 53h9v9h-9zM37 53h9v9h-9zM64 53h9v9h-9zM73 53h9v9h-9zM145 53h9v9h-9zM154 53h9v9h-9zM163 53h9v9h-9zM172 53h9v9h-9zM181 53h9v9h-9zM190 53h9v9h-9zM199 53h9v9h-9zM208 53h9v9h-9zM217 53h9v9h-9zM10 62h9v9h-9zM19 62h9v9h-9zM28 62h9v9h-9zM37 62h9v9h-9zM64 62h9v9h-9zM73 62h9v9h-9zM154 62h9v9h-9zM163 62h9v9h-9zM172 62h9v9h-9zM181 62h9v9h-9zM190 62h9v9h-9zM199 62h9v9h-9zM208 62h9v9h-9zM217 62h9v9h-9zM10 71h9v9h-9zM19 71h9v9h-9zM37 71h9v9h-9zM73 71h9v9h-9zM145 71h9v9h-9zM154 71h9v9h-9zM163 71h9v9h-9zM172 71h9v9h-9zM181 71h9v9h-9zM190 71h9v9h-9zM199 71h9v9h-9zM208 71h9v9h-9zM217 71h9v9h-9zM10 80h9v9h-9zM19 80h9v9h-9zM28 80h9v9h-9zM37 80h9v9h-9zM73 80h9v9h-9zM82 80h9v9h-9zM172 80h9v9h-9zM181 80h9v9h-9zM190 80h9v9h-9zM199 80h9v9h-9zM208 80h9v9h-9zM217 80h9v9h-9zM10 89h9v9h-9zM19 89h9v9h-9zM28 89h9v9h-9zM46 89h9v9h-9zM55 89h9v9h-9zM64 89h9v9h-9zM73 89h9v9h-9zM190 89h9v9h-9zM199 89h9v9h-9zM208 89h9v9h-9zM217 89h9v9h-9zM10 98h9v9h-9zM19 98h9v9h-9zM28 98h9v9h-9zM46 98h9v9h-9zM55 98h9v9h-9zM154 98h9v9h-9zM163 98h9v9h-9zM190 98h9v9h-9zM199 98h9v9h-9zM208 98h9v9h-9zM217 98h9v9h-9zM10 107h9v9h-9zM19 107h9v9h-9zM55 107h9v9h-9zM64 107h9v9h-9zM73 107h9v9h-9zM82 107h9v9h-9zM91 107h9v9h-9zM163 107h9v9h-9zM190 107h9v9h-9zM199 107h9v9h-9zM208 107h9v9h-9zM217 107h9v9h-9zM10 116h9v9h-9zM19 116h9v9h-9zM28 116h9v9h-9zM55 116h9v9h-9zM64 116h9v9h-9zM73 116h9v9h-9zM82 116h9v9h-9zM91 116h9v9h-9zM109 116h9v9h-9zM118 116h9v9h-9zM127 116h9v9h-9zM145 116h9v9h-9zM163 116h9v9h-9zM172 116h9v9h-9zM190 116h9v9h-9zM199 116h9v9h-9zM208 116h9v9h-9zM217 116h9v9h-9zM10 125h9v9h-9zM19 125h9v9h-9zM28 125h9v9h-9zM37 125h9v9h-9zM109 125h9v9h-9zM118 125h9v9h-9zM127 125h9v9h-9zM136 125h9v9h-9zM145 125h9v9h-9zM154 125h9v9h-9zM163 125h9v9h-9zM172 125h9v9h-9zM181 125h9v9h-9zM190 125h9v9h-9zM208 125h9v9h-9zM217 125h9v9h-9zM10 134h9v9h-9zM19 134h9v9h-9zM118 134h9v9h-9zM127 134h9v9h-9zM136 134h9v9h-9zM145 134h9v9h-9zM154 134h9v9h-9zM163 134h9v9h-9zM172 134h9v9h-9zM181 134h9v9h-9zM190 134h9v9h-9zM199 134h9v9h-9zM208 134h9v9h-9zM217 134h9v9h-9zM10 143h9v9h-9zM19 143h9v9h-9zM28 143h9v9h-9zM37 143h9v9h-9zM55 143h9v9h-9zM64 143h9v9h-9zM109 143h9v9h-9zM118 143h9v9h-9zM127 143h9v9h-9zM136 143h9v9h-9zM145 143h9v9h-9zM154 143h9v9h-9zM163 143h9v9h-9zM172 143h9v9h-9zM181 143h9v9h-9zM190 143h9v9h-9zM199 143h9v9h-9zM208 143h9v9h-9zM217 143h9v9h-9zM10 152h9v9h-9zM19 152h9v9h-9zM28 152h9v9h-9zM37 152h9v9h-9zM55 152h9v9h-9zM64 152h9v9h-9zM73 152h9v9h-9zM100 152h9v9h-9zM109 152h9v9h-9zM118 152h9v9h-9zM127 152h9v9h-9zM136 152h9v9h-9zM145 152h9v9h-9zM154 152h9v9h-9zM163 152h9v9h-9zM172 152h9v9h-9zM181 152h9v9h-9zM190 152h9v9h-9zM199 152h9v9h-9zM208 152h9v9h-9zM10 161h9v9h-9zM19 161h9v9h-9zM55 161h9v9h-9zM109 161h9v9h-9zM118 161h9v9h-9zM127 161h9v9h-9zM136 161h9v9h-9zM145 161h9v9h-9zM154 161h9v9h-9zM163 161h9v9h-9zM172 161h9v9h-9zM181 161h9v9h-9zM190 161h9v9h-9zM199 161h9v9h-9zM208 161h9v9h-9zM217 161h9v9h-9zM10 170h9v9h-9zM19 170h9v9h-9zM118 170h9v9h-9zM127 170h9v9h-9zM136 170h9v9h-9zM145 170h9v9h-9zM154 170h9v9h-9zM163 170h9v9h-9zM172 170h9v9h-9zM181 170h9v9h-9zM190 170h9v9h-9zM199 170h9v9h-9zM208 170h9v9h-9zM217 170h9v9h-9zM10 179h9v9h-9zM19 179h9v9h-9zM46 179h9v9h-9zM55 179h9v9h-9zM64 179h9v9h-9zM73 179h9v9h-9zM100 179h9v9h-9zM109 179h9v9h-9zM118 179h9v9h-9zM127 179h9v9h-9zM136 179h9v9h-9zM145 179h9v9h-9zM154 179h9v9h-9zM163 179h9v9h-9zM172 179h9v9h-9zM181 179h9v9h-9zM190 179h9v9h-9zM199 179h9v9h-9zM208 179h9v9h-9zM217 179h9v9h-9zM10 188h9v9h-9zM19 188h9v9h-9zM55 188h9v9h-9zM64 188h9v9h-9zM73 188h9v9h-9zM82 188h9v9h-9zM91 188h9v9h-9zM100 188h9v9h-9zM109 188h9v9h-9zM118 188h9v9h-9zM127 188h9v9h-9zM136 188h9v9h-9zM145 188h9v9h-9zM154 188h9v9h-9zM163 188h9v9h-9zM172 188h9v9h-9zM181 188h9v9h-9zM190 188h9v9h-9zM199 188h9v9h-9zM208 188h9v9h-9zM217 188h9v9h-9zM10 197h9v9h-9zM19 197h9v9h-9zM91 197h9v9h-9zM100 197h9v9h-9zM118 197h9v9h-9zM127 197h9v9h-9zM136 197h9v9h-9zM145 197h9v9h-9zM154 197h9v9h-9zM163 197h9v9h-9zM172 197h9v9h-9zM181 197h9v9h-9zM190 197h9v9h-9zM199 197h9v9h-9zM208 197h9v9h-9zM217 197h9v9h-9zM10 206h9v9h-9zM37 206h9v9h-9zM46 206h9v9h-9zM55 206h9v9h-9zM64 206h9v9h-9zM73 206h9v9h-9zM82 206h9v9h-9zM91 206h9v9h-9zM100 206h9v9h-9zM109 206h9v9h-9zM118 206h9v9h-9zM127 206h9v9h-9zM136 206h9v9h-9zM145 206h9v9h-9zM154 206h9v9h-9zM172 206h9v9h-9zM181 206h9v9h-9zM190 206h9v9h-9zM199 206h9v9h-9zM208 206h9v9h-9zM217 206h9v9h-9zM10 215h9v9h-9zM19 215h9v9h-9zM28 215h9v9h-9zM37 215h9v9h-9zM46 215h9v9h-9zM55 215h9v9h-9zM82 215h9v9h-9zM91 215h9v9h-9zM100 215h9v9h-9zM109 215h9v9h-9zM118 215h9v9h-9zM127 215h9v9h-9zM136 215h9v9h-9zM145 215h9v9h-9zM154 215h9v9h-9zM181 215h9v9h-9zM190 215h9v9h-9zM199 215h9v9h-9zM208 215h9v9h-9zM217 215h9v9h-9z" style="fill-opacity:0.3"/>
+<path class="punkt blau" d="M100 53h9v9h-9zM109 53h9v9h-9zM118 53h9v9h-9zM91 62h9v9h-9zM100 62h9v9h-9zM109 62h9v9h-9zM118 62h9v9h-9zM127 62h9v9h-9zM136 62h9v9h-9zM91 71h9v9h-9zM100 71h9v9h-9zM109 71h9v9h-9zM118 71h9v9h-9zM127 71h9v9h-9zM136 71h9v9h-9zM91 80h9v9h-9zM100 80h9v9h-9zM109 80h9v9h-9zM118 80h9v9h-9zM127 80h9v9h-9zM136 80h9v9h-9zM145 80h9v9h-9zM82 89h9v9h-9zM91 89h9v9h-9zM100 89h9v9h-9zM109 89h9v9h-9zM118 89h9v9h-9zM127 89h9v9h-9zM136 89h9v9h-9zM145 89h9v9h-9zM73 98h9v9h-9zM82 98h9v9h-9zM91 98h9v9h-9zM100 98h9v9h-9zM109 98h9v9h-9zM118 98h9v9h-9zM127 98h9v9h-9zM136 98h9v9h-9zM145 98h9v9h-9zM46 107h9v9h-9zM100 107h9v9h-9zM109 107h9v9h-9zM118 107h9v9h-9zM127 107h9v9h-9zM136 107h9v9h-9zM145 107h9v9h-9zM154 107h9v9h-9zM46 116h9v9h-9zM100 116h9v9h-9zM154 116h9v9h-9zM46 125h9v9h-9zM55 125h9v9h-9zM64 125h9v9h-9zM73 125h9v9h-9zM82 125h9v9h-9zM91 125h9v9h-9zM100 125h9v9h-9zM46 134h9v9h-9zM55 134h9v9h-9zM64 134h9v9h-9zM73 134h9v9h-9zM82 134h9v9h-9zM91 134h9v9h-9zM100 134h9v9h-9zM73 143h9v9h-9zM82 143h9v9h-9zM91 143h9v9h-9zM100 143h9v9h-9zM82 152h9v9h-9z" style="fill-opacity:0.9"/>
+<path class="achse" d="M46 116v9M55 116v9M46 143h9M46 134v9M100 116v9M109 116v9M154 125h9M154 116v9M163 116v9M46 125v9M109 134v9M100 53h9M100 53v9M91 80v9M82 89h9M82 89v9M91 107h9M145 80h9M154 80v9M136 116h9M109 116h9M55 125h9M154 98v9M82 125h9M136 62h9M145 62v9M64 143h9M46 107h9M46 107v9M55 107v9M118 53h9M127 53v9M100 107v9M154 107h9M163 107v9M82 107h9M127 116h9M73 125h9M109 125v9M73 152h9M73 143v9M91 71v9M100 152h9M109 143v9M127 62h9M55 143h9M109 53h9M73 98h9M73 107h9M73 98v9M154 89v9M118 116h9M91 125h9M145 116h9M64 125h9M91 152h9M82 161h9M82 152v9M91 152v9M91 62h9M91 62v9M145 71v9" style="stroke-width:2"/>
+<rect class="achse" x="10" y="8" width="216" height="216" fill="none"/>
+<circle class="punkt" cx="149.5" cy="111.5" r="2.6"/>
+<circle class="punkt" cx="246" cy="40" r="2.6"/><text class="klein" x="254" y="44">Startspin</text>
+<rect class="punkt blau" x="242" y="58" width="9" height="9" style="fill-opacity:0.9"/><text class="klein" x="256" y="67">Cluster: 69 Spins</text>
+<rect class="punkt blau" x="242" y="76" width="9" height="9" style="fill-opacity:0.3"/><text class="klein" x="256" y="85">übrige Spins</text>
+<text class="klein" x="242" y="120">T = Tc = 2,27 J/k<tspan dy="3" style="font-size:8px">B</tspan></text>
+<text class="klein" x="242" y="138">P<tspan dy="3" style="font-size:8px">add</tspan><tspan dy="-3"> = 2 − √2 = 0,586</tspan></text>
+</svg>
+            <figcaption>Abb. 2: Ein Wolff-Cluster aus einer eigenen Simulation
+              bei $T = T_c$ auf einem $24 \times 24$-Gitter. Der Cluster (kräftig,
+              mit Umriss) ist vom markierten Startspin aus gewachsen. Gleich
+              gerichtete Nachbarn am Rand wurden geprüft, aber mit
+              Wahrscheinlichkeit $1 - P_\text{add}$ nicht aufgenommen.</figcaption>
+          </figure>
+
+          <h2 id="fehler">Fehler der Messwerte</h2>
+
+          <p>Aus $n$ unabhängigen Messwerten $A_k$ mit Standardabweichung
+            $\sigma_A$ hat der Mittelwert den Fehler $\sigma_A/\sqrt{n}$. Die
+            Werte einer Markov-Kette sind aber korreliert. Die normierte
+            Autokorrelationsfunktion</p>
+          $$ \rho(\Delta) = \frac{\langle A_k A_{k+\Delta}\rangle - \langle A\rangle^2}{\sigma_A^2} $$
+          <p>fällt für große Abstände $\Delta$ etwa wie
+            $\mathrm{e}^{-\Delta/\tau}$ ab. Mit der integrierten
+            Autokorrelationszeit</p>
+          $$ \tau_\text{int} = \frac12 + \sum_{\Delta = 1}^{\infty}\rho(\Delta) $$
+          <p>ist der Fehler des Mittelwerts
+            $\sigma_A\sqrt{2\tau_\text{int}/n}$. Die Kette enthält also nur
+            $n_\text{eff} = n/(2\tau_\text{int})$ unabhängige Werte. Für
+            unkorrelierte Werte ist $\tau_\text{int} = \frac12$ und
+            $n_\text{eff} = n$.</p>
+
+          <p>Für Größen wie $\chi$ oder $c$, die nichtlinear aus Mittelwerten
+            gebildet werden, gibt es keine einfache Fehlerformel. Hier hilft das
+            <em>Jackknife-Verfahren</em>: Man teilt die Messreihe in $n$ Blöcke,
+            die länger als $\tau_\text{int}$ sind, und berechnet die Größe
+            $\theta_k$ jeweils ohne den $k$-ten Block. Dann ist</p>
+          $$ \sigma_\theta^2 = \frac{n-1}{n}\sum_{k=1}^{n}\left(\theta_k - \bar\theta\right)^2 , $$
+          <p>mit dem Mittel $\bar\theta$ der $\theta_k$. Für den einfachen
+            Mittelwert ergibt das genau den üblichen Fehler (Aufgabe 3).</p>
+
+          <h2 id="endliche-gitter">Endliche Gitter</h2>
+
+          <p>Abb. 3 zeigt eigene Metropolis-Simulationen für $L = 8$, $16$ und
+            $32$ (je 32 unabhängige Läufe zu 20 000 Sweeps, Fehler aus dem
+            Jackknife über die Läufe, meist kleiner als die Punkte). Weit unter
+            $T_c$ liegen alle Gitter auf der Onsager-Kurve. Oberhalb von $T_c$
+            bleibt $\langle|m|\rangle$ endlich, weil auf einem kleinen Gitter die
+            zufällige Summe der Spins nicht verschwindet. Dieser Rest fällt wie
+            $1/L$ ab. Je größer das Gitter, desto steiler wird der Abfall bei
+            $T_c$.</p>
+
+          <figure class="abbildung">
+            <div class="abb-reihe">
+              <svg class="abb" viewBox="0 0 300 235" role="img" aria-label="Betrag der Magnetisierung über der Temperatur aus Simulationen mit L gleich 8, 16 und 32 sowie exakte Onsager-Kurve; mit wachsendem L fällt die Magnetisierung bei Tc steiler ab">
+<defs><marker id="pfeil-abb3a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto"><path class="punkt" d="M0 0L10 5L0 10z"/></marker></defs>
+<path class="achse" d="M40 196H294" marker-end="url(#pfeil-abb3a)"/>
+<path class="achse" d="M40 196V8" marker-end="url(#pfeil-abb3a)"/>
+<path class="achse" d="M51.3 196v4"/><text class="klein" x="51.3" y="211" text-anchor="middle">1,5</text>
+<path class="achse" d="M107.6 196v4"/><text class="klein" x="107.6" y="211" text-anchor="middle">2,0</text>
+<path class="achse" d="M164.0 196v4"/><text class="klein" x="164.0" y="211" text-anchor="middle">2,5</text>
+<path class="achse" d="M220.4 196v4"/><text class="klein" x="220.4" y="211" text-anchor="middle">3,0</text>
+<path class="achse" d="M276.7 196v4"/><text class="klein" x="276.7" y="211" text-anchor="middle">3,5</text>
+<path class="achse" d="M36 196.0h4"/><text class="klein" x="33" y="200.0" text-anchor="end">0</text>
+<path class="achse" d="M36 110.0h4"/><text class="klein" x="33" y="114.0" text-anchor="end">0,5</text>
+<path class="achse" d="M36 24.0h4"/><text class="klein" x="33" y="28.0" text-anchor="end">1</text>
+<path class="hilfslinie" d="M138.0 196V16"/>
+<text class="klein" x="288" y="190" text-anchor="end">T</text>
+<text class="klein" x="47" y="14">⟨|m|⟩</text>
+<polyline class="kurve schwach" points="40.0,25.5 40.5,25.5 41.0,25.5 41.5,25.6 42.0,25.6 42.5,25.6 43.0,25.7 43.4,25.7 43.9,25.7 44.4,25.8 44.9,25.8 45.4,25.8 45.9,25.9 46.4,25.9 46.9,26.0 47.4,26.0 47.9,26.0 48.4,26.1 48.9,26.1 49.4,26.2 49.8,26.2 50.3,26.2 50.8,26.3 51.3,26.3 51.8,26.4 52.3,26.4 52.8,26.5 53.3,26.5 53.8,26.6 54.3,26.6 54.8,26.6 55.3,26.7 55.8,26.7 56.2,26.8 56.7,26.8 57.2,26.9 57.7,27.0 58.2,27.0 58.7,27.1 59.2,27.1 59.7,27.2 60.2,27.2 60.7,27.3 61.2,27.3 61.7,27.4 62.2,27.5 62.6,27.5 63.1,27.6 63.6,27.6 64.1,27.7 64.6,27.8 65.1,27.8 65.6,27.9 66.1,28.0 66.6,28.0 67.1,28.1 67.6,28.2 68.1,28.2 68.6,28.3 69.0,28.4 69.5,28.5 70.0,28.5 70.5,28.6 71.0,28.7 71.5,28.8 72.0,28.8 72.5,28.9 73.0,29.0 73.5,29.1 74.0,29.2 74.5,29.3 75.0,29.3 75.5,29.4 75.9,29.5 76.4,29.6 76.9,29.7 77.4,29.8 77.9,29.9 78.4,30.0 78.9,30.1 79.4,30.2 79.9,30.3 80.4,30.4 80.9,30.5 81.4,30.6 81.9,30.7 82.3,30.8 82.8,30.9 83.3,31.0 83.8,31.1 84.3,31.2 84.8,31.4 85.3,31.5 85.8,31.6 86.3,31.7 86.8,31.8 87.3,32.0 87.8,32.1 88.3,32.2 88.7,32.3 89.2,32.5 89.7,32.6 90.2,32.7 90.7,32.9 91.2,33.0 91.7,33.2 92.2,33.3 92.7,33.4 93.2,33.6 93.7,33.7 94.2,33.9 94.7,34.1 95.1,34.2 95.6,34.4 96.1,34.5 96.6,34.7 97.1,34.9 97.6,35.0 98.1,35.2 98.6,35.4 99.1,35.6 99.6,35.8 100.1,35.9 100.6,36.1 101.1,36.3 101.5,36.5 102.0,36.7 102.5,36.9 103.0,37.1 103.5,37.3 104.0,37.5 104.5,37.8 105.0,38.0 105.5,38.2 106.0,38.4 106.5,38.7 107.0,38.9 107.5,39.2 107.9,39.4 108.4,39.7 108.9,39.9 109.4,40.2 109.9,40.5 110.4,40.7 110.9,41.0 111.4,41.3 111.9,41.6 112.4,41.9 112.9,42.2 113.4,42.5 113.9,42.8 114.3,43.1 114.8,43.5 115.3,43.8 115.8,44.2 116.3,44.5 116.8,44.9 117.3,45.3 117.8,45.7 118.3,46.1 118.8,46.5 119.3,46.9 119.8,47.3 120.3,47.8 120.7,48.2 121.2,48.7 121.7,49.2 122.2,49.7 122.7,50.2 123.2,50.7 123.7,51.3 124.2,51.8 124.7,52.4 125.2,53.0 125.7,53.7 126.2,54.3 126.7,55.0 127.1,55.7 127.6,56.5 128.1,57.3 128.6,58.1 129.1,59.0 129.6,59.9 130.1,60.9 130.6,61.9 131.1,63.0 131.6,64.2 132.1,65.4 132.6,66.8 133.1,68.2 133.5,69.9 134.0,71.6 134.5,73.6 135.0,75.9 135.5,78.6 136.0,81.8 136.5,85.8 137.0,91.2 137.5,99.8 138.0,196.0 138.0,196.0 288.0,196.0" style="stroke-width:5"/>
+<polyline class="kurve kupfer duenn" points="51.3,26.3 73.8,29.1 96.4,34.7 107.6,39.3 118.9,45.7 124.5,49.9 130.2,54.6 135.8,60.1 141.5,66.1 147.1,72.5 152.7,79.3 158.4,85.6 164.0,92.1 175.3,104.3 186.5,115.0 197.8,123.8 220.4,136.6 242.9,144.9 276.7,152.7" style="stroke-opacity:0.45;stroke-width:1.2"/>
+<circle class="punkt kupfer" cx="51.3" cy="26.3" r="2.8"/>
+<circle class="punkt kupfer" cx="73.8" cy="29.1" r="2.8"/>
+<circle class="punkt kupfer" cx="96.4" cy="34.7" r="2.8"/>
+<circle class="punkt kupfer" cx="107.6" cy="39.3" r="2.8"/>
+<circle class="punkt kupfer" cx="118.9" cy="45.7" r="2.8"/>
+<circle class="punkt kupfer" cx="124.5" cy="49.9" r="2.8"/>
+<circle class="punkt kupfer" cx="130.2" cy="54.6" r="2.8"/>
+<circle class="punkt kupfer" cx="135.8" cy="60.1" r="2.8"/>
+<circle class="punkt kupfer" cx="141.5" cy="66.1" r="2.8"/>
+<circle class="punkt kupfer" cx="147.1" cy="72.5" r="2.8"/>
+<circle class="punkt kupfer" cx="152.7" cy="79.3" r="2.8"/>
+<circle class="punkt kupfer" cx="158.4" cy="85.6" r="2.8"/>
+<circle class="punkt kupfer" cx="164.0" cy="92.1" r="2.8"/>
+<circle class="punkt kupfer" cx="175.3" cy="104.3" r="2.8"/>
+<circle class="punkt kupfer" cx="186.5" cy="115.0" r="2.8"/>
+<circle class="punkt kupfer" cx="197.8" cy="123.8" r="2.8"/>
+<circle class="punkt kupfer" cx="220.4" cy="136.6" r="2.8"/>
+<circle class="punkt kupfer" cx="242.9" cy="144.9" r="2.8"/>
+<circle class="punkt kupfer" cx="276.7" cy="152.7" r="2.8"/>
+<polyline class="kurve blau duenn" points="51.3,26.3 73.8,29.2 96.4,34.6 107.6,39.3 118.9,46.6 124.5,52.2 130.2,59.3 135.8,69.0 141.5,80.8 147.1,94.1 152.7,107.2 158.4,118.8 164.0,129.0 175.3,143.8 186.5,152.9 197.8,159.0 220.4,166.5 242.9,170.8 276.7,174.7" style="stroke-opacity:0.45;stroke-width:1.2"/>
+<rect class="punkt blau" x="48.8" y="23.8" width="5" height="5"/>
+<rect class="punkt blau" x="71.3" y="26.7" width="5" height="5"/>
+<rect class="punkt blau" x="93.9" y="32.1" width="5" height="5"/>
+<rect class="punkt blau" x="105.1" y="36.8" width="5" height="5"/>
+<rect class="punkt blau" x="116.4" y="44.1" width="5" height="5"/>
+<rect class="punkt blau" x="122.0" y="49.7" width="5" height="5"/>
+<rect class="punkt blau" x="127.7" y="56.8" width="5" height="5"/>
+<rect class="punkt blau" x="133.3" y="66.5" width="5" height="5"/>
+<rect class="punkt blau" x="139.0" y="78.3" width="5" height="5"/>
+<rect class="punkt blau" x="144.6" y="91.6" width="5" height="5"/>
+<rect class="punkt blau" x="150.2" y="104.7" width="5" height="5"/>
+<rect class="punkt blau" x="155.9" y="116.3" width="5" height="5"/>
+<rect class="punkt blau" x="161.5" y="126.5" width="5" height="5"/>
+<rect class="punkt blau" x="172.8" y="141.3" width="5" height="5"/>
+<rect class="punkt blau" x="184.0" y="150.4" width="5" height="5"/>
+<rect class="punkt blau" x="195.3" y="156.5" width="5" height="5"/>
+<rect class="punkt blau" x="217.9" y="164.0" width="5" height="5"/>
+<rect class="punkt blau" x="240.4" y="168.3" width="5" height="5"/>
+<rect class="punkt blau" x="274.2" y="172.2" width="5" height="5"/>
+<polyline class="kurve  duenn" points="51.3,26.3 73.8,29.2 96.4,34.6 107.6,39.3 118.9,46.6 124.5,52.3 130.2,60.8 135.8,75.4 141.5,98.6 147.1,122.7 152.7,141.5 158.4,153.7 164.0,161.5 175.3,170.0 186.5,174.8 197.8,177.7 220.4,181.4 242.9,183.5 276.7,185.4" style="stroke-opacity:0.45;stroke-width:1.2"/>
+<path class="punkt " d="M51.3 22.7l3.4 3.6l-3.4 3.6l-3.4 -3.6z"/>
+<path class="punkt " d="M73.8 25.6l3.4 3.6l-3.4 3.6l-3.4 -3.6z"/>
+<path class="punkt " d="M96.4 31.0l3.4 3.6l-3.4 3.6l-3.4 -3.6z"/>
+<path class="punkt " d="M107.6 35.7l3.4 3.6l-3.4 3.6l-3.4 -3.6z"/>
+<path class="punkt " d="M118.9 43.0l3.4 3.6l-3.4 3.6l-3.4 -3.6z"/>
+<path class="punkt " d="M124.5 48.7l3.4 3.6l-3.4 3.6l-3.4 -3.6z"/>
+<path class="punkt " d="M130.2 57.2l3.4 3.6l-3.4 3.6l-3.4 -3.6z"/>
+<path class="punkt " d="M135.8 71.8l3.4 3.6l-3.4 3.6l-3.4 -3.6z"/>
+<path class="punkt " d="M141.5 95.0l3.4 3.6l-3.4 3.6l-3.4 -3.6z"/>
+<path class="punkt " d="M147.1 119.1l3.4 3.6l-3.4 3.6l-3.4 -3.6z"/>
+<path class="punkt " d="M152.7 137.9l3.4 3.6l-3.4 3.6l-3.4 -3.6z"/>
+<path class="punkt " d="M158.4 150.1l3.4 3.6l-3.4 3.6l-3.4 -3.6z"/>
+<path class="punkt " d="M164.0 157.9l3.4 3.6l-3.4 3.6l-3.4 -3.6z"/>
+<path class="punkt " d="M175.3 166.4l3.4 3.6l-3.4 3.6l-3.4 -3.6z"/>
+<path class="punkt " d="M186.5 171.2l3.4 3.6l-3.4 3.6l-3.4 -3.6z"/>
+<path class="punkt " d="M197.8 174.1l3.4 3.6l-3.4 3.6l-3.4 -3.6z"/>
+<path class="punkt " d="M220.4 177.8l3.4 3.6l-3.4 3.6l-3.4 -3.6z"/>
+<path class="punkt " d="M242.9 179.9l3.4 3.6l-3.4 3.6l-3.4 -3.6z"/>
+<path class="punkt " d="M276.7 181.8l3.4 3.6l-3.4 3.6l-3.4 -3.6z"/>
+<circle class="punkt kupfer" cx="212.0" cy="36.0" r="2.8"/><text class="klein kupfer" x="221" y="40">L = 8</text>
+<rect class="punkt blau" x="209.5" y="48.5" width="5" height="5"/><text class="klein blau" x="221" y="55">L = 16</text>
+<path class="punkt " d="M212.0 62.4l3.4 3.6l-3.4 3.6l-3.4 -3.6z"/><text class="klein " x="221" y="70">L = 32</text>
+<path class="kurve schwach" d="M206 81h12" style="stroke-width:5"/><text class="klein" x="224" y="85">Onsager</text>
+<text class="klein halo" x="142.0" y="166">Tc</text>
+</svg>
+              <svg class="abb" viewBox="0 0 300 235" role="img" aria-label="Suszeptibilität über der Temperatur mit logarithmischer Achse für L gleich 8, 16 und 32; das Maximum wächst mit L und rückt an Tc heran">
+<defs><marker id="pfeil-abb3b" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto"><path class="punkt" d="M0 0L10 5L0 10z"/></marker></defs>
+<path class="achse" d="M40 196H294" marker-end="url(#pfeil-abb3b)"/>
+<path class="achse" d="M40 196V8" marker-end="url(#pfeil-abb3b)"/>
+<path class="achse" d="M51.3 196v4"/><text class="klein" x="51.3" y="211" text-anchor="middle">1,5</text>
+<path class="achse" d="M107.6 196v4"/><text class="klein" x="107.6" y="211" text-anchor="middle">2,0</text>
+<path class="achse" d="M164.0 196v4"/><text class="klein" x="164.0" y="211" text-anchor="middle">2,5</text>
+<path class="achse" d="M220.4 196v4"/><text class="klein" x="220.4" y="211" text-anchor="middle">3,0</text>
+<path class="achse" d="M276.7 196v4"/><text class="klein" x="276.7" y="211" text-anchor="middle">3,5</text>
+<path class="achse" d="M36 196.0h4"/><text class="klein" x="33" y="200.0" text-anchor="end">0,01</text>
+<path class="achse" d="M36 153.0h4"/><text class="klein" x="33" y="157.0" text-anchor="end">0,1</text>
+<path class="achse" d="M36 110.0h4"/><text class="klein" x="33" y="114.0" text-anchor="end">1</text>
+<path class="achse" d="M36 67.0h4"/><text class="klein" x="33" y="71.0" text-anchor="end">10</text>
+<path class="achse" d="M36 24.0h4"/><text class="klein" x="33" y="28.0" text-anchor="end">100</text>
+<path class="hilfslinie" d="M138.0 196V16"/>
+<text class="klein" x="288" y="190" text-anchor="end">T</text>
+<text class="klein" x="47" y="14">χ</text>
+<polyline class="kurve kupfer duenn" points="51.3,177.6 73.8,159.9 96.4,139.8 107.6,129.3 118.9,119.7 124.5,115.1 130.2,111.3 135.8,107.6 141.5,104.8 147.1,102.6 152.7,100.9 158.4,100.1 164.0,99.6 175.3,99.8 186.5,101.3 197.8,103.5 220.4,108.6 242.9,113.6 276.7,120.1" style="stroke-opacity:0.45;stroke-width:1.2"/>
+<circle class="punkt kupfer" cx="51.3" cy="177.6" r="2.8"/>
+<circle class="punkt kupfer" cx="73.8" cy="159.9" r="2.8"/>
+<circle class="punkt kupfer" cx="96.4" cy="139.8" r="2.8"/>
+<circle class="punkt kupfer" cx="107.6" cy="129.3" r="2.8"/>
+<circle class="punkt kupfer" cx="118.9" cy="119.7" r="2.8"/>
+<circle class="punkt kupfer" cx="124.5" cy="115.1" r="2.8"/>
+<circle class="punkt kupfer" cx="130.2" cy="111.3" r="2.8"/>
+<circle class="punkt kupfer" cx="135.8" cy="107.6" r="2.8"/>
+<circle class="punkt kupfer" cx="141.5" cy="104.8" r="2.8"/>
+<circle class="punkt kupfer" cx="147.1" cy="102.6" r="2.8"/>
+<circle class="punkt kupfer" cx="152.7" cy="100.9" r="2.8"/>
+<circle class="punkt kupfer" cx="158.4" cy="100.1" r="2.8"/>
+<circle class="punkt kupfer" cx="164.0" cy="99.6" r="2.8"/>
+<circle class="punkt kupfer" cx="175.3" cy="99.8" r="2.8"/>
+<circle class="punkt kupfer" cx="186.5" cy="101.3" r="2.8"/>
+<circle class="punkt kupfer" cx="197.8" cy="103.5" r="2.8"/>
+<circle class="punkt kupfer" cx="220.4" cy="108.6" r="2.8"/>
+<circle class="punkt kupfer" cx="242.9" cy="113.6" r="2.8"/>
+<circle class="punkt kupfer" cx="276.7" cy="120.1" r="2.8"/>
+<polyline class="kurve blau duenn" points="51.3,177.3 73.8,159.7 96.4,140.0 107.6,127.8 118.9,111.7 124.5,101.7 130.2,93.5 135.8,85.9 141.5,80.2 147.1,77.1 152.7,76.3 158.4,77.2 164.0,79.1 175.3,84.8 186.5,90.5 197.8,95.9 220.4,104.5 242.9,111.1 276.7,118.8" style="stroke-opacity:0.45;stroke-width:1.2"/>
+<rect class="punkt blau" x="48.8" y="174.8" width="5" height="5"/>
+<rect class="punkt blau" x="71.3" y="157.2" width="5" height="5"/>
+<rect class="punkt blau" x="93.9" y="137.5" width="5" height="5"/>
+<rect class="punkt blau" x="105.1" y="125.3" width="5" height="5"/>
+<rect class="punkt blau" x="116.4" y="109.2" width="5" height="5"/>
+<rect class="punkt blau" x="122.0" y="99.2" width="5" height="5"/>
+<rect class="punkt blau" x="127.7" y="91.0" width="5" height="5"/>
+<rect class="punkt blau" x="133.3" y="83.4" width="5" height="5"/>
+<rect class="punkt blau" x="139.0" y="77.7" width="5" height="5"/>
+<rect class="punkt blau" x="144.6" y="74.6" width="5" height="5"/>
+<rect class="punkt blau" x="150.2" y="73.8" width="5" height="5"/>
+<rect class="punkt blau" x="155.9" y="74.7" width="5" height="5"/>
+<rect class="punkt blau" x="161.5" y="76.6" width="5" height="5"/>
+<rect class="punkt blau" x="172.8" y="82.3" width="5" height="5"/>
+<rect class="punkt blau" x="184.0" y="88.0" width="5" height="5"/>
+<rect class="punkt blau" x="195.3" y="93.4" width="5" height="5"/>
+<rect class="punkt blau" x="217.9" y="102.0" width="5" height="5"/>
+<rect class="punkt blau" x="240.4" y="108.6" width="5" height="5"/>
+<rect class="punkt blau" x="274.2" y="116.3" width="5" height="5"/>
+<polyline class="kurve  duenn" points="51.3,177.4 73.8,159.8 96.4,140.2 107.6,127.8 118.9,110.7 124.5,98.4 130.2,83.3 135.8,65.9 141.5,55.2 147.1,53.9 152.7,58.3 158.4,64.4 164.0,70.7 175.3,80.8 186.5,88.5 197.8,94.6 220.4,104.0 242.9,110.8 276.7,118.5" style="stroke-opacity:0.45;stroke-width:1.2"/>
+<path class="punkt " d="M51.3 173.8l3.4 3.6l-3.4 3.6l-3.4 -3.6z"/>
+<path class="punkt " d="M73.8 156.2l3.4 3.6l-3.4 3.6l-3.4 -3.6z"/>
+<path class="punkt " d="M96.4 136.6l3.4 3.6l-3.4 3.6l-3.4 -3.6z"/>
+<path class="punkt " d="M107.6 124.2l3.4 3.6l-3.4 3.6l-3.4 -3.6z"/>
+<path class="punkt " d="M118.9 107.1l3.4 3.6l-3.4 3.6l-3.4 -3.6z"/>
+<path class="punkt " d="M124.5 94.8l3.4 3.6l-3.4 3.6l-3.4 -3.6z"/>
+<path class="punkt " d="M130.2 79.7l3.4 3.6l-3.4 3.6l-3.4 -3.6z"/>
+<path class="punkt " d="M135.8 62.3l3.4 3.6l-3.4 3.6l-3.4 -3.6z"/>
+<path class="punkt " d="M141.5 51.6l3.4 3.6l-3.4 3.6l-3.4 -3.6z"/>
+<path class="punkt " d="M147.1 50.3l3.4 3.6l-3.4 3.6l-3.4 -3.6z"/>
+<path class="punkt " d="M152.7 54.7l3.4 3.6l-3.4 3.6l-3.4 -3.6z"/>
+<path class="punkt " d="M158.4 60.8l3.4 3.6l-3.4 3.6l-3.4 -3.6z"/>
+<path class="punkt " d="M164.0 67.1l3.4 3.6l-3.4 3.6l-3.4 -3.6z"/>
+<path class="punkt " d="M175.3 77.2l3.4 3.6l-3.4 3.6l-3.4 -3.6z"/>
+<path class="punkt " d="M186.5 84.9l3.4 3.6l-3.4 3.6l-3.4 -3.6z"/>
+<path class="punkt " d="M197.8 91.0l3.4 3.6l-3.4 3.6l-3.4 -3.6z"/>
+<path class="punkt " d="M220.4 100.4l3.4 3.6l-3.4 3.6l-3.4 -3.6z"/>
+<path class="punkt " d="M242.9 107.2l3.4 3.6l-3.4 3.6l-3.4 -3.6z"/>
+<path class="punkt " d="M276.7 114.9l3.4 3.6l-3.4 3.6l-3.4 -3.6z"/>
+<circle class="punkt kupfer" cx="224.0" cy="36.0" r="2.8"/><text class="klein kupfer" x="233" y="40">L = 8</text>
+<rect class="punkt blau" x="221.5" y="48.5" width="5" height="5"/><text class="klein blau" x="233" y="55">L = 16</text>
+<path class="punkt " d="M224.0 62.4l3.4 3.6l-3.4 3.6l-3.4 -3.6z"/><text class="klein " x="233" y="70">L = 32</text>
+</svg>
+            </div>
+            <figcaption>Abb. 3: Eigene Metropolis-Simulation für drei
+              Gittergrößen, Temperatur in Einheiten von $J/k_\mathrm{B}$. Links
+              der Betrag der Magnetisierung mit der exakten Onsager-Kurve des
+              unendlichen Gitters, rechts die Suszeptibilität (logarithmische
+              Achse). Die gestrichelte Linie markiert $T_c = 2{,}269$.</figcaption>
+          </figure>
+
+          <p>Die Suszeptibilität divergiert auf einem endlichen Gitter nicht. Sie
+            hat ein Maximum, das mit $L$ wächst und an $T_c$ heranrückt. Weil
+            $\xi$ höchstens $L$ werden kann, setzt man in
+            $\chi \propto |T - T_c|^{-\gamma}$ die Abschneidung
+            $|T - T_c| \propto L^{-1/\nu}$ ein:</p>
+          $$ \chi_\text{max} \propto L^{\gamma/\nu} = L^{7/4}, \qquad T_\text{max}(L) - T_c \propto L^{-1/\nu} = L^{-1} . $$
+          <p>In unserer Simulation wächst das Maximum von $1{,}75$ ($L = 8$) über $6{,}1$ ($L = 16$) auf $20{,}1$ ($L = 32$), also je Verdopplung etwa um den Faktor $3{,}4$, passend zu $2^{7/4} = 3{,}36$. Seine Lage rückt von $T = 2{,}50$ über $2{,}40$ auf $2{,}35$ an $T_c$ heran (Temperaturraster $0{,}05$). Die Wärmekapazität hat ebenfalls ein Maximum. Wegen
+            $\alpha = 0$ wächst es nur logarithmisch, $c_\text{max} \propto \ln L$.
+            In der Simulation ist $c_\text{max}/k_\mathrm{B} = 1{,}19$, $1{,}55$ und $1{,}91$: Jede Verdopplung von $L$ bringt etwa denselben Zuwachs $0{,}36$, wie es für logarithmisches Wachstum sein muss. Aus solchen Reihen bestimmt man $T_c$ und die Exponenten,
+            indem man auf $L \to \infty$ hochrechnet (<em>finite-size
+            scaling</em>).</p>
+
+          <h2 id="hubbard">Vom Hubbard-Modell zum Ising-Modell</h2>
+
+          <div data-symbole='{"c": "Vernichter eines Elektrons", "n": "Besetzungszahl (0 oder 1)", "s": "Spinrichtung ↑ oder ↓"}'>
+          <p>Woher kommen Spins, die sich gleich oder entgegengesetzt ausrichten
+            wollen? Die magnetische Dipolwechselwirkung ist dafür viel zu
+            schwach. Die Kopplung entsteht aus der Bewegung der Elektronen und dem
+            Pauli-Prinzip. Das <em>Hubbard-Modell</em> beschreibt Elektronen, die
+            mit der Amplitude $t$ zwischen benachbarten Plätzen hüpfen und die
+            Energie $U$ zahlen, wenn zwei auf demselben Platz sitzen. Bei
+            <em>halber Füllung</em> (ein Elektron pro Platz) und $U \gg t$ sind
+            die Ladungen eingefroren, nur die Spins bleiben frei.</p>
+
+          <p>Das zeigt schon ein Modell aus zwei Plätzen mit zwei Elektronen:</p>
+          $$ H = -t\sum_{s = \uparrow,\downarrow}\left(c_{1s}^\dagger c_{2s} + c_{2s}^\dagger c_{1s}\right) + U\left(n_{1\uparrow}n_{1\downarrow} + n_{2\uparrow}n_{2\downarrow}\right) . $$
+          <p>Ohne Hüpfen haben die vier Zustände mit je einem Elektron pro Platz
+            (das Singulett und die drei Tripletts) die Energie null, die beiden
+            doppelt besetzten Zustände die Energie $U$. Das Hüpfen verbindet das
+            Singulett mit beiden doppelt besetzten Zuständen, jeweils mit einem
+            Matrixelement vom Betrag $\sqrt2\,t$. Die Tripletts koppeln nicht:
+            Zwei Elektronen mit gleichem Spin dürfen nach Pauli nicht auf einem
+            Platz sitzen, und im Triplett mit $S_z = 0$ heben sich die beiden
+            Hüpfwege gerade auf. Störungstheorie zweiter Ordnung ergibt</p>
+          $$ \Delta E_\text{S} = -2\,\frac{(\sqrt2\,t)^2}{U} = -\frac{4t^2}{U}, \qquad \Delta E_\text{T} = 0 . $$
+          <p>Dasselbe Spektrum hat der effektive Spin-Hamilton-Operator</p>
+          $$ H_\text{eff} = J\left(\vec S_1\cdot\vec S_2 - \frac14\right), \qquad J = \frac{4t^2}{U} , $$
+          <p>denn $\vec S_1\cdot\vec S_2$ ist $-\frac34$ im Singulett und
+            $+\frac14$ im Triplett. Wegen $J \gt 0$ ist das Singulett günstiger,
+            die Kopplung also antiferromagnetisch (<em>kinetischer Austausch</em>,
+            die einfachste Form des Superaustauschs). Das Hubbard-Modell klappt
+            dabei keine Spins um. Es tauscht nur Elektronen verschiedener Spins
+            zwischen Nachbarplätzen aus, und das sieht für die Spins wie eine
+            Wechselwirkung aus. Für viele Plätze erhält man das
+            <em>Heisenberg-Modell</em>
+            $H = J\sum_{\langle i,j\rangle}\vec S_i\cdot\vec S_j$.</p>
+          </div>
+
+          <p>Das Heisenberg-Modell ist unter Drehungen aller Spins symmetrisch. In
+            echten Kristallen brechen Kristallfeld und Spin-Bahn-Kopplung diese
+            Symmetrie. Mit den Pauli-Matrizen ($\vec S = \vec\sigma/2$) schreibt
+            man allgemeiner</p>
+          $$ H = \sum_{\langle i,j\rangle}\left(J_x\,\sigma^x_i\sigma^x_j + J_y\,\sigma^y_i\sigma^y_j + J_z\,\sigma^z_i\sigma^z_j\right) . $$
+          <p>Für $J_z \gg J_x, J_y$ sind die Querschwankungen unterdrückt, und es
+            bleibt $J_z\sum\sigma^z_i\sigma^z_j$. Die Eigenwerte $\pm1$ von
+            $\sigma^z_i$ spielen die Rolle der $s_i$: Das ist das Ising-Modell.
+            Für $J_z \gt 0$ ist es antiferromagnetisch. Auf einem Gitter, das sich
+            in zwei Untergitter teilen lässt (Kette, Quadratgitter), dreht man
+            jeden zweiten Spin um die $x$-Achse um $180^\circ$. Das kehrt dort
+            $\sigma^z$ um und lässt $\sigma^x$ unverändert, also wird aus der
+            antiferromagnetischen Kopplung eine ferromagnetische mit $-J_z$. Die
+            Physik beider Vorzeichen ist deshalb dieselbe, und wir schreiben im
+            Folgenden die ferromagnetische Form.</p>
+
+          <h2 id="querfeld">Die Ising-Kette im Querfeld</h2>
+
+          <p>Jetzt kommt ein Feld $h$ quer zur Ising-Richtung hinzu:</p>
+          $$ H = -J\sum_{j=0}^{N-1}\sigma^z_j\sigma^z_{j+1} - h\sum_{j=0}^{N-1}\sigma^x_j, \qquad \sigma_N = \sigma_0 , \quad J \gt 0 . $$
+          <p>Weil $\sigma^x$ nicht mit $\sigma^z$ vertauscht, klappt das Feld die
+            Spins quantenmechanisch hin und her. Die Grenzfälle sind einfach. Für
+            $h = 0$ gibt es zwei Grundzustände, alle Spins entlang $+z$ oder
+            entlang $-z$, mit der Energie $-NJ$. Für $J = 0$ zeigt jeder Spin
+            entlang $+x$, der Grundzustand ist das Produkt der Zustände
+            $|{\rightarrow}\rangle = (|{\uparrow}\rangle + |{\downarrow}\rangle)/\sqrt2$
+            mit der Energie $-Nh$. Der eine Grundzustand ist geordnet, der andere
+            nicht. Dazwischen liegt bei $T = 0$ ein Phasenübergang, den das
+            Verhältnis $h/J$ steuert: ein <em>Quantenphasenübergang</em>.</p>
+
+          <div data-symbole='{"c": "fermionischer Vernichter", "c_j": "Vernichter eines Fermions am Platz j", "c_k": "Vernichter eines Fermions mit Wellenzahl k", "n": "Besetzungszahl"}'>
+          <p>Das Modell lässt sich exakt lösen. Der Weg hat vier Schritte.</p>
+          <ol>
+            <li><strong>Drehen.</strong> Eine Drehung aller Spins um $90^\circ$
+              um die $y$-Achse macht aus $\sigma^z$ ein $\sigma^x$ und aus
+              $\sigma^x$ ein $-\sigma^z$. Nach einem weiteren Umklappen aller Spins
+              (das kehrt das Vorzeichen des Feldterms um) lautet der
+              Hamilton-Operator $H = -J\sum\sigma^x_j\sigma^x_{j+1} - h\sum\sigma^z_j$
+              mit unverändertem Spektrum.</li>
+            <li><strong>Jordan-Wigner-Transformation.</strong> Ein Spin nach unten
+              wird zu einem besetzten, ein Spin nach oben zu einem leeren
+              Fermion-Platz:
+              $c_j^\dagger = \left(\prod_{l\lt j}\sigma^z_l\right)\sigma^-_j$ mit
+              $\sigma^- = (\sigma^x - \mathrm{i}\sigma^y)/2$. Die „Kette“ der
+              $\sigma^z_l$ links von $j$ sorgt dafür, dass Operatoren an
+              verschiedenen Plätzen antivertauschen. Es gilt
+              $\sigma^z_j = 1 - 2c_j^\dagger c_j$, und im Produkt benachbarter
+              $\sigma^x$ heben sich die Ketten weg:
+              $\sigma^x_j\sigma^x_{j+1} = (c_j^\dagger - c_j)(c_{j+1}^\dagger + c_{j+1})$.
+              Bis auf einen Randterm, der für große $N$ keine Rolle spielt, ist</li>
+          </ol>
+          $$ H = -J\sum_j\left(c_j^\dagger - c_j\right)\left(c_{j+1}^\dagger + c_{j+1}\right) - h\sum_j\left(1 - 2c_j^\dagger c_j\right) . $$
+          <ol start="3">
+            <li><strong>Fourier-Transformation.</strong> Mit
+              $c_j = N^{-1/2}\sum_k \mathrm{e}^{\mathrm{i}kj}c_k$ wird daraus</li>
+          </ol>
+          $$ H = \sum_k\left[2\left(h - J\cos k\right)c_k^\dagger c_k + \mathrm{i}J\sin k\left(c_{-k}c_k + c_{-k}^\dagger c_k^\dagger\right)\right] - Nh . $$
+          <p>Die Paarterme koppeln nur die Wellenzahlen $k$ und $-k$, das Problem
+            zerfällt also in lauter unabhängige Zwei-Moden-Probleme.</p>
+          <ol start="4">
+            <li><strong>Bogoliubov-Transformation.</strong> Die neuen Fermionen
+              $\eta_k = u_k c_k + v_k c_{-k}^\dagger$ mit $u_k^2 + v_k^2 = 1$
+              wählt man so, dass die Paarterme verschwinden. Übrig bleibt</li>
+          </ol>
+          $$ H = \sum_k \varepsilon_k\left(\eta_k^\dagger\eta_k - \frac12\right), \qquad \varepsilon_k = 2\sqrt{h^2 + J^2 - 2hJ\cos k} . $$
+          </div>
+
+          <p data-symbole='{"A_k": "Vorfaktor des Teilchenzahlterms, 2(h − J cos k)"}'>Die Wurzel ist einfach $\sqrt{A_k^2 + B_k^2}$ aus dem Vorfaktor
+            $A_k = 2(h - J\cos k)$ des ersten Terms und $B_k = 2J\sin k$ der
+            Paarterme. Im Grundzustand ist kein Quasiteilchen angeregt
+            ($\eta_k|0\rangle = 0$ für alle $k$), seine Energie ist
+            $E_0 = -\frac12\sum_k\varepsilon_k$. Er ist kein Produktzustand,
+            sondern stark verschränkt. Die kleinste Anregungsenergie liegt bei
+            $k = 0$ (Abb. 4):</p>
+          $$ \Delta = \varepsilon_0 = 2\,|h - J| . $$
+          <figure class="abbildung">
+            <svg class="abb" viewBox="0 0 360 235" role="img" aria-label="Anregungsenergie der Ising-Kette im Querfeld über der Wellenzahl für h gleich 0,5 J, J und 1,5 J; bei h gleich J geht die Energie bei k gleich null auf null">
+<defs><marker id="pfeil-abb5" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto"><path class="punkt" d="M0 0L10 5L0 10z"/></marker></defs>
+<path class="achse" d="M46 195H348" marker-end="url(#pfeil-abb5)"/>
+<path class="achse" d="M193.0 199V12" marker-end="url(#pfeil-abb5)"/>
+<path class="achse" d="M46.0 195v4"/><text class="klein" x="46.0" y="211" text-anchor="middle">−π</text>
+<path class="achse" d="M119.5 195v4"/><text class="klein" x="119.5" y="211" text-anchor="middle">−π/2</text>
+<path class="achse" d="M266.5 195v4"/><text class="klein" x="266.5" y="211" text-anchor="middle">π/2</text>
+<path class="achse" d="M340.0 195v4"/><text class="klein" x="340.0" y="211" text-anchor="middle">π</text>
+<text class="klein" x="193.0" y="211" text-anchor="middle">0</text>
+<path class="hilfslinie" d="M46 163.0H340"/><text class="klein" x="40" y="167.0" text-anchor="end">1</text>
+<path class="hilfslinie" d="M46 130.9H340"/><text class="klein" x="40" y="134.9" text-anchor="end">2</text>
+<path class="hilfslinie" d="M46 98.9H340"/><text class="klein" x="40" y="102.9" text-anchor="end">3</text>
+<path class="hilfslinie" d="M46 66.9H340"/><text class="klein" x="40" y="70.9" text-anchor="end">4</text>
+<path class="hilfslinie" d="M46 34.8H340"/><text class="klein" x="40" y="38.8" text-anchor="end">5</text>
+<text x="344" y="187" text-anchor="end">k</text>
+<text x="201.0" y="20">ε<tspan dy="3" style="font-size:9px">k</tspan><tspan dy="-3"> / J</tspan></text>
+<polyline class="kurve kupfer" points="46.0,98.9 47.6,98.9 49.3,98.9 50.9,99.0 52.5,99.1 54.2,99.2 55.8,99.4 57.4,99.5 59.1,99.7 60.7,99.9 62.3,100.2 64.0,100.5 65.6,100.8 67.2,101.1 68.9,101.4 70.5,101.8 72.1,102.2 73.8,102.6 75.4,103.1 77.0,103.5 78.7,104.0 80.3,104.5 81.9,105.1 83.6,105.6 85.2,106.2 86.8,106.8 88.5,107.5 90.1,108.1 91.7,108.8 93.4,109.5 95.0,110.2 96.6,111.0 98.3,111.7 99.9,112.5 101.5,113.3 103.2,114.2 104.8,115.0 106.4,115.9 108.1,116.7 109.7,117.6 111.3,118.5 113.0,119.5 114.6,120.4 116.2,121.4 117.9,122.4 119.5,123.4 121.1,124.4 122.8,125.4 124.4,126.4 126.0,127.5 127.7,128.5 129.3,129.6 130.9,130.7 132.6,131.8 134.2,132.8 135.8,133.9 137.5,135.1 139.1,136.2 140.7,137.3 142.4,138.4 144.0,139.5 145.6,140.6 147.3,141.7 148.9,142.9 150.5,144.0 152.2,145.1 153.8,146.2 155.4,147.3 157.1,148.3 158.7,149.4 160.3,150.4 162.0,151.4 163.6,152.5 165.2,153.4 166.9,154.4 168.5,155.3 170.1,156.2 171.8,157.0 173.4,157.8 175.0,158.6 176.7,159.3 178.3,160.0 179.9,160.6 181.6,161.1 183.2,161.6 184.8,162.0 186.5,162.3 188.1,162.6 189.7,162.8 191.4,162.9 193.0,163.0 194.6,162.9 196.3,162.8 197.9,162.6 199.5,162.3 201.2,162.0 202.8,161.6 204.4,161.1 206.1,160.6 207.7,160.0 209.3,159.3 211.0,158.6 212.6,157.8 214.2,157.0 215.9,156.2 217.5,155.3 219.1,154.4 220.8,153.4 222.4,152.5 224.0,151.4 225.7,150.4 227.3,149.4 228.9,148.3 230.6,147.3 232.2,146.2 233.8,145.1 235.5,144.0 237.1,142.9 238.7,141.7 240.4,140.6 242.0,139.5 243.6,138.4 245.3,137.3 246.9,136.2 248.5,135.1 250.2,133.9 251.8,132.8 253.4,131.8 255.1,130.7 256.7,129.6 258.3,128.5 260.0,127.5 261.6,126.4 263.2,125.4 264.9,124.4 266.5,123.4 268.1,122.4 269.8,121.4 271.4,120.4 273.0,119.5 274.7,118.5 276.3,117.6 277.9,116.7 279.6,115.9 281.2,115.0 282.8,114.2 284.5,113.3 286.1,112.5 287.7,111.7 289.4,111.0 291.0,110.2 292.6,109.5 294.3,108.8 295.9,108.1 297.5,107.5 299.2,106.8 300.8,106.2 302.4,105.6 304.1,105.1 305.7,104.5 307.3,104.0 309.0,103.5 310.6,103.1 312.2,102.6 313.9,102.2 315.5,101.8 317.1,101.4 318.8,101.1 320.4,100.8 322.0,100.5 323.7,100.2 325.3,99.9 326.9,99.7 328.6,99.5 330.2,99.4 331.8,99.2 333.5,99.1 335.1,99.0 336.7,98.9 338.4,98.9 340.0,98.9"/>
+<polyline class="kurve" points="46.0,66.9 47.6,66.9 49.3,66.9 50.9,67.0 52.5,67.2 54.2,67.3 55.8,67.6 57.4,67.8 59.1,68.1 60.7,68.4 62.3,68.8 64.0,69.2 65.6,69.7 67.2,70.1 68.9,70.7 70.5,71.2 72.1,71.8 73.8,72.5 75.4,73.1 77.0,73.8 78.7,74.6 80.3,75.4 81.9,76.2 83.6,77.0 85.2,77.9 86.8,78.9 88.5,79.8 90.1,80.8 91.7,81.9 93.4,82.9 95.0,84.0 96.6,85.2 98.3,86.3 99.9,87.5 101.5,88.8 103.2,90.0 104.8,91.3 106.4,92.7 108.1,94.0 109.7,95.4 111.3,96.8 113.0,98.3 114.6,99.8 116.2,101.3 117.9,102.8 119.5,104.4 121.1,106.0 122.8,107.6 124.4,109.3 126.0,110.9 127.7,112.6 129.3,114.4 130.9,116.1 132.6,117.9 134.2,119.7 135.8,121.5 137.5,123.3 139.1,125.2 140.7,127.1 142.4,129.0 144.0,130.9 145.6,132.9 147.3,134.8 148.9,136.8 150.5,138.8 152.2,140.8 153.8,142.9 155.4,144.9 157.1,147.0 158.7,149.1 160.3,151.2 162.0,153.3 163.6,155.4 165.2,157.5 166.9,159.7 168.5,161.8 170.1,164.0 171.8,166.2 173.4,168.4 175.0,170.5 176.7,172.7 178.3,175.0 179.9,177.2 181.6,179.4 183.2,181.6 184.8,183.8 186.5,186.1 188.1,188.3 189.7,190.5 191.4,192.8 193.0,195.0 194.6,192.8 196.3,190.5 197.9,188.3 199.5,186.1 201.2,183.8 202.8,181.6 204.4,179.4 206.1,177.2 207.7,175.0 209.3,172.7 211.0,170.5 212.6,168.4 214.2,166.2 215.9,164.0 217.5,161.8 219.1,159.7 220.8,157.5 222.4,155.4 224.0,153.3 225.7,151.2 227.3,149.1 228.9,147.0 230.6,144.9 232.2,142.9 233.8,140.8 235.5,138.8 237.1,136.8 238.7,134.8 240.4,132.9 242.0,130.9 243.6,129.0 245.3,127.1 246.9,125.2 248.5,123.3 250.2,121.5 251.8,119.7 253.4,117.9 255.1,116.1 256.7,114.4 258.3,112.6 260.0,110.9 261.6,109.3 263.2,107.6 264.9,106.0 266.5,104.4 268.1,102.8 269.8,101.3 271.4,99.8 273.0,98.3 274.7,96.8 276.3,95.4 277.9,94.0 279.6,92.7 281.2,91.3 282.8,90.0 284.5,88.8 286.1,87.5 287.7,86.3 289.4,85.2 291.0,84.0 292.6,82.9 294.3,81.9 295.9,80.8 297.5,79.8 299.2,78.9 300.8,77.9 302.4,77.0 304.1,76.2 305.7,75.4 307.3,74.6 309.0,73.8 310.6,73.1 312.2,72.5 313.9,71.8 315.5,71.2 317.1,70.7 318.8,70.1 320.4,69.7 322.0,69.2 323.7,68.8 325.3,68.4 326.9,68.1 328.6,67.8 330.2,67.6 331.8,67.3 333.5,67.2 335.1,67.0 336.7,66.9 338.4,66.9 340.0,66.9"/>
+<polyline class="kurve blau" points="46.0,34.8 47.6,34.8 49.3,34.9 50.9,35.0 52.5,35.2 54.2,35.4 55.8,35.7 57.4,36.0 59.1,36.3 60.7,36.7 62.3,37.2 64.0,37.6 65.6,38.2 67.2,38.8 68.9,39.4 70.5,40.1 72.1,40.8 73.8,41.5 75.4,42.3 77.0,43.2 78.7,44.1 80.3,45.0 81.9,46.0 83.6,47.0 85.2,48.1 86.8,49.2 88.5,50.3 90.1,51.5 91.7,52.8 93.4,54.0 95.0,55.4 96.6,56.7 98.3,58.1 99.9,59.5 101.5,61.0 103.2,62.5 104.8,64.0 106.4,65.6 108.1,67.2 109.7,68.9 111.3,70.6 113.0,72.3 114.6,74.0 116.2,75.8 117.9,77.6 119.5,79.5 121.1,81.4 122.8,83.3 124.4,85.2 126.0,87.2 127.7,89.2 129.3,91.2 130.9,93.2 132.6,95.3 134.2,97.3 135.8,99.4 137.5,101.6 139.1,103.7 140.7,105.9 142.4,108.0 144.0,110.2 145.6,112.4 147.3,114.7 148.9,116.9 150.5,119.1 152.2,121.3 153.8,123.6 155.4,125.8 157.1,128.0 158.7,130.3 160.3,132.5 162.0,134.7 163.6,136.9 165.2,139.0 166.9,141.2 168.5,143.3 170.1,145.3 171.8,147.3 173.4,149.3 175.0,151.1 176.7,152.9 178.3,154.6 179.9,156.2 181.6,157.7 183.2,159.0 184.8,160.2 186.5,161.1 188.1,161.9 189.7,162.5 191.4,162.8 193.0,163.0 194.6,162.8 196.3,162.5 197.9,161.9 199.5,161.1 201.2,160.2 202.8,159.0 204.4,157.7 206.1,156.2 207.7,154.6 209.3,152.9 211.0,151.1 212.6,149.3 214.2,147.3 215.9,145.3 217.5,143.3 219.1,141.2 220.8,139.0 222.4,136.9 224.0,134.7 225.7,132.5 227.3,130.3 228.9,128.0 230.6,125.8 232.2,123.6 233.8,121.3 235.5,119.1 237.1,116.9 238.7,114.7 240.4,112.4 242.0,110.2 243.6,108.0 245.3,105.9 246.9,103.7 248.5,101.6 250.2,99.4 251.8,97.3 253.4,95.3 255.1,93.2 256.7,91.2 258.3,89.2 260.0,87.2 261.6,85.2 263.2,83.3 264.9,81.4 266.5,79.5 268.1,77.6 269.8,75.8 271.4,74.0 273.0,72.3 274.7,70.6 276.3,68.9 277.9,67.2 279.6,65.6 281.2,64.0 282.8,62.5 284.5,61.0 286.1,59.5 287.7,58.1 289.4,56.7 291.0,55.4 292.6,54.0 294.3,52.8 295.9,51.5 297.5,50.3 299.2,49.2 300.8,48.1 302.4,47.0 304.1,46.0 305.7,45.0 307.3,44.1 309.0,43.2 310.6,42.3 312.2,41.5 313.9,40.8 315.5,40.1 317.1,39.4 318.8,38.8 320.4,38.2 322.0,37.6 323.7,37.2 325.3,36.7 326.9,36.3 328.6,36.0 330.2,35.7 331.8,35.4 333.5,35.2 335.1,35.0 336.7,34.9 338.4,34.8 340.0,34.8"/>
+<text class="klein kupfer halo" x="50" y="129.3">h = 0,5 J</text>
+<text class="klein halo" x="50" y="59.9">h = 1 J</text>
+<text class="klein blau halo" x="50" y="27.8">h = 1,5 J</text>
+<text class="klein" x="143.9" y="178.0" text-anchor="end">Lücke 2|h − J| bei k = 0</text>
+</svg>
+            <figcaption>Abb. 4: Anregungsenergie $\varepsilon_k$ der Ising-Kette
+              im Querfeld für $h = 0{,}5\,J$ (orange), $h = J$ und
+              $h = 1{,}5\,J$ (blau). Für $h \ne J$ bleibt bei $k = 0$ eine Lücke
+              $2|h - J|$, bei $h = J$ schließt sie sich.</figcaption>
+          </figure>
+
+          <p>Die Lücke schließt sich nur bei $h = J$. Damit ist die Kette in drei
+            Bereiche geteilt:</p>
+          <ul>
+            <li>$h \lt J$: Die Kopplung überwiegt, die Spins sind entlang $z$
+              geordnet und es gibt zwei gleichwertige Grundzustände. Die
+              Ordnung ist durch die Quantenschwankungen verringert,
+              $\langle\sigma^z\rangle = \pm(1 - h^2/J^2)^{1/8}$ (Pfeuty 1970).</li>
+            <li>$h \gt J$: Das Feld überwiegt, jeder Spin zeigt bevorzugt entlang
+              $x$, es gibt einen einzigen Grundzustand mit
+              $\langle\sigma^z\rangle = 0$.</li>
+            <li>$h = J$: Die Lücke ist null, Korrelationen reichen über alle
+              Längen. Das ist der <em>quantenkritische Punkt</em>.</li>
+          </ul>
+
+          <p>Der Exponent $1/8$ ist derselbe wie bei der Magnetisierung des
+            klassischen Modells in zwei Dimensionen. Das ist kein Zufall: Eine
+            Quantenkette bei $T = 0$ verhält sich wie ein klassisches Modell mit
+            einer Dimension mehr, wobei die imaginäre Zeit die zusätzliche
+            Richtung ist. Der Quantenphasenübergang der Kette gehört deshalb zur
+            Universalitätsklasse des zweidimensionalen Ising-Modells, und die
+            Korrelationslänge wächst wie $\xi \propto 1/\Delta \propto |h - J|^{-1}$,
+            also wieder mit $\nu = 1$. Im Experiment lässt sich der Übergang
+            beobachten. Im Kristall $\mathrm{CoNb_2O_6}$ bilden die Kobalt-Ionen
+            Ising-artige Ketten, und ein Querfeld von etwa $5{,}5\,\mathrm{T}$
+            treibt sie durch den quantenkritischen Punkt.</p>
+          <div class="merkkasten">
+            <span class="titel">Merke</span>
+            <p>Klassisches Modell: $H = -J\sum_{\langle i,j\rangle}s_is_j$,
+              $\chi = \beta N(\langle m^2\rangle - \langle m\rangle^2)$,
+              $c = k_\mathrm{B}\beta^2N(\langle e^2\rangle - \langle e\rangle^2)$.
+              In zwei Dimensionen $k_\mathrm{B}T_c = 2J/\ln(1+\sqrt2) \approx 2{,}269\,J$,
+              $\nu = 1$, $\gamma = 7/4$, $\alpha = 0$, $|m| \propto (T_c - T)^{1/8}$.</p>
+            <p>Monte Carlo: detaillierte Bilanz
+              $P(x)W(x\to x') = P(x')W(x'\to x)$. Metropolis nimmt mit
+              $\min(1, \mathrm{e}^{-\beta\Delta E})$ an, $\Delta E = 2Js_i\sum s_j$,
+              $z \approx 2{,}17$. Wolff: $P_\text{add} = 1 - \mathrm{e}^{-2\beta J}$,
+              $z \approx 0{,}25$. Fehler: $n_\text{eff} = n/(2\tau_\text{int})$,
+              Jackknife für abgeleitete Größen. Endliche Gitter:
+              $\chi_\text{max} \propto L^{7/4}$.</p>
+            <p>Quantenkette: $H = -J\sum\sigma^z_j\sigma^z_{j+1} - h\sum\sigma^x_j$,
+              $\varepsilon_k = 2\sqrt{h^2 + J^2 - 2hJ\cos k}$, Lücke $2|h - J|$,
+              Quantenphasenübergang bei $h = J$. Superaustausch aus dem
+              Hubbard-Modell: $J = 4t^2/U$ für $H = J\,\vec S_1\cdot\vec S_2$.</p>
+          </div>
+        </section>
+
+        <section class="tab" id="beispiele" data-titel="Beispielrechnungen">
+
+          <div class="beispiel">
+            <h3>Beispiel 1: Eine Metropolis-Tabelle</h3>
+            <p><strong>Gegeben:</strong> Quadratgitter, Metropolis-Simulation bei
+              $k_\mathrm{B}T = 2{,}0\,J$. Ein Spin $s_i = +1$ hat drei Nachbarn mit
+              $+1$ und einen mit $-1$.<br>
+              <strong>Gesucht:</strong> Energieänderung und Annahmewahrscheinlichkeit
+              für das Umklappen dieses Spins, die ganze Tabelle der
+              Annahmewahrscheinlichkeiten und eine Kontrolle der detaillierten
+              Bilanz.</p>
+
+            <p><strong>1. Energieänderung.</strong> Die Nachbarsumme ist
+              $\sum s_j = 3 - 1 = 2$:
+              $$ \Delta E = 2J\,s_i\sum s_j = 2J \cdot 1 \cdot 2 = 4J . $$</p>
+
+            <p><strong>2. Annahmewahrscheinlichkeit.</strong> Mit
+              $\beta\Delta E = 4J/(2{,}0\,J) = 2{,}0$:
+              $$ p = \min\left(1, \mathrm{e}^{-2{,}0}\right) = 0{,}135 . $$</p>
+
+            <p><strong>3. Tabelle.</strong> Die Nachbarsumme kann $-4, -2, 0, 2, 4$
+              sein, also $\Delta E = -8J, -4J, 0, 4J, 8J$. Für $\Delta E \le 0$
+              ist $p = 1$. Für die beiden positiven Werte gilt
+              $$ p(4J) = \mathrm{e}^{-2{,}0} = 0{,}135, \qquad p(8J) = \mathrm{e}^{-4{,}0} = 0{,}0183 . $$
+              Diese beiden Zahlen berechnet man einmal vorab und schlägt sie im
+              Programm nur noch nach.</p>
+
+            <p><strong>4. Detaillierte Bilanz.</strong> Der Rückweg (Spin von $-1$
+              wieder auf $+1$, gleiche Nachbarn) hat $\Delta E = -4J$ und wird immer
+              angenommen. Das Verhältnis der Übergangswahrscheinlichkeiten ist
+              $$ \frac{W(x\to x')}{W(x'\to x)} = \frac{0{,}135}{1} = \mathrm{e}^{-\beta(E' - E)} = \frac{P(x')}{P(x)} $$
+              Einheitencheck: $\beta\Delta E$ ist Energie durch Energie, also
+              dimensionslos ✓</p>
+
+            <p><strong>Ergebnis und Plausibilität:</strong> Der Flip wird in etwa
+              jedem siebten Versuch angenommen. Ein Spin, dessen vier Nachbarn alle
+              gleich stehen, klappt nur in knapp 2 % der Versuche um. Bei
+              $T = 2{,}0\,J/k_\mathrm{B}$ (unter $T_c$) bleibt die Ordnung also
+              weitgehend erhalten, wie es sein muss.</p>
+          </div>
+
+          <div class="beispiel">
+            <h3>Beispiel 2: Rechenzeit bei größeren Gittern</h3>
+            <p><strong>Gegeben:</strong> Eine Metropolis-Simulation bei $T_c$
+              auf einem $32 \times 32$-Gitter braucht $2{,}0\,\mathrm{h}$ für eine
+              gewünschte Zahl unabhängiger Messwerte. Dynamische Exponenten
+              $z_\text{M} = 2{,}17$ (Metropolis) und $z_\text{W} = 0{,}25$ (Wolff),
+              $d = 2$. Ein Wolff-Programm soll bei $L = 32$ ebenfalls
+              $2{,}0\,\mathrm{h}$ brauchen.<br>
+              <strong>Gesucht:</strong> Rechenzeiten für $L = 64$ und $L = 128$
+              mit beiden Algorithmen.</p>
+
+            <p><strong>1. Skalierung.</strong> Die Zeit wächst wie $L^{d+z}$. Für
+              einen Faktor $f$ in $L$ wächst sie um $f^{d+z}$.</p>
+
+            <p><strong>2. Metropolis.</strong>
+              $$ 2^{4{,}17} = 18{,}0: \qquad 2{,}0\,\mathrm{h}\cdot 18{,}0 = 36\,\mathrm{h} $$
+              $$ 4^{4{,}17} = 324: \qquad 2{,}0\,\mathrm{h}\cdot 324 = 648\,\mathrm{h} \approx 27\,\mathrm{Tage} $$</p>
+
+            <p><strong>3. Wolff.</strong>
+              $$ 2^{2{,}25} = 4{,}76: \qquad 2{,}0\,\mathrm{h}\cdot 4{,}76 = 9{,}5\,\mathrm{h} $$
+              $$ 4^{2{,}25} = 22{,}6: \qquad 2{,}0\,\mathrm{h}\cdot 22{,}6 = 45\,\mathrm{h} $$
+              Einheitencheck: Die Faktoren sind reine Zahlen, das Ergebnis hat die
+              Einheit der Ausgangszeit ✓</p>
+
+            <p><strong>Ergebnis und Plausibilität:</strong> Bei $L = 128$ braucht
+              Metropolis rund 27 Tage, Wolff knapp zwei Tage. Der Vorsprung
+              wächst wie $4^{z_\text{M} - z_\text{W}} = 4^{1{,}92} \approx 14$ und
+              wird mit jeder weiteren Verdopplung größer. Der Anteil $L^d$ (mehr
+              Spins pro Sweep) bleibt für beide gleich, der Unterschied steckt
+              allein im kritischen Verlangsamen.</p>
+          </div>
+
+          <div class="beispiel">
+            <h3>Beispiel 3: Lücke und Ordnung der Querfeld-Kette</h3>
+            <p><strong>Gegeben:</strong> Ising-Kette im Querfeld mit
+              $h = 0{,}80\,J$, Kopplung $J = 1{,}0\,\mathrm{meV}$.<br>
+              <strong>Gesucht:</strong> kleinste und größte Anregungsenergie,
+              $\varepsilon_k$ bei $k = \pi/2$, Phase und
+              $\langle\sigma^z\rangle$ im Grundzustand.</p>
+
+            <p><strong>1. Lücke bei $k = 0$.</strong> Mit $\cos 0 = 1$:
+              $$ \varepsilon_0 = 2\sqrt{(h - J)^2} = 2\,|0{,}80 - 1{,}0|\,\mathrm{meV} = 0{,}40\,\mathrm{meV} $$</p>
+
+            <p><strong>2. Größte Energie bei $k = \pi$.</strong> Mit $\cos\pi = -1$:
+              $$ \varepsilon_\pi = 2\,(h + J) = 2 \cdot 1{,}80\,\mathrm{meV} = 3{,}6\,\mathrm{meV} $$</p>
+
+            <p><strong>3. Mitte des Bandes.</strong> Mit $\cos(\pi/2) = 0$:
+              $$ \varepsilon_{\pi/2} = 2\sqrt{h^2 + J^2} = 2\sqrt{0{,}64 + 1{,}0}\,\mathrm{meV} = 2{,}56\,\mathrm{meV} $$</p>
+
+            <p><strong>4. Phase und Ordnung.</strong> Wegen $h \lt J$ ist die Kette
+              geordnet:
+              $$ \langle\sigma^z\rangle = \pm\left(1 - 0{,}80^2\right)^{1/8} = \pm\,0{,}36^{1/8} = \pm\,0{,}880 $$
+              Einheitencheck: $\varepsilon_k$ in $\mathrm{meV}$ wie $h$ und $J$,
+              $\langle\sigma^z\rangle$ dimensionslos ✓</p>
+
+            <p><strong>Ergebnis und Plausibilität:</strong> Die Lücke beträgt
+              $0{,}40\,\mathrm{meV}$, das Band reicht bis $3{,}6\,\mathrm{meV}$. Obwohl
+              das Feld schon 80 % der Kopplung erreicht, ist die Magnetisierung
+              nur um 12 % kleiner als im voll geordneten Zustand: Der Exponent
+              $1/8$ hält sie lange hoch, und erst sehr nahe an $h = J$ bricht sie
+              steil ein. Zum Vergleich entspricht die Lücke einer Temperatur von
+              $0{,}40\,\mathrm{meV}/k_\mathrm{B} \approx 4{,}6\,\mathrm{K}$.</p>
+          </div>
+
+        </section>
+
+        <section class="tab" id="aufgaben" data-titel="Aufgaben">
+
+          <p>Wenn nichts anderes gesagt ist, geht es um das Ising-Modell auf dem
+            Quadratgitter mit periodischen Rändern und ferromagnetischer Kopplung
+            $J \gt 0$. Temperaturen stehen in Einheiten von $J/k_\mathrm{B}$.</p>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 1
+              <span class="schwierigkeit" data-stufe="leicht">leicht</span>
+            </h3>
+            <p>Ein Computer schafft $10^9$ Konfigurationen pro Sekunde.</p>
+            <ol type="a">
+              <li>Wie viele Konfigurationen hat ein $10 \times 10$-Gitter?</li>
+              <li>Wie lange würde es dauern, alle aufzuzählen? Vergleiche mit dem
+                Alter des Universums ($1{,}38 \cdot 10^{10}$ Jahre).</li>
+            </ol>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>(a) Jeder der 100 Spins hat zwei Stellungen:
+                $2^{100} = 1{,}27 \cdot 10^{30}$.</p>
+              <p>(b) Mit einem Jahr von $3{,}16 \cdot 10^{7}\,\mathrm{s}$:</p>
+              $$ t = \frac{1{,}27 \cdot 10^{30}}{10^9\,\mathrm{s^{-1}}} = 1{,}27 \cdot 10^{21}\,\mathrm{s} = 4{,}0 \cdot 10^{13}\ \text{Jahre} . $$
+              <p>Das ist rund 2900-mal das Alter des Universums. Für ein
+                $32 \times 32$-Gitter mit $2^{1024} \approx 10^{308}$
+                Konfigurationen ist der Gedanke völlig aussichtslos. Darum
+                simuliert man.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 2
+              <span class="schwierigkeit" data-stufe="leicht">leicht</span>
+            </h3>
+            <p>Beim Wolff-Algorithmus ist $P_\text{add} = 1 - \mathrm{e}^{-2\beta J}$.</p>
+            <ol type="a">
+              <li>Berechne $P_\text{add}$ für $T = 1{,}5$, $T = T_c$ und $T = 5{,}0$.</li>
+              <li>Zeige, dass bei $T_c$ genau $P_\text{add} = 2 - \sqrt2$ gilt.</li>
+            </ol>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>(a) Mit $\beta J = 1/T$ in den angegebenen Einheiten:</p>
+              $$ T = 1{,}5:\ 1 - \mathrm{e}^{-1{,}333} = 0{,}736, \qquad T = 2{,}269:\ 1 - \mathrm{e}^{-0{,}881} = 0{,}586, \qquad T = 5{,}0:\ 1 - \mathrm{e}^{-0{,}400} = 0{,}330 . $$
+              <p>(b) Bei $T_c$ ist $2\beta_c J = \ln(1 + \sqrt2)$, also</p>
+              $$ P_\text{add} = 1 - \frac{1}{1 + \sqrt2} = 1 - \left(\sqrt2 - 1\right) = 2 - \sqrt2 = 0{,}586 , $$
+              <p>wobei $1/(1+\sqrt2) = \sqrt2 - 1$ aus
+                $(\sqrt2 + 1)(\sqrt2 - 1) = 1$ folgt. Je kälter, desto größer die
+                Cluster.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 3
+              <span class="schwierigkeit" data-stufe="mittel">mittel</span>
+            </h3>
+            <p>Eine Simulation liefert $n = 10^5$ Messwerte der Magnetisierung mit
+              der Standardabweichung $\sigma_m = 0{,}30$ und der integrierten
+              Autokorrelationszeit $\tau_\text{int} = 50$ Sweeps.</p>
+            <ol type="a">
+              <li>Wie groß ist der Fehler des Mittelwerts? Wie groß wäre er, wenn
+                man die Korrelation vergäße?</li>
+              <li>Vier Blockmittel einer anderen Größe sind $0{,}62$, $0{,}58$,
+                $0{,}66$ und $0{,}60$. Berechne den Jackknife-Fehler des
+                Mittelwerts und vergleiche mit $s/\sqrt{n}$, wobei $s$ die
+                Stichproben-Standardabweichung (mit $n - 1$) ist.</li>
+            </ol>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>(a) $n_\text{eff} = 10^5/(2 \cdot 50) = 1000$, also</p>
+              $$ \sigma_{\bar m} = \frac{0{,}30}{\sqrt{1000}} = 0{,}0095 . $$
+              <p>Ohne Korrelation erhielte man $0{,}30/\sqrt{10^5} = 0{,}00095$, also
+                einen zehnmal zu kleinen Fehler (Faktor $\sqrt{2\tau_\text{int}} = 10$).</p>
+              <p>(b) Mittelwert $\bar x = 2{,}46/4 = 0{,}615$. Die Jackknife-Werte
+                (jeweils ein Block weggelassen) sind</p>
+              $$ \theta_1 = \frac{1{,}84}{3} = 0{,}6133, \quad \theta_2 = \frac{1{,}88}{3} = 0{,}6267, \quad \theta_3 = \frac{1{,}80}{3} = 0{,}6000, \quad \theta_4 = \frac{1{,}86}{3} = 0{,}6200 $$
+              <p>mit dem Mittel $\bar\theta = 0{,}615$. Die Abweichungsquadrate
+                summieren sich zu $3{,}89 \cdot 10^{-4}$:</p>
+              $$ \sigma_\theta = \sqrt{\frac34 \cdot 3{,}89 \cdot 10^{-4}} = 0{,}0171 . $$
+              <p>Direkt: Die Abweichungen vom Mittel sind $0{,}005$, $-0{,}035$,
+                $0{,}045$, $-0{,}015$, ihre Quadratsumme ist $3{,}50 \cdot 10^{-3}$,
+                also $s = \sqrt{3{,}50 \cdot 10^{-3}/3} = 0{,}0342$ und
+                $s/\sqrt4 = 0{,}0171$. Beide Wege stimmen überein, denn
+                $\theta_k - \bar\theta = -(x_k - \bar x)/(n-1)$. Der Gewinn des
+                Jackknife zeigt sich erst bei nichtlinearen Größen wie $\chi$.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe" data-symbole='{"t": "Hüpfamplitude", "U": "Abstoßung auf einem Platz"}'>
+            <h3>Aufgabe 4
+              <span class="schwierigkeit" data-stufe="mittel">mittel</span>
+            </h3>
+            <p>Für ein Übergangsmetalloxid schätzt man im Hubbard-Modell
+              $t = 0{,}40\,\mathrm{eV}$ und $U = 4{,}0\,\mathrm{eV}$ ab (halbe
+              Füllung).</p>
+            <ol type="a">
+              <li>Berechne die Austauschkopplung $J$ für $H = J\,\vec S_1\cdot\vec S_2$
+                und die Singulett-Triplett-Aufspaltung zweier Nachbarn.</li>
+              <li>Welcher Temperatur entspricht $J$? Ist die Störungsrechnung hier
+                gerechtfertigt?</li>
+              <li>Warum senkt das Hüpfen die Energie der Tripletts
+                $|{\uparrow\uparrow}\rangle$ und $|{\downarrow\downarrow}\rangle$
+                überhaupt nicht ab?</li>
+            </ol>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>(a)</p>
+              $$ J = \frac{4t^2}{U} = \frac{4 \cdot (0{,}40\,\mathrm{eV})^2}{4{,}0\,\mathrm{eV}} = 0{,}16\,\mathrm{eV} . $$
+              <p>Singulett ($\vec S_1\cdot\vec S_2 = -\frac34$) und Triplett
+                ($+\frac14$) liegen $J = 0{,}16\,\mathrm{eV}$ auseinander, das
+                Singulett unten (antiferromagnetisch).</p>
+              <p>(b) $J/k_\mathrm{B} = 0{,}16\,\mathrm{eV}/(8{,}617 \cdot 10^{-5}\,\mathrm{eV/K}) = 1{,}9 \cdot 10^{3}\,\mathrm{K}$.
+                Die antiferromagnetische Kopplung ist also bei Zimmertemperatur
+                noch voll wirksam. Der Entwicklungsparameter ist
+                $t/U = 0{,}10$, die nächste Korrektur ist um etwa $(t/U)^2$
+                kleiner. Die Rechnung ist brauchbar.</p>
+              <p>(c) Beim Hüpfen bleibt der Spin erhalten. Aus
+                $|{\uparrow\uparrow}\rangle$ entstünde ein Platz mit zwei
+                $\uparrow$-Elektronen, das verbietet das Pauli-Prinzip. Ohne
+                erlaubten Zwischenzustand gibt es keinen Beitrag zweiter Ordnung.
+                Nur antiparallele Nachbarn können virtuell hüpfen und Energie
+                gewinnen, deshalb bevorzugt der Austausch antiparallele Spins.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe" data-symbole='{"A_k": "Vorfaktor des Teilchenzahlterms, 2(h − J cos k)"}'>
+            <h3>Aufgabe 5
+              <span class="schwierigkeit" data-stufe="schwer">schwer</span>
+            </h3>
+            <p>Für die Ising-Kette im Querfeld ist die Grundzustandsenergie pro
+              Platz im Grenzfall großer $N$</p>
+            $$ \frac{E_0}{N} = -\frac{1}{2\pi}\int_{-\pi}^{\pi}\frac{\varepsilon_k}{2}\,\mathrm{d}k . $$
+            <ol type="a">
+              <li>Zeige, dass $\varepsilon_k = \sqrt{A_k^2 + B_k^2}$ mit
+                $A_k = 2(h - J\cos k)$ und $B_k = 2J\sin k$ die Form
+                $2\sqrt{h^2 + J^2 - 2hJ\cos k}$ hat.</li>
+              <li>Berechne $E_0/N$ für $h = 0$ und für $J = 0$ und vergleiche mit
+                den Grenzfällen aus der Vertiefung.</li>
+              <li>Berechne $E_0/N$ für $h = J$.</li>
+            </ol>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>(a)</p>
+              $$ A_k^2 + B_k^2 = 4\left(h^2 - 2hJ\cos k + J^2\cos^2 k + J^2\sin^2 k\right) = 4\left(h^2 + J^2 - 2hJ\cos k\right) . $$
+              <p>(b) Für $h = 0$ ist $\varepsilon_k/2 = J$ für alle $k$, also
+                $E_0/N = -\frac{1}{2\pi}\cdot 2\pi J = -J$. Das ist die Energie des
+                geordneten Zustands, eine gesättigte Bindung $-J$ pro Platz. Für
+                $J = 0$ erhält man ebenso $E_0/N = -h$, die Energie aller Spins
+                entlang $x$.</p>
+              <p>(c) Für $h = J$ ist $h^2 + J^2 - 2hJ\cos k = 2J^2(1 - \cos k) = 4J^2\sin^2(k/2)$,
+                also $\varepsilon_k/2 = 2J|\sin(k/2)|$:</p>
+              $$ \frac{E_0}{N} = -\frac{2J}{2\pi}\int_{-\pi}^{\pi}\left|\sin\frac k2\right|\mathrm{d}k = -\frac{J}{\pi}\cdot 4 = -\frac{4J}{\pi} = -1{,}273\,J . $$
+              <p>Dabei ist $\int_{-\pi}^{\pi}|\sin(k/2)|\,\mathrm{d}k = 2\int_0^\pi\sin(k/2)\,\mathrm{d}k = 4$.</p>
+              <p><strong>Zum Nachdenken:</strong> Der beste Produktzustand (alle Spins um
+                denselben Winkel $\vartheta$ aus der $z$-Richtung gekippt) hat
+                $E/N = -J\cos^2\vartheta - h\sin\vartheta$. Für $h = J$ ist das bei
+                $\sin\vartheta = \frac12$ minimal und ergibt $-1{,}25\,J$. Der exakte
+                Grundzustand liegt mit $-1{,}273\,J$ noch tiefer. Die Differenz
+                gewinnt er durch die Verschränkung der Spins, die kein
+                Produktzustand haben kann.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 6
+              <span class="schwierigkeit" data-stufe="schwer">schwer</span>
+            </h3>
+            <p>Eine (gedachte) Simulation mit größeren Gittern als in Abb. 3 liefert folgende Maxima der Suszeptibilität:
+              $\chi_\text{max} = 6{,}1$ für $L = 16$, $20{,}4$ für $L = 32$ und $68{,}9$ für $L = 64$. Die Maxima liegen bei
+              $T_\text{max}(16) = 2{,}400$ und $T_\text{max}(32) = 2{,}335$.</p>
+            <ol type="a">
+              <li>Bestimme $\gamma/\nu$ aus den Daten.</li>
+              <li>Schätze $\chi_\text{max}$ für $L = 128$.</li>
+              <li>Schätze $T_c$ aus den beiden Lagen der Maxima, wenn
+                $T_\text{max}(L) - T_c \propto L^{-1/\nu}$ mit $\nu = 1$ gilt.</li>
+            </ol>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>(a) Aus $\chi_\text{max} \propto L^{\gamma/\nu}$ folgt für zwei Gitter
+                $\gamma/\nu = \log_2\left(\chi_\text{max}(2L)/\chi_\text{max}(L)\right)$:</p>
+              $$ \log_2\frac{20{,}4}{6{,}1} = \log_2 3{,}34 = 1{,}74, \qquad \log_2\frac{68{,}9}{20{,}4} = \log_2 3{,}38 = 1{,}76 . $$
+              <p>Über den ganzen Bereich: $\frac12\log_2(68{,}9/6{,}1) = 1{,}75$,
+                in Übereinstimmung mit dem exakten Wert $7/4$.</p>
+              <p>(b) $\chi_\text{max}(128) \approx 68{,}9 \cdot 2^{1{,}75} = 68{,}9 \cdot 3{,}36 = 232$.</p>
+              <p>(c) Mit $T_\text{max}(L) = T_c + a/L$:</p>
+              $$ 2{,}400 = T_c + \frac{a}{16}, \qquad 2{,}335 = T_c + \frac{a}{32} . $$
+              <p>Die Differenz ergibt $a/32 = 0{,}065$, also $a = 2{,}08$ und
+                $T_c = 2{,}335 - 0{,}065 = 2{,}270$. Der exakte Wert ist $2{,}269$.</p>
+              <p><strong>Zum Nachdenken:</strong> Mit nur zwei Gittern hängt das
+                Ergebnis stark davon ab, dass die Korrekturen zum Skalengesetz klein
+                sind. In der Praxis nimmt man viele Gittergrößen und prüft, ob die
+                Punkte auf einer Geraden liegen.</p>
+            </details>
+          </div>
+
+        </section>
+
+      </div></article>
+  </main>
+</body>
+</html>

@@ -1,0 +1,590 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="robots" content="noindex">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Diffusion, Wärmeleitung und Viskosität</title>
+  <meta name="description" content="Warum sich Duft im Raum ausbreitet, ein Löffel in der Suppe heiß wird und Honig zäh fließt: drei Transportvorgänge, die auf zufälligen Teilchenstößen beruhen.">
+
+  <link rel="stylesheet" href="../../css/stil.css">
+
+  <link rel="stylesheet" href="../../extern/katex/katex.min.css">
+  <script defer src="../../extern/katex/katex.min.js"></script>
+  <script defer src="../../extern/katex/contrib/auto-render.min.js" onload="starteFormeln()"></script>
+
+  <script src="../../js/daten.js"></script>
+  <script src="../../js/seite.js"></script>
+  <script src="../../js/effekte.js"></script>
+  <script type="application/json" id="symbole">
+  {
+    "n": "Teilchendichte (Teilchen pro Volumen)",
+    "N": "Zahl der Schritte bzw. Teilchen",
+    "σ": "Stoßquerschnitt",
+    "d": "Teilchendurchmesser bzw. Plattenabstand",
+    "v": "Geschwindigkeit",
+    "v_x": "Geschwindigkeit der Flüssigkeit in x-Richtung",
+    "p": "Druck",
+    "T": "absolute Temperatur",
+    "k_B": "Boltzmann-Konstante, 1,381·10⁻²³ J/K",
+    "m": "Masse eines Teilchens",
+    "M": "Molmasse",
+    "R": "universelle Gaskonstante, 8,314 J/(mol K)",
+    "j": "Teilchenstromdichte",
+    "D": "Diffusionskoeffizient",
+    "q": "Wärmestromdichte",
+    "λ": "Wärmeleitfähigkeit",
+    "τ": "Schubspannung",
+    "η": "Viskosität (dynamische Zähigkeit)",
+    "ρ": "Massendichte",
+    "z": "Ortskoordinate",
+    "t": "Zeit",
+    "a": "Temperaturleitfähigkeit λ/(ρ c)",
+    "c": "spezifische Wärmekapazität",
+    "c_V": "spezifische Wärmekapazität bei konstantem Volumen",
+    "f": "Anzahl der Freiheitsgrade",
+    "F": "Kraft",
+    "A": "Fläche",
+    "r": "Radius der Kugel",
+    "g": "Fallbeschleunigung",
+    "P": "Leistung",
+    "ε": "mittlere Energie eines Teilchens",
+    "L": "Länge",
+    "K": "Konstante der Normierung",
+    "s": "Schrittlänge",
+    "π": "Kreiszahl"
+  }
+  </script>
+</head>
+<body data-thema="transportphaenomene">
+  <main>
+    <article class="thema">
+      <header>
+        <h1>Diffusion, <span class="betont">Wärmeleitung</span> und Viskosität</h1>
+        <p class="untertitel">Wie Teilchen durch Zufall Stoffe, Energie und Schwung von einem Ort zum anderen tragen.</p>
+      </header>
+
+      <div class="tabs">
+
+        <section class="tab" id="verstehen" data-titel="Verstehen">
+
+          <p>Ein Tropfen Tinte in einem ruhenden Glas Wasser breitet sich
+            aus, ohne dass du rührst. Es dauert Tage bis Wochen, aber
+            irgendwann ist das ganze Glas gleichmäßig blau. Genauso verteilt sich der Duft
+            von frischem Kaffee im Zimmer, und ein Löffel in heißer Suppe wird
+            am Griff warm. Honig läuft langsam vom Löffel, Wasser schnell.
+            Das sind drei verschiedene Beobachtungen mit demselben Grund.</p>
+
+          <p>Teilchen in Gasen und Flüssigkeiten sind ständig in Bewegung und
+            stoßen dauernd mit anderen zusammen (in Flüssigkeiten nach
+            Bruchteilen eines Nanometers, in Luft nach etwa 70 nm). Dabei ändert
+            sich ihre Richtung jedes Mal zufällig. Ihr Weg ist ein
+            <em>Zufallsweg</em> (Abb. 1): kreuz und quer, ohne Ziel. Und doch
+            kommt dabei ein Strom heraus, sobald es an einem Ort mehr von etwas
+            gibt als am anderen. Das liegt nicht an einer Kraft, die die Teilchen
+            wegschiebt, sondern an einer einfachen Mehrheitsrechnung: Wo mehr
+            Teilchen sind, verlassen auch mehr den Ort, und die wenigen aus der
+            leeren Nachbarschaft gleichen das nicht aus.</p>
+
+          <figure class="abbildung">
+            <svg class="abb" viewBox="0 0 360 190" role="img" aria-label="Zufallsweg eines Teilchens aus 150 gleich langen Schritten in zufälligen Richtungen, Anfang und Ende durch eine gerade Linie verbunden">
+<defs><marker id="pfeil-abb1-text" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto"><path class="punkt" d="M0 0L10 5L0 10z"/></marker><marker id="pfeil-abb1-blau" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto"><path class="punkt blau" d="M0 0L10 5L0 10z"/></marker><marker id="pfeil-abb1-kupfer" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto"><path class="punkt kupfer" d="M0 0L10 5L0 10z"/></marker></defs>
+<path class="spur" d="M151.5 44.5 L144 46.8 L136.8 43.9 L143.7 40.3 L136.1 42 L128.2 41.6 L121.6 37.5 L124.7 44.7 L116.9 44.1 L111.5 38.4 L113.6 30.9 L120.1 35.2 L117.5 42.6 L124.1 46.8 L127 39.6 L124.3 32.2 L131.8 34.2 L139.6 33.4 L147.2 31.7 L142.8 25.2 L136.9 20 L141.2 26.5 L149 27.3 L141.3 25.9 L148.6 28.8 L151.5 36 L151.9 43.9 L159.6 45.3 L152 47.1 L144.7 50 L149 43.4 L141.2 42.5 L136.2 36.4 L128.4 36.4 L124.3 29.8 L116.7 31.8 L115.3 39.5 L123.2 39.4 L131 39.2 L135.2 32.6 L133.2 25.1 L130 32.2 L131 40 L129.1 47.6 L136.2 50.9 L137 43.2 L130.7 47.7 L135.1 41.3 L129.2 46.4 L136.8 44.4 L141.3 38 L149.1 38 L151.1 45.6 L157.7 41.4 L150 42.9 L157.8 41.9 L151.5 46.6 L158.5 50.1 L153.1 44.4 L154.5 36.7 L153.6 44.5 L160.3 48.5 L156.4 55.3 L164 53.6 L164.4 45.8 L170.2 51 L170.4 58.9 L176.7 63.5 L183.9 66.4 L186.2 58.9 L189.7 66 L182.4 63.1 L175 65.6 L177.8 72.9 L176.9 65.2 L182.3 70.9 L177.4 64.7 L183.2 70 L176.3 73.7 L178.2 81.3 L177.2 89.1 L184.9 87.7 L187.5 80.3 L184.9 87.7 L190.7 82.5 L192.6 90.1 L186.5 94.9 L191.2 88.7 L186.3 82.6 L192.7 87.2 L200.5 86.7 L202.3 94.3 L201.9 102.2 L203 94.4 L199.2 101.3 L197 108.8 L204 112.3 L210.6 116.5 L203.8 112.6 L204.2 120.4 L197.9 115.8 L192.4 121.4 L184.9 123.7 L192.5 121.7 L184.7 122.5 L177.7 119 L183 113.1 L186.2 120.3 L190.6 126.7 L197.2 122.5 L200.4 115.3 L200.5 123.2 L203.3 130.5 L202.8 122.6 L210.1 119.8 L212.7 127.2 L220.1 124.8 L225.9 119.5 L219.7 114.7 L212.8 118.4 L219 123.2 L226.6 125.1 L234.2 123.3 L234.8 131.1 L232.6 123.6 L232.3 131.4 L235.8 124.4 L229.3 119.9 L227.2 127.5 L230.8 134.4 L229.3 126.7 L236.4 130 L237.5 137.8 L230.2 134.9 L234.9 128.7 L229 123.5 L227.5 131.2 L234.3 127.3 L236.5 134.8 L244.3 135.6 L243.4 143.4 L236 146 L243.3 148.9 L246.8 155.9 L241.5 161.7 L234.4 158.3 L239.7 164 L234.7 170 L240.7 165 L248.5 164.1 L244.2 157.6"/>
+<circle class="punkt blau" cx="151.5" cy="44.5" r="4"/>
+<circle class="punkt kupfer" cx="244.2" cy="157.6" r="4"/>
+<path class="kurve kupfer" d="M151.5 44.5L244.2 157.6" marker-end="url(#pfeil-abb1-kupfer)" style="stroke-dasharray:5 4"/>
+<text class="blau halo" x="158.5" y="38.5">Start</text>
+<text class="kupfer halo" x="251.2" y="171.6">Ende</text>
+</svg>
+            <figcaption>Abb. 1: Der Weg eines Teilchens aus 150 gleich langen
+              Schritten in zufälligen Richtungen. Obwohl es 150 Schritte
+              gegangen ist, liegt das Ende nur etwa 19 Schrittlängen vom Start
+              entfernt (gestrichelt). Im Mittel über viele Wege sind es
+              $\sqrt{150} \approx 12$.</figcaption>
+          </figure>
+
+          <p>Je nachdem, was die Teilchen mit sich tragen, ergeben sich drei
+            Vorgänge:</p>
+          <ul>
+            <li><strong>Diffusion:</strong> Die Teilchen selbst wandern von
+              Stellen hoher zu Stellen niedriger Konzentration (Tinte,
+              Duft).</li>
+            <li><strong>Wärmeleitung:</strong> Die Teilchen tragen
+              Bewegungsenergie. Schnelle Teilchen aus dem Warmen stoßen
+              langsame im Kalten an und geben ihnen Energie ab (Löffel).</li>
+            <li><strong>Viskosität:</strong> Die Teilchen tragen Impuls. Eine
+              schnell strömende Schicht reißt die langsamere
+              Nachbarschicht mit und wird selbst gebremst (Honig).</li>
+          </ul>
+
+          <div class="alltag">
+            <span class="titel">Aus dem Alltag</span>
+            <p>Der Duft eines Parfüms erreicht dich im ruhigen Raum nach
+              Tagen, wenn er nur durch Diffusion wanderte. In der Praxis riechst
+              du ihn nach Sekunden, weil Luftbewegung (Konvektion) ihn
+              mitnimmt. Diffusion ist über kurze Strecken (Millimeter)
+              schnell und über große Strecken sehr langsam, denn die
+              benötigte Zeit wächst mit dem <em>Quadrat</em> der Strecke.
+              Zehnmal so weit dauert hundertmal so lange.</p>
+          </div>
+
+          <div class="merkkasten">
+            <span class="titel">Das Wichtigste in Kürze</span>
+            <p>Zufällige Stöße der Teilchen erzeugen einen Ausgleich: Konzentration,
+              Temperatur und Strömungsgeschwindigkeit werden gleichmäßiger.
+              Das sind Diffusion, Wärmeleitung und Viskosität. Die Teilchen
+              tragen dabei sich selbst, Energie bzw. Impuls. Diffusion ist
+              über große Strecken sehr langsam.</p>
+          </div>
+        </section>
+
+        <section class="tab" id="vertiefung" data-titel="Vertiefung">
+
+          <h2>Mittlere freie Weglänge</h2>
+
+          <p>Alle drei Vorgänge hängen davon ab, wie weit ein Teilchen im
+            Mittel fliegt, bis es auf ein anderes trifft. Ein Teilchen mit
+            Durchmesser $d$ stößt auf ein anderes, wenn dessen Mittelpunkt in
+            einer Scheibe vom Radius $d$ um seine Bahn liegt. Der
+            <em>Stoßquerschnitt</em> ist $\sigma = \pi d^2$. Auf der Strecke $L$
+            überstreicht das Teilchen das Volumen $\sigma L$ und trifft dabei
+            im Mittel $n\sigma L$ andere Teilchen ($n$: Teilchendichte).
+            Die Strecke pro Stoß ist die <em>mittlere freie Weglänge</em>
+            $\ell = 1/(n\sigma)$. Berücksichtigt man, dass sich auch die anderen
+            Teilchen bewegen (relative Geschwindigkeit im Mittel
+            $\sqrt{2}$-mal größer), folgt</p>
+          $$ \ell = \frac{1}{\sqrt{2}\,n\,\sigma} = \frac{k_\mathrm{B}T}{\sqrt{2}\,\sigma\,p} . $$
+          <p>Bei fester Temperatur ist $\ell \propto 1/p$. Für Luft bei
+            $1\,\mathrm{bar}$ und $20\,{}^\circ\mathrm{C}$ ist $\ell \approx 66\,\mathrm{nm}$
+            (Beispiel 1), das ist knapp das Zweihundertfache des Moleküldurchmessers.
+            Mit der mittleren Geschwindigkeit $\bar v$ (etwa $470\,\mathrm{m/s}$) stößt
+            jedes Molekül rund $\bar v/\ell \approx 7 \cdot 10^9$ mal pro Sekunde.</p>
+
+          <h2>Fluss und Gradient</h2>
+
+          <p>In allen drei Fällen fließt eine Größe dorthin, wo weniger davon
+            ist, und der Strom ist proportional zum Gefälle (Gradient):</p>
+          <div class="tabelle-huelle">
+            <table>
+              <thead><tr><th>Vorgang</th><th>Gesetz</th><th>transportiert</th><th>Koeffizient</th></tr></thead>
+              <tbody>
+                <tr><td>Diffusion</td><td>$j = -D\,\dfrac{\mathrm{d}n}{\mathrm{d}z}$ (Fick)</td><td>Teilchen</td><td>$D$ in $\mathrm{m^2/s}$</td></tr>
+                <tr><td>Wärmeleitung</td><td>$q = -\lambda\,\dfrac{\mathrm{d}T}{\mathrm{d}z}$ (Fourier)</td><td>Energie</td><td>$\lambda$ in $\mathrm{W/(m\,K)}$</td></tr>
+                <tr><td>Viskosität</td><td>$\tau = \eta\,\dfrac{\mathrm{d}v_x}{\mathrm{d}z}$ (Newton)</td><td>Impuls</td><td>$\eta$ in $\mathrm{Pa\,s}$</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p>Hier ist $j$ die Teilchenstromdichte (Teilchen pro Fläche und
+            Zeit), $q$ die Wärmestromdichte (Leistung pro Fläche) und $\tau$ die
+            Schubspannung (Kraft pro Fläche), die eine Schicht auf die
+            Nachbarschicht ausübt. Das Minuszeichen bei $j$ und $q$ steht dafür,
+            dass der Strom gegen das Gefälle läuft. Die Wärmeleitung aus dem
+            letzten Thema ist genau das Fourier-Gesetz mit $P = qA$.</p>
+
+          <h2>Abschätzung aus der kinetischen Gastheorie</h2>
+
+          <p>Wir betrachten ein Gas mit Dichtegefälle in $z$-Richtung. Durch
+            eine Fläche senkrecht zu $z$ fliegen von jeder Seite pro Fläche und
+            Zeit etwa $\frac16\,n\bar v$ Teilchen (von den sechs
+            Raumrichtungen zählt eine). Ein Teilchen, das die Fläche
+            erreicht, hat seinen letzten Stoß im Abstand $\ell$ davor
+            gehabt, also in einer Schicht mit der Dichte $n(z \mp \ell)$. Der
+            Nettostrom ist die Differenz:</p>
+          $$ j = \tfrac16\,\bar v\,\bigl[n(z - \ell) - n(z + \ell)\bigr] \approx -\tfrac13\,\bar v\,\ell\,\frac{\mathrm{d}n}{\mathrm{d}z} . $$
+          <p>Der Vergleich mit dem Fick-Gesetz ergibt</p>
+          $$ D = \tfrac13\,\bar v\,\ell . $$
+          <p>Genauso bei der Wärmeleitung: Jedes Teilchen aus der Schicht bei
+            $z \mp \ell$ bringt dort seine mittlere Energie
+            $\varepsilon(T) = \frac f2 k_\mathrm{B}T$ mit. Der Energiestrom ist
+            $-\frac13\,n\bar v\ell\,\mathrm{d}\varepsilon/\mathrm{d}z$, also
+            $-\frac13\,n\bar v\ell\,\frac f2 k_\mathrm{B}\,\mathrm{d}T/\mathrm{d}z$. Mit
+            der spezifischen Wärmekapazität $c_V = \frac f2 k_\mathrm{B}/m$ pro
+            Masse ist $\frac f2 k_\mathrm{B}\,n = \rho\,c_V$, und es folgt
+            $\lambda = \frac13\,\rho\,c_V\,\bar v\,\ell$. Bei der Viskosität
+            trägt jedes Teilchen den Impuls $m v_x(z \mp \ell)$ mit, und der
+            Impulsstrom ist die Schubspannung:</p>
+          $$ \lambda = \tfrac13\,\rho\,c_V\,\bar v\,\ell, \qquad \eta = \tfrac13\,\rho\,\bar v\,\ell, \qquad \frac{\lambda}{\eta\,c_V} = 1 . $$
+
+          <p>Das Modell ist grob (der Faktor $\frac13$ gilt nur
+            näherungsweise), liefert aber die richtigen Größenordnungen und
+            zwei überraschende Folgerungen:</p>
+          <ul>
+            <li>Mit $\rho = nm$ und $\ell = 1/(\sqrt2 n\sigma)$ kürzt sich
+              $n$ heraus: $\eta = \dfrac{m\bar v}{3\sqrt2\,\sigma}$. Die
+              Viskosität eines Gases hängt <em>nicht vom Druck</em> ab. Mehr
+              Teilchen tragen mehr Impuls, stoßen aber auch öfter und
+              kommen weniger weit. Das hat Maxwell 1860 vorhergesagt und
+              1866 gemessen. Es gilt, bis $\ell$ die Größe des Gefäßes erreicht
+              (sehr niedrige Drücke). Dasselbe gilt für $\lambda$.
+              Dagegen ist $D \propto 1/p$.</li>
+            <li>Wegen $\bar v \propto \sqrt{T/m}$ steigt $\eta$ mit der
+              Temperatur wie $\sqrt T$. Ein Gas wird beim Erwärmen also
+              zäher, bei Flüssigkeiten ist es umgekehrt (Honig fließt
+              warm besser).</li>
+          </ul>
+          <p>Gemessen ist $\lambda/(\eta c_V)$ nicht eins, sondern bei Gasen etwa
+            $2$ (für zweiatomige Gase $1{,}9$, für einatomige $2{,}5$). Das Modell
+            vernachlässigt, dass schnelle Teilchen weiter kommen und stärker
+            beitragen, und dass innere Freiheitsgrade Energie, aber nicht
+            im gleichen Maß Impuls transportieren.</p>
+
+          <h2>Die Diffusionsgleichung</h2>
+
+          <p>Das Fick-Gesetz allein sagt nur, wie groß der Strom ist. Wie sich die
+            Dichte zeitlich ändert, folgt aus der Teilchenzahlerhaltung. In
+            einer dünnen Schicht ändert sich die Zahl der Teilchen durch
+            Zufluss minus Abfluss, $\partial n/\partial t = -\partial j/\partial z$.
+            Einsetzen von $j = -D\,\partial n/\partial z$ ergibt</p>
+          $$ \frac{\partial n}{\partial t} = D\,\frac{\partial^2 n}{\partial z^2} . $$
+          <p>Wird zur Zeit $t = 0$ eine Menge $N$ (pro Fläche) in der Ebene
+            $z = 0$ freigesetzt, lautet die Lösung (Aufgabe 5)</p>
+          $$ n(z,t) = \frac{N}{\sqrt{4\pi D t}}\,\mathrm{e}^{-z^2/(4Dt)} . $$
+          <p>Das ist eine Gauß-Kurve, die mit der Zeit flacher und breiter wird
+            (Abb. 2). Ihre Breite wächst nicht linear, sondern mit der Wurzel
+            der Zeit: Der mittlere quadratische Abstand der Teilchen vom Start
+            ist</p>
+          $$ \langle z^2 \rangle = 2Dt \quad(\text{eine Dimension}), \qquad \langle r^2 \rangle = 6Dt \quad(\text{drei Dimensionen}). $$
+          <p>Genau dieses $\sqrt{t}$-Verhalten kennt man vom Zufallsweg
+            (Abb. 1): Nach $N$ Schritten der Länge $s$ liegt das Teilchen im
+            Mittel $\sqrt N\,s$ vom Start entfernt, nicht $N s$. Die Zeit, die die
+            Diffusion für eine Strecke $L$ braucht, ist von der Größenordnung
+            $t \approx L^2/(2D)$.</p>
+
+          <figure class="abbildung">
+            <svg class="abb" viewBox="0 0 360 225" role="img" aria-label="Diffusionsprofile: ein anfangs scharfer Peak wird mit der Zeit breiter und flacher, Zeiten t, 4t und 16t">
+<defs><marker id="pfeil-abb2-text" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto"><path class="punkt" d="M0 0L10 5L0 10z"/></marker><marker id="pfeil-abb2-blau" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto"><path class="punkt blau" d="M0 0L10 5L0 10z"/></marker><marker id="pfeil-abb2-kupfer" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto"><path class="punkt kupfer" d="M0 0L10 5L0 10z"/></marker></defs>
+<path class="achse" d="M15 190H348" marker-end="url(#pfeil-abb2-text)"/>
+<path class="achse" d="M180 190V14" marker-end="url(#pfeil-abb2-text)"/>
+<text x="340" y="208">z</text><text x="188" y="22">n</text>
+<path class="kurve kupfer" d="M11 190 L12.3 190 L13.6 190 L14.9 190 L16.2 190 L17.5 190 L18.8 190 L20.1 190 L21.4 190 L22.7 190 L24 190 L25.3 190 L26.6 190 L27.9 190 L29.2 190 L30.5 190 L31.8 190 L33.1 190 L34.4 190 L35.7 190 L37 190 L38.3 190 L39.6 190 L40.9 190 L42.2 190 L43.5 190 L44.8 190 L46.1 190 L47.4 190 L48.7 190 L50 190 L51.3 190 L52.6 190 L53.9 190 L55.2 190 L56.5 190 L57.8 190 L59.1 190 L60.4 190 L61.7 190 L63 190 L64.3 190 L65.6 190 L66.9 190 L68.2 190 L69.5 190 L70.8 190 L72.1 190 L73.4 190 L74.7 190 L76 190 L77.3 190 L78.6 190 L79.9 190 L81.2 190 L82.5 190 L83.8 190 L85.1 190 L86.4 190 L87.7 190 L89 190 L90.3 190 L91.6 190 L92.9 190 L94.2 190 L95.5 190 L96.8 190 L98.1 190 L99.4 190 L100.7 190 L102 190 L103.3 190 L104.6 190 L105.9 190 L107.2 189.9 L108.5 189.9 L109.8 189.9 L111.1 189.9 L112.4 189.8 L113.7 189.8 L115 189.7 L116.3 189.7 L117.6 189.6 L118.9 189.5 L120.2 189.3 L121.5 189.1 L122.8 188.9 L124.1 188.7 L125.4 188.4 L126.7 188 L128 187.5 L129.3 187 L130.6 186.3 L131.9 185.6 L133.2 184.7 L134.5 183.7 L135.8 182.5 L137.1 181.1 L138.4 179.5 L139.7 177.7 L141 175.7 L142.3 173.5 L143.6 170.9 L144.9 168.1 L146.2 165 L147.5 161.6 L148.8 157.9 L150.1 153.9 L151.4 149.6 L152.7 145 L154 140.2 L155.3 135.1 L156.6 129.8 L157.9 124.3 L159.2 118.6 L160.5 112.8 L161.8 107 L163.1 101.3 L164.4 95.5 L165.7 89.9 L167 84.5 L168.3 79.4 L169.6 74.6 L170.9 70.2 L172.2 66.2 L173.5 62.8 L174.8 59.9 L176.1 57.6 L177.4 55.9 L178.7 54.9 L180 54.6 L181.3 54.9 L182.6 55.9 L183.9 57.6 L185.2 59.9 L186.5 62.8 L187.8 66.2 L189.1 70.2 L190.4 74.6 L191.7 79.4 L193 84.5 L194.3 89.9 L195.6 95.5 L196.9 101.3 L198.2 107 L199.5 112.8 L200.8 118.6 L202.1 124.3 L203.4 129.8 L204.7 135.1 L206 140.2 L207.3 145 L208.6 149.6 L209.9 153.9 L211.2 157.9 L212.5 161.6 L213.8 165 L215.1 168.1 L216.4 170.9 L217.7 173.5 L219 175.7 L220.3 177.7 L221.6 179.5 L222.9 181.1 L224.2 182.5 L225.5 183.7 L226.8 184.7 L228.1 185.6 L229.4 186.3 L230.7 187 L232 187.5 L233.3 188 L234.6 188.4 L235.9 188.7 L237.2 188.9 L238.5 189.1 L239.8 189.3 L241.1 189.5 L242.4 189.6 L243.7 189.7 L245 189.7 L246.3 189.8 L247.6 189.8 L248.9 189.9 L250.2 189.9 L251.5 189.9 L252.8 189.9 L254.1 190 L255.4 190 L256.7 190 L258 190 L259.3 190 L260.6 190 L261.9 190 L263.2 190 L264.5 190 L265.8 190 L267.1 190 L268.4 190 L269.7 190 L271 190 L272.3 190 L273.6 190 L274.9 190 L276.2 190 L277.5 190 L278.8 190 L280.1 190 L281.4 190 L282.7 190 L284 190 L285.3 190 L286.6 190 L287.9 190 L289.2 190 L290.5 190 L291.8 190 L293.1 190 L294.4 190 L295.7 190 L297 190 L298.3 190 L299.6 190 L300.9 190 L302.2 190 L303.5 190 L304.8 190 L306.1 190 L307.4 190 L308.7 190 L310 190 L311.3 190 L312.6 190 L313.9 190 L315.2 190 L316.5 190 L317.8 190 L319.1 190 L320.4 190 L321.7 190 L323 190 L324.3 190 L325.6 190 L326.9 190 L328.2 190 L329.5 190 L330.8 190 L332.1 190 L333.4 190 L334.7 190 L336 190 L337.3 190 L338.6 190 L339.9 190 L341.2 190 L342.5 190 L343.8 190 L345.1 190 L346.4 190 L347.7 190 L349 190"/>
+<path class="kurve " d="M11 190 L12.3 190 L13.6 190 L14.9 190 L16.2 190 L17.5 190 L18.8 190 L20.1 190 L21.4 190 L22.7 190 L24 190 L25.3 190 L26.6 190 L27.9 190 L29.2 190 L30.5 190 L31.8 190 L33.1 190 L34.4 190 L35.7 190 L37 190 L38.3 190 L39.6 190 L40.9 189.9 L42.2 189.9 L43.5 189.9 L44.8 189.9 L46.1 189.9 L47.4 189.9 L48.7 189.9 L50 189.9 L51.3 189.9 L52.6 189.8 L53.9 189.8 L55.2 189.8 L56.5 189.8 L57.8 189.7 L59.1 189.7 L60.4 189.7 L61.7 189.6 L63 189.6 L64.3 189.5 L65.6 189.5 L66.9 189.4 L68.2 189.3 L69.5 189.3 L70.8 189.2 L72.1 189.1 L73.4 189 L74.7 188.9 L76 188.8 L77.3 188.6 L78.6 188.5 L79.9 188.3 L81.2 188.2 L82.5 188 L83.8 187.8 L85.1 187.6 L86.4 187.3 L87.7 187.1 L89 186.8 L90.3 186.5 L91.6 186.2 L92.9 185.9 L94.2 185.6 L95.5 185.2 L96.8 184.8 L98.1 184.3 L99.4 183.9 L100.7 183.4 L102 182.9 L103.3 182.3 L104.6 181.7 L105.9 181.1 L107.2 180.5 L108.5 179.8 L109.8 179.1 L111.1 178.3 L112.4 177.5 L113.7 176.7 L115 175.8 L116.3 174.9 L117.6 174 L118.9 173 L120.2 172 L121.5 170.9 L122.8 169.8 L124.1 168.7 L125.4 167.5 L126.7 166.3 L128 165.1 L129.3 163.8 L130.6 162.5 L131.9 161.2 L133.2 159.9 L134.5 158.5 L135.8 157.1 L137.1 155.7 L138.4 154.3 L139.7 152.9 L141 151.4 L142.3 150 L143.6 148.5 L144.9 147.1 L146.2 145.6 L147.5 144.2 L148.8 142.8 L150.1 141.4 L151.4 140 L152.7 138.6 L154 137.3 L155.3 136 L156.6 134.7 L157.9 133.5 L159.2 132.3 L160.5 131.2 L161.8 130.1 L163.1 129.1 L164.4 128.1 L165.7 127.2 L167 126.4 L168.3 125.6 L169.6 125 L170.9 124.3 L172.2 123.8 L173.5 123.3 L174.8 123 L176.1 122.7 L177.4 122.5 L178.7 122.3 L180 122.3 L181.3 122.3 L182.6 122.5 L183.9 122.7 L185.2 123 L186.5 123.3 L187.8 123.8 L189.1 124.3 L190.4 125 L191.7 125.6 L193 126.4 L194.3 127.2 L195.6 128.1 L196.9 129.1 L198.2 130.1 L199.5 131.2 L200.8 132.3 L202.1 133.5 L203.4 134.7 L204.7 136 L206 137.3 L207.3 138.6 L208.6 140 L209.9 141.4 L211.2 142.8 L212.5 144.2 L213.8 145.6 L215.1 147.1 L216.4 148.5 L217.7 150 L219 151.4 L220.3 152.9 L221.6 154.3 L222.9 155.7 L224.2 157.1 L225.5 158.5 L226.8 159.9 L228.1 161.2 L229.4 162.5 L230.7 163.8 L232 165.1 L233.3 166.3 L234.6 167.5 L235.9 168.7 L237.2 169.8 L238.5 170.9 L239.8 172 L241.1 173 L242.4 174 L243.7 174.9 L245 175.8 L246.3 176.7 L247.6 177.5 L248.9 178.3 L250.2 179.1 L251.5 179.8 L252.8 180.5 L254.1 181.1 L255.4 181.7 L256.7 182.3 L258 182.9 L259.3 183.4 L260.6 183.9 L261.9 184.3 L263.2 184.8 L264.5 185.2 L265.8 185.6 L267.1 185.9 L268.4 186.2 L269.7 186.5 L271 186.8 L272.3 187.1 L273.6 187.3 L274.9 187.6 L276.2 187.8 L277.5 188 L278.8 188.2 L280.1 188.3 L281.4 188.5 L282.7 188.6 L284 188.8 L285.3 188.9 L286.6 189 L287.9 189.1 L289.2 189.2 L290.5 189.3 L291.8 189.3 L293.1 189.4 L294.4 189.5 L295.7 189.5 L297 189.6 L298.3 189.6 L299.6 189.7 L300.9 189.7 L302.2 189.7 L303.5 189.8 L304.8 189.8 L306.1 189.8 L307.4 189.8 L308.7 189.9 L310 189.9 L311.3 189.9 L312.6 189.9 L313.9 189.9 L315.2 189.9 L316.5 189.9 L317.8 189.9 L319.1 189.9 L320.4 190 L321.7 190 L323 190 L324.3 190 L325.6 190 L326.9 190 L328.2 190 L329.5 190 L330.8 190 L332.1 190 L333.4 190 L334.7 190 L336 190 L337.3 190 L338.6 190 L339.9 190 L341.2 190 L342.5 190 L343.8 190 L345.1 190 L346.4 190 L347.7 190 L349 190"/>
+<path class="kurve blau" d="M11 187.6 L12.3 187.5 L13.6 187.4 L14.9 187.3 L16.2 187.2 L17.5 187.1 L18.8 186.9 L20.1 186.8 L21.4 186.7 L22.7 186.6 L24 186.4 L25.3 186.3 L26.6 186.2 L27.9 186 L29.2 185.9 L30.5 185.7 L31.8 185.6 L33.1 185.4 L34.4 185.2 L35.7 185.1 L37 184.9 L38.3 184.7 L39.6 184.5 L40.9 184.3 L42.2 184.2 L43.5 184 L44.8 183.8 L46.1 183.5 L47.4 183.3 L48.7 183.1 L50 182.9 L51.3 182.7 L52.6 182.5 L53.9 182.2 L55.2 182 L56.5 181.7 L57.8 181.5 L59.1 181.2 L60.4 181 L61.7 180.7 L63 180.5 L64.3 180.2 L65.6 179.9 L66.9 179.6 L68.2 179.3 L69.5 179.1 L70.8 178.8 L72.1 178.5 L73.4 178.2 L74.7 177.9 L76 177.5 L77.3 177.2 L78.6 176.9 L79.9 176.6 L81.2 176.3 L82.5 175.9 L83.8 175.6 L85.1 175.3 L86.4 174.9 L87.7 174.6 L89 174.3 L90.3 173.9 L91.6 173.6 L92.9 173.2 L94.2 172.9 L95.5 172.5 L96.8 172.2 L98.1 171.8 L99.4 171.4 L100.7 171.1 L102 170.7 L103.3 170.4 L104.6 170 L105.9 169.6 L107.2 169.3 L108.5 168.9 L109.8 168.5 L111.1 168.2 L112.4 167.8 L113.7 167.5 L115 167.1 L116.3 166.7 L117.6 166.4 L118.9 166 L120.2 165.7 L121.5 165.3 L122.8 165 L124.1 164.6 L125.4 164.3 L126.7 164 L128 163.6 L129.3 163.3 L130.6 163 L131.9 162.7 L133.2 162.4 L134.5 162 L135.8 161.7 L137.1 161.4 L138.4 161.2 L139.7 160.9 L141 160.6 L142.3 160.3 L143.6 160.1 L144.9 159.8 L146.2 159.5 L147.5 159.3 L148.8 159.1 L150.1 158.8 L151.4 158.6 L152.7 158.4 L154 158.2 L155.3 158 L156.6 157.8 L157.9 157.6 L159.2 157.5 L160.5 157.3 L161.8 157.2 L163.1 157 L164.4 156.9 L165.7 156.8 L167 156.7 L168.3 156.6 L169.6 156.5 L170.9 156.4 L172.2 156.3 L173.5 156.3 L174.8 156.2 L176.1 156.2 L177.4 156.2 L178.7 156.2 L180 156.1 L181.3 156.2 L182.6 156.2 L183.9 156.2 L185.2 156.2 L186.5 156.3 L187.8 156.3 L189.1 156.4 L190.4 156.5 L191.7 156.6 L193 156.7 L194.3 156.8 L195.6 156.9 L196.9 157 L198.2 157.2 L199.5 157.3 L200.8 157.5 L202.1 157.6 L203.4 157.8 L204.7 158 L206 158.2 L207.3 158.4 L208.6 158.6 L209.9 158.8 L211.2 159.1 L212.5 159.3 L213.8 159.5 L215.1 159.8 L216.4 160.1 L217.7 160.3 L219 160.6 L220.3 160.9 L221.6 161.2 L222.9 161.4 L224.2 161.7 L225.5 162 L226.8 162.4 L228.1 162.7 L229.4 163 L230.7 163.3 L232 163.6 L233.3 164 L234.6 164.3 L235.9 164.6 L237.2 165 L238.5 165.3 L239.8 165.7 L241.1 166 L242.4 166.4 L243.7 166.7 L245 167.1 L246.3 167.5 L247.6 167.8 L248.9 168.2 L250.2 168.5 L251.5 168.9 L252.8 169.3 L254.1 169.6 L255.4 170 L256.7 170.4 L258 170.7 L259.3 171.1 L260.6 171.4 L261.9 171.8 L263.2 172.2 L264.5 172.5 L265.8 172.9 L267.1 173.2 L268.4 173.6 L269.7 173.9 L271 174.3 L272.3 174.6 L273.6 174.9 L274.9 175.3 L276.2 175.6 L277.5 175.9 L278.8 176.3 L280.1 176.6 L281.4 176.9 L282.7 177.2 L284 177.5 L285.3 177.9 L286.6 178.2 L287.9 178.5 L289.2 178.8 L290.5 179.1 L291.8 179.3 L293.1 179.6 L294.4 179.9 L295.7 180.2 L297 180.5 L298.3 180.7 L299.6 181 L300.9 181.2 L302.2 181.5 L303.5 181.7 L304.8 182 L306.1 182.2 L307.4 182.5 L308.7 182.7 L310 182.9 L311.3 183.1 L312.6 183.3 L313.9 183.5 L315.2 183.8 L316.5 184 L317.8 184.2 L319.1 184.3 L320.4 184.5 L321.7 184.7 L323 184.9 L324.3 185.1 L325.6 185.2 L326.9 185.4 L328.2 185.6 L329.5 185.7 L330.8 185.9 L332.1 186 L333.4 186.2 L334.7 186.3 L336 186.4 L337.3 186.6 L338.6 186.7 L339.9 186.8 L341.2 186.9 L342.5 187.1 L343.8 187.2 L345.1 187.3 L346.4 187.4 L347.7 187.5 L349 187.6"/>
+<text class="kupfer" x="191.7" y="58.6">t</text>
+<text x="204.7" y="126.3">4t</text>
+<text class="blau" x="226.8" y="152.2">16t</text>
+</svg>
+            <figcaption>Abb. 2: Dichteprofil nach der Freisetzung in einer
+              Ebene zu den Zeiten $t$, $4t$ und $16t$. Die Fläche unter
+              jeder Kurve ist gleich (Teilchenzahl bleibt erhalten), die Breite
+              verdoppelt sich bei vierfacher Zeit.</figcaption>
+          </figure>
+
+          <p>Die Wärmeleitung folgt derselben Mathematik. Mit der
+            Energieerhaltung und dem Fourier-Gesetz entsteht die
+            Wärmeleitungsgleichung $\partial T/\partial t = a\,\partial^2T/\partial z^2$
+            mit der <em>Temperaturleitfähigkeit</em> $a = \lambda/(\rho c)$. Sie
+            bestimmt, wie schnell sich ein Temperaturunterschied ausgleicht.
+            Typische Werte sind $1{,}2 \cdot 10^{-4}\,\mathrm{m^2/s}$ für Kupfer,
+            $2 \cdot 10^{-5}\,\mathrm{m^2/s}$ für Luft und
+            $1{,}4 \cdot 10^{-7}\,\mathrm{m^2/s}$ für Wasser.</p>
+
+          <div class="tabelle-huelle">
+            <table>
+              <thead><tr><th>Stoff (etwa $20\,{}^\circ\mathrm{C}$)</th><th>$D$ in $\mathrm{m^2/s}$</th><th>$\eta$ in $\mathrm{Pa\,s}$</th></tr></thead>
+              <tbody>
+                <tr><td>Luft (Gase, Selbstdiffusion)</td><td>$\approx 2 \cdot 10^{-5}$</td><td>$1{,}8 \cdot 10^{-5}$</td></tr>
+                <tr><td>Wasser (Tinte, Salz in Wasser)</td><td>$\approx 10^{-9}$</td><td>$1{,}0 \cdot 10^{-3}$</td></tr>
+                <tr><td>Olivenöl</td><td></td><td>$\approx 0{,}08$</td></tr>
+                <tr><td>Glycerin</td><td></td><td>$\approx 1{,}4$</td></tr>
+                <tr><td>Honig</td><td></td><td>$\approx 10$</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h2>Viskosität in Flüssigkeiten</h2>
+
+          <p>Zwischen zwei Platten im Abstand $d$ ruht die untere, und die obere
+            Platte (Fläche $A$) wird mit der Geschwindigkeit $v$ gezogen. Die
+            Flüssigkeit haftet an den Platten, und die Geschwindigkeit steigt dazwischen
+            linear an (Abb. 3). Das Newton-Gesetz $\tau = \eta\,\mathrm{d}v_x/\mathrm{d}z$
+            ergibt für die Kraft auf die obere Platte</p>
+          $$ F = \eta\,A\,\frac{v}{d} . $$
+
+          <figure class="abbildung">
+            <svg class="abb" viewBox="0 0 360 200" role="img" aria-label="Zwei Platten im Abstand d: die obere bewegt sich mit Geschwindigkeit v, die untere ruht; dazwischen wächst die Geschwindigkeit der Flüssigkeitsschichten linear von unten nach oben">
+<defs><marker id="pfeil-abb3-text" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto"><path class="punkt" d="M0 0L10 5L0 10z"/></marker><marker id="pfeil-abb3-blau" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto"><path class="punkt blau" d="M0 0L10 5L0 10z"/></marker><marker id="pfeil-abb3-kupfer" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto"><path class="punkt kupfer" d="M0 0L10 5L0 10z"/></marker></defs>
+<rect class="figur vorher" x="60" y="150" width="240" height="14" style="fill:var(--flaeche-2);stroke:currentColor;stroke-dasharray:none"/>
+<rect x="60" y="30" width="240" height="14" class="wagen"/>
+<path class="kurve kupfer" d="M95 22H175" marker-end="url(#pfeil-abb3-kupfer)"/>
+<text class="kupfer" x="185" y="26">v</text>
+<path class="kurve blau duenn" d="M95 132.3h13.3" marker-end="url(#pfeil-abb3-blau)"/>
+<path class="kurve blau duenn" d="M95 114.7h26.7" marker-end="url(#pfeil-abb3-blau)"/>
+<path class="kurve blau duenn" d="M95 97h40" marker-end="url(#pfeil-abb3-blau)"/>
+<path class="kurve blau duenn" d="M95 79.3h53.3" marker-end="url(#pfeil-abb3-blau)"/>
+<path class="kurve blau duenn" d="M95 61.7h66.7" marker-end="url(#pfeil-abb3-blau)"/>
+<path class="hilfslinie" d="M95 150L175 44"/>
+<path class="achse" d="M320 44V150M315 44h10M315 150h10"/>
+<text x="332" y="101">d</text>
+<text class="klein" x="180" y="180" text-anchor="middle">feste Platte</text>
+<text class="klein" x="312" y="62" text-anchor="end">bewegte Platte (Fläche A)</text>
+<text class="klein blau" x="195" y="115">Geschwindigkeit wächst</text><text class="klein blau" x="195" y="129">linear mit der Höhe</text>
+</svg>
+            <figcaption>Abb. 3: Scherströmung zwischen zwei Platten. Jede
+              Schicht schleppt ihre langsamere Nachbarschicht mit, und
+              ein Impulsstrom läuft von der bewegten zur ruhenden Platte.</figcaption>
+          </figure>
+
+          <p>Für eine Kugel mit Radius $r$, die mit kleiner Geschwindigkeit
+            durch eine Flüssigkeit sinkt, gilt das Stokes-Gesetz für die
+            Reibungskraft $F = 6\pi\,\eta\,r\,v$. Es gilt solange die Strömung
+            glatt bleibt, also für kleine Reynolds-Zahlen $\mathrm{Re} \ll 1$. In
+            Flüssigkeiten entsteht die Zähigkeit nicht durch freien Flug von
+            Teilchen, sondern durch Impulsübertrag über die Kräfte zwischen den
+            dicht gepackten Molekülen. Deshalb sinkt $\eta$ dort mit steigender
+            Temperatur.</p>
+
+          <div class="merkkasten">
+            <span class="titel">Merke</span>
+            <p>Mittlere freie Weglänge $\ell = 1/(\sqrt2 n\sigma)$. Gase:
+              $D = \frac13\bar v\ell$, $\eta = \frac13\rho\bar v\ell$,
+              $\lambda = \frac13\rho c_V\bar v\ell$. $\eta$ und $\lambda$ hängen
+              nicht vom Druck ab, $D \propto 1/p$. Diffusionsgleichung
+              $\partial_t n = D\,\partial_z^2 n$ mit $\langle z^2 \rangle = 2Dt$.
+              Flüssigkeiten: $F = \eta A v/d$, Stokes $F = 6\pi\eta r v$.</p>
+          </div>
+        </section>
+
+        <section class="tab" id="beispiele" data-titel="Beispielrechnungen">
+
+          <div class="beispiel">
+            <h3>Beispiel 1: Freie Weglänge in Luft</h3>
+            <p><strong>Gegeben:</strong> Luft (Molekül-Durchmesser
+              $d = 0{,}37\,\mathrm{nm}$) bei $1{,}013\,\mathrm{bar}$ und $20\,{}^\circ\mathrm{C}$.<br>
+              <strong>Gesucht:</strong> Teilchendichte, freie Weglänge und die freie Weglänge bei
+              $1\,\mathrm{Pa}$.</p>
+
+            <p><strong>1. Teilchendichte.</strong> Aus $p = n k_\mathrm{B} T$:
+              $$ n = \frac{p}{k_\mathrm{B}T} = \frac{1{,}013 \cdot 10^5\,\mathrm{Pa}}{1{,}381 \cdot 10^{-23}\,\mathrm{J/K} \cdot 293{,}15\,\mathrm{K}} = 2{,}50 \cdot 10^{25}\,\mathrm{m^{-3}} $$</p>
+
+            <p><strong>2. Stoßquerschnitt.</strong>
+              $$ \sigma = \pi d^2 = \pi\,(0{,}37 \cdot 10^{-9}\,\mathrm{m})^2 = 4{,}30 \cdot 10^{-19}\,\mathrm{m^2} $$</p>
+
+            <p><strong>3. Freie Weglänge.</strong>
+              $$ \ell = \frac{1}{\sqrt2\,n\sigma} = \frac{1}{1{,}414 \cdot 2{,}50 \cdot 10^{25}\,\mathrm{m^{-3}} \cdot 4{,}30 \cdot 10^{-19}\,\mathrm{m^2}} = 6{,}6 \cdot 10^{-8}\,\mathrm{m} = 66\,\mathrm{nm} $$
+              Einheitencheck: $1/(\mathrm{m^{-3}\,m^2}) = \mathrm{m}$ ✓</p>
+
+            <p><strong>4. Bei $1\,\mathrm{Pa}$.</strong> Wegen $\ell \propto 1/p$ ist
+              der Druck $1{,}013 \cdot 10^5$-mal kleiner, die Weglänge entsprechend
+              größer:
+              $$ \ell = 66\,\mathrm{nm} \cdot 1{,}013 \cdot 10^5 = 6{,}7\,\mathrm{mm} $$</p>
+
+            <p><strong>Ergebnis und Plausibilität:</strong> Bei Normaldruck fliegt ein
+              Molekül nur $66\,\mathrm{nm}$ weit (knapp das Zweihundertfache seines
+              Durchmessers), bei $1\,\mathrm{Pa}$ sind es Millimeter. Das passt zum Wert
+              aus Tabellenwerken von etwa $68\,\mathrm{nm}$.</p>
+          </div>
+
+          <div class="beispiel">
+            <h3>Beispiel 2: Wie lange braucht ein Duft zum Diffundieren?</h3>
+            <p><strong>Gegeben:</strong> Der Diffusionskoeffizient eines Duftstoffs in
+              ruhender Luft sei $D = 2 \cdot 10^{-5}\,\mathrm{m^2/s}$.<br>
+              <strong>Gesucht:</strong> die Zeit für $3\,\mathrm{m}$ (eindimensional) und die
+              typische Entfernung nach einer Sekunde.</p>
+
+            <p><strong>1. Zeit für $L = 3\,\mathrm{m}$.</strong> Aus
+              $\langle z^2 \rangle = 2Dt$ mit $\langle z^2 \rangle = L^2$:
+              $$ t = \frac{L^2}{2D} = \frac{(3\,\mathrm{m})^2}{2 \cdot 2 \cdot 10^{-5}\,\mathrm{m^2/s}} = 2{,}25 \cdot 10^5\,\mathrm{s} \approx 62\,\mathrm{h} $$
+              Einheitencheck: $\mathrm{m^2/(m^2/s)} = \mathrm{s}$ ✓</p>
+
+            <p><strong>2. Typische Entfernung nach $1\,\mathrm{s}$.</strong>
+              $$ \sqrt{\langle z^2 \rangle} = \sqrt{2Dt} = \sqrt{2 \cdot 2 \cdot 10^{-5}\,\mathrm{m^2/s} \cdot 1\,\mathrm{s}} = 6{,}3 \cdot 10^{-3}\,\mathrm{m} = 6{,}3\,\mathrm{mm} $$</p>
+
+            <p><strong>Ergebnis und Plausibilität:</strong> Nach einer Sekunde ist der
+              Duft nur wenige Millimeter weit gekommen, die drei Meter dauern
+              mehr als zwei Tage. Dass du ihn viel schneller riechst, liegt an der
+              Konvektion: Schon kleinste Luftströmungen sind um Größenordnungen
+              schneller als die Diffusion. Wegen $t \propto L^2$ braucht die
+              doppelte Strecke die vierfache Zeit.</p>
+          </div>
+
+          <div class="beispiel">
+            <h3>Beispiel 3: Viskosität von Stickstoff aus dem Teilchenbild</h3>
+            <p><strong>Gegeben:</strong> Stickstoff ($M = 28{,}01\,\mathrm{g/mol}$) bei
+              $20\,{}^\circ\mathrm{C}$ und $1{,}013\,\mathrm{bar}$, freie Weglänge
+              $\ell = 66\,\mathrm{nm}$ aus Beispiel 1.<br>
+              <strong>Gesucht:</strong> $\eta$ nach $\eta = \frac13\rho\bar v\ell$ und Vergleich mit
+              dem Messwert $1{,}75 \cdot 10^{-5}\,\mathrm{Pa\,s}$.</p>
+
+            <p><strong>1. Dichte.</strong>
+              $$ \rho = \frac{pM}{RT} = \frac{1{,}013 \cdot 10^5\,\mathrm{Pa} \cdot 0{,}02801\,\mathrm{kg/mol}}{8{,}3145\,\mathrm{J/(mol\,K)} \cdot 293{,}15\,\mathrm{K}} = 1{,}16\,\mathrm{kg/m^3} $$</p>
+
+            <p><strong>2. Mittlere Geschwindigkeit.</strong>
+              $$ \bar v = \sqrt{\frac{8RT}{\pi M}} = \sqrt{\frac{8 \cdot 8{,}3145 \cdot 293{,}15}{\pi \cdot 0{,}02801}}\,\mathrm{m/s} = 471\,\mathrm{m/s} $$</p>
+
+            <p><strong>3. Viskosität.</strong>
+              $$ \eta = \frac13 \cdot 1{,}16\,\mathrm{kg/m^3} \cdot 471\,\mathrm{m/s} \cdot 6{,}6 \cdot 10^{-8}\,\mathrm{m} = 1{,}2 \cdot 10^{-5}\,\mathrm{Pa\,s} $$
+              Einheitencheck: $\mathrm{kg\,m^{-3}\,m\,s^{-1}\,m} = \mathrm{kg\,m^{-1}\,s^{-1}} = \mathrm{Pa\,s}$ ✓</p>
+
+            <p><strong>Ergebnis und Plausibilität:</strong> Das Modell gibt
+              $1{,}2 \cdot 10^{-5}\,\mathrm{Pa\,s}$, gemessen sind
+              $1{,}75 \cdot 10^{-5}\,\mathrm{Pa\,s}$. Die Abweichung beträgt etwa
+              $30\,\%$, was für eine Abschätzung mit dem Faktor $\frac13$ und
+              starren Kugeln gut ist. Mit demselben Diffusionsansatz
+              ergibt sich $D = \frac13\bar v\ell = 1{,}0 \cdot 10^{-5}\,\mathrm{m^2/s}$, die
+              richtige Größenordnung für Gase.</p>
+          </div>
+        </section>
+
+        <section class="tab" id="aufgaben" data-titel="Aufgaben">
+
+          <p>Verwende $R = 8{,}3145\,\mathrm{J/(mol\,K)}$ und
+            $k_\mathrm{B} = 1{,}381 \cdot 10^{-23}\,\mathrm{J/K}$.</p>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 1
+              <span class="schwierigkeit" data-stufe="leicht">leicht</span>
+            </h3>
+            <p>In einem Hochvakuum-Rezipienten herrscht bei $20\,{}^\circ\mathrm{C}$ ein
+              Druck von $1 \cdot 10^{-3}\,\mathrm{Pa}$. Luftmoleküle haben den Durchmesser
+              $0{,}37\,\mathrm{nm}$. Wie groß ist die mittlere freie Weglänge?
+              Warum ist das für die Vakuumtechnik wichtig?</p>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>Mit $\sigma = \pi d^2 = 4{,}30 \cdot 10^{-19}\,\mathrm{m^2}$:
+                $$ \ell = \frac{k_\mathrm{B}T}{\sqrt2\,\sigma\,p} = \frac{1{,}381 \cdot 10^{-23} \cdot 293{,}15}{1{,}414 \cdot 4{,}30 \cdot 10^{-19} \cdot 10^{-3}}\,\mathrm{m} = 6{,}7\,\mathrm{m} . $$
+                Die Moleküle fliegen im Mittel mehrere Meter, ehe sie auf ein anderes
+                Molekül treffen, also im Gerät praktisch nur noch von Wand zu Wand.
+                Dort verhalten sich Teilchenstrahlen (etwa Elektronen oder
+                Atome beim Aufdampfen) geradlinig, ohne durch Stöße gestreut zu
+                werden.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 2
+              <span class="schwierigkeit" data-stufe="leicht">leicht</span>
+            </h3>
+            <p>Tinte diffundiert in Wasser mit $D = 1 \cdot 10^{-9}\,\mathrm{m^2/s}$.
+              Wie lange dauert es ohne Rühren und ohne Strömung, bis sie sich
+              $1\,\mathrm{mm}$ bzw. $5\,\mathrm{cm}$ ausgebreitet hat?</p>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>Mit $t \approx L^2/(2D)$:
+                $$ t_{1\,\mathrm{mm}} = \frac{(10^{-3}\,\mathrm{m})^2}{2 \cdot 10^{-9}\,\mathrm{m^2/s}} = 500\,\mathrm{s} \approx 8\,\mathrm{min}, \qquad
+                   t_{5\,\mathrm{cm}} = \frac{(0{,}05\,\mathrm{m})^2}{2 \cdot 10^{-9}\,\mathrm{m^2/s}} = 1{,}25 \cdot 10^6\,\mathrm{s} \approx 14{,}5\,\mathrm{d} . $$
+                Die Strecke ist $50$-mal länger, die Zeit $2500$-mal. Deshalb löst
+                sich ein Zuckerwürfel in kaltem Wasser ungerührt so langsam auf.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 3
+              <span class="schwierigkeit" data-stufe="mittel">mittel</span>
+            </h3>
+            <p>Zwischen zwei Platten ($A = 0{,}050\,\mathrm{m^2}$) im Abstand
+              $d = 2{,}0\,\mathrm{mm}$ befindet sich Öl mit $\eta = 0{,}080\,\mathrm{Pa\,s}$.
+              Die obere Platte wird mit $v = 0{,}30\,\mathrm{m/s}$ gezogen.</p>
+            <ol type="a">
+              <li>Welche Kraft ist nötig, welche Schubspannung herrscht im Öl?</li>
+              <li>Welche mechanische Leistung wird in Wärme umgewandelt?</li>
+            </ol>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p><strong>a)</strong>
+                $$ F = \eta A\,\frac{v}{d} = 0{,}080\,\mathrm{Pa\,s} \cdot 0{,}050\,\mathrm{m^2} \cdot \frac{0{,}30\,\mathrm{m/s}}{0{,}0020\,\mathrm{m}} = 0{,}60\,\mathrm{N}, $$
+                $$ \tau = \frac{F}{A} = 12\,\mathrm{Pa} . $$
+                Einheitencheck: $\mathrm{Pa\,s \cdot m^2 \cdot s^{-1}} = \mathrm{N}$ ✓</p>
+              <p><strong>b)</strong>
+                $$ P = F\,v = 0{,}60\,\mathrm{N} \cdot 0{,}30\,\mathrm{m/s} = 0{,}18\,\mathrm{W} . $$
+                Das ist die Reibungsleistung, die im Öl zu Wärme wird.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 4
+              <span class="schwierigkeit" data-stufe="mittel">mittel</span>
+            </h3>
+            <p>Eine Stahlkugel ($r = 1{,}0\,\mathrm{mm}$, $\rho_\mathrm{K} = 7800\,\mathrm{kg/m^3}$)
+              sinkt in Glycerin ($\eta = 1{,}4\,\mathrm{Pa\,s}$, $\rho_\mathrm{Fl} = 1260\,\mathrm{kg/m^3}$).
+              Bestimme die Endgeschwindigkeit nach Stokes und prüfe die
+              Reynolds-Zahl $\mathrm{Re} = \rho_\mathrm{Fl}\,v\,2r/\eta$.</p>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>Im Gleichgewicht ist das Gewicht abzüglich Auftrieb gleich der
+                Stokes-Reibung:
+                $$ \tfrac43\pi r^3\,(\rho_\mathrm{K} - \rho_\mathrm{Fl})\,g = 6\pi\eta r v
+                   \quad\Rightarrow\quad v = \frac{2\,(\rho_\mathrm{K} - \rho_\mathrm{Fl})\,g\,r^2}{9\,\eta} . $$
+                $$ v = \frac{2 \cdot 6540\,\mathrm{kg/m^3} \cdot 9{,}81\,\mathrm{m/s^2} \cdot (10^{-3}\,\mathrm{m})^2}{9 \cdot 1{,}4\,\mathrm{Pa\,s}} = 1{,}0 \cdot 10^{-2}\,\mathrm{m/s} . $$
+                Die Kugel sinkt mit etwa $1{,}0\,\mathrm{cm/s}$. Reynolds-Zahl:
+                $$ \mathrm{Re} = \frac{1260 \cdot 0{,}0102 \cdot 0{,}0020}{1{,}4} = 0{,}018 \ll 1 , $$
+                die Voraussetzung für Stokes ist erfüllt.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 5
+              <span class="schwierigkeit" data-stufe="schwer">schwer</span>
+            </h3>
+            <ol type="a">
+              <li>Zeige, dass $n(z,t) = \dfrac{K}{\sqrt t}\,\mathrm{e}^{-z^2/(4Dt)}$ die
+                Diffusionsgleichung $\partial_t n = D\,\partial_z^2 n$ löst.</li>
+              <li>Bestimme $K$ aus der Normierung $\int n\,\mathrm{d}z = N$.</li>
+              <li>Berechne die Breite $\sqrt{2Dt}$ nach einer Stunde für
+                $D = 10^{-9}\,\mathrm{m^2/s}$ (Flüssigkeit) und
+                $D = 2 \cdot 10^{-5}\,\mathrm{m^2/s}$ (Gas).</li>
+            </ol>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p><strong>a)</strong> Mit $n = K t^{-1/2}\,\mathrm{e}^{-z^2/(4Dt)}$ ist
+                $$ \partial_t n = n\left(-\frac{1}{2t} + \frac{z^2}{4Dt^2}\right), \qquad
+                   \partial_z n = -\frac{z}{2Dt}\,n, \qquad
+                   \partial_z^2 n = n\left(-\frac{1}{2Dt} + \frac{z^2}{4D^2t^2}\right) . $$
+                Multipliziert man die letzte Gleichung mit $D$, ergibt sich
+                $D\,\partial_z^2 n = n\left(-\frac{1}{2t} + \frac{z^2}{4Dt^2}\right) = \partial_t n$ ✓.</p>
+              <p><strong>b)</strong> Das Gauß-Integral
+                $\int_{-\infty}^{\infty}\mathrm{e}^{-z^2/(4Dt)}\,\mathrm{d}z = \sqrt{4\pi Dt}$
+                liefert $N = K t^{-1/2}\sqrt{4\pi Dt} = K\sqrt{4\pi D}$, also
+                $K = N/\sqrt{4\pi D}$. Damit ist
+                $n = \dfrac{N}{\sqrt{4\pi Dt}}\,\mathrm{e}^{-z^2/(4Dt)}$ wie in der Vertiefung.</p>
+              <p><strong>c)</strong>
+                $$ \sqrt{2 \cdot 10^{-9}\,\mathrm{m^2/s} \cdot 3600\,\mathrm{s}} = 2{,}7\,\mathrm{mm}, \qquad
+                   \sqrt{2 \cdot 2 \cdot 10^{-5}\,\mathrm{m^2/s} \cdot 3600\,\mathrm{s}} = 0{,}38\,\mathrm{m} . $$
+                In einer Stunde breitet sich die Tinte nur wenige Millimeter aus,
+                ein Gas schon fast einen halben Meter, wenn keine Strömung
+                dazukommt.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 6
+              <span class="schwierigkeit" data-stufe="schwer">schwer</span>
+            </h3>
+            <p>Im Teilchenmodell mit festem Stoßquerschnitt $\sigma$ ist
+              $\eta = \dfrac{m\bar v}{3\sqrt2\,\sigma}$.</p>
+            <ol type="a">
+              <li>Zeige, dass $\eta$ nicht vom Druck abhängt.</li>
+              <li>Um welchen Faktor ändert sich $\eta$, wenn die Temperatur von
+                $300\,\mathrm{K}$ auf $600\,\mathrm{K}$ steigt? Gemessen wird bei Luft
+                ein Faktor von etwa $1{,}6$. Wie lässt sich der Unterschied
+                erklären?</li>
+              <li>Bei welcher Gelegenheit versagt die Druckunabhängigkeit?</li>
+            </ol>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p><strong>a)</strong> Mit $\rho = nm$ und $\ell = 1/(\sqrt2 n\sigma)$ ist
+                $$ \eta = \tfrac13\,n m\,\bar v\,\frac{1}{\sqrt2\,n\sigma} = \frac{m\bar v}{3\sqrt2\,\sigma} . $$
+                Die Teilchendichte $n$ (und damit der Druck) kürzt sich heraus.</p>
+              <p><strong>b)</strong> Da $\bar v \propto \sqrt T$ ist (bei gleicher Masse),
+                folgt $\eta \propto \sqrt T$ und
+                $$ \frac{\eta(600\,\mathrm{K})}{\eta(300\,\mathrm{K})} = \sqrt{\frac{600}{300}} = \sqrt2 = 1{,}41 . $$
+                Der gemessene Faktor ist größer, weil der effektive Stoßquerschnitt in
+                Wirklichkeit mit steigender Temperatur kleiner wird: Die
+                Abstoßung zwischen den Molekülen ist weich, schnellere Teilchen
+                dringen tiefer ein, und die Anziehung lenkt sie weniger ab
+                (Sutherland-Korrektur). Starre Kugeln mit festem $\sigma$ sind ein
+                zu einfaches Bild.</p>
+              <p><strong>c)</strong> Wenn $\ell$ so groß wird wie der Abstand
+                der Wände (Vakuum, sehr kleine Drücke), stoßen die Teilchen
+                nur noch mit den Wänden. Dann wird der Impulstransport durch
+                die Wandabstände begrenzt, und $\eta$ sinkt mit dem Druck.
+                Entsprechend gilt die Druckunabhängigkeit auch nicht für sehr dichte
+                Gase, wo das Eigenvolumen der Teilchen zählt.</p>
+            </details>
+          </div>
+
+        </section>
+
+      </div></article>
+  </main>
+</body>
+</html>

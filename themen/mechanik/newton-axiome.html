@@ -1,0 +1,749 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="robots" content="noindex">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Die Newtonschen Axiome</title>
+  <meta name="description" content="Trägheitsprinzip, F = m·a und actio = reactio verständlich erklärt – mit Superposition, Inertialsystemen, Freikörperbildern, durchgerechneten Beispielen und Übungsaufgaben.">
+
+  <link rel="stylesheet" href="../../css/stil.css">
+
+  <link rel="stylesheet" href="../../extern/katex/katex.min.css">
+  <script defer src="../../extern/katex/katex.min.js"></script>
+  <script defer src="../../extern/katex/contrib/auto-render.min.js" onload="starteFormeln()"></script>
+
+  <script src="../../js/daten.js"></script>
+  <script src="../../js/seite.js"></script>
+  <script src="../../js/effekte.js"></script>
+  <script src="../../js/interaktiv.js"></script>
+  <script src="../../js/modelle/newton-axiome.js"></script>
+  <script type="application/json" id="symbole">
+  {
+    "F": "Kraft",
+    "F_ges": "Gesamtkraft (Summe aller Kräfte)",
+    "F_i": "i-te Einzelkraft",
+    "i": "Nummer der Einzelkraft",
+    "F_1": "erste Einzelkraft",
+    "F_2": "zweite Einzelkraft",
+    "F_x": "x-Komponente der Gesamtkraft",
+    "F_y": "y-Komponente der Gesamtkraft",
+    "F_z": "z-Komponente der Gesamtkraft",
+    "F_ix": "x-Komponente der i-ten Kraft",
+    "F_iy": "y-Komponente der i-ten Kraft",
+    "F_iz": "z-Komponente der i-ten Kraft",
+    "F_12": "Kraft von Körper 1 auf Körper 2",
+    "F_21": "Gegenkraft von Körper 2 auf Körper 1",
+    "F_AB": "Kraft von A auf B",
+    "F_BA": "Gegenkraft von B auf A",
+    "F_G": "Gewichtskraft",
+    "F_N": "Normalkraft (Kraft der Unterlage)",
+    "F_Seil": "Seilkraft",
+    "F_S": "Seilkraft",
+    "F_S,max": "größte zulässige Seilkraft",
+    "F_F": "Fadenkraft",
+    "m": "Masse",
+    "m_1": "Masse der ersten Kiste",
+    "m_2": "Masse der zweiten Kiste",
+    "m_A": "Masse von Körper A",
+    "m_B": "Masse von Körper B",
+    "M": "Gesamtmasse von Kabine und Personen",
+    "a": "Beschleunigung",
+    "a_A": "Beschleunigung von A",
+    "a_B": "Beschleunigung von B",
+    "a_max": "größte zulässige Beschleunigung",
+    "v": "Geschwindigkeit",
+    "v_0": "Anfangsgeschwindigkeit",
+    "v_A": "Geschwindigkeit von A",
+    "v_B": "Geschwindigkeit von B",
+    "p": "Impuls",
+    "r": "Ortsvektor",
+    "r_0": "Anfangsort",
+    "t": "Zeit",
+    "u": "Geschwindigkeit des bewegten Bezugssystems",
+    "s": "zurückgelegter Weg",
+    "s_A": "Weg von A",
+    "s_B": "Weg von B",
+    "g": "Fallbeschleunigung",
+    "x": "Ort entlang der x-Achse",
+    "z": "Höhe (z-Achse nach oben)",
+    "d": "Anfangsabstand der beiden Skateboards",
+    "x_A": "Ort von A",
+    "x_B": "Ort von B",
+    "x_S": "Treffpunkt (Ort des Schwerpunkts)",
+    "α": "Winkel der Seile gegen die Waagerechte",
+    "θ": "Auslenkwinkel des Pendels gegen die Senkrechte"
+  }
+  </script>
+</head>
+<body data-thema="newton-axiome">
+  <main>
+    <article class="thema">
+      <header>
+        <h1>Die Newtonschen Axiome</h1>
+        <p class="untertitel">Trägheit, Kraft und Gegenkraft – drei Sätze, auf
+          denen die gesamte klassische Mechanik steht.</p>
+      </header>
+
+      <div class="tabs">
+
+        <section class="tab" id="verstehen" data-titel="Verstehen">
+
+          <p>Schieb im Supermarkt einmal einen leeren Einkaufswagen an und
+            danach einen, der bis oben voll beladen ist. Mit derselben Kraft
+            kommt der leere Wagen viel schneller in Fahrt. Und hast du ihn
+            einmal in Schwung gebracht, rollt er weiter, auch wenn du
+            loslässt. Diese beiden Alltagsbeobachtungen stecken schon mitten
+            in den drei Grundgesetzen, die Isaac Newton 1687 aufgeschrieben
+            hat.</p>
+
+          <p>Eine <em>Kraft</em> ist in der Physik alles, was den
+            Bewegungszustand eines Körpers ändert: Sie macht ihn schneller oder
+            langsamer oder lenkt ihn in eine andere Richtung. Gemessen wird sie
+            in Newton (N). Ungefähr ein Newton brauchst du, um eine Tafel
+            Schokolade (100 g) in der Hand zu halten.</p>
+
+          <h2>Ohne Kraft geht es einfach weiter</h2>
+
+          <p>Fast 2000 Jahre lang glaubte man, dass sich ein Körper nur bewegt,
+            solange ihn etwas antreibt – schließlich bleibt jeder rollende Ball
+            irgendwann liegen. Galilei und Newton erkannten, dass das an der
+            Reibung liegt, also selbst an einer Kraft. Ohne sie würde der Ball
+            ewig weiterrollen. Ein Körper, auf den keine Kraft wirkt, bleibt
+            entweder liegen oder bewegt sich geradeaus mit gleichbleibendem
+            Tempo. Diese Eigenschaft heißt <em>Trägheit</em>.</p>
+
+          <p>Im Weltall, wo fast nichts bremst, sieht man das direkt: Die
+            Raumsonde Voyager 1 fliegt seit Jahrzehnten ohne Antrieb mit rund
+            17 Kilometern pro Sekunde durchs All.</p>
+
+          <div class="alltag">
+            <span class="titel">Aus dem Alltag</span>
+            <p>Wenn ein Bus plötzlich bremst, kippst du nach vorne. Dabei
+              schiebt dich keine Kraft nach vorn – dein Körper fährt einfach
+              mit dem alten Tempo weiter, während der Bus unter dir langsamer
+              wird. Deshalb ist der Sicherheitsgurt so wichtig: Er liefert die
+              Kraft, die dich mit dem Auto zusammen abbremst. Aus demselben
+              Grund spürst du nichts davon, dass die Erde mit 30 km/s um die
+              Sonne rast (<a href="../alltag/erde-rast.html">mehr
+              dazu</a>).</p>
+          </div>
+
+          <h2>Kraft gleich Masse mal Beschleunigung</h2>
+
+          <p>Das zweite Gesetz sagt, wie stark eine Kraft wirkt. Doppelte Kraft
+            bedeutet doppelte Beschleunigung, doppelte Masse bedeutet halbe
+            Beschleunigung. Kurz: <strong>F = m · a</strong>. Darum braucht
+            der volle Einkaufswagen mehr Kraft. Probier es selbst aus: Schieb
+            die Kiste auf dem glatten Eis an und schau, was nach dem Loslassen
+            passiert.</p>
+
+          <figure class="interaktiv" data-modell="kraftlabor">
+            <span class="titel">Zum Ausprobieren</span>
+            <figcaption>Eine Kiste steht auf spiegelglattem Eis, wo es fast
+              keine Reibung gibt. Solange die Person schiebt (oranger Pfeil),
+              wird die Kiste immer schneller – bei gleicher Kraft umso
+              langsamer, je schwerer sie ist. Sobald niemand mehr schiebt,
+              bleibt die Geschwindigkeit (blauer Pfeil) gleich: Im rechten
+              Diagramm wird die Kurve waagerecht. Die Punkte zeigen, wo die
+              Kiste nach jeder vollen Sekunde war.</figcaption>
+          </figure>
+
+          <h2>Keine Kraft kommt allein</h2>
+
+          <p>Das dritte Gesetz ist das überraschendste: Kräfte treten immer
+            paarweise auf. Drückst du gegen eine Wand, drückt die Wand genauso
+            stark zurück. Eine Rakete stößt Gas nach hinten – und das Gas stößt
+            die Rakete nach vorne. Beim Schwimmen drückst du Wasser nach hinten,
+            und das Wasser schiebt dich voran. Physiker sagen dazu
+            <em>actio gleich reactio</em>.</p>
+
+          <p>Besonders schön sieht man das bei einem Versuch, den es auch in
+            der Vorlesung gibt: Zwei Personen stehen auf Skateboards und halten
+            ein Seil. Egal, wer daran zieht – beide rollen aufeinander zu.</p>
+
+          <figure class="interaktiv" data-modell="skateboard">
+            <span class="titel">Zum Ausprobieren</span>
+            <figcaption>Das Seil zieht beide Personen mit derselben Kraft
+              (orange Pfeile). Wer leichter ist, wird stärker beschleunigt und
+              legt den größeren Teil des Wegs zurück. Wechsle ruhig, wer zieht –
+              am Ergebnis ändert sich nichts. Und schau auf die gestrichelte
+              Linie: Der gemeinsame Schwerpunkt bleibt die ganze Zeit an seinem
+              Platz, genau dort treffen sich die beiden.</figcaption>
+          </figure>
+
+          <p>Wichtig dabei: Kraft und Gegenkraft wirken auf
+            <em>verschiedene</em> Körper. Deshalb heben sie sich nicht auf.
+            Die Kraft auf A bewegt A, die Kraft auf B bewegt B.</p>
+
+          <div class="merkkasten">
+            <span class="titel">Das Wichtigste in Kürze</span>
+            <ul>
+              <li><strong>Trägheit:</strong> Ohne Kraft bleibt ein Körper in
+                Ruhe oder fährt geradeaus mit gleichem Tempo weiter.</li>
+              <li><strong>Kraft = Masse × Beschleunigung:</strong> Je größer
+                die Kraft und je kleiner die Masse, desto stärker die
+                Beschleunigung.</li>
+              <li><strong>Actio = reactio:</strong> Übt ein Körper eine Kraft
+                auf einen anderen aus, wirkt eine gleich große Gegenkraft
+                zurück – auf den ersten Körper.</li>
+            </ul>
+          </div>
+        </section>
+
+        <section class="tab" id="vertiefung" data-titel="Vertiefung">
+
+          <h2>Kraft als Ursache von Bewegungsänderungen</h2>
+
+          <p>Die Kinematik beschreibt Bewegungen, ohne nach ihren Ursachen zu
+            fragen. Die <em>Dynamik</em> fragt nach diesen Ursachen. Eine
+            <em>Kraft</em> ändert den Bewegungszustand eines Körpers, also
+            Betrag und/oder Richtung seiner Geschwindigkeit; der zweite Fall
+            liegt etwa bei der Kreisbewegung vor. Eine Bewegungsänderung ist
+            nichts anderes als eine Beschleunigung $\vec{a} \neq 0$; bei
+            gleichförmiger Bewegung ($\vec{v} = \text{const}$, auch
+            $\vec{v} = 0$) ändert sich der Bewegungszustand nicht.</p>
+
+          <p>Kräfte sind Vektoren. Ihre SI-Einheit ist das Newton:</p>
+
+          $$ [F] = 1\,\mathrm{N} = 1\,\mathrm{kg \cdot \frac{m}{s^2}} . $$
+
+          <h3>Superpositionsprinzip</h3>
+
+          <p>Wirken mehrere Kräfte $\vec{F}_i$ auf einen Körper, so wirkt er
+            so, als griffe nur ihre Vektorsumme an, die <em>resultierende
+            Kraft</em>:</p>
+
+          $$ \vec{F}_\text{ges} = \sum_i \vec{F}_i, \qquad F_x = \sum_i F_{ix}, \quad F_y = \sum_i F_{iy}, \quad F_z = \sum_i F_{iz} . $$
+
+          <figure class="abbildung">
+            <svg class="abb" viewBox="0 0 360 200" role="img"
+                 aria-label="Zwei Kräfte und ihre Resultierende als Diagonale des Kräfteparallelogramms">
+              <path class="hilfslinie" d="M230 145L300 35M130 65L300 35"/>
+              <path class="kurve kupfer" d="M60 175L221.1 146.6"/>
+              <polygon class="punkt kupfer" points="230,145 220.4,142.1 221.9,151"/>
+              <path class="kurve kupfer" d="M60 175L125.2 72.6"/>
+              <polygon class="punkt kupfer" points="130,65 121.4,70.2 129,75"/>
+              <path class="kurve blau" d="M60 175L292.2 39.5"/>
+              <polygon class="punkt blau" points="300,35 290,35.6 294.5,43.4"/>
+              <circle class="punkt" cx="60" cy="175" r="4"/>
+              <text class="kupfer" x="168" y="178">F<tspan dy="4" font-size="10">1</tspan></text>
+              <text class="kupfer" x="78" y="108">F<tspan dy="4" font-size="10">2</tspan></text>
+              <text class="blau" x="214" y="72">F<tspan dy="4" font-size="10">ges</tspan></text>
+            </svg>
+            <figcaption>Abb. 1: Superposition. Die Resultierende
+              $\vec{F}_\text{ges} = \vec{F}_1 + \vec{F}_2$ ist die Diagonale
+              des Kräfteparallelogramms – oder, gleichwertig, man hängt die
+              Pfeile aneinander.</figcaption>
+          </figure>
+
+          <p>Ist $\sum_i \vec{F}_i = 0$, dann sind entweder alle Einzelkräfte
+            null, oder sie kompensieren sich: Der Körper ist im
+            <em>Kräftegleichgewicht</em>. Ein Buch auf dem Tisch ist ein
+            Beispiel dafür – die Gewichtskraft wird von der Normalkraft des
+            Tisches genau aufgehoben.</p>
+
+          <h2>Erstes Newtonsches Axiom: Trägheitsprinzip</h2>
+
+          <div class="merkkasten">
+            <span class="titel">1. Axiom</span>
+            <p>Ein Körper, auf den keine resultierende Kraft wirkt, bleibt in
+              Ruhe oder bewegt sich geradlinig gleichförmig weiter:</p>
+            $$ \vec{F}_\text{ges} = 0 \quad\Longleftrightarrow\quad \vec{a} = 0 \quad\Longleftrightarrow\quad \vec{v} = \text{const} . $$
+          </div>
+
+          <h3>Inertialsysteme</h3>
+
+          <p>Das klingt selbstverständlich, ist aber eine starke Aussage über
+            das Bezugssystem. Sitzt man in einem anfahrenden Zug, beginnt eine
+            Kugel auf dem Tisch nach hinten zu rollen, obwohl keine Kraft an ihr
+            zieht – im Zug gilt das erste Axiom also nicht. Man definiert
+            deshalb: Ein <em>Inertialsystem</em> ist ein Bezugssystem, in dem
+            die Newtonschen Axiome gelten. Das erste Axiom ist genau dann
+            erfüllt, wenn das Bezugssystem selbst nicht beschleunigt ist.</p>
+
+          <p>Für die meisten Versuche ist die Erdoberfläche ein brauchbares
+            Inertialsystem. Bei großen Entfernungen oder langen Zeiten macht
+            sich aber die Erdrotation bemerkbar: Ein auf der Erde mitrotierendes
+            Bezugssystem ist beschleunigt. Wer darin trotzdem mit
+            $\vec{F} = m\vec{a}$ rechnen will, muss <em>Scheinkräfte</em>
+            einführen – die Trägheitskraft im anfahrenden Zug, die Zentrifugal-
+            oder Fliehkraft und die Corioliskraft. Sie haben keinen
+            Verursacher und daher auch keine Gegenkraft im Sinn des dritten
+            Axioms.</p>
+
+          <p><strong>Experiment: Kugel auf rotierender Scheibe.</strong> Rollt
+            eine Kugel geradlinig über eine sich drehende Scheibe, so beschreibt
+            sie für einen Beobachter im Raum eine gerade Linie. Auf der Scheibe
+            dagegen hinterlässt sie eine gekrümmte Spur. Für jemanden, der sich
+            mitdreht, wird sie scheinbar von einer Kraft seitlich abgelenkt –
+            der Corioliskraft. Auf der Erde lenkt sie zum Beispiel große
+            Luftströmungen ab und bestimmt so den Drehsinn von Tiefdruckgebieten.</p>
+
+          <h3>Galilei-Transformation</h3>
+
+          <p>Bewegt sich ein Bezugssystem S′ gegenüber einem Inertialsystem S
+            mit konstanter Geschwindigkeit $\vec{u}$ (siehe
+            <a href="bewegung-3d.html#relativbewegung">Relativbewegung</a>),
+            dann gilt</p>
+
+          $$ t' = t, \qquad \vec{r} = \vec{r}^{\,\prime} + \vec{u}\,t, \qquad \vec{v} = \vec{v}^{\,\prime} + \vec{u}, \qquad \vec{a} = \vec{a}^{\,\prime} \quad\Longrightarrow\quad \vec{F} = \vec{F}^{\,\prime} . $$
+
+          <p>Beschleunigungen und damit Kräfte sind in beiden Systemen
+            dieselben. Ist $\vec{F} = 0$, so ist auch $\vec{a}^{\,\prime} = 0$:
+            S′ ist ebenfalls ein Inertialsystem. Es gibt also nicht <em>das</em>
+            ruhende System, sondern unendlich viele gleichberechtigte
+            Inertialsysteme, die sich gleichförmig gegeneinander bewegen.</p>
+
+          <h2>Zweites Newtonsches Axiom: Aktionsprinzip</h2>
+
+          <p>Wirkt auf einen Körper eine resultierende Kraft, so wird er in
+            Richtung dieser Kraft beschleunigt, und zwar umso stärker, je
+            kleiner seine Masse ist:</p>
+
+          <div class="merkkasten">
+            <span class="titel">2. Axiom</span>
+            $$ \vec{F}_\text{ges} = m\,\vec{a} = m\,\frac{\mathrm{d}^2\vec{r}}{\mathrm{d}t^2}, \qquad \vec{F}_\text{ges} \parallel \vec{a} . $$
+          </div>
+
+          <p>Die Masse $m$ tritt hier als <em>träge Masse</em> auf: Sie misst
+            den Widerstand eines Körpers gegen Änderungen seiner Bewegung. Mit
+            dem <em>Impuls</em> $\vec{p} = m\,\vec{v}$ lässt sich das zweite
+            Axiom allgemeiner schreiben – so hat Newton es selbst
+            formuliert:</p>
+
+          $$ \vec{F} = \frac{\mathrm{d}\vec{p}}{\mathrm{d}t} = m\,\frac{\mathrm{d}\vec{v}}{\mathrm{d}t} + \frac{\mathrm{d}m}{\mathrm{d}t}\,\vec{v} . $$
+
+          <p>Für konstante Masse verschwindet der zweite Term, und man erhält
+            wieder $\vec{F} = m\vec{a}$. Vorsicht bei Körpern, die Masse
+            aufnehmen oder abgeben (Rakete, Förderband): Dort hängt der Term
+            $\vec{v}\,\mathrm{d}m/\mathrm{d}t$ vom Bezugssystem ab, und man muss
+            den Impuls der zu- oder abfließenden Masse mitbilanzieren. Das
+            geschieht beim Thema Impulserhaltung.</p>
+
+          <p>Das zweite Axiom ist eine Differentialgleichung zweiter Ordnung
+            für $\vec{r}(t)$. Kennt man die Kräfte und die Anfangsbedingungen
+            $\vec{r}_0$, $\vec{v}_0$, ist die Bewegung vollständig bestimmt –
+            die Kinematik aus den vorigen Kapiteln liefert dann die Lösung. Für
+            $\vec{F} = 0$ folgt $\vec{a} = 0$; das erste Axiom ist also ein
+            Spezialfall des zweiten. Es wird trotzdem eigens formuliert, weil es
+            festlegt, in welchen Bezugssystemen das zweite überhaupt gilt.</p>
+
+          <h3>Vom Axiom zur Rechnung: das Freikörperbild</h3>
+
+          <p>In der Praxis geht man immer gleich vor: Man schneidet den Körper
+            gedanklich frei, zeichnet <em>alle</em> Kräfte ein, die
+            <em>auf ihn</em> wirken (Abb. 2), wählt Achsen und schreibt das
+            zweite Axiom komponentenweise auf. Kräfte, die der Körper selbst
+            auf andere ausübt, gehören nicht in sein Freikörperbild.</p>
+
+          <figure class="abbildung">
+            <svg class="abb" viewBox="0 0 360 225" role="img"
+                 aria-label="Freikörperbild einer Kiste, die an einem Seil über den Boden gezogen wird">
+              <path class="achse" d="M40 165H330"/>
+              <path class="hilfslinie" d="M40 172L50 165M70 172L80 165M100 172L110 165M130 172L140 165M190 172L200 165M220 172L230 165M250 172L260 165M280 172L290 165M310 172L320 165"/>
+              <rect class="flaeche" x="110" y="115" width="100" height="50"/>
+              <path class="achse" d="M110 115H210V165H110Z"/>
+              <path class="kurve" d="M160 140L160 205"/>
+              <polygon class="punkt" points="160,214 164.5,205 155.5,205"/>
+              <path class="kurve" d="M160 140L160 75"/>
+              <polygon class="punkt" points="160,66 155.5,75 164.5,75"/>
+              <path class="kurve kupfer" d="M210 140L291 140"/>
+              <polygon class="punkt kupfer" points="300,140 291,135.5 291,144.5"/>
+              <circle class="punkt" cx="160" cy="140" r="3.5"/>
+              <text x="170" y="74">F<tspan dy="4" font-size="10">N</tspan></text>
+              <text x="170" y="212">F<tspan dy="4" font-size="10">G</tspan> = m g</text>
+              <text class="kupfer" x="252" y="130">F<tspan dy="4" font-size="10">Seil</tspan></text>
+            </svg>
+            <figcaption>Abb. 2: Freikörperbild einer Kiste, die an einem Seil
+              über einen glatten Boden gezogen wird. Auf die Kiste wirken die
+              Gewichtskraft $\vec{F}_\text{G}$, die Normalkraft
+              $\vec{F}_\text{N}$ des Bodens und die Seilkraft. Senkrecht heben
+              sich $\vec{F}_\text{N}$ und $\vec{F}_\text{G}$ auf, waagerecht
+              bleibt $F_\text{Seil} = m\,a$. Gewicht, Normalkraft, Reibung und
+              Seilkräfte werden beim Thema „Kräfte im Alltag“ genauer
+              behandelt.</figcaption>
+          </figure>
+
+          <h2>Drittes Newtonsches Axiom: actio = reactio</h2>
+
+          <div class="merkkasten">
+            <span class="titel">3. Axiom</span>
+            <p>Übt Körper 1 auf Körper 2 die Kraft $\vec{F}_{12}$ aus, so übt
+              Körper 2 auf Körper 1 eine gleich große, entgegengesetzt
+              gerichtete Kraft aus:</p>
+            $$ \vec{F}_{12} = -\vec{F}_{21} . $$
+          </div>
+
+          <p>Kraft und Gegenkraft greifen an <em>verschiedenen</em> Körpern an
+            und heben sich daher nie gegenseitig auf. Ein beliebtes Paradox:
+            Wenn das Pferd am Wagen genauso stark zieht wie der Wagen am Pferd
+            – wie kommen die beiden dann voran? Die Antwort liefert das
+            Freikörperbild. Für die Bewegung des Pferdes zählen alle Kräfte
+            <em>auf das Pferd</em>, und dazu gehört die Reibungskraft, mit der
+            der Boden es nach vorne schiebt. Ist diese größer als der Zug des
+            Wagens nach hinten, beschleunigt das Pferd.</p>
+
+          <p><strong>Experiment: Zwei Personen auf Skateboards.</strong> A und B
+            stehen auf Skateboards und halten ein Seil, an dem eine von beiden
+            zieht. Das Seil überträgt auf beide den gleichen Kraftbetrag $F$,
+            entgegengesetzt gerichtet (Abb. 3). Mit dem zweiten Axiom folgt</p>
+
+          $$ m_\text{A}\,a_\text{A} = F = m_\text{B}\,a_\text{B} \quad\Longrightarrow\quad \frac{a_\text{A}}{a_\text{B}} = \frac{m_\text{B}}{m_\text{A}} . $$
+
+          <p>Die leichtere Person wird stärker beschleunigt. Starten beide aus
+            der Ruhe, sind auch die zurückgelegten Wege
+            $s = \tfrac{1}{2} a t^2$ umgekehrt proportional zu den Massen:
+            $m_\text{A} s_\text{A} = m_\text{B} s_\text{B}$. Das heißt, der
+            Schwerpunkt der beiden bleibt in Ruhe – sie treffen sich genau dort.
+            Wer am Seil zieht, spielt dabei keine Rolle.</p>
+
+          <figure class="abbildung">
+            <svg class="abb" viewBox="0 0 360 170" role="img"
+                 aria-label="Zwei Körper auf Rollbrettern, durch ein Seil verbunden, mit gleich großen, entgegengesetzten Kräften">
+              <path class="achse" d="M20 152H340"/>
+              <rect class="wagen" x="50" y="88" width="50" height="48" rx="3"/>
+              <rect class="wagen" x="260" y="88" width="50" height="48" rx="3"/>
+              <path class="achse" d="M40 136H110M250 136H320"/>
+              <circle class="punkt" cx="52" cy="144" r="4"/>
+              <circle class="punkt" cx="98" cy="144" r="4"/>
+              <circle class="punkt" cx="262" cy="144" r="4"/>
+              <circle class="punkt" cx="308" cy="144" r="4"/>
+              <path class="kurve" d="M100 108H260"/>
+              <text x="75" y="117" text-anchor="middle">A</text>
+              <text x="285" y="117" text-anchor="middle">B</text>
+              <path class="kurve kupfer" d="M75 62L131 62"/>
+              <polygon class="punkt kupfer" points="140,62 131,57.5 131,66.5"/>
+              <path class="kurve kupfer" d="M285 62L229 62"/>
+              <polygon class="punkt kupfer" points="220,62 229,66.5 229,57.5"/>
+              <circle class="punkt" cx="75" cy="62" r="3"/>
+              <circle class="punkt" cx="285" cy="62" r="3"/>
+              <text class="kupfer" x="108" y="50" text-anchor="middle">F<tspan dy="4" font-size="10">BA</tspan></text>
+              <text class="kupfer" x="252" y="50" text-anchor="middle">F<tspan dy="4" font-size="10">AB</tspan></text>
+              <text x="75" y="30" text-anchor="middle" font-size="11">Kraft auf A</text>
+              <text x="285" y="30" text-anchor="middle" font-size="11">Kraft auf B</text>
+            </svg>
+            <figcaption>Abb. 3: Skateboard-Versuch. $\vec{F}_\text{AB}$ ist
+              die Kraft, die A (über das Seil) auf B ausübt,
+              $\vec{F}_\text{BA}$ die Gegenkraft von B auf A. Sie sind gleich
+              groß und entgegengesetzt gerichtet und greifen an verschiedenen
+              Körpern an.</figcaption>
+          </figure>
+
+          <p>Das dritte Axiom gilt für alle Kräfte zwischen zwei Körpern,
+            egal ob Seilkraft, Gewicht oder elektrische Anziehung: Die Erde
+            zieht einen fallenden Apfel genauso stark an wie der Apfel die Erde.
+            Nur ist die Beschleunigung der Erde wegen ihrer riesigen Masse
+            unmessbar klein. Für ein abgeschlossenes System aus vielen Körpern
+            folgt aus dem dritten Axiom die Erhaltung des Gesamtimpulses.</p>
+        </section>
+
+        <section class="tab" id="beispiele" data-titel="Beispielrechnungen">
+
+          <div class="beispiel">
+            <h3>Beispiel 1: Die Waage im Aufzug</h3>
+            <p><strong>Gegeben:</strong> Eine Person mit $m = 70\,\mathrm{kg}$
+              steht im Aufzug auf einer Personenwaage. Der Aufzug (a) fährt
+              mit $1{,}2\,\mathrm{m/s^2}$ nach oben an, (b) fährt mit konstanter
+              Geschwindigkeit, (c) bremst auf der Fahrt nach oben mit
+              $1{,}2\,\mathrm{m/s^2}$ ab.<br>
+              <strong>Gesucht:</strong> Was zeigt die Waage jeweils an? (Eine
+              Waage misst die Kraft $F_\text{N}$, mit der sie die Person nach
+              oben drückt, und rechnet sie über $F_\text{N}/g$ in
+              Kilogramm um.)</p>
+
+            <p><strong>1. Freikörperbild.</strong> Auf die Person wirken die
+              Gewichtskraft $m g$ nach unten und die Normalkraft $F_\text{N}$
+              der Waage nach oben. $z$-Achse nach oben, zweites Axiom:
+              $$ F_\text{N} - m g = m\,a \quad\Rightarrow\quad F_\text{N} = m\,(g + a) $$</p>
+
+            <p><strong>2. (a) Anfahren nach oben,</strong> $a = +1{,}2\,\mathrm{m/s^2}$:
+              $$ F_\text{N} = 70\,\mathrm{kg} \cdot (9{,}81 + 1{,}2)\,\mathrm{\tfrac{m}{s^2}} = 70\,\mathrm{kg} \cdot 11{,}01\,\mathrm{\tfrac{m}{s^2}} = 771\,\mathrm{N} $$
+              $$ \text{Anzeige: } \frac{771\,\mathrm{N}}{9{,}81\,\mathrm{m/s^2}} = 78{,}6\,\mathrm{kg} $$</p>
+
+            <p><strong>3. (b) Konstante Geschwindigkeit,</strong> $a = 0$:
+              $$ F_\text{N} = 70\,\mathrm{kg} \cdot 9{,}81\,\mathrm{\tfrac{m}{s^2}} = 687\,\mathrm{N}, \qquad \text{Anzeige: } 70{,}0\,\mathrm{kg} $$</p>
+
+            <p><strong>4. (c) Bremsen auf der Fahrt nach oben,</strong> die
+              Beschleunigung zeigt nach unten: $a = -1{,}2\,\mathrm{m/s^2}$:
+              $$ F_\text{N} = 70\,\mathrm{kg} \cdot (9{,}81 - 1{,}2)\,\mathrm{\tfrac{m}{s^2}} = 70\,\mathrm{kg} \cdot 8{,}61\,\mathrm{\tfrac{m}{s^2}} = 603\,\mathrm{N}, \qquad \text{Anzeige: } 61{,}4\,\mathrm{kg} $$
+              Einheitencheck: $\mathrm{kg \cdot m/s^2} = \mathrm{N}$ ✓</p>
+
+            <p><strong>Ergebnis und Plausibilität:</strong> Beim Anfahren fühlt
+              man sich schwerer (78,6 kg), beim Abbremsen leichter (61,4 kg),
+              bei gleichförmiger Fahrt zeigt die Waage das wahre Gewicht – genau
+              wie es das erste Axiom verlangt, denn dann ist der Aufzug selbst
+              ein Inertialsystem. Würde das Seil reißen ($a = -g$), wäre
+              $F_\text{N} = 0$: Die Person wäre schwerelos.</p>
+          </div>
+
+          <div class="beispiel">
+            <h3>Beispiel 2: Zwei Kisten an einem Seil</h3>
+            <p><strong>Gegeben:</strong> Zwei Kisten,
+              $m_1 = 20\,\mathrm{kg}$ (hinten) und $m_2 = 30\,\mathrm{kg}$
+              (vorne), stehen auf einem glatten Boden und sind durch ein Seil
+              verbunden. An Kiste 2 zieht man mit $F = 150\,\mathrm{N}$
+              waagerecht. Reibung und Seilmasse vernachlässigen wir.<br>
+              <strong>Gesucht:</strong> Beschleunigung der Kisten und Kraft im
+              Verbindungsseil.</p>
+
+            <p><strong>1. Beide Kisten zusammen</strong> als ein Körper der
+              Masse $m_1 + m_2$. Die Seilkraft zwischen ihnen ist eine innere
+              Kraft und hebt sich nach dem dritten Axiom heraus:
+              $$ a = \frac{F}{m_1 + m_2} = \frac{150\,\mathrm{N}}{50\,\mathrm{kg}} = 3{,}0\,\mathrm{m/s^2} $$</p>
+
+            <p><strong>2. Freikörperbild von Kiste 1:</strong> Waagerecht wirkt
+              nur die Seilkraft $F_\text{S}$:
+              $$ F_\text{S} = m_1\,a = 20\,\mathrm{kg} \cdot 3{,}0\,\mathrm{\tfrac{m}{s^2}} = 60\,\mathrm{N} $$</p>
+
+            <p><strong>3. Kontrolle mit Kiste 2:</strong> Auf sie wirken $F$ nach
+              vorne und die Seilkraft $F_\text{S}$ nach hinten:
+              $$ F - F_\text{S} = 150\,\mathrm{N} - 60\,\mathrm{N} = 90\,\mathrm{N} = m_2\,a = 30\,\mathrm{kg} \cdot 3{,}0\,\mathrm{\tfrac{m}{s^2}} $$</p>
+
+            <p><strong>Ergebnis und Plausibilität:</strong> Beide Kisten
+              beschleunigen mit $3{,}0\,\mathrm{m/s^2}$, im Verbindungsseil
+              wirken $60\,\mathrm{N}$. Das ist plausibel: Das Seil muss nur die
+              hintere Kiste ziehen, also $20/50 = 40\,\%$ der Gesamtmasse, und
+              trägt deshalb $40\,\%$ der Zugkraft. Zieht man stattdessen an der
+              leichten Kiste, wären es $90\,\mathrm{N}$ – das Seil zwischen den
+              Kisten wird stärker belastet, wenn hinten die schwere hängt.</p>
+          </div>
+
+          <div class="beispiel">
+            <h3>Beispiel 3: Der Skateboard-Versuch, nachgerechnet</h3>
+            <p><strong>Gegeben:</strong> A ($m_\text{A} = 60\,\mathrm{kg}$) und
+              B ($m_\text{B} = 80\,\mathrm{kg}$) stehen auf Skateboards,
+              $d = 7{,}0\,\mathrm{m}$ voneinander entfernt, und halten ein Seil.
+              A zieht so, dass im Seil konstant $F = 40\,\mathrm{N}$ wirken.
+              Rollreibung vernachlässigen wir.<br>
+              <strong>Gesucht:</strong> Beschleunigungen, Zeit und Ort des
+              Zusammentreffens, Geschwindigkeiten dann.</p>
+
+            <p><strong>1. Beschleunigungen</strong> (beide erfahren den Betrag
+              $F$, drittes Axiom):
+              $$ a_\text{A} = \frac{F}{m_\text{A}} = \frac{40\,\mathrm{N}}{60\,\mathrm{kg}} = 0{,}667\,\mathrm{m/s^2}, \qquad a_\text{B} = \frac{F}{m_\text{B}} = \frac{40\,\mathrm{N}}{80\,\mathrm{kg}} = 0{,}500\,\mathrm{m/s^2} $$</p>
+
+            <p><strong>2. Treffzeit.</strong> Ursprung bei A, $x$-Achse zu B.
+              $x_\text{A} = \tfrac{1}{2} a_\text{A} t^2$,
+              $x_\text{B} = d - \tfrac{1}{2} a_\text{B} t^2$. Gleichsetzen:
+              $$ t = \sqrt{\frac{2d}{a_\text{A} + a_\text{B}}} = \sqrt{\frac{2 \cdot 7{,}0\,\mathrm{m}}{1{,}167\,\mathrm{m/s^2}}} = \sqrt{12{,}0\,\mathrm{s^2}} = 3{,}46\,\mathrm{s} $$</p>
+
+            <p><strong>3. Treffpunkt:</strong>
+              $$ x_\text{A} = \tfrac{1}{2} \cdot 0{,}667\,\mathrm{\tfrac{m}{s^2}} \cdot 12{,}0\,\mathrm{s^2} = 4{,}0\,\mathrm{m} $$
+              A rollt also $4{,}0\,\mathrm{m}$, B nur $3{,}0\,\mathrm{m}$.
+              Kontrolle über den Schwerpunkt:
+              $x_\text{S} = \frac{m_\text{B}\,d}{m_\text{A} + m_\text{B}} = \frac{80 \cdot 7{,}0}{140}\,\mathrm{m} = 4{,}0\,\mathrm{m}$ ✓</p>
+
+            <p><strong>4. Geschwindigkeiten beim Treffen:</strong>
+              $$ v_\text{A} = a_\text{A}\,t = 0{,}667 \cdot 3{,}46\,\mathrm{m/s} = 2{,}31\,\mathrm{m/s}, \qquad v_\text{B} = a_\text{B}\,t = 0{,}500 \cdot 3{,}46\,\mathrm{m/s} = 1{,}73\,\mathrm{m/s} $$</p>
+
+            <p><strong>Ergebnis und Plausibilität:</strong> Nach knapp
+              3,5 Sekunden treffen sich die beiden 4,0 m vom Startpunkt von A
+              entfernt, also näher an der schwereren Person B. Die Impulse sind
+              gleich groß:
+              $m_\text{A} v_\text{A} = 60 \cdot 2{,}31\,\mathrm{kg\,m/s} = 139\,\mathrm{kg\,m/s}$
+              und $m_\text{B} v_\text{B} = 80 \cdot 1{,}73\,\mathrm{kg\,m/s} = 139\,\mathrm{kg\,m/s}$,
+              aber entgegengesetzt – der Gesamtimpuls bleibt null, wie zu
+              Beginn. Mit 2 m/s ist das ein gemütliches Schritttempo.</p>
+          </div>
+        </section>
+
+        <section class="tab" id="aufgaben" data-titel="Aufgaben">
+
+          <p>Die Aufgaben sind nach Schwierigkeit sortiert. Versuch es erst
+            selbst – die Lösungen sind zugeklappt. Wenn nichts anderes gesagt
+            ist, gilt $g = 9{,}81\,\mathrm{m/s^2}$, Seile und Rollen sind
+            masselos, und Reibung wird vernachlässigt.</p>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 1: Ein harter Schuss
+              <span class="schwierigkeit" data-stufe="leicht">leicht</span>
+            </h3>
+            <p>Ein Fußball ($m = 0{,}43\,\mathrm{kg}$) liegt still und wird
+              getreten. Der Fuß berührt ihn $10\,\mathrm{ms}$ lang, danach
+              fliegt der Ball mit $25\,\mathrm{m/s}$ davon. Wie groß sind die
+              mittlere Beschleunigung und die mittlere Kraft während des
+              Schusses?</p>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>$$ \bar{a} = \frac{\Delta v}{\Delta t} = \frac{25\,\mathrm{m/s}}{0{,}010\,\mathrm{s}} = 2500\,\mathrm{m/s^2}, \qquad \bar{F} = m\,\bar{a} = 0{,}43\,\mathrm{kg} \cdot 2500\,\mathrm{\tfrac{m}{s^2}} = 1{,}1\,\mathrm{kN} $$
+                Das ist etwa das 250-Fache der Erdbeschleunigung und so viel
+                Kraft, wie man braucht, um 110 kg hochzuheben – allerdings nur
+                für eine Hundertstelsekunde.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 2: Zwei Schlepper
+              <span class="schwierigkeit" data-stufe="leicht">leicht</span>
+            </h3>
+            <p>Zwei Schlepper ziehen ein Schiff ($m = 2{,}0 \cdot 10^6\,\mathrm{kg}$)
+              mit je $30\,\mathrm{kN}$. Ihre Seile bilden mit der Längsachse
+              des Schiffs Winkel von $+20°$ und $-20°$. Wie groß ist die
+              resultierende Kraft, und wie schnell ist das Schiff nach einer
+              Minute, wenn es aus der Ruhe startet? (Wasserwiderstand
+              vernachlässigen.)</p>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>$x$-Achse entlang der Schiffsachse. Die Querkomponenten
+                $\pm 30\,\mathrm{kN} \cdot \sin 20°$ heben sich auf, die
+                Längskomponenten addieren sich:
+                $$ F_\text{ges} = 2 \cdot 30\,\mathrm{kN} \cdot \cos 20° = 60\,\mathrm{kN} \cdot 0{,}940 = 56\,\mathrm{kN} $$
+                $$ a = \frac{56{,}4 \cdot 10^3\,\mathrm{N}}{2{,}0 \cdot 10^6\,\mathrm{kg}} = 0{,}028\,\mathrm{m/s^2}, \qquad v = a\,t = 0{,}0282\,\mathrm{\tfrac{m}{s^2}} \cdot 60\,\mathrm{s} = 1{,}7\,\mathrm{m/s} $$
+                Durch den Winkel gehen nur 6 % der Zugkraft „verloren“ – ein
+                kleiner Preis dafür, dass die Schlepper nicht hintereinander
+                fahren müssen.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 3: Belastung des Aufzugseils
+              <span class="schwierigkeit" data-stufe="mittel">mittel</span>
+            </h3>
+            <p>Eine Aufzugskabine ($800\,\mathrm{kg}$) mit vier Personen zu je
+              $75\,\mathrm{kg}$ hängt an einem Seil, das höchstens
+              $20\,\mathrm{kN}$ aushält.</p>
+            <ol type="a">
+              <li>Wie groß ist die Seilkraft, wenn die Kabine steht oder
+                gleichförmig fährt?</li>
+              <li>Mit welcher Beschleunigung darf die Kabine höchstens nach
+                oben anfahren?</li>
+              <li>In welcher Situation ist das Seil bei einer Abwärtsfahrt am
+                stärksten belastet?</li>
+            </ol>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>Gesamtmasse $M = 800\,\mathrm{kg} + 4 \cdot 75\,\mathrm{kg} = 1100\,\mathrm{kg}$,
+                $z$-Achse nach oben: $F_\text{S} - M g = M a$.</p>
+              <p><strong>(a)</strong> $a = 0$:
+                $F_\text{S} = M g = 1100\,\mathrm{kg} \cdot 9{,}81\,\mathrm{m/s^2} = 10{,}8\,\mathrm{kN}$.</p>
+              <p><strong>(b)</strong>
+                $$ a_\text{max} = \frac{F_\text{S,max}}{M} - g = \frac{20\,000\,\mathrm{N}}{1100\,\mathrm{kg}} - 9{,}81\,\mathrm{\tfrac{m}{s^2}} = 18{,}18\,\mathrm{\tfrac{m}{s^2}} - 9{,}81\,\mathrm{\tfrac{m}{s^2}} = 8{,}4\,\mathrm{m/s^2} $$
+                Echte Aufzüge beschleunigen mit etwa einem Zehntel davon – die
+                Sicherheitsreserve ist groß.</p>
+              <p><strong>(c)</strong> Die Seilkraft ist größer als $M g$, wenn
+                $a$ nach <em>oben</em> zeigt. Bei einer Abwärtsfahrt ist das
+                beim <em>Abbremsen</em> der Fall – nicht beim Anfahren nach
+                unten, denn dann ist $a$ nach unten gerichtet und das Seil wird
+                entlastet.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 4: Die Straßenlampe
+              <span class="schwierigkeit" data-stufe="mittel">mittel</span>
+            </h3>
+            <p>Eine Lampe ($5{,}0\,\mathrm{kg}$) hängt in der Mitte zwischen
+              zwei Masten an zwei Seilen, die jeweils um $15°$ gegen die
+              Waagerechte geneigt sind.</p>
+            <ol type="a">
+              <li>Wie groß ist die Kraft in jedem Seil?</li>
+              <li>Was passiert mit der Seilkraft, wenn man die Seile straffer
+                spannt (kleinerer Winkel)? Kann man sie ganz waagerecht
+                spannen?</li>
+            </ol>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p><strong>(a)</strong> Gleichgewicht, also
+                $\sum \vec{F}_i = 0$. Waagerecht heben sich die beiden
+                Seilkräfte aus Symmetriegründen auf. Senkrecht tragen beide
+                zusammen das Gewicht:
+                $$ 2\,F_\text{S} \sin 15° = m g \quad\Rightarrow\quad F_\text{S} = \frac{m g}{2 \sin 15°} = \frac{5{,}0\,\mathrm{kg} \cdot 9{,}81\,\mathrm{m/s^2}}{2 \cdot 0{,}259} = \frac{49{,}1\,\mathrm{N}}{0{,}518} = 95\,\mathrm{N} $$
+                Jedes Seil trägt fast das Doppelte des Lampengewichts!</p>
+              <p><strong>(b)</strong> $F_\text{S} = m g / (2 \sin\alpha)$ wächst,
+                wenn $\alpha$ kleiner wird: bei $5°$ schon
+                $281\,\mathrm{N}$, bei $1°$ etwa $1{,}4\,\mathrm{kN}$. Für
+                $\alpha \to 0$ geht $F_\text{S} \to \infty$ – ein waagerechtes
+                Seil könnte gar keine senkrechte Kraft aufnehmen. Ein Seil mit
+                einer Last hängt deshalb immer etwas durch.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 5: Die Atwoodsche Fallmaschine
+              <span class="schwierigkeit" data-stufe="schwer">schwer</span>
+            </h3>
+            <p>Über eine Rolle läuft ein Seil, an dessen Enden zwei Körper mit
+              $m_1 = 2{,}0\,\mathrm{kg}$ und $m_2 = 3{,}0\,\mathrm{kg}$ hängen.
+              Das System wird aus der Ruhe losgelassen.</p>
+            <ol type="a">
+              <li>Stelle für beide Körper das zweite Axiom auf und bestimme
+                allgemein die Beschleunigung $a$ und die Seilkraft
+                $F_\text{S}$.</li>
+              <li>Berechne $a$ und $F_\text{S}$ für die gegebenen Massen.</li>
+              <li>Nach welcher Zeit ist $m_2$ um $1{,}0\,\mathrm{m}$ gesunken,
+                und wie schnell ist es dann?</li>
+            </ol>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p><strong>(a)</strong> Das Seil ist überall gleich gespannt.
+                $m_2$ sinkt, $m_1$ steigt, beide mit demselben Betrag $a$. Für
+                jeden Körper die Achse in seine Bewegungsrichtung gelegt:
+                $$ m_1: \; F_\text{S} - m_1 g = m_1 a, \qquad m_2: \; m_2 g - F_\text{S} = m_2 a $$
+                Addieren eliminiert $F_\text{S}$:
+                $$ a = \frac{m_2 - m_1}{m_1 + m_2}\,g, \qquad F_\text{S} = m_1 (g + a) = \frac{2\,m_1 m_2}{m_1 + m_2}\,g $$</p>
+              <p><strong>(b)</strong>
+                $$ a = \frac{1{,}0}{5{,}0} \cdot 9{,}81\,\mathrm{\tfrac{m}{s^2}} = 1{,}96\,\mathrm{m/s^2}, \qquad F_\text{S} = \frac{2 \cdot 2{,}0 \cdot 3{,}0}{5{,}0} \cdot 9{,}81\,\mathrm{N} = 23{,}5\,\mathrm{N} $$
+                Kontrolle: $F_\text{S}$ liegt zwischen den Gewichten
+                $m_1 g = 19{,}6\,\mathrm{N}$ und $m_2 g = 29{,}4\,\mathrm{N}$ –
+                sonst würde sich nicht der eine Körper heben und der andere
+                senken.</p>
+              <p><strong>(c)</strong>
+                $$ t = \sqrt{\frac{2s}{a}} = \sqrt{\frac{2{,}0\,\mathrm{m}}{1{,}96\,\mathrm{m/s^2}}} = 1{,}01\,\mathrm{s}, \qquad v = a\,t = 1{,}96 \cdot 1{,}01\,\mathrm{m/s} = 1{,}98\,\mathrm{m/s} $$</p>
+              <p><strong>Zum Nachdenken:</strong> Wozu soll diese Maschine gut
+                sein? George Atwood baute sie im 18. Jahrhundert, um den freien
+                Fall zu „verlangsamen“: Bei fast gleichen Massen ist $a$ nur ein
+                kleiner Bruchteil von $g$, und die Bewegung lässt sich mit
+                einfachen Uhren genau vermessen. Aus dem gemessenen $a$ folgt
+                dann $g = a\,(m_1 + m_2)/(m_2 - m_1)$.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 6: Ein Pendel im anfahrenden Zug
+              <span class="schwierigkeit" data-stufe="schwer">schwer</span>
+            </h3>
+            <p>An der Decke eines Zuges hängt eine kleine Kugel
+              ($0{,}20\,\mathrm{kg}$) an einem Faden. Während der Zug
+              gleichmäßig beschleunigt, hängt der Faden ruhig um $5{,}0°$ gegen
+              die Senkrechte geneigt.</p>
+            <ol type="a">
+              <li>Beschreibe die Situation im Inertialsystem Bahnsteig und
+                bestimme die Beschleunigung des Zuges sowie die Fadenkraft.</li>
+              <li>Wie beschreibt ein Fahrgast die ruhende, schräg hängende
+                Kugel?</li>
+              <li>Wie hängt der Faden, wenn der Zug gleichförmig fährt?</li>
+            </ol>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p><strong>(a)</strong> Vom Bahnsteig aus beschleunigt die Kugel
+                mit dem Zug, $\vec{a}$ zeigt in Fahrtrichtung. Auf sie wirken
+                nur das Gewicht und die Fadenkraft $F_\text{F}$ (Winkel
+                $\theta$ zur Senkrechten, nach vorne geneigt):
+                $$ \text{waagerecht: } F_\text{F} \sin\theta = m a, \qquad \text{senkrecht: } F_\text{F} \cos\theta = m g $$
+                Teilen ergibt
+                $$ a = g \tan\theta = 9{,}81\,\mathrm{\tfrac{m}{s^2}} \cdot \tan 5{,}0° = 9{,}81 \cdot 0{,}0875\,\mathrm{\tfrac{m}{s^2}} = 0{,}86\,\mathrm{m/s^2} $$
+                $$ F_\text{F} = \frac{m g}{\cos\theta} = \frac{0{,}20\,\mathrm{kg} \cdot 9{,}81\,\mathrm{m/s^2}}{0{,}996} = 1{,}97\,\mathrm{N} $$
+                Mit dieser Beschleunigung bräuchte der Zug etwa 32 s von 0 auf
+                100 km/h – plausibel für einen Regionalzug.</p>
+              <p><strong>(b)</strong> Für den Fahrgast ruht die Kugel, obwohl
+                Gewicht und Fadenkraft sich nicht aufheben. Damit das erste
+                Axiom „stimmt“, muss er eine Scheinkraft einführen, die
+                <em>Trägheitskraft</em> $-m\vec{a}$, die die Kugel nach hinten
+                zieht. Der Zug ist kein Inertialsystem.</p>
+              <p><strong>(c)</strong> Senkrecht. Bei $\vec{a} = 0$ ist der Zug
+                ein Inertialsystem, und kein Versuch im Inneren kann feststellen,
+                wie schnell er fährt – genau wie beim Wurf im fahrenden Wagen.</p>
+              <p><strong>Zum Nachdenken:</strong> Das Pendel ist also ein
+                einfacher Beschleunigungsmesser. Smartphones messen
+                Beschleunigungen nach demselben Prinzip: Eine winzige Masse auf
+                einem Chip wird ausgelenkt, und die Auslenkung wird elektrisch
+                gemessen.</p>
+            </details>
+          </div>
+        </section>
+
+      </div></article>
+  </main>
+</body>
+</html>

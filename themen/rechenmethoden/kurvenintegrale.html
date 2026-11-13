@@ -1,0 +1,1203 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="robots" content="noindex">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Kurven-, Flächen- und Volumenintegrale</title>
+  <meta name="description" content="Integrieren über Wege, Flächen und Volumina: Parametrisierung, Arbeit als Kurvenintegral, konservative Felder, Flächenelement und Fluss, Volumenelement mit Jacobi-Determinante, Masse aus der Dichte. Mit Abbildungen, Beispielen aus der Physik und Aufgaben.">
+
+  <link rel="stylesheet" href="../../css/stil.css">
+
+  <link rel="stylesheet" href="../../extern/katex/katex.min.css">
+  <script defer src="../../extern/katex/katex.min.js"></script>
+  <script defer src="../../extern/katex/contrib/auto-render.min.js" onload="starteFormeln()"></script>
+
+  <script src="../../js/daten.js"></script>
+  <script src="../../js/seite.js"></script>
+  <script src="../../js/effekte.js"></script>
+  <script type="application/json" id="symbole">
+  {
+    "a": "untere Grenze des Intervalls",
+    "b": "obere Grenze des Intervalls",
+    "x": "x-Koordinate",
+    "y": "y-Koordinate",
+    "z": "z-Koordinate (Höhe)",
+    "t": "Parameter der Kurve (oft die Zeit)",
+    "t_1": "Parameterwert am Anfang des Weges",
+    "t_2": "Parameterwert am Ende des Weges",
+    "r": "Ortsvektor; ohne Pfeil: Abstand vom Ursprung",
+    "s": "Weglänge entlang der Kurve",
+    "L": "Länge des Weges",
+    "C": "Kurve (Weg), über die integriert wird",
+    "S": "Fläche, über die integriert wird",
+    "K": "Körper (Volumen), über den integriert wird",
+    "f": "Skalarfeld (eine Zahl an jedem Ort)",
+    "F": "Vektorfeld, z. B. eine Kraft",
+    "F_x": "x-Komponente des Feldes F",
+    "F_y": "y-Komponente des Feldes F",
+    "F_z": "z-Komponente des Feldes F",
+    "W": "Arbeit",
+    "V": "potentielle Energie; in dV: Volumen",
+    "P_1": "Anfangspunkt des Weges",
+    "P_2": "Endpunkt des Weges",
+    "A": "Flächeninhalt",
+    "n": "Normaleneinheitsvektor (senkrecht auf der Fläche)",
+    "u": "erster Parameter der Fläche",
+    "v": "zweiter Parameter der Fläche",
+    "α": "Winkel zwischen Feld und Flächennormale",
+    "R": "Radius",
+    "ρ": "Abstand von der z-Achse (Zylinderkoordinate)",
+    "φ": "Azimutwinkel um die z-Achse",
+    "ϑ": "Polarwinkel, gemessen von der z-Achse",
+    "e_x": "Einheitsvektor in x-Richtung",
+    "e_y": "Einheitsvektor in y-Richtung",
+    "e_z": "Einheitsvektor in z-Richtung",
+    "e_ρ": "Einheitsvektor von der z-Achse weg",
+    "e_φ": "Einheitsvektor in Umlaufrichtung um die z-Achse",
+    "e_r": "Einheitsvektor vom Ursprung weg",
+    "e_ϑ": "Einheitsvektor in Richtung wachsender Polarwinkel",
+    "u_1": "erste krummlinige Koordinate",
+    "u_2": "zweite krummlinige Koordinate",
+    "u_3": "dritte krummlinige Koordinate",
+    "J": "Jacobi-Matrix (Ableitungen der kartesischen nach den neuen Koordinaten)",
+    "ρ_m": "Massendichte (Masse pro Volumen)",
+    "ρ_q": "Ladungsdichte (Ladung pro Volumen)",
+    "ρ_0": "Luftdichte am Boden",
+    "M": "Masse",
+    "m": "Masse",
+    "Q": "elektrische Ladung",
+    "E": "elektrisches Feld",
+    "ε_0": "elektrische Feldkonstante",
+    "g": "Fallbeschleunigung",
+    "h": "Höhe",
+    "H": "Skalenhöhe der Atmosphäre",
+    "π": "Kreiszahl 3,14159…"
+  }
+  </script>
+</head>
+<body data-thema="kurvenintegrale">
+  <main>
+    <article class="thema">
+      <header>
+        <h1>Kurven-, Flächen- und Volumenintegrale</h1>
+        <p class="untertitel">Wie man über Wege, Flächen und Körper summiert:
+          die Arbeit entlang eines Weges, den Fluss durch eine Fläche und die
+          Masse aus der Dichte.</p>
+      </header>
+
+      <div class="tabs">
+
+        <section class="tab" id="verstehen" data-titel="Verstehen">
+
+          <p>Trägst du einen Koffer die Treppe hinauf, zählt für die Arbeit
+            gegen die Schwerkraft nur der Höhenunterschied. Ziehst du ihn
+            dagegen über einen langen Kiesweg, kostet die Reibung auf jedem
+            Meter Arbeit, und der Weg selbst wird wichtig. Für solche Fragen
+            zerlegt man einen Weg, eine Fläche oder einen Körper in winzige
+            Stücke, berechnet für jedes Stück einen kleinen Beitrag und zählt
+            alles zusammen. So entstehen die Integrale auf dieser Seite: die
+            Arbeit entlang eines Weges, der Fluss einer Strömung durch eine
+            Fläche und die Masse eines Körpers aus seiner Dichte. Du solltest
+            die Seiten über <a href="koordinatensysteme.html">krummlinige
+            Koordinatensysteme</a> und über
+            <a href="differentialoperatoren.html">Gradient, Divergenz und
+            Rotation</a> kennen.</p>
+
+          <h2 id="idee">Die Idee: zerlegen und aufsummieren</h2>
+
+          <p>Das gewöhnliche Integral $\int_a^b f(x)\,\mathrm{d}x$ zerlegt
+            das Intervall von $a$ bis $b$ in kleine Stücke $\mathrm{d}x$,
+            multipliziert jedes mit dem Funktionswert dort und summiert. In
+            zwei und drei Dimensionen bleibt das Rezept gleich. Nur die Stücke
+            sehen anders aus:</p>
+
+          <div class="tabelle-huelle">
+            <table>
+              <thead><tr><th>Gebiet</th><th>kleines Stück</th><th>typisches Integral</th><th>Beispiel</th></tr></thead>
+              <tbody>
+                <tr><td>Kurve $C$</td><td>Wegelement $\mathrm{d}s$ bzw. $\mathrm{d}\vec r$</td><td>$\int_C \vec F\cdot\mathrm{d}\vec r$</td><td>Arbeit</td></tr>
+                <tr><td>Fläche $S$</td><td>Flächenelement $\mathrm{d}A$ bzw. $\mathrm{d}\vec A$</td><td>$\int_S \vec F\cdot\mathrm{d}\vec A$</td><td>Fluss, Stromstärke</td></tr>
+                <tr><td>Körper $K$</td><td>Volumenelement $\mathrm{d}V$</td><td>$\int_K \rho_m\,\mathrm{d}V$</td><td>Masse, Ladung</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <p>Die eigentliche Arbeit besteht fast immer darin, das kleine Stück
+            richtig aufzuschreiben. Danach bleibt ein gewöhnliches Integral
+            übrig oder mehrere, die man nacheinander ausrechnet. Teilst du ein
+            solches Integral durch die Länge, die Fläche oder das Volumen des
+            Gebiets, erhältst du den Mittelwert der Größe über das Gebiet.</p>
+
+          <h2 id="parametrisierung">Wege beschreiben: die Parametrisierung</h2>
+
+          <p>Einen Weg im Raum beschreibst du durch einen Ortsvektor, der von
+            einem einzigen Parameter $t$ abhängt:</p>
+
+          $$ \vec r(t) = \big(x(t),\, y(t),\, z(t)\big), \qquad t_1 \le t \le t_2 $$
+
+          <p>Denk an $t$ als Zeit und an $\vec r(t)$ als Ort eines Wanderers,
+            der vom Startpunkt $\vec r(t_1)$ zum Ziel $\vec r(t_2)$ läuft. Die
+            Ableitung $\dot{\vec r} = \mathrm{d}\vec r/\mathrm{d}t$ ist seine
+            Geschwindigkeit. Sie zeigt tangential entlang der Kurve und heißt
+            deshalb Tangentenvektor (Abb. 1). In der kleinen Zeit
+            $\mathrm{d}t$ kommt der Wanderer um $\mathrm{d}\vec r$ voran, das
+            ist ein Stück der Länge $\mathrm{d}s$:</p>
+
+          $$ \mathrm{d}\vec r = \dot{\vec r}\,\mathrm{d}t, \qquad \mathrm{d}s = |\dot{\vec r}|\,\mathrm{d}t = \sqrt{\dot x^2 + \dot y^2 + \dot z^2}\;\mathrm{d}t $$
+
+          <figure class="abbildung">
+            <svg class="abb" viewBox="0 0 390 215" role="img" aria-label="Eine geschwungene Kurve vom Start links zum Ziel rechts, mit Punkten für gleiche Parameterschritte; vom Ursprung zeigt der Ortsvektor auf einen Kurvenpunkt, dort zeigt der Tangentenvektor entlang der Kurve; ein kurzes Stück der Kurve ist orange hervorgehoben">
+<path class="kurve blau" d="M75 154L78.4 149.4L81.8 144.9L85.1 140.3L88.5 135.8L91.9 131.2L95.2 126.8L98.6 122.3L102 117.9L105.4 113.6L108.8 109.3L112.1 105.1L115.5 100.9L118.9 96.8L122.2 92.8L125.6 88.9L129 85.1L132.4 81.4L135.8 77.8L139.1 74.3L142.5 70.9L145.9 67.6L149.2 64.5L152.6 61.4L156 58.5L159.4 55.8L162.8 53.1L166.1 50.7L169.5 48.3L172.9 46.1L176.2 44.1L179.6 42.2L183 40.5L186.4 38.9L189.8 37.5L193.1 36.3L196.5 35.2L199.9 34.3L203.2 33.5L206.6 32.9L210 32.5L213.4 32.2L216.8 32.2L220.1 32.2L223.5 32.5L226.9 32.9L230.2 33.5L233.6 34.2L237 35.1L240.4 36.1L243.8 37.3L247.1 38.7L250.5 40.2L253.9 41.9L257.2 43.7L260.6 45.6L264 47.7L267.4 49.9L270.8 52.3L274.1 54.8L277.5 57.4L280.9 60.1L284.2 62.9L287.6 65.9L291 68.9L294.4 72.1L297.8 75.3L301.1 78.6L304.5 82L307.9 85.5L311.2 89L314.6 92.7L318 96.3L321.4 100L324.8 103.8L328.1 107.6L331.5 111.5L334.9 115.3L338.2 119.2L341.6 123.1L345 127"/>
+<circle class="punkt" cx="102" cy="117.9" r="1.8"/>
+<circle class="punkt" cx="129" cy="85.1" r="1.8"/>
+<circle class="punkt" cx="156" cy="58.5" r="1.8"/>
+<circle class="punkt" cx="183" cy="40.5" r="1.8"/>
+<circle class="punkt" cx="210" cy="32.5" r="1.8"/>
+<circle class="punkt" cx="237" cy="35.1" r="1.8"/>
+<circle class="punkt" cx="264" cy="47.7" r="1.8"/>
+<circle class="punkt" cx="291" cy="68.9" r="1.8"/>
+<circle class="punkt" cx="318" cy="96.3" r="1.8"/>
+<circle class="punkt" cx="75" cy="154" r="3.5"/>
+<circle class="punkt" cx="345" cy="127" r="3.5"/>
+<text class="klein halo" x="67" y="158" text-anchor="end">Start, t = t₁</text>
+<text class="klein halo" x="349" y="145" text-anchor="end">Ziel, t = t₂</text>
+<circle class="punkt" cx="75" cy="190" r="2.5"/>
+<text class="klein halo" x="81" y="194" text-anchor="start">Ursprung</text>
+<g class="pfeil text duenn"><line x1="75" y1="190" x2="126.3" y2="90.5"/><polygon points="129,85.1 128.9,92.9 122.7,89.7"/></g>
+<text class="halo" x="110" y="153.6" text-anchor="start"><tspan font-style="italic">r</tspan>(<tspan font-style="italic">t</tspan>)</text>
+<g class="pfeil blau"><line x1="129" y1="85.1" x2="184.4" y2="23.3"/><polygon points="188.4,18.8 186.3,26.3 181.1,21.7"/></g>
+<text class="klein blau halo" x="180.4" y="24.8" text-anchor="end">Tangentenvektor ṙ</text>
+<path class="kurve kupfer band" d="M237 35.1L240.4 36.1L243.8 37.3L247.1 38.7L250.5 40.2L253.9 41.9L257.2 43.7L260.6 45.6L264 47.7"/>
+<path class="kurve kupfer" d="M237 35.1L240.4 36.1L243.8 37.3L247.1 38.7L250.5 40.2L253.9 41.9L257.2 43.7L260.6 45.6L264 47.7"/>
+<text class="klein kupfer halo" x="262.5" y="28.2" text-anchor="start">Wegstück</text>
+<text class="klein kupfer halo" x="262.5" y="42.2" text-anchor="start">ds = |ṙ| dt</text>
+</svg>
+            <figcaption>Abb. 1: Eine Kurve, beschrieben durch den Ortsvektor
+              $\vec r(t)$. Die Punkte gehören zu gleich großen
+              Parameterschritten; wo sie weiter auseinanderliegen, ist der
+              Wanderer schneller. Der Tangentenvektor $\dot{\vec r}$ (blau)
+              zeigt entlang der Kurve. Ein kurzes Stück (orange) hat die Länge
+              $\mathrm{d}s = |\dot{\vec r}|\,\mathrm{d}t$.</figcaption>
+          </figure>
+
+          <p>Summiert man alle Stücke, erhält man die Länge der Kurve,
+            $L = \int_{t_1}^{t_2} |\dot{\vec r}|\,\mathrm{d}t$. Für einen
+            Kreis mit Radius $R$, also $\vec r(t) = (R\cos t,\, R\sin t,\, 0)$
+            mit $0 \le t \le 2\pi$, ist
+            $\dot{\vec r} = (-R\sin t,\, R\cos t,\, 0)$ und
+            $|\dot{\vec r}| = R$. Ein Umlauf ergibt $L = 2\pi R$, wie es sein
+            muss.</p>
+
+          <p>Dieselbe Kurve lässt sich auf viele Arten parametrisieren, schnell
+            oder langsam durchlaufen. Die Integrale auf dieser Seite hängen
+            davon nicht ab, nur von der Kurve selbst und der Richtung, in der
+            man sie durchläuft. Ist ein ebener Weg als Graph $y = f(x)$
+            gegeben, kannst du einfach $x$ selbst als Parameter nehmen:
+            $\vec r(x) = (x,\, f(x))$ und
+            $\mathrm{d}s = \sqrt{1 + f'(x)^2}\,\mathrm{d}x$.</p>
+
+          <h2 id="skalarfeld">Kurvenintegral über ein Skalarfeld</h2>
+
+          <p>Ist entlang des Weges eine Zahl $f$ verteilt, etwa die Masse pro
+            Meter eines gebogenen Drahtes oder die Temperatur entlang einer
+            Wanderroute, summierst du $f$ mal Wegstück:</p>
+
+          $$ \int_C f\,\mathrm{d}s = \int_{t_1}^{t_2} f\big(\vec r(t)\big)\,|\dot{\vec r}(t)|\,\mathrm{d}t $$
+
+          <p>Du setzt also die Koordinaten der Kurve ins Feld ein und
+            multiplizierst mit der Länge des Tangentenvektors. Weil
+            $\mathrm{d}s$ immer positiv ist, spielt die Durchlaufrichtung hier
+            keine Rolle. Mit $f = 1$ kommt die Länge $L$ heraus, und das
+            Integral geteilt durch $L$ ist der Mittelwert von $f$ entlang des
+            Weges.</p>
+
+          <h2 id="arbeit">Kurvenintegral über ein Vektorfeld: die Arbeit</h2>
+
+          <p>In der Physik viel häufiger ist das Kurvenintegral eines
+            Vektorfelds. Bewegt sich ein Körper im Kraftfeld $\vec F(\vec r)$
+            um $\mathrm{d}\vec r$ weiter, verrichtet das Feld die
+            <a href="../mechanik/arbeit-leistung.html">Arbeit</a>
+            $\mathrm{d}W = \vec F\cdot\mathrm{d}\vec r$. Das
+            <a href="vektoren.html#skalarprodukt">Skalarprodukt</a> sucht den
+            Anteil der Kraft entlang des Weges heraus. Eine Kraft quer zur
+            Bewegung verrichtet keine Arbeit, eine Kraft gegen die Bewegung
+            negative (Abb. 2). Die gesamte Arbeit ist das
+            <strong>Kurvenintegral</strong></p>
+
+          $$ W = \int_C \vec F\cdot\mathrm{d}\vec r = \int_{t_1}^{t_2} \vec F\big(\vec r(t)\big)\cdot\dot{\vec r}(t)\,\mathrm{d}t $$
+
+          <figure class="abbildung">
+            <svg class="abb" viewBox="0 0 360 205" role="img" aria-label="Ein Weg von P1 über einen Anstieg, ein ebenes Stück und einen Abstieg nach P2 im überall nach unten zeigenden Schwerefeld; an drei Stellen sind die Bewegungsrichtung in Blau und die Gewichtskraft in Orange eingezeichnet">
+<g class="pfeil duenn"><line x1="52" y1="10" x2="52" y2="26"/><polygon points="52,32 48.5,25 55.5,25"/></g>
+<g class="pfeil duenn"><line x1="98" y1="10" x2="98" y2="26"/><polygon points="98,32 94.5,25 101.5,25"/></g>
+<g class="pfeil duenn"><line x1="144" y1="10" x2="144" y2="26"/><polygon points="144,32 140.5,25 147.5,25"/></g>
+<g class="pfeil duenn"><line x1="190" y1="10" x2="190" y2="26"/><polygon points="190,32 186.5,25 193.5,25"/></g>
+<g class="pfeil duenn"><line x1="236" y1="10" x2="236" y2="26"/><polygon points="236,32 232.5,25 239.5,25"/></g>
+<g class="pfeil duenn"><line x1="282" y1="10" x2="282" y2="26"/><polygon points="282,32 278.5,25 285.5,25"/></g>
+<g class="pfeil duenn"><line x1="328" y1="10" x2="328" y2="26"/><polygon points="328,32 324.5,25 331.5,25"/></g>
+<text class="klein halo" x="180" y="48" text-anchor="middle">Gewichtskraft: überall gleich, nach unten</text>
+<path class="achse" d="M25 149.7L27.8 149.7L30.6 149.6L33.4 149.5L36.2 149.4L39 149.3L41.8 149.2L44.6 149L47.4 148.8L50.2 148.5L53 148.2L55.8 147.8L58.6 147.3L61.4 146.7L64.2 146L67 145.2L69.8 144.3L72.6 143.1L75.4 141.8L78.2 140.3L81 138.5L83.8 136.5L86.6 134.3L89.4 131.8L92.2 129.1L95 126.2L97.8 123.2L100.6 120.1L103.4 116.9L106.2 113.8L109 110.8L111.8 107.9L114.6 105.2L117.4 102.7L120.2 100.5L123 98.5L125.8 96.7L128.6 95.2L131.4 93.9L134.2 92.8L137 91.8L139.8 91L142.6 90.3L145.4 89.7L148.2 89.3L151 88.9L153.8 88.6L156.6 88.3L159.4 88.1L162.2 87.9L165 87.8L167.8 87.7L170.6 87.7L173.4 87.6L176.2 87.6L179 87.6L181.8 87.6L184.6 87.7L187.4 87.8L190.2 87.9L193 88L195.8 88.2L198.6 88.4L201.4 88.7L204.2 89.1L207 89.5L209.8 90L212.6 90.6L215.4 91.4L218.2 92.3L221 93.4L223.8 94.7L226.6 96.2L229.4 97.9L232.2 100L235 102.3L237.8 105L240.6 108L243.4 111.3L246.2 114.9L249 118.7L251.8 122.7L254.6 126.9L257.4 131.1L260.2 135.3L263 139.3L265.8 143.1L268.6 146.7L271.4 150L274.2 153L277 155.7L279.8 158L282.6 160.1L285.4 161.8L288.2 163.3L291 164.6L293.8 165.7L296.6 166.6L299.4 167.4L302.2 168L305 168.5L307.8 169L310.6 169.3L313.4 169.6L316.2 169.9L319 170.1L321.8 170.2L324.6 170.4L327.4 170.5L330.2 170.6L333 170.7"/>
+<circle class="punkt" cx="25" cy="149.7" r="3.5"/>
+<text class="halo" x="27" y="166.7" text-anchor="middle">P₁</text>
+<circle class="punkt" cx="333" cy="170.7" r="3.5"/>
+<text class="halo" x="329" y="187.7" text-anchor="middle">P₂</text>
+<g class="pfeil blau"><line x1="102" y1="118.5" x2="120.6" y2="97.6"/><polygon points="124.6,93.1 122.6,100.6 117.3,96"/></g>
+<g class="pfeil kupfer"><line x1="102" y1="118.5" x2="102" y2="142.5"/><polygon points="102,148.5 98.5,141.5 105.5,141.5"/></g>
+<text class="klein halo" x="92" y="96.5" text-anchor="end">bergauf:</text>
+<text class="klein halo" x="92" y="109.5" text-anchor="end">Beitrag negativ</text>
+<g class="pfeil blau"><line x1="179" y1="87.6" x2="207" y2="87.8"/><polygon points="213,87.8 206,91.3 206,84.3"/></g>
+<g class="pfeil kupfer"><line x1="179" y1="87.6" x2="179" y2="111.6"/><polygon points="179,117.6 175.5,110.6 182.5,110.6"/></g>
+<text class="klein halo" x="169" y="113.6" text-anchor="end">eben:</text>
+<text class="klein halo" x="169" y="126.6" text-anchor="end">Beitrag null</text>
+<g class="pfeil blau"><line x1="256" y1="129" x2="271.5" y2="152.3"/><polygon points="274.9,157.3 268.1,153.4 273.9,149.5"/></g>
+<g class="pfeil kupfer"><line x1="256" y1="129" x2="256" y2="153"/><polygon points="256,159 252.5,152 259.5,152"/></g>
+<text class="klein halo" x="270" y="107" text-anchor="start">bergab:</text>
+<text class="klein halo" x="270" y="120" text-anchor="start">Beitrag positiv</text>
+</svg>
+            <figcaption>Abb. 2: Ein Weg von $P_1$ nach $P_2$ im Schwerefeld.
+              Bergauf zeigt die Gewichtskraft (orange) gegen die Bewegung
+              (blau), ihr Beitrag $\vec F\cdot\mathrm{d}\vec r$ ist negativ. Auf
+              dem ebenen Stück steht sie senkrecht zur Bewegung, bergab hilft
+              sie mit.</figcaption>
+          </figure>
+
+          <p>Ausgerechnet wird so ein Integral immer in denselben
+            Schritten:</p>
+
+          <ol>
+            <li>Weg parametrisieren: $\vec r(t)$ mit den Grenzen $t_1$ und
+              $t_2$ aufschreiben.</li>
+            <li>Tangentenvektor $\dot{\vec r}(t)$ ausrechnen.</li>
+            <li>$x(t)$, $y(t)$, $z(t)$ ins Feld einsetzen. Danach hängt
+              $\vec F$ nur noch von $t$ ab.</li>
+            <li>Skalarprodukt $\vec F\cdot\dot{\vec r}$ bilden und von $t_1$
+              bis $t_2$ integrieren.</li>
+          </ol>
+
+          <p>Ein kleines Beispiel: Das Feld $\vec F = (-y,\, x,\, 0)$ dreht
+            sich gegen den Uhrzeigersinn um die $z$-Achse (Abb. 3, Drehfeld). Auf
+            dem Kreis $\vec r(t) = (R\cos t,\, R\sin t,\, 0)$ wird daraus
+            $\vec F = (-R\sin t,\, R\cos t,\, 0)$, und das ist genau der
+            Tangentenvektor. Also ist $\vec F\cdot\dot{\vec r} = R^2$, und ein
+            voller Umlauf ergibt $2\pi R^2$. Feld und Weg laufen überall in
+            dieselbe Richtung, deshalb ist das Ergebnis positiv.</p>
+
+          <p>Kehrst du die Durchlaufrichtung um, wechselt das Vorzeichen. Einen
+            Weg in Stücke zu teilen und die Teilintegrale zu addieren, ist
+            erlaubt. Ist der Weg geschlossen, endet er also an seinem Start,
+            schreibt man $\oint_C \vec F\cdot\mathrm{d}\vec r$ und nennt das
+            Integral die <strong>Zirkulation</strong> oder den Umlauf.</p>
+
+          <h2 id="konservativ">Wann der Weg egal ist: konservative Felder</h2>
+
+          <p>Für viele Kräfte hängt die Arbeit nur von Start und Ziel ab. Das
+            gilt immer dann, wenn sich die Kraft als
+            <a href="differentialoperatoren.html#potential">Gradient einer
+            potentiellen Energie</a> schreiben lässt, $\vec F = -\nabla V$. Nach
+            der Kettenregel ist $\nabla V\cdot\dot{\vec r}$ die Ableitung von
+            $V\big(\vec r(t)\big)$ nach $t$, und das Integral einer Ableitung
+            ist die Differenz der Randwerte:</p>
+
+          $$ \int_C \vec F\cdot\mathrm{d}\vec r = -\int_{t_1}^{t_2} \frac{\mathrm{d}}{\mathrm{d}t}\,V\big(\vec r(t)\big)\,\mathrm{d}t = V(P_1) - V(P_2) $$
+
+          <p>Das ist der Hauptsatz der Differential- und Integralrechnung,
+            angewandt entlang eines Weges im Raum. Die Arbeit des Feldes ist die
+            Abnahme der potentiellen Energie, ganz gleich, auf welchem Weg der
+            Körper von $P_1$ nach $P_2$ kommt (Abb. 3, Gradientenfeld). Solche Felder
+            heißen <strong>konservativ</strong>. Für sie gilt alles Folgende,
+            und jede dieser Aussagen zieht die anderen nach sich:</p>
+
+          <ul>
+            <li>Das Kurvenintegral hängt nur von Anfangs- und Endpunkt
+              ab.</li>
+            <li>Über jeden geschlossenen Weg ist
+              $\oint_C \vec F\cdot\mathrm{d}\vec r = 0$.</li>
+            <li>Es gibt ein Potential $V$ mit $\vec F = -\nabla V$.</li>
+            <li>Das Feld ist wirbelfrei:
+              <a href="differentialoperatoren.html#rotation">$\nabla\times\vec F = \vec 0$</a>.</li>
+          </ul>
+
+          <p>Die letzte Aussage ist die bequemste Prüfung, denn eine Rotation
+            ist schnell berechnet. Sie reicht allerdings nur in einem Gebiet
+            ohne Löcher, um die ein geschlossener Weg herumlaufen könnte. Das
+            Magnetfeld eines geraden Drahtes ist außerhalb des Drahtes
+            wirbelfrei, und trotzdem ist der Umlauf um den Draht nicht null
+            (siehe Aufgabe 6 bei den
+            <a href="operatoren-krummlinig.html#aufgaben">Operatoren in
+            krummlinigen Koordinaten</a>).</p>
+
+          <figure class="abbildung">
+            <div class="abb-reihe">
+<svg class="abb" viewBox="0 0 220 215" role="img" aria-label="Feld, dessen Pfeile zur Mitte zeigen, mit kreisförmigen gestrichelten Linien gleicher potentieller Energie; zwei verschiedene Wege von P1 nach P2, ein gerader und ein Umweg">
+<g class="pfeil duenn"><line x1="26" y1="196" x2="39.2" y2="182.8"/><polygon points="42,180 40.3,185.4 36.6,181.7"/></g>
+<g class="pfeil duenn"><line x1="26" y1="154" x2="38.4" y2="147.8"/><polygon points="42,146 38.7,150.6 36.4,145.9"/></g>
+<g class="pfeil duenn"><line x1="26" y1="112" x2="38" y2="112"/><polygon points="42,112 37,114.6 37,109.4"/></g>
+<g class="pfeil duenn"><line x1="26" y1="70" x2="38.4" y2="76.2"/><polygon points="42,78 36.4,78.1 38.7,73.4"/></g>
+<g class="pfeil duenn"><line x1="26" y1="28" x2="39.2" y2="41.2"/><polygon points="42,44 36.6,42.3 40.3,38.6"/></g>
+<g class="pfeil duenn"><line x1="68" y1="196" x2="74.2" y2="183.6"/><polygon points="76,180 76.1,185.6 71.4,183.3"/></g>
+<g class="pfeil duenn"><line x1="68" y1="154" x2="73.2" y2="148.8"/><polygon points="76,146 74.3,151.4 70.6,147.7"/></g>
+<g class="pfeil duenn"><line x1="68" y1="112" x2="72" y2="112"/><polygon points="76,112 71,114.6 71,109.4"/></g>
+<g class="pfeil duenn"><line x1="68" y1="70" x2="73.2" y2="75.2"/><polygon points="76,78 70.6,76.3 74.3,72.6"/></g>
+<g class="pfeil duenn"><line x1="68" y1="28" x2="74.2" y2="40.4"/><polygon points="76,44 71.4,40.7 76.1,38.4"/></g>
+<g class="pfeil duenn"><line x1="110" y1="196" x2="110" y2="184"/><polygon points="110,180 112.6,185 107.4,185"/></g>
+<g class="pfeil duenn"><line x1="110" y1="154" x2="110" y2="150"/><polygon points="110,146 112.6,151 107.4,151"/></g>
+<g class="pfeil duenn"><line x1="110" y1="70" x2="110" y2="74"/><polygon points="110,78 107.4,73 112.6,73"/></g>
+<g class="pfeil duenn"><line x1="110" y1="28" x2="110" y2="40"/><polygon points="110,44 107.4,39 112.6,39"/></g>
+<g class="pfeil duenn"><line x1="152" y1="196" x2="145.8" y2="183.6"/><polygon points="144,180 148.6,183.3 143.9,185.6"/></g>
+<g class="pfeil duenn"><line x1="152" y1="154" x2="146.8" y2="148.8"/><polygon points="144,146 149.4,147.7 145.7,151.4"/></g>
+<g class="pfeil duenn"><line x1="152" y1="112" x2="148" y2="112"/><polygon points="144,112 149,109.4 149,114.6"/></g>
+<g class="pfeil duenn"><line x1="152" y1="70" x2="146.8" y2="75.2"/><polygon points="144,78 145.7,72.6 149.4,76.3"/></g>
+<g class="pfeil duenn"><line x1="152" y1="28" x2="145.8" y2="40.4"/><polygon points="144,44 143.9,38.4 148.6,40.7"/></g>
+<g class="pfeil duenn"><line x1="194" y1="196" x2="180.8" y2="182.8"/><polygon points="178,180 183.4,181.7 179.7,185.4"/></g>
+<g class="pfeil duenn"><line x1="194" y1="154" x2="181.6" y2="147.8"/><polygon points="178,146 183.6,145.9 181.3,150.6"/></g>
+<g class="pfeil duenn"><line x1="194" y1="112" x2="182" y2="112"/><polygon points="178,112 183,109.4 183,114.6"/></g>
+<g class="pfeil duenn"><line x1="194" y1="70" x2="181.6" y2="76.2"/><polygon points="178,78 181.3,73.4 183.6,78.1"/></g>
+<g class="pfeil duenn"><line x1="194" y1="28" x2="180.8" y2="41.2"/><polygon points="178,44 179.7,38.6 183.4,42.3"/></g>
+<circle class="hilfslinie" cx="110" cy="112" r="38"/>
+<circle class="hilfslinie" cx="110" cy="112" r="76"/>
+<path class="kurve blau" d="M26.4 89.2L170.8 58.8"/>
+<path class="kurve kupfer" d="M26.4 89.2L26.4 169L170.8 169L170.8 58.8"/>
+<circle class="punkt" cx="26.4" cy="89.2" r="3.2"/>
+<text class="halo" x="24.4" y="80.2" text-anchor="middle">P₁</text>
+<circle class="punkt" cx="170.8" cy="58.8" r="3.2"/>
+<text class="halo" x="174.8" y="49.8" text-anchor="middle">P₂</text>
+<text class="klein blau halo" x="87.2" y="67.8" text-anchor="middle">Weg 1</text>
+<text class="klein kupfer halo" x="98.6" y="184" text-anchor="middle">Weg 2</text>
+<text class="klein halo" x="110" y="207" text-anchor="middle">beide Wege: gleiche Arbeit</text>
+<text class="ia-titel" x="110" y="14" text-anchor="middle">Gradientenfeld</text>
+</svg>
+<svg class="abb" viewBox="0 0 220 215" role="img" aria-label="Feld, dessen Pfeile gegen den Uhrzeigersinn um die Mitte kreisen und nach außen länger werden; ein geschlossener Kreisweg läuft mit dem Feld herum">
+<g class="pfeil duenn"><line x1="26" y1="180" x2="39.2" y2="193.2"/><polygon points="42,196 36.6,194.3 40.3,190.6"/></g>
+<g class="pfeil duenn"><line x1="30" y1="142" x2="36.2" y2="154.4"/><polygon points="38,158 33.4,154.7 38.1,152.4"/></g>
+<g class="pfeil duenn"><line x1="34" y1="104" x2="34" y2="116"/><polygon points="34,120 31.4,115 36.6,115"/></g>
+<g class="pfeil duenn"><line x1="38" y1="66" x2="31.8" y2="78.4"/><polygon points="30,82 29.9,76.4 34.6,78.7"/></g>
+<g class="pfeil duenn"><line x1="42" y1="28" x2="28.8" y2="41.2"/><polygon points="26,44 27.7,38.6 31.4,42.3"/></g>
+<g class="pfeil duenn"><line x1="64" y1="184" x2="76.4" y2="190.2"/><polygon points="80,192 74.4,192.1 76.7,187.4"/></g>
+<g class="pfeil duenn"><line x1="68" y1="146" x2="73.2" y2="151.2"/><polygon points="76,154 70.6,152.3 74.3,148.6"/></g>
+<g class="pfeil duenn"><line x1="72" y1="108" x2="72" y2="112"/><polygon points="72,116 69.4,111 74.6,111"/></g>
+<g class="pfeil duenn"><line x1="76" y1="70" x2="70.8" y2="75.2"/><polygon points="68,78 69.7,72.6 73.4,76.3"/></g>
+<g class="pfeil duenn"><line x1="80" y1="32" x2="67.6" y2="38.2"/><polygon points="64,40 67.3,35.4 69.6,40.1"/></g>
+<g class="pfeil duenn"><line x1="102" y1="188" x2="114" y2="188"/><polygon points="118,188 113,190.6 113,185.4"/></g>
+<g class="pfeil duenn"><line x1="106" y1="150" x2="110" y2="150"/><polygon points="114,150 109,152.6 109,147.4"/></g>
+<g class="pfeil duenn"><line x1="114" y1="74" x2="110" y2="74"/><polygon points="106,74 111,71.4 111,76.6"/></g>
+<g class="pfeil duenn"><line x1="118" y1="36" x2="106" y2="36"/><polygon points="102,36 107,33.4 107,38.6"/></g>
+<g class="pfeil duenn"><line x1="140" y1="192" x2="152.4" y2="185.8"/><polygon points="156,184 152.7,188.6 150.4,183.9"/></g>
+<g class="pfeil duenn"><line x1="144" y1="154" x2="149.2" y2="148.8"/><polygon points="152,146 150.3,151.4 146.6,147.7"/></g>
+<g class="pfeil duenn"><line x1="148" y1="116" x2="148" y2="112"/><polygon points="148,108 150.6,113 145.4,113"/></g>
+<g class="pfeil duenn"><line x1="152" y1="78" x2="146.8" y2="72.8"/><polygon points="144,70 149.4,71.7 145.7,75.4"/></g>
+<g class="pfeil duenn"><line x1="156" y1="40" x2="143.6" y2="33.8"/><polygon points="140,32 145.6,31.9 143.3,36.6"/></g>
+<g class="pfeil duenn"><line x1="178" y1="196" x2="191.2" y2="182.8"/><polygon points="194,180 192.3,185.4 188.6,181.7"/></g>
+<g class="pfeil duenn"><line x1="182" y1="158" x2="188.2" y2="145.6"/><polygon points="190,142 190.1,147.6 185.4,145.3"/></g>
+<g class="pfeil duenn"><line x1="186" y1="120" x2="186" y2="108"/><polygon points="186,104 188.6,109 183.4,109"/></g>
+<g class="pfeil duenn"><line x1="190" y1="82" x2="183.8" y2="69.6"/><polygon points="182,66 186.6,69.3 181.9,71.6"/></g>
+<g class="pfeil duenn"><line x1="194" y1="44" x2="180.8" y2="30.8"/><polygon points="178,28 183.4,29.7 179.7,33.4"/></g>
+<path class="kurve kupfer" d="M170.4 104.7L169.6 100.1L168.5 95.6L167.1 91.2L165.4 86.9L163.3 82.7L160.9 78.7L158.2 74.9L155.2 71.4L152 68L148.5 64.9L144.8 62.1L140.9 59.6L136.8 57.4L132.5 55.5L128.2 54L123.7 52.8L119.1 51.9L114.5 51.4L109.8 51.2L105.2 51.4L100.6 51.9L96 52.8L91.5 54.1L87.2 55.7L82.9 57.6L78.8 59.8L74.9 62.3L71.2 65.2L67.8 68.2L64.6 71.6L61.6 75.2L58.9 79L56.6 83L54.5 87.2L52.8 91.5L51.4 95.9L50.3 100.4L49.6 105L49.2 109.7L49.2 114.3L49.6 119L50.3 123.6L51.4 128.1L52.8 132.5L54.5 136.8L56.6 141L58.9 145L61.6 148.8L64.6 152.4L67.8 155.8L71.2 158.8L74.9 161.7L78.8 164.2L82.9 166.4L87.2 168.3L91.5 169.9L96 171.2L100.6 172.1L105.2 172.6L109.8 172.8L114.5 172.6L119.1 172.1L123.7 171.2L128.2 170L132.5 168.5L136.8 166.6L140.9 164.4L144.8 161.9L148.5 159.1L152 156L155.2 152.6L158.2 149.1L160.9 145.3L163.3 141.3L165.4 137.1L167.1 132.8L168.5 128.4L169.6 123.9L170.4 119.3"/>
+<g class="pfeil kupfer"><line x1="163.4" y1="141.1" x2="169" y2="120"/><polygon points="170.8,113.2 173.1,122.1 164.4,119.8"/></g>
+<circle class="punkt" cx="110" cy="112" r="2.2"/>
+<text class="klein halo" x="110" y="207" text-anchor="middle">geschlossener Weg: Umlauf nicht null</text>
+<text class="ia-titel" x="110" y="14" text-anchor="middle">Drehfeld</text>
+</svg>
+</div>
+            <figcaption>Abb. 3: Im Gradientenfeld zeigt die Kraft zur Mitte;
+              die gestrichelten Kreise sind Linien gleicher potentieller
+              Energie. Auf dem geraden Weg und auf dem Umweg verrichtet das Feld
+              dieselbe Arbeit. Im Drehfeld $\vec F = (-y,\, x,\, 0)$ läuft der
+              Kreisweg überall mit dem Feld, der Umlauf ist $2\pi R^2$ und nicht
+              null. Es gibt kein Potential.</figcaption>
+          </figure>
+
+          <p>Das Drehfeld aus dem Beispiel oben ist nicht konservativ: Seine
+            Rotation ist $(0,\, 0,\, 2)$, und sein Umlauf ist nicht null. Zwei
+            verschiedene Wege zwischen denselben Punkten liefern dort
+            verschiedene Arbeiten. Die Reibung ist überhaupt kein Kraftfeld,
+            denn sie zeigt immer gegen die Bewegung, egal wo der Körper ist.
+            Ihre Arbeit wächst mit der Länge des Weges (Beispiel 1).</p>
+
+          <div class="alltag">
+            <span class="titel">Aus dem Alltag: Höhenmeter beim Wandern</span>
+            <p>Ob du 800 Höhenmeter in Serpentinen oder auf dem steilen
+              Direktweg aufsteigst, gegen die Schwerkraft verrichtest du mit
+              70&nbsp;kg jedes Mal dieselbe Arbeit:
+              $mgh = 70\,\mathrm{kg}\cdot 9{,}81\,\mathrm{m/s^2}\cdot 800\,\mathrm{m} \approx 550\,\mathrm{kJ}$.
+              Die Gewichtskraft ist konservativ, ihr Potential ist $V = mgz$.
+              Dass der lange Weg trotzdem mehr anstrengt, liegt an deinem
+              Körper: Muskeln setzen bei jedem Schritt Energie um, auch auf
+              ebener Strecke. Mit der Arbeit gegen die Schwerkraft hat das
+              nichts zu tun.</p>
+          </div>
+
+          <h2 id="flaechenintegral">Flächenintegrale: über eine Fläche summieren</h2>
+
+          <p>Eine Fläche zerlegst du in kleine Flächenstücke $\mathrm{d}A$. In
+            der Ebene sind das kartesisch kleine Rechtecke
+            $\mathrm{d}A = \mathrm{d}x\,\mathrm{d}y$ und in Polarkoordinaten
+            die Stücke $\mathrm{d}A = r\,\mathrm{d}r\,\mathrm{d}\varphi$ (siehe
+            <a href="koordinatensysteme.html#volumenelement">Flächen- und
+            Volumenelemente</a>). Man integriert zuerst über eine Variable und
+            hält die andere dabei fest, danach über die zweite. Bei einer
+            Kreisscheibe sind in Polarkoordinaten alle Grenzen konstant:</p>
+
+          $$ A = \int_0^{2\pi}\!\!\int_0^R r\,\mathrm{d}r\,\mathrm{d}\varphi = 2\pi\cdot\frac{R^2}{2} = \pi R^2 $$
+
+          <p>Mit dem zusätzlichen Faktor $r$ im Integranden bekommst du auf
+            dieselbe Weise den mittleren Abstand aller Punkte der Scheibe vom
+            Mittelpunkt: $\frac{1}{\pi R^2}\int_0^{2\pi}\!\int_0^R r\cdot r\,\mathrm{d}r\,\mathrm{d}\varphi = \frac{2}{3}R$.
+            Das ist mehr als $R/2$, weil außen mehr Fläche liegt als
+            innen.</p>
+
+          <p>Gekrümmte Flächen beschreibt man wie Kurven durch einen
+            Ortsvektor, jetzt mit zwei Parametern: $\vec r(u, v)$. Hältst du
+            $v$ fest und änderst $u$, läufst du auf einer Linie über die
+            Fläche, und $\partial\vec r/\partial u$ ist ihr Tangentenvektor.
+            Die beiden Tangentenvektoren spannen ein kleines Parallelogramm
+            auf. Dessen Fläche ist der Betrag des
+            <a href="vektoren.html#kreuzprodukt">Kreuzprodukts</a>:</p>
+
+          $$ \mathrm{d}A = \left|\frac{\partial\vec r}{\partial u}\times\frac{\partial\vec r}{\partial v}\right|\mathrm{d}u\,\mathrm{d}v $$
+
+          <p>Für die Flächen, auf denen eine krummlinige Koordinate konstant
+            ist, kannst du das Stück direkt ablesen (Abb. 4). Auf dem Mantel
+            eines Zylinders mit Radius $R$ hat es die Seiten
+            $R\,\mathrm{d}\varphi$ und $\mathrm{d}z$, auf einer Kugel mit Radius
+            $R$ die Seiten $R\,\mathrm{d}\vartheta$ und
+            $R\sin\vartheta\,\mathrm{d}\varphi$:</p>
+
+          $$ \mathrm{d}A_\text{Mantel} = R\,\mathrm{d}\varphi\,\mathrm{d}z, \qquad \mathrm{d}A_\text{Kugel} = R^2\sin\vartheta\,\mathrm{d}\vartheta\,\mathrm{d}\varphi $$
+
+          <figure class="abbildung">
+            <div class="abb-reihe">
+<svg class="abb" viewBox="0 0 220 220" role="img" aria-label="Schrägbild eines Zylinders; auf dem Mantel ist ein kleines, orange getöntes Flächenstück markiert, mit den Seiten R d phi in Umlaufrichtung und dz nach oben; der Normalenvektor zeigt von der Achse weg">
+<path class="hilfslinie" d="M105 181.6L105 20.8"/>
+<path class="flaeche" d="M47 39.9L47.1 40.9L47.3 41.9L47.7 43L48.3 44L49 45L49.8 46L50.9 47L52 47.9L53.3 48.9L54.8 49.8L56.4 50.7L58.1 51.5L59.9 52.4L61.9 53.1L64 53.9L66.2 54.6L68.5 55.3L70.9 55.9L73.4 56.5L76 57.1L78.7 57.5L81.4 58L84.2 58.4L87.1 58.7L90 59L92.9 59.3L95.9 59.5L98.9 59.6L102 59.7L105 59.7L108 59.7L111.1 59.6L114.1 59.5L117.1 59.3L120 59L122.9 58.7L125.8 58.4L128.6 58L131.3 57.5L134 57.1L136.6 56.5L139.1 55.9L141.5 55.3L143.8 54.6L146 53.9L148.1 53.1L150.1 52.4L151.9 51.5L153.6 50.7L155.2 49.8L156.7 48.9L158 47.9L159.1 47L160.2 46L161 45L161.7 44L162.3 43L162.7 41.9L162.9 40.9L163 39.9L163 176.1L162.9 177.2L162.7 178.2L162.3 179.2L161.7 180.3L161 181.3L160.2 182.3L159.1 183.2L158 184.2L156.7 185.1L155.2 186L153.6 186.9L151.9 187.8L150.1 188.6L148.1 189.4L146 190.2L143.8 190.9L141.5 191.5L139.1 192.2L136.6 192.8L134 193.3L131.3 193.8L128.6 194.2L125.8 194.6L122.9 195L120 195.3L117.1 195.5L114.1 195.7L111.1 195.9L108 195.9L105 196L102 195.9L98.9 195.9L95.9 195.7L92.9 195.5L90 195.3L87.1 195L84.2 194.6L81.4 194.2L78.7 193.8L76 193.3L73.4 192.8L70.9 192.2L68.5 191.5L66.2 190.9L64 190.2L61.9 189.4L59.9 188.6L58.1 187.8L56.4 186.9L54.8 186L53.3 185.1L52 184.2L50.9 183.2L49.8 182.3L49 181.3L48.3 180.3L47.7 179.2L47.3 178.2L47.1 177.2L47 176.1Z"/>
+<path class="kurve blau duenn" d="M80.5 57.9L83.3 58.3L86.1 58.6L89 58.9L92 59.2L94.9 59.4L97.9 59.6L101 59.7L104 59.7L107 59.7L110.1 59.6L113.1 59.5L116.1 59.3L119 59.1L122 58.8L124.8 58.5L127.7 58.1L130.4 57.7L133.1 57.2L135.7 56.7L138.3 56.1L140.7 55.5L143.1 54.8L145.3 54.1L147.4 53.4L149.4 52.6L151.3 51.8L153.1 51L154.7 50.1L156.2 49.2L157.6 48.3L158.8 47.3L159.8 46.3L160.8 45.3L161.5 44.3L162.1 43.3L162.6 42.3L162.9 41.3L163 40.2L163 39.2L162.8 38.1L162.4 37.1L161.9 36.1L161.3 35.1L160.5 34.1L159.5 33.1L158.4 32.1L157.1 31.2L155.7 30.3L154.2 29.4L152.5 28.5L150.7 27.7L148.8 26.9L146.7 26.1L144.6 25.4L142.3 24.7L139.9 24L137.4 23.4L134.9 22.9L132.2 22.4L129.5 21.9L126.7 21.5L123.9 21.1L121 20.8L118 20.5L115.1 20.3L112.1 20.2L109 20.1L106 20L103 20L99.9 20.1L96.9 20.2L93.9 20.4L91 20.6L88 20.9L85.2 21.2L82.3 21.6L79.6 22L76.9 22.5L74.3 23L71.7 23.6L69.3 24.2L66.9 24.9L64.7 25.6L62.6 26.3L60.6 27.1L58.7 27.9L56.9 28.8L55.3 29.7L53.8 30.6L52.4 31.5L51.2 32.4L50.2 33.4L49.2 34.4L48.5 35.4L47.9 36.4L47.4 37.5L47.1 38.5L47 39.5L47 40.6L47.2 41.6L47.6 42.6L48.1 43.7L48.7 44.7L49.5 45.7L50.5 46.7L51.6 47.6L52.9 48.6L54.3 49.5L55.8 50.4L57.5 51.3L59.3 52.1L61.2 52.9L63.3 53.7L65.4 54.4L67.7 55.1L70.1 55.7L72.6 56.3L75.1 56.9L77.8 57.4L80.5 57.9"/>
+<path class="kurve blau duenn" d="M47 176.1L47.1 177.2L47.3 178.2L47.7 179.2L48.3 180.3L49 181.3L49.8 182.3L50.9 183.2L52 184.2L53.3 185.1L54.8 186L56.4 186.9L58.1 187.8L59.9 188.6L61.9 189.4L64 190.2L66.2 190.9L68.5 191.5L70.9 192.2L73.4 192.8L76 193.3L78.7 193.8L81.4 194.2L84.2 194.6L87.1 195L90 195.3L92.9 195.5L95.9 195.7L98.9 195.9L102 195.9L105 196L108 195.9L111.1 195.9L114.1 195.7L117.1 195.5L120 195.3L122.9 195L125.8 194.6L128.6 194.2L131.3 193.8L134 193.3L136.6 192.8L139.1 192.2L141.5 191.5L143.8 190.9L146 190.2L148.1 189.4L150.1 188.6L151.9 187.8L153.6 186.9L155.2 186L156.7 185.1L158 184.2L159.1 183.2L160.2 182.3L161 181.3L161.7 180.3L162.3 179.2L162.7 178.2L162.9 177.2L163 176.1"/>
+<path class="hilfslinie" d="M163 176.1L162.9 175.1L162.7 174.1L162.3 173L161.7 172L161 171L160.2 170L159.1 169L158 168.1L156.7 167.1L155.2 166.2L153.6 165.3L151.9 164.5L150.1 163.6L148.1 162.9L146 162.1L143.8 161.4L141.5 160.7L139.1 160.1L136.6 159.5L134 158.9L131.3 158.5L128.6 158L125.8 157.6L122.9 157.3L120 157L117.1 156.7L114.1 156.5L111.1 156.4L108 156.3L105 156.3L102 156.3L98.9 156.4L95.9 156.5L92.9 156.7L90 157L87.1 157.3L84.2 157.6L81.4 158L78.7 158.5L76 158.9L73.4 159.5L70.9 160.1L68.5 160.7L66.2 161.4L64 162.1L61.9 162.9L59.9 163.6L58.1 164.5L56.4 165.3L54.8 166.2L53.3 167.1L52 168.1L50.9 169L49.8 170L49 171L48.3 172L47.7 173L47.3 174.1L47.1 175.1L47 176.1"/>
+<path class="kurve blau duenn" d="M47 176.1L47 39.9"/>
+<path class="kurve blau duenn" d="M163 176.1L163 39.9"/>
+<path class="hilfslinie" d="M132.2 193.6L132.2 57.4"/>
+<path class="hilfslinie" d="M154.2 186.6L154.2 50.4"/>
+<path class="flaeche kupfer" d="M132.2 128.2L134.1 127.9L136 127.5L137.8 127.1L139.6 126.7L141.3 126.2L142.9 125.7L144.6 125.2L146.1 124.7L147.6 124.2L149.1 123.6L150.4 123.1L151.8 122.5L153 121.9L154.2 121.2L154.2 88.5L153 89.2L151.8 89.8L150.4 90.4L149.1 90.9L147.6 91.5L146.1 92L144.6 92.5L142.9 93L141.3 93.5L139.6 94L137.8 94.4L136 94.8L134.1 95.2L132.2 95.5Z"/>
+<path class="kurve kupfer duenn" d="M132.2 128.2L134.1 127.9L136 127.5L137.8 127.1L139.6 126.7L141.3 126.2L142.9 125.7L144.6 125.2L146.1 124.7L147.6 124.2L149.1 123.6L150.4 123.1L151.8 122.5L153 121.9L154.2 121.2L154.2 88.5L153 89.2L151.8 89.8L150.4 90.4L149.1 90.9L147.6 91.5L146.1 92L144.6 92.5L142.9 93L141.3 93.5L139.6 94L137.8 94.4L136 94.8L134.1 95.2L132.2 95.5Z"/>
+<g class="pfeil blau"><line x1="144.6" y1="108.9" x2="170.6" y2="118.4"/><polygon points="176.2,120.5 168.4,121.4 170.8,114.8"/></g>
+<text class="blau halo" x="178.2" y="112.5">ê<tspan dy="4" font-size="10">ρ</tspan></text>
+<text class="klein kupfer halo" x="140.6" y="141.2" text-anchor="middle">R dφ</text>
+<text class="klein kupfer halo" x="127.2" y="115.9" text-anchor="end">dz</text>
+<text class="klein halo" x="110" y="212" text-anchor="middle">Zylindermantel, Radius R</text>
+</svg>
+<svg class="abb" viewBox="0 0 220 220" role="img" aria-label="Kugel mit Breiten- und Längenkreisen; ein kleines, orange getöntes Flächenstück zwischen zwei Breiten- und zwei Längenkreisen hat die Seiten R d theta und R sin theta d phi; der Normalenvektor zeigt radial nach außen">
+<circle class="flaeche" cx="110" cy="108" r="80"/>
+<circle class="kurve blau duenn" cx="110" cy="108" r="80" fill="none"/>
+<path class="hilfslinie" d="M93.1 55.3L94.4 55.5L95.7 55.7L97 55.8L98.3 56L99.6 56.1L101 56.2L102.4 56.3L103.7 56.4L105.1 56.5L106.5 56.5L107.9 56.6L109.3 56.6L110.7 56.6L112.1 56.6L113.5 56.5L114.9 56.5L116.3 56.4L117.6 56.3L119 56.2L120.4 56.1L121.7 56L123 55.8L124.3 55.7L125.6 55.5L126.9 55.3L128.2 55.1L129.4 54.9L130.6 54.6L131.8 54.4L132.9 54.1L134.1 53.8L135.2 53.5L136.2 53.2L137.3 52.9L138.3 52.6L139.3 52.2L140.2 51.9L141.1 51.5L141.9 51.1L142.8 50.7L143.5 50.3L144.3 49.9L145 49.5L145.6 49.1L146.3 48.7L146.8 48.2L147.3 47.8L147.8 47.4L148.3 46.9L148.6 46.4L149 46L149.3 45.5L149.5 45L149.7 44.6L149.8 44.1L149.9 43.6L150 43.1L150 42.7L149.9 42.2L149.8 41.7L149.7 41.2L149.5 40.8L149.3 40.3L149 39.8L148.6 39.4L148.3 38.9L147.8 38.4L147.3 38L146.8 37.6L146.3 37.1L145.6 36.7L145 36.3L144.3 35.9L143.5 35.4L142.8 35L141.9 34.7L141.1 34.3"/>
+<path class="hilfslinie" d="M78.9 34.3L78.1 34.7L77.2 35L76.5 35.4L75.7 35.9L75 36.3L74.4 36.7L73.7 37.1L73.2 37.6L72.7 38L72.2 38.4L71.7 38.9L71.4 39.4L71 39.8L70.7 40.3L70.5 40.8L70.3 41.2L70.2 41.7L70.1 42.2L70 42.7L70 43.1L70.1 43.6L70.2 44.1L70.3 44.6L70.5 45L70.7 45.5L71 46L71.4 46.4L71.7 46.9L72.2 47.4L72.7 47.8L73.2 48.2L73.7 48.7L74.4 49.1L75 49.5L75.7 49.9L76.5 50.3L77.2 50.7L78.1 51.1L78.9 51.5L79.8 51.9L80.7 52.2L81.7 52.6L82.7 52.9L83.8 53.2L84.8 53.5L85.9 53.8L87.1 54.1L88.2 54.4L89.4 54.6L90.6 54.9L91.8 55.1L93.1 55.3"/>
+<path class="hilfslinie" d="M80.7 91.9L82.9 92.2L85.2 92.5L87.4 92.8L89.7 93.1L92.1 93.3L94.4 93.5L96.8 93.7L99.2 93.8L101.6 93.9L104 94L106.4 94.1L108.8 94.1L111.2 94.1L113.6 94.1L116 94L118.4 93.9L120.8 93.8L123.2 93.7L125.6 93.5L127.9 93.3L130.3 93.1L132.6 92.8L134.8 92.5L137.1 92.2L139.3 91.9L141.5 91.5L143.6 91.1L145.7 90.7L147.7 90.3L149.7 89.8L151.7 89.3L153.6 88.8L155.5 88.3L157.3 87.7L159 87.2L160.7 86.6L162.3 86L163.8 85.3L165.3 84.7L166.8 84L168.1 83.3L169.4 82.6L170.6 81.9L171.7 81.2L172.8 80.4L173.8 79.7L174.7 78.9L175.5 78.1L176.3 77.3L176.9 76.5L177.5 75.7L178 74.9L178.4 74.1L178.8 73.3L179 72.5L179.2 71.7L179.3 70.8L179.3 70L179.2 69.2L179 68.3L178.8 67.5L178.4 66.7L178 65.9"/>
+<path class="hilfslinie" d="M42 65.9L41.6 66.7L41.2 67.5L41 68.3L40.8 69.2L40.7 70L40.7 70.8L40.8 71.7L41 72.5L41.2 73.3L41.6 74.1L42 74.9L42.5 75.7L43.1 76.5L43.7 77.3L44.5 78.1L45.3 78.9L46.2 79.7L47.2 80.4L48.3 81.2L49.4 81.9L50.6 82.6L51.9 83.3L53.2 84L54.7 84.7L56.2 85.3L57.7 86L59.3 86.6L61 87.2L62.7 87.7L64.5 88.3L66.4 88.8L68.3 89.3L70.3 89.8L72.3 90.3L74.3 90.7L76.4 91.1L78.5 91.5L80.7 91.9"/>
+<path class="hilfslinie" d="M76.2 132.8L78.7 133.2L81.3 133.5L84 133.9L86.6 134.2L89.3 134.4L92 134.7L94.7 134.9L97.5 135L100.3 135.2L103 135.3L105.8 135.3L108.6 135.4L111.4 135.4L114.2 135.3L117 135.3L119.7 135.2L122.5 135L125.3 134.9L128 134.7L130.7 134.4L133.4 134.2L136 133.9L138.7 133.5L141.3 133.2L143.8 132.8L146.3 132.4L148.8 131.9L151.2 131.5L153.6 130.9L155.9 130.4L158.1 129.9L160.3 129.3L162.5 128.7L164.6 128L166.6 127.3L168.5 126.7L170.4 126L172.2 125.2L173.9 124.5L175.5 123.7L177.1 122.9L178.6 122.1L180 121.3L181.3 120.4L182.5 119.6L183.6 118.7L184.7 117.8L185.6 116.9L186.5 116L187.3 115.1L187.9 114.2L188.5 113.2L189 112.3L189.4 111.3L189.7 110.4L189.9 109.4L190 108.5"/>
+<path class="hilfslinie" d="M30 108.5L30.1 109.4L30.3 110.4L30.6 111.3L31 112.3L31.5 113.2L32.1 114.2L32.7 115.1L33.5 116L34.4 116.9L35.3 117.8L36.4 118.7L37.5 119.6L38.7 120.4L40 121.3L41.4 122.1L42.9 122.9L44.5 123.7L46.1 124.5L47.8 125.2L49.6 126L51.5 126.7L53.4 127.3L55.4 128L57.5 128.7L59.7 129.3L61.9 129.9L64.1 130.4L66.4 130.9L68.8 131.5L71.2 131.9L73.7 132.4L76.2 132.8"/>
+<path class="hilfslinie" d="M80.7 167.1L82.9 167.4L85.2 167.7L87.4 168L89.7 168.2L92.1 168.5L94.4 168.7L96.8 168.8L99.2 169L101.6 169.1L104 169.2L106.4 169.3L108.8 169.3L111.2 169.3L113.6 169.3L116 169.2L118.4 169.1L120.8 169L123.2 168.8L125.6 168.7L127.9 168.5L130.3 168.2L132.6 168L134.8 167.7L137.1 167.4L139.3 167.1L141.5 166.7L143.6 166.3L145.7 165.9L147.7 165.5L149.7 165L151.7 164.5L153.6 164L155.5 163.5L157.3 162.9L159 162.3L160.7 161.7L162.3 161.1L163.8 160.5L165.3 159.8L166.8 159.2L168.1 158.5L169.4 157.8L170.6 157.1L171.7 156.3L172.8 155.6L173.8 154.8L174.7 154.1L175.5 153.3L176.3 152.5L176.9 151.7L177.5 150.9"/>
+<path class="hilfslinie" d="M42.5 150.9L43.1 151.7L43.7 152.5L44.5 153.3L45.3 154.1L46.2 154.8L47.2 155.6L48.3 156.3L49.4 157.1L50.6 157.8L51.9 158.5L53.2 159.2L54.7 159.8L56.2 160.5L57.7 161.1L59.3 161.7L61 162.3L62.7 162.9L64.5 163.5L66.4 164L68.3 164.5L70.3 165L72.3 165.5L74.3 165.9L76.4 166.3L78.5 166.7L80.7 167.1"/>
+<path class="hilfslinie" d="M93.1 185.5L94.4 185.7L95.7 185.9L97 186L98.3 186.2L99.6 186.3L101 186.4L102.4 186.5L103.7 186.6L105.1 186.7L106.5 186.7L107.9 186.8L109.3 186.8L110.7 186.8L112.1 186.8L113.5 186.7L114.9 186.7L116.3 186.6L117.6 186.5L119 186.4L120.4 186.3L121.7 186.2L123 186L124.3 185.9L125.6 185.7L126.9 185.5L128.2 185.3L129.4 185.1L130.6 184.8L131.8 184.6L132.9 184.3L134.1 184L135.2 183.7L136.2 183.4L137.3 183.1L138.3 182.8L139.3 182.4L140.2 182.1"/>
+<path class="hilfslinie" d="M79.8 182.1L80.7 182.4L81.7 182.8L82.7 183.1L83.8 183.4L84.8 183.7L85.9 184L87.1 184.3L88.2 184.6L89.4 184.8L90.6 185.1L91.8 185.3L93.1 185.5"/>
+<path class="hilfslinie" d="M110 32.8L110 33.8L110 34.9L110 36.1L110 37.4L110 38.7L110 40.2L110 41.7L110 43.3L110 45L110 46.7L110 48.5L110 50.5L110 52.4L110 54.5L110 56.6L110 58.7L110 61L110 63.3L110 65.6L110 68L110 70.4L110 72.9L110 75.5L110 78L110 80.6L110 83.3L110 85.9L110 88.6L110 91.4L110 94.1L110 96.9L110 99.6L110 102.4L110 105.2L110 108L110 110.8L110 113.6L110 116.4L110 119.1L110 121.9L110 124.6L110 127.4L110 130.1L110 132.7L110 135.4L110 138L110 140.5L110 143.1L110 145.6L110 148L110 150.4L110 152.7L110 155L110 157.3L110 159.4L110 161.5L110 163.6L110 165.5L110 167.5L110 169.3L110 171L110 172.7L110 174.3L110 175.8L110 177.3L110 178.6L110 179.9L110 181.1L110 182.2L110 183.2L110 184.1L110 184.9L110 185.6L110 186.3L110 186.8L110 187.2L110 187.6L110 187.8L110 188L110 188"/>
+<path class="hilfslinie" d="M110 32.8L111.4 33.7L112.8 34.7L114.2 35.7L115.6 36.9L116.9 38.1L118.3 39.4L119.7 40.8L121 42.3L122.4 43.8L123.7 45.5L125 47.2L126.3 49L127.5 50.8L128.8 52.7L130 54.7L131.2 56.8L132.4 58.9L133.5 61.1L134.6 63.3L135.7 65.6L136.8 68L137.8 70.4L138.8 72.8L139.7 75.3L140.6 77.8L141.5 80.4L142.4 83L143.2 85.6L143.9 88.3L144.6 90.9L145.3 93.6L146 96.3L146.5 99.1L147.1 101.8L147.6 104.6L148 107.3L148.5 110.1L148.8 112.8L149.1 115.5L149.4 118.3L149.6 121L149.8 123.7L149.9 126.4L150 129.1L150 131.7L150 134.3L149.9 136.9L149.8 139.4L149.6 141.9L149.4 144.4L149.1 146.8L148.8 149.2L148.5 151.5L148 153.8L147.6 156L147.1 158.1L146.5 160.2L146 162.3L145.3 164.2L144.6 166.1L143.9 167.9L143.2 169.7L142.4 171.4L141.5 173L140.6 174.5L139.7 175.9L138.8 177.3L137.8 178.5L136.8 179.7L135.7 180.8L134.6 181.8L133.5 182.7L132.4 183.6L131.2 184.3L130 185L128.8 185.5L127.5 186L126.3 186.3"/>
+<path class="hilfslinie" d="M110 32.8L112.4 33.3L114.8 34L117.2 34.7L119.6 35.5L122 36.3L124.4 37.3L126.8 38.4L129.1 39.5L131.4 40.7L133.7 42L136 43.4L138.2 44.9L140.4 46.4L142.5 48L144.6 49.7L146.7 51.5L148.7 53.3L150.7 55.2L152.7 57.2L154.5 59.2L156.4 61.3L158.1 63.4L159.8 65.6L161.5 67.9L163.1 70.2L164.6 72.5L166.1 74.9L167.4 77.3L168.8 79.8L170 82.3L171.2 84.8L172.3 87.3L173.3 89.9L174.2 92.5L175.1 95.1L175.9 97.8L176.6 100.4L177.2 103.1L177.8 105.8L178.2 108.4L178.6 111.1L178.9 113.7L179.1 116.4L179.2 119L179.3 121.7L179.2 124.3L179.1 126.9L178.9 129.5L178.6 132L178.2 134.5L177.8 137L177.2 139.5L176.6 141.9L175.9 144.2L175.1 146.6L174.2 148.8L173.3 151.1L172.3 153.3L171.2 155.4L170 157.4L168.8 159.4L167.4 161.4L166.1 163.3L164.6 165.1L163.1 166.8L161.5 168.5L159.8 170.1L158.1 171.6L156.4 173L154.5 174.4L152.7 175.7"/>
+<path class="hilfslinie" d="M110 32.8L112.8 32.9L115.6 33L118.4 33.2L121.1 33.6L123.9 34L126.6 34.5L129.4 35.1L132.1 35.7L134.7 36.5L137.4 37.4L140 38.3L142.5 39.3L145.1 40.4L147.6 41.6L150 42.9L152.4 44.2L154.7 45.7L157 47.2L159.3 48.8L161.4 50.4L163.5 52.1L165.6 53.9L167.5 55.8L169.5 57.7L171.3 59.7L173 61.7L174.7 63.8L176.3 66L177.8 68.2L179.3 70.4L180.6 72.7L181.9 75L183.1 77.4L184.2 79.8L185.2 82.3L186.1 84.8L186.9 87.3L187.6 89.8L188.3 92.4L188.8 94.9L189.2 97.5L189.6 100.1L189.8 102.8L190 105.4L190 108"/>
+<path class="hilfslinie" d="M110 32.8L112.4 32.4L114.8 32.1L117.2 31.8L119.6 31.7L122 31.6L124.4 31.6L126.8 31.7L129.1 32L131.4 32.3L133.7 32.7L136 33.2L138.2 33.8L140.4 34.4L142.5 35.2L144.6 36.1L146.7 37L148.7 38L150.7 39.1"/>
+<path class="hilfslinie" d="M110 32.8L111.4 32L112.8 31.4L114.2 30.8L115.6 30.3L116.9 29.9L118.3 29.5L119.7 29.3L121 29.2L122.4 29.2L123.7 29.3L125 29.4"/>
+<path class="hilfslinie" d="M110 32.8L110 31.9L110 31.1L110 30.4L110 29.7L110 29.2L110 28.8L110 28.4L110 28.2L110 28L110 28"/>
+<path class="hilfslinie" d="M110 32.8L108.6 32L107.2 31.4L105.8 30.8L104.4 30.3L103.1 29.9L101.7 29.5L100.3 29.3L99 29.2L97.6 29.2L96.3 29.3L95 29.4"/>
+<path class="hilfslinie" d="M110 32.8L107.6 32.4L105.2 32.1L102.8 31.8L100.4 31.7L98 31.6L95.6 31.6L93.2 31.7L90.9 32L88.6 32.3L86.3 32.7L84 33.2L81.8 33.8L79.6 34.4L77.5 35.2L75.4 36.1L73.3 37L71.3 38L69.3 39.1"/>
+<path class="hilfslinie" d="M110 32.8L107.2 32.9L104.4 33L101.6 33.2L98.9 33.6L96.1 34L93.4 34.5L90.6 35.1L87.9 35.7L85.3 36.5L82.6 37.4L80 38.3L77.5 39.3L74.9 40.4L72.4 41.6L70 42.9L67.6 44.2L65.3 45.7L63 47.2L60.7 48.8L58.6 50.4L56.5 52.1L54.4 53.9L52.5 55.8L50.5 57.7L48.7 59.7L47 61.7L45.3 63.8L43.7 66L42.2 68.2L40.7 70.4L39.4 72.7L38.1 75L36.9 77.4L35.8 79.8L34.8 82.3L33.9 84.8L33.1 87.3L32.4 89.8L31.7 92.4L31.2 94.9L30.8 97.5L30.4 100.1L30.2 102.8L30 105.4L30 108"/>
+<path class="hilfslinie" d="M110 32.8L107.6 33.3L105.2 34L102.8 34.7L100.4 35.5L98 36.3L95.6 37.3L93.2 38.4L90.9 39.5L88.6 40.7L86.3 42L84 43.4L81.8 44.9L79.6 46.4L77.5 48L75.4 49.7L73.3 51.5L71.3 53.3L69.3 55.2L67.3 57.2L65.5 59.2L63.6 61.3L61.9 63.4L60.2 65.6L58.5 67.9L56.9 70.2L55.4 72.5L53.9 74.9L52.6 77.3L51.2 79.8L50 82.3L48.8 84.8L47.7 87.3L46.7 89.9L45.8 92.5L44.9 95.1L44.1 97.8L43.4 100.4L42.8 103.1L42.2 105.8L41.8 108.4L41.4 111.1L41.1 113.7L40.9 116.4L40.8 119L40.7 121.7L40.8 124.3L40.9 126.9L41.1 129.5L41.4 132L41.8 134.5L42.2 137L42.8 139.5L43.4 141.9L44.1 144.2L44.9 146.6L45.8 148.8L46.7 151.1L47.7 153.3L48.8 155.4L50 157.4L51.2 159.4L52.6 161.4L53.9 163.3L55.4 165.1L56.9 166.8L58.5 168.5L60.2 170.1L61.9 171.6L63.6 173L65.5 174.4L67.3 175.7"/>
+<path class="hilfslinie" d="M110 32.8L108.6 33.7L107.2 34.7L105.8 35.7L104.4 36.9L103.1 38.1L101.7 39.4L100.3 40.8L99 42.3L97.6 43.8L96.3 45.5L95 47.2L93.7 49L92.5 50.8L91.2 52.7L90 54.7L88.8 56.8L87.6 58.9L86.5 61.1L85.4 63.3L84.3 65.6L83.2 68L82.2 70.4L81.2 72.8L80.3 75.3L79.4 77.8L78.5 80.4L77.6 83L76.8 85.6L76.1 88.3L75.4 90.9L74.7 93.6L74 96.3L73.5 99.1L72.9 101.8L72.4 104.6L72 107.3L71.5 110.1L71.2 112.8L70.9 115.5L70.6 118.3L70.4 121L70.2 123.7L70.1 126.4L70 129.1L70 131.7L70 134.3L70.1 136.9L70.2 139.4L70.4 141.9L70.6 144.4L70.9 146.8L71.2 149.2L71.5 151.5L72 153.8L72.4 156L72.9 158.1L73.5 160.2L74 162.3L74.7 164.2L75.4 166.1L76.1 167.9L76.8 169.7L77.6 171.4L78.5 173L79.4 174.5L80.3 175.9L81.2 177.3L82.2 178.5L83.2 179.7L84.3 180.8L85.4 181.8L86.5 182.7L87.6 183.6L88.8 184.3L90 185L91.2 185.5L92.5 186L93.7 186.3"/>
+<path class="flaeche kupfer" d="M132.3 76.6L134.2 76.3L136.1 76L137.9 75.7L139.7 75.3L141.5 74.9L143.2 74.6L144.9 74.1L146.6 73.7L148.2 73.3L149.8 72.8L151.3 72.3L152.8 71.8L154.2 71.3L155.5 70.8L155.5 70.8L156.9 73.2L158.3 75.6L159.6 78L160.8 80.5L162 83.1L163.1 85.6L164.1 88.2L165.1 90.9L166 93.5L166 93.5L164.3 94.1L162.6 94.8L160.8 95.4L158.9 96L157 96.6L155 97.1L153 97.6L150.9 98.1L148.7 98.6L146.5 99.1L144.3 99.5L142 99.9L139.7 100.3L137.4 100.6L137.4 100.6L136.9 97.8L136.5 95.1L136 92.4L135.4 89.7L134.8 87L134.2 84.3L133.6 81.7L133 79.1L132.3 76.6Z"/>
+<path class="kurve kupfer duenn" d="M132.3 76.6L134.2 76.3L136.1 76L137.9 75.7L139.7 75.3L141.5 74.9L143.2 74.6L144.9 74.1L146.6 73.7L148.2 73.3L149.8 72.8L151.3 72.3L152.8 71.8L154.2 71.3L155.5 70.8L155.5 70.8L156.9 73.2L158.3 75.6L159.6 78L160.8 80.5L162 83.1L163.1 85.6L164.1 88.2L165.1 90.9L166 93.5L166 93.5L164.3 94.1L162.6 94.8L160.8 95.4L158.9 96L157 96.6L155 97.1L153 97.6L150.9 98.1L148.7 98.6L146.5 99.1L144.3 99.5L142 99.9L139.7 100.3L137.4 100.6L137.4 100.6L136.9 97.8L136.5 95.1L136 92.4L135.4 89.7L134.8 87L134.2 84.3L133.6 81.7L133 79.1L132.3 76.6Z"/>
+<g class="pfeil blau"><line x1="149.4" y1="85.6" x2="169.9" y2="74"/><polygon points="175.1,71.1 170.7,77.6 167.3,71.5"/></g>
+<text class="blau halo" x="179.1" y="67.1">ê<tspan dy="4" font-size="10">r</tspan></text>
+<text class="klein kupfer halo" x="138.9" y="67.1" text-anchor="middle">R sin ϑ dφ</text>
+<text class="klein kupfer halo" x="127.1" y="92.3" text-anchor="end">R dϑ</text>
+<path class="hilfslinie" d="M110 108L110 16.3"/>
+<circle class="punkt" cx="110" cy="108" r="2"/>
+<text class="klein halo" x="110" y="212" text-anchor="middle">Kugel, Radius R</text>
+</svg>
+</div>
+            <figcaption>Abb. 4: Flächenstücke auf einem Zylindermantel und auf
+              einer Kugel. Ihre Seiten sind die Wege, die man bei kleinen
+              Schritten der Koordinaten zurücklegt. Auf der Kugel ist der Bogen
+              in $\varphi$-Richtung $R\sin\vartheta\,\mathrm{d}\varphi$, weil die
+              Breitenkreise zu den Polen hin kleiner werden. Die
+              Normalenvektoren (blau) sind $\hat e_\rho$ und
+              $\hat e_r$.</figcaption>
+          </figure>
+
+          <p>Die Kugeloberfläche ist damit
+            $R^2\int_0^{2\pi}\mathrm{d}\varphi\int_0^\pi\sin\vartheta\,\mathrm{d}\vartheta = R^2\cdot 2\pi\cdot 2 = 4\pi R^2$.</p>
+
+          <h2 id="fluss">Der Fluss durch eine Fläche</h2>
+
+          <p>Halte einen Ring in einen Bach. Wie viel Wasser pro Sekunde
+            hindurchfließt, hängt von der Strömungsgeschwindigkeit ab, von der
+            Größe des Rings und davon, wie du ihn hältst. Steht er quer zur
+            Strömung, fließt am meisten hindurch. Hältst du ihn parallel zur
+            Strömung, fließt gar nichts hindurch (Abb. 5). Deshalb bekommt
+            jedes Flächenstück eine Richtung: den
+            <strong>Normaleneinheitsvektor</strong> $\hat n$, der senkrecht auf
+            der Fläche steht. Das vektorielle Flächenelement ist
+            $\mathrm{d}\vec A = \hat n\,\mathrm{d}A$, und der
+            <strong>Fluss</strong> eines Vektorfelds durch die Fläche
+            ist</p>
+
+          $$ \Phi = \int_S \vec F\cdot\mathrm{d}\vec A = \int_S \vec F\cdot\hat n\,\mathrm{d}A $$
+
+          <p>Das Skalarprodukt sucht wieder den passenden Anteil heraus,
+            diesmal den, der senkrecht durch die Fläche tritt. Bei einem
+            überall gleichen Feld und einer ebenen Fläche bleibt
+            $\Phi = F A\cos\alpha$, mit dem Winkel $\alpha$ zwischen Feld und
+            Normale. Ein Solarmodul liefert deshalb bei $60^\circ$ zwischen
+            Lichteinfall und Normale nur noch die Hälfte. Ist $\vec F$ die
+            Strömungsgeschwindigkeit, ist $\Phi$ der Volumenstrom in
+            $\mathrm{m^3/s}$; ist $\vec F$ die elektrische Stromdichte, ist
+            $\Phi$ die Stromstärke.</p>
+
+          <figure class="abbildung">
+            <div class="abb-reihe">
+<svg class="abb" viewBox="0 0 220 190" role="img" aria-label="Seitenansicht: waagerechte Strömungslinien treffen auf einen senkrecht stehenden Rahmen; acht Linien gehen hindurch">
+<g class="pfeil duenn"><line x1="10" y1="26" x2="61" y2="26"/><polygon points="66,26 60,29 60,23"/></g>
+<g class="pfeil duenn"><line x1="152" y1="26" x2="203" y2="26"/><polygon points="208,26 202,29 202,23"/></g>
+<g class="pfeil duenn"><line x1="10" y1="38" x2="61" y2="38"/><polygon points="66,38 60,41 60,35"/></g>
+<g class="pfeil duenn"><line x1="152" y1="38" x2="203" y2="38"/><polygon points="208,38 202,41 202,35"/></g>
+<g class="pfeil blau duenn"><line x1="10" y1="50" x2="61" y2="50"/><polygon points="66,50 60,53 60,47"/></g>
+<g class="pfeil blau duenn"><line x1="152" y1="50" x2="203" y2="50"/><polygon points="208,50 202,53 202,47"/></g>
+<path class="kurve blau duenn" d="M66 50L152 50"/>
+<g class="pfeil blau duenn"><line x1="10" y1="62" x2="61" y2="62"/><polygon points="66,62 60,65 60,59"/></g>
+<g class="pfeil blau duenn"><line x1="152" y1="62" x2="203" y2="62"/><polygon points="208,62 202,65 202,59"/></g>
+<path class="kurve blau duenn" d="M66 62L152 62"/>
+<g class="pfeil blau duenn"><line x1="10" y1="74" x2="61" y2="74"/><polygon points="66,74 60,77 60,71"/></g>
+<g class="pfeil blau duenn"><line x1="152" y1="74" x2="203" y2="74"/><polygon points="208,74 202,77 202,71"/></g>
+<path class="kurve blau duenn" d="M66 74L152 74"/>
+<g class="pfeil blau duenn"><line x1="10" y1="86" x2="61" y2="86"/><polygon points="66,86 60,89 60,83"/></g>
+<g class="pfeil blau duenn"><line x1="152" y1="86" x2="203" y2="86"/><polygon points="208,86 202,89 202,83"/></g>
+<path class="kurve blau duenn" d="M66 86L152 86"/>
+<g class="pfeil blau duenn"><line x1="10" y1="98" x2="61" y2="98"/><polygon points="66,98 60,101 60,95"/></g>
+<g class="pfeil blau duenn"><line x1="152" y1="98" x2="203" y2="98"/><polygon points="208,98 202,101 202,95"/></g>
+<path class="kurve blau duenn" d="M66 98L152 98"/>
+<g class="pfeil blau duenn"><line x1="10" y1="110" x2="61" y2="110"/><polygon points="66,110 60,113 60,107"/></g>
+<g class="pfeil blau duenn"><line x1="152" y1="110" x2="203" y2="110"/><polygon points="208,110 202,113 202,107"/></g>
+<path class="kurve blau duenn" d="M66 110L152 110"/>
+<g class="pfeil blau duenn"><line x1="10" y1="122" x2="61" y2="122"/><polygon points="66,122 60,125 60,119"/></g>
+<g class="pfeil blau duenn"><line x1="152" y1="122" x2="203" y2="122"/><polygon points="208,122 202,125 202,119"/></g>
+<path class="kurve blau duenn" d="M66 122L152 122"/>
+<g class="pfeil blau duenn"><line x1="10" y1="134" x2="61" y2="134"/><polygon points="66,134 60,137 60,131"/></g>
+<g class="pfeil blau duenn"><line x1="152" y1="134" x2="203" y2="134"/><polygon points="208,134 202,137 202,131"/></g>
+<path class="kurve blau duenn" d="M66 134L152 134"/>
+<g class="pfeil duenn"><line x1="10" y1="146" x2="61" y2="146"/><polygon points="66,146 60,149 60,143"/></g>
+<g class="pfeil duenn"><line x1="152" y1="146" x2="203" y2="146"/><polygon points="208,146 202,149 202,143"/></g>
+<g class="pfeil duenn"><line x1="10" y1="158" x2="61" y2="158"/><polygon points="66,158 60,161 60,155"/></g>
+<g class="pfeil duenn"><line x1="152" y1="158" x2="203" y2="158"/><polygon points="208,158 202,161 202,155"/></g>
+<path class="kurve kupfer" d="M120 44L120 140"/>
+<g class="pfeil text"><line x1="120" y1="92" x2="146" y2="92"/><polygon points="152,92 145,95.5 145,88.5"/></g>
+<text class="halo" x="156" y="90">n̂</text>
+<path class="achse" d="M88 44L96 44M92 44L92 140M88 140L96 140"/>
+<text class="klein halo" x="87" y="96" text-anchor="end">A</text>
+<text class="klein halo" x="110" y="180" text-anchor="middle">quer zur Strömung: 8 Linien</text>
+</svg>
+<svg class="abb" viewBox="0 0 220 190" role="img" aria-label="Seitenansicht: derselbe Rahmen um 60 Grad gekippt; nur noch vier Strömungslinien gehen hindurch, so viele wie durch seine Projektion A cos alpha">
+<g class="pfeil duenn"><line x1="10" y1="26" x2="61" y2="26"/><polygon points="66,26 60,29 60,23"/></g>
+<g class="pfeil duenn"><line x1="152" y1="26" x2="203" y2="26"/><polygon points="208,26 202,29 202,23"/></g>
+<g class="pfeil duenn"><line x1="10" y1="38" x2="61" y2="38"/><polygon points="66,38 60,41 60,35"/></g>
+<g class="pfeil duenn"><line x1="152" y1="38" x2="203" y2="38"/><polygon points="208,38 202,41 202,35"/></g>
+<g class="pfeil duenn"><line x1="10" y1="50" x2="61" y2="50"/><polygon points="66,50 60,53 60,47"/></g>
+<g class="pfeil duenn"><line x1="152" y1="50" x2="203" y2="50"/><polygon points="208,50 202,53 202,47"/></g>
+<g class="pfeil duenn"><line x1="10" y1="62" x2="61" y2="62"/><polygon points="66,62 60,65 60,59"/></g>
+<g class="pfeil duenn"><line x1="152" y1="62" x2="203" y2="62"/><polygon points="208,62 202,65 202,59"/></g>
+<g class="pfeil blau duenn"><line x1="10" y1="74" x2="61" y2="74"/><polygon points="66,74 60,77 60,71"/></g>
+<g class="pfeil blau duenn"><line x1="152" y1="74" x2="203" y2="74"/><polygon points="208,74 202,77 202,71"/></g>
+<path class="kurve blau duenn" d="M66 74L152 74"/>
+<g class="pfeil blau duenn"><line x1="10" y1="86" x2="61" y2="86"/><polygon points="66,86 60,89 60,83"/></g>
+<g class="pfeil blau duenn"><line x1="152" y1="86" x2="203" y2="86"/><polygon points="208,86 202,89 202,83"/></g>
+<path class="kurve blau duenn" d="M66 86L152 86"/>
+<g class="pfeil blau duenn"><line x1="10" y1="98" x2="61" y2="98"/><polygon points="66,98 60,101 60,95"/></g>
+<g class="pfeil blau duenn"><line x1="152" y1="98" x2="203" y2="98"/><polygon points="208,98 202,101 202,95"/></g>
+<path class="kurve blau duenn" d="M66 98L152 98"/>
+<g class="pfeil blau duenn"><line x1="10" y1="110" x2="61" y2="110"/><polygon points="66,110 60,113 60,107"/></g>
+<g class="pfeil blau duenn"><line x1="152" y1="110" x2="203" y2="110"/><polygon points="208,110 202,113 202,107"/></g>
+<path class="kurve blau duenn" d="M66 110L152 110"/>
+<g class="pfeil duenn"><line x1="10" y1="122" x2="61" y2="122"/><polygon points="66,122 60,125 60,119"/></g>
+<g class="pfeil duenn"><line x1="152" y1="122" x2="203" y2="122"/><polygon points="208,122 202,125 202,119"/></g>
+<g class="pfeil duenn"><line x1="10" y1="134" x2="61" y2="134"/><polygon points="66,134 60,137 60,131"/></g>
+<g class="pfeil duenn"><line x1="152" y1="134" x2="203" y2="134"/><polygon points="208,134 202,137 202,131"/></g>
+<g class="pfeil duenn"><line x1="10" y1="146" x2="61" y2="146"/><polygon points="66,146 60,149 60,143"/></g>
+<g class="pfeil duenn"><line x1="152" y1="146" x2="203" y2="146"/><polygon points="208,146 202,149 202,143"/></g>
+<g class="pfeil duenn"><line x1="10" y1="158" x2="61" y2="158"/><polygon points="66,158 60,161 60,155"/></g>
+<g class="pfeil duenn"><line x1="152" y1="158" x2="203" y2="158"/><polygon points="208,158 202,161 202,155"/></g>
+<path class="kurve kupfer" d="M78.4 68L161.6 116"/>
+<g class="pfeil text"><line x1="120" y1="92" x2="133" y2="69.5"/><polygon points="136,64.3 135.5,72.1 129.5,68.6"/></g>
+<text class="halo" x="140" y="62.3">n̂</text>
+<path class="achse" d="M88 68L96 68M92 68L92 116M88 116L96 116"/>
+<path class="achse" d="M138 92L137.9 90.3L137.7 88.6L137.3 86.9L136.7 85.3L136 83.8L135.1 82.3L134.1 80.9L133 79.6L131.8 78.4L130.4 77.3L129 76.4"/>
+<text class="halo" x="142" y="88" text-anchor="start">α</text>
+<text class="klein halo" x="87" y="96" text-anchor="end">A cos α</text>
+<text class="klein halo" x="110" y="180" text-anchor="middle">um 60° gekippt: 4 Linien</text>
+</svg>
+</div>
+            <figcaption>Abb. 5: Strömung durch einen Rahmen der Fläche $A$, von
+              der Seite gesehen. Gekippt um $\alpha = 60^\circ$ fängt er nur noch
+              halb so viele Strömungslinien ein: so viele, wie durch seine
+              Projektion $A\cos\alpha$ quer zur Strömung passen.</figcaption>
+          </figure>
+
+          <p>Auf welche der beiden Seiten $\hat n$ zeigt, muss man festlegen;
+            davon hängt das Vorzeichen des Flusses ab. Bei einer geschlossenen
+            Fläche wie einer Kugel oder der Oberfläche eines Würfels zeigt
+            $\hat n$ nach Vereinbarung nach außen, und man schreibt
+            $\oint_S$. Positiver Fluss heißt dann, dass mehr herausströmt als
+            hinein.</p>
+
+          <p>Liegt die Fläche in Parameterform vor, liefert das Kreuzprodukt
+            der Tangentenvektoren Richtung und Größe auf einmal:
+            $\mathrm{d}\vec A = \big(\partial\vec r/\partial u \times \partial\vec r/\partial v\big)\,\mathrm{d}u\,\mathrm{d}v$.
+            Auf den Koordinatenflächen ist die Normale einfach einer der
+            Einheitsvektoren des Systems:</p>
+
+          <div class="tabelle-huelle">
+            <table>
+              <thead><tr><th>Fläche</th><th>Normale $\hat n$</th><th>Flächenelement $\mathrm{d}A$</th></tr></thead>
+              <tbody>
+                <tr><td>Ebene $z = \text{konst.}$ (kartesisch)</td><td>$\hat e_z$</td><td>$\mathrm{d}x\,\mathrm{d}y$</td></tr>
+                <tr><td>Deckel eines Zylinders, $z = \text{konst.}$</td><td>$\pm\hat e_z$</td><td>$\rho\,\mathrm{d}\rho\,\mathrm{d}\varphi$</td></tr>
+                <tr><td>Zylindermantel $\rho = R$</td><td>$\hat e_\rho$</td><td>$R\,\mathrm{d}\varphi\,\mathrm{d}z$</td></tr>
+                <tr><td>Kugel $r = R$</td><td>$\hat e_r$</td><td>$R^2\sin\vartheta\,\mathrm{d}\vartheta\,\mathrm{d}\varphi$</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="alltag">
+            <span class="titel">In der Physik: der Fluss des elektrischen Feldes</span>
+            <p>Eine Punktladung $Q$ erzeugt das Feld
+              $\vec E = \frac{Q}{4\pi\varepsilon_0 r^2}\,\hat e_r$. Auf einer
+              Kugel mit Radius $R$ um die Ladung zeigt es überall in Richtung
+              der Normalen $\hat e_r$ und hat überall denselben Betrag. Das
+              Integral wird zu einer Multiplikation:
+              $\Phi = \frac{Q}{4\pi\varepsilon_0 R^2}\cdot 4\pi R^2 = \frac{Q}{\varepsilon_0}$.
+              Der Radius fällt heraus. Jede Kugel um die Ladung wird vom selben
+              Fluss durchsetzt, weil die Fläche mit $R^2$ wächst und das Feld
+              mit $1/R^2$ abnimmt. Das ist das Gaußsche Gesetz, eine der
+              Maxwell-Gleichungen: Der Fluss durch eine geschlossene Fläche
+              misst die eingeschlossene Ladung.</p>
+          </div>
+
+          <h2 id="volumenintegral">Volumenintegrale: Masse und Ladung aus der Dichte</h2>
+
+          <p>Ein Körper mit der Massendichte $\rho_m(\vec r)$, also Masse pro
+            Volumen, zerfällt in kleine Stücke $\mathrm{d}V$ mit der Masse
+            $\rho_m\,\mathrm{d}V$. Die Gesamtmasse, und ebenso die Ladung aus
+            der Ladungsdichte $\rho_q$, ist</p>
+
+          $$ M = \int_K \rho_m\,\mathrm{d}V, \qquad Q = \int_K \rho_q\,\mathrm{d}V $$
+
+          <p>Kartesisch ist $\mathrm{d}V = \mathrm{d}x\,\mathrm{d}y\,\mathrm{d}z$,
+            und man integriert dreimal nacheinander. Die Grenzen der inneren
+            Integrale dürfen dabei von den äußeren Variablen abhängen. Bei einer
+            Kugel läuft $z$ von $-\sqrt{R^2 - x^2 - y^2}$ bis
+            $+\sqrt{R^2 - x^2 - y^2}$, und das wird schnell unangenehm.
+            Angepasste Koordinaten machen die Grenzen konstant, ändern aber das
+            Volumenelement, denn ein Koordinatenschritt ist kein Meter. Das
+            kleine Volumenstück hat das Volumen
+            $|\det J|\,\mathrm{d}u_1\,\mathrm{d}u_2\,\mathrm{d}u_3$, wobei $J$
+            die <a href="koordinatensysteme.html#volumenelement">Jacobi-Matrix</a>
+            der Koordinatentransformation ist. Für Zylinder- und
+            Kugelkoordinaten:</p>
+
+          $$ \mathrm{d}V_\text{Zyl} = \rho\,\mathrm{d}\rho\,\mathrm{d}\varphi\,\mathrm{d}z, \qquad \mathrm{d}V_\text{Kugel} = r^2\sin\vartheta\,\mathrm{d}r\,\mathrm{d}\vartheta\,\mathrm{d}\varphi $$
+
+          <p>Hängt die Dichte nur vom Abstand $r$ ab, kannst du die beiden
+            Winkelintegrale sofort ausrechnen:
+            $\int_0^{2\pi}\!\int_0^\pi \sin\vartheta\,\mathrm{d}\vartheta\,\mathrm{d}\varphi = 4\pi$.
+            Übrig bleibt eine Summe über dünne Kugelschalen mit dem Volumen
+            $4\pi r^2\,\mathrm{d}r$ (Abb. 6):</p>
+
+          $$ M = \int_0^R \rho_m(r)\,4\pi r^2\,\mathrm{d}r $$
+
+          <figure class="abbildung">
+            <svg class="abb" viewBox="0 0 320 200" role="img" aria-label="Querschnitt einer Kugel mit konzentrischen Kreisen; eine dünne Schale im Abstand r mit der Dicke dr ist orange getönt; daneben steht: Fläche 4 pi r Quadrat, Dicke dr, Volumen 4 pi r Quadrat dr">
+<circle class="flaeche" cx="100" cy="100" r="85"/>
+<path class="flaeche kupfer" fill-rule="evenodd" d="M164 100A64 64 0 1 0 36 100A64 64 0 1 0 164 100ZM152 100A52 52 0 1 1 48 100A52 52 0 1 1 152 100Z"/>
+<circle class="hilfslinie" cx="100" cy="100" r="17" fill="none"/>
+<circle class="hilfslinie" cx="100" cy="100" r="34" fill="none"/>
+<circle class="kurve kupfer duenn" cx="100" cy="100" r="52" fill="none"/>
+<circle class="kurve kupfer duenn" cx="100" cy="100" r="64" fill="none"/>
+<circle class="kurve blau duenn" cx="100" cy="100" r="85" fill="none"/>
+<g class="pfeil text duenn"><line x1="100" y1="100" x2="137.7" y2="73.6"/><polygon points="142.6,70.2 138.9,77.1 134.9,71.3"/></g>
+<text class="halo" x="117.3" y="79.1" font-style="italic">r</text>
+<circle class="punkt" cx="100" cy="100" r="2.2"/>
+<path class="achse" d="M147.1 122L158 127"/>
+<text class="kupfer halo" x="168" y="136.7" text-anchor="middle">dr</text>
+<text class="klein halo" x="200" y="60" text-anchor="start">eine dünne Schale:</text>
+<text class="klein halo" x="200" y="80" text-anchor="start">Fläche 4πr²</text>
+<text class="klein halo" x="200" y="98" text-anchor="start">Dicke dr</text>
+<text class="klein kupfer halo" x="200" y="116" text-anchor="start">Volumen 4πr² dr</text>
+</svg>
+            <figcaption>Abb. 6: Eine Kugel, zerlegt in dünne Schalen. Die
+              Schale im Abstand $r$ hat die Fläche $4\pi r^2$ und die Dicke
+              $\mathrm{d}r$. Hängt die Dichte nur von $r$ ab, ist sie in der
+              ganzen Schale gleich, und das Volumenintegral wird zu einem
+              einfachen Integral über $r$.</figcaption>
+          </figure>
+
+          <p>Für konstante Dichte ergibt sich
+            $M = \rho_m\cdot\frac{4}{3}\pi R^3$, Dichte mal Kugelvolumen. Mit
+            demselben Volumenelement berechnet man den Schwerpunkt
+            $\frac{1}{M}\int_K \vec r\,\rho_m\,\mathrm{d}V$ und das
+            <a href="../mechanik/drehbewegung.html#kugel">Trägheitsmoment</a>
+            (Beispiel 3). Für solche Integrale hat sich eine feste
+            Reihenfolge bewährt:</p>
+
+          <ol>
+            <li>Symmetrie suchen. Hängt alles nur vom Abstand zu einem Punkt
+              ab, nimm Kugelkoordinaten; hängt es nur vom Abstand zu einer
+              Achse ab, Zylinderkoordinaten.</li>
+            <li>Volumenelement in diesen Koordinaten aufschreiben.</li>
+            <li>Grenzen festlegen, wenn möglich so, dass sie konstant
+              sind.</li>
+            <li>Von innen nach außen integrieren.</li>
+          </ol>
+
+          <div class="alltag">
+            <span class="titel">Aus dem Alltag: Wie schwer ist die Luft über uns?</span>
+            <p>Die Luftdichte nimmt mit der Höhe $h$ ungefähr wie
+              $\rho_m = \rho_0\,\mathrm{e}^{-h/H}$ ab, mit
+              $\rho_0 = 1{,}225\,\mathrm{kg/m^3}$ am Boden und
+              $H \approx 8{,}4\,\mathrm{km}$. Verglichen mit dem Erdradius
+              $R = 6371\,\mathrm{km}$ ist die Lufthülle so dünn, dass jede
+              ihrer Schalen fast dieselbe Fläche $4\pi R^2$ hat. Damit wird
+              $M \approx 4\pi R^2\int_0^\infty \rho_0\,\mathrm{e}^{-h/H}\,\mathrm{d}h = 4\pi R^2\rho_0 H \approx 5{,}25\cdot 10^{18}\,\mathrm{kg}$.
+              Genauere Messungen ergeben $5{,}1\cdot 10^{18}\,\mathrm{kg}$,
+              knapp ein Millionstel der Erdmasse.</p>
+          </div>
+
+          <h2 id="ueberblick">Alles auf einen Blick</h2>
+
+          <p>Wegelement, Flächenelement auf der jeweiligen Koordinatenfläche
+            und Volumenelement in den drei wichtigsten Systemen:</p>
+
+          <div class="tabelle-huelle">
+            <table>
+              <thead><tr><th>System</th><th>Wegelement $\mathrm{d}\vec r$</th><th>Flächenelement $\mathrm{d}\vec A$</th><th>Volumenelement $\mathrm{d}V$</th></tr></thead>
+              <tbody>
+                <tr><td>kartesisch</td><td>$\mathrm{d}x\,\hat e_x + \mathrm{d}y\,\hat e_y + \mathrm{d}z\,\hat e_z$</td><td>$\mathrm{d}x\,\mathrm{d}y\,\hat e_z$ (Ebene $z = \text{konst.}$)</td><td>$\mathrm{d}x\,\mathrm{d}y\,\mathrm{d}z$</td></tr>
+                <tr><td>Zylinder</td><td>$\mathrm{d}\rho\,\hat e_\rho + \rho\,\mathrm{d}\varphi\,\hat e_\varphi + \mathrm{d}z\,\hat e_z$</td><td>$R\,\mathrm{d}\varphi\,\mathrm{d}z\,\hat e_\rho$ (Mantel)</td><td>$\rho\,\mathrm{d}\rho\,\mathrm{d}\varphi\,\mathrm{d}z$</td></tr>
+                <tr><td>Kugel</td><td>$\mathrm{d}r\,\hat e_r + r\,\mathrm{d}\vartheta\,\hat e_\vartheta + r\sin\vartheta\,\mathrm{d}\varphi\,\hat e_\varphi$</td><td>$R^2\sin\vartheta\,\mathrm{d}\vartheta\,\mathrm{d}\varphi\,\hat e_r$</td><td>$r^2\sin\vartheta\,\mathrm{d}r\,\mathrm{d}\vartheta\,\mathrm{d}\varphi$</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <p>Fluss und Umlauf hängen eng mit Divergenz und Rotation zusammen:
+            Der Fluss aus einer geschlossenen Fläche heraus ist das
+            Volumenintegral der Divergenz, der Umlauf um einen geschlossenen Weg
+            das Flächenintegral der Rotation. Das sagen die
+            <a href="integralsaetze.html">Integralsätze von Gauß und
+            Stokes</a>.</p>
+
+          <div class="merkkasten">
+            <span class="titel">Das Wichtigste in Kürze</span>
+            <p>Kurven-, Flächen- und Volumenintegrale zerlegen ein Gebiet in
+              kleine Stücke und summieren die Beiträge. Einen Weg beschreibt
+              man durch einen Parameter. Das Kurvenintegral eines Kraftfelds
+              ist die Arbeit, und dabei zählt nur der Anteil der Kraft entlang
+              des Weges. Ist das Feld der Gradient eines Potentials, hängt die
+              Arbeit nur von Start und Ziel ab. Der Fluss misst, wie viel eines
+              Feldes senkrecht durch eine Fläche tritt; dafür bekommt jedes
+              Flächenstück eine Normale. Volumenintegrale summieren Dichten zu
+              Masse oder Ladung. In krummlinigen Koordinaten muss man die Größe
+              der kleinen Stücke umrechnen, und genau dafür sind die Faktoren
+              $\rho$, $R^2\sin\vartheta$ und $r^2\sin\vartheta$ da.</p>
+          </div>
+        </section>
+
+        <section class="tab" id="vertiefung" data-titel="Vertiefung"></section>
+
+        <section class="tab" id="beispiele" data-titel="Beispielrechnungen">
+
+          <div class="beispiel" data-symbole='{"R": "Radius der Wendel", "h": "Höhe der Rutsche", "c": "Absenkung pro Winkel (Höhe geteilt durch 4π)", "m": "Masse des Kindes", "F_G": "Gewichtskraft", "F_R": "Betrag der Reibungskraft", "W_G": "Arbeit der Gewichtskraft", "W_R": "Arbeit der Reibungskraft", "E_kin": "kinetische Energie unten", "v": "Geschwindigkeit unten", "t": "Drehwinkel (Parameter)"}'>
+            <h3>Beispiel 1: Die Wendelrutsche</h3>
+            <p><strong>Gegeben:</strong> Eine Wendelrutsche im Schwimmbad
+              windet sich in zwei vollen Umdrehungen um eine senkrechte Achse
+              ($z$-Achse nach oben). Ihre Mittellinie ist die Schraubenlinie
+              $$ \vec r(t) = \big(R\cos t,\; R\sin t,\; h - c\,t\big), \qquad 0 \le t \le 4\pi $$
+              mit $R = 2{,}0\,\mathrm{m}$, Höhe $h = 6{,}0\,\mathrm{m}$ und
+              $c = h/(4\pi) = 0{,}477\,\mathrm{m}$. Der Parameter $t$ ist der
+              Drehwinkel. Ein Kind ($m = 30\,\mathrm{kg}$) startet oben aus der
+              Ruhe. Vereinfacht wirkt eine Reibungskraft mit dem festen Betrag
+              $F_R = 40\,\mathrm{N}$, immer gegen die Bewegung;
+              $g = 9{,}81\,\mathrm{m/s^2}$.<br>
+              <strong>Gesucht:</strong> (a) die Länge der Rutsche, (b) die
+              Arbeit der Gewichtskraft, (c) die Arbeit der Reibung und die
+              Geschwindigkeit unten.</p>
+
+            <p><strong>1. Tangentenvektor und Länge.</strong>
+              $$ \dot{\vec r} = \big(-R\sin t,\; R\cos t,\; -c\big), \qquad |\dot{\vec r}| = \sqrt{R^2\sin^2 t + R^2\cos^2 t + c^2} = \sqrt{R^2 + c^2} $$
+              $$ |\dot{\vec r}| = \sqrt{(2{,}0\,\mathrm{m})^2 + (0{,}477\,\mathrm{m})^2} = \sqrt{4{,}228\,\mathrm{m^2}} = 2{,}056\,\mathrm{m} $$
+              $|\dot{\vec r}|$ hängt nicht von $t$ ab, das Integral ist ein
+              Produkt:
+              $$ L = \int_0^{4\pi} |\dot{\vec r}|\,\mathrm{d}t = 4\pi\cdot 2{,}056\,\mathrm{m} = 25{,}8\,\mathrm{m} $$</p>
+
+            <p><strong>2. Arbeit der Gewichtskraft.</strong> Mit
+              $\vec F_G = (0,\, 0,\, -mg)$ ist
+              $\vec F_G\cdot\dot{\vec r} = (-mg)\cdot(-c) = mgc$, also
+              $$ W_G = \int_0^{4\pi} mgc\,\mathrm{d}t = mg\cdot 4\pi c = mgh = 30\,\mathrm{kg}\cdot 9{,}81\,\mathrm{m/s^2}\cdot 6{,}0\,\mathrm{m} = 1766\,\mathrm{J} $$
+              Einheitencheck: $\mathrm{kg\cdot m/s^2\cdot m} = \mathrm{N\,m} = \mathrm{J}$.</p>
+
+            <p><strong>3. Arbeit der Reibung.</strong> Die Reibung zeigt gegen
+              den Tangentenvektor, $\vec F_R = -F_R\,\dot{\vec r}/|\dot{\vec r}|$.
+              Damit ist $\vec F_R\cdot\dot{\vec r} = -F_R\,|\dot{\vec r}|$ und
+              $$ W_R = -F_R\int_0^{4\pi}|\dot{\vec r}|\,\mathrm{d}t = -F_R\,L = -40\,\mathrm{N}\cdot 25{,}84\,\mathrm{m} = -1034\,\mathrm{J} $$</p>
+
+            <p><strong>4. Geschwindigkeit unten.</strong> Die gesamte Arbeit
+              wird zu Bewegungsenergie:
+              $$ E_\text{kin} = W_G + W_R = 1766\,\mathrm{J} - 1034\,\mathrm{J} = 732\,\mathrm{J}, \qquad v = \sqrt{\frac{2E_\text{kin}}{m}} = \sqrt{\frac{2\cdot 732\,\mathrm{J}}{30\,\mathrm{kg}}} = 7{,}0\,\mathrm{m/s} $$</p>
+
+            <p><strong>Ergebnis und Plausibilität:</strong> Die Rutsche ist
+              25,8&nbsp;m lang, und das Kind kommt mit etwa 7&nbsp;m/s
+              (25&nbsp;km/h) unten an. Ohne Reibung wären es
+              $\sqrt{2gh} = 10{,}8\,\mathrm{m/s}$. Bei der Gewichtskraft ist die
+              Form der Wendel ganz herausgefallen, es zählt nur $h$: Sie ist
+              konservativ. Die Arbeit der Reibung dagegen ist proportional zur
+              Weglänge. Eine Rutsche mit drei statt zwei Umdrehungen und
+              derselben Höhe wäre länger, flacher und am Ende langsamer.</p>
+          </div>
+
+          <div class="beispiel" data-symbole='{"v": "Strömungsgeschwindigkeit", "v_max": "Geschwindigkeit in der Schlauchmitte", "R": "Innenradius des Schlauchs"}'>
+            <h3>Beispiel 2: Wasser in einem dünnen Schlauch</h3>
+            <p><strong>Gegeben:</strong> Durch einen Schlauch mit dem
+              Innenradius $R = 2{,}0\,\mathrm{mm}$ fließt Wasser langsam und
+              gleichmäßig. Am Rand haftet es, in der Mitte ist es am schnellsten.
+              In Zylinderkoordinaten ($z$-Achse entlang des Schlauchs) gilt das
+              parabolische Profil
+              $$ \vec v(\rho) = v_\text{max}\Big(1 - \frac{\rho^2}{R^2}\Big)\,\hat e_z, \qquad v_\text{max} = 0{,}20\,\mathrm{m/s} $$
+              <strong>Gesucht:</strong> (a) der Volumenstrom, also der Fluss von
+              $\vec v$ durch den Querschnitt, (b) die mittlere
+              Geschwindigkeit.</p>
+
+            <p><strong>1. Fläche und Normale.</strong> Der Querschnitt ist eine
+              Kreisscheibe mit $\hat n = \hat e_z$ und
+              $\mathrm{d}A = \rho\,\mathrm{d}\rho\,\mathrm{d}\varphi$. Es ist
+              $\vec v\cdot\hat n = v_\text{max}\,(1 - \rho^2/R^2)$.</p>
+
+            <p><strong>2. Integral.</strong> Über $\varphi$ ist nichts zu tun,
+              das gibt den Faktor $2\pi$:
+              $$ \Phi = \int_0^{2\pi}\!\!\int_0^R v_\text{max}\Big(1 - \frac{\rho^2}{R^2}\Big)\rho\,\mathrm{d}\rho\,\mathrm{d}\varphi = 2\pi v_\text{max}\Big[\frac{\rho^2}{2} - \frac{\rho^4}{4R^2}\Big]_0^R = 2\pi v_\text{max}\,\frac{R^2}{4} = \frac{\pi R^2 v_\text{max}}{2} $$</p>
+
+            <p><strong>3. Zahlen.</strong>
+              $$ \Phi = \frac{\pi\cdot(2{,}0\cdot 10^{-3}\,\mathrm{m})^2\cdot 0{,}20\,\mathrm{m/s}}{2} = 1{,}26\cdot 10^{-6}\,\mathrm{m^3/s} $$
+              Das sind $1{,}26\,\mathrm{ml}$ pro Sekunde oder
+              $75\,\mathrm{ml}$ pro Minute. Einheitencheck:
+              $\mathrm{m^2\cdot m/s} = \mathrm{m^3/s}$.</p>
+
+            <p><strong>4. Mittlere Geschwindigkeit.</strong> Volumenstrom geteilt
+              durch die Querschnittsfläche:
+              $$ \bar v = \frac{\Phi}{\pi R^2} = \frac{v_\text{max}}{2} = 0{,}10\,\mathrm{m/s} $$</p>
+
+            <p><strong>Ergebnis und Plausibilität:</strong> Im Mittel fließt
+              das Wasser halb so schnell wie in der Mitte. Das passt: Der
+              langsame Rand nimmt viel Fläche ein, denn der Faktor $\rho$ im
+              Flächenelement gewichtet die äußeren Ringe stärker. Dieses Profil
+              steckt im Gesetz von
+              <a href="../mechanik/stroemende-fluide.html">Hagen-Poiseuille</a>.
+              Durch einen schrägen Schnitt durch den Schlauch fließt übrigens
+              derselbe Volumenstrom, denn alles Wasser, das den geraden
+              Querschnitt passiert, muss auch durch den schrägen.</p>
+          </div>
+
+          <div class="beispiel" data-symbole='{"ρ_z": "Dichte im Erdmittelpunkt", "ρ_R": "Dichte an der Oberfläche", "R": "Erdradius", "M": "Erdmasse", "I": "Trägheitsmoment um die Erdachse"}'>
+            <h3>Beispiel 3: Masse und Trägheitsmoment eines Erdmodells</h3>
+            <p><strong>Gegeben:</strong> Die Erde ist innen dichter als außen.
+              Ein einfaches Modell lässt die Dichte vom Mittelpunkt bis zur
+              Oberfläche gleichmäßig abnehmen:
+              $$ \rho_m(r) = \rho_z - (\rho_z - \rho_R)\,\frac{r}{R} $$
+              mit $\rho_z = 13{,}0\,\mathrm{g/cm^3}$ im Mittelpunkt,
+              $\rho_R = 3{,}0\,\mathrm{g/cm^3}$ an der Oberfläche und
+              $R = 6371\,\mathrm{km}$.<br>
+              <strong>Gesucht:</strong> (a) die Masse $M$, (b) das
+              Trägheitsmoment $I$ um die Erdachse und das Verhältnis
+              $I/(MR^2)$.</p>
+
+            <p><strong>1. Masse in Kugelkoordinaten.</strong> Die Dichte hängt
+              nur von $r$ ab, die Winkel geben $4\pi$:
+              $$ M = 4\pi\int_0^R \rho_m(r)\,r^2\,\mathrm{d}r = 4\pi\Big[\rho_z\frac{R^3}{3} - (\rho_z - \rho_R)\frac{R^3}{4}\Big] = 4\pi R^3\Big(\frac{\rho_z}{12} + \frac{\rho_R}{4}\Big) $$
+              Die Klammer ist
+              $1{,}083\,\mathrm{g/cm^3} + 0{,}750\,\mathrm{g/cm^3} = 1{,}833\,\mathrm{g/cm^3} = 1833\,\mathrm{kg/m^3}$,
+              und mit $R^3 = (6{,}371\cdot 10^6\,\mathrm{m})^3 = 2{,}586\cdot 10^{20}\,\mathrm{m^3}$:
+              $$ M = 4\pi\cdot 2{,}586\cdot 10^{20}\,\mathrm{m^3}\cdot 1833\,\mathrm{kg/m^3} = 5{,}96\cdot 10^{24}\,\mathrm{kg} $$</p>
+
+            <p><strong>2. Trägheitsmoment.</strong> Ein Massenstück hat von der
+              Erdachse ($z$-Achse) den Abstand $r\sin\vartheta$. Also
+              $$ I = \int_K \rho_m\,(r\sin\vartheta)^2\,\mathrm{d}V = \int_0^{2\pi}\!\mathrm{d}\varphi\int_0^\pi \sin^3\vartheta\,\mathrm{d}\vartheta\int_0^R \rho_m(r)\,r^4\,\mathrm{d}r $$
+              Das Winkelintegral gibt mit $u = \cos\vartheta$:
+              $\int_0^\pi \sin^3\vartheta\,\mathrm{d}\vartheta = \int_{-1}^{1}(1 - u^2)\,\mathrm{d}u = \frac43$.
+              Das Radialintegral:
+              $$ \int_0^R \rho_m\,r^4\,\mathrm{d}r = R^5\Big(\frac{\rho_z}{5} - \frac{\rho_z - \rho_R}{6}\Big) = R^5\Big(\frac{\rho_z}{30} + \frac{\rho_R}{6}\Big) = R^5\cdot 933{,}3\,\mathrm{kg/m^3} $$
+              Zusammen, mit $R^5 = 1{,}0496\cdot 10^{34}\,\mathrm{m^5}$:
+              $$ I = 2\pi\cdot\frac43\cdot 933{,}3\,\mathrm{kg/m^3}\cdot 1{,}0496\cdot 10^{34}\,\mathrm{m^5} = 8{,}21\cdot 10^{37}\,\mathrm{kg\,m^2} $$
+              Einheitencheck: $\mathrm{kg/m^3\cdot m^5} = \mathrm{kg\,m^2}$.</p>
+
+            <p><strong>3. Verhältnis.</strong> Die Zahlen für $R$ kürzen sich:
+              $$ \frac{I}{MR^2} = \frac{\frac{8\pi}{3}\cdot 933{,}3}{4\pi\cdot 1833} = \frac{2}{3}\cdot\frac{933{,}3}{1833} = 0{,}339 $$</p>
+
+            <p><strong>Ergebnis und Plausibilität:</strong> Die Masse liegt nur
+              0,2&nbsp;% unter dem gemessenen Wert $5{,}97\cdot 10^{24}\,\mathrm{kg}$;
+              die mittlere Dichte des Modells ist $5{,}5\,\mathrm{g/cm^3}$. Eine
+              <a href="../mechanik/drehbewegung.html#kugel">homogene Kugel</a>
+              hätte $I/(MR^2) = 0{,}4$. Das Modell liefert weniger, weil mehr
+              Masse nahe der Achse sitzt. Aus der Präzession der Erdachse kennt
+              man den echten Wert, etwa $0{,}331$. Die echte Erde ist also noch
+              stärker zur Mitte hin verdichtet: Ihr Eisenkern ist deutlich
+              dichter als der Mantel darüber.</p>
+          </div>
+        </section>
+
+        <section class="tab" id="aufgaben" data-titel="Aufgaben">
+
+          <p>Die Aufgaben sind nach Schwierigkeit sortiert. Versuch es erst
+            selbst, die Lösungen sind zugeklappt. Die Flächen- und
+            Volumenelemente findest du in der <a href="#ueberblick">Übersicht</a>
+            am Ende von „Verstehen“. Zahlen ohne Einheit sind reine
+            Rechenübungen.</p>
+
+          <div class="aufgabe" data-symbole='{"F_0": "Betrag der Windkraft", "R": "Radius der Viertelkreisbahn"}'>
+            <h3>Aufgabe 1: Gegen den Wind um die Kurve
+              <span class="schwierigkeit" data-stufe="leicht">leicht</span>
+            </h3>
+            <p>Ein Segelboot fährt auf einem Viertelkreis mit Radius
+              $R = 50\,\mathrm{m}$ vom Punkt $(R,\, 0)$ zum Punkt $(0,\, R)$.
+              Der Wind übt überall die gleiche Kraft
+              $\vec F = (F_0,\, 0)$ mit $F_0 = 200\,\mathrm{N}$ auf das Boot
+              aus.</p>
+            <ol type="a">
+              <li>Parametrisiere die Bahn und berechne ihre Länge mit
+                $\int|\dot{\vec r}|\,\mathrm{d}t$.</li>
+              <li>Berechne die Arbeit des Windes entlang des Viertelkreises.</li>
+              <li>Berechne die Arbeit entlang der geraden Strecke zwischen
+                denselben Punkten. Warum kommt dasselbe heraus?</li>
+            </ol>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>(a) $\vec r(t) = (R\cos t,\, R\sin t)$ mit
+                $0 \le t \le \pi/2$. Dann ist
+                $\dot{\vec r} = (-R\sin t,\, R\cos t)$ und
+                $|\dot{\vec r}| = R$, also
+                $L = R\cdot\pi/2 = 50\,\mathrm{m}\cdot 1{,}571 = 78{,}5\,\mathrm{m}$.</p>
+              <p>(b) $\vec F\cdot\dot{\vec r} = F_0\cdot(-R\sin t) = -F_0 R\sin t$.
+                $$ W = -F_0 R\int_0^{\pi/2}\sin t\,\mathrm{d}t = -F_0 R\,\big[-\cos t\big]_0^{\pi/2} = -F_0 R = -200\,\mathrm{N}\cdot 50\,\mathrm{m} = -10\,\mathrm{kJ} $$
+                Negativ, weil sich das Boot insgesamt um $R$ in $-x$-Richtung
+                bewegt, also gegen den Wind.</p>
+              <p>(c) $\vec r(t) = \big(R(1 - t),\, Rt\big)$ mit $0 \le t \le 1$,
+                $\dot{\vec r} = (-R,\, R)$, $\vec F\cdot\dot{\vec r} = -F_0 R$ und
+                $W = \int_0^1 (-F_0 R)\,\mathrm{d}t = -F_0 R = -10\,\mathrm{kJ}$.
+                Ein überall gleiches Feld ist konservativ, hier mit
+                $V = -F_0 x$. Die Arbeit ist
+                $V(P_1) - V(P_2) = -F_0 R - 0 = -F_0 R$, egal auf welchem
+                Weg.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe" data-symbole='{"R_i": "Radius des Mittellochs", "R_a": "Außenradius der CD", "d": "Dicke der CD", "m": "Masse der CD"}'>
+            <h3>Aufgabe 2: Wie schwer ist eine CD?
+              <span class="schwierigkeit" data-stufe="leicht">leicht</span>
+            </h3>
+            <p>Eine CD ist eine Kunststoffscheibe mit dem Außenradius
+              $R_a = 60\,\mathrm{mm}$, einem Loch mit dem Radius
+              $R_i = 7{,}5\,\mathrm{mm}$ und der Dicke $d = 1{,}2\,\mathrm{mm}$.
+              Der Kunststoff hat die Dichte
+              $\rho_m = 1{,}20\,\mathrm{g/cm^3}$.</p>
+            <ol type="a">
+              <li>Berechne die Fläche der CD als Integral in
+                Polarkoordinaten.</li>
+              <li>Berechne ihre Masse.</li>
+              <li>Wie weit ist ein Punkt der CD im Mittel vom Mittelpunkt
+                entfernt?</li>
+            </ol>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>(a) Die Grenzen sind konstant:
+                $$ A = \int_0^{2\pi}\!\!\int_{R_i}^{R_a} r\,\mathrm{d}r\,\mathrm{d}\varphi = 2\pi\cdot\frac{R_a^2 - R_i^2}{2} = \pi\,(3600 - 56{,}25)\,\mathrm{mm^2} = 1{,}113\cdot 10^4\,\mathrm{mm^2} = 111\,\mathrm{cm^2} $$</p>
+              <p>(b) Die Dichte ist überall gleich, das Volumen ist
+                $V = A\,d = 1{,}113\cdot 10^4\,\mathrm{mm^2}\cdot 1{,}2\,\mathrm{mm} = 1{,}336\cdot 10^4\,\mathrm{mm^3} = 13{,}4\,\mathrm{cm^3}$
+                und die Masse
+                $m = \rho_m V = 1{,}20\,\mathrm{g/cm^3}\cdot 13{,}36\,\mathrm{cm^3} = 16\,\mathrm{g}$.
+                Das passt zu einer echten CD (etwa 15–16&nbsp;g).</p>
+              <p>(c) Integral über den Abstand $r$, geteilt durch die Fläche:
+                $$ \bar r = \frac{1}{A}\int_0^{2\pi}\!\!\int_{R_i}^{R_a} r\cdot r\,\mathrm{d}r\,\mathrm{d}\varphi = \frac{2\pi\,(R_a^3 - R_i^3)/3}{\pi\,(R_a^2 - R_i^2)} = \frac{2}{3}\cdot\frac{R_a^3 - R_i^3}{R_a^2 - R_i^2} = 40{,}6\,\mathrm{mm} $$
+                Das ist deutlich mehr als die Mitte zwischen Loch und Rand
+                (33,75&nbsp;mm), weil die äußeren Ringe mehr Fläche haben.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe" data-symbole='{"g": "Hilfsfunktion von y und z", "h": "Hilfsfunktion von z"}'>
+            <h3>Aufgabe 3: Gibt es ein Potential?
+              <span class="schwierigkeit" data-stufe="mittel">mittel</span>
+            </h3>
+            <p>Gegeben ist das Kraftfeld
+              $\vec F = \big(2xy,\; x^2 + z,\; y\big)$.</p>
+            <ol type="a">
+              <li>Zeige, dass $\vec F$ wirbelfrei ist.</li>
+              <li>Finde eine potentielle Energie $V$ mit
+                $\vec F = -\nabla V$.</li>
+              <li>Berechne die Arbeit des Feldes von $P_1 = (0, 0, 0)$ nach
+                $P_2 = (1, 2, 3)$ mit dem Potential und zur Probe als
+                Kurvenintegral entlang der geraden Strecke.</li>
+            </ol>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>(a)
+                $$ \nabla\times\vec F = \Big(\frac{\partial F_z}{\partial y} - \frac{\partial F_y}{\partial z},\; \frac{\partial F_x}{\partial z} - \frac{\partial F_z}{\partial x},\; \frac{\partial F_y}{\partial x} - \frac{\partial F_x}{\partial y}\Big) = (1 - 1,\; 0 - 0,\; 2x - 2x) = \vec 0 $$
+                Der ganze Raum hat keine Löcher, also ist $\vec F$
+                konservativ.</p>
+              <p>(b) Aus $-\partial V/\partial x = 2xy$ folgt
+                $V = -x^2 y + g(y, z)$. Dann ist
+                $-\partial V/\partial y = x^2 - \partial g/\partial y$, und das
+                soll $x^2 + z$ sein, also $g = -yz + h(z)$. Schließlich ist
+                $-\partial V/\partial z = y - h'(z) = y$, also $h$ konstant:
+                $$ V = -x^2 y - yz $$</p>
+              <p>(c) Mit dem Potential:
+                $W = V(P_1) - V(P_2) = 0 - (-1\cdot 2 - 2\cdot 3) = 8$.
+                Probe auf der Geraden $\vec r(t) = (t,\, 2t,\, 3t)$,
+                $0 \le t \le 1$: $\dot{\vec r} = (1, 2, 3)$ und
+                $\vec F = (4t^2,\; t^2 + 3t,\; 2t)$, also
+                $$ \vec F\cdot\dot{\vec r} = 4t^2 + 2t^2 + 6t + 6t = 6t^2 + 12t, \qquad W = \int_0^1 (6t^2 + 12t)\,\mathrm{d}t = 2 + 6 = 8 $$</p>
+            </details>
+          </div>
+
+          <div class="aufgabe" data-symbole='{"j": "Regenmenge pro Fläche und Zeit (Stromdichte des Wassers)", "R": "Radius der Kuppel"}'>
+            <h3>Aufgabe 4: Regen auf eine Kuppel
+              <span class="schwierigkeit" data-stufe="mittel">mittel</span>
+            </h3>
+            <p>Regen fällt senkrecht. Die Stromdichte des Wassers ist
+              $\vec j = -j\,\hat e_z$ mit $j = 10\,\mathrm{mm/h}$ (so viel
+              Wasser pro Fläche und Stunde, wie ein Regenmesser zeigt). Ein
+              Zelt hat die Form einer Halbkugel mit $R = 5{,}0\,\mathrm{m}$.</p>
+            <ol type="a">
+              <li>Wie viele Liter Regen fallen pro Stunde auf eine flache
+                Kreisscheibe mit dem Radius $R$?</li>
+              <li>Berechne den Fluss von $\vec j$ durch die Halbkugel in
+                Kugelkoordinaten, mit der Normalen nach außen.</li>
+              <li>Vergleiche und erkläre das Ergebnis.</li>
+            </ol>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>(a) Senkrecht durch die Scheibe:
+                $j\,\pi R^2 = 0{,}010\,\mathrm{m/h}\cdot\pi\cdot 25\,\mathrm{m^2} = 0{,}785\,\mathrm{m^3/h}$,
+                also 785 Liter pro Stunde.</p>
+              <p>(b) Auf der Kugel ist $\hat n = \hat e_r$ und
+                $\hat e_z\cdot\hat e_r = \cos\vartheta$, also
+                $\vec j\cdot\hat n = -j\cos\vartheta$. Die Halbkugel reicht von
+                $\vartheta = 0$ bis $\pi/2$:
+                $$ \Phi = \int_0^{2\pi}\!\!\int_0^{\pi/2} (-j\cos\vartheta)\,R^2\sin\vartheta\,\mathrm{d}\vartheta\,\mathrm{d}\varphi = -jR^2\cdot 2\pi\cdot\Big[\frac{\sin^2\vartheta}{2}\Big]_0^{\pi/2} = -\pi R^2 j = -0{,}785\,\mathrm{m^3/h} $$
+                Das Minuszeichen heißt: Der Regen strömt hinein, entgegen der
+                äußeren Normalen.</p>
+              <p>(c) Der Betrag ist derselbe. Die Kuppel hat zwar die doppelte
+                Fläche $2\pi R^2$, aber an ihren Seiten trifft der Regen sie
+                schräg, oben steil; der Faktor $\cos\vartheta$ halbiert die
+                Fläche im Mittel genau. Anschaulich: Jeder Tropfen, der die
+                Kuppel trifft, hätte ohne sie die Grundfläche getroffen, und
+                umgekehrt.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe" data-symbole='{"a": "halbe Kantenlänge des Würfels", "R": "Radius von Kugel bzw. Zylinder", "h": "Höhe des Zylinders"}'>
+            <h3>Aufgabe 5: Wie viel fließt aus einem Körper heraus?
+              <span class="schwierigkeit" data-stufe="schwer">schwer</span>
+            </h3>
+            <p>Betrachte das Feld $\vec F = \vec r = (x,\, y,\, z)$, das überall
+              vom Ursprung weg zeigt. Berechne seinen Fluss nach außen durch die
+              Oberfläche</p>
+            <ol type="a">
+              <li>einer Kugel mit Radius $R$ um den Ursprung,</li>
+              <li>eines Würfels mit der Kantenlänge $2a$, dessen Mittelpunkt im
+                Ursprung liegt und dessen Kanten parallel zu den Achsen
+                sind,</li>
+              <li>eines Zylinders mit Radius $R$ und Höhe $h$ um die $z$-Achse,
+                von $z = -h/2$ bis $z = h/2$ (Mantel und zwei Deckel).</li>
+              <li>Zum Nachdenken: Vergleiche jeden Fluss mit dem Volumen des
+                Körpers. Was fällt auf, und was hat das mit
+                $\nabla\cdot\vec r$ zu tun?</li>
+            </ol>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>(a) Auf der Kugel ist $\vec r = R\,\hat e_r$, also
+                $\vec r\cdot\hat e_r = R$ überall. Der Fluss ist $R$ mal
+                Fläche:
+                $\Phi = R\cdot 4\pi R^2 = 4\pi R^3$.</p>
+              <p>(b) Auf der Seite $x = a$ ist $\hat n = \hat e_x$ und
+                $\vec r\cdot\hat n = x = a$, auf der Seite $x = -a$ ist
+                $\hat n = -\hat e_x$ und $\vec r\cdot\hat n = -x = a$. Auf allen
+                sechs Seiten ist der Integrand also $a$, jede Seite hat die
+                Fläche $(2a)^2 = 4a^2$:
+                $\Phi = 6\cdot a\cdot 4a^2 = 24a^3$.</p>
+              <p>(c) Mantel: $\hat n = \hat e_\rho$ und
+                $\vec r\cdot\hat e_\rho = \rho = R$, Fläche $2\pi R h$, Beitrag
+                $2\pi R^2 h$. Deckel oben: $\hat n = \hat e_z$,
+                $\vec r\cdot\hat e_z = h/2$, Beitrag
+                $\frac{h}{2}\,\pi R^2$; unten genauso. Zusammen
+                $\Phi = 2\pi R^2 h + \pi R^2 h = 3\pi R^2 h$.</p>
+              <p>(d) In allen drei Fällen ist der Fluss genau das Dreifache des
+                Volumens: $4\pi R^3 = 3\cdot\frac43\pi R^3$,
+                $24a^3 = 3\cdot(2a)^3$ und $3\pi R^2 h = 3\cdot\pi R^2 h$. Die
+                Form des Körpers spielt keine Rolle. Das liegt an
+                $\nabla\cdot\vec r = 3$: Jedes Volumenstück ist eine Quelle der
+                Stärke 3, und was aus allen Stücken zusammen herausquillt, muss
+                durch die Oberfläche. Diesen Zusammenhang zwischen Fluss und
+                Divergenz macht der Gaußsche Integralsatz genau.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe" data-symbole='{"R": "Radius der Halbkugel", "z_S": "Höhe des Schwerpunkts über der flachen Seite"}'>
+            <h3>Aufgabe 6: Der Schwerpunkt des Stehaufmännchens
+              <span class="schwierigkeit" data-stufe="schwer">schwer</span>
+            </h3>
+            <p>Eine massive Halbkugel aus gleichmäßigem Material mit Radius
+              $R$ liegt mit der flachen Seite in der Ebene $z = 0$ und reicht
+              nach oben ($z \ge 0$).</p>
+            <ol type="a">
+              <li>Berechne ihr Volumen als Integral in Kugelkoordinaten.</li>
+              <li>Berechne die Höhe ihres Schwerpunkts,
+                $z_S = \frac{1}{V}\int_K z\,\mathrm{d}V$.</li>
+              <li>Berechne zum Vergleich den Schwerpunkt einer dünnen
+                Halbkugelschale, $z_S = \frac{1}{A}\int_S z\,\mathrm{d}A$.</li>
+              <li>Zum Nachdenken: Ein Stehaufmännchen hat als Fuß eine massive
+                Halbkugel mit $R = 4{,}0\,\mathrm{cm}$, die mit der Wölbung auf
+                dem Tisch liegt; Kopf und Körper darüber sind sehr leicht. Wie
+                hoch über dem Tisch liegt der Schwerpunkt? Warum richtet es
+                sich nach dem Umstoßen wieder auf?</li>
+            </ol>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>(a) Die Halbkugel reicht von $\vartheta = 0$ bis $\pi/2$:
+                $$ V = \int_0^{2\pi}\!\!\int_0^{\pi/2}\!\!\int_0^R r^2\sin\vartheta\,\mathrm{d}r\,\mathrm{d}\vartheta\,\mathrm{d}\varphi = 2\pi\cdot 1\cdot\frac{R^3}{3} = \frac23\pi R^3 $$</p>
+              <p>(b) Mit $z = r\cos\vartheta$:
+                $$ \int_K z\,\mathrm{d}V = \int_0^{2\pi}\!\mathrm{d}\varphi\int_0^{\pi/2}\cos\vartheta\sin\vartheta\,\mathrm{d}\vartheta\int_0^R r^3\,\mathrm{d}r = 2\pi\cdot\frac12\cdot\frac{R^4}{4} = \frac{\pi R^4}{4} $$
+                $$ z_S = \frac{\pi R^4/4}{2\pi R^3/3} = \frac38 R $$</p>
+              <p>(c) Auf der Schale ist $z = R\cos\vartheta$,
+                $\mathrm{d}A = R^2\sin\vartheta\,\mathrm{d}\vartheta\,\mathrm{d}\varphi$
+                und $A = 2\pi R^2$:
+                $$ \int_S z\,\mathrm{d}A = R^3\cdot 2\pi\cdot\frac12 = \pi R^3, \qquad z_S = \frac{\pi R^3}{2\pi R^2} = \frac{R}{2} $$
+                Bei der Schale sitzt die ganze Masse außen, deshalb liegt ihr
+                Schwerpunkt höher als bei der vollen Halbkugel.</p>
+              <p>(d) Liegt der Fuß mit der Wölbung auf dem Tisch, ist der
+                Mittelpunkt der Kugel (Mitte der flachen Seite) $R = 4{,}0\,\mathrm{cm}$
+                über dem Tisch. Der Schwerpunkt liegt $\frac38 R = 1{,}5\,\mathrm{cm}$
+                darunter, also $2{,}5\,\mathrm{cm}$ über dem Tisch. Kippt man
+                die Figur, rollt der Fuß ab. Der Mittelpunkt bleibt dabei immer
+                genau über dem Auflagepunkt in der Höhe $R$, der Schwerpunkt
+                aber rutscht seitlich neben den Auflagepunkt. Die Gewichtskraft
+                dreht die Figur dann zurück, bis der Schwerpunkt wieder unter
+                dem Mittelpunkt liegt. Das klappt, solange der Schwerpunkt der
+                ganzen Figur unterhalb des Kugelmittelpunkts bleibt; deshalb
+                müssen Kopf und Körper so leicht sein.</p>
+            </details>
+          </div>
+        </section>
+
+      </div></article>
+  </main>
+</body>
+</html>

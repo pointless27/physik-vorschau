@@ -1,0 +1,430 @@
+/* =========================================================================
+   THEMENÜBERSICHT UND BEREICHSSEITEN
+   =========================================================================
+   themen/index.html, themen/<bereich>.html (aufklappbare Fachgebiete),
+   themen/interaktives-universum.html, Zusatz-Karte der Startseite.
+   Eingebunden über css/stil.css – Reihenfolge dort nicht ändern. */
+
+/* -------------------------------------------------------------------------
+   5. THEMENÜBERSICHT UND BEREICHSSEITEN
+   ------------------------------------------------------------------------- */
+.seitenkopf-text { max-width: 46rem; }
+
+/* Leiste der Bereichsseite: Sprungmarken zu den Fachgebieten + Alle auf/zu */
+.baum-leiste {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.8rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--rand);
+}
+.baum-sprung { display: flex; flex-wrap: wrap; gap: 0.3rem 1.3rem; }
+.baum-sprung a {
+  color: var(--akzent);
+  font-weight: 600;
+  font-size: 0.95rem;
+  text-decoration: none;
+}
+.baum-sprung a:hover { text-decoration: underline; }
+.baum-knoepfe { display: flex; gap: 0.5rem; }
+.knopf-leise {
+  font: inherit;
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding: 0.38rem 0.85rem;
+  border-radius: var(--radius-s);
+  border: 1px solid var(--rand-stark);
+  background: var(--flaeche);
+  color: var(--text);
+  cursor: pointer;
+  transition: border-color 0.15s ease, color 0.15s ease;
+}
+.knopf-leise:hover { border-color: var(--akzent); color: var(--akzent); }
+
+/* Zähler im Kopf der Bereichsseite (handschriftlich) */
+.zweig-zaehler {
+  margin: 0.25rem 0 0;
+  font-family: var(--schrift-hand);
+  font-size: 1.2rem;
+  color: var(--akzent-2);
+}
+
+.zweig-gebiete {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 26rem), 1fr));
+  gap: 1rem;
+  align-items: start;
+}
+
+/* Ein Fachgebiet: <details>, Kopfzeile klappt Kapitel und Themen auf/zu */
+.gebiet-abschnitt {
+  background: var(--flaeche);
+  border: 1px solid var(--rand);
+  border-radius: var(--radius-l);
+  padding: 0;
+  box-shadow: var(--schatten-s);
+}
+.gebiet-abschnitt[open] { padding-bottom: 1.2rem; grid-column: 1 / -1; }
+
+/* Kapitel im offenen Fachgebiet: ab 60rem zwei Spalten, Kapitel nie zerteilt */
+.gebiet-inhalt { column-gap: 2rem; }
+@media (min-width: 60rem) { .gebiet-inhalt { column-count: 2; } }
+.kapitel-gruppe { break-inside: avoid; padding: 0.9rem 0 0.35rem; }
+.kapitel-gruppe .kapitel-titel { margin-top: 0; }
+.kapitel-gruppe:target .kapitel-titel { color: var(--akzent); }   /* Ziel der Brotkrume */
+.gebiet-abschnitt > :not(summary) { margin-left: 1.4rem; margin-right: 1.4rem; }
+
+.gebiet-abschnitt > summary {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  padding: 1rem 1.2rem 1rem 1.4rem;
+  cursor: pointer;
+  list-style: none;
+  border-radius: var(--radius-l);
+}
+.gebiet-abschnitt > summary::-webkit-details-marker { display: none; }
+.gebiet-abschnitt > summary:focus-visible { outline: 2px solid var(--akzent); outline-offset: 2px; }
+.gebiet-abschnitt > summary .karten-icon {
+  width: 2.3rem;
+  height: 2.3rem;
+  margin: 0;
+  flex: none;
+}
+.gebiet-abschnitt > summary .karten-icon svg { width: 1.2rem; height: 1.2rem; }
+
+.gebiet-titel { display: flex; flex-direction: column; min-width: 0; }
+.gebiet-titel h3 { margin: 0; font-size: 1.3rem; line-height: 1.25; }
+.gebiet-zaehler { font-size: 0.82rem; color: var(--text-schwach); margin-top: 0.15rem; }
+
+/* Pfeil rechts: zeigt nach unten, im offenen Zustand nach oben */
+.aufklapp-pfeil {
+  flex: none;
+  margin-left: auto;
+  width: 0.6rem;
+  height: 0.6rem;
+  border-right: 2px solid var(--text-schwach);
+  border-bottom: 2px solid var(--text-schwach);
+  transform: translateY(-25%) rotate(45deg);
+  transition: transform 0.2s ease, border-color 0.15s ease;
+}
+.gebiet-abschnitt[open] > summary .aufklapp-pfeil { transform: translateY(25%) rotate(-135deg); }
+.gebiet-abschnitt > summary:hover .aufklapp-pfeil { border-color: var(--akzent); }
+.gebiet-abschnitt > summary:hover h3 { color: var(--akzent); }
+
+.gebiet-beschreibung {
+  color: var(--text-schwach);
+  margin-top: 0;
+  margin-bottom: 0.4rem;
+  font-size: 0.97rem;
+  padding-top: 0.9rem;
+  border-top: 1px solid var(--rand);
+}
+
+/* Bereichs-Karten (Startseite und Themenübersicht): eine breite Karte je
+   Hauptzweig. Links Name, Text und Fachgebiete; rechts, durch eine
+   gestrichelte Linie getrennt, die Reiter der Themenseiten und der
+   Fortschritt. Der Name-Link deckt per ::after die ganze Karte ab; die
+   Fachgebiets-Links liegen darüber und bleiben einzeln anklickbar. */
+#bereiche { display: grid; gap: 1.25rem; margin-top: 1.5rem; }
+.bereiche-start #bereiche { margin-top: 2rem; }
+.gebiet-karte.bereich-karte {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1.45fr) minmax(0, 1fr);
+  gap: 1.2rem 2.4rem;
+  padding: 1.6rem 1.8rem 1.5rem;
+}
+.bereich-titel { display: flex; align-items: center; gap: 0.85rem; margin-bottom: 0.7rem; }
+.bereich-titel .karten-icon { margin: 0; flex: none; }
+.bereich-karte h2 { margin: 0; font-size: 1.75rem; line-height: 1.2; }
+.bereich-link { color: var(--text); text-decoration: none; transition: color 0.2s ease; }
+.bereich-link::after { content: ""; position: absolute; inset: 0; border-radius: inherit; }
+.bereich-karte:hover .bereich-link { color: var(--karten-farbe, var(--akzent)); }
+.bereich-link:focus-visible { outline: none; }
+.bereich-link:focus-visible::after { outline: 2px solid var(--akzent); outline-offset: 3px; }
+.gebiet-karte p.karte-gebiete {
+  margin-top: 0.9rem;
+  font-size: 0.88rem;
+  color: var(--text-schwach);
+  line-height: 1.7;
+}
+.karte-gebiete a {
+  position: relative;   /* über dem Karten-Link */
+  z-index: 1;
+  color: var(--text);
+  text-decoration: none;
+  border-bottom: 1px solid var(--rand-stark);
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+.karte-gebiete a:hover { color: var(--karten-farbe, var(--akzent)); border-color: currentColor; }
+.bereich-seite {
+  display: flex;
+  flex-direction: column;
+  padding-left: 2.4rem;
+  border-left: 1px dashed var(--rand-stark);
+}
+.gebiet-karte p.bereich-notiz {
+  margin: -0.3rem 0 0.55rem;
+  font-family: var(--schrift-hand);
+  font-size: 1.2rem;
+  line-height: 1.2;
+  color: var(--akzent-2);
+}
+.bereich-karte .fortschritt { padding-top: 1rem; }
+.bereich-weiter {
+  margin-top: 0.9rem;
+  font-weight: 600;
+  font-size: 0.92rem;
+  color: var(--akzent);
+  transition: color 0.2s ease;
+}
+.bereich-karte:hover .bereich-weiter { color: var(--karten-farbe, var(--akzent)); }
+
+/* Reiter der Themenseiten eines Bereichs (Karten und Bereichsseite):
+   kleines Icon in der Ebenen-Farbe + Name */
+[data-ebene="erklaerung"] { --ebene: var(--akzent-2); }
+.bereich-reiter {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.45rem 1rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.bereich-reiter li {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  min-width: 0;
+  font-size: 0.9rem;
+  font-weight: 600;
+  line-height: 1.25;
+  color: var(--text);
+}
+.bereich-reiter li > span:last-child { min-width: 0; overflow-wrap: anywhere; }
+.reiter-icon {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 1.85rem;
+  height: 1.85rem;
+  border-radius: var(--radius-s);
+  color: var(--ebene, var(--akzent));
+  background: var(--flaeche-2);
+  background: color-mix(in srgb, var(--ebene, var(--akzent)) 13%, var(--flaeche));
+}
+.reiter-icon svg { width: 1.15rem; height: 1.15rem; }
+.gebiet-karte p.bereich-seitenart-text,
+.bereich-seitenart-text {
+  margin: 0.7rem 0 0;
+  font-size: 0.86rem;
+  line-height: 1.55;
+  color: var(--text-schwach);
+}
+
+@media (max-width: 52rem) {
+  .gebiet-karte.bereich-karte { grid-template-columns: minmax(0, 1fr); padding: 1.3rem 1.2rem; }
+  .bereich-seite { padding: 1.1rem 0 0; border-left: 0; border-top: 1px dashed var(--rand-stark); }
+  .bereich-karte h2 { font-size: 1.45rem; }
+}
+
+/* Bereichsseite (themen/<bereich>.html) */
+.bereich-kopf { max-width: 50rem; margin-bottom: 1.8rem; }
+.bereich-kopf h1 { display: flex; align-items: center; gap: 0.85rem; }
+.bereich-kopf h1 .karten-icon { width: 3rem; height: 3rem; margin: 0; flex: none; }
+.bereich-kopf h1 .karten-icon svg { width: 1.55rem; height: 1.55rem; }
+.bereich-kopf .hero-text { margin: 0 0 1.2rem; }
+.bereich-kopf .bereich-reiter { display: flex; flex-wrap: wrap; gap: 0.5rem 1.4rem; }
+.bereich-kopf .zweig-zaehler { margin-top: 1rem; }
+.bereich-hinweis { margin: 0.2rem 0 0; font-size: 0.88rem; color: var(--text-schwach); }
+.zweig-gebiete { margin-top: 1.2rem; }
+.gebiet-flach { padding: 0.3rem 0 1.2rem; }
+
+.bereich-wechsel { margin-top: 3.5rem; padding-top: 1.5rem; border-top: 1px solid var(--rand); }
+.bereich-wechsel h2 { margin: 0 0 1rem; font-size: 1.4rem; }
+.bereich-wechsel-liste {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr));
+  gap: 0.8rem;
+}
+.bereich-wechsel a {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.8rem 1rem;
+  border: 1px solid var(--rand);
+  border-radius: var(--radius-m);
+  background: var(--flaeche);
+  box-shadow: var(--schatten-s);
+  color: var(--text);
+  font-weight: 600;
+  text-decoration: none;
+  transition: border-color 0.2s ease, color 0.2s ease;
+}
+.bereich-wechsel a:hover { border-color: var(--karten-farbe, var(--akzent)); color: var(--karten-farbe, var(--akzent)); }
+.bereich-wechsel .karten-icon { width: 2.2rem; height: 2.2rem; margin: 0; flex: none; }
+.bereich-wechsel .karten-icon svg { width: 1.15rem; height: 1.15rem; }
+
+/* Handschriftliche Notiz "Theorie" neben einem Kapitel-Titel */
+.kapitel-art {
+  margin-left: 0.6rem;
+  font-family: var(--schrift-hand);
+  font-size: 1.15rem;
+  font-weight: 600;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--akzent-2);
+}
+
+.kapitel-titel {
+  font-family: var(--schrift-text);
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-schwach);
+  margin: 1.4rem 0 0.5rem;
+}
+
+.themen-liste {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.3rem;
+}
+.themen-liste li { margin: 0; }
+
+.themen-liste a,
+.themen-liste .geplant-eintrag {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.55rem 0.9rem;
+  border-radius: var(--radius-m);
+  border: 1px solid transparent;
+  text-decoration: none;
+  color: var(--text);
+  font-weight: 500;
+  font-size: 0.97rem;
+  transition: transform 0.15s ease, border-color 0.15s ease, background 0.15s ease;
+}
+.themen-liste a { background: var(--flaeche-2); }
+.themen-liste a::after {
+  content: "→";
+  margin-left: auto;
+  color: var(--akzent);
+  opacity: 0;
+  transform: translateX(-4px);
+  transition: opacity 0.15s ease, transform 0.15s ease;
+}
+.themen-liste a:hover {
+  transform: translateX(3px);
+  border-color: var(--akzent);
+  background: var(--akzent-sanft);
+}
+.themen-liste a:hover::after { opacity: 1; transform: translateX(0); }
+
+.themen-liste .geplant-eintrag {
+  border: 1px dashed var(--rand-stark);
+  color: var(--text-schwach);
+  font-weight: 400;
+}
+.geplant-marke {
+  margin-left: auto;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-schwach);
+  white-space: nowrap;
+}
+
+/* Interaktives Universum (themen/interaktives-universum.html):
+   Platzhalter-Karten für die geplanten 3D-Modelle, bewusst ohne Hover */
+.universum-raster {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+@media (max-width: 52rem) { .universum-raster { grid-template-columns: minmax(0, 1fr); } }
+.universum-karte {
+  display: flex;
+  flex-direction: column;
+  padding: 1.2rem;
+  border-radius: var(--radius-l);
+  background: var(--flaeche);
+  border: 1px solid var(--rand);
+  box-shadow: var(--schatten-s);
+}
+.universum-vorschau {
+  aspect-ratio: 2 / 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  margin-bottom: 1rem;
+  border: 1px dashed var(--rand-stark);
+  border-radius: var(--radius-m);
+  background: var(--flaeche-2);
+  color: var(--text-schwach);
+  font-size: 0.85rem;
+}
+.universum-vorschau svg { width: 2.6rem; height: 2.6rem; }
+/* Karte eines fertigen Modells: dunkle Vorschau wie die 3D-Bühne */
+.universum-vorschau-online {
+  border: 1px solid transparent;
+  background: var(--uni-himmel-all);
+  color: var(--uni-text);
+  text-decoration: none;
+  transition: box-shadow 0.2s;
+}
+.universum-vorschau-online:hover { box-shadow: 0 0 0 2px var(--zweig-universum); }
+/* Titelbild aus dem Modell (Renderings zusammengesetzt, Schritt 59) */
+.universum-vorschau-bild {
+  position: relative;
+  overflow: hidden;
+  justify-content: flex-end;
+  padding: 0.7rem 0.9rem;
+}
+.universum-vorschau-bild img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.universum-vorschau-bild > span {
+  position: relative;
+  align-self: stretch;
+  display: flex;
+  justify-content: space-between;
+  gap: 0.75rem;
+  font-size: 0.8rem;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
+}
+.universum-vorschau-bild b { color: var(--uni-kupfer); font-weight: 600; }
+.universum-kopf h2 a { color: inherit; text-decoration: none; }
+.universum-kopf h2 a:hover { color: var(--zweig-universum); }
+.universum-kopf { display: flex; align-items: baseline; gap: 0.75rem; margin-bottom: 0.4rem; }
+.universum-kopf h2 { margin: 0; font-size: 1.2rem; line-height: 1.3; }
+.universum-karte p { margin: 0; font-size: 0.95rem; color: var(--text-schwach); }
+/* Zusatz-Karte auf der Startseite (unter den vier Bereichen): Modelle
+   untereinander statt zweispaltig, Hover in Violett (eigene Farbe,
+   damit sie sich von „Astrophysik & Alltag“ in Kupfer abhebt) */
+.universum-start { margin-top: 1.25rem; --karten-farbe: var(--zweig-universum); }
+.universum-start .bereich-reiter { grid-template-columns: minmax(0, 1fr); }
+.universum-start:hover .karten-icon {
+  color: var(--karten-farbe);
+  background: color-mix(in srgb, var(--karten-farbe) 13%, var(--flaeche));
+}
+.universum-start .karte-gebiete .geplant-marke { margin-right: 0.4rem; }
+
+@media (max-width: 30rem) {
+  .gebiet-abschnitt > summary { padding: 0.85rem 1rem 0.85rem 1.1rem; }
+  .gebiet-abschnitt > :not(summary) { margin-left: 1.1rem; margin-right: 1.1rem; }
+}

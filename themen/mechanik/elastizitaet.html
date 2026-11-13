@@ -1,0 +1,671 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="robots" content="noindex">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Elastizität: Dehnung, Kompression und Scherung</title>
+  <meta name="description" content="Wie sich feste Körper verformen: Hookesches Gesetz mit Elastizitätsmodul, Querkontraktion, Kompressions- und Schermodul, elastische und plastische Verformung – mit Beispielrechnungen und Aufgaben.">
+
+  <link rel="stylesheet" href="../../css/stil.css">
+
+  <link rel="stylesheet" href="../../extern/katex/katex.min.css">
+  <script defer src="../../extern/katex/katex.min.js"></script>
+  <script defer src="../../extern/katex/contrib/auto-render.min.js" onload="starteFormeln()"></script>
+
+  <script src="../../js/daten.js"></script>
+  <script src="../../js/seite.js"></script>
+  <script src="../../js/effekte.js"></script>
+  <script src="../../js/interaktiv.js"></script>
+  <script src="../../js/modelle/elastizitaet.js"></script>
+  <script type="application/json" id="symbole">
+  {
+    "F": "Kraft",
+    "A": "Querschnittsfläche",
+    "L": "Länge",
+    "D": "Dicke (Durchmesser) des Stabs",
+    "V": "Volumen",
+    "σ": "mechanische Spannung (Kraft pro Fläche)",
+    "ε": "Dehnung (relative Längenänderung)",
+    "E": "Elastizitätsmodul",
+    "k": "Federkonstante",
+    "x": "Auslenkung (Verschiebung)",
+    "ν": "Poissonzahl (Querkontraktionszahl)",
+    "ε_∥": "Dehnung in Zugrichtung",
+    "ε_⊥": "Dehnung quer zur Zugrichtung",
+    "ε_x": "Dehnung in x-Richtung",
+    "ε_y": "Dehnung in y-Richtung",
+    "ε_z": "Dehnung in z-Richtung",
+    "p": "Druck",
+    "K": "Kompressionsmodul",
+    "κ": "Kompressibilität (Kehrwert des Kompressionsmoduls)",
+    "τ": "Schubspannung",
+    "G": "Schubmodul",
+    "γ": "Scherwinkel",
+    "z": "Höhe des gescherten Körpers",
+    "ε_xz": "Scherdehnung",
+    "m": "Masse",
+    "g": "Fallbeschleunigung",
+    "d": "Durchmesser des Seils",
+    "π": "Kreiszahl π ≈ 3,14159",
+    "h": "Wassertiefe",
+    "ρ": "Dichte",
+    "K_St": "Kompressionsmodul von Stahl",
+    "K_W": "Kompressionsmodul von Wasser",
+    "k_St": "Federkonstante des Stahldrahts",
+    "k_Al": "Federkonstante des Aluminiumdrahts",
+    "H": "Höhe der Wassersäule",
+    "y": "Abstand vom unteren Seilende"
+  }
+  </script>
+</head>
+<body data-thema="elastizitaet">
+  <main>
+    <article class="thema">
+      <header>
+        <h1>Elastizität: Dehnung, Kompression und Scherung</h1>
+        <p class="untertitel">Nichts ist wirklich starr: Jeder Stahlträger gibt
+          ein wenig nach, wenn man an ihm zieht. Wie viel, verrät eine einzige
+          Materialzahl – und warum ein Korken nicht im Flaschenhals klemmt,
+          eine zweite.</p>
+      </header>
+
+      <div class="tabs">
+
+        <section class="tab" id="verstehen" data-titel="Verstehen">
+
+          <p>Wenn du dich an eine Klimmzugstange hängst, biegt sie sich durch –
+            kaum sichtbar, aber messbar. Die Brücke, über die du fährst, gibt
+            unter jedem Lkw ein paar Millimeter nach. Und selbst der Boden unter
+            deinen Füßen wird ein winziges bisschen zusammengedrückt. Feste Körper
+            sind nicht starr. Sie verhalten sich wie sehr, sehr steife
+            Federn.</p>
+
+          <h2>Ziehen, und es wird länger</h2>
+
+          <p>Zieh an einem Gummiband, und es wird länger. Zieh doppelt so fest,
+            wird es doppelt so viel länger – genau wie bei einer
+            <a href="kraefte.html">Feder</a>. Dasselbe passiert mit einem
+            Stahlseil, nur viel weniger: Stahl ist rund 30&nbsp;000-mal steifer
+            als Gummi. Wie steif ein Material ist, beschreibt der
+            <em>Elastizitätsmodul</em>. Er hängt nur vom Material ab, nicht von
+            der Form des Gegenstands. Häng hier verschiedene Gewichte an Stäbe
+            aus verschiedenen Werkstoffen:</p>
+
+          <figure class="interaktiv" data-modell="zugstab">
+            <span class="titel">Zum Ausprobieren</span>
+            <figcaption>Ein Stab, 1 m lang und 2 cm dick, hängt an der Decke.
+              Wähle den Werkstoff und die angehängte Masse. Links siehst du den
+              Stab (die Verformung ist – außer bei Gummi – stark vergrößert
+              gezeichnet), rechts, wie weit sich gleich große Stäbe aus den
+              anderen Werkstoffen dehnen würden. Achtung, die Balken sind
+              logarithmisch, von 1 nm bis 1 m: Gleich große Längenunterschiede
+              der Balken bedeuten gleiche Faktoren, nicht gleiche
+              Differenzen.</figcaption>
+          </figure>
+
+          <h2>Wer länger wird, wird dünner</h2>
+
+          <p>Schau beim Ziehen genau auf das Gummiband: Es wird nicht nur länger,
+            sondern auch schmaler. Das nennt man <em>Querkontraktion</em>. Bei
+            Gummi ist sie gerade so groß, dass das Volumen gleich bleibt. Stahl
+            wird beim Ziehen dagegen etwas schmaler, aber nicht genug – sein
+            Volumen wächst ein klein wenig. Und es gibt Ausnahmen: Kork wird beim
+            Zusammendrücken kaum dicker. Darum lässt sich ein Korken in den
+            Flaschenhals schieben, während ein Gummistopfen dabei breiter wird
+            und klemmt.</p>
+
+          <figure class="interaktiv" data-modell="querkontraktion">
+            <span class="titel">Zum Ausprobieren</span>
+            <figcaption>Ein Block wird gezogen (positive Dehnung) oder
+              gestaucht (negative). Die Querkontraktionszahl ν gibt an, wie stark
+              er dabei in der Breite nachgibt. Probier die Werkstoffe durch – vor
+              allem den auxetischen Schaum, der beim Ziehen dicker wird.</figcaption>
+          </figure>
+
+          <div class="alltag">
+            <span class="titel">Aus dem Alltag</span>
+            <p>Fahrstuhlseile sind lange Stahlseile – und dehnen sich, wenn viele
+              Leute einsteigen. In einem hohen Gebäude kann die Kabine dabei
+              einige Zentimeter absacken. Moderne Aufzüge merken das und fahren
+              automatisch nach, damit keine Stolperkante entsteht.
+              </p>
+          </div>
+
+          <h2>Zu weit gezogen</h2>
+
+          <p>Solange man nur ein bisschen zieht, geht alles wieder zurück, wenn
+            man loslässt: Die Verformung ist <em>elastisch</em>. Zieht man zu
+            fest, ändert sich das. Bieg eine Büroklammer leicht, und sie federt
+            zurück. Bieg sie stark, und sie bleibt krumm – sie ist
+            <em>plastisch</em> verformt. Im Inneren sind dabei ganze Lagen von
+            Atomen gegeneinander verrutscht.</p>
+
+          <p>Manche Stoffe entscheiden sich je nach Tempo. Hüpfende Knete
+            („Silly Putty“) zerfließt langsam auf dem Tisch wie zäher Teig, springt
+            aber wie ein Flummi, wenn man sie auf den Boden wirft. Ihre langen
+            Molekülketten haben bei langsamer Verformung Zeit, aneinander
+            vorbeizugleiten – bei einem schnellen Stoß nicht.</p>
+
+          <div class="merkkasten">
+            <span class="titel">Das Wichtigste in Kürze</span>
+            <ul>
+              <li>Feste Körper verhalten sich bei kleinen Verformungen wie
+                Federn: doppelte Kraft, doppelte Verlängerung.</li>
+              <li>Wie steif ein Material ist, sagt der Elastizitätsmodul. Stahl
+                ist rund 30&nbsp;000-mal steifer als Gummi.</li>
+              <li>Was gedehnt wird, wird meist dünner (Querkontraktion). Gummi
+                behält dabei sein Volumen, Kork ändert seine Dicke kaum.</li>
+              <li>Bei zu großer Belastung bleibt eine Verformung zurück: Das
+                Material ist plastisch verformt – und reißt irgendwann.</li>
+            </ul>
+          </div>
+        </section>
+
+        <section class="tab" id="vertiefung" data-titel="Vertiefung">
+
+          <h2>Spannung, Dehnung und das Hookesche Gesetz</h2>
+
+          <p>Zieht eine Kraft $F$ senkrecht an der Querschnittsfläche $A$ eines
+            Stabs der Länge $L$, verlängert er sich um $\Delta L$ (Abb. 1). Um
+            vom einzelnen Gegenstand unabhängig zu werden, bezieht man Kraft und
+            Verlängerung auf die Abmessungen:</p>
+
+          $$ \sigma = \frac{F}{A} \quad \text{(mechanische Spannung, Zugspannung)}, \qquad \varepsilon = \frac{\Delta L}{L} \quad \text{(Dehnung)} . $$
+
+          <p>Für kleine Dehnungen sind beide proportional – das
+            <em>Hookesche Gesetz</em> für feste Körper:</p>
+
+          <div class="merkkasten">
+            <span class="titel">Hookesches Gesetz</span>
+            $$ \sigma = E\,\varepsilon, \qquad [E] = 1\,\mathrm{\tfrac{N}{m^2}} = 1\,\mathrm{Pa} $$
+            <p>Der <em>Elastizitätsmodul</em> $E$ ist eine reine
+              Materialkonstante. Das Gesetz beschreibt rein elastisches Verhalten:
+              Die Verformung ist vollständig umkehrbar, es geht keine Energie
+              verloren.</p>
+          </div>
+
+          <p>Der Zusammenhang mit der Federkonstante aus dem Kapitel
+            <a href="kraefte.html">Kräfte</a> ($F = k\,\Delta x$) ergibt sich durch
+            Einsetzen: $F/A = E\,\Delta L/L$, also</p>
+
+          $$ F = \underbrace{\frac{E A}{L}}_{k}\,\Delta L . $$
+
+          <p>Ein Stab ist also eine Feder, deren Federkonstante mit dem
+            Querschnitt wächst und mit der Länge abnimmt – ein doppelt so langes
+            Seil dehnt sich unter derselben Last doppelt so weit.</p>
+
+          <figure class="abbildung">
+            <svg class="abb" viewBox="0 0 360 240" role="img"
+                 aria-label="Stab an der Decke, unverformt gestrichelt und gedehnt; daneben der Querschnitt vorher und nachher">
+              <path class="achse" d="M100 30H200"/>
+              <path class="achse" d="M106 30L100 23M116 30L110 23M126 30L120 23M136 30L130 23M146 30L140 23M156 30L150 23M166 30L160 23M176 30L170 23M186 30L180 23M196 30L190 23"/>
+              <rect class="turm" x="136" y="30" width="28" height="170"/>
+              <rect class="hilfslinie" x="130" y="30" width="40" height="140"/>
+              <path class="achse" d="M112 30V170M108 30H116M108 170H116"/>
+              <text x="104" y="104" font-size="12" text-anchor="end">L</text>
+              <path class="kurve blau duenn" d="M184 170V200M180 170H188M180 200H188"/>
+              <text class="blau" x="192" y="190" font-size="12">ΔL</text>
+              <g class="pfeil kupfer">
+                <line x1="150" y1="202" x2="150" y2="223"/>
+                <polygon points="150,230 146.8,223 153.2,223"/>
+              </g>
+              <text class="kupfer" x="158" y="226" font-size="12">F</text>
+              <circle class="hilfslinie" cx="285" cy="110" r="20"/>
+              <circle class="turm" cx="285" cy="110" r="14"/>
+              <path class="achse" d="M265 146H305M265 142V150M305 142V150"/>
+              <text x="285" y="164" font-size="12" text-anchor="middle">D</text>
+              <text x="285" y="74" font-size="11" text-anchor="middle">Querschnitt</text>
+              <text x="285" y="88" font-size="11" text-anchor="middle">vorher / nachher</text>
+            </svg>
+            <figcaption>Abb. 1: Ein Stab wird durch die Kraft $F$ um $\Delta L$
+              länger und zugleich dünner (gestrichelt: vorher; Verformung stark
+              übertrieben). Rechts der Querschnitt: Der Durchmesser $D$ nimmt um
+              $|\Delta D|$ ab.</figcaption>
+          </figure>
+
+          <p>Typische Werte zeigt die Tabelle. Sie umspannen mehr als fünf
+            Zehnerpotenzen.</p>
+
+          <div class="tabelle-huelle">
+            <table>
+              <thead><tr><th>Material</th><th>E-Modul</th><th>Querkontraktionszahl $\nu$</th></tr></thead>
+              <tbody>
+                <tr><td>Gummi</td><td>$\approx 0{,}007\,\mathrm{GPa}$</td><td>$0{,}5$</td></tr>
+                <tr><td>Plexiglas (PMMA)</td><td>$\approx 3\,\mathrm{GPa}$</td><td>$0{,}4$</td></tr>
+                <tr><td>Holz (in Faserrichtung)</td><td>$\approx 14\,\mathrm{GPa}$</td><td>stark richtungsabhängig</td></tr>
+                <tr><td>Beton</td><td>$\approx 30\,\mathrm{GPa}$</td><td>$0{,}2$</td></tr>
+                <tr><td>Glas</td><td>$\approx 70\,\mathrm{GPa}$</td><td>$0{,}2 \ldots 0{,}3$</td></tr>
+                <tr><td>Stahl</td><td>$\approx 210\,\mathrm{GPa}$</td><td>$0{,}27 \ldots 0{,}3$</td></tr>
+                <tr><td>Diamant</td><td>$\approx 1200\,\mathrm{GPa}$</td><td>$\approx 0{,}1$</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <h3 id="querkontraktion">Querkontraktion</h3>
+
+          <p>Ein gedehnter Stab wird dünner. Die relative Dickenänderung ist für
+            kleine Dehnungen ebenfalls proportional zu $\varepsilon$; der Faktor
+            heißt <em>Querkontraktionszahl</em> oder <em>Poissonzahl</em>:</p>
+
+          $$ \nu = -\frac{\Delta D / D}{\Delta L / L} = -\frac{\varepsilon_\perp}{\varepsilon_\parallel} . $$
+
+          <p>Welche Volumenänderung folgt daraus? Für einen Stab mit
+            quadratischem Querschnitt ist $V = L D^2$. Logarithmisch
+            differenziert, in erster Ordnung,</p>
+
+          $$ \frac{\Delta V}{V} = \frac{\Delta L}{L} + 2\,\frac{\Delta D}{D} = \varepsilon - 2\nu\varepsilon = \varepsilon\,(1 - 2\nu) . $$
+
+          <p>Bleibt das Volumen erhalten ($\Delta V = 0$), muss $\nu = 0{,}5$
+            sein – das ist der Höchstwert für isotrope Stoffe und gilt in guter
+            Näherung für Gummi. Für die meisten Metalle ist $\nu \approx 0{,}3$,
+            für Kork fast null. Es gibt sogar <em>auxetische</em> Materialien mit
+            $\nu \lt 0$: Ihre innere Struktur klappt beim Ziehen auf wie ein
+            Scherengitter, sie werden dabei dicker.</p>
+
+          <h3 id="zugversuch">Der Zugversuch: elastisch und plastisch</h3>
+
+          <p>Das Hookesche Gesetz gilt nur für kleine Dehnungen. Was darüber
+            hinaus passiert, zeigt der <em>Zugversuch</em>: Eine Probe wird
+            langsam immer weiter gedehnt und die Spannung dabei gemessen
+            (Abb. 2). Bei Baustahl folgt auf die Hookesche Gerade die
+            <em>Streckgrenze</em>: Die Probe fließt, ganze Atomlagen gleiten
+            gegeneinander ab. Danach verfestigt sich das Material, die Spannung
+            steigt bis zur <em>Zugfestigkeit</em>. Schließlich schnürt sich die
+            Probe an einer Stelle ein und reißt.</p>
+
+          <figure class="abbildung">
+            <svg class="abb" viewBox="0 0 360 230" role="img"
+                 aria-label="Spannungs-Dehnungs-Diagramm eines Baustahls, schematisch: Hooke-Gerade, Streckgrenze, Verfestigung bis zur Zugfestigkeit, Einschnürung und Bruch; eine Entlastungslinie parallel zur Geraden">
+              <polyline class="kurve blau" points="44.0,196.0 50.9,166.6 57.8,137.1 64.7,107.7 67.2,96.8 71.5,96.8 78.4,96.8 85.3,96.8 90.4,96.8 92.2,95.2 99.1,89.1 106.0,83.4 112.9,78.0 119.8,73.0 126.6,68.2 133.5,63.8 140.4,59.8 147.3,56.0 154.2,52.6 161.1,49.4 168.0,46.6 174.9,44.2 181.8,42.0 188.6,40.2 195.5,38.7 202.4,37.6 209.3,36.7 216.2,36.2 223.1,36.0 230.0,36.2 236.8,36.7 243.7,37.7 250.6,39.1 257.5,41.0 264.4,43.2 271.3,45.8 278.2,48.9 285.1,52.4 291.9,56.3 298.8,60.6 305.7,65.3 312.6,70.4 319.5,76.0"/>
+              <path class="kurve kupfer duenn" d="M174.5 44.3L139 196" stroke-dasharray="5 4"/>
+              <path class="achse" d="M44 196H342M44 196V20"/>
+              <circle class="punkt" cx="67.2" cy="96.8" r="3"/>
+              <circle class="punkt" cx="223.8" cy="36" r="3"/>
+              <path class="kurve duenn" d="M314.5 71L324.5 81M324.5 71L314.5 81"/>
+              <text x="54" y="24" font-size="12">σ</text>
+              <text x="338" y="212" font-size="12" text-anchor="end">ε</text>
+              <text x="72" y="114" font-size="11">Streckgrenze</text>
+              <text x="223.8" y="24" font-size="11" text-anchor="middle">Zugfestigkeit</text>
+              <text x="320" y="96" font-size="11" text-anchor="middle">Bruch</text>
+              <text class="blau" x="58" y="168" font-size="11">Hooke</text>
+              <text class="kupfer" x="166" y="130" font-size="11">Entlastung</text>
+              <path class="kurve kupfer duenn" d="M44 186H139"/>
+              <text class="kupfer" x="91" y="182" font-size="10" text-anchor="middle">bleibende Dehnung</text>
+            </svg>
+            <figcaption>Abb. 2: Spannungs-Dehnungs-Diagramm eines Baustahls,
+              schematisch (der elastische Bereich ist stark verbreitert
+              gezeichnet; in Wirklichkeit endet die Gerade schon bei etwa
+              0,1 % Dehnung). Entlastet man nach dem Fließen, läuft die Kurve
+              parallel zur Hooke-Geraden zurück (kupfer): Eine bleibende Dehnung
+              bleibt.</figcaption>
+          </figure>
+          <p>Ob sich ein Stoff elastisch oder plastisch verhält, kann auch von der
+            Geschwindigkeit der Verformung abhängen. Im Vorlesungsexperiment
+            zerfließt hüpfende Knete bei langsamer Verformung plastisch, springt
+            bei einem schnellen Stoß aber elastisch zurück. Dieses
+            frequenzabhängige Verhalten untersucht die <em>Rheologie</em>; es
+            beruht meist auf molekularen Umlagerungen, etwa in Polymeren.</p>
+
+          <h2 id="kompression">Kompression</h2>
+
+          <p>Wird ein Körper von allen Seiten gleichmäßig zusammengedrückt (etwa
+            in der Tiefsee), wirkt in allen drei Raumrichtungen die Spannung
+            $\sigma = -\Delta p$. Jede Richtung wird dadurch direkt gestaucht und
+            über die Querkontraktion der beiden anderen wieder etwas gedehnt:</p>
+
+          $$ \varepsilon_x = \frac{-\Delta p}{E} - \nu\,\frac{-\Delta p}{E} - \nu\,\frac{-\Delta p}{E} = -\frac{\Delta p}{E}\,(1 - 2\nu) , $$
+
+          <p>ebenso $\varepsilon_y$ und $\varepsilon_z$. Für die Volumenänderung
+            addieren sich die drei Dehnungen,
+            $\Delta V/V = -3\,\Delta p\,(1-2\nu)/E$. Man definiert den
+            <em>Kompressionsmodul</em> $K$ über</p>
+
+          $$ \Delta p = -K\,\frac{\Delta V}{V} \qquad\Longrightarrow\qquad K = \frac{E}{3\,(1 - 2\nu)} , \qquad \kappa = \frac{1}{K} . $$
+
+          <p>Sein Kehrwert heißt <em>Kompressibilität</em> $\kappa$. Für
+            $\nu \to 0{,}5$ wird $K$ unendlich groß: Gummi lässt sich leicht
+            verbiegen, aber kaum zusammenpressen. Wasser hat
+            $K \approx 2{,}2\,\mathrm{GPa}$, Stahl rund $175\,\mathrm{GPa}$
+            (Beispiel 3).</p>
+
+          <h2 id="scherung">Scherung</h2>
+
+          <p>Greift die Kraft parallel zur Fläche an, wird der Körper nicht
+            gedehnt, sondern geschert (Abb. 3). Die Kraft pro Fläche heißt
+            <em>Scherspannung</em> $\tau = F/A$, die Verformung beschreibt der
+            <em>Scherwinkel</em> $\gamma$ mit $\tan\gamma = \Delta x/z$, für
+            kleine Winkel $\gamma \approx \Delta x/z$. Wieder gilt ein Hookesches
+            Gesetz:</p>
+
+          $$ \tau = G\,\gamma, \qquad G = \frac{E}{2\,(1 + \nu)} . $$
+
+          <p>$G$ heißt <em>Schermodul</em>, <em>Schubmodul</em> oder
+            <em>Torsionsmodul</em>. Für Stahl ist
+            $G = 210\,\mathrm{GPa}/(2 \cdot 1{,}3) = 81\,\mathrm{GPa}$. (In der
+            Tensorschreibweise ist die Scherverzerrung
+            $\varepsilon_{xz} = \gamma/2$; in der Vorlesung wird $\gamma$ selbst
+            verwendet.)</p>
+
+          <figure class="abbildung">
+            <svg class="abb" viewBox="0 0 360 210" role="img"
+                 aria-label="Quader auf festem Boden, oben seitlich verschoben; Scherwinkel gamma, Verschiebung Delta x und Höhe z">
+              <path class="achse" d="M40 170H290"/>
+              <path class="achse" d="M50 170L44 178M70 170L64 178M90 170L84 178M110 170L104 178M130 170L124 178M150 170L144 178M170 170L164 178M190 170L184 178M210 170L204 178M230 170L224 178M250 170L244 178M270 170L264 178M290 170L284 178"/>
+              <polygon class="turm" points="70,170 230,170 262,70 102,70"/>
+              <rect class="hilfslinie" x="70" y="70" width="160" height="100"/>
+              <path class="kurve kupfer duenn" d="M70 130A40 40 0 0 1 82.2 131.9"/>
+              <text class="kupfer" x="80" y="150" font-size="12">γ</text>
+              <path class="kurve blau duenn" d="M70 62H102M70 58V66M102 58V66"/>
+              <text class="blau" x="86" y="52" font-size="12" text-anchor="middle">Δx</text>
+              <path class="achse" d="M54 70V170M50 70H58M50 170H58"/>
+              <text x="46" y="124" font-size="12" text-anchor="end">z</text>
+              <g class="pfeil kupfer">
+                <line x1="160" y1="56" x2="214" y2="56"/>
+                <polygon points="221,56 214,52.8 214,59.2"/>
+              </g>
+              <text class="kupfer" x="228" y="60" font-size="12">F</text>
+              <text x="182" y="90" font-size="11" text-anchor="middle">Fläche A</text>
+            </svg>
+            <figcaption>Abb. 3: Scherung. Die Kraft $F$ greift parallel zur
+              oberen Fläche $A$ an, der Boden hält fest. Der Körper kippt um den
+              Scherwinkel $\gamma$; die Oberseite verschiebt sich um
+              $\Delta x$.</figcaption>
+          </figure>
+
+          <p>Eine wichtige Form der Scherung ist die <em>Torsion</em>: Verdrillt
+            man einen Draht, wird jedes Stück seines Mantels geschert – im
+            Vorlesungsexperiment wird ein gerader Strich auf einem Zylinder zur
+            Schraubenlinie. Auf der Torsion dünner Fäden beruhen empfindliche
+            Messgeräte wie die
+            <a href="gravitation.html#cavendish">Gravitationsdrehwaage</a>.
+            Ein zweites Experiment zeigt, dass die Form zählt: Ein Stahlträger
+            biegt sich hochkant viel weniger durch als flach liegend, obwohl
+            Material und $E$ gleich sind – beim Biegen wird die eine Seite
+            gedehnt, die andere gestaucht, und je weiter das Material von der
+            Mitte entfernt liegt, desto mehr trägt es.</p>
+
+          <div class="merkkasten">
+            <span class="titel">Merke</span>
+            <p>Dehnung: $\sigma = E\varepsilon$ mit $\sigma = F/A$,
+              $\varepsilon = \Delta L/L$. Querkontraktion:
+              $\nu = -\varepsilon_\perp/\varepsilon_\parallel$,
+              $\Delta V/V = \varepsilon(1-2\nu)$. Kompression:
+              $\Delta p = -K\,\Delta V/V$, $K = E/(3(1-2\nu))$. Scherung:
+              $\tau = G\gamma$, $G = E/(2(1+\nu))$. Alle Gesetze gelten nur im
+              elastischen Bereich kleiner Verformungen.</p>
+          </div>
+        </section>
+
+        <section class="tab" id="beispiele" data-titel="Beispielrechnungen">
+
+          <div class="beispiel">
+            <h3>Beispiel 1: Wie weit gibt ein Aufzugseil nach?</h3>
+            <p><strong>Gegeben:</strong> Ein Aufzug hängt an einem Stahlseil
+              (Durchmesser $12\,\mathrm{mm}$, $E = 210\,\mathrm{GPa}$), das bis zur
+              Kabine $L = 50\,\mathrm{m}$ lang ist. Es steigen Personen mit
+              zusammen $m = 800\,\mathrm{kg}$ ein.<br>
+              <strong>Gesucht:</strong> Zusätzliche Spannung im Seil und wie weit
+              die Kabine dadurch absackt.</p>
+
+            <p><strong>1. Querschnitt:</strong>
+              $$ A = \frac{\pi d^2}{4} = \frac{\pi \cdot (0{,}012\,\mathrm{m})^2}{4} = 1{,}131 \cdot 10^{-4}\,\mathrm{m^2} . $$</p>
+
+            <p><strong>2. Spannung:</strong> $F = m g = 800\,\mathrm{kg} \cdot 9{,}81\,\mathrm{m/s^2} = 7848\,\mathrm{N}$,
+              $$ \sigma = \frac{F}{A} = \frac{7848\,\mathrm{N}}{1{,}131 \cdot 10^{-4}\,\mathrm{m^2}} = 6{,}94 \cdot 10^{7}\,\mathrm{Pa} = 69\,\mathrm{MPa} . $$</p>
+
+            <p><strong>3. Dehnung und Verlängerung:</strong>
+              $$ \varepsilon = \frac{\sigma}{E} = \frac{6{,}94 \cdot 10^{7}\,\mathrm{Pa}}{2{,}1 \cdot 10^{11}\,\mathrm{Pa}} = 3{,}30 \cdot 10^{-4}, \qquad \Delta L = \varepsilon L = 3{,}30 \cdot 10^{-4} \cdot 50\,\mathrm{m} = 0{,}0165\,\mathrm{m} . $$
+              Einheitencheck: $\mathrm{Pa}/\mathrm{Pa}$ ist dimensionslos,
+              $\varepsilon \cdot \mathrm{m} = \mathrm{m}$ ✓.</p>
+
+            <p><strong>Ergebnis und Plausibilität:</strong> Die Kabine sackt um
+              gut $1{,}6\,\mathrm{cm}$ ab – genug für eine Stolperkante. Echte
+              Seile sind aus vielen verdrillten Drähten geflochten und dehnen sich
+              noch stärker (ihr wirksamer E-Modul ist etwa halb so groß). Die
+              Spannung von $69\,\mathrm{MPa}$ liegt weit unter der Streckgrenze –
+              das Seil verhält sich elastisch.</p>
+          </div>
+
+          <div class="beispiel">
+            <h3>Beispiel 2: Länger, dünner – und größer?</h3>
+            <p><strong>Gegeben:</strong> Ein Stahlstab ($L = 1{,}000\,\mathrm{m}$,
+              $D = 20\,\mathrm{mm}$, $E = 210\,\mathrm{GPa}$, $\nu = 0{,}30$) wird mit
+              $F = 50\,\mathrm{kN}$ gezogen.<br>
+              <strong>Gesucht:</strong> Verlängerung, Durchmesseränderung und
+              Volumenänderung.</p>
+
+            <p><strong>1. Spannung und Dehnung:</strong>
+              $A = \pi (0{,}020\,\mathrm{m})^2/4 = 3{,}142 \cdot 10^{-4}\,\mathrm{m^2}$,
+              $$ \sigma = \frac{5{,}0 \cdot 10^4\,\mathrm{N}}{3{,}142 \cdot 10^{-4}\,\mathrm{m^2}} = 1{,}59 \cdot 10^{8}\,\mathrm{Pa}, \qquad \varepsilon = \frac{1{,}59 \cdot 10^{8}\,\mathrm{Pa}}{2{,}1 \cdot 10^{11}\,\mathrm{Pa}} = 7{,}58 \cdot 10^{-4} . $$
+              Einheitencheck: $\mathrm{N/m^2} = \mathrm{Pa}$; $\varepsilon$ ist als Quotient $\mathrm{Pa}/\mathrm{Pa}$ dimensionslos ✓.</p>
+
+            <p><strong>2. Verlängerung:</strong>
+              $\Delta L = \varepsilon L = 7{,}58 \cdot 10^{-4} \cdot 1{,}000\,\mathrm{m} = 0{,}76\,\mathrm{mm}$.</p>
+
+            <p><strong>3. Querkontraktion:</strong>
+              $\Delta D = -\nu\,\varepsilon\,D = -0{,}30 \cdot 7{,}58 \cdot 10^{-4} \cdot 20\,\mathrm{mm} = -4{,}5\,\mu\mathrm{m}$.</p>
+
+            <p><strong>4. Volumen:</strong>
+              $$ \frac{\Delta V}{V} = \varepsilon\,(1 - 2\nu) = 7{,}58 \cdot 10^{-4} \cdot 0{,}40 = 3{,}03 \cdot 10^{-4}, \qquad \Delta V = 3{,}03 \cdot 10^{-4} \cdot 3{,}142 \cdot 10^{-4}\,\mathrm{m^3} = 0{,}095\,\mathrm{cm^3} . $$</p>
+
+            <p><strong>Ergebnis und Plausibilität:</strong> Der Stab wird
+              $0{,}76\,\mathrm{mm}$ länger, aber nur $4{,}5\,\mu\mathrm{m}$ dünner –
+              weniger als ein Zehntel eines Haares. Sein Volumen wächst um knapp
+              einen Zehntel Kubikzentimeter: Stahl ist kein volumentreuer Stoff
+              wie Gummi. $160\,\mathrm{MPa}$ liegen noch unter der Streckgrenze von
+              Baustahl (rund $235\,\mathrm{MPa}$).</p>
+          </div>
+
+          <div class="beispiel">
+            <h3>Beispiel 3: Stahl und Wasser im Marianengraben</h3>
+            <p><strong>Gegeben:</strong> Am tiefsten Punkt des Ozeans,
+              $h = 11\,\mathrm{km}$, herrscht der Wasserdruck
+              $\Delta p = \rho g h$ mit $\rho = 1025\,\mathrm{kg/m^3}$. Wasser:
+              $K_\text{W} = 2{,}2\,\mathrm{GPa}$; Stahl: $E = 210\,\mathrm{GPa}$,
+              $\nu = 0{,}30$.<br>
+              <strong>Gesucht:</strong> Relative Volumenänderung von Wasser und
+              Stahl.</p>
+
+            <p><strong>1. Druck:</strong>
+              $\Delta p = 1025\,\mathrm{kg/m^3} \cdot 9{,}81\,\mathrm{m/s^2} \cdot 1{,}1 \cdot 10^4\,\mathrm{m} = 1{,}11 \cdot 10^{8}\,\mathrm{Pa}$
+              – rund 1100-facher Luftdruck.
+              Einheitencheck: $\mathrm{kg\,m^{-3} \cdot m\,s^{-2} \cdot m} = \mathrm{N/m^2} = \mathrm{Pa}$ ✓.</p>
+
+            <p><strong>2. Kompressionsmodul von Stahl:</strong>
+              $$ K_\text{St} = \frac{E}{3\,(1 - 2\nu)} = \frac{210\,\mathrm{GPa}}{3 \cdot 0{,}40} = 175\,\mathrm{GPa} . $$</p>
+
+            <p><strong>3. Volumenänderungen:</strong>
+              $$ \frac{\Delta V}{V}\bigg|_\text{W} = -\frac{1{,}11 \cdot 10^{8}\,\mathrm{Pa}}{2{,}2 \cdot 10^{9}\,\mathrm{Pa}} = -5{,}0\,\%, \qquad \frac{\Delta V}{V}\bigg|_\text{St} = -\frac{1{,}11 \cdot 10^{8}\,\mathrm{Pa}}{1{,}75 \cdot 10^{11}\,\mathrm{Pa}} = -0{,}063\,\% . $$</p>
+
+            <p><strong>Ergebnis und Plausibilität:</strong> Selbst Wasser, das wir
+              im Alltag für unzusammendrückbar halten, verliert in 11 km Tiefe
+              ein Zwanzigstel seines Volumens – Stahl nur sechs Zehntausendstel,
+              rund 80-mal weniger. Dass $\Delta p/K$ hier noch klein ist,
+              rechtfertigt die lineare Rechnung.</p>
+          </div>
+        </section>
+
+        <section class="tab" id="aufgaben" data-titel="Aufgaben">
+
+          <p>Wenn nichts anderes angegeben ist: $g = 9{,}81\,\mathrm{m/s^2}$,
+            Stahl $E = 210\,\mathrm{GPa}$, $\nu = 0{,}30$. Alle Verformungen sind
+            elastisch und klein.</p>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 1: Welches Metall ist das?
+              <span class="schwierigkeit" data-stufe="leicht">leicht</span>
+            </h3>
+            <p>Ein $2{,}00\,\mathrm{m}$ langer Draht mit $1{,}00\,\mathrm{mm}$
+              Durchmesser wird mit $5{,}00\,\mathrm{kg}$ belastet und dehnt sich
+              dabei um $0{,}60\,\mathrm{mm}$. Bestimme den Elastizitätsmodul. Aus
+              welchem Metall könnte der Draht sein (Aluminium $70\,\mathrm{GPa}$,
+              Kupfer $120\,\mathrm{GPa}$, Stahl $210\,\mathrm{GPa}$)?</p>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>$A = \pi (1{,}00 \cdot 10^{-3}\,\mathrm{m})^2/4 = 7{,}85 \cdot 10^{-7}\,\mathrm{m^2}$,
+                $F = 5{,}00\,\mathrm{kg} \cdot 9{,}81\,\mathrm{m/s^2} = 49{,}1\,\mathrm{N}$,
+                $\sigma = F/A = 6{,}25 \cdot 10^{7}\,\mathrm{Pa}$,
+                $\varepsilon = 0{,}60\,\mathrm{mm}/2000\,\mathrm{mm} = 3{,}0 \cdot 10^{-4}$.
+                $$ E = \frac{\sigma}{\varepsilon} = \frac{6{,}25 \cdot 10^{7}\,\mathrm{Pa}}{3{,}0 \cdot 10^{-4}} \approx 2{,}1 \cdot 10^{11}\,\mathrm{Pa} \approx 210\,\mathrm{GPa} $$
+                – ein Stahldraht.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 2: Das Brückenlager
+              <span class="schwierigkeit" data-stufe="leicht">leicht</span>
+            </h3>
+            <p>Brücken liegen oft auf Gummiklötzen, damit sie sich bei
+              Temperaturänderungen bewegen können. Ein Klotz ist
+              $30\,\mathrm{cm} \times 30\,\mathrm{cm}$ groß und $5{,}0\,\mathrm{cm}$
+              hoch, sein Schermodul beträgt $G = 1{,}0\,\mathrm{MPa}$. Die Brücke
+              schiebt mit $F = 9{,}0\,\mathrm{kN}$ waagerecht an seiner Oberseite.
+              Berechne Scherspannung, Scherwinkel und Verschiebung der Oberseite.</p>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>$\tau = F/A = 9{,}0 \cdot 10^3\,\mathrm{N}/0{,}090\,\mathrm{m^2} = 1{,}0 \cdot 10^5\,\mathrm{Pa}$,
+                $\gamma = \tau/G = 0{,}10$ (rund $5{,}7°$),
+                $\Delta x = \gamma z = 0{,}10 \cdot 5{,}0\,\mathrm{cm} = 5{,}0\,\mathrm{mm}$.
+                Der Klotz gibt also spürbar nach – genau dafür ist er da.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 3: Korken und Gummistopfen
+              <span class="schwierigkeit" data-stufe="mittel">mittel</span>
+            </h3>
+            <p>Ein Korken ($\nu \approx 0$) und ein Gummistopfen
+              ($\nu \approx 0{,}5$), beide $24\,\mathrm{mm}$ dick, werden beim
+              Hineindrücken in eine Flasche in Längsrichtung um 2 % gestaucht.</p>
+            <ol type="a">
+              <li>Um wie viel ändern sich ihre Durchmesser?</li>
+              <li>Wie ändert sich jeweils das Volumen? Erkläre damit, warum Kork
+                als Flaschenverschluss so gut geeignet ist.</li>
+            </ol>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p><strong>(a)</strong> $\varepsilon = -0{,}02$, also
+                $\Delta D/D = -\nu\varepsilon$. Korken: $0$, er wird nicht
+                dicker. Gummistopfen: $+0{,}5 \cdot 0{,}02 = +1\,\%$, also
+                $0{,}24\,\mathrm{mm}$ dicker.</p>
+              <p><strong>(b)</strong> $\Delta V/V = \varepsilon(1 - 2\nu)$:
+                Korken $-2\,\%$ (das Volumen nimmt ab, die zelligen Luftkammern
+                werden zusammengedrückt), Gummi $0$ (volumentreu). Der
+                Gummistopfen muss beim Stauchen seitlich ausweichen und presst
+                sich gegen die Flaschenwand – er klemmt. Der Korken lässt sich
+                einschieben und dichtet trotzdem, weil er sich anschließend
+                elastisch an die Wand drückt.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 4: Zwei Drähte hintereinander
+              <span class="schwierigkeit" data-stufe="mittel">mittel</span>
+            </h3>
+            <p>Ein Stahldraht und ein Aluminiumdraht ($E = 70\,\mathrm{GPa}$), je
+              $1{,}0\,\mathrm{m}$ lang und $2{,}0\,\mathrm{mm}$ dick, sind
+              aneinandergeknotet und tragen gemeinsam eine Last von
+              $200\,\mathrm{N}$.</p>
+            <ol type="a">
+              <li>Wie stark dehnt sich jeder Draht?</li>
+              <li>Welche Federkonstante hat jeder Draht, welche die Kombination?</li>
+            </ol>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p><strong>(a)</strong> Beide tragen dieselbe Kraft, also dieselbe
+                Spannung
+                $\sigma = 200\,\mathrm{N}/3{,}14 \cdot 10^{-6}\,\mathrm{m^2} = 6{,}37 \cdot 10^{7}\,\mathrm{Pa}$.
+                Stahl: $\Delta L = \sigma L/E = 0{,}30\,\mathrm{mm}$; Aluminium:
+                $0{,}91\,\mathrm{mm}$; zusammen $1{,}21\,\mathrm{mm}$.</p>
+              <p><strong>(b)</strong> $k = EA/L$: Stahl
+                $6{,}6 \cdot 10^5\,\mathrm{N/m}$, Aluminium
+                $2{,}2 \cdot 10^5\,\mathrm{N/m}$. Hintereinander addieren sich die
+                Verlängerungen, also die Kehrwerte:
+                $1/k = 1/k_\text{St} + 1/k_\text{Al}$, $k = 1{,}65 \cdot 10^5\,\mathrm{N/m}$.
+                Kontrolle: $200\,\mathrm{N}/1{,}65 \cdot 10^5\,\mathrm{N/m} = 1{,}21\,\mathrm{mm}$ ✓.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 5: Das zusammengepresste Meer
+              <span class="schwierigkeit" data-stufe="schwer">schwer</span>
+            </h3>
+            <p>Wasser hat den Kompressionsmodul $K = 2{,}2\,\mathrm{GPa}$,
+              Meerwasser die Dichte $\rho = 1025\,\mathrm{kg/m^3}$.</p>
+            <ol type="a">
+              <li>Um wie viel Prozent ist Meerwasser in $4\,\mathrm{km}$ Tiefe
+                dichter als an der Oberfläche?</li>
+              <li>Eine Wassersäule der Höhe $H$ wird unter ihrem eigenen Gewicht
+                zusammengepresst. Zeige, dass sie dadurch um
+                $\Delta H = \rho g H^2/(2K)$ niedriger ist als ohne
+                Kompression.</li>
+              <li>Wie viel höher stünde der Meeresspiegel, wenn Wasser
+                inkompressibel wäre? Rechne mit einer mittleren Meerestiefe von
+                $3{,}7\,\mathrm{km}$.</li>
+            </ol>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p><strong>(a)</strong> $p = \rho g h = 4{,}0 \cdot 10^{7}\,\mathrm{Pa}$;
+                wegen $\rho V = \text{const}$ ist
+                $\Delta\rho/\rho = -\Delta V/V = p/K = 1{,}8\,\%$.</p>
+              <p><strong>(b)</strong> In der Tiefe $z$ unter der Oberfläche ist
+                $p(z) = \rho g z$; eine dünne Schicht $\mathrm{d}z$ wird um
+                $\mathrm{d}z \cdot p(z)/K$ dünner. Aufsummiert:
+                $$ \Delta H = \int_0^H \frac{\rho g z}{K}\,\mathrm{d}z = \frac{\rho g H^2}{2K} . $$</p>
+              <p><strong>(c)</strong>
+                $\Delta H = 1025 \cdot 9{,}81 \cdot (3700)^2/(2 \cdot 2{,}2 \cdot 10^9)\,\mathrm{m} = 31\,\mathrm{m}$
+                (in dieser Näherung mit konstantem $K$; da $K$ mit dem Druck
+                etwas zunimmt, ist der echte Wert etwas kleiner).
+                Ohne die Kompressibilität des Wassers stünde der Meeresspiegel rund
+                30 m höher – Küstenstädte wie Hamburg gäbe es nicht.</p>
+              <p><strong>Zum Nachdenken:</strong> In (b) haben wir mit konstanter
+                Dichte gerechnet, obwohl sie mit der Tiefe zunimmt. Warum ist das
+                hier erlaubt? (Tipp: Wie groß ist der Fehler im Verhältnis zu
+                $\Delta H$?)</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 6: Ein Seil unter seinem eigenen Gewicht
+              <span class="schwierigkeit" data-stufe="schwer">schwer</span>
+            </h3>
+            <p>Ein Stahlseil ($\rho = 7850\,\mathrm{kg/m^3}$) hängt frei in einem
+              Bergwerksschacht.</p>
+            <ol type="a">
+              <li>Zeige: Ein Seil der Länge $L$ dehnt sich unter seinem eigenen
+                Gewicht um $\Delta L = \rho g L^2/(2E)$ – unabhängig vom
+                Querschnitt.</li>
+              <li>Wie viel macht das bei $L = 1000\,\mathrm{m}$ aus?</li>
+              <li>Hochfester Seildraht reißt bei etwa $1{,}6\,\mathrm{GPa}$. Wie
+                lang darf ein solches Seil höchstens sein, bevor es unter seinem
+                eigenen Gewicht reißt (<em>Reißlänge</em>)?</li>
+            </ol>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p><strong>(a)</strong> Im Abstand $y$ vom unteren Ende trägt der
+                Querschnitt das Gewicht des Seilstücks darunter,
+                $F(y) = \rho A y g$, also $\sigma(y) = \rho g y$ – der
+                Querschnitt kürzt sich heraus. Das Stück $\mathrm{d}y$ dehnt sich
+                um $\sigma(y)\,\mathrm{d}y/E$:
+                $$ \Delta L = \int_0^L \frac{\rho g y}{E}\,\mathrm{d}y = \frac{\rho g L^2}{2E} . $$</p>
+              <p><strong>(b)</strong>
+                $\Delta L = 7850 \cdot 9{,}81 \cdot (1000)^2/(2 \cdot 2{,}1 \cdot 10^{11})\,\mathrm{m} = 0{,}18\,\mathrm{m}$.
+                Die Spannung am oberen Ende beträgt dabei schon
+                $\rho g L = 77\,\mathrm{MPa}$ – ohne jede Last.</p>
+              <p><strong>(c)</strong> Oben ist $\sigma = \rho g L$; aus
+                $\rho g L = 1{,}6 \cdot 10^9\,\mathrm{Pa}$ folgt
+                $L = 1{,}6 \cdot 10^9/(7850 \cdot 9{,}81)\,\mathrm{m} = 21\,\mathrm{km}$.</p>
+              <p><strong>Zum Nachdenken:</strong> Ein „Weltraumlift“ bis zur
+                geostationären Bahn (zu ihr siehe das Thema
+                <a href="gravitation.html">Gravitation</a>) bräuchte ein Seil von
+                36 000 km Länge. Warum scheitert das mit Stahl, und welche
+                Materialeigenschaft müsste man verbessern? (Tipp: Die Reißlänge
+                hängt nur vom Verhältnis Festigkeit zu Dichte ab.)</p>
+            </details>
+          </div>
+        </section>
+
+      </div></article>
+  </main>
+</body>
+</html>

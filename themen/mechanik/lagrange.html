@@ -1,0 +1,971 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="robots" content="noindex">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Der Lagrange-Formalismus</title>
+  <meta name="description" content="Zwangsbedingungen, generalisierte Koordinaten, d'Alembert-Prinzip, Lagrange-Gleichungen erster und zweiter Art und das Hamiltonsche Prinzip – verständlich erklärt und mit Herleitungen, Beispielen und Aufgaben.">
+
+  <link rel="stylesheet" href="../../css/stil.css">
+
+  <link rel="stylesheet" href="../../extern/katex/katex.min.css">
+  <script defer src="../../extern/katex/katex.min.js"></script>
+  <script defer src="../../extern/katex/contrib/auto-render.min.js" onload="starteFormeln()"></script>
+
+  <script src="../../js/daten.js"></script>
+  <script src="../../js/seite.js"></script>
+  <script src="../../js/effekte.js"></script>
+  <script src="../../js/interaktiv.js"></script>
+  <script src="../../js/modelle/lagrange.js"></script>
+  <script type="application/json" id="symbole">
+  {
+    "N": "Anzahl der Massenpunkte",
+    "k": "Anzahl der Zwangsbedingungen",
+    "f": "Anzahl der Freiheitsgrade (bzw. Funktion f(q, t) im Eichterm)",
+    "i": "Nummer des Massenpunkts bzw. der Zwangsbedingung",
+    "j": "Nummer der generalisierten Koordinate",
+    "f_i": "i-te Zwangsbedingung",
+    "r": "Ortsvektor",
+    "r_1": "Ort von Massenpunkt 1",
+    "r_N": "Ort von Massenpunkt N",
+    "r_i": "Ort des i-ten Massenpunkts",
+    "t": "Zeit",
+    "q": "generalisierte Koordinate",
+    "q_1": "erste generalisierte Koordinate",
+    "q_f": "letzte generalisierte Koordinate",
+    "q_j": "j-te generalisierte Koordinate",
+    "q_k": "k-te generalisierte Koordinate",
+    "q_l": "l-te generalisierte Koordinate",
+    "a_ij": "Koeffizient der differentiellen Zwangsbedingung",
+    "a_il": "Koeffizient der differentiellen Zwangsbedingung",
+    "b_i": "Zeit-Koeffizient der differentiellen Zwangsbedingung",
+    "φ": "Winkel",
+    "ω": "Winkelgeschwindigkeit",
+    "m": "Masse",
+    "m_i": "Masse des i-ten Massenpunkts",
+    "m_1": "Masse des Wagens",
+    "m_2": "Masse des Pendelkörpers",
+    "g": "Fallbeschleunigung",
+    "x": "x-Koordinate (in der Variationsrechnung: unabhängige Variable)",
+    "y": "y-Koordinate (in der Variationsrechnung: gesuchte Funktion y(x))",
+    "z": "Höhe",
+    "x_1": "Ort des Wagens",
+    "y_1": "y-Koordinate des Wagens bzw. Randwert",
+    "x_2": "x-Koordinate des Pendelkörpers",
+    "y_2": "y-Koordinate des Pendelkörpers",
+    "y_i": "Stützwert der Funktion",
+    "F_i": "eingeprägte Kraft auf Massenpunkt i",
+    "Z": "Zwangskraft",
+    "Z_i": "Zwangskraft auf Massenpunkt i",
+    "δ": "virtuelle Verrückung bzw. Variation",
+    "λ": "Lagrange-Multiplikator",
+    "λ_i": "Lagrange-Multiplikator der i-ten Zwangsbedingung",
+    "a": "Koeffizienten der Zwangsbedingung",
+    "L": "Lagrange-Funktion (T − V)",
+    "T": "kinetische Energie",
+    "V": "potentielle Energie",
+    "Q_j": "generalisierte Kraft",
+    "U": "generalisiertes (geschwindigkeitsabhängiges) Potential",
+    "F": "Kraft (in der Variationsrechnung: Integrand des Funktionals)",
+    "e": "elektrische Ladung",
+    "E": "elektrische Feldstärke",
+    "B": "magnetische Flussdichte",
+    "v": "Geschwindigkeit",
+    "ϕ": "elektrisches Potential",
+    "A": "Vektorpotential",
+    "v_i": "Geschwindigkeit von Massenpunkt i",
+    "h_i": "Betrag der Reibungskraft auf Massenpunkt i",
+    "h": "Betrag der Reibungskraft",
+    "γ": "Reibungskoeffizient",
+    "μ_G": "Gleitreibungszahl",
+    "F_N": "Normalkraft",
+    "D": "Dissipationsfunktion (Rayleigh)",
+    "I": "Funktional (ordnet einer Funktion eine Zahl zu)",
+    "ε": "kleiner Parameter der Variation",
+    "η": "Abweichungsfunktion (verschwindet an den Rändern)",
+    "S": "Wirkung",
+    "t_1": "Anfangszeitpunkt",
+    "t_2": "Endzeitpunkt",
+    "τ": "auf 0 bis 1 normierte Zeit",
+    "π": "Kreiszahl π ≈ 3,14159",
+    "c": "Konstante",
+    "M": "Masse der Rolle",
+    "R": "Radius des Rings",
+    "n": "Drehzahl",
+    "θ": "Winkel der Perle auf dem Ring",
+    "ω_k": "kritische Winkelgeschwindigkeit",
+    "S_Probe": "Wirkung der Probebahn",
+    "S_echt": "Wirkung der echten Bahn",
+    "φ_1": "Winkel des ersten Pendels",
+    "φ_2": "Winkel des zweiten Pendels",
+    "u": "Geschwindigkeit, mit der der Faden verkürzt wird",
+    "s": "Dehnung der Feder in der Ruhelage",
+    "X": "Ort des Keils",
+    "α": "Neigungswinkel des Keils",
+    "x_A": "Ort der Aufhängung",
+    "a_r": "radiale Komponente des Koeffizientenvektors",
+    "a_θ": "Winkelkomponente des Koeffizientenvektors",
+    "e_r": "radialer Einheitsvektor"
+  }
+  </script>
+</head>
+<body data-thema="lagrange">
+  <main>
+    <article class="thema">
+      <header>
+        <h1>Der Lagrange-Formalismus</h1>
+        <p class="untertitel">Statt Kräfte zu zerlegen, zwei Energien aufschreiben: wie man
+          Bewegungsgleichungen für Pendel, Perlen und Wagen in wenigen Zeilen findet – und
+          warum die Natur dabei den Weg der kleinsten Wirkung nimmt.</p>
+      </header>
+
+      <div class="tabs">
+
+        <section class="tab" id="verstehen" data-titel="Verstehen">
+
+          <p>Ein Wagen der Achterbahn rast durch Loopings und Steilkurven. Wer seine
+            Bewegung mit <a href="newton-axiome.html">Newton</a> berechnen will, muss
+            alle Kräfte kennen – auch die, mit der die Schienen den Wagen in jedem
+            Augenblick auf der Bahn halten. Diese Kraft ändert sich ständig, und
+            eigentlich interessiert sie niemanden. Wir wissen ja schon, <em>was</em>
+            sie bewirkt: Der Wagen bleibt auf den Schienen.</p>
+
+          <p>Joseph-Louis Lagrange hatte 1788 eine elegantere Idee. Er beschrieb nur
+            das, was sich wirklich frei ändern kann – beim Achterbahnwagen ist das
+            eine einzige Zahl: wie weit er schon entlang der Strecke gefahren ist. Die
+            Schienen tauchen in seiner Rechnung gar nicht mehr auf.</p>
+
+          <h2>So wenige Zahlen wie möglich</h2>
+
+          <p>Ein Pendel hängt an einer Stange. Seine Kugel bewegt sich in der Ebene,
+            man könnte sie also mit zwei Koordinaten beschreiben, nach rechts und
+            nach oben. Die Stange erlaubt aber nur Punkte auf einem Kreis. Ein
+            einziger Winkel reicht deshalb völlig aus. Physiker sagen: Das Pendel hat
+            <em>einen Freiheitsgrad</em>. Solche maßgeschneiderten Größen – ein Winkel,
+            ein Weg entlang einer Schiene, ein Abstand – heißen <em>verallgemeinerte
+            Koordinaten</em>.</p>
+
+          <div class="alltag">
+            <span class="titel">Aus dem Alltag</span>
+            <p>Eine Straßenbahn kann nicht ausweichen – ihr Zustand ist mit dem
+              Kilometerstand auf der Strecke vollständig beschrieben. Ein Auto hat
+              dagegen zwei Freiheitsgrade auf der Straße, ein Flugzeug drei im Raum
+              (beide als Punkt betrachtet).
+              Und ein Kind auf der Schaukel? Ebenfalls nur einen: den Winkel der
+              Ketten.</p>
+          </div>
+
+          <h2>Zwei Energien statt vieler Kräfte</h2>
+
+          <p>Lagranges Rezept ist erstaunlich mechanisch. Man schreibt die
+            Bewegungsenergie und die Lageenergie auf, beide ausgedrückt durch die
+            verallgemeinerten Koordinaten, und bildet ihre Differenz: die
+            <em>Lagrange-Funktion</em>. Eine feste Rechenvorschrift macht daraus die
+            Bewegungsgleichung – ohne eine einzige Kraft zu zerlegen, ohne
+            Kräfteparallelogramm, ohne die Schienenkraft.</p>
+
+          <p>Wie mächtig das ist, zeigt eine Perle, die auf einem drehenden Ring
+            gleiten kann. Mit Kräften ist das knifflig: Der Ring drückt in
+            wechselnde Richtungen, und alles dreht sich. Mit Lagrange sind es zwei
+            Zeilen. Und das Ergebnis überrascht: Dreht sich der Ring schnell genug,
+            bleibt die Perle nicht mehr unten liegen, sondern wandert seitlich
+            hinauf.</p>
+
+          <figure class="interaktiv" data-modell="perlenring">
+            <span class="titel">Zum Ausprobieren</span>
+            <figcaption>Ein Drahtring (Radius 25 cm) dreht sich um seine senkrechte
+              Achse, eine Perle kann reibungsfrei auf ihm gleiten. Du siehst den Ring
+              so, wie ihn jemand sieht, der sich mitdreht. Rechts die
+              „Energielandschaft“ aus der Lagrange-Funktion: Die Perle sammelt sich in
+              ihren Tälern. Dreh die Drehzahl über etwa 60 U/min und beobachte, wie
+              aus dem Tal in der Mitte ein Buckel wird. Mit „Loslassen“ pendelt die
+              Perle um ihre Ruhelage.</figcaption>
+          </figure>
+
+          <h2>Der Weg der kleinsten Wirkung</h2>
+
+          <p>Hinter Lagranges Rezept steckt ein noch tieferes Prinzip. Wirf einen
+            Ball senkrecht hoch, er landet nach zwei Sekunden wieder in deiner Hand.
+            Man kann sich unzählige andere Flugbahnen ausdenken, die zur selben Zeit
+            starten und landen – höher, flacher, mit Schlenkern. Für jede davon kann
+            man eine Zahl ausrechnen, die <em>Wirkung</em>: Man zählt über die ganze
+            Flugzeit auf, wie viel Bewegungsenergie minus Lageenergie der Ball in
+            jedem Moment hat. Die echte Bahn ist die, deren Wirkung am kleinsten
+            ist.</p>
+
+          <figure class="interaktiv" data-modell="wirkungslabor">
+            <span class="titel">Zum Ausprobieren</span>
+            <figcaption>Die orangefarbene Kurve ist die echte Flugbahn eines
+              hochgeworfenen Balls, die blaue eine Probebahn mit gleichem Start und
+              gleicher Landung. Verbiege sie mit den beiden Reglern und vergleiche die
+              Wirkung. Ganz gleich, was du einstellst: Die echte Bahn hat immer die
+              kleinste Wirkung.</figcaption>
+          </figure>
+
+          <p>Die Natur probiert natürlich nicht alle Bahnen aus. Aber das Prinzip ist
+            gleichwertig mit Newtons Gesetzen – und es gilt weit über die Mechanik
+            hinaus. Licht wählt zwischen zwei Punkten den Weg, der am wenigsten Zeit
+            braucht. Auch die Gleichungen des Elektromagnetismus und der
+            Quantenphysik lassen sich aus einem solchen Prinzip gewinnen. Deshalb ist
+            Lagranges Sicht heute die Sprache der theoretischen Physik.</p>
+
+          <div class="merkkasten">
+            <span class="titel">Das Wichtigste in Kürze</span>
+            <ul>
+              <li>Statt aller Ortskoordinaten nimmt man nur so viele Größen, wie das
+                System Freiheitsgrade hat – zum Beispiel einen Winkel beim
+                Pendel.</li>
+              <li>Die Kräfte, die einen Körper auf einer Bahn halten (Schienen,
+                Fäden, Drähte), muss man dann gar nicht kennen.</li>
+              <li>Aus „Bewegungsenergie minus Lageenergie“ folgt nach einer festen
+                Vorschrift die Bewegungsgleichung.</li>
+              <li>Die echte Bewegung macht die Wirkung – die über die Zeit
+                aufsummierte Lagrange-Funktion – so klein wie möglich (genauer:
+                stationär).</li>
+            </ul>
+          </div>
+        </section>
+
+        <section class="tab" id="vertiefung" data-titel="Vertiefung">
+
+          <p>Die Newtonschen Gleichungen
+            $m_i \ddot{\vec{r}}_i = \vec{F}_i$ gelten in Inertialsystemen und
+            verlangen alle Kräfte – auch die, die ein System auf vorgegebene Bahnen
+            zwingt. Die analytische Mechanik formuliert die Mechanik so um, dass diese
+            Kräfte gar nicht erst auftreten und beliebige, an das Problem angepasste
+            Koordinaten erlaubt sind.</p>
+
+          <h2 id="zwangsbedingungen">Zwangsbedingungen und generalisierte Koordinaten</h2>
+
+          <p>Ein System aus $N$ Massenpunkten hat ohne Einschränkungen $3N$
+            Koordinaten. <em>Zwangsbedingungen</em> schränken die möglichen Lagen ein:
+            Ein Pendelfaden hält den Abstand fest, eine Schiene erlaubt nur eine
+            Kurve. Bei $k$ <em>holonomen</em> Zwangsbedingungen lassen sie sich als
+            Gleichungen zwischen den Koordinaten und der Zeit schreiben,</p>
+
+          $$ f_i(\vec{r}_1, \dots, \vec{r}_N, t) = 0, \qquad i = 1, \dots, k, $$
+
+          <p>und das System hat nur noch $f = 3N - k$ <em>Freiheitsgrade</em>. Dafür
+            wählt man ebenso viele unabhängige <em>generalisierte Koordinaten</em>
+            $q_1, \dots, q_f$, sodass</p>
+
+          $$ \vec{r}_i = \vec{r}_i(q_1, \dots, q_f, t), \qquad i = 1, \dots, N . $$
+
+          <p>Die $q_j$ müssen keine Längen sein – Winkel, Bogenlängen oder
+            Amplituden sind genauso gut. Ihre Zeitableitungen $\dot{q}_j$ heißen
+            <em>generalisierte Geschwindigkeiten</em>, der von den $q_j$ aufgespannte
+            Raum <em>Konfigurationsraum</em>.</p>
+
+          <p>Zwangsbedingungen werden nach zwei Merkmalen eingeteilt:</p>
+          <ul>
+            <li><strong>holonom</strong> (Gleichung zwischen Koordinaten und Zeit)
+              oder <strong>nicht holonom</strong> (nur als Ungleichung, etwa ein
+              Teilchen in einem Kasten, oder nur als nicht integrierbare Beziehung
+              zwischen Differentialen, etwa eine Kugel, die ohne Schlupf auf einer
+              Ebene rollt). Ob eine differentielle Bedingung
+              $\sum_j a_{ij}\,\mathrm{d}q_j + b_i\,\mathrm{d}t = 0$ holonom ist,
+              prüft man mit den Integrabilitätsbedingungen
+              $\partial a_{ij}/\partial q_l = \partial a_{il}/\partial q_j$ und
+              $\partial a_{ij}/\partial t = \partial b_i/\partial q_j$.</li>
+            <li><strong>skleronom</strong> („starr“, ohne explizite Zeit) oder
+              <strong>rheonom</strong> („fließend“, mit expliziter Zeit, etwa ein
+              Draht, der von einem Motor gedreht wird).</li>
+          </ul>
+
+          <div class="tabelle-huelle">
+            <table>
+              <thead><tr><th>System</th><th>Zwangsbedingungen</th><th>Freiheitsgrade</th><th>Art</th></tr></thead>
+              <tbody>
+                <tr><td>Starrer Körper</td><td>alle Abstände fest</td><td>6 (3 Verschiebungen, 3 Drehungen)</td><td>holonom, skleronom</td></tr>
+                <tr><td>Zylinder rollt ohne Schlupf eine Ebene hinab</td><td>Mittelpunkt auf einer Geraden, Drehwinkel an den Weg gekoppelt</td><td>1</td><td>holonom, skleronom</td></tr>
+                <tr><td>Perle auf einem Draht, der mit $\omega$ gedreht wird</td><td>$\varphi = \omega t$, Perle auf der Drahtkurve</td><td>1</td><td>holonom, rheonom</td></tr>
+                <tr><td>Gas in einem Behälter</td><td>Teilchen nur innerhalb der Wände</td><td>$3N$</td><td>nicht holonom (Ungleichung)</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h2 id="dalembert">Virtuelle Verrückungen und das d'Alembertsche Prinzip</h2>
+
+          <p>Mit Zwangsbedingungen lauten die Newtonschen Gleichungen
+            $m_i \ddot{\vec{r}}_i = \vec{F}_i + \vec{Z}_i$, wobei $\vec{F}_i$ die
+            eingeprägten Kräfte (Gewicht, Federkraft, …) und $\vec{Z}_i$ die
+            <em>Zwangskräfte</em> sind. Um Letztere loszuwerden, betrachtet man
+            gedachte Verschiebungen $\delta\vec{r}_i$, sogenannte <em>virtuelle
+            Verrückungen</em>. Sie sind</p>
+          <ol>
+            <li>infinitesimal,</li>
+            <li>instantan, also bei festgehaltener Zeit ($\delta t = 0$), und</li>
+            <li>mit den Zwangsbedingungen zu diesem Zeitpunkt verträglich.</li>
+          </ol>
+
+          <p>Der zweite Punkt ist der Unterschied zur echten Verschiebung
+            $\mathrm{d}\vec{r}_i$ während der Zeit $\mathrm{d}t$: Bewegt sich die
+            Zwangsbedingung selbst, macht die reale Verschiebung diese Bewegung mit,
+            die virtuelle nicht (Abb. 1).</p>
+
+          <figure class="abbildung">
+            <svg class="abb" viewBox="0 45 360 130" role="img"
+                 aria-label="Perle auf einem waagerechten Draht, der nach oben bewegt wird: Die virtuelle Verrückung zeigt entlang des Drahtes, die reale Verschiebung schräg nach oben, die Zwangskraft senkrecht">
+              <defs>
+                <marker id="pfeil-abb1" viewBox="0 0 10 10" refX="9" refY="5"
+                        markerWidth="7" markerHeight="7" orient="auto">
+                  <path d="M0 0L10 5L0 10z" fill="currentColor"/>
+                </marker>
+                <marker id="pfeil-abb1-blau" viewBox="0 0 10 10" refX="8" refY="5"
+                        markerWidth="5" markerHeight="5" orient="auto">
+                  <path class="punkt blau" d="M0 0L10 5L0 10z"/>
+                </marker>
+                <marker id="pfeil-abb1-kupfer" viewBox="0 0 10 10" refX="8" refY="5"
+                        markerWidth="5" markerHeight="5" orient="auto">
+                  <path class="punkt kupfer" d="M0 0L10 5L0 10z"/>
+                </marker>
+                <marker id="pfeil-abb1-text" viewBox="0 0 10 10" refX="8" refY="5"
+                        markerWidth="5" markerHeight="5" orient="auto">
+                  <path class="punkt" d="M0 0L10 5L0 10z"/>
+                </marker>
+              </defs>
+              <path class="kurve" d="M30 140H330"/>
+              <path class="hilfslinie" d="M30 80H330"/>
+              <text x="334" y="160" font-size="12" text-anchor="end">Draht zur Zeit t</text>
+              <text x="334" y="72" font-size="12" text-anchor="end">Draht zur Zeit t + dt</text>
+              <path class="achse" d="M60 134V90" marker-end="url(#pfeil-abb1)"/>
+              <text x="68" y="116" font-size="12">wird angehoben</text>
+              <path class="kurve blau" d="M200 140H268" marker-end="url(#pfeil-abb1-blau)"/>
+              <text class="blau" x="236" y="132">δr</text>
+              <path class="kurve kupfer" d="M200 140L268 80" marker-end="url(#pfeil-abb1-kupfer)"/>
+              <text class="kupfer" x="212" y="104">dr</text>
+              <path class="kurve" d="M200 140V98" marker-end="url(#pfeil-abb1-text)"/>
+              <text x="192" y="108" text-anchor="end">Z</text>
+              <circle class="punkt" cx="200" cy="140" r="7"/>
+            </svg>
+            <figcaption>Abb. 1: Eine Perle auf einem waagerechten, reibungsfreien
+              Draht, der nach oben gezogen wird (rheonome Zwangsbedingung). Die
+              virtuelle Verrückung $\delta\vec{r}$ liegt im Draht zum festen Zeitpunkt
+              $t$, die reale Verschiebung $\mathrm{d}\vec{r}$ enthält zusätzlich die
+              Bewegung des Drahtes. Die Zwangskraft $\vec{Z}$ steht senkrecht zum
+              Draht: Sie leistet keine virtuelle Arbeit, wohl aber reale – der Draht
+              hebt die Perle an.</figcaption>
+          </figure>
+
+          <p>Das <em>d'Alembertsche Prinzip</em> postuliert, dass die Zwangskräfte
+            in ihrer Gesamtheit keine virtuelle Arbeit leisten:</p>
+
+          $$ \sum_{i=1}^N \vec{Z}_i \cdot \delta\vec{r}_i = 0 \qquad\Longrightarrow\qquad \sum_{i=1}^N \left( m_i \ddot{\vec{r}}_i - \vec{F}_i \right) \cdot \delta\vec{r}_i = 0 . $$
+
+          <p>Das ist ein eigenständiges Axiom. Es gilt für <em>ideale</em>, also
+            reibungsfreie Zwangsbedingungen, und zwei Feinheiten sind wichtig: Die
+            einzelnen Summanden $\vec{Z}_i \cdot \delta\vec{r}_i$ verschwinden im
+            Allgemeinen <em>nicht</em> einzeln, nur ihre Summe. Und bei rheonomen
+            Zwangsbedingungen ist nur die virtuelle, nicht aber die reale Arbeit der
+            Zwangskräfte null (Abb. 1).</p>
+
+          <p>Die rechte Gleichung, die <em>d'Alembert-Gleichung</em>, enthält keine
+            Zwangskräfte mehr. Drückt man die $\delta\vec{r}_i$ durch die
+            unabhängigen Variationen der generalisierten Koordinaten aus,
+            $\delta\vec{r}_i = \sum_j (\partial\vec{r}_i/\partial q_j)\,\delta q_j$,
+            dann muss der Koeffizient jedes $\delta q_j$ einzeln verschwinden. Im
+            Gleichgewicht ($\ddot{\vec{r}}_i = 0$) bleibt das <em>Prinzip der
+            virtuellen Arbeit</em>: $\sum_i \vec{F}_i \cdot \delta\vec{r}_i = 0$ –
+            die eingeprägten Kräfte leisten bei keiner erlaubten Verrückung
+            Arbeit.</p>
+
+          <h2 id="lagrange-zweite-art">Die Lagrange-Gleichungen zweiter Art</h2>
+
+          <p>Die d'Alembert-Gleichung lässt sich in eine Form bringen, die nur noch
+            Energien enthält. Die eingeprägten Kräfte fasst man zu
+            <em>generalisierten Kräften</em> zusammen,</p>
+
+          $$ \sum_i \vec{F}_i \cdot \delta\vec{r}_i = \sum_j Q_j\,\delta q_j, \qquad Q_j = \sum_i \vec{F}_i \cdot \frac{\partial\vec{r}_i}{\partial q_j} . $$
+
+          <p>Für den Trägheitsterm braucht man zwei Hilfsgleichungen. Aus
+            $\dot{\vec{r}}_i = \sum_k (\partial\vec{r}_i/\partial q_k)\,\dot{q}_k + \partial\vec{r}_i/\partial t$
+            folgt („Kürzen der Punkte“) sowie durch Vertauschen der Ableitungen</p>
+
+          $$ \frac{\partial\dot{\vec{r}}_i}{\partial\dot{q}_j} = \frac{\partial\vec{r}_i}{\partial q_j}, \qquad \frac{\mathrm{d}}{\mathrm{d}t}\frac{\partial\vec{r}_i}{\partial q_j} = \frac{\partial\dot{\vec{r}}_i}{\partial q_j} . $$
+
+          <p>Mit der Produktregel und der kinetischen Energie
+            $T = \sum_i \tfrac{1}{2} m_i \dot{\vec{r}}_i^{\,2}$ wird daraus</p>
+
+          $$ \sum_i m_i \ddot{\vec{r}}_i \cdot \frac{\partial\vec{r}_i}{\partial q_j} = \frac{\mathrm{d}}{\mathrm{d}t}\left( \sum_i m_i \dot{\vec{r}}_i \cdot \frac{\partial\dot{\vec{r}}_i}{\partial\dot{q}_j} \right) - \sum_i m_i \dot{\vec{r}}_i \cdot \frac{\partial\dot{\vec{r}}_i}{\partial q_j} = \frac{\mathrm{d}}{\mathrm{d}t}\frac{\partial T}{\partial\dot{q}_j} - \frac{\partial T}{\partial q_j} . $$
+
+          <p>Die d'Alembert-Gleichung lautet damit
+            $\sum_j \left( \frac{\mathrm{d}}{\mathrm{d}t}\frac{\partial T}{\partial\dot{q}_j} - \frac{\partial T}{\partial q_j} - Q_j \right) \delta q_j = 0$.
+            Da die $f$ Variationen $\delta q_j$ unabhängig sind, verschwindet jede
+            Klammer einzeln. Für konservative Kräfte
+            $\vec{F}_i = -\nabla_i V$ ist $Q_j = -\partial V/\partial q_j$, und weil
+            $V$ nicht von den $\dot{q}_j$ abhängt, fasst man alles in der
+            <em>Lagrange-Funktion</em> zusammen:</p>
+
+          <div class="merkkasten">
+            <span class="titel">Lagrange-Gleichungen zweiter Art</span>
+            $$ L(q, \dot{q}, t) = T - V, \qquad \frac{\mathrm{d}}{\mathrm{d}t}\frac{\partial L}{\partial\dot{q}_j} - \frac{\partial L}{\partial q_j} = 0, \quad j = 1, \dots, f . $$
+            <p>Voraussetzungen: holonome Zwangsbedingungen und Kräfte, die sich aus
+              einem (generalisierten) Potential ableiten lassen. Die Gleichungen
+              haben in jedem Satz generalisierter Koordinaten dieselbe Form (sie sind
+              forminvariant unter Punkttransformationen
+              $q \to \tilde{q}(q, t)$).</p>
+          </div>
+
+          <p><strong>Generalisiertes Potential.</strong> Die Gleichungen behalten ihre
+            Form auch dann, wenn sich die Kräfte aus einem
+            geschwindigkeitsabhängigen Potential $U(q, \dot{q}, t)$ gewinnen lassen,
+            $Q_j = \frac{\mathrm{d}}{\mathrm{d}t}\frac{\partial U}{\partial\dot{q}_j} - \frac{\partial U}{\partial q_j}$,
+            mit $L = T - U$. Das wichtigste Beispiel ist die Lorentzkraft
+            $\vec{F} = e\,(\vec{E} + \vec{v} \times \vec{B})$ auf eine Ladung $e$ mit
+            $U = e\,(\phi - \vec{v} \cdot \vec{A})$, wobei $\phi$ das skalare und
+            $\vec{A}$ das Vektorpotential ist.</p>
+
+          <p><strong>Reibung.</strong> Reibungskräfte der Form
+            $\vec{F}_i^{(\text{R})} = -h_i(v_i)\,\vec{v}_i/v_i$ besitzen kein Potential.
+            Mit der <em>Dissipationsfunktion</em>
+            $D = \sum_i \int_0^{v_i} h_i(v')\,\mathrm{d}v'$ lauten die Gleichungen</p>
+
+          $$ \frac{\mathrm{d}}{\mathrm{d}t}\frac{\partial L}{\partial\dot{q}_j} - \frac{\partial L}{\partial q_j} + \frac{\partial D}{\partial\dot{q}_j} = 0 . $$
+
+          <p>Für Stokes-Reibung $h = \gamma v$ ist $D = \tfrac{1}{2}\gamma v^2$; für
+            Gleitreibung $h = \mu_\text{G} F_\text{N}$ ist $D = \mu_\text{G} F_\text{N} v$
+            (gültig, solange $v \gt 0$ und $F_\text{N}$ bekannt ist).</p>
+
+          <div class="merkkasten">
+            <span class="titel">Rezept</span>
+            <ol>
+              <li>Freiheitsgrade zählen und passende generalisierte Koordinaten
+                $q_j$ wählen.</li>
+              <li>Ortsvektoren und Geschwindigkeiten durch $q_j$, $\dot{q}_j$ (und
+                $t$) ausdrücken.</li>
+              <li>$L = T - V$ als Funktion von $q$, $\dot{q}$, $t$ aufschreiben.</li>
+              <li>Für jedes $q_j$ die Lagrange-Gleichung bilden, lösen und
+                physikalisch deuten.</li>
+            </ol>
+          </div>
+
+          <h2 id="rollpendel">Beispiel aus der Vorlesung: das Rollpendel</h2>
+
+          <p>Ein Wagen (Masse $m_1$) rollt reibungsfrei auf einer waagerechten
+            Schiene, an ihm hängt ein Pendel (Masse $m_2$, Länge $\ell$, Abb. 2).
+            Statt vier kartesischer Koordinaten mit zwei Zwangsbedingungen
+            ($y_1 = 0$, fester Pendelabstand) genügen die Wagenposition $x_1$ und der
+            Pendelwinkel $\varphi$.</p>
+
+          <figure class="abbildung">
+            <svg class="abb" viewBox="0 0 360 220" role="img"
+                 aria-label="Wagen auf einer Schiene mit daranhängendem Pendel; Koordinaten x1 und Winkel phi">
+              <defs>
+                <marker id="pfeil-abb2" viewBox="0 0 10 10" refX="9" refY="5"
+                        markerWidth="7" markerHeight="7" orient="auto">
+                  <path d="M0 0L10 5L0 10z" fill="currentColor"/>
+                </marker>
+                <marker id="pfeil-abb2-blau" viewBox="0 0 10 10" refX="8" refY="5"
+                        markerWidth="5" markerHeight="5" orient="auto">
+                  <path class="punkt blau" d="M0 0L10 5L0 10z"/>
+                </marker>
+              </defs>
+              <path class="achse" d="M20 62H340" marker-end="url(#pfeil-abb2)"/>
+              <text x="338" y="54" text-anchor="end">x</text>
+              <path class="hilfslinie" d="M40 30V200"/>
+              <rect class="flaeche" x="120" y="36" width="80" height="22" rx="3"/>
+              <rect class="kurve duenn" x="120" y="36" width="80" height="22" rx="3" style="stroke-width:1.5"/>
+              <circle class="punkt" cx="136" cy="62" r="5"/>
+              <circle class="punkt" cx="184" cy="62" r="5"/>
+              <text x="160" y="30" text-anchor="middle">m₁</text>
+              <path class="hilfslinie" d="M160 62V200"/>
+              <path class="kurve" d="M160 62L240.3 176.7"/>
+              <circle class="ball" cx="240.3" cy="176.7" r="10"/>
+              <text x="256" y="186">m₂</text>
+              <path class="kurve kupfer duenn" d="M160 112A50 50 0 0 0 188.7 103"/>
+              <text class="kupfer" x="168" y="134">φ</text>
+              <text x="210" y="118">ℓ</text>
+              <path class="kurve blau duenn" d="M40 90H158" marker-end="url(#pfeil-abb2-blau)"/>
+              <text class="blau" x="96" y="84" text-anchor="middle">x₁</text>
+            </svg>
+            <figcaption>Abb. 2: Das Rollpendel. Zwei Freiheitsgrade: die Lage $x_1$
+              des Wagens und der Auslenkwinkel $\varphi$ des Pendels gegen die
+              Senkrechte. Schienen- und Fadenkraft tauchen in der Rechnung nicht
+              auf.</figcaption>
+          </figure>
+
+          <p>Mit $x_2 = x_1 + \ell\sin\varphi$ und $y_2 = -\ell\cos\varphi$
+            (Nullpunkt der Höhe am Aufhängepunkt, $y$-Achse nach oben) ist
+            $\dot{x}_2 = \dot{x}_1 + \ell\dot{\varphi}\cos\varphi$,
+            $\dot{y}_2 = \ell\dot{\varphi}\sin\varphi$ und</p>
+
+          $$ L = \frac{m_1 + m_2}{2}\,\dot{x}_1^2 + m_2 \ell\,\dot{x}_1 \dot{\varphi}\cos\varphi + \frac{m_2}{2}\,\ell^2 \dot{\varphi}^2 + m_2 g \ell\cos\varphi . $$
+
+          <p>Die beiden Lagrange-Gleichungen lauten</p>
+
+          $$ x_1: \quad (m_1 + m_2)\,\ddot{x}_1 + m_2 \ell \left( \ddot{\varphi}\cos\varphi - \dot{\varphi}^2 \sin\varphi \right) = 0, $$
+          $$ \varphi: \quad \ell\ddot{\varphi} + \ddot{x}_1 \cos\varphi + g\sin\varphi = 0 . $$
+
+          <p>Für einen festgehaltenen Wagen ($\ddot{x}_1 = 0$) bleibt die bekannte
+            Pendelgleichung. Bemerkenswert ist die erste Gleichung: $x_1$ kommt in
+            $L$ gar nicht vor, deshalb ist
+            $\partial L/\partial\dot{x}_1 = (m_1 + m_2)\dot{x}_1 + m_2\ell\dot{\varphi}\cos\varphi$
+            zeitlich konstant – der horizontale Gesamtimpuls bleibt erhalten. Solche
+            <em>zyklischen Koordinaten</em> sind das Thema von
+            <a href="noether.html">Symmetrien und Erhaltungssätze</a>.</p>
+
+          <h2 id="lagrange-erste-art">Die Lagrange-Gleichungen erster Art</h2>
+
+          <p>Will man die Zwangskräfte doch wissen – etwa, wie stark ein Faden
+            belastet wird –, behält man alle Koordinaten und koppelt die
+            Zwangsbedingungen in differentieller Form,
+            $\sum_j a_{ij}\,\mathrm{d}q_j + b_i\,\mathrm{d}t = 0$, mit
+            <em>Lagrange-Multiplikatoren</em> $\lambda_i$ an. Für virtuelle
+            Verrückungen gilt $\sum_j a_{ij}\,\delta q_j = 0$. Addiert man diese
+            Nullen, mit $\lambda_i$ gewichtet, zur d'Alembert-Gleichung, so kann man
+            die $\lambda_i$ so wählen, dass $k$ der Klammern verschwinden (dazu
+            müssen die Bedingungen unabhängig sein, die zugehörige
+            $k \times k$-Matrix der $a_{ij}$ also invertierbar); die
+            übrigen $\delta q_j$ sind frei. Ergebnis:</p>
+
+          $$ \frac{\mathrm{d}}{\mathrm{d}t}\frac{\partial L}{\partial\dot{q}_j} - \frac{\partial L}{\partial q_j} = \sum_{i=1}^k \lambda_i\,a_{ij}, \qquad j = 1, \dots, 3N . $$
+
+          <p>Zusammen mit den $k$ Zwangsbedingungen sind das $3N + k$ Gleichungen für
+            $3N$ Koordinaten und $k$ Multiplikatoren. Die rechte Seite ist die
+            generalisierte Zwangskraft. Beispiel ebenes Pendel in Polarkoordinaten
+            $(r, \varphi)$ mit $f = r - \ell = 0$, also $a = (1, 0)$: Die
+            $r$-Gleichung liefert mit $r = \ell$</p>
+
+          $$ \lambda = -m\left( \ell\dot{\varphi}^2 + g\cos\varphi \right), $$
+
+          <p>also eine Fadenkraft vom Betrag
+            $m\ell\dot{\varphi}^2 + mg\cos\varphi$ nach innen – Zentripetalkraft plus
+            Gewichtsanteil, wie erwartet.</p>
+
+          <h2 id="hamiltonsches-prinzip">Variationsrechnung und das Hamiltonsche Prinzip</h2>
+
+          <p>Das d'Alembertsche Prinzip vergleicht den momentanen Zustand mit
+            virtuell verrückten Zuständen. Eine zweite, gleichwertige Formulierung
+            vergleicht ganze Bahnen. Mathematisch ist das eine Aufgabe der
+            <em>Variationsrechnung</em>: Für welche Funktion $y(x)$ durch zwei feste
+            Punkte $(x_1, y_1)$ und $(x_2, y_2)$ wird das <em>Funktional</em></p>
+
+          $$ I[y] = \int_{x_1}^{x_2} F\big(y(x), y'(x), x\big)\,\mathrm{d}x $$
+
+          <p>stationär? Man vergleicht $y$ mit Nachbarkurven
+            $\tilde{y} = y + \varepsilon\eta(x)$, wobei $\eta$ beliebig, aber an den
+            Rändern null ist ($\eta(x_1) = \eta(x_2) = 0$). Die Variation
+            $\delta y = \varepsilon\eta$ vertauscht mit der Ableitung. Notwendig ist</p>
+
+          $$ \left.\frac{\mathrm{d}I}{\mathrm{d}\varepsilon}\right|_{\varepsilon = 0} = \int_{x_1}^{x_2} \left( \frac{\partial F}{\partial y}\,\eta + \frac{\partial F}{\partial y'}\,\eta' \right) \mathrm{d}x = \int_{x_1}^{x_2} \left( \frac{\partial F}{\partial y} - \frac{\mathrm{d}}{\mathrm{d}x}\frac{\partial F}{\partial y'} \right) \eta\,\mathrm{d}x = 0 , $$
+
+          <p>wobei der Randterm der partiellen Integration wegen
+            $\eta(x_1) = \eta(x_2) = 0$ wegfällt. Weil $\eta$ beliebig ist, muss nach
+            dem <em>Fundamentallemma der Variationsrechnung</em>
+            die Klammer selbst verschwinden – sonst könnte man $\eta$ mit demselben
+            Vorzeichen wie die Klammer wählen, und das Integral wäre positiv. Das
+            ergibt die <em>Euler-Lagrange-Gleichung</em>
+            $\frac{\mathrm{d}}{\mathrm{d}x}\frac{\partial F}{\partial y'} - \frac{\partial F}{\partial y} = 0$,
+            für mehrere Funktionen $y_i$ eine pro Funktion.</p>
+
+          <figure class="abbildung">
+            <svg class="abb" viewBox="0 0 360 215" role="img"
+                 aria-label="Echte Bahn q von t eins bis t zwei und zwei variierte Bahnen mit denselben Endpunkten">
+              <defs>
+                <marker id="pfeil-abb3" viewBox="0 0 10 10" refX="9" refY="5"
+                        markerWidth="7" markerHeight="7" orient="auto">
+                  <path d="M0 0L10 5L0 10z" fill="currentColor"/>
+                </marker>
+              </defs>
+              <path class="achse" d="M30 180H345" marker-end="url(#pfeil-abb3)"/>
+              <path class="achse" d="M30 205V12" marker-end="url(#pfeil-abb3)"/>
+              <text x="342" y="198" text-anchor="end">t</text>
+              <text x="38" y="20">q</text>
+              <polyline class="kurve schwach" style="stroke-dasharray:5 4" points="40.0,180.0 47.0,165.7 54.0,151.9 61.0,138.9 68.0,126.4 75.0,114.6 82.0,103.5 89.0,93.1 96.0,83.5 103.0,74.5 110.0,66.2 117.0,58.8 124.0,52.0 131.0,46.1 138.0,40.9 145.0,36.5 152.0,32.8 159.0,30.0 166.0,28.0 173.0,26.8 180.0,26.4 187.0,26.8 194.0,28.0 201.0,30.0 208.0,32.8 215.0,36.5 222.0,40.9 229.0,46.1 236.0,52.0 243.0,58.8 250.0,66.2 257.0,74.5 264.0,83.5 271.0,93.1 278.0,103.5 285.0,114.6 292.0,126.4 299.0,138.9 306.0,151.9 313.0,165.7 320.0,180.0"/>
+              <polyline class="kurve blau duenn" style="stroke-dasharray:5 4" points="40.0,180.0 47.0,172.4 54.0,165.4 61.0,158.7 68.0,152.3 75.0,146.2 82.0,140.2 89.0,134.2 96.0,128.3 103.0,122.4 110.0,116.4 117.0,110.4 124.0,104.3 131.0,98.2 138.0,92.2 145.0,86.2 152.0,80.3 159.0,74.7 166.0,69.4 173.0,64.4 180.0,60.0 187.0,56.2 194.0,53.0 201.0,50.7 208.0,49.3 215.0,48.8 222.0,49.4 229.0,51.2 236.0,54.1 243.0,58.2 250.0,63.6 257.0,70.2 264.0,78.1 271.0,87.2 278.0,97.4 285.0,108.8 292.0,121.3 299.0,134.7 306.0,149.0 313.0,164.2 320.0,180.0"/>
+              <path class="kurve kupfer" d="M40 180Q180 -60 320 180"/>
+              <circle class="punkt" cx="40" cy="180" r="4"/>
+              <circle class="punkt" cx="320" cy="180" r="4"/>
+              <path class="achse" d="M236 79.2V52"/>
+              <text x="242" y="70" font-size="12">δq</text>
+              <text x="40" y="198" text-anchor="middle">t₁</text>
+              <text x="320" y="198" text-anchor="middle">t₂</text>
+              <text class="kupfer" x="172" y="112" font-size="12">echte Bahn</text>
+              <text x="186" y="16" font-size="12" text-anchor="middle">variierte Bahnen</text>
+            </svg>
+            <figcaption>Abb. 3: Die echte Bahn $q(t)$ (kupfer) und zwei variierte
+              Bahnen $q + \delta q$ (gestrichelt), die zu denselben Zeiten durch
+              dieselben Endpunkte laufen. Das Hamiltonsche Prinzip sagt: Unter all
+              diesen Bahnen ist die Wirkung für die echte stationär. Hier ist $q$ die
+              Höhe des senkrecht geworfenen Balls aus „Verstehen“, die Variationen
+              sind $\delta q \propto \sin(\pi\tau)$ und $\delta q \propto \sin(2\pi\tau)$
+              mit $\tau = (t - t_1)/(t_2 - t_1)$.</figcaption>
+          </figure>
+
+          <p>Mit der Ersetzung $x \to t$, $y \to q$, $F \to L$ sind das genau die
+            Lagrange-Gleichungen. Das Integral heißt in der Mechanik
+            <em>Wirkung</em>, und es gilt das</p>
+
+          <div class="merkkasten">
+            <span class="titel">Hamiltonsches Prinzip (Prinzip der stationären Wirkung)</span>
+            $$ S[q] = \int_{t_1}^{t_2} L(q, \dot{q}, t)\,\mathrm{d}t, \qquad \delta S = 0 \quad \text{bei festen } q(t_1),\ q(t_2) . $$
+            <p>Die Bewegung eines mechanischen Systems zwischen $t_1$ und $t_2$
+              verläuft so, dass die Wirkung stationär ist. Daraus folgen die
+              Lagrange-Gleichungen zweiter Art. Die Wirkung hat die Einheit
+              $\mathrm{J\,s}$.</p>
+          </div>
+
+          <p>„Stationär“ ist nicht dasselbe wie „minimal“. Die Euler-Lagrange-
+            Gleichung ist nur eine notwendige Bedingung; ob ein Minimum vorliegt,
+            entscheidet die zweite Variation. Für $L = T - V$ und genügend kurze
+            Zeitintervalle ist die echte Bahn tatsächlich ein Minimum. Beim Wurf im
+            homogenen Schwerefeld gilt das sogar für jedes Intervall, weil $V$ linear
+            in $q$ ist: Dann ist exakt
+            $S[q + \eta] = S[q] + \tfrac{1}{2} m \int \dot{\eta}^2\,\mathrm{d}t \ge S[q]$
+            – genau das zeigt das Wirkungs-Labor im Tab „Verstehen“. Beim
+            harmonischen Oszillator dagegen ist die Bahn nach mehr als einer halben
+            Periode nur noch ein Sattelpunkt der Wirkung.</p>
+
+          <p>Das Prinzip ist koordinatenunabhängig und extrem kompakt. Es überträgt
+            sich auf Felder (die Maxwell-Gleichungen folgen aus einer
+            Wirkung) und ist der Ausgangspunkt von Feynmans Pfadintegral in der
+            Quantenmechanik. Schließlich zeigt es sofort die <em>Eichfreiheit</em>:
+            Die Lagrange-Funktionen $L$ und $L' = cL + \frac{\mathrm{d}}{\mathrm{d}t}f(q, t)$
+            (mit $c \ne 0$) liefern dieselben Bewegungsgleichungen, denn
+            $\int \dot{f}\,\mathrm{d}t = f(q(t_2), t_2) - f(q(t_1), t_1)$ ändert sich bei
+            festen Endpunkten nicht. Wie diese Freiheit mit Erhaltungsgrößen
+            zusammenhängt, zeigt das <a href="noether.html#noether-theorem">Noether-Theorem</a>.
+            Ort und Impuls als gleichberechtigte Variablen behandelt der
+            <a href="hamilton.html">Hamilton-Formalismus</a>.</p>
+        </section>
+
+        <section class="tab" id="beispiele" data-titel="Beispielrechnungen">
+
+          <div class="beispiel" data-symbole='{"S_1": "Seilkraft auf der Seite von Masse 1", "S_2": "Seilkraft auf der Seite von Masse 2", "m_1": "Masse des ersten Gewichts", "m_2": "Masse des zweiten Gewichts"}'>
+            <h3>Beispiel 1: Fallmaschine mit schwerer Rolle</h3>
+            <p><strong>Gegeben:</strong> Über eine Rolle (homogene Scheibe, Masse
+              $M = 0{,}40\,\mathrm{kg}$, Radius $r$) läuft ein masseloses Seil ohne
+              zu rutschen. Links hängt $m_1 = 0{,}60\,\mathrm{kg}$, rechts
+              $m_2 = 0{,}40\,\mathrm{kg}$. Das System startet aus der Ruhe.<br>
+              <strong>Gesucht:</strong> Beschleunigung, Zeit für $1{,}00\,\mathrm{m}$
+              Fallweg von $m_1$ und die beiden Seilkräfte.</p>
+
+            <p><strong>1. Koordinate:</strong> Ein Freiheitsgrad. $x$ = Strecke, um
+              die $m_1$ nach unten gesunken ist ($x$-Achse für $m_1$ nach unten).
+              Dann steigt $m_2$ um $x$, und die Rolle dreht sich um
+              $\varphi = x/r$.</p>
+
+            <p><strong>2. Lagrange-Funktion</strong> mit $I = \tfrac{1}{2} M r^2$:
+              $$ T = \tfrac{1}{2} m_1 \dot{x}^2 + \tfrac{1}{2} m_2 \dot{x}^2 + \tfrac{1}{2} I \frac{\dot{x}^2}{r^2} = \tfrac{1}{2}\left( m_1 + m_2 + \tfrac{1}{2} M \right) \dot{x}^2, \qquad V = -m_1 g x + m_2 g x $$
+              $$ L = \tfrac{1}{2}\left( m_1 + m_2 + \tfrac{1}{2} M \right) \dot{x}^2 + (m_1 - m_2)\,g x $$</p>
+
+            <p><strong>3. Lagrange-Gleichung:</strong>
+              $\partial L/\partial\dot{x} = (m_1 + m_2 + \tfrac{1}{2}M)\,\dot{x}$,
+              $\partial L/\partial x = (m_1 - m_2)\,g$, also
+              $$ \ddot{x} = \frac{(m_1 - m_2)\,g}{m_1 + m_2 + \tfrac{1}{2} M} = \frac{0{,}20\,\mathrm{kg} \cdot 9{,}81\,\mathrm{m/s^2}}{1{,}20\,\mathrm{kg}} = 1{,}635\,\mathrm{m/s^2} . $$
+              Einheitencheck: $\mathrm{kg} \cdot \mathrm{m/s^2} / \mathrm{kg} = \mathrm{m/s^2}$ ✓.
+              Der Radius $r$ kürzt sich heraus.</p>
+
+            <p><strong>4. Fallzeit:</strong>
+              $$ t = \sqrt{\frac{2 \cdot 1{,}00\,\mathrm{m}}{1{,}635\,\mathrm{m/s^2}}} = 1{,}11\,\mathrm{s}, \qquad v = \ddot{x}\,t = 1{,}81\,\mathrm{m/s} . $$</p>
+
+            <p><strong>5. Seilkräfte</strong> (jetzt doch mit Newton für jede Masse
+              einzeln, die Beschleunigung ist ja bekannt):
+              $$ S_1 = m_1 (g - \ddot{x}) = 0{,}60\,\mathrm{kg} \cdot 8{,}175\,\mathrm{m/s^2} = 4{,}91\,\mathrm{N}, \qquad S_2 = m_2 (g + \ddot{x}) = 0{,}40\,\mathrm{kg} \cdot 11{,}445\,\mathrm{m/s^2} = 4{,}58\,\mathrm{N} . $$</p>
+
+            <p><strong>Ergebnis und Plausibilität:</strong> Ohne Rolle wäre
+              $\ddot{x} = 0{,}2\,g = 1{,}96\,\mathrm{m/s^2}$; die träge Rolle bremst
+              etwas. Probe: Die Differenz der Seilkräfte dreht die Rolle,
+              $(S_1 - S_2)\,r = I\ddot{x}/r$ ergibt
+              $S_1 - S_2 = \tfrac{1}{2}M\ddot{x} = 0{,}33\,\mathrm{N}$ ✓. In der
+              Lagrange-Rechnung kamen die Seilkräfte gar nicht vor.</p>
+          </div>
+
+          <div class="beispiel">
+            <h3>Beispiel 2: Wo bleibt die Perle auf dem drehenden Ring?</h3>
+            <p><strong>Gegeben:</strong> Ein Drahtring mit $R = 0{,}25\,\mathrm{m}$
+              dreht sich mit $n = 80\,\mathrm{U/min}$ um seinen senkrechten
+              Durchmesser; eine Perle (Masse $m$) gleitet reibungsfrei.<br>
+              <strong>Gesucht:</strong> Bewegungsgleichung, Gleichgewichtslagen und
+              die Dauer kleiner Schwingungen um die stabile Lage.</p>
+
+            <p><strong>1. Koordinate:</strong> $\theta$ = Winkel der Perle vom
+              tiefsten Punkt aus. Der Drehwinkel des Rings ist $\omega t$ und damit
+              vorgegeben (rheonome Zwangsbedingung): ein Freiheitsgrad. Die Perle
+              hat den Abstand $R\sin\theta$ von der Achse und die Höhe
+              $-R\cos\theta$ relativ zum Mittelpunkt ($z$-Achse nach oben).</p>
+
+            <p><strong>2. Lagrange-Funktion:</strong> Die Geschwindigkeit hat eine
+              Komponente entlang des Rings ($R\dot{\theta}$) und eine senkrecht dazu
+              aus der Drehung ($\omega R\sin\theta$):
+              $$ L = \tfrac{1}{2} m R^2 \left( \dot{\theta}^2 + \omega^2 \sin^2\theta \right) + m g R\cos\theta . $$</p>
+
+            <p><strong>3. Bewegungsgleichung:</strong>
+              $\frac{\mathrm{d}}{\mathrm{d}t}(m R^2 \dot{\theta}) = m R^2 \omega^2 \sin\theta\cos\theta - m g R\sin\theta$, also
+              $$ \ddot{\theta} = \sin\theta \left( \omega^2 \cos\theta - \frac{g}{R} \right) . $$</p>
+
+            <p><strong>4. Gleichgewichtslagen</strong> ($\ddot{\theta} = 0$):
+              $\theta = 0$, $\theta = \pi$ und $\cos\theta^* = g/(\omega^2 R)$, falls
+              $\omega^2 \gt g/R$. Zahlen:
+              $\omega = 2\pi \cdot 80/(60\,\mathrm{s}) = 8{,}378\,\mathrm{s^{-1}}$,
+              $$ \cos\theta^* = \frac{9{,}81\,\mathrm{m/s^2}}{(8{,}378\,\mathrm{s^{-1}})^2 \cdot 0{,}25\,\mathrm{m}} = \frac{9{,}81}{17{,}55} = 0{,}559 \quad\Rightarrow\quad \theta^* = \pm 56{,}0° . $$
+              Die kritische Winkelgeschwindigkeit ist
+              $\omega_\text{k} = \sqrt{g/R} = 6{,}26\,\mathrm{s^{-1}}$, also
+              $59{,}8\,\mathrm{U/min}$. Einheitencheck:
+              $\frac{\mathrm{m/s^2}}{\mathrm{s^{-2}} \cdot \mathrm{m}} = 1$ (der Kosinus ist dimensionslos),
+              $\sqrt{\frac{\mathrm{m/s^2}}{\mathrm{m}}} = \mathrm{s^{-1}}$ ✓.</p>
+
+            <p><strong>5. Kleine Schwingungen:</strong> Mit
+              $\theta = \theta^* + \varepsilon$ und Taylor-Entwicklung der rechten
+              Seite ergibt sich
+              $\ddot{\varepsilon} = -\left( \omega^2 - \frac{g^2}{R^2\omega^2} \right) \varepsilon = -\omega^2 \sin^2\theta^*\,\varepsilon$:
+              $$ \Omega = \omega\sin\theta^* = 8{,}378\,\mathrm{s^{-1}} \cdot 0{,}829 = 6{,}95\,\mathrm{s^{-1}}, \qquad T = \frac{2\pi}{\Omega} = 0{,}905\,\mathrm{s} . $$</p>
+
+            <p><strong>Ergebnis und Plausibilität:</strong> Unterhalb von rund
+              60 U/min bleibt der tiefste Punkt stabil ($\Omega^2 = g/R - \omega^2 \gt 0$),
+              darüber wird er instabil, und die Perle wandert auf $\pm 56°$. Für
+              $\omega \to \infty$ geht $\theta^* \to 90°$ – die Perle strebt nach
+              außen, erreicht die Höhe des Mittelpunkts aber nie, weil die Schwerkraft
+              immer einen Rest nach unten zieht. Das Modell im Tab „Verstehen“ zeigt
+              dieselben Zahlen. Die Masse $m$ kürzt sich heraus.</p>
+          </div>
+
+          <div class="beispiel" data-symbole='{"a": "Amplitude der Abweichung der Probebahn", "T": "Flugdauer"}'>
+            <h3>Beispiel 3: Die Wirkung des Wurfs nachgerechnet</h3>
+            <p><strong>Gegeben:</strong> Ein Ball ($m = 1{,}0\,\mathrm{kg}$) wird
+              senkrecht hochgeworfen und ist nach $T = 2{,}0\,\mathrm{s}$ wieder in
+              Abwurfhöhe ($z$-Achse nach oben, $z(0) = z(T) = 0$,
+              $g = 9{,}81\,\mathrm{m/s^2}$).<br>
+              <strong>Gesucht:</strong> die Wirkung der echten Bahn und die einer
+              Probebahn $z + a\sin(\pi t/T)$ mit $a = 1{,}0\,\mathrm{m}$.</p>
+
+            <p><strong>1. Echte Bahn:</strong> Aus $\ddot{z} = -g$ und den
+              Randwerten folgt $z(t) = \tfrac{1}{2} g\,t\,(T - t)$ und
+              $\dot{z} = \tfrac{1}{2} g\,(T - 2t)$. Startgeschwindigkeit
+              $\dot{z}(0) = 9{,}81\,\mathrm{m/s}$, Gipfel
+              $z(T/2) = gT^2/8 = 4{,}91\,\mathrm{m}$.</p>
+
+            <p><strong>2. Wirkung der echten Bahn:</strong>
+              $$ \int_0^T \tfrac{1}{2} m \dot{z}^2\,\mathrm{d}t = \frac{m g^2}{8} \int_0^T (T - 2t)^2\,\mathrm{d}t = \frac{m g^2 T^3}{24}, \qquad \int_0^T m g z\,\mathrm{d}t = \frac{m g^2}{2} \int_0^T t\,(T - t)\,\mathrm{d}t = \frac{m g^2 T^3}{12} $$
+              $$ S = \frac{m g^2 T^3}{24} - \frac{m g^2 T^3}{12} = -\frac{m g^2 T^3}{24} = -\frac{1{,}0\,\mathrm{kg} \cdot 96{,}24\,\mathrm{m^2/s^4} \cdot 8{,}0\,\mathrm{s^3}}{24} = -32{,}1\,\mathrm{J\,s} . $$
+              Einheitencheck: $\mathrm{kg\,m^2\,s^{-4}\,s^3} = \mathrm{kg\,m^2\,s^{-1}} = \mathrm{J\,s}$ ✓.</p>
+
+            <p><strong>3. Probebahn:</strong> Mit $\eta = a\sin(\pi t/T)$ ist
+              $$ S[z + \eta] = S[z] + \underbrace{\int_0^T \left( m\dot{z}\dot{\eta} - m g \eta \right) \mathrm{d}t}_{=\,0} + \tfrac{1}{2} m \int_0^T \dot{\eta}^2\,\mathrm{d}t . $$
+              Der mittlere Term verschwindet: Partielle Integration ergibt
+              $-\int (m\ddot{z} + mg)\,\eta\,\mathrm{d}t = 0$, weil die echte Bahn die
+              Bewegungsgleichung erfüllt und $\eta$ an den Rändern null ist. Der
+              letzte Term ist
+              $$ \tfrac{1}{2} m\,\frac{\pi^2 a^2}{T^2} \int_0^T \cos^2\!\frac{\pi t}{T}\,\mathrm{d}t = \frac{m \pi^2 a^2}{4T} = \frac{1{,}0\,\mathrm{kg} \cdot 9{,}87 \cdot 1{,}0\,\mathrm{m^2}}{8{,}0\,\mathrm{s}} = 1{,}23\,\mathrm{J\,s} . $$</p>
+
+            <p><strong>Ergebnis und Plausibilität:</strong>
+              $S_\text{echt} = -32{,}1\,\mathrm{J\,s}$,
+              $S_\text{Probe} = -30{,}8\,\mathrm{J\,s}$. Die Probebahn hat mehr
+              Wirkung – und weil der Zusatzterm ein Quadrat ist, gilt das für
+              <em>jede</em> Abweichung. Dass $S$ negativ ist, spielt keine Rolle;
+              nur Unterschiede zählen (man könnte zu $V$ eine Konstante addieren).
+              Die Werte stimmen mit dem Wirkungs-Labor überein.</p>
+          </div>
+        </section>
+
+        <section class="tab" id="aufgaben" data-titel="Aufgaben">
+
+          <p>Die Aufgaben sind nach Schwierigkeit sortiert. Wenn nichts anderes
+            gesagt ist, gilt $g = 9{,}81\,\mathrm{m/s^2}$, und alle Bewegungen sind
+            reibungsfrei.</p>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 1: Freiheitsgrade zählen
+              <span class="schwierigkeit" data-stufe="leicht">leicht</span>
+            </h3>
+            <p>Wie viele Freiheitsgrade haben die folgenden Systeme, und welche
+              generalisierten Koordinaten bieten sich an? Sind die
+              Zwangsbedingungen skleronom oder rheonom?</p>
+            <ol type="a">
+              <li>Eine Hantel (zwei Massenpunkte an einer starren, masselosen Stange)
+                frei im Raum.</li>
+              <li>Ein ebenes Doppelpendel.</li>
+              <li>Ein Pendel, dessen Fadenlänge von einem Motor mit konstanter
+                Geschwindigkeit $u$ verkürzt wird.</li>
+            </ol>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p><strong>(a)</strong> $6 - 1 = 5$: drei Koordinaten des Schwerpunkts
+                und zwei Winkel für die Richtung der Stange (eine Drehung um die
+                Stange selbst gibt es für Massenpunkte nicht). Skleronom.</p>
+              <p><strong>(b)</strong> Zwei Massen in der Ebene: $4 - 2 = 2$; die
+                beiden Auslenkwinkel $\varphi_1, \varphi_2$. Skleronom.</p>
+              <p><strong>(c)</strong> In der Ebene $2 - 1 = 1$: der Winkel
+                $\varphi$. Die Zwangsbedingung $r = \ell_0 - ut$ enthält die Zeit
+                explizit: rheonom. Der Motor leistet dabei Arbeit, die Energie des
+                Pendels ist nicht erhalten.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 2: Federpendel mit Lagrange
+              <span class="schwierigkeit" data-stufe="leicht">leicht</span>
+            </h3>
+            <p>Eine Masse $m = 0{,}50\,\mathrm{kg}$ hängt an einer Feder
+              ($k = 20\,\mathrm{N/m}$) und schwingt senkrecht. Stelle mit der
+              Auslenkung $z$ aus der Ruhelage ($z$-Achse nach oben) die
+              Lagrange-Funktion auf, leite die Bewegungsgleichung her und berechne die
+              Schwingungsdauer. Warum taucht $g$ am Ende nicht auf?</p>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>Ist $s$ die Dehnung der Feder in der Ruhelage ($ks = mg$), so ist
+                die Dehnung bei Auslenkung $z$ gleich $s - z$:
+                $$ L = \tfrac{1}{2} m \dot{z}^2 - \tfrac{1}{2} k (s - z)^2 - m g z . $$
+                Lagrange-Gleichung: $m\ddot{z} - k(s - z) + mg = 0$, mit $ks = mg$
+                also $m\ddot{z} = -kz$. Daraus
+                $\omega = \sqrt{k/m} = \sqrt{20/0{,}50}\,\mathrm{s^{-1}} = 6{,}32\,\mathrm{s^{-1}}$
+                und $T = 2\pi/\omega = 0{,}99\,\mathrm{s}$.</p>
+              <p>Die Schwerkraft verschiebt nur die Ruhelage. Bei Auslenkung aus
+                der neuen Ruhelage heben sich die linearen Terme in $z$ genau auf –
+                in $L$ steht dann bis auf eine Konstante
+                $\tfrac{1}{2} m \dot{z}^2 - \tfrac{1}{2} k z^2$.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe" data-symbole='{"s": "Weg des Klotzes entlang der Schräge"}'>
+            <h3>Aufgabe 3: Klotz auf beweglichem Keil
+              <span class="schwierigkeit" data-stufe="mittel">mittel</span>
+            </h3>
+            <p>Ein Keil (Masse $M = 3{,}0\,\mathrm{kg}$, Neigungswinkel
+              $\alpha = 30°$) liegt auf glattem Boden, auf seiner glatten schrägen
+              Fläche rutscht ein Klotz ($m = 1{,}0\,\mathrm{kg}$) hinab.</p>
+            <ol type="a">
+              <li>Stelle die Lagrange-Funktion mit der Keilposition $X$ und dem Weg
+                $s$ des Klotzes entlang der Schräge (nach unten positiv) auf.</li>
+              <li>Berechne die Beschleunigungen $\ddot{s}$ und $\ddot{X}$.</li>
+              <li>Welche Größe bleibt erhalten, und warum?</li>
+            </ol>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p><strong>(a)</strong> Die Schräge falle nach rechts ab. Klotz:
+                $x = X + s\cos\alpha$, $y = -s\sin\alpha$ ($y$-Achse nach oben).
+                $$ L = \tfrac{1}{2} M \dot{X}^2 + \tfrac{1}{2} m \left[ (\dot{X} + \dot{s}\cos\alpha)^2 + \dot{s}^2 \sin^2\alpha \right] + m g s\sin\alpha $$</p>
+              <p><strong>(b)</strong> Gleichungen:
+                $$ X: \ (M + m)\ddot{X} + m\cos\alpha\,\ddot{s} = 0, \qquad s: \ \ddot{X}\cos\alpha + \ddot{s} = g\sin\alpha . $$
+                Einsetzen von $\ddot{X} = -m\cos\alpha\,\ddot{s}/(M + m)$:
+                $$ \ddot{s} = \frac{(M + m)\,g\sin\alpha}{M + m\sin^2\alpha} = \frac{4{,}0 \cdot 9{,}81 \cdot 0{,}5}{3{,}0 + 0{,}25}\,\mathrm{m/s^2} = 6{,}04\,\mathrm{m/s^2}, $$
+                $$ \ddot{X} = -\frac{1{,}0 \cdot 0{,}866 \cdot 6{,}04}{4{,}0}\,\mathrm{m/s^2} = -1{,}31\,\mathrm{m/s^2} . $$
+                Der Keil weicht nach links aus. Kontrolle: Für $M \to \infty$ folgt
+                $\ddot{s} = g\sin\alpha = 4{,}91\,\mathrm{m/s^2}$; hier ist der Klotz
+                schneller, weil der Keil unter ihm wegrutscht.</p>
+              <p><strong>(c)</strong> $X$ kommt in $L$ nicht vor (zyklisch). Also
+                ist $\partial L/\partial\dot{X} = (M + m)\dot{X} + m\cos\alpha\,\dot{s}$
+                konstant – der horizontale Gesamtimpuls, denn in waagerechter
+                Richtung wirkt keine äußere Kraft. Außerdem ist die Energie
+                erhalten.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 4: Pendel mit wackelnder Aufhängung
+              <span class="schwierigkeit" data-stufe="mittel">mittel</span>
+            </h3>
+            <p>Der Aufhängepunkt eines Pendels (Masse $m$, Länge $\ell$) wird von
+              einem Motor waagerecht bewegt: $x_\text{A}(t) = A\cos(\Omega t)$.
+              Stelle die Lagrange-Funktion für den Auslenkwinkel $\varphi$ auf und
+              leite die Bewegungsgleichung her. Was bedeutet der neue Term?</p>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>Kugel: $x = x_\text{A} + \ell\sin\varphi$,
+                $y = -\ell\cos\varphi$. Mit $\dot{x}_\text{A} = -A\Omega\sin\Omega t$:
+                $$ L = \tfrac{1}{2} m \left( \dot{x}_\text{A}^2 + 2\dot{x}_\text{A}\ell\dot{\varphi}\cos\varphi + \ell^2\dot{\varphi}^2 \right) + m g \ell\cos\varphi . $$
+                Der Term $\tfrac{1}{2} m\dot{x}_\text{A}^2$ hängt nur von $t$ ab und
+                fällt aus der Gleichung heraus. Es folgt
+                $$ m\ell^2\ddot{\varphi} + m\ell\ddot{x}_\text{A}\cos\varphi + m g \ell\sin\varphi = 0 \quad\Rightarrow\quad \ell\ddot{\varphi} + g\sin\varphi = A\Omega^2 \cos(\Omega t)\cos\varphi . $$
+                Die rechte Seite ist eine periodische Antriebskraft: Im
+                mitbeschleunigten System der Aufhängung wirkt die Trägheitskraft
+                $-m\ddot{x}_\text{A}$. Für kleine Winkel ist das ein angetriebener
+                Oszillator, der bei $\Omega \approx \sqrt{g/\ell}$ in Resonanz gerät.
+                Die Zwangsbedingung ist rheonom; die Energie des Pendels ist nicht
+                erhalten.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 5: Schnellste Rutsche (Brachistochrone)
+              <span class="schwierigkeit" data-stufe="schwer">schwer</span>
+            </h3>
+            <p>Eine Perle rutscht aus der Ruhe vom Ursprung auf einem Draht zu einem
+              tiefer gelegenen Punkt. Welche Drahtform ergibt die kürzeste Laufzeit?
+              Zähle die Höhe $y$ nach <em>unten</em> positiv.</p>
+            <ol type="a">
+              <li>Zeige mit dem Energiesatz, dass die Laufzeit
+                $t = \int \sqrt{\dfrac{1 + y'^2}{2 g y}}\,\mathrm{d}x$ ist.</li>
+              <li>$F$ hängt nicht explizit von $x$ ab. Zeige, dass dann
+                $F - y'\,\partial F/\partial y'$ konstant ist, und folgere
+                $y\,(1 + y'^2) = 2a$ mit einer Konstanten $a$.</li>
+              <li>Zeige, dass die Zykloide $x = a(\phi - \sin\phi)$,
+                $y = a(1 - \cos\phi)$ diese Gleichung löst.</li>
+            </ol>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p><strong>(a)</strong> Energiesatz: $\tfrac{1}{2} m v^2 = m g y$,
+                also $v = \sqrt{2gy}$. Bogenlänge
+                $\mathrm{d}s = \sqrt{1 + y'^2}\,\mathrm{d}x$, also
+                $\mathrm{d}t = \mathrm{d}s/v$.</p>
+              <p><strong>(b)</strong> Mit der Euler-Lagrange-Gleichung:
+                $\frac{\mathrm{d}}{\mathrm{d}x}\left( F - y'\frac{\partial F}{\partial y'} \right) = \frac{\partial F}{\partial y} y' + \frac{\partial F}{\partial y'} y'' - y''\frac{\partial F}{\partial y'} - y'\frac{\mathrm{d}}{\mathrm{d}x}\frac{\partial F}{\partial y'} = y'\left( \frac{\partial F}{\partial y} - \frac{\mathrm{d}}{\mathrm{d}x}\frac{\partial F}{\partial y'} \right) = 0$.
+                (Das ist das Gegenstück zur Erhaltung der Hamilton-Funktion, siehe
+                <a href="noether.html#hamilton-funktion">Symmetrien und
+                Erhaltungssätze</a>.) Mit
+                $F = \sqrt{(1 + y'^2)/(2gy)}$ und
+                $\partial F/\partial y' = y'/\sqrt{2gy(1 + y'^2)}$:
+                $$ F - y'\frac{\partial F}{\partial y'} = \frac{1 + y'^2 - y'^2}{\sqrt{2gy(1 + y'^2)}} = \frac{1}{\sqrt{2gy(1 + y'^2)}} = \text{konst.} $$
+                also $y\,(1 + y'^2) = \text{konst.} =: 2a$.</p>
+              <p><strong>(c)</strong>
+                $y' = \frac{\mathrm{d}y/\mathrm{d}\phi}{\mathrm{d}x/\mathrm{d}\phi} = \frac{\sin\phi}{1 - \cos\phi}$,
+                also
+                $1 + y'^2 = \frac{(1 - \cos\phi)^2 + \sin^2\phi}{(1 - \cos\phi)^2} = \frac{2}{1 - \cos\phi}$
+                und $y\,(1 + y'^2) = a(1 - \cos\phi) \cdot \frac{2}{1 - \cos\phi} = 2a$ ✓.
+                Die schnellste Rutsche ist ein Stück einer Zykloide – die Kurve, die
+                ein Punkt auf einem rollenden Rad beschreibt
+                (<a href="rollbewegung.html">Rollbewegung</a>).</p>
+              <p><strong>Zum Nachdenken:</strong> Die Zykloide fällt am Anfang
+                senkrecht ab und kann sogar unter das Ziel hinabtauchen. Die Perle
+                „investiert“ in Tempo, das sie später auf dem längeren Weg wieder
+                hereinholt – ganz ähnlich wie ein Lichtstrahl, der beim Übergang ins
+                Wasser abknickt.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 6: Wann hebt der Schlitten vom Iglu ab?
+              <span class="schwierigkeit" data-stufe="schwer">schwer</span>
+            </h3>
+            <p>Ein kleiner Schlitten (Masse $m$) startet fast ohne Tempo oben auf
+              einer glatten Halbkugel (Radius $R$) und rutscht hinab. Beschreibe ihn
+              mit Polarkoordinaten $(r, \theta)$, $\theta$ vom höchsten Punkt aus
+              gemessen, und der Zwangsbedingung $r - R = 0$.</p>
+            <ol type="a">
+              <li>Stelle die Lagrange-Gleichungen erster Art auf.</li>
+              <li>Bestimme $\lambda$ als Funktion von $\theta$ (Energiesatz
+                benutzen) und deute es.</li>
+              <li>Bei welchem Winkel und in welcher Höhe verliert der Schlitten den
+                Kontakt?</li>
+            </ol>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p><strong>(a)</strong> Mit Höhe $r\cos\theta$:
+                $L = \tfrac{1}{2} m (\dot{r}^2 + r^2\dot{\theta}^2) - m g r\cos\theta$,
+                Zwangsbedingung $f = r - R$, also $a_r = 1$, $a_\theta = 0$:
+                $$ r: \ m\ddot{r} - m r\dot{\theta}^2 + m g\cos\theta = \lambda, \qquad \theta: \ \frac{\mathrm{d}}{\mathrm{d}t}(m r^2\dot{\theta}) - m g r\sin\theta = 0 . $$</p>
+              <p><strong>(b)</strong> Mit $r = R$: $\lambda = m g\cos\theta - m R\dot{\theta}^2$.
+                Energiesatz ab dem höchsten Punkt:
+                $\tfrac{1}{2} m R^2\dot{\theta}^2 = m g R(1 - \cos\theta)$, also
+                $m R\dot{\theta}^2 = 2 m g(1 - \cos\theta)$ und
+                $$ \lambda = m g\,(3\cos\theta - 2) . $$
+                $\lambda$ ist die Normalkraft der Halbkugel auf den Schlitten (in
+                Richtung $+\hat{e}_r$, also nach außen). Oben ist sie $mg$, dann
+                nimmt sie ab.</p>
+              <p><strong>(c)</strong> Die Unterlage kann nur drücken, nicht ziehen:
+                Der Kontakt endet bei $\lambda = 0$, also $\cos\theta = 2/3$,
+                $\theta = 48{,}2°$, in der Höhe $\tfrac{2}{3} R$ über dem Boden –
+                unabhängig von Masse, Radius und $g$.</p>
+              <p><strong>Zum Nachdenken:</strong> Mit Lagrange zweiter Art (nur
+                $\theta$) bekäme man dieselbe Bahn, aber keinen Hinweis darauf, dass
+                sie irgendwann falsch wird. Erst die Zwangskraft verrät, wo die
+                Zwangsbedingung $r = R$ ihre Gültigkeit verliert.</p>
+            </details>
+          </div>
+        </section>
+
+      </div></article>
+  </main>
+</body>
+</html>

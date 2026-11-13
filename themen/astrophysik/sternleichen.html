@@ -1,0 +1,525 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="robots" content="noindex">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Weiße Zwerge, Neutronensterne und Schwarze Löcher</title>
+  <meta name="description" content="Was von toten Sternen übrig bleibt – verständlich erklärt: Weiße Zwerge und die Chandrasekhar-Grenze, Kernkollaps und Supernovae, Neutronensterne und Pulsare, Gravitationswellen und Schwarze Löcher.">
+
+  <link rel="stylesheet" href="../../css/stil.css">
+
+  <link rel="stylesheet" href="../../extern/katex/katex.min.css">
+  <script defer src="../../extern/katex/katex.min.js"></script>
+  <script defer src="../../extern/katex/contrib/auto-render.min.js" onload="starteFormeln()"></script>
+
+  <script src="../../js/daten.js"></script>
+  <script src="../../js/seite.js"></script>
+  <script src="../../js/effekte.js"></script>
+  <script src="../../js/interaktiv.js"></script>
+  <script src="../../js/modelle/sternleichen.js"></script>
+  <script type="application/json" id="symbole">
+  {
+    "G": "Gravitationskonstante",
+    "M": "Masse",
+    "R": "Radius",
+    "M_⊙": "Sonnenmasse",
+    "R_⊙": "Sonnenradius",
+    "g": "Schwerebeschleunigung an der Oberfläche",
+    "ρ": "Dichte (mit Strich: mittlere Dichte)",
+    "π": "Kreiszahl π ≈ 3,14159",
+    "E": "Energie",
+    "m": "Masse",
+    "c": "Lichtgeschwindigkeit",
+    "R_S": "Schwarzschild-Radius",
+    "P": "Rotationsperiode des Pulsars",
+    "I": "Trägheitsmoment"
+  }
+  </script>
+</head>
+<body data-thema="sternleichen">
+  <main>
+    <article class="thema">
+      <header>
+        <h1>Weiße Zwerge, Neutronensterne und <span class="betont">Schwarze Löcher</span></h1>
+        <p class="untertitel">Wenn ein Stern keinen Brennstoff mehr hat, presst ihn die Schwerkraft zusammen. Was ihn dann noch aufhält – oder ob ihn überhaupt etwas aufhält –, entscheidet seine Masse.</p>
+      </header>
+
+      <section class="erklaerung">
+
+        <p>Ein Teelöffel voll Materie, der mehr wiegt als alle Menschen der
+          Erde zusammen – das klingt nach Science-Fiction. Solche Materie gibt
+          es aber, und zwar in der Milchstraße hundertmillionenfach: in den
+          Überresten gestorbener Sterne. Wie Sterne leben und warum sie
+          sterben, erzählt die Seite
+          <a href="sternentwicklung.html">Sternentwicklung</a>. Diese Seite
+          beginnt dort, wo jene endet – bei dem, was übrig bleibt.
+          </p>
+
+        <h2 id="drei-enden">Drei Arten, tot zu sein</h2>
+        <p>Ein Stern lebt im Gleichgewicht: Die Schwerkraft will ihn
+          zusammenpressen, der Druck des heißen Gases hält dagegen, und die
+          Kernfusion hält das Gas heiß. Ist der Brennstoff verbraucht,
+          gewinnt die Schwerkraft, und der ausgebrannte Kern schrumpft. Was
+          ihn dann noch aufhält, hängt von seiner Masse ab – daraus ergeben
+          sich drei Arten von Sternleichen. Probier es aus: Drück die Sonne
+          zusammen und beobachte, was mit ihrer Materie passiert.</p>
+
+        <figure class="interaktiv" data-modell="sonnenpresse">
+          <span class="titel">Zum Ausprobieren</span>
+          <figcaption>Eine Kugel mit der Masse der Sonne wird immer kleiner
+            gedrückt. Oben siehst du auf einer Skala, wo Weiße Zwerge,
+            Neutronensterne und Schwarze Löcher liegen (jeder Teilstrich ist
+            zehnmal kleiner als der vorige), darunter die Kugel im Vergleich
+            mit der heutigen Sonne, der Erde oder einer Halbmarathon-Strecke.
+            Die Kacheln zeigen, was ein Teelöffel ihrer Materie wiegt, wie
+            stark die Schwerkraft an der Oberfläche ist, wie schnell man
+            starten müsste, um zu entkommen, und wie viel langsamer Uhren dort
+            gehen.</figcaption>
+        </figure>
+
+        <h2 id="weisse-zwerge">Weiße Zwerge: das Gedränge der Elektronen</h2>
+        <p>Sterne wie die Sonne enden als <strong>Weißer Zwerg</strong>: der
+          freigelegte Kern aus Kohlenstoff und Sauerstoff, meist etwas mehr als
+          halb so schwer wie die Sonne, aber nur so groß wie die Erde. Der
+          bekannteste ist Sirius B, der lichtschwache Begleiter des hellsten
+          Sterns am Nachthimmel. Ein Weißer Zwerg verschmilzt nichts mehr und
+          kühlt langsam ab. Trotzdem stürzt er nicht weiter in sich zusammen.
+          Was ihn hält, ist nicht Hitze, sondern eine Regel der Quantenphysik,
+          das <strong>Pauli-Prinzip</strong>: Zwei Elektronen dürfen nie im
+          selben Zustand sein.</p>
+
+        <div class="alltag">
+          <span class="titel">Eine Analogie</span>
+          <p>Stell dir ein Kino vor, in dem jeder Platz nur einmal vergeben
+            wird. Kommen immer mehr Leute, müssen sie auf immer schlechtere
+            Plätze ausweichen. Bei Elektronen heißen die „schlechten Plätze“
+            hohe Geschwindigkeit. Presst man sie zusammen, müssen sie immer
+            schneller werden – und schnelle Teilchen drücken. Dieser Druck
+            bleibt, auch wenn der Stern völlig kalt ist.</p>
+        </div>
+
+        <p>Physiker nennen solche zusammengepferchten Elektronen
+          <strong>entartet</strong>, ihren Druck
+          <strong>Entartungsdruck</strong>. Er hat eine seltsame Folge: Je
+          schwerer ein Weißer Zwerg ist, desto <em>kleiner</em> ist er
+          (Abb. 1). Mehr Masse drückt stärker, die Elektronen müssen enger
+          zusammenrücken, und erst bei kleinerem Radius ist ihr Druck groß
+          genug.</p>
+
+        <figure class="abbildung">
+          <svg class="abb" viewBox="0 0 380 270" role="img" aria-label="Masse-Radius-Beziehung Weißer Zwerge: Der Radius fällt mit wachsender Masse und geht bei der Chandrasekhar-Masse von 1,45 Sonnenmassen gegen null; die gestrichelte nichtrelativistische Näherung fällt nur langsam. Sirius B und 40 Eridani B liegen nahe der Kurve.">
+            <defs><marker id="pfeil-abb1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5 0 10z" fill="currentColor"/></marker></defs>
+            <path class="achse" d="M50 14V230H368" marker-start="url(#pfeil-abb1)" marker-end="url(#pfeil-abb1)"/>
+            <line class="hilfslinie" x1="50" y1="146.4" x2="360" y2="146.4"/>
+            <text class="klein" x="56" y="140">Erdradius</text>
+            <line class="hilfslinie" x1="327.7" y1="20" x2="327.7" y2="230"/>
+            <text class="klein kupfer" x="322" y="30" text-anchor="end">Chandrasekhar-Grenze</text>
+            <polyline class="kurve schwach" points="50.0,31.0 72.1,56.2 94.3,72.1 138.6,92.0 182.9,104.6 227.1,113.6 271.4,120.5 315.7,126.0 360.0,130.5"/>
+            <polyline class="kurve blau" points="50.0,38.2 55.5,46.8 61.1,54.3 66.6,61.0 72.1,67.1 77.7,72.6 83.2,77.7 88.8,82.5 94.3,86.9 99.8,91.0 105.4,95.0 110.9,98.7 116.4,102.3 122.0,105.7 127.5,108.9 133.0,112.1 138.6,115.2 144.1,118.1 149.6,121.0 155.2,123.8 160.7,126.6 166.2,129.3 171.8,131.9 177.3,134.5 182.9,137.1 188.4,139.6 193.9,142.2 199.5,144.7 205.0,147.1 210.5,149.6 216.1,152.1 221.6,154.6 227.1,157.1 232.7,159.5 238.2,162.1 243.7,164.6 249.3,167.2 254.8,169.8 260.4,172.4 265.9,175.2 271.4,178.0 277.0,180.8 282.5,183.8 288.0,187.0 293.6,190.3 299.1,193.8 304.6,197.7 310.2,202.0 315.7,206.9 321.2,213.2 322.4,214.7 324.6,218.3 326.3,222.4 327.2,225.6 327.7,230.0"/>
+            <circle class="punkt kupfer" cx="231.6" cy="153.4" r="4"/>
+            <text class="klein kupfer halo" x="238" y="168">Sirius B</text>
+            <circle class="punkt kupfer" cx="132.6" cy="110.6" r="4"/>
+            <text class="klein kupfer halo" x="140" y="104">40 Eridani B</text>
+            <text class="klein halo" x="262" y="108">ohne Relativität</text>
+            <text class="klein" x="46" y="234" text-anchor="end">0</text>
+            <text class="klein" x="46" y="181.5" text-anchor="end">4000</text>
+            <text class="klein" x="46" y="129" text-anchor="end">8000</text>
+            <text class="klein" x="46" y="76.5" text-anchor="end">12 000</text>
+            <text class="klein" x="56" y="22">Radius in km</text>
+            <text class="klein" x="50" y="246" text-anchor="middle">0,2</text>
+            <text class="klein" x="94.3" y="246" text-anchor="middle">0,4</text>
+            <text class="klein" x="138.6" y="246" text-anchor="middle">0,6</text>
+            <text class="klein" x="182.9" y="246" text-anchor="middle">0,8</text>
+            <text class="klein" x="227.1" y="246" text-anchor="middle">1,0</text>
+            <text class="klein" x="271.4" y="246" text-anchor="middle">1,2</text>
+            <text class="klein" x="315.7" y="246" text-anchor="middle">1,4</text>
+            <text class="klein" x="366" y="262" text-anchor="end">Masse in M☉</text>
+          </svg>
+          <figcaption>Abb. 1: Radius kalter Weißer Zwerge über ihrer Masse
+            (blau: genaue Rechnung). Je schwerer, desto kleiner – und bei
+            etwa 1,4 Sonnenmassen schrumpft der Radius auf null. Rechnet man
+            ohne Relativitätstheorie (grau), gibt es diese Grenze nicht. Die
+            Punkte sind gemessene Weiße Zwerge; Sirius B ist noch heiß und
+            deshalb etwas größer als ein kalter Weißer Zwerg gleicher Masse.
+            </figcaption>
+        </figure>
+
+        <details class="rechnung">
+          <summary><span class="rechnung-notiz">Nachgerechnet</span> Wie dicht ist Sirius B?</summary>
+          <p>Sirius B hat $M = 1{,}02\,M_\odot = 2{,}03 \cdot 10^{30}\,\mathrm{kg}$
+            und $R = 0{,}0084\,R_\odot = 5840\,\mathrm{km}$, ist also etwas
+            kleiner als die Erde. Seine mittlere Dichte:</p>
+          $$ \bar\rho = \frac{M}{\frac{4}{3}\pi R^3} = \frac{2{,}03 \cdot 10^{30}\,\mathrm{kg}}{\frac{4}{3}\pi\,(5{,}84 \cdot 10^{6}\,\mathrm{m})^3} \approx 2{,}4 \cdot 10^{9}\,\mathrm{kg/m^3} . $$
+          <p>Ein Teelöffel ($5\,\mathrm{cm^3}$) davon wiegt
+            $2{,}4 \cdot 10^{9}\,\mathrm{kg/m^3} \cdot 5 \cdot 10^{-6}\,\mathrm{m^3} \approx 12\,\mathrm{t}$
+            – so viel wie zwei Elefanten. Die Schwerebeschleunigung an der
+            Oberfläche ist</p>
+          $$ g = \frac{G M}{R^2} \approx 4 \cdot 10^{6}\,\mathrm{m/s^2} , $$
+          <p>rund 400 000-mal so viel wie auf der Erde.</p>
+        </details>
+
+        <p>Ein Weißer Zwerg leuchtet nur noch von seiner gespeicherten Wärme
+          und kühlt immer langsamer ab. Irgendwann ordnen sich die Kerne in
+          seinem Inneren zu einem Kristallgitter: Der Stern erstarrt zu einem
+          erdgroßen Kristall (2019 vom Satelliten Gaia bestätigt). Die
+          Abkühlung ist zugleich eine Uhr: Die kühlsten Weißen Zwerge in der
+          Scheibe der Milchstraße sind rund neun Milliarden Jahre alt – älter
+          ist die Scheibe nicht.</p>
+
+        <h2 id="chandrasekhar">Die Chandrasekhar-Grenze</h2>
+        <p>Je schwerer ein Weißer Zwerg, desto dichter ist er und desto
+          schneller müssen seine Elektronen sein. Schon in Sirius B erreichen
+          sie ein Drittel der Lichtgeschwindigkeit. Schneller als das Licht
+          können sie aber nicht werden, und deshalb wächst ihr Druck beim
+          Zusammenpressen ab einem Punkt nicht mehr schnell genug mit. Bei
+          rund 1,4 Sonnenmassen kann der Entartungsdruck die Schwerkraft bei
+          keinem Radius mehr ausgleichen: Ein schwererer Weißer Zwerg kann
+          nicht existieren.</p>
+        <p>Diese <strong>Chandrasekhar-Grenze</strong> berechnete der
+          19-jährige Inder Subrahmanyan Chandrasekhar 1930 auf der
+          Schiffsreise zum Studium nach England. Der berühmte Astronom Arthur
+          Eddington verspottete die Idee eines endlos kollabierenden Sterns;
+          Chandrasekhar hatte trotzdem recht (Nobelpreis 1983). Seine Grenze
+          spielt auch beim Tod der schweren Sterne die Hauptrolle.</p>
+
+        <h2 id="doppelsterne">Novae und Supernovae: Weiße Zwerge mit Begleiter</h2>
+        <p>Spannend wird ein Weißer Zwerg in einem engen Doppelsternsystem:
+          Bläht sich der Begleiter zum Riesen auf, fließt Gas zu ihm hinüber.
+          Es fällt nicht direkt auf ihn, sondern kreist zuerst in einer
+          heißen, flachen <strong>Akkretionsscheibe</strong>. Auf der
+          Oberfläche des Weißen Zwergs sammelt sich so eine dünne
+          Wasserstoffschicht. Zündet in ihr die Fusion, verbrennt sie
+          explosionsartig: eine <strong>Nova</strong>, für einige Wochen
+          tausend- bis millionenfach heller – für frühere Beobachter ein
+          „neuer Stern“. Der Weiße Zwerg überlebt das.</p>
+        <p>Wächst er dabei bis an die Chandrasekhar-Grenze – oder
+          verschmelzen zwei Weiße Zwerge –, zündet der Kohlenstoff im ganzen
+          Inneren, und der Stern zerreißt ohne Überrest: eine
+          <strong>Supernova vom Typ Ia</strong>. Weil dabei immer ein
+          ähnlicher Stern nahe 1,4 Sonnenmassen verbrennt, sind diese
+          Explosionen fast gleich hell, und man kann aus ihrer scheinbaren
+          Helligkeit ihre Entfernung bestimmen. So entdeckte man 1998, dass
+          sich das Universum immer schneller ausdehnt (Nobelpreis 2011).</p>
+
+        <h2 id="kernkollaps">Kernkollaps: die Geburt eines Neutronensterns</h2>
+        <p>Sterne mit mehr als etwa acht Sonnenmassen fusionieren in ihrem
+          Kern bis zum Eisen (siehe
+          <a href="sternentwicklung.html#massereich">Sternentwicklung</a>).
+          Aus Eisen lässt sich keine Energie mehr gewinnen. Der Eisenkern
+          wächst, bis er die Chandrasekhar-Grenze erreicht – und dann geht
+          alles sehr schnell. Elektronen werden in die Protonen der
+          Atomkerne gepresst und verwandeln sie in Neutronen. Dabei entstehen
+          <strong>Neutrinos</strong>, fast masselose Teilchen, die kaum mit
+          Materie reagieren. Jedes verschluckte Elektron fehlt im Druck, und
+          der Kern, etwa halb so groß wie die Erde, stürzt zusammen.</p>
+        <p>In rund einer Zehntelsekunde schrumpft er auf etwa 20 Kilometer
+          Durchmesser. Erst bei der Dichte von Atomkernen werden die Neutronen
+          so „steif“, dass der Sturz abrupt endet. Der Kern federt zurück,
+          und eine Stoßwelle läuft nach außen. Allein bliebe sie stecken;
+          nach heutigem Verständnis treibt sie die Flut von Neutrinos aus dem
+          heißen jungen Neutronenstern wieder an, und der Rest des Sterns
+          fliegt als <strong>Supernova</strong> davon. Die Bewegungsenergie
+          der Explosion entspricht etwa dem, was die Sonne in ihrem ganzen
+          Leben abstrahlt – und das ist nur ein Prozent. Die übrigen 99
+          Prozent tragen die Neutrinos in Sekunden davon. Bei der Supernova
+          1987A wurden etwa zwanzig von ihnen auf der Erde eingefangen.
+          </p>
+
+        <h2 id="neutronensterne">Neutronensterne: ein Atomkern so groß wie eine Stadt</h2>
+        <p>Übrig bleibt ein <strong>Neutronenstern</strong>: typisch 1,4
+          Sonnenmassen in einer Kugel von nur 24 Kilometern Durchmesser, so
+          groß wie eine Großstadt. Er ist im Grunde ein einziger riesiger
+          Atomkern. Ein Teelöffel seiner Materie wiegt rund zwei Milliarden
+          Tonnen, viermal so viel wie alle Menschen zusammen, und die
+          Schwerkraft an der Oberfläche ist hundert Milliarden Mal stärker
+          als auf der Erde. Vorhergesagt haben Neutronensterne Walter Baade
+          und Fritz Zwicky schon 1934. Ganz aus Neutronen bestehen sie
+          aber nicht (Abb. 2): Außen trägt
+          der Stern eine feste Kruste aus Atomkernen, darunter ein Meer aus
+          Neutronen mit einigen Prozent Protonen und Elektronen. Was im
+          Zentrum bei der mehrfachen Dichte von Atomkernen geschieht, weiß
+          niemand genau.</p>
+
+        <figure class="abbildung">
+          <svg class="abb" viewBox="0 0 380 250" role="img" aria-label="Querschnitt durch einen Neutronenstern: außen eine dünne äußere Kruste aus Kernen und Elektronen, darunter die innere Kruste mit zusätzlichen freien Neutronen, innen der Kern aus Neutronen, Protonen und Elektronen, im Zentrum vielleicht exotische Materie">
+            <path class="flaeche" d="M120 15A110 110 0 0 1 120 235Z" fill-opacity="0.08"/>
+            <path class="flaeche" d="M120 23A102 102 0 0 1 120 227Z"/>
+            <path class="flaeche" d="M120 32A93 93 0 0 1 120 218Z" fill-opacity="0.32"/>
+            <path class="flaeche" d="M120 85A40 40 0 0 1 120 165Z" fill-opacity="0.5"/>
+            <path class="achse" d="M120 15A110 110 0 0 1 120 235Z"/>
+            <path class="kurve kupfer duenn" d="M120 23A102 102 0 0 1 120 227"/>
+            <path class="hilfslinie" d="M120 32A93 93 0 0 1 120 218"/>
+            <path class="hilfslinie" d="M120 85A40 40 0 0 1 120 165"/>
+            <line class="achse" x1="186" y1="44" x2="232" y2="30"/>
+            <text class="klein" x="236" y="26">äußere Kruste:</text>
+            <text class="klein" x="236" y="40">Kerne, Elektronen</text>
+            <line class="achse" x1="198" y1="70" x2="232" y2="70"/>
+            <text class="klein" x="236" y="66">innere Kruste: dazu</text>
+            <text class="klein" x="236" y="80">freie Neutronen</text>
+            <line class="achse" x1="186" y1="120" x2="232" y2="116"/>
+            <text class="klein" x="236" y="112">Kern: supraflüssige</text>
+            <text class="klein" x="236" y="126">Neutronen, supraleitende</text>
+            <text class="klein" x="236" y="140">Protonen, Elektronen</text>
+            <line class="achse" x1="146" y1="140" x2="232" y2="178"/>
+            <text class="klein" x="236" y="174">Zentrum: Hyperonen?</text>
+            <text class="klein" x="236" y="188">freie Quarks?</text>
+            <line class="achse" x1="120" y1="242" x2="120" y2="8"/>
+            <text class="klein" x="114" y="128" text-anchor="end">12 km</text>
+          </svg>
+          <figcaption>Abb. 2: Aufbau eines Neutronensterns (halber
+            Querschnitt, Kruste zur Verdeutlichung etwas dicker gezeichnet).
+            Die äußere Kruste ist ein Gitter aus Atomkernen in einem
+            Elektronengas. Tiefer „tropfen“ Neutronen aus den Kernen (innere
+            Kruste), noch tiefer lösen sich die Kerne ganz auf. Ob im Zentrum
+            exotische Teilchen (Hyperonen) oder freie Quarks auftreten, ist
+            offen.
+            </figcaption>
+        </figure>
+
+        <p>Auch Neutronensterne haben eine Höchstmasse. Den Druck liefern vor
+          allem die abstoßenden Kernkräfte, und wie stark diese bei so hoher
+          Dichte sind, kann kein Labor auf der Erde messen. Die schwersten
+          bekannten Neutronensterne haben gut zwei Sonnenmassen – eine
+          wichtige Prüfung für jede Theorie der Kernmaterie.
+          </p>
+
+        <h2 id="pulsare">Pulsare: kosmische Leuchttürme</h2>
+        <p>Beim Schrumpfen behält der Kern seinen Drehimpuls, und wie eine
+          Eiskunstläuferin, die die Arme anzieht, dreht er sich danach rasend
+          schnell (siehe <a href="../mechanik/drehbewegung.html">Drehbewegung</a>).
+          Auch sein Magnetfeld wird zusammengedrückt und
+          dadurch viele Milliarden Mal stärker als ein Kühlschrankmagnet. Entlang
+          der Magnetachse sendet der Stern zwei gebündelte Strahlen aus. Ist
+          die Magnetachse gegen die Drehachse geneigt, kreisen die Strahlen
+          wie das Licht eines Leuchtturms (Abb. 3). Streift einer bei jeder
+          Umdrehung die Erde, sehen wir einen kurzen Puls.</p>
+
+        <figure class="abbildung">
+          <svg class="abb" viewBox="0 0 380 330" role="img" aria-label="Leuchtturmmodell eines Pulsars: Der Neutronenstern dreht sich um die senkrechte Drehachse; die Magnetachse ist um 40 Grad dagegen geneigt, entlang ihr gehen zwei Strahlungskegel ab. Die Spitze der Magnetachse läuft auf einem Kreis um die Drehachse. Zeigt ein Kegel zur Erde, kommt ein Puls an; unten eine Pulsfolge mit gleichen Abständen P.">
+            <defs><marker id="pfeil-abb3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5 0 10z" fill="currentColor"/></marker></defs>
+            <polygon class="strahl" points="150.0,135.0 192.3,44.4 231.9,77.6"/>
+            <polygon class="strahl" points="150.0,135.0 107.7,225.6 68.1,192.4"/>
+            <polyline class="kurve kupfer duenn" stroke-opacity="0.45" points="165.5,130.9 167.0,131.1 168.6,131.4 170.2,131.7 171.8,132.2 173.4,132.7 175.0,133.3 176.5,134.1 178.1,134.9 179.5,135.9 181.0,136.9 182.3,138.0 183.6,139.2 184.8,140.5 185.9,141.9 186.9,143.3 187.8,144.8 188.6,146.3 189.3,147.8 189.8,149.4 190.2,151.0 190.5,152.7 190.6,154.3 190.6,155.9 190.4,157.5 190.2,159.0 189.7,160.5 189.2,162.0 188.5,163.3 187.7,164.6 186.8,165.9 185.7,167.0 184.6,168.0 183.4,168.9 182.0,169.7 180.6,170.4 179.2,170.9 177.6,171.4 176.0,171.6 174.4,171.8 172.8,171.8 171.1,171.7 169.5,171.5 167.8,171.1 166.2,170.6 164.6,169.9 163.0,169.2 161.5,168.3 160.0,167.4 158.6,166.3 157.2,165.2 156.0,163.9 154.8,162.6 153.7,161.3 152.7,159.9 151.8,158.4 151.0,156.9 150.3,155.4 149.6,153.9 149.1,152.4 148.7,150.9"/>
+            <polyline class="kurve kupfer duenn" stroke-opacity="0.45" points="151.3,119.1 150.9,117.6 150.4,116.1 149.7,114.6 149.0,113.1 148.2,111.6 147.3,110.1 146.3,108.7 145.2,107.4 144.0,106.1 142.8,104.8 141.4,103.7 140.0,102.6 138.5,101.7 137.0,100.8 135.4,100.1 133.8,99.4 132.2,98.9 130.5,98.5 128.9,98.3 127.2,98.2 125.6,98.2 124.0,98.4 122.4,98.6 120.8,99.1 119.4,99.6 118.0,100.3 116.6,101.1 115.4,102.0 114.3,103.0 113.2,104.1 112.3,105.4 111.5,106.7 110.8,108.0 110.3,109.5 109.8,111.0 109.6,112.5 109.4,114.1 109.4,115.7 109.5,117.3 109.8,119.0 110.2,120.6 110.7,122.2 111.4,123.7 112.2,125.2 113.1,126.7 114.1,128.1 115.2,129.5 116.4,130.8 117.7,132.0 119.0,133.1 120.5,134.1 121.9,135.1 123.5,135.9 125.0,136.7 126.6,137.3 128.2,137.8 129.8,138.3 131.4,138.6 133.0,138.9 134.5,139.1"/>
+            <polyline class="kurve kupfer duenn" stroke-opacity="0.45" points="164.7,128.7 167.2,128.4 169.7,128.3 172.4,128.2 175.2,128.4 178.1,128.7 181.1,129.3 184.1,130.0 187.1,130.9 190.1,132.1 193.0,133.5 195.8,135.0 198.6,136.8 201.2,138.8 203.7,141.0 206.0,143.3 208.2,145.9 210.1,148.5 211.7,151.3 213.1,154.1 214.3,157.1 215.1,160.1 215.7,163.1 216.0,166.2 216.0,169.2 215.6,172.1 215.0,175.0 214.1,177.7 212.9,180.4 211.5,182.8 209.8,185.1 207.8,187.2 205.6,189.1 203.2,190.7 200.7,192.1 198.0,193.2 195.1,194.0 192.1,194.6 189.1,194.8 186.0,194.8 182.9,194.5 179.8,193.8 176.7,193.0 173.7,191.8 170.8,190.4 167.9,188.7 165.2,186.9 162.7,184.8 160.2,182.6 158.0,180.1 156.0,177.6 154.1,174.9 152.4,172.2 151.0,169.4 149.7,166.6 148.7,163.8 147.9,161.0 147.2,158.3 146.8,155.6 146.5,153.0 146.4,150.6"/>
+            <polyline class="kurve kupfer duenn" stroke-opacity="0.45" points="153.6,119.4 153.5,117.0 153.2,114.4 152.8,111.7 152.1,109.0 151.3,106.2 150.3,103.4 149.0,100.6 147.6,97.8 145.9,95.1 144.0,92.4 142.0,89.9 139.8,87.4 137.3,85.2 134.8,83.1 132.1,81.3 129.2,79.6 126.3,78.2 123.3,77.0 120.2,76.2 117.1,75.5 114.0,75.2 110.9,75.2 107.9,75.4 104.9,76.0 102.0,76.8 99.3,77.9 96.8,79.3 94.4,80.9 92.2,82.8 90.2,84.9 88.5,87.2 87.1,89.6 85.9,92.3 85.0,95.0 84.4,97.9 84.0,100.8 84.0,103.8 84.3,106.9 84.9,109.9 85.7,112.9 86.9,115.9 88.3,118.7 89.9,121.5 91.8,124.1 94.0,126.7 96.3,129.0 98.8,131.2 101.4,133.2 104.2,135.0 107.0,136.5 109.9,137.9 112.9,139.1 115.9,140.0 118.9,140.7 121.9,141.3 124.8,141.6 127.6,141.8 130.3,141.7 132.8,141.6 135.3,141.3"/>
+            <ellipse class="hilfslinie" cx="150.0" cy="49.2" rx="72.0" ry="15.0"/>
+            <polyline class="achse" points="114.0,62.2 118.4,62.7 123.0,63.1 127.8,63.5 132.6,63.8 137.5,64.0 142.5,64.1 147.5,64.2 152.5,64.2 157.5,64.1 162.5,64.0 167.4,63.8 172.2,63.5 177.0,63.1 181.6,62.7" marker-end="url(#pfeil-abb3)"/>
+            <line class="hilfslinie" x1="150" y1="22" x2="150" y2="252"/>
+            <line class="kurve kupfer duenn" x1="78.0" y1="220.8" x2="222.0" y2="49.2"/>
+            <circle class="flaeche" cx="150" cy="135" r="16" fill-opacity="0.5"/>
+            <circle class="achse" cx="150" cy="135" r="16"/>
+            <line class="achse" x1="163.8" y1="123.4" x2="276.4" y2="28.9" marker-end="url(#pfeil-abb3)"/>
+            <path class="achse" d="M40 312H368" marker-end="url(#pfeil-abb3)"/>
+            <polyline class="kurve blau" points="40.0,312.0 73.0,312.0 73.5,309.0 74.0,301.7 74.5,295.2 75.0,289.6 75.5,284.8 76.0,280.9 76.5,277.9 77.0,275.7 77.5,274.4 78.0,274.0 78.5,274.4 79.0,275.7 79.5,277.9 80.0,280.9 80.5,284.8 81.0,289.6 81.5,295.2 82.0,301.7 82.5,309.0 83.0,312.0 179.0,312.0 179.5,309.0 180.0,301.7 180.5,295.2 181.0,289.6 181.5,284.8 182.0,280.9 182.5,277.9 183.0,275.7 183.5,274.4 184.0,274.0 184.5,274.4 185.0,275.7 185.5,277.9 186.0,280.9 186.5,284.8 187.0,289.6 187.5,295.2 188.0,301.7 188.5,309.0 189.0,312.0 285.0,312.0 285.5,309.0 286.0,301.7 286.5,295.2 287.0,289.6 287.5,284.8 288.0,280.9 288.5,277.9 289.0,275.7 289.5,274.4 290.0,274.0 290.5,274.4 291.0,275.7 291.5,277.9 292.0,280.9 292.5,284.8 293.0,289.6 293.5,295.2 294.0,301.7 294.5,309.0 295.0,312.0 360.0,312.0"/>
+            <text class="klein" x="150" y="15" text-anchor="middle">Drehachse</text>
+            <text class="klein kupfer halo" x="86" y="240" text-anchor="end">Magnetachse</text>
+            <text class="klein blau halo" x="238" y="94">Strahlungskegel</text>
+            <text class="klein halo" x="282" y="33">zur Erde</text>
+            <text class="klein halo" x="172" y="160">Neutronenstern</text>
+            <path class="achse" d="M85 296H177" marker-start="url(#pfeil-abb3)" marker-end="url(#pfeil-abb3)"/>
+            <text class="klein halo" x="131" y="290" text-anchor="middle">P</text>
+            <text class="klein" x="40" y="262">Helligkeit auf der Erde</text>
+            <text class="klein" x="368" y="326" text-anchor="end">Zeit</text>
+          </svg>
+          <figcaption>Abb. 3: Das Leuchtturmmodell. Der Neutronenstern dreht
+            sich um die senkrechte Drehachse. Seine Magnetachse (orange, mit
+            Feldlinien) ist hier um 40° geneigt; entlang ihr gehen zwei
+            Strahlungskegel ab (blau). Die Spitze der Magnetachse läuft
+            einmal pro Umdrehung auf dem gestrichelten Kreis herum. Nur
+            während der Kegel über die Erde streicht, kommt Strahlung an:
+            Unten siehst du die Pulsfolge, ein Puls pro Umdrehung mit der
+            Periode $P$. Bei anderer Lage der Erde sieht man zwei Pulse pro
+            Umdrehung oder gar keinen.</figcaption>
+        </figure>
+
+        <p>Entdeckt hat das 1967 die Doktorandin Jocelyn Bell: Ihre
+          Radioantenne empfing Pulse, so regelmäßig wie ein Uhrwerk alle
+          1,337 Sekunden. Halb im Scherz hieß die Quelle zuerst „LGM-1“, für
+          „Little Green Men“. Es war der erste <strong>Pulsar</strong>. Ein
+          Jahr später fand man einen mitten im Krebsnebel, den Trümmern einer
+          Supernova, die chinesische Astronomen 1054 beobachtet hatten. Er
+          dreht sich rund 30-mal pro Sekunde und wird messbar langsamer – die
+          verlorene Drehenergie bringt den ganzen Nebel zum Leuchten.</p>
+
+        <details class="rechnung">
+          <summary><span class="rechnung-notiz">Nachgerechnet</span> Reicht die Drehung des Krebs-Pulsars, um den Nebel leuchten zu lassen?</summary>
+          <p>Der Pulsar hat die Periode $P = 33{,}4\,\mathrm{ms}$, die jede
+            Sekunde um $\dot P = 4{,}21 \cdot 10^{-13}\,\mathrm{s}$ länger
+            wird. Als homogene Kugel mit $1{,}4\,M_\odot$ und
+            $12\,\mathrm{km}$ Radius hat er das Trägheitsmoment
+            $I = \tfrac{2}{5} M R^2 = 1{,}6 \cdot 10^{38}\,\mathrm{kg\,m^2}$.
+            Seine Drehenergie $E = \tfrac{1}{2} I \Omega^2$ mit
+            $\Omega = 2\pi/P$ nimmt pro Sekunde ab um</p>
+          $$ \dot E = \frac{4\pi^2 I \dot P}{P^3} = \frac{4\pi^2 \cdot 1{,}6 \cdot 10^{38}\,\mathrm{kg\,m^2} \cdot 4{,}21 \cdot 10^{-13}}{(0{,}0334\,\mathrm{s})^3} \approx 7 \cdot 10^{31}\,\mathrm{W} . $$
+          <p>Das sind rund 190 000 Sonnenleuchtkräfte. Der Krebsnebel strahlt
+            vom Radio- bis zum Gammabereich zusammen einige
+            $10^{31}\,\mathrm{W}$ ab – der kleine Neutronenstern in seiner
+            Mitte genügt also als Kraftwerk des ganzen Nebels.
+            </p>
+        </details>
+
+        <p>Heute kennt man Tausende Pulsare. Die schnellsten, die
+          <strong>Millisekundenpulsare</strong>, drehen sich bis zu 700-mal
+          pro Sekunde und gehen so genau wie die besten Atomuhren.
+          </p>
+
+        <h2 id="gravitationswellen">Gravitationswellen: wenn Sternleichen kollidieren</h2>
+        <p>Nach Einsteins Allgemeiner Relativitätstheorie senden zwei
+          schwere Körper, die sich umkreisen, <strong>Gravitationswellen</strong>
+          aus: winzige Dehnungen und Stauchungen des Raums selbst. Dabei
+          verliert das Paar Energie und rückt langsam zusammen. Den ersten
+          Hinweis fanden Russell Hulse und Joseph Taylor 1974 an einem Pulsar,
+          der mit einem zweiten Neutronenstern ein enges Paar bildet: Die
+          Umlaufzeit wird jedes Jahr ein wenig kürzer, genau wie Einstein es
+          vorhersagt (Abb. 4; Nobelpreis 1993).</p>
+
+        <figure class="abbildung">
+          <svg class="abb" viewBox="0 0 380 270" role="img" aria-label="Kumulative Verschiebung der Periastronzeit des Hulse-Taylor-Pulsars von 1975 bis 2005: eine nach unten gekrümmte Parabel von 0 auf etwa minus 39 Sekunden">
+            <defs><marker id="pfeil-abb4" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5 0 10z" fill="currentColor"/></marker></defs>
+            <line class="gitter" x1="55" y1="75" x2="360" y2="75"/>
+            <line class="gitter" x1="55" y1="125" x2="360" y2="125"/>
+            <line class="gitter" x1="55" y1="175" x2="360" y2="175"/>
+            <line class="gitter" x1="55" y1="225" x2="360" y2="225"/>
+            <path class="achse" d="M55 240V25H368" marker-start="url(#pfeil-abb4)" marker-end="url(#pfeil-abb4)"/>
+            <path class="kurve blau" d="M55 25Q205 25 355 218.2"/>
+            <circle class="punkt blau" cx="355" cy="218.2" r="4"/>
+            <text class="klein blau halo" x="355" y="238" text-anchor="end">−38,6 s</text>
+            <text class="klein blau halo" x="120" y="150">Vorhersage der ART</text>
+            <text class="klein" x="50" y="29" text-anchor="end">0</text>
+            <text class="klein" x="50" y="79" text-anchor="end">−10</text>
+            <text class="klein" x="50" y="129" text-anchor="end">−20</text>
+            <text class="klein" x="50" y="179" text-anchor="end">−30</text>
+            <text class="klein" x="50" y="229" text-anchor="end">−40</text>
+            <text class="klein" x="62" y="252">Verschiebung in s</text>
+            <text class="klein" x="55" y="15" text-anchor="middle">1975</text>
+            <text class="klein" x="155" y="15" text-anchor="middle">1985</text>
+            <text class="klein" x="255" y="15" text-anchor="middle">1995</text>
+            <text class="klein" x="355" y="15" text-anchor="middle">2005</text>
+            <line class="achse" x1="155" y1="21" x2="155" y2="29"/>
+            <line class="achse" x1="255" y1="21" x2="255" y2="29"/>
+            <line class="achse" x1="355" y1="21" x2="355" y2="29"/>
+          </svg>
+          <figcaption>Abb. 4: Wie viele Sekunden der Hulse-Taylor-Pulsar seit
+            1975 gegenüber einer gleichbleibenden Umlaufzeit „vorgeht“. Weil
+            die Umlaufzeit von 7,75 Stunden jedes Jahr um 76 Mikrosekunden
+            kürzer wird, wächst die Verschiebung quadratisch. Die Kurve ist
+            Einsteins Vorhersage; die Messpunkte liegen über drei Jahrzehnte
+            genau darauf.</figcaption>
+        </figure>
+
+        <p>Direkt gemessen wurde eine Gravitationswelle erst am
+          14. September 2015: Die vier Kilometer langen, mit Laserlicht
+          vermessenen Arme der beiden LIGO-Detektoren in den USA änderten
+          ihre Länge für Sekundenbruchteile um viel weniger als einen
+          Protonendurchmesser. Gut eine Milliarde Lichtjahre entfernt waren
+          zwei Schwarze Löcher mit 36 und 29 Sonnenmassen verschmolzen.</p>
+
+        <details class="rechnung">
+          <summary><span class="rechnung-notiz">Nachgerechnet</span> Wie viel Energie steckte in der ersten gemessenen Gravitationswelle?</summary>
+          <p>Aus $36$ und $29\,M_\odot$ entstand ein Schwarzes Loch mit
+            $62\,M_\odot$. Es fehlen drei Sonnenmassen; sie wurden nach
+            $E = mc^2$ als Gravitationswellen abgestrahlt:</p>
+          $$ E = 3 \cdot 1{,}99 \cdot 10^{30}\,\mathrm{kg} \cdot (3{,}00 \cdot 10^{8}\,\mathrm{m/s})^2 \approx 5{,}4 \cdot 10^{47}\,\mathrm{J} . $$
+          <p>Die Sonne strahlt in zehn Milliarden Jahren
+            $3{,}83 \cdot 10^{26}\,\mathrm{W} \cdot 3{,}16 \cdot 10^{17}\,\mathrm{s} \approx 1{,}2 \cdot 10^{44}\,\mathrm{J}$
+            ab – die Verschmelzung setzte in Sekundenbruchteilen das
+            4400-Fache frei. Auf der Erde kam davon trotzdem nur eine relative
+            Längenänderung von etwa $10^{-21}$ an: Die $4\,\mathrm{km}$ langen
+            Arme änderten sich um $4 \cdot 10^{-18}\,\mathrm{m}$, ein
+            Vierhundertstel eines Protonendurchmessers.
+            </p>
+        </details>
+
+        <p>Am 17. August 2017 „hörten“ die Detektoren zum ersten Mal zwei
+          Neutronensterne verschmelzen, 130 Millionen Lichtjahre entfernt.
+          Knapp zwei Sekunden später folgte ein Gammablitz, und noch am selben
+          Tag fanden Teleskope das Nachleuchten, eine
+          <strong>Kilonova</strong>: Licht von frisch erzeugten, radioaktiven
+          schweren Atomkernen.</p>
+
+        <div class="alltag">
+          <span class="titel">Gold aus Sternkollisionen</span>
+          <p>Bei der Verschmelzung zweier Neutronensterne werden Trümmer aus
+            fast reinen Neutronen ins All geschleudert. Daraus entstehen in
+            Sekunden schwere Elemente wie Gold, Platin und Uran. Ein guter
+            Teil des Golds in deinem Schmuck stammt vermutlich aus solchen
+            Kollisionen, lange bevor es die Sonne gab.
+            </p>
+        </div>
+
+        <h2 id="schwarze-loecher">Schwarze Löcher: wenn nichts mehr hält</h2>
+        <p>Bleibt beim Kernkollaps mehr als die Höchstmasse eines
+          Neutronensterns übrig, gibt es keine Kraft mehr, die den Sturz
+          stoppt. Die Materie stürzt zusammen, bis an ihrer Oberfläche die
+          Fluchtgeschwindigkeit die Lichtgeschwindigkeit erreicht. Ab dann kann
+          nichts mehr entkommen, nicht einmal Licht: Ein <strong>Schwarzes
+          Loch</strong> ist entstanden. Seine Grenze heißt
+          <strong>Ereignishorizont</strong>; ihr Radius, der
+          <strong>Schwarzschild-Radius</strong>, wächst proportional zur
+          Masse. Für die Sonne wären es knapp drei Kilometer.</p>
+
+        <details class="rechnung">
+          <summary><span class="rechnung-notiz">Nachgerechnet</span> Wie groß wären Sonne und Erde als Schwarzes Loch?</summary>
+          <p>Setzt man die Fluchtgeschwindigkeit $\sqrt{2GM/R}$ gleich der
+            Lichtgeschwindigkeit, erhält man den Schwarzschild-Radius – die
+            Allgemeine Relativitätstheorie liefert genau denselben Ausdruck:</p>
+          $$ R_\text{S} = \frac{2 G M}{c^2} = \frac{2 \cdot 6{,}67 \cdot 10^{-11}\,\mathrm{m^3\,kg^{-1}\,s^{-2}} \cdot 1{,}99 \cdot 10^{30}\,\mathrm{kg}}{(3{,}00 \cdot 10^{8}\,\mathrm{m/s})^2} \approx 2{,}95\,\mathrm{km} . $$
+          <p>Weil $R_\text{S}$ proportional zur Masse ist, schrumpft die
+            Erde ($3 \cdot 10^{-6}\,M_\odot$) auf $9\,\mathrm{mm}$ – eine
+            Murmel. Das Schwarze Loch im Zentrum der Milchstraße mit
+            $4{,}3$ Millionen Sonnenmassen hat
+            $R_\text{S} \approx 1{,}3 \cdot 10^{7}\,\mathrm{km}$, ein Fünftel
+            des Abstands Sonne–Merkur. Seine mittlere Dichte innerhalb des
+            Horizonts ist mit $10^{6}\,\mathrm{kg/m^3}$ sogar geringer als die
+            eines Weißen Zwergs: Riesige Schwarze Löcher sind nicht extrem
+            dicht, nur extrem kompakt.
+            </p>
+        </details>
+
+        <p>Nahe dem Horizont wird die Zeit seltsam. Eine Uhr dort geht von
+          weit draußen gesehen langsamer, am Horizont scheint sie ganz
+          stillzustehen. Schon an der Oberfläche eines Neutronensterns läuft
+          sie etwa ein Fünftel langsamer – das kannst du oben in der
+          interaktiven Grafik ablesen. Aus großer Entfernung dagegen ist ein
+          Schwarzes Loch kein kosmischer Staubsauger: Es zieht genauso stark
+          wie ein Stern derselben Masse, und die
+          <a href="../mechanik/kepler.html">Planetenbahnen</a> um es herum
+          wären dieselben.</p>
+        <p>Sehen kann man Schwarze Löcher nicht direkt, wohl aber ihre
+          Wirkung. Saugt eines Gas von einem Begleitstern ab, leuchtet die
+          heiße Akkretionsscheibe im Röntgenlicht, wie bei Cygnus X-1 mit
+          rund 20 Sonnenmassen. Dazu kommen die Gravitationswellen
+          verschmelzender Paare. Viel schwerer sind die Schwarzen Löcher in
+          den Zentren der Galaxien: Um das in unserer Milchstraße rasen Sterne
+          wie Planeten um eine unsichtbare Sonne (Nobelpreis 2020), und 2022
+          gelang sogar ein Bild seines Schattens.</p>
+
+        <div class="merkkasten">
+          <span class="titel">Das Wichtigste in Kürze</span>
+          <ul>
+            <li>Ohne Kernfusion presst die Schwerkraft den Kern eines toten
+              Sterns zusammen. Was ihn aufhält, entscheidet seine Masse.</li>
+            <li><strong>Weißer Zwerg</strong> (bis 1,4 Sonnenmassen, so groß
+              wie die Erde): Das Gedränge der Elektronen hält ihn. Je schwerer,
+              desto kleiner; er kühlt über Milliarden Jahre aus.</li>
+            <li>In Doppelsternen wachsen Weiße Zwerge und zünden als Nova
+              oder explodieren als Supernova vom Typ Ia.</li>
+            <li>Schwere Sterne enden im <strong>Kernkollaps</strong>: Der
+              Eisenkern stürzt in einer Zehntelsekunde zusammen, fast die ganze
+              Energie tragen Neutrinos fort.</li>
+            <li><strong>Neutronenstern</strong> (bis gut 2 Sonnenmassen,
+              etwa 24 km groß): Neutronen und Kernkräfte halten ihn. Schnell
+              drehende Neutronensterne sehen wir als Pulsare.</li>
+            <li><strong>Schwarzes Loch</strong> (darüber): Nichts hält den
+              Kollaps auf; nicht einmal Licht entkommt dem Ereignishorizont.</li>
+            <li>Verschmelzende Sternleichen senden Gravitationswellen aus und
+              erzeugen schwere Elemente wie Gold.</li>
+          </ul>
+        </div>
+      </section>
+    </article>
+  </main>
+</body>
+</html>
