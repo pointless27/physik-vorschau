@@ -344,8 +344,59 @@
 }
 .uni-benutzt .uni-hinweis { opacity: 0; }
 
+/* ----- Größen-Schieber (nur Handy, js/universum/groessen.js) ----- */
+.uni-schieber { display: none; }
+.uni-schieber input {
+  flex: 1;
+  min-width: 0;
+  height: 2rem;
+  margin: 0;
+  background: transparent;
+  -webkit-appearance: none;
+          appearance: none;
+  cursor: pointer;
+}
+.uni-schieber input::-webkit-slider-runnable-track {
+  height: 4px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, var(--uni-violett), var(--uni-blau) 55%, var(--uni-kupfer));
+}
+.uni-schieber input::-moz-range-track {
+  height: 4px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, var(--uni-violett), var(--uni-blau) 55%, var(--uni-kupfer));
+}
+.uni-schieber input::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 1.5rem;
+  height: 1.5rem;
+  margin-top: calc(2px - 0.75rem);
+  border-radius: 50%;
+  border: 2px solid var(--uni-text);
+  background: var(--uni-blau);
+}
+.uni-schieber input::-moz-range-thumb {
+  width: 1.5rem;
+  height: 1.5rem;
+  box-sizing: border-box;
+  border-radius: 50%;
+  border: 2px solid var(--uni-text);
+  background: var(--uni-blau);
+}
+.uni-schieber input:focus-visible { outline: 2px solid var(--uni-blau); outline-offset: 2px; }
+.uni-schieber-ende { font-size: 0.72rem; color: var(--uni-text-schwach); white-space: nowrap; }
+
 /* ----- Kleine Bildschirme ----- */
 @media (max-width: 52rem) {
+  .uni-schieber {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.2rem 0.75rem;
+    border-radius: var(--radius-s);
+    border: 1px solid var(--uni-linie);
+    background: var(--uni-panel);
+  }
   .uni-buehne { height: clamp(30rem, 80svh, 46rem); margin-left: -0.4rem; margin-right: -0.4rem; }
   .uni-info { left: 0.6rem; right: 3.6rem; top: 0.6rem; width: auto; padding: 0.7rem 0.85rem 0.75rem; }
   .uni-titel { font-size: 1.3rem; }
@@ -365,7 +416,7 @@
     cursor: pointer;
   }
   .uni-info-offen .uni-mehr { margin-top: 0.4rem; }
-  .uni-leiter { right: 0.35rem; top: 0.8rem; bottom: 10.8rem; width: 2.4rem; }
+  .uni-leiter { right: 0.35rem; top: 0.8rem; bottom: 14rem; width: 2.4rem; }
   .uni-strich { font-size: 0; }
   .uni-leiter::before { inset: -0.5rem -0.2rem; }
   .uni-strich::after { right: -0.6rem; }
@@ -376,7 +427,7 @@
   .uni-knopf:nth-child(4) .uni-knopf-text { display: none; }
   .uni-anzeige { font-size: 0.75rem; }
   .uni-unten { max-width: none; }
-  .uni-hinweis { left: 50%; right: auto; transform: translateX(-50%); bottom: 10.4rem; font-size: 0.75rem; }
+  .uni-hinweis { left: 50%; right: auto; transform: translateX(-50%); bottom: 13.6rem; font-size: 0.75rem; }
 }
 @media (max-width: 26rem) {
   .uni-knopf .uni-knopf-text { display: none; }

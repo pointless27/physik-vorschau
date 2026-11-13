@@ -1437,7 +1437,15 @@
     var vergleichText = el("p", "uni-vergleich");
     var anzeige = el("div", "uni-anzeige");
     anzeige.append(mass, breiteText, vergleichText);
-    unten.append(knoepfe, anzeige);
+    /* Schieber für die Größe (nur auf dem Handy sichtbar, Wunsch 2026-11-13):
+       links klein (Proton), rechts groß (Universum); Wert = z */
+    var schieberZeile = el("div", "uni-schieber");
+    var schieber = el("input");
+    schieber.type = "range";
+    schieber.min = Z_MIN; schieber.max = Z_MAX; schieber.step = "0.01";
+    schieber.setAttribute("aria-label", "Größe: links klein, rechts groß");
+    schieberZeile.append(el("span", "uni-schieber-ende", "Proton"), schieber, el("span", "uni-schieber-ende", "Universum"));
+    unten.append(knoepfe, schieberZeile, anzeige);
     var hinweis = el("p", "uni-hinweis", "Mausrad: zoomen · Ziehen: drehen");
     if (window.matchMedia && window.matchMedia("(pointer: coarse)").matches) hinweis.textContent = "Zwei Finger: zoomen · Wischen: drehen";
     buehne.append(schilderEbene, info, leiter, unten, hinweis);
@@ -1670,6 +1678,7 @@
     leinwand.addEventListener("pointercancel", loslassen);
 
     buehne.addEventListener("keydown", function (ev) {
+      if (ev.target === schieber) return;          // Pfeiltasten bedient der Schieber selbst
       var t = ev.key, genutzt = true;
       if (t === "+" || t === "=" || t === "ArrowUp") Z.ziel = begrenze(Z.ziel - 0.3);
       else if (t === "-" || t === "ArrowDown") Z.ziel = begrenze(Z.ziel + 0.3);
@@ -1696,6 +1705,17 @@
     schiene.addEventListener("pointermove", function (ev) { if (leiterZiehen) { Z.ziel = zAusLeiter(ev); eingabe(); } });
     schiene.addEventListener("pointerup", function () { leiterZiehen = false; });
     schiene.addEventListener("pointercancel", function () { leiterZiehen = false; });
+
+    /* Schieber: während des Ziehens folgt das Bild dem Schieber, sonst folgt
+       der Schieber dem Bild (Mausrad, Knöpfe, Rundflug) */
+    var schieberZiehen = false;
+    schieber.addEventListener("input", function () {
+      schieberZiehen = true;
+      stoppeRundflug(); eingabe(); Z.flug = null; Z.ziel = begrenze(+schieber.value);
+    });
+    ["change", "pointerup", "pointercancel", "touchend", "blur"].forEach(function (typ) {
+      schieber.addEventListener(typ, function () { schieberZiehen = false; });
+    });
 
     /* ----- Größe, Sichtbarkeit ----- */
     var breite = 1, hoehe = 1;
@@ -1742,6 +1762,7 @@
       if (i !== Z.station) zeigeStation(i);
       buehne.classList.toggle("uni-unterwegs", Math.abs(STATIONEN[i].z - Z.z) > 1.1);
       zeiger.style.top = posProzent(Z.z) + "%";
+      if (!schieberZiehen && schieber.offsetParent && Math.abs(schieber.value - Z.z) > 0.005) schieber.value = Z.z.toFixed(2);
       /* Maßstabsbalken: 1, 2 oder 5 · 10^n, etwa 110 px */
       var sichtBreite = 2 * abstand * TAN * kamera.aspect / s;     // Meter über die ganze Bühne
       var mProPx = sichtBreite / breite, m = rundeSchoen(110 * mProPx);
