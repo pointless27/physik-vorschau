@@ -713,6 +713,10 @@
 /* Neuer Körper: Knöpfe im 2er-Raster */
 .spiel-leiste .spiel-neu { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.35rem; }
 .spiel-leiste .spiel-neu .uni-wahl-knopf { justify-content: flex-start; min-width: 0; gap: 0.4rem; padding: 0.5rem 0.55rem; }
+/* zweizeiliger Name (Schwarzes Loch klein/groß) */
+.spiel-leiste .spiel-name { display: flex; flex-direction: column; align-items: flex-start; gap: 0.15rem; }
+.spiel-leiste .spiel-name small { font-size: 0.68rem; font-weight: 500; color: var(--uni-text-schwach); }
+.spiel-leiste .uni-wahl-knopf[aria-pressed="true"] .spiel-name small { color: inherit; }
 /* Grundknopf der Leiste */
 .spiel-leiste .uni-knopf,
 .spiel-leiste .uni-wahl-knopf {

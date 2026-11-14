@@ -61,10 +61,17 @@
      Trojaner an L4/L5 eines Riesenplaneten (Massenverhältnis 0,01 unter
      der Grenze 0,0385), Galaxien nach Toomre & Toomre (1972, Kerne mit
      Halo + Testteilchen; gebundene Bahn mit v = 0,6 · Fluchtgeschwindigkeit
-     bei 320, erstes Perizentrum ≈ 48, Verschmelzen nach drei Begegnungen),
+     bei 320, erstes Perizentrum ≈ 48, Verschmelzen nach drei Begegnungen;
+     seit Schritt 85 alle Längen ×6, Masse 500 → 60000, also Zeiten
+     ×sqrt(6³/120) ≈ 1,34, Bahnformen unverändert),
      Swing-by: Sonde 1,4 → 3,7 (Schritt 73), Schwarzes Loch (M = 4000,
      r_s = 10): Scheibe 2,6–9 r_s, Stern auf Rosette (Perizentrum 110),
      zweiter Stern wird zerrissen (Schritt 75).
+   Größenverhältnisse (Schritt 85): Stern 300 (Radius ≈ 9), kleines
+   Schwarzes Loch 1000 (Schatten 6,5), großes 4000 (Schatten 26), Galaxie
+   60000 (Scheibe 276, Halo 360). Echt wären die Unterschiede viel
+   größer (Galaxie ~10¹¹-mal so schwer wie ein Stern), das passt nicht
+   auf einen Bildschirm; die Reihenfolge stimmt aber.
    Vollbild: Rahmen (Bühne + Leiste) per Fullscreen-API, sonst Ersatz
    über CSS (.spiel-vollbild). Bewegung nur auf Knopfdruck („Start“).
    Farben: --uni-* (variablen.css); Aussehen: css/teile/universum.css
@@ -81,6 +88,9 @@
   var C2 = 800;             /* Lichtgeschwindigkeit² (c ≈ 28): r_s = 2 M / C2 */
   var TIDE = 2.5;           /* Gezeitenradius r_t = TIDE · M^(1/3) */
   var REIB = 0.15;          /* Stärke der dynamischen Reibung im Halo */
+
+  /* Spiralgalaxie (Kern kb, Halo kR, Scheibe rand); Szene und neuer Körper */
+  var GAL = { m: 60000, kb: 24, kR: 360, rand: 276 };
 
   function radius(m) { return 1.1 * Math.cbrt(m) + 1.2; }
   function rsVon(m) { return 2 * m / C2; }
@@ -222,17 +232,18 @@
         });
         return liste;
       } },
-    { id: "galaxien", name: "Galaxien", sicht: 230, eps: 2, verschmelzen: true, ruhe: true, spur: 500,
+    { id: "galaxien", name: "Galaxien", sicht: 1380, eps: 12, verschmelzen: true, ruhe: true, spur: 500,
       text: "Zwei Spiralgalaxien streifen einander. Die Gezeitenkräfte reißen lange Schweife aus Sternen heraus, wie bei den „Antennen-Galaxien“. Ihre Halos aus Dunkler Materie bremsen sie, darum fallen sie wieder zusammen und verschmelzen. Probier Tempo ×3.",
       koerper: function () {
-        /* Startwerte im Python-Test: Abstand 320, v = 0,6 · Flucht, Newton-Perizentrum 40 */
-        var M = 500, d = 320, mu = 2 * M, rp = 40;
-        var g = { gal: true, kb: 4, kR: 60 }, probe = {};
+        /* Startwerte im Python-Test: Abstand 320, v = 0,6 · Flucht, Newton-Perizentrum 40
+           (seit Schritt 85 alle Längen ×6: 1920 und 240) */
+        var M = GAL.m, d = 1920, mu = 2 * M, rp = 240;
+        var g = { gal: true, kb: GAL.kb, kR: GAL.kR }, probe = {};
         zug(probe, g, d, 0, 0, true);
         var v = 0.6 * Math.sqrt(2 * mu * ZUG_PHI), e = v * v / 2 - mu * ZUG_PHI;
         var h = rp * Math.sqrt(2 * (e + mu / rp)), vt = h / d, vr = -Math.sqrt(v * v - vt * vt);
         function kern(s) {
-          return { x: s * d / 2, y: 0, vx: s * vr / 2, vy: s * vt / 2, m: M, gal: true, kb: 4, kR: 60, rand: 46, name: "Galaxie" };
+          return { x: s * d / 2, y: 0, vx: s * vr / 2, vy: s * vt / 2, m: M, gal: true, kb: GAL.kb, kR: GAL.kR, rand: GAL.rand, name: "Galaxie" };
         }
         return [kern(-1), kern(1)];
       },
@@ -285,8 +296,11 @@
     { id: "mond", name: "Mond", m: 0.05 },
     { id: "planet", name: "Planet", m: 5 },
     { id: "stern", name: "Stern", m: 300 },
-    { id: "loch", name: "Schwarzes Loch", m: 1000, sl: true },
-    { id: "galaxie", name: "Galaxie", m: 500, gal: true, kb: 4, kR: 60, rand: 40, sterne: 500 },
+    { id: "galaxie", name: "Galaxie", m: GAL.m, gal: true, kb: GAL.kb, kR: GAL.kR, rand: GAL.rand, sterne: 700 },
+    { id: "loch", name: "Schwarzes Loch", zusatz: "klein", m: 1000, sl: true,
+      titel: "Kleines Schwarzes Loch: gut dreimal so schwer wie ein Stern, wie die Reste großer Sterne" },
+    { id: "loch-gross", name: "Schwarzes Loch", zusatz: "groß", m: 4000, sl: true,
+      titel: "Großes Schwarzes Loch: viermal so schwer wie das kleine, wie die Riesen in den Zentren der Galaxien" },
     { id: "staub", name: "Staubwolke", m: 0, staub: true }
   ];
   var TEMPI = [{ id: 0.5, name: "×½" }, { id: 1, name: "×1" }, { id: 3, name: "×3" }, { id: 10, name: "×10" }];
@@ -611,8 +625,16 @@
     function wahlReihe(liste, beiKlick, symbole) {
       var reihe = el("div", "uni-wahl");
       var knoepfe = liste.map(function (x) {
-        var b = el("button", "uni-wahl-knopf", x.name);
+        var b = el("button", "uni-wahl-knopf", x.zusatz ? "" : x.name);
         b.type = "button";
+        if (x.zusatz) {
+          /* zweizeilig: Name und darunter klein der Zusatz (z. B. „groß“) */
+          var n = el("span", "spiel-name", x.name);
+          n.append(el("small", "", x.zusatz));
+          b.append(n);
+          b.setAttribute("aria-label", x.name + " " + x.zusatz);
+        }
+        if (x.titel) b.title = x.titel;
         if (symbole && symbole[x.id]) {
           b.insertAdjacentHTML("afterbegin", '<svg viewBox="0 0 24 24" aria-hidden="true">' + symbole[x.id] + '</svg>');
         }
@@ -690,7 +712,8 @@
       mond: '<path d="M15 4a8 8 0 1 0 5 13A7 7 0 0 1 15 4z"/>',
       planet: '<circle cx="12" cy="12" r="5"/><path d="M4.5 15.5C2 18 3 19.5 7 18.2s9.6-5.3 12.4-8.6C21.6 7 21 5.6 17.5 6.3"/>',
       stern: '<circle cx="12" cy="12" r="3.5"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5.3 5.3l2.1 2.1M16.6 16.6l2.1 2.1M5.3 18.7l2.1-2.1M16.6 7.4l2.1-2.1"/>',
-      loch: '<circle cx="12" cy="12" r="3" class="spiel-symbol-voll"/><ellipse cx="12" cy="12" rx="9.5" ry="4"/>',
+      loch: '<circle cx="12" cy="12" r="2" class="spiel-symbol-voll"/><ellipse cx="12" cy="12" rx="6.5" ry="2.8"/>',
+      "loch-gross": '<circle cx="12" cy="12" r="3.6" class="spiel-symbol-voll"/><ellipse cx="12" cy="12" rx="10" ry="4.4"/>',
       galaxie: '<path d="M12 12c0-2 2-3 3.5-2s1.3 4-1.5 5-6-1-6-4.5S11 4 15 4.5s6 4.5 5 8.5M12 12c0 2-2 3-3.5 2S7.2 10 10 9s6 1 6 4.5S13 20 9 19.5 3 15 4 11"/>',
       staub: '<circle cx="6" cy="8" r="1.3"/><circle cx="12" cy="5.5" r="1.3"/><circle cx="17.5" cy="9" r="1.3"/><circle cx="9" cy="13" r="1.3"/><circle cx="15" cy="15" r="1.3"/><circle cx="6.5" cy="18" r="1.3"/><circle cx="18" cy="19" r="1.3"/>'
     };
@@ -1055,7 +1078,7 @@
        Drehsinn +1 zur Zeit 0: Arme bei Winkel ln(r/r0)/tan(P) + kπ). Es
        dreht sich starr mit omega (Dichtewelle), siehe zeichneArme. */
     function armBild(k) {
-      var a = k.arm, n = 256, S = n / 2 / (1.25 * k.rand);
+      var a = k.arm, n = 256, S = n / 2 / (1.25 * k.rand), L = k.kb / 4;   /* L: Längenmaßstab (früher kb = 4) */
       var c = document.createElement("canvas");
       c.width = c.height = n;
       var x = c.getContext("2d");
@@ -1063,10 +1086,10 @@
       x.globalCompositeOperation = "lighter";
       var z = zufallsQuelle(4242);
       for (var arm = 0; arm < 2; arm++) {
-        for (var r = 1.5 * k.kb; r < k.rand; r += 0.6) {
+        for (var r = 1.5 * k.kb; r < k.rand; r += 0.6 * L) {
           var w = Math.log(r / a.r0) / a.tanP + arm * Math.PI;
           var px = n / 2 + r * S * Math.cos(w), py = n / 2 + r * S * Math.sin(w);
-          var rb = (0.09 * r + 1.2) * S, aussen = 1 - r / k.rand;
+          var rb = (0.09 * r + 1.2 * L) * S, aussen = 1 - r / k.rand;
           var g = x.createRadialGradient(px, py, 0, px, py, rb);
           g.addColorStop(0, F.galArm);
           g.addColorStop(1, "rgba(0,0,0,0)");
@@ -1324,8 +1347,18 @@
         }
         pfeil(a0[0], a0[1], a1[0], a1[1], F.kupfer, 2);
         ctx.fillStyle = F.kupfer;
-        var rr = neuArt.staub ? 4 : (neuArt.sl ? 5 : (neuArt.gal ? 7 : Math.max(2.6, radius(neuArt.m) * massstab)));
+        /* Vorschau in echter Größe: Schwarzes Loch mit Schatten, Galaxie als Ring der Scheibe */
+        var rr = neuArt.staub ? 4 : (neuArt.sl ? Math.max(3.5, 2.6 * rsVon(neuArt.m) * massstab) :
+          (neuArt.gal ? 7 : Math.max(2.6, radius(neuArt.m) * massstab)));
         ctx.beginPath(); ctx.arc(a0[0], a0[1], rr, 0, 2 * Math.PI); ctx.fill();
+        if (neuArt.gal) {
+          ctx.strokeStyle = F.kupfer;
+          ctx.globalAlpha = 0.5;
+          ctx.setLineDash([5, 5]);
+          ctx.beginPath(); ctx.arc(a0[0], a0[1], neuArt.rand * massstab, 0, 2 * Math.PI); ctx.stroke();
+          ctx.setLineDash([]);
+          ctx.globalAlpha = 1;
+        }
         var vw = wurfGeschwindigkeit();
         ctx.font = "600 12px Inter, sans-serif";
         ctx.fillStyle = F.text;
@@ -1394,7 +1427,7 @@
       if (d) {
         zeile2 = "Abstand zu „" + name(d.um) + "“ " + Math.round(d.r);
         if (d.um.sl) zeile2 += " = " + zahl(d.r / rsVon(d.um.m), 1) + " Schwarzschild-Radien";
-        zeile2 += " · v = " + zahl(d.v, 2) + (d.v > 0.1 * Math.sqrt(C2) ? " = " + zahl(d.v / Math.sqrt(C2), 2) + " c" : "") +
+        zeile2 += " · v = " + zahl(d.v, 2) + (d.um.sl && d.v > 0.1 * Math.sqrt(C2) ? " = " + zahl(d.v / Math.sqrt(C2), 2) + " c" : "") +
           " (Flucht: " + zahl(d.flucht, 2) + ")\n";
         if (!d.gebunden) {
           zeile2 += "Ungebunden: fliegt davon" + (d.e !== undefined ? " (Hyperbel, e = " + zahl(d.e, 2) + ")" : "");
@@ -1632,6 +1665,11 @@
         if (hk) sinn = (k.x - hk.x) * (k.vy - hk.vy) - (k.y - hk.y) * (k.vx - hk.vx) > 0 ? -1 : 1;
         var sterne = galaxieSterne(k, Math.min(neuArt.sterne, MAX_STAUB - P.length), sinn, zufallsQuelle(7919 * wurfZaehler++));
         sterne.forEach(function (p) { p.ax = 0; p.ay = 0; if (sz.staubSpur) p.spur = []; P.push(p); });
+        /* Galaxien sind riesig: so weit herauszoomen, dass die ganze Scheibe ins Bild passt */
+        var halb = Math.min(breite, hoehe) / 2;
+        var fk = inRahmen(k.x, k.y);
+        var d = Math.max(Math.abs(fk[0] - mitte.x), Math.abs(fk[1] - mitte.y)) + 1.15 * k.rand;
+        if (d * massstab > halb) { zoom = Math.max(0.12, zoom * halb / (d * massstab)); setzeMassstab(); }
       }
       var m = verschmelze(K, sz.verschmelzen, sz.eps * sz.eps);
       if (m) { meldung = m; meldungBis = performance.now() + 2500; }
