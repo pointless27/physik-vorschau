@@ -445,13 +445,24 @@
     }, ebeneTreffer);
 
     /* --- Himmelskörper --- */
+    /* Bild einfügen; lädt es nicht (Datei fehlt), wird es wieder entfernt,
+       damit statt des Browser-Symbols „kaputtes Bild“ der Farbverlauf darunter
+       zu sehen ist. */
+    function bildMitErsatz(attr, eltern) {
+      var bild = s("image", attr, eltern);
+      bild.addEventListener("error", function () {
+        if (bild.parentNode) bild.parentNode.removeChild(bild);
+      });
+      return bild;
+    }
+
     function ringHaelfte(gruppe, k, hinten) {
       var ring = RINGE[k.id];
       if (!ring) return;
       var g = s("g", { transform: "rotate(" + ring.drehung + ")" }, gruppe);
       if (ring.bild) {
         var b = ring.bild.breite * k.radius, hb = ring.bild.hoehe * k.radius;
-        s("image", {
+        bildMitErsatz({
           href: BILDER + k.id + "-ring-" + (hinten ? "hinten" : "vorne") + ".png",
           x: -b / 2, y: -hb / 2, width: b, height: hb
         }, g);
@@ -479,7 +490,7 @@
         if (MIT_BILD[k.id]) {
           var r = k.radius, dreh = RINGE[k.id] ? RINGE[k.id].drehung : 0;
           var oberflaeche = s("g", { "clip-path": "url(#ss-clip-" + k.id + ")" }, gruppe);
-          s("image", {
+          bildMitErsatz({
             href: BILDER + k.id + ".jpg", x: -r, y: -r, width: 2 * r, height: 2 * r,
             transform: dreh ? "rotate(" + dreh + ")" : ""
           }, oberflaeche);
