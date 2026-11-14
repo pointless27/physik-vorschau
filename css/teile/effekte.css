@@ -112,7 +112,7 @@
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--akzent-2);
+  color: var(--akzent-lila);
 }
 .deko-info-mehr a { font-weight: 600; text-decoration: none; }
 .deko-info-mehr a::before { content: "→ "; }
@@ -235,34 +235,13 @@
   pointer-events: none;
 }
 
-/* Spotlight: Lichtkegel folgt der Maus (Position per --mx/--my aus JS) */
+/* Kippen der kleinen Karten (js/effekte.js, baueSpotlight). Der frühere
+   Lichtkegel unter der Maus und der farbige Schein im Dunkelmodus sind
+   seit 2026-11-14 entfernt (Wunsch: flach, kein Leuchten); beim
+   Überfahren färbt sich nur der dünne Rand (.gebiet-karte:hover). */
 .spotlight {
   position: relative;
-  isolation: isolate;
-  transition: transform 0.18s ease, box-shadow 0.25s ease, border-color 0.25s ease;
-}
-.spotlight::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  border-radius: inherit;
-  /* kleiner, weicher Kreis direkt um die Mausspitze: am Zeiger am
-     kräftigsten, nach außen gleichmäßig auslaufend */
-  background: radial-gradient(
-    5rem circle at var(--mx, 50%) var(--my, 50%),
-    color-mix(in srgb, var(--karten-farbe, var(--akzent)) 9%, transparent) 0%,
-    color-mix(in srgb, var(--karten-farbe, var(--akzent)) 4%, transparent) 45%,
-    transparent 100%
-  );
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-.spotlight:hover::before { opacity: 1; }
-/* Dezenter Rand im Dunkelmodus (Umschalter bzw. Systemeinstellung) */
-:root[data-theme="dark"] .spotlight:hover {
-  box-shadow: 0 0 0 1px color-mix(in srgb, var(--karten-farbe, var(--akzent)) 30%, transparent),
-              0 10px 24px -14px color-mix(in srgb, var(--karten-farbe, var(--akzent)) 18%, transparent);
+  transition: transform 0.18s ease, border-color 0.25s ease;
 }
 
 .einblenden {

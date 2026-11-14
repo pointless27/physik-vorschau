@@ -1778,7 +1778,7 @@
     var tAlt = performance.now(), q = new THREE.Quaternion(), puffer = new THREE.Vector2();
     function bild(t) {
       requestAnimationFrame(bild);
-      var dt = Math.min(0.05, (t - tAlt) / 1000);
+      var dt = Math.min(0.05, Math.max(0, t - tAlt) / 1000);   // erster Zeitstempel kann vor dem Start liegen
       tAlt = t;
       if (!Z.sichtbar || document.hidden) return;
       var zeit = t / 1000;

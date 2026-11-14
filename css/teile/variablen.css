@@ -57,11 +57,16 @@
   --text-schwach:   #5e6572;
   --karo:           rgba(22, 25, 31, 0.065);   /* Karo-Linien des Hintergrunds */
   --stern:          rgba(22, 25, 31, 0.17);    /* Sterne im Hintergrund */
-  --deko:           rgba(22, 25, 31, 0.30);    /* Strichfarbe der Rand-Deko */
+  --deko:           rgba(22, 25, 31, 0.10);    /* Strichfarbe der Rand-Deko: nur noch zarte Textur (2026-11-14) */
 
-  /* Akzent: tiefes Blau, Zweitfarbe Kupfer/Orange (Sonne, Hinweise) */
+  /* Akzent: tiefes Blau. Kupfer/Orange (--akzent-2) nur noch in den
+     Abbildungen (.abb … .kupfer; die Texte nennen die Farbe „orange“) und
+     beim Schwarzen Loch der 404-Seite. Für Bedienelemente und Notizen
+     (Unterstrich in Überschriften, „für alle“/„fürs Studium“, Zähler,
+     Rechenkästen, Landkarte, Energie-Leiter) gilt seit 2026-11-14 Lila. */
   --akzent:         #1f4fd8;
   --akzent-2:       #d97a1f;
+  --akzent-lila:    #8b3dff;
   --akzent-sanft:   #e9eefc;
   --akzent-text:    #ffffff;
   --verlauf:        linear-gradient(135deg, #1f4fd8 0%, #4b7bff 60%, #6fa4ff 100%);
@@ -71,7 +76,6 @@
   --rand-stark:     #c6c3b7;
   --schatten-s:     0 1px 2px rgba(22, 25, 31, 0.06);
   --schatten-m:     0 6px 20px rgba(22, 25, 31, 0.08);
-  --schatten-l:     0 18px 40px -14px rgba(31, 79, 216, 0.30);
 
   /* Signalfarben für Kästen */
   --alltag-bg:      #fdf4e3;
@@ -151,6 +155,14 @@
   --uni-blau:         #6f9cff;
   --uni-kupfer:       #f0a248;
   --uni-violett:      #b89cff;
+  --uni-lila:         #a855f7;   /* Akzent der Spielplatz-Bedienleiste (Wunsch 2026-11-14) */
+  --uni-lila-hell:    #c084fc;
+  --uni-leiste:       #070a16;   /* Grund der Spielplatz-Bedienleiste */
+  --uni-grau:         #161b2b;   /* inaktive Knöpfe dort */
+  --uni-grau-hover:   #222a40;
+  --uni-glas:         rgba(17, 24, 39, 0.6);      /* schwebende Tafeln des Spielplatzes (Milchglas) */
+  --uni-glas-rand:    rgba(255, 255, 255, 0.1);
+  --uni-glas-schatten: 0 12px 32px rgba(0, 0, 0, 0.45);
   --uni-warp:         #cfe0ff;
   --uni-linie-bahn:   #8fb0ff;
   --uni-proton-feld:  #c48bff;
@@ -169,6 +181,9 @@
   --uni-mito:         #ffa65a;
   --uni-sand:         #e0c08a;
   --uni-mensch:       #d6cfc4;
+  --uni-anzug:        #e9e6df;   /* Astronaut beim Hineinfallen (schwarzes-loch-fall.js) */
+  --uni-anzug-dunkel: #8a8f9c;
+  --uni-visier:       #c9902e;
   --uni-tief:         #06173a;   /* Erde: Tiefsee … Schnee (gedeckt, wie auf Satellitenbildern) */
   --uni-wald:         #24401f;
   --uni-wiese:        #4d6b2c;
@@ -231,10 +246,11 @@
   --text-schwach: #98a2b3;
   --karo:         rgba(233, 236, 242, 0.055);
   --stern:        rgba(233, 236, 242, 0.24);
-  --deko:         rgba(233, 236, 242, 0.32);
+  --deko:         rgba(233, 236, 242, 0.09);
 
   --akzent:       #6f9cff;
   --akzent-2:     #f0a248;
+  --akzent-lila:  #b26bff;
   --akzent-sanft: #1a2540;
   --akzent-text:  #0c1017;
   --verlauf:      linear-gradient(135deg, #4b7bff 0%, #6f9cff 60%, #9dc0ff 100%);
@@ -243,7 +259,6 @@
   --rand-stark:   #37445a;
   --schatten-s:   0 1px 2px rgba(0, 0, 0, 0.4);
   --schatten-m:   0 6px 20px rgba(0, 0, 0, 0.45);
-  --schatten-l:   0 18px 40px -14px rgba(111, 156, 255, 0.35);
 
   --alltag-bg:    #2a2114;
   --alltag-rand:  #6d5424;

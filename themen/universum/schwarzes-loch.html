@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="robots" content="noindex">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Schwarzes Loch &amp; Gravitationslinse – Physik verstehen</title>
+  <meta name="description" content="Ein Schwarzes Loch in 3D, berechnet wie in der Forschung: Lichtablenkung, Schatten, Photonenring, leuchtende Scheibe, Einstein-Ring und ein Fall ins Loch mit Spaghettifizierung.">
+
+  <link rel="stylesheet" href="../../css/stil.css">
+  <script src="../../js/daten.js"></script>
+  <script src="../../js/seite.js"></script>
+  <script src="../../js/effekte.js"></script>
+  <script src="../../extern/three/three.min.js"></script>
+  <script src="../../js/universum/drei-bausteine.js"></script>
+  <script src="../../js/universum/schwarzes-loch-fall.js"></script>
+  <script src="../../js/universum/schwarzes-loch.js"></script>
+</head>
+<body data-seite="universum">
+  <main class="uni-main">
+    <p class="oberzeile">Interaktives Universum</p>
+    <h1>Schwarzes Loch &amp; <span class="betont">Gravitationslinse</span></h1>
+    <p class="hero-text seitenkopf-text" style="margin:0">
+      Kein Bild aus einem Film, sondern Physik: Dein Browser verfolgt für
+      jeden Bildpunkt einen Lichtstrahl durch die gekrümmte Raumzeit um ein
+      Schwarzes Loch. Dreh die Ansicht, flieg näher heran, schalte die
+      Lichtablenkung aus, um zu sehen, was sie bewirkt, oder fall selbst
+      hinein.
+    </p>
+
+    <div class="uni-buehne" data-universum="schwarzes-loch" tabindex="0" role="region"
+         aria-label="3D-Modell: Schwarzes Loch mit leuchtender Scheibe. Ziehen oder Pfeiltasten drehen die Ansicht, Mausrad oder Plus und Minus ändern den Abstand, Bild auf und Bild ab wechseln die Ansicht.">
+      <div class="uni-leinwand"></div>
+      <p class="uni-ersatz">Dieses 3D-Modell braucht WebGL. Dein Browser unterstützt
+        es leider nicht, oder es ist abgeschaltet.</p>
+    </div>
+
+    <div class="uni-lesetext">
+      <h2 id="so-gehts">So bedienst du das Modell</h2>
+      <p>Mit gedrückter Maustaste (auf dem Handy mit dem Finger) drehst du
+        dich um das Schwarze Loch, nach oben und unten oder rundherum. Das
+        Mausrad oder zwei Finger bringen dich näher heran oder weiter weg.
+        „Weiter“ und „Zurück“ führen durch acht Ansichten, „Rundflug“
+        zeigt die ersten sieben nacheinander. Mit den Schaltern (auf dem
+        Handy unter „Optionen“) blendest du die Scheibe aus, schaltest die
+        Lichtablenkung oder die Rot- und Blauverschiebung ab und wählst, wie
+        heiß die Scheibe ist.</p>
+      <p>In der letzten Ansicht, „Hineinfallen“, fällst du selbst. Dort
+        siehst du dich durch Ziehen um, und das Mausrad oder der Regler
+        unten bringt dich an jede Stelle des Falls, auch zurück.</p>
+      <p>Alle Längen zählen in Schwarzschild-Radien r<sub>s</sub>. Das ist
+        der Radius des Ereignishorizonts, und er wächst mit der Masse: Bei
+        der Sonne wären es 3&nbsp;km, beim Schwarzen Loch in der Mitte der
+        Milchstraße (Sagittarius&nbsp;A*, 4,3&nbsp;Millionen
+        Sonnenmassen) rund 13&nbsp;Millionen km. Das Bild sieht bei jeder
+        Masse gleich aus, nur der Maßstab ändert sich.</p>
+
+      <h2 id="was-du-siehst">Was du siehst</h2>
+      <p><strong>Der Schatten.</strong> Ein Schwarzes Loch selbst leuchtet
+        nicht. Du siehst es nur, weil es Licht von hinten verschluckt. Der
+        dunkle Fleck ist dabei viel größer als der Horizont: Jeder
+        Lichtstrahl, der mit einem Abstand von weniger als 2,6&nbsp;r<sub>s</sub>
+        auf das Loch zielt, wird so stark abgelenkt, dass er hineinfällt.
+        Der Schatten hat darum den Radius
+        <span class="nowrap">√27&nbsp;/&nbsp;2&nbsp;·&nbsp;r<sub>s</sub>&nbsp;≈&nbsp;2,6&nbsp;r<sub>s</sub></span>.
+        Die gestrichelte blaue Linie zeigt seinen Rand, die gepunktete
+        orange Linie, wie groß der Horizont ohne Lichtablenkung erschiene.</p>
+      <p><strong>Der Photonenring.</strong> Auf einer Kugel mit dem Radius
+        1,5&nbsp;r<sub>s</sub>, der Photonensphäre, kann Licht auf einer
+        Kreisbahn um das Loch laufen. Strahlen, die knapp außerhalb vorbeikommen,
+        umrunden das Loch ein- oder mehrmals, bevor sie entkommen. Sie
+        bilden am Rand des Schattens einen dünnen, hellen Ring, in dem die
+        ganze Scheibe noch einmal winzig und verzerrt abgebildet ist.</p>
+      <p><strong>Die Scheibe oben und unten.</strong> Gas, das in ein
+        Schwarzes Loch fällt, sammelt sich in einer flachen Scheibe, der
+        <em>Akkretionsscheibe</em>. Durch Reibung wird es Tausende bis
+        Millionen Grad heiß. Ihr Innenrand liegt bei 3&nbsp;r<sub>s</sub>:
+        Näher am Loch gibt es keine stabile Kreisbahn mehr, das Gas stürzt
+        dann direkt hinein. Obwohl die Scheibe flach ist, siehst du ihre
+        Rückseite als Bogen über dem Schatten und ihre Unterseite als
+        schmalen Bogen darunter. Das Licht dieser Teile läuft über oder
+        unter dem Loch hindurch und wird dabei zu dir hin gebogen.</p>
+      <div class="alltag">
+        <p>Ein ähnliches Bild kennst du aus dem Schwimmbad: Ein Stab, der ins
+          Wasser taucht, scheint an der Oberfläche abzuknicken, weil das
+          Licht an der Grenze zwischen Wasser und Luft seine Richtung ändert.
+          Beim Schwarzen Loch gibt es keine Grenzfläche. Hier ist es der
+          gekrümmte Raum selbst, der das Licht umlenkt, und zwar umso
+          stärker, je näher es am Loch vorbeikommt.</p>
+      </div>
+      <p><strong>Hell und dunkel.</strong> Am Innenrand kreist das Gas mit
+        der halben Lichtgeschwindigkeit. Die Seite, die auf dich zukommt,
+        erscheint deshalb heller und bläulicher, die Seite, die sich
+        entfernt, dunkler und röter: Das ist der Dopplereffekt, bei so hohen
+        Geschwindigkeiten stark verstärkt. Zusätzlich verliert jedes Licht
+        Energie, wenn es aus der Nähe des Lochs herausklettert
+        (Gravitations-Rotverschiebung). Deshalb ist der innerste Teil der
+        Scheibe dunkler, als seine Temperatur erwarten ließe.</p>
+
+      <h2 id="gravitationslinse">Gravitationslinsen im Weltall</h2>
+      <p>Licht wird von jeder Masse abgelenkt, auch von Sternen und ganzen
+        Galaxien. Steht eine
+        Galaxie genau hinter einer anderen großen Masse, erreicht uns ihr
+        Licht auf mehreren Wegen. Bei perfekter Ausrichtung entsteht ein
+        geschlossener Ring, der nach Albert Einstein benannt ist, der die
+        Lichtablenkung 1915 vorhergesagt hat. Ist die Galaxie etwas
+        verschoben, siehst du zwei Bilder: ein helles außerhalb des Rings
+        und ein schwaches auf der anderen Seite. Probier es in der Ansicht
+        „Gravitationslinse“ aus: Die Galaxie steht dort fest im Raum. Schon
+        wenn du dich ein paar Grad weiterdrehst, zerfällt der Ring.</p>
+      <p>Astronomen nutzen solche Linsen als natürliche Fernrohre. Ganze
+        Galaxienhaufen verstärken das Licht von Galaxien dahinter, die sonst
+        zu schwach wären, um sie zu sehen. Auf Bildern des Weltraumteleskops
+        James Webb erscheinen sie als lange, gebogene Lichtbögen. Und aus der
+        Form der Bögen lässt sich berechnen, wie viel Masse in der Linse
+        steckt, auch die unsichtbare Dunkle Materie.</p>
+
+      <h2 id="spaghettifizierung">Hineinfallen und Spaghettifizierung</h2>
+      <p>Wer in ein Schwarzes Loch fällt, ist schwerelos wie ein Astronaut
+        in der Raumstation. Gefährlich wird nicht die Schwerkraft selbst,
+        sondern ihr Unterschied: Deine Füße sind dem Loch etwas näher als
+        dein Kopf und werden darum stärker angezogen. Diese
+        <em>Gezeitenkraft</em> zieht dich in Fallrichtung auseinander. Quer
+        dazu wirst du zusammengedrückt, weil alle Teile deines Körpers auf
+        denselben Punkt zufallen. Am Ende wärst du lang und dünn wie eine
+        Nudel, daher der Name.</p>
+      <p>Die Gezeitenkraft wächst mit der Masse, aber sie fällt mit der
+        dritten Potenz des Abstands. Weil der Horizont bei einem schweren
+        Loch weit draußen liegt, ist es dort erstaunlich harmlos:</p>
+      <ul>
+        <li><strong>10 Sonnenmassen</strong> (Horizont 30&nbsp;km): Ab etwa
+          8000&nbsp;km Abstand ziehen Kopf und Füße mit dem Unterschied
+          einer ganzen Erdanziehung auseinander. Bei etwa 1650&nbsp;km reißt
+          der Körper, lange vor dem Horizont.</li>
+        <li><strong>Sagittarius&nbsp;A*</strong> (4,3&nbsp;Millionen
+          Sonnenmassen): Am Horizont beträgt der Unterschied nur ein
+          Zehntausendstel der Erdanziehung. Du fällst unversehrt hinein und
+          wirst erst etwa 28&nbsp;Sekunden später zerrissen.</li>
+        <li><strong>M87*</strong> (6,5&nbsp;Milliarden Sonnenmassen): Nach
+          dem Horizont bleiben dir noch rund 12&nbsp;Stunden.</li>
+      </ul>
+      <p>Die Tafel „Dein Körper“ zeigt beides: zuerst, wie stark du
+        auseinandergezogen wirst, dann die Teile, die nach dem Reißen frei
+        weiterfallen. Was näher am Loch ist, fällt schneller, so werden die
+        Teile immer länger und dünner. Die Uhren zeigen einen zweiten
+        Effekt: Deine eigene Uhr erreicht den Horizont nach endlicher Zeit,
+        bei 10&nbsp;Sonnenmassen vom Start aus schon nach einer halben
+        Sekunde. Für jemanden
+        weit draußen dagegen kommst du nie an. Er sieht dich immer
+        langsamer und röter werden, bis dein Bild verblasst.</p>
+      <p>Auch der Blick nach draußen ändert sich. Am Ende fällst du fast mit
+        Lichtgeschwindigkeit. Wie bei einem schnellen Raumschiff drängt sich
+        dann das Licht in Flugrichtung zusammen, wird blauer und heller,
+        während der Himmel hinter dir röter wird. Der Schatten wirkt für
+        dich dadurch kleiner, als er einem Beobachter erschiene, der an
+        derselben Stelle stillsteht.</p>
+
+      <h2 id="wie-das-bild-entsteht">Wie das Bild entsteht</h2>
+      <p>Für jeden Bildpunkt startet ein Lichtstrahl an deinem Auge und läuft
+        rückwärts in die Szene, ungefähr 300 kleine Schritte weit. In jedem
+        Schritt wird seine Richtung nach den Gesetzen der Allgemeinen
+        Relativitätstheorie gedreht (Schwarzschild-Lösung für ein nicht
+        rotierendes Loch). Trifft der Strahl die Scheibe, bestimmt ihre
+        Temperatur an dieser Stelle die Farbe, verschoben um den Doppler-
+        und den Gravitationseffekt. Entkommt er, zeigt er den Sternhimmel
+        in der Richtung, in die er am Ende fliegt. Fällt er hinein, bleibt
+        der Bildpunkt schwarz. Das passiert für jeden Bildpunkt viele Male
+        pro Sekunde auf der Grafikkarte.</p>
+      <p>Genauso, nur mit viel mehr Aufwand, sind die Bilder für die
+        Forschung und für Kinofilme entstanden. Weil die Rechnung schwer ist,
+        passt das Modell die Bildschärfe an dein Gerät an: Auf langsamen
+        Geräten wird das Bild etwas weicher, bleibt aber flüssig.</p>
+
+      <h2 id="modell">Was ist echt, was ist Modell?</h2>
+      <ul>
+        <li><strong>Echt berechnet:</strong> die Bahnen des Lichts, die Größe
+          und Form des Schattens, der Photonenring, die Bilder der Ober- und
+          Unterseite der Scheibe, der Einstein-Ring, der Innenrand der
+          Scheibe bei 3&nbsp;r<sub>s</sub>, die Umlaufgeschwindigkeit des
+          Gases, Doppler- und Gravitations-Rotverschiebung und die Farbe
+          heißer Körper nach dem Planckschen Strahlungsgesetz. Auch die
+          Lichtablenkung der Sterne im Hintergrund ist echt.</li>
+        <li><strong>Auch echt berechnet:</strong> die Helligkeit im
+          sichtbaren Licht, der freie Fall, deine Uhr und die Uhr weit weg,
+          deine Geschwindigkeit, die Verschiebung von Richtungen und Farben
+          beim Fallen (Aberration) und die Gezeitenkräfte. Auch wie die Teile
+          nach dem Reißen auseinanderfliegen, folgt aus den Gleichungen.</li>
+        <li><strong>Vereinfacht:</strong> Das Loch dreht sich nicht. Echte
+          Schwarze Löcher rotieren meist; ihr Schatten wird dann etwas
+          kleiner und leicht abgeplattet. Die Scheibe ist unendlich dünn
+          gerechnet. Der Fall läuft im Zeitraffer, und was hinter dem
+          Horizont geschieht, zeigt das Modell nicht mehr. Wie viel Zug ein
+          Mensch aushält, ist nur grob geschätzt (etwa das Gewicht von einer
+          Tonne); vor dem Reißen ist die Dehnung im Bild übertrieben, damit
+          man sie sieht.</li>
+        <li><strong>Gewählt:</strong> Echte Scheiben sind viel heißer, als es
+          das Modell zeigt: Um Sagittarius&nbsp;A* leuchten sie vor allem im
+          Ultravioletten, um kleine Schwarze Löcher im Röntgenlicht. Damit du
+          etwas siehst, kannst du die Temperatur auf sichtbare Werte
+          stellen. Das Muster aus Gasfäden ist gezeichnet; Milchstraße,
+          Sterne und die Galaxie hinter dem Loch sind Modelle ohne echtes
+          Vorbild.</li>
+      </ul>
+      <p>Mehr über Schwarze Löcher und wie sie entstehen, steht auf der Seite
+        <a href="../astrophysik/sternleichen.html#schwarze-loecher">Weiße Zwerge, Neutronensterne und Schwarze Löcher</a>.
+        Weitere Modelle findest du in der Übersicht
+        <a href="../interaktives-universum.html">Interaktives Universum</a>.</p>
+    </div>
+  </main>
+</body>
+</html>

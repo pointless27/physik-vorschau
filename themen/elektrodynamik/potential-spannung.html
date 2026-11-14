@@ -1,0 +1,485 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="robots" content="noindex">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Potential und Spannung</title>
+  <meta name="description" content="Wie aus der Kraft auf eine Ladung das elektrische Potential wird, was Spannung bedeutet und warum man aus dem Potential das Feld zurückgewinnt.">
+
+  <link rel="stylesheet" href="../../css/stil.css">
+
+  <link rel="stylesheet" href="../../extern/katex/katex.min.css">
+  <script defer src="../../extern/katex/katex.min.js"></script>
+  <script defer src="../../extern/katex/contrib/auto-render.min.js" onload="starteFormeln()"></script>
+
+  <script src="../../js/daten.js"></script>
+  <script src="../../js/seite.js"></script>
+  <script src="../../js/effekte.js"></script>
+  <script type="application/json" id="symbole">
+  {
+    "C": "geschlossener Weg",
+    "P": "Punkt im Raum",
+    "a": "Abstand von Q₁ (Beispiel 2)",
+    "c": "Lichtgeschwindigkeit, 3,00·10⁸ m/s",
+    "i": "Nummer der Ladung",
+    "μ": "Vorsilbe Mikro, ein Millionstel",
+    "φ": "elektrostatisches Potential",
+    "U": "Spannung",
+    "E": "elektrische Feldstärke",
+    "E_pot": "potentielle Energie",
+    "E_kin": "kinetische Energie",
+    "W": "Arbeit bzw. Energie",
+    "q": "Probeladung",
+    "Q": "Ladung der Quelle",
+    "Q_i": "Ladung Nummer i",
+    "e": "Elementarladung, 1,602·10⁻¹⁹ C",
+    "ε_0": "elektrische Feldkonstante, 8,854·10⁻¹² A s/(V m)",
+    "r": "Abstand",
+    "R": "Radius",
+    "m": "Masse",
+    "v": "Geschwindigkeit",
+    "ρ": "Raumladungsdichte",
+    "k": "Coulomb-Konstante 1/(4π ε₀)",
+    "d": "Abstand",
+    "s": "Weg bzw. Seitenlänge",
+    "x": "Ortskoordinate",
+    "y": "Ortskoordinate",
+    "z": "Abstand auf der Achse",
+    "A": "Konstante des Potentials",
+    "F": "Kraft",
+    "P_1": "Anfangspunkt",
+    "P_2": "Endpunkt",
+    "π": "Kreiszahl",
+    "Δ": "Laplace-Operator",
+    "∇": "Nabla-Operator"
+  }
+  </script>
+</head>
+<body data-thema="potential-spannung">
+  <main>
+    <article class="thema">
+      <header>
+        <h1>Potential und <span class="betont">Spannung</span></h1>
+        <p class="untertitel">Warum eine Batterie „1,5 Volt“ hat, was das mit einem Berg zu tun hat und wie man aus der Höhenkarte die Steigung liest.</p>
+      </header>
+
+      <div class="tabs">
+
+        <section class="tab" id="verstehen" data-titel="Verstehen">
+
+          <p>Auf einer Wanderkarte stehen Höhenlinien. Wo sie dicht liegen, ist
+            es steil, wo sie weit auseinander liegen, ist es flach. Eine Kugel,
+            die du loslässt, rollt senkrecht zu den Höhenlinien bergab, und
+            zwar umso schneller, je steiler es ist. Mit der elektrischen Kraft
+            geht es fast genauso.</p>
+
+          <p>Die „Höhe“ heißt hier <em>Potential</em>. Du kannst jedem Ort im
+            elektrischen Feld einen Wert zuordnen: wie viel Energie eine
+            Ladung dort, bezogen auf ihre Ladung, hätte. Eine positive Ladung
+            rollt „bergab“ zu niedrigerem Potential, eine negative „bergauf“.
+            Den Höhenunterschied zwischen zwei Orten nennt man <em>Spannung</em>.
+            Auf einer Batterie steht die Spannung zwischen ihren zwei Polen.
+            Der Wert, bei dem man null setzt, ist Geschmackssache. Wie bei der
+            Höhe zählt nur der Unterschied. In der Elektrotechnik wählt man
+            meist die Erde als Nullpunkt, so wie man Höhen auf Meereshöhe
+            bezieht. Eine Steckdose liefert dann an einem Pol rund $230\,\mathrm{V}$
+            gegen Erde und am anderen fast null.</p>
+
+          <figure class="abbildung">
+            <svg class="abb" viewBox="0 0 360 175" role="img" aria-label="Plattenkondensator mit Linien gleichen Potentials und Feldlinien, die zum niedrigeren Potential zeigen">
+<defs><marker id="pfeil-abb3" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto"><path class="punkt kupfer" d="M0 0L10 5L0 10z"/></marker></defs>
+<path class="achse" d="M60 25L60 145M240 25L240 145" fill="none" style="stroke-width:5"/>
+<path class="hilfslinie" d="M90 28L90 142" fill="none"/>
+<text x="90" y="160" text-anchor="middle" class="klein">83 V</text>
+<path class="hilfslinie" d="M120 28L120 142" fill="none"/>
+<text x="120" y="160" text-anchor="middle" class="klein">67 V</text>
+<path class="hilfslinie" d="M150 28L150 142" fill="none"/>
+<text x="150" y="160" text-anchor="middle" class="klein">50 V</text>
+<path class="hilfslinie" d="M180 28L180 142" fill="none"/>
+<text x="180" y="160" text-anchor="middle" class="klein">33 V</text>
+<path class="hilfslinie" d="M210 28L210 142" fill="none"/>
+<text x="210" y="160" text-anchor="middle" class="klein">17 V</text>
+<text x="60" y="160" text-anchor="middle" class="klein">100 V</text><text x="240" y="160" text-anchor="middle" class="klein">0 V</text>
+<path class="kurve kupfer" d="M66 50L232 50" marker-end="url(#pfeil-abb3)" fill="none"/>
+<path class="kurve kupfer" d="M66 85L232 85" marker-end="url(#pfeil-abb3)" fill="none"/>
+<path class="kurve kupfer" d="M66 120L232 120" marker-end="url(#pfeil-abb3)" fill="none"/>
+<text x="60" y="18" text-anchor="middle" class="klein">+ Platte</text><text x="240" y="18" text-anchor="middle" class="klein">− Platte</text>
+<text x="254" y="90" class="klein">E zeigt in Richtung</text><text x="254" y="104" class="klein">fallenden Potentials</text>
+</svg>
+            <figcaption>Abb. 1: Zwischen zwei Platten fällt das Potential gleichmäßig
+              von 100 V auf 0 V. Die gestrichelten Linien verbinden Orte
+              gleichen Potentials. Das Feld steht senkrecht darauf und zeigt zum
+              niedrigeren Potential.</figcaption>
+          </figure>
+
+          <p>Eine Spannung von $1\,\mathrm{V}$ bedeutet: Eine Ladung von
+            $1\,\mathrm{C}$, die diesen Unterschied durchläuft, gewinnt oder
+            verliert $1\,\mathrm{J}$ Energie. Für die winzigen Ladungen von
+            Elektronen ist das unhandlich. Darum gibt man ihre Energie gern in
+            Elektronenvolt an: Ein Elektron, das $1\,\mathrm{V}$ durchläuft,
+            gewinnt $1\,\mathrm{eV}$ Energie. In der Bildröhre eines alten
+            Fernsehers beschleunigten rund 25 Kilovolt die Elektronen auf den
+            Schirm.</p>
+
+          <div class="alltag">
+            <span class="titel">Aus dem Alltag</span>
+            <p>Ein Vogel auf einer Hochspannungsleitung bleibt unversehrt. Beide
+              Füße sitzen praktisch auf demselben Potential, es gibt keinen
+              Unterschied, über den ein Strom fließen könnte. Gefährlich wird es
+              erst, wenn du gleichzeitig ein Kabel und den Erdboden berührst, also
+              zwei Orte mit großem Potentialunterschied überbrückst.</p>
+          </div>
+
+          <div class="merkkasten">
+            <span class="titel">Das Wichtigste in Kürze</span>
+            <p>Das Potential ist die Energie pro Ladung an einem Ort. Spannung ist
+              der Unterschied des Potentials zwischen zwei Orten. Das Feld zeigt
+              in Richtung des steilsten Abfalls des Potentials, und es steht
+              senkrecht auf den Linien gleichen Potentials.</p>
+          </div>
+        </section>
+
+        <section class="tab" id="vertiefung" data-titel="Vertiefung">
+
+          <h2>Arbeit und potentielle Energie</h2>
+          <p>Bewegst du eine Probeladung $q$ im Feld $\vec{E}$ von $P_1$ nach
+            $P_2$, wirkt auf sie die Kraft $\vec{F} = q\vec{E}$. Die Änderung der
+            potentiellen Energie ist die Arbeit, die du gegen das Feld aufbringen
+            musst:</p>
+          $$ \Delta E_\text{pot} = -\int_{P_1}^{P_2} \vec{F}\cdot\mathrm{d}\vec{s} = -q\int_{P_1}^{P_2} \vec{E}\cdot\mathrm{d}\vec{s} $$
+          <p>Diese Größe ist proportional zu $q$. Man teilt sie deshalb durch
+            die Probeladung und erhält das <em>Potential</em>, das nur noch vom Feld
+            abhängt:</p>
+          $$ \varphi(P_2) - \varphi(P_1) = -\int_{P_1}^{P_2} \vec{E}\cdot\mathrm{d}\vec{s} $$
+          <p>Der Wert von $\varphi$ ist nur bis auf eine Konstante festgelegt.
+            Bei Ladungen, die im Endlichen liegen, wählt man $\varphi(\infty) = 0$.
+            Dann ist $q\,\varphi(P)$ die Arbeit, die du aufwenden musst, um $q$ aus
+            dem Unendlichen nach $P$ zu bringen. Das ist zugleich die potentielle
+            Energie der Ladung in $P$.</p>
+
+          <h2>Wegunabhängigkeit</h2>
+          <p>Damit das Potential eindeutig ist, darf das Wegintegral nicht vom Weg
+            abhängen. Für das Coulomb-Feld stimmt das. Für eine Punktladung ist
+            $\vec{E}$ radial, und auf einem Weg senkrecht zu $\vec{E}$ (auf einer Kugelfläche
+            um die Ladung) trägt $\vec{E}\cdot\mathrm{d}\vec{s}$ nichts bei. Jeder Weg
+            lässt sich aus radialen und tangentialen Stücken zusammensetzen,
+            es zählt nur der radiale Anteil.</p>
+
+          <figure class="abbildung">
+            <svg class="abb" viewBox="0 0 360 180" role="img" aria-label="Positive Ladung mit zwei Kugelflächen und zwei Wegen von P1 nach P2, die aus radialen und tangentialen Stücken bestehen">
+<defs><marker id="pfeil-abb4" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto"><path class="punkt blau" d="M0 0L10 5L0 10z"/></marker></defs>
+<circle class="punkt kupfer" cx="60" cy="90" r="7"/><text x="60" y="94" text-anchor="middle" style="fill:#fff;font-weight:700">+</text>
+<circle class="achse" cx="60" cy="90" r="50" fill="none" style="stroke-dasharray:3 3"/>
+<circle class="achse" cx="60" cy="90" r="80" fill="none" style="stroke-dasharray:3 3"/>
+<path class="kurve blau" d="M110.0 90.0L140.0 90.0A80 80 0 0 0 125.5 44.1" fill="none" marker-end="url(#pfeil-abb4)"/>
+<path class="kurve kupfer" d="M110.0 90.0A50 50 0 0 0 101.0 61.3L125.5 44.1" fill="none"/>
+<circle class="punkt" cx="110.0" cy="90.0" r="3.5"/><text x="118" y="104" class="klein">P1</text>
+<circle class="punkt" cx="125.5" cy="44.1" r="3.5"/><text x="134" y="38" class="klein">P2</text>
+<text x="180" y="40" class="klein blau">Weg A (blau):</text>
+<text x="180" y="54" class="klein">radial, dann auf dem Kreis</text>
+<text x="180" y="78" class="klein kupfer">Weg B (orange):</text>
+<text x="180" y="92" class="klein">auf dem Kreis, dann radial</text>
+<text x="180" y="116" class="klein">Auf den Kreisen ändert</text><text x="180" y="130" class="klein">sich φ nicht.</text>
+</svg>
+            <figcaption>Abb. 2: Zwei verschiedene Wege von $P_1$ nach $P_2$. Nur die
+              radialen Stücke tragen zur Potentialdifferenz bei, und sie sind
+              bei beiden Wegen gleich lang.</figcaption>
+          </figure>
+
+          <p>Allgemein folgt die Wegunabhängigkeit aus $\vec{\nabla}\times\vec{E} = 0$:
+            Für einen geschlossenen Weg $C$ ist nach dem Satz von Stokes
+            $\oint_C \vec{E}\cdot\mathrm{d}\vec{s} = \int_F (\vec{\nabla}\times\vec{E})\cdot\mathrm{d}\vec{A} = 0$.
+            Das gilt, solange innerhalb der aufgespannten Fläche $F$ keine
+            Singularitäten liegen. Das statische elektrische Feld ist
+            <em>konservativ</em>, genau wie die Gravitation.</p>
+
+          <h2>Spannung und Elektronenvolt</h2>
+          <p>Die Potentialdifferenz zwischen zwei Punkten ist die <em>Spannung</em>:</p>
+          $$ U(P_1, P_2) = \varphi(P_1) - \varphi(P_2), \qquad [U] = \mathrm{V} = \frac{\mathrm{J}}{\mathrm{C}} $$
+          <p>Eine Ladung $q$, die die Spannung $U$ durchläuft, ändert ihre
+            potentielle Energie um $\Delta E_\text{pot} = -qU$ und gewinnt kinetische Energie
+            $\Delta E_\text{kin} = qU$. Bei Beschleunigung aus der Ruhe mit $\tfrac12 m v^2 = qU$
+            folgt $v = \sqrt{2qU/m}$ (solange $v \ll c$). Die Energie
+            $1\,\mathrm{eV} = 1{,}602 \cdot 10^{-19}\,\mathrm{J}$ ist die, die ein Elektron
+            bei $1\,\mathrm{V}$ gewinnt. Anwendungen sind Elektronenkanonen,
+            Teilchenbeschleuniger und Massenspektrometer.</p>
+
+          <h2>Potential einer Punktladung</h2>
+          <p>Mit $\vec{E} = \frac{Q}{4\pi\varepsilon_0 r^2}\hat{r}$ und $\varphi(\infty) = 0$ gilt</p>
+          $$ \varphi(r) = -\int_\infty^r \vec{E}\cdot\mathrm{d}\vec{r}
+             = -\frac{Q}{4\pi\varepsilon_0}\int_\infty^r \frac{\mathrm{d}r'}{r'^2}
+             = \frac{Q}{4\pi\varepsilon_0 r} $$
+          <p>Das ist ein Zentralpotential, analog zum Gravitationspotential.
+            Für mehrere Ladungen addieren sich die Potentiale (skalar, keine
+            Vektoren!), und für eine Ladungsverteilung gilt</p>
+          $$ \varphi(\vec{R}) = \frac{1}{4\pi\varepsilon_0}\sum_i \frac{Q_i}{|\vec{R}-\vec{r}_i|}, \qquad
+             \varphi(\vec{R}) = \frac{1}{4\pi\varepsilon_0}\int \frac{\rho(\vec{r})}{|\vec{R}-\vec{r}|}\,\mathrm{d}^3 r $$
+          <p>Das ist oft einfacher als die Feldrechnung, weil du Zahlen statt
+            Vektoren addierst.</p>
+
+          <h2>Vom Potential zum Feld</h2>
+          <p>Umgekehrt gewinnst du das Feld aus dem Potential. Infinitesimal
+            gilt $\mathrm{d}\varphi = -\vec{E}\cdot\mathrm{d}\vec{s}$, und damit</p>
+          $$ \vec{E} = -\vec{\nabla}\varphi, \qquad E_x = -\frac{\partial\varphi}{\partial x} \text{ usw.} $$
+          <p>Das Feld zeigt in die Richtung des steilsten Abfalls von $\varphi$, und
+            sein Betrag ist die Steigung. Auf einer Äquipotentialfläche
+            ($\varphi = \text{const.}$) ist die Ableitung in tangentialer Richtung null,
+            das Feld steht also senkrecht darauf. Beim Plattenkondensator
+            (Abb. 1) ist $\varphi$ linear in $x$, und $E = U/d$ ist konstant.</p>
+
+          <h2>Poisson-Gleichung</h2>
+          <p>Aus $\vec{\nabla}\cdot\vec{E} = \rho/\varepsilon_0$ und $\vec{E} = -\vec{\nabla}\varphi$ folgt
+            mit dem Laplace-Operator $\Delta = \vec{\nabla}\cdot\vec{\nabla}$</p>
+          $$ \Delta\varphi = -\frac{\rho}{\varepsilon_0} $$
+          <p>Ohne Raumladung ist $\Delta\varphi = 0$ (Laplace-Gleichung). Die
+            Gleichung allein reicht nicht, man braucht Randbedingungen,
+            etwa das Potential oder seine Normalableitung auf dem Rand. Das
+            wird in <em>Randwertprobleme</em> ausgebaut.</p>
+
+          <h2>Beispiel Kugeln</h2>
+          <p>Aus den Feldern der Hohlkugel und der Vollkugel (siehe
+            <em>Das elektrische Feld und der Satz von Gauß</em>) folgt durch Integration von außen nach innen
+            mit $\varphi(\infty) = 0$, und mit Stetigkeit bei $r = R$ (das Potential
+            springt nie, auch wenn das Feld springt):</p>
+          $$ \text{Hohlkugel: } \varphi = \frac{Q}{4\pi\varepsilon_0}\begin{cases} 1/R & r \le R \\ 1/r & r \ge R \end{cases}
+             \qquad
+             \text{Vollkugel: } \varphi = \frac{Q}{4\pi\varepsilon_0}\begin{cases} \dfrac{3R^2 - r^2}{2R^3} & r \le R \\[2pt] 1/r & r \ge R \end{cases} $$
+          <p>In der Hohlkugel ist $\varphi$ konstant, das Feld also null. Bei der Vollkugel
+            ist das Zentrumspotential das $\tfrac32$-Fache des Randwertes. Das
+            Potential der Vollkugel fällt von innen nach außen, weil jede
+            positive Ladung ein Potential erzeugt, das mit dem Abstand abnimmt.</p>
+
+          <figure class="abbildung">
+            <svg class="abb" viewBox="0 0 360 160" role="img" aria-label="Potential über dem Abstand: Hohlkugel konstant bis R, Vollkugel parabelförmig fallend bis R, außen beide wie eins durch r">
+<path class="achse" d="M40 135L330 135M40 135L40 10" fill="none"/>
+<path class="hilfslinie" d="M133.3 135L133.3 14" fill="none"/>
+<polyline class="kurve kupfer" points="41.9,73.0 43.7,73.0 45.6,73.0 47.5,73.0 49.3,73.0 51.2,73.0 53.1,73.0 54.9,73.0 56.8,73.0 58.7,73.0 60.5,73.0 62.4,73.0 64.3,73.0 66.1,73.0 68.0,73.0 69.9,73.0 71.7,73.0 73.6,73.0 75.5,73.0 77.3,73.0 79.2,73.0 81.1,73.0 82.9,73.0 84.8,73.0 86.7,73.0 88.5,73.0 90.4,73.0 92.3,73.0 94.1,73.0 96.0,73.0 97.9,73.0 99.7,73.0 101.6,73.0 103.5,73.0 105.3,73.0 107.2,73.0 109.1,73.0 110.9,73.0 112.8,73.0 114.7,73.0 116.5,73.0 118.4,73.0 120.3,73.0 122.1,73.0 124.0,73.0 125.9,73.0 127.7,73.0 129.6,73.0 131.5,73.0 133.3,73.0 135.2,74.2 137.1,75.4 138.9,76.5 140.8,77.6 142.7,78.6 144.5,79.6 146.4,80.6 148.3,81.6 150.1,82.5 152.0,83.3 153.9,84.2 155.7,85.0 157.6,85.8 159.5,86.6 161.3,87.3 163.2,88.0 165.1,88.7 166.9,89.4 168.8,90.1 170.7,90.7 172.5,91.3 174.4,91.9 176.3,92.5 178.1,93.1 180.0,93.7 181.9,94.2 183.7,94.7 185.6,95.3 187.5,95.8 189.3,96.2 191.2,96.7 193.1,97.2 194.9,97.7 196.8,98.1 198.7,98.5 200.5,99.0 202.4,99.4 204.3,99.8 206.1,100.2 208.0,100.6 209.9,100.9 211.7,101.3 213.6,101.7 215.5,102.0 217.3,102.4 219.2,102.7 221.1,103.0 222.9,103.4 224.8,103.7 226.7,104.0 228.5,104.3 230.4,104.6 232.3,104.9 234.1,105.2 236.0,105.5 237.9,105.8 239.7,106.0 241.6,106.3 243.5,106.6 245.3,106.8 247.2,107.1 249.1,107.3 250.9,107.6 252.8,107.8 254.7,108.0 256.5,108.3 258.4,108.5 260.3,108.7 262.1,108.9 264.0,109.2 265.9,109.4 267.7,109.6 269.6,109.8 271.5,110.0 273.3,110.2 275.2,110.4 277.1,110.6 278.9,110.8 280.8,111.0 282.7,111.2 284.5,111.3 286.4,111.5 288.3,111.7 290.1,111.9 292.0,112.0 293.9,112.2 295.7,112.4 297.6,112.5 299.5,112.7 301.3,112.9 303.2,113.0 305.1,113.2 306.9,113.3 308.8,113.5 310.7,113.6 312.5,113.8 314.4,113.9 316.3,114.1 318.1,114.2 320.0,114.3" fill="none" style="stroke-dasharray:5 3"/>
+<polyline class="kurve blau" points="41.9,42.0 43.7,42.0 45.6,42.1 47.5,42.2 49.3,42.3 51.2,42.4 53.1,42.6 54.9,42.8 56.8,43.0 58.7,43.2 60.5,43.5 62.4,43.8 64.3,44.1 66.1,44.4 68.0,44.8 69.9,45.2 71.7,45.6 73.6,46.0 75.5,46.5 77.3,47.0 79.2,47.5 81.1,48.0 82.9,48.6 84.8,49.1 86.7,49.8 88.5,50.4 90.4,51.0 92.3,51.7 94.1,52.4 96.0,53.2 97.9,53.9 99.7,54.7 101.6,55.5 103.5,56.3 105.3,57.2 107.2,58.1 109.1,59.0 110.9,59.9 112.8,60.9 114.7,61.8 116.5,62.8 118.4,63.9 120.3,64.9 122.1,66.0 124.0,67.1 125.9,68.2 127.7,69.4 129.6,70.6 131.5,71.8 133.3,73.0 135.2,74.2 137.1,75.4 138.9,76.5 140.8,77.6 142.7,78.6 144.5,79.6 146.4,80.6 148.3,81.6 150.1,82.5 152.0,83.3 153.9,84.2 155.7,85.0 157.6,85.8 159.5,86.6 161.3,87.3 163.2,88.0 165.1,88.7 166.9,89.4 168.8,90.1 170.7,90.7 172.5,91.3 174.4,91.9 176.3,92.5 178.1,93.1 180.0,93.7 181.9,94.2 183.7,94.7 185.6,95.3 187.5,95.8 189.3,96.2 191.2,96.7 193.1,97.2 194.9,97.7 196.8,98.1 198.7,98.5 200.5,99.0 202.4,99.4 204.3,99.8 206.1,100.2 208.0,100.6 209.9,100.9 211.7,101.3 213.6,101.7 215.5,102.0 217.3,102.4 219.2,102.7 221.1,103.0 222.9,103.4 224.8,103.7 226.7,104.0 228.5,104.3 230.4,104.6 232.3,104.9 234.1,105.2 236.0,105.5 237.9,105.8 239.7,106.0 241.6,106.3 243.5,106.6 245.3,106.8 247.2,107.1 249.1,107.3 250.9,107.6 252.8,107.8 254.7,108.0 256.5,108.3 258.4,108.5 260.3,108.7 262.1,108.9 264.0,109.2 265.9,109.4 267.7,109.6 269.6,109.8 271.5,110.0 273.3,110.2 275.2,110.4 277.1,110.6 278.9,110.8 280.8,111.0 282.7,111.2 284.5,111.3 286.4,111.5 288.3,111.7 290.1,111.9 292.0,112.0 293.9,112.2 295.7,112.4 297.6,112.5 299.5,112.7 301.3,112.9 303.2,113.0 305.1,113.2 306.9,113.3 308.8,113.5 310.7,113.6 312.5,113.8 314.4,113.9 316.3,114.1 318.1,114.2 320.0,114.3" fill="none"/>
+<text x="133" y="150" text-anchor="middle" class="klein">R</text>
+<text x="334" y="150" text-anchor="end" class="klein">Abstand r</text><text x="46" y="14" class="klein">φ</text>
+<text x="197" y="62" class="klein blau">Vollkugel</text>
+<text x="197" y="76" class="klein kupfer">Hohlkugel</text>
+</svg>
+            <figcaption>Abb. 3: Potential über dem Abstand vom Mittelpunkt in Einheiten
+              von $Q/(4\pi\varepsilon_0 R)$. Anders als das Feld hat das Potential keine
+              Sprünge. Die Vollkugel (blau) hat im Zentrum den Wert $3/2$.</figcaption>
+          </figure>
+
+          <div class="merkkasten">
+            <span class="titel">Merke</span>
+            <p>$\varphi(P_2) - \varphi(P_1) = -\int \vec{E}\cdot\mathrm{d}\vec{s}$, $\vec{E} = -\vec{\nabla}\varphi$.
+              Punktladung: $\varphi = Q/(4\pi\varepsilon_0 r)$. Potentiale addieren sich
+              skalar. Eine Ladung gewinnt beim Durchlaufen der Spannung $U$ die
+              Energie $qU$. Das Potential ist stetig, das Feld kann an Flächenladungen
+              springen. Wegunabhängigkeit gilt wegen $\vec{\nabla}\times\vec{E} = 0$.</p>
+          </div>
+        </section>
+
+        <section class="tab" id="beispiele" data-titel="Beispielrechnungen">
+
+          <div class="beispiel">
+            <h3>Beispiel 1: Elektron wird beschleunigt</h3>
+            <p><strong>Gegeben:</strong> Ein Elektron startet in Ruhe und durchläuft die
+              Spannung $U = 500\,\mathrm{V}$.<br>
+              <strong>Gesucht:</strong> kinetische Energie in $\mathrm{J}$ und $\mathrm{eV}$ sowie die
+              Geschwindigkeit.</p>
+
+            <p><strong>1. Energie.</strong>
+              $$ E_\text{kin} = eU = 1{,}602 \cdot 10^{-19}\,\mathrm{C} \cdot 500\,\mathrm{V} = 8{,}01 \cdot 10^{-17}\,\mathrm{J} = 500\,\mathrm{eV} $$</p>
+
+            <p><strong>2. Geschwindigkeit.</strong>
+              $$ v = \sqrt{\frac{2eU}{m_e}} = \sqrt{\frac{2 \cdot 8{,}01 \cdot 10^{-17}\,\mathrm{J}}{9{,}109 \cdot 10^{-31}\,\mathrm{kg}}} = 1{,}33 \cdot 10^{7}\,\mathrm{m/s} $$
+              Einheitencheck: $\mathrm{J/kg = m^2/s^2}$ ✓</p>
+
+            <p><strong>Ergebnis und Plausibilität:</strong> Das sind $4{,}4\,\%$ der
+              Lichtgeschwindigkeit. Die nichtrelativistische Rechnung ist dann
+              noch gut (Fehler im Prozentbereich oder darunter). Bei $500\,\mathrm{kV}$
+              wäre sie völlig falsch.</p>
+          </div>
+
+          <div class="beispiel">
+            <h3>Beispiel 2: Potential zweier Ladungen auf einer Geraden</h3>
+            <p><strong>Gegeben:</strong> $Q_1 = +2{,}0\,\mathrm{nC}$ bei $x = 0$ und
+              $Q_2 = -6{,}0\,\mathrm{nC}$ bei $x = 0{,}30\,\mathrm{m}$.<br>
+              <strong>Gesucht:</strong> $\varphi$ in der Mitte und alle Punkte auf der $x$-Achse mit $\varphi = 0$.</p>
+
+            <p><strong>1. Mitte ($x = 0{,}15\,\mathrm{m}$).</strong> Skalare Summe:
+              $$ \varphi = 8{,}988 \cdot 10^{9}\,\mathrm{\tfrac{N\,m^2}{C^2}} \cdot \left(\frac{2{,}0 \cdot 10^{-9}\,\mathrm{C}}{0{,}15\,\mathrm{m}} + \frac{-6{,}0 \cdot 10^{-9}\,\mathrm{C}}{0{,}15\,\mathrm{m}}\right) = -240\,\mathrm{V} $$</p>
+
+            <p><strong>2. Nullstellen.</strong> Zwischen den Ladungen muss
+              $\frac{Q_1}{x} = \frac{|Q_2|}{d - x}$ gelten, also
+              $d - x = 3x$ und $x = d/4 = 0{,}075\,\mathrm{m}$. Links von $Q_1$ ($x \lt 0$)
+              mit Abstand $a = |x|$: $\frac{Q_1}{a} = \frac{|Q_2|}{d + a}$, also
+              $d + a = 3a$ und $a = d/2$, also $x = -0{,}15\,\mathrm{m}$. Rechts von
+              $Q_2$ gibt es keine Nullstelle, weil dort $|Q_2|$ immer näher liegt
+              und größer ist.</p>
+
+            <p><strong>3. Kontrolle.</strong> Bei $x = 0{,}075\,\mathrm{m}$:
+              $\frac{2{,}0}{0{,}075} - \frac{6{,}0}{0{,}225} = 26{,}7 - 26{,}7 = 0$ ✓ (in $\mathrm{nC/m}$).
+              Einheitencheck: $\mathrm{N\,m^2/C^2 \cdot C/m = N\,m/C = V}$ ✓</p>
+
+            <p><strong>Ergebnis und Plausibilität:</strong> $\varphi = -240\,\mathrm{V}$ in der Mitte,
+              Nullpunkte bei $x = 0{,}075\,\mathrm{m}$ und $x = -0{,}15\,\mathrm{m}$. Weil die
+              negative Ladung dreimal so groß ist, liegen die Nullstellen näher an der
+              kleineren Ladung. Das Vorzeichen in der Mitte ist negativ, wie erwartet.</p>
+          </div>
+
+          <div class="beispiel">
+            <h3>Beispiel 3: Potential der Vollkugel</h3>
+            <p><strong>Gegeben:</strong> $Q = 8{,}0\,\mathrm{nC}$ homogen in einer Kugel mit
+              $R = 2{,}0\,\mathrm{cm}$.<br>
+              <strong>Gesucht:</strong> $\varphi$ am Rand, im Zentrum und bei $6{,}0\,\mathrm{cm}$, und die Spannung zwischen
+              Rand und $6{,}0\,\mathrm{cm}$.</p>
+
+            <p><strong>1. Rand.</strong>
+              $$ \varphi(R) = \frac{Q}{4\pi\varepsilon_0 R} = 8{,}988 \cdot 10^{9} \cdot \frac{8{,}0 \cdot 10^{-9}}{0{,}020}\,\mathrm{V} = 3595\,\mathrm{V} $$</p>
+
+            <p><strong>2. Zentrum.</strong> $\varphi(0) = \tfrac32\,\varphi(R) = 5393\,\mathrm{V}$.</p>
+
+            <p><strong>3. Außen.</strong>
+              $$ \varphi(6{,}0\,\mathrm{cm}) = 8{,}988 \cdot 10^{9} \cdot \frac{8{,}0 \cdot 10^{-9}}{0{,}060}\,\mathrm{V} = 1198\,\mathrm{V} $$
+              $$ U = \varphi(R) - \varphi(6{,}0\,\mathrm{cm}) = 2397\,\mathrm{V} $$</p>
+
+            <p><strong>Ergebnis und Plausibilität:</strong> Das Potential fällt von $5393\,\mathrm{V}$ im Zentrum auf
+              $1198\,\mathrm{V}$ bei $6\,\mathrm{cm}$. Ein Proton würde zwischen Rand und $6\,\mathrm{cm}$
+              $2397\,\mathrm{eV}$ gewinnen, wenn es von der positiven Kugel weg fliegt. Ein Elektron
+              würde dabei dieselbe Energie verlieren.
+              Einheitencheck: $\mathrm{N\,m^2/C^2 \cdot C/m = V}$ ✓. Zum Vergleich mit der Feldrechnung: Das mittlere Feld auf dieser Strecke ist
+              $2397\,\mathrm{V}/0{,}040\,\mathrm{m} = 6{,}0 \cdot 10^{4}\,\mathrm{V/m}$, zwischen
+              $E(R) = 1{,}80 \cdot 10^{5}$ und $E(6\,\mathrm{cm}) = 2{,}0 \cdot 10^{4}\,\mathrm{V/m}$ ✓.</p>
+          </div>
+        </section>
+
+        <section class="tab" id="aufgaben" data-titel="Aufgaben">
+
+          <p>Verwende Vakuum, $\frac{1}{4\pi\varepsilon_0} = 8{,}988 \cdot 10^{9}\,\mathrm{N\,m^2/C^2}$,
+            $e = 1{,}602 \cdot 10^{-19}\,\mathrm{C}$, $m_p = 1{,}673 \cdot 10^{-27}\,\mathrm{kg}$
+            und setze das Potential im Unendlichen null.</p>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 1
+              <span class="schwierigkeit" data-stufe="leicht">leicht</span>
+            </h3>
+            <p>Ein Proton wird aus der Ruhe durch $1{,}0\,\mathrm{kV}$ beschleunigt.
+              Welche Energie in $\mathrm{eV}$ gewinnt es, und wie schnell ist es?</p>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>$E_\text{kin} = eU = 1{,}0\,\mathrm{keV} = 1{,}602 \cdot 10^{-16}\,\mathrm{J}$.
+                $v = \sqrt{2E_\text{kin}/m_p} = \sqrt{\frac{2 \cdot 1{,}602 \cdot 10^{-16}}{1{,}673 \cdot 10^{-27}}}\,\mathrm{m/s} = 4{,}4 \cdot 10^{5}\,\mathrm{m/s}$.
+                Bei gleicher Spannung ist das Proton wegen der größeren Masse um den
+                Faktor $\sqrt{m_p/m_e} \approx 43$ langsamer als ein Elektron.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 2
+              <span class="schwierigkeit" data-stufe="leicht">leicht</span>
+            </h3>
+            <p>Eine Punktladung $5{,}0\,\mathrm{nC}$ sitzt im Ursprung. (a) Wie groß ist das
+              Potential bei $10\,\mathrm{cm}$? (b) Welche Arbeit musst du aufbringen, um eine
+              Ladung von $2{,}0\,\mathrm{nC}$ aus dem Unendlichen dorthin zu bringen?</p>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>(a) $\varphi = 8{,}988 \cdot 10^{9} \cdot \frac{5{,}0 \cdot 10^{-9}}{0{,}10}\,\mathrm{V} = 449\,\mathrm{V}$.</p>
+              <p>(b) $W = q\varphi = 2{,}0 \cdot 10^{-9}\,\mathrm{C} \cdot 449\,\mathrm{V} = 9{,}0 \cdot 10^{-7}\,\mathrm{J}$.
+                Positiv, weil sich gleichnamige Ladungen abstoßen und du gegen die Kraft
+                arbeitest.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 3
+              <span class="schwierigkeit" data-stufe="mittel">mittel</span>
+            </h3>
+            <p>In einem Raumgebiet ist $\varphi(x, y) = A\,x^2 y$ mit $A = 400\,\mathrm{V/m^3}$.
+              (a) Bestimme $\vec{E}$ allgemein. (b) Berechne $\varphi$ und $\vec{E}$ im Punkt
+              $(0{,}10\,\mathrm{m};\,0{,}20\,\mathrm{m})$ nach Betrag. (c) Stimmt die
+              Einheit?</p>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>(a) $E_x = -\partial\varphi/\partial x = -2Axy$, $E_y = -\partial\varphi/\partial y = -Ax^2$.</p>
+              <p>(b) $\varphi = 400 \cdot 0{,}10^2 \cdot 0{,}20\,\mathrm{V} = 0{,}80\,\mathrm{V}$.
+                $E_x = -2 \cdot 400 \cdot 0{,}10 \cdot 0{,}20\,\mathrm{V/m} = -16\,\mathrm{V/m}$,
+                $E_y = -400 \cdot 0{,}10^2\,\mathrm{V/m} = -4{,}0\,\mathrm{V/m}$,
+                $|\vec{E}| = \sqrt{16^2 + 4^2}\,\mathrm{V/m} = 16{,}5\,\mathrm{V/m}$.</p>
+              <p>(c) $[A x y] = \mathrm{V/m^3 \cdot m^2} = \mathrm{V/m}$ ✓.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 4
+              <span class="schwierigkeit" data-stufe="mittel">mittel</span>
+            </h3>
+            <p>Eine Metallhohlkugel mit Radius $5{,}0\,\mathrm{cm}$ trägt $-12\,\mathrm{nC}$.
+              (a) Wie groß ist das Potential auf der Oberfläche und im Inneren? (b) Wie
+              groß ist es bei $8{,}0\,\mathrm{cm}$? (c) Welche Energie gewinnt ein Proton, das von der Oberfläche
+              bis $8{,}0\,\mathrm{cm}$ fliegt?</p>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>(a) Außen gilt $\varphi = Q/(4\pi\varepsilon_0 r)$, auf der Oberfläche
+                $-2157\,\mathrm{V}$. Im Inneren ist das Feld null, das Potential
+                also konstant und gleich dem Randwert: $-2157\,\mathrm{V}$.</p>
+              <p>(b) $\varphi(8{,}0\,\mathrm{cm}) = 8{,}988 \cdot 10^{9} \cdot \frac{-12 \cdot 10^{-9}}{0{,}080}\,\mathrm{V} = -1348\,\mathrm{V}$.</p>
+              <p>(c) $U = \varphi(R) - \varphi(r) = -2157\,\mathrm{V} + 1348\,\mathrm{V} = -809\,\mathrm{V}$.
+                Das Proton (positiv) wird von der negativen Kugel angezogen. Wenn es
+                nach außen fliegt, verliert es Energie:
+                $\Delta E_\text{kin} = qU = -809\,\mathrm{eV}$. Es kommt nur dann bis
+                $8{,}0\,\mathrm{cm}$, wenn es an der Oberfläche mehr als $809\,\mathrm{eV}$
+                mitbringt.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 5
+              <span class="schwierigkeit" data-stufe="schwer">schwer</span>
+            </h3>
+            <p>Ein dünner Ring mit Radius $R = 5{,}0\,\mathrm{cm}$ trägt die Ladung
+              $Q = 10\,\mathrm{nC}$ gleichmäßig verteilt. (a) Berechne das Potential auf der
+              Achse im Abstand $z$ vom Mittelpunkt. (b) Leite daraus $E_z$ ab. (c) Zahlenwerte für
+              $z = 5{,}0\,\mathrm{cm}$ und im Mittelpunkt.</p>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>(a) Jedes Ladungselement hat denselben Abstand $\sqrt{z^2 + R^2}$ zum Aufpunkt.
+                Das Potential ist eine skalare Summe, also
+                $\varphi(z) = \frac{Q}{4\pi\varepsilon_0\sqrt{z^2 + R^2}}$.</p>
+              <p>(b) $E_z = -\frac{\mathrm{d}\varphi}{\mathrm{d}z} = \frac{Q}{4\pi\varepsilon_0}\frac{z}{(z^2 + R^2)^{3/2}}$.
+                Für $z \gg R$ erhältst du das Feld der Punktladung. Im Mittelpunkt ist
+                $E_z = 0$ (die Beiträge heben sich auf), das Potential aber nicht null.</p>
+              <p>(c) Bei $z = 5{,}0\,\mathrm{cm}$: $\varphi = 8{,}988 \cdot 10^{9} \cdot \frac{10^{-8}}{0{,}0707}\,\mathrm{V} = 1271\,\mathrm{V}$
+                und $E_z = 8{,}988 \cdot 10^{9} \cdot 10^{-8} \cdot \frac{0{,}050}{(0{,}0050)^{3/2}}\,\mathrm{V/m} = 1{,}27 \cdot 10^{4}\,\mathrm{V/m}$.
+                Im Mittelpunkt $\varphi = Q/(4\pi\varepsilon_0 R) = 1798\,\mathrm{V}$.</p>
+              <p><strong>Zum Nachdenken:</strong> Warum ist die Potentialrechnung hier einfacher als die
+                direkte Feldrechnung, obwohl du am Ende ableiten musst?</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 6
+              <span class="schwierigkeit" data-stufe="schwer">schwer</span>
+            </h3>
+            <p>Drei gleiche Ladungen $q = 2{,}0\,\mu\mathrm{C}$ werden aus dem Unendlichen
+              nacheinander in die Ecken eines gleichseitigen Dreiecks mit Seitenlänge $s = 0{,}30\,\mathrm{m}$
+              gebracht. Welche Arbeit ist insgesamt nötig? Wie kommt sie zustande, wenn du sie
+              Ladung für Ladung berechnest?</p>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>Die erste Ladung kommt ohne Arbeit, weil noch kein Feld da ist:
+                $W_1 = 0$. Die zweite fährt im Potential der ersten:
+                $W_2 = q\,\frac{q}{4\pi\varepsilon_0 s}$. Die dritte sieht das Potential
+                beider anderen: $W_3 = q \cdot 2 \cdot \frac{q}{4\pi\varepsilon_0 s}$.
+                Insgesamt
+                $$ W = 3\,\frac{q^2}{4\pi\varepsilon_0 s} = 3 \cdot 8{,}988 \cdot 10^{9} \cdot \frac{(2{,}0 \cdot 10^{-6})^2}{0{,}30}\,\mathrm{J} = 0{,}36\,\mathrm{J} $$
+                Das ist die Summe über alle Paare, jedes Paar einmal. Die Arbeit hängt
+                nicht von der Reihenfolge ab, weil das Feld konservativ ist. Sie ist
+                zugleich die gespeicherte elektrische Energie der Anordnung.</p>
+              <p><strong>Zum Nachdenken:</strong> Was ändert sich, wenn eine der drei Ladungen
+                negativ ist?</p>
+            </details>
+          </div>
+        </section>
+
+      </div></article>
+  </main>
+</body>
+</html>

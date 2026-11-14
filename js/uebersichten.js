@@ -72,8 +72,11 @@
     erklaerung: ["Erklärseite", '<path d="M12 6.5c-1.8-1.3-4.6-2-8-2v13c3.4 0 6.2.7 8 2 1.8-1.3 4.6-2 8-2v-13c-3.4 0-6.2.7-8 2z"/><path d="M12 6.5v13"/>']
   };
 
-  /* Welche Reiter haben die Themenseiten des Bereichs? */
-  function seitenartElement(zweig) {
+  /* Welche Reiter haben die Themenseiten des Bereichs? Der erklärende
+     Satz (zweig.seitenart) fehlt auf den Bereichs-Karten bei Bereichen mit
+     Reitern, weil "Jedes Thema auf zwei Ebenen" darüber das schon erklärt
+     (Wunsch 2026-11-14); kurz = true. Erklärseiten behalten ihn. */
+  function seitenartElement(zweig, kurz) {
     var box = el("div", "bereich-seitenart");
     var liste = el("ul", "bereich-reiter");
     var reiter = (zweig.reiter && zweig.reiter.length) ? zweig.reiter : ["erklaerung"];
@@ -89,7 +92,8 @@
       liste.append(li);
     });
     box.append(liste);
-    if (zweig.seitenart) box.append(el("p", "bereich-seitenart-text", zweig.seitenart));
+    var hatReiter = zweig.reiter && zweig.reiter.length;
+    if (zweig.seitenart && !(kurz && hatReiter)) box.append(el("p", "bereich-seitenart-text", zweig.seitenart));
     return box;
   }
 
@@ -126,7 +130,7 @@
 
     var seite = el("div", "bereich-seite");
     seite.append(el("p", "bereich-notiz", "so sind die Seiten aufgebaut"),
-      seitenartElement(zweig), fortschrittElement(zaehleZweig(zweig)));
+      seitenartElement(zweig, true), fortschrittElement(zaehleZweig(zweig)));
     var weiter = el("span", "bereich-weiter", "Alle Themen des Bereichs →");
     weiter.setAttribute("aria-hidden", "true");
     seite.append(weiter);

@@ -147,7 +147,7 @@
 .tab-knopf.aktiv {
   background: var(--flaeche);
   color: var(--ebene, var(--akzent));
-  box-shadow: inset 0 -2px 0 var(--ebene, var(--akzent)), var(--schatten-s);
+  box-shadow: inset 0 -2px 0 var(--ebene, var(--akzent));   /* flache Linie, kein Schatten */
 }
 
 /* Merkkasten für zentrale Aussagen und Formeln */
@@ -263,7 +263,7 @@ details.rechnung {
   margin: 1.4rem 0;
   padding: 0.75rem 1.1rem;
   border: 1px solid var(--rand);
-  border-left: 4px solid var(--akzent-2);
+  border-left: 4px solid var(--akzent-lila);
   border-radius: var(--radius-m);
   background: var(--flaeche);
 }
@@ -279,7 +279,7 @@ details.rechnung summary {
 details.rechnung summary::-webkit-details-marker { display: none; }
 details.rechnung summary::before {
   content: "▸";
-  color: var(--akzent-2);
+  color: var(--akzent-lila);
   transition: transform 0.2s ease;
 }
 details.rechnung[open] summary::before { transform: rotate(90deg); }
@@ -288,7 +288,7 @@ details.rechnung .rechnung-notiz {
   font-family: var(--schrift-hand);
   font-size: 1.2rem;
   font-weight: 600;
-  color: var(--akzent-2);
+  color: var(--akzent-lila);
   white-space: nowrap;
 }
 

@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="robots" content="noindex">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Glossar – Physik verstehen</title>
+  <meta name="description" content="Fachbegriffe der Physik von A bis Z in ein, zwei Sätzen erklärt, dazu alle wichtigen Formelzeichen mit Bedeutung, Einheit und den Themen, in denen sie vorkommen.">
+
+  <link rel="stylesheet" href="../css/stil.css">
+  <link rel="stylesheet" href="../extern/katex/katex.min.css">
+  <script src="../js/daten.js"></script>
+  <script src="../js/seite.js"></script>
+  <script src="../js/effekte.js"></script>
+  <script defer src="../extern/katex/katex.min.js"></script>
+  <script src="../js/glossar-daten.js"></script>
+  <script src="../js/symbole-daten.js"></script>
+  <script src="../js/glossar.js"></script>
+</head>
+<body data-seite="glossar">
+  <main class="werkzeug-main">
+    <p class="oberzeile">Nachschlagen</p>
+    <h1><span class="betont">Glossar</span></h1>
+    <p class="hero-text seitenkopf-text" style="margin:0 0 1.25rem">
+      Was war noch mal Entropie, und wofür steht ω? Hier stehen die
+      Fachbegriffe der Website in ein, zwei Sätzen erklärt, jeweils mit
+      dem Weg zur Seite, auf der sie ausführlich vorkommen. Darunter
+      findest du die wichtigsten Formelzeichen mit Bedeutung und Einheit.
+    </p>
+
+    <div class="gl-kopf">
+      <label class="gl-suchfeld">
+        <span class="visuell-versteckt">Begriff oder Formelzeichen suchen</span>
+        <input id="gl-suche" type="search" placeholder="Begriff oder Formelzeichen, z. B. Entropie, k oder omega" autocomplete="off" spellcheck="false">
+      </label>
+      <p class="gl-anzahl" id="gl-anzahl" aria-live="polite"></p>
+      <nav class="gl-abc" id="gl-abc" aria-label="Begriffe nach Anfangsbuchstaben"></nav>
+    </div>
+
+    <section class="gl-abschnitt" aria-labelledby="begriffe">
+      <h2 id="begriffe">Fachbegriffe von A bis Z</h2>
+      <div id="gl-begriffe" class="gl-begriffe"></div>
+      <p id="gl-keine-begriffe" class="gl-hinweis" hidden>Kein Begriff passt zu deiner Suche.</p>
+    </section>
+
+    <section class="gl-abschnitt" aria-labelledby="zeichen">
+      <h2 id="zeichen">Formelzeichen</h2>
+      <p class="gl-einleitung">Viele Buchstaben haben in der Physik mehrere
+        Bedeutungen. Welche gemeint ist, ergibt sich aus dem Thema. Die Tabelle
+        zeigt die Schreibweise dieser Website. Auf jeder Themenseite erklärt
+        dir außerdem ein Tooltip jedes Zeichen, wenn du mit der Maus darüber
+        fährst. Suchst du oben nach einem Zeichen, erscheinen darunter alle
+        Stellen, an denen es auf den Themenseiten vorkommt.</p>
+      <div id="gl-zeichen"></div>
+      <p id="gl-keine-zeichen" class="gl-hinweis" hidden>Kein Formelzeichen in der Tabelle passt zu deiner Suche.</p>
+      <div id="gl-treffer" class="gl-treffer" aria-live="polite"></div>
+    </section>
+  </main>
+</body>
+</html>

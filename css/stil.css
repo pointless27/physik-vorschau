@@ -17,4 +17,5 @@
 @import url("teile/interaktiv.css");      /* interaktive Grafiken (js/interaktiv.js) */
 @import url("teile/sonderseiten.css");    /* Textseiten, 404-Seite */
 @import url("teile/universum.css");       /* Interaktives Universum: 3D-Bühne (three.js) */
+@import url("teile/werkzeuge.css");       /* Landkarte, Formelsammlung, Energie-Leiter */
 @import url("teile/effekte.css");         /* Rand-Deko, Animationen, Effekte (immer zuletzt) */

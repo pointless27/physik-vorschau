@@ -1,0 +1,480 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="robots" content="noindex">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Elektrischer Strom und Widerstand</title>
+  <meta name="description" content="Was Strom ist, wie langsam Elektronen im Draht wandern, woher der Widerstand kommt und wie man einfache Schaltungen mit den Kirchhoffschen Regeln berechnet.">
+
+  <link rel="stylesheet" href="../../css/stil.css">
+
+  <link rel="stylesheet" href="../../extern/katex/katex.min.css">
+  <script defer src="../../extern/katex/katex.min.js"></script>
+  <script defer src="../../extern/katex/contrib/auto-render.min.js" onload="starteFormeln()"></script>
+
+  <script src="../../js/daten.js"></script>
+  <script src="../../js/seite.js"></script>
+  <script src="../../js/effekte.js"></script>
+  <script type="application/json" id="symbole">
+  {
+    "a": "Beschleunigung zwischen zwei Stößen",
+    "I": "Stromstärke",
+    "j": "Stromdichte",
+    "Q": "Ladung",
+    "t": "Zeit",
+    "n": "Teilchendichte der Ladungsträger",
+    "q": "Ladung eines Ladungsträgers",
+    "e": "Elementarladung, 1,602·10⁻¹⁹ C",
+    "A": "Querschnittsfläche",
+    "v": "Geschwindigkeit",
+    "v_D": "Driftgeschwindigkeit",
+    "E": "elektrische Feldstärke",
+    "m": "Masse eines Ladungsträgers",
+    "τ": "mittlere Zeit zwischen zwei Stößen",
+    "σ": "elektrische Leitfähigkeit",
+    "ρ_S": "spezifischer Widerstand",
+    "ρ": "Ladungsdichte",
+    "R": "Widerstand",
+    "L": "Länge des Leiters",
+    "U": "Spannung",
+    "P": "Leistung",
+    "W": "Arbeit bzw. Energie",
+    "R_i": "Innenwiderstand der Quelle",
+    "R_a": "Lastwiderstand (äußerer Widerstand)",
+    "R_1": "Widerstand 1",
+    "R_2": "Widerstand 2",
+    "R_3": "Widerstand 3",
+    "U_0": "Quellenspannung (Leerlaufspannung)",
+    "U_a": "Klemmenspannung",
+    "U_1": "Spannung am Widerstand 1",
+    "U_2": "Spannung am Widerstand 2",
+    "I_1": "Strom durch Zweig 1",
+    "I_2": "Strom durch Zweig 2",
+    "I_3": "Strom durch Zweig 3",
+    "k_B": "Boltzmann-Konstante, 1,381·10⁻²³ J/K",
+    "T": "absolute Temperatur",
+    "Λ": "mittlere freie Weglänge",
+    "η": "Wirkungsgrad",
+    "c": "spezifische Wärmekapazität",
+    "Δ": "Änderung",
+    "π": "Kreiszahl",
+    "d": "Durchmesser",
+    "r": "Radius",
+    "ϑ": "Temperatur in Grad Celsius"
+  }
+  </script>
+</head>
+<body data-thema="strom-widerstand">
+  <main>
+    <article class="thema">
+      <header>
+        <h1>Elektrischer Strom und <span class="betont">Widerstand</span></h1>
+        <p class="untertitel">Warum das Licht sofort angeht, obwohl die Elektronen im Kabel kaum vorankommen.</p>
+      </header>
+
+      <div class="tabs">
+
+        <section class="tab" id="verstehen" data-titel="Verstehen">
+
+          <p>Du drückst den Schalter, und das Licht geht an. Sofort, ohne
+            Verzögerung. Dabei laufen die Elektronen im Kabel gar nicht in
+            Lichtgeschwindigkeit von der Steckdose zur Lampe. Sie kriechen
+            mit weniger als einem Millimeter pro Sekunde voran. Das passt
+            zusammen, wenn du an einen Gartenschlauch denkst, der schon voll
+            Wasser ist: Drehst du den Hahn auf, kommt am anderen Ende sofort
+            Wasser heraus, obwohl jedes Wasserteilchen nur ein kleines
+            Stück weiterrutscht. Im Kabel ist das „Wasser“ die Elektronen,
+            die schon überall im Metall sitzen.</p>
+
+          <p>Elektrischer <em>Strom</em> ist bewegte Ladung. Die
+            <em>Stromstärke</em> sagt, wie viel Ladung pro Sekunde durch einen
+            Querschnitt fließt. Gemessen wird sie in Ampere. Sie ist überall in
+            einem unverzweigten Stromkreis gleich groß, denn Ladung kann nicht
+            verloren gehen. Die technische Stromrichtung vom Plus- zum
+            Minuspol stammt aus der Zeit, als man die Ladungsträger nicht
+            kannte. In Metallen fließen die Elektronen genau umgekehrt.</p>
+
+          <figure class="abbildung">
+            <svg class="abb" viewBox="0 0 360 160" role="img" aria-label="Metalldraht mit Atomrümpfen und einem Elektron, das im Zickzack nach links driftet, während das Feld nach rechts zeigt">
+<defs><marker id="pfeil-abb1" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto"><path class="punkt kupfer" d="M0 0L10 5L0 10z"/></marker><marker id="pfeil-abb1b" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto"><path class="punkt blau" d="M0 0L10 5L0 10z"/></marker></defs>
+<rect class="achse" x="20" y="20" width="320" height="100" fill="none"/>
+<circle class="punkt" cx="50" cy="45" r="6" style="opacity:.45"/>
+<circle class="punkt" cx="80" cy="95" r="6" style="opacity:.45"/>
+<circle class="punkt" cx="110" cy="45" r="6" style="opacity:.45"/>
+<circle class="punkt" cx="140" cy="95" r="6" style="opacity:.45"/>
+<circle class="punkt" cx="170" cy="45" r="6" style="opacity:.45"/>
+<circle class="punkt" cx="200" cy="95" r="6" style="opacity:.45"/>
+<circle class="punkt" cx="230" cy="45" r="6" style="opacity:.45"/>
+<circle class="punkt" cx="260" cy="95" r="6" style="opacity:.45"/>
+<circle class="punkt" cx="290" cy="45" r="6" style="opacity:.45"/>
+<circle class="punkt" cx="320" cy="95" r="6" style="opacity:.45"/>
+<path class="kurve blau" d="M330.0 70.0 L326.2 72.7 L309.8 78.9 L286.3 52.8 L284.4 73.1 L271.1 57.1 L237.3 55.3 L228.4 53.9 L204.6 35.0 L180.8 57.1 L174.6 71.6 L149.8 45.4 L122.6 50.9 L118.2 35.0 L88.0 35.0" fill="none" marker-end="url(#pfeil-abb1b)"/>
+<circle class="kurve blau" cx="330" cy="70" r="4" fill="none"/>
+<text x="318" y="112" text-anchor="middle" class="klein blau">Start</text>
+<path class="kurve kupfer" d="M40 140L140 140" marker-end="url(#pfeil-abb1)" fill="none"/>
+<text x="150" y="144" class="klein">elektrisches Feld E</text>
+<text x="150" y="158" class="klein blau">Elektron (blau): Drift nach links</text>
+</svg>
+            <figcaption>Abb. 1: Ein Elektron im Metall (blau) wird im Feld beschleunigt
+              und stößt immer wieder mit den Atomrümpfen (grau) zusammen. Im Mittel
+              bleibt eine langsame Bewegung gegen die Feldrichtung.</figcaption>
+          </figure>
+
+          <p>Warum braucht es überhaupt eine Spannung? Weil die Elektronen
+            ständig gegen die Atomrümpfe stoßen und dabei ihre Bewegungsenergie
+            wieder abgeben. Dieses Abbremsen ist der <em>Widerstand</em>. Ein
+            dünner, langer Draht bremst mehr als ein dicker, kurzer. Die
+            Energie der Elektronen landet als Wärme im Draht. Darauf beruhen
+            Heizlüfter, Toaster und die Glühlampe.</p>
+
+          <div class="alltag">
+            <span class="titel">Aus dem Alltag</span>
+            <p>Das Verlängerungskabel auf der Kabeltrommel wird warm, wenn du es
+              mit dem Heizlüfter belastest und es noch aufgewickelt ist. In den
+              vielen Windungen kann die Wärme nicht entweichen. Deshalb steht auf
+              Kabeltrommeln, dass man sie bei hoher Last ganz abwickeln soll.</p>
+          </div>
+
+          <div class="merkkasten">
+            <span class="titel">Das Wichtigste in Kürze</span>
+            <p>Strom ist bewegte Ladung, gemessen in Ampere. Die Ladungsträger
+              driften sehr langsam, das Signal breitet sich aber fast mit
+              Lichtgeschwindigkeit aus. Widerstand entsteht durch Stöße der
+              Ladungsträger mit dem Material, und die Energie wird zu Wärme.
+              Lange, dünne Leiter haben mehr Widerstand als kurze, dicke.</p>
+          </div>
+        </section>
+
+        <section class="tab" id="vertiefung" data-titel="Vertiefung">
+
+          <h2>Stromstärke und Stromdichte</h2>
+          <p>Die Stromstärke ist die pro Zeit transportierte Ladung,
+            $I = \mathrm{d}Q/\mathrm{d}t$, mit $1\,\mathrm{A} = 1\,\mathrm{C/s}$. Auf eine Fläche
+            bezogen ist die <em>Stromdichte</em> $\vec{j}$ ein Vektor, und es gilt
+            $I = \int \vec{j}\cdot\mathrm{d}\vec{A}$. Haben die Ladungsträger (Ladung $q$, Dichte
+            $n$) die Driftgeschwindigkeit $v_D$, fließt durch den Querschnitt $A$ in der Zeit
+            $\mathrm{d}t$ die Ladung $nqA\,v_D\,\mathrm{d}t$, also</p>
+          $$ I = n q A\,v_D, \qquad \vec{j} = n q\,\vec{v}_D = \rho\,\vec{v}_D $$
+          <p>Mit mehreren Ladungsträgersorten addieren sich die Beiträge:
+            $\vec{j} = \sum_k n_k q_k\vec{v}_k$. Bei Elektronenleitern (Metalle) sind
+            Elektronen die Träger, bei Ionenleitern (Elektrolyte) Ionen, in
+            Plasmen beides. Die technische Stromrichtung ist die Bewegungsrichtung
+            positiver Ladung.</p>
+
+          <p>Aus der Ladungserhaltung folgt die Kontinuitätsgleichung
+            $\frac{\partial\rho}{\partial t} + \vec{\nabla}\cdot\vec{j} = 0$. Im stationären Fall ist
+            $\vec{\nabla}\cdot\vec{j} = 0$. Für eine Röhre mit wechselndem Querschnitt heißt das
+            $j_1 A_1 = j_2 A_2$, der Strom ist überall derselbe. Wird der Leiter dünner,
+            muss die Stromdichte und damit die Driftgeschwindigkeit steigen.</p>
+
+          <h2>Drude-Modell und Ohmsches Gesetz</h2>
+          <p>Ohne Feld bewegen sich die Elektronen im Metall thermisch mit der mittleren Geschwindigkeit
+            $\bar{v} = \sqrt{8k_BT/(\pi m)}$ in alle Richtungen. Das gibt im Mittel keinen
+            Strom. Mit einem Feld erfährt jedes Elektron zwischen zwei Stößen die
+            Beschleunigung $a = qE/m$. Ist $\tau$ die mittlere Zeit zwischen zwei Stößen
+            (aus der freien Weglänge $\Lambda \approx \bar{v}\tau$), gewinnt es im Mittel die
+            Zusatzgeschwindigkeit $v_D = qE\tau/m$. Dann ist</p>
+          $$ \vec{j} = n q\,v_D = \frac{n q^2\tau}{m}\,\vec{E} = \sigma\,\vec{E}, \qquad \sigma = \frac{n q^2\tau}{m} $$
+          <p>Das ist das <em>Ohmsche Gesetz</em> in lokaler Form. Die
+            Leitfähigkeit $\sigma$ wächst mit der Ladungsträgerdichte $n$ und der Stoßzeit $\tau$
+            und sinkt mit der Masse $m$. Dass die Stöße die Stromdichte begrenzen, ist der
+            Kern des Modells. Es ist eine grobe Näherung: Die Elektronen folgen in Wahrheit
+            der Quantenmechanik und der Fermi-Statistik. Die Formel für $\sigma$ funktioniert
+            trotzdem gut, wenn man für $\tau$ den gemessenen Wert nimmt.</p>
+
+          <p>Für einen homogenen Leiter der Länge $L$ und Fläche $A$ ist $E = U/L$ und
+            $I = \sigma E A = \sigma\frac{A}{L}U$. Das liefert das Ohmsche Gesetz
+            in der Form, die du aus der Schule kennst:</p>
+          $$ U = R\,I, \qquad R = \rho_S\,\frac{L}{A}, \qquad \rho_S = \frac{1}{\sigma}, \qquad [R] = \Omega = \frac{\mathrm{V}}{\mathrm{A}} $$
+          <p>Typische spezifische Widerstände bei $20\,{}^\circ\mathrm{C}$:</p>
+          <div class="tabelle-huelle">
+            <table>
+              <thead><tr><th>Stoff</th><th>$\rho_S$ in $\Omega\,\mathrm{m}$</th></tr></thead>
+              <tbody>
+                <tr><td>Silber</td><td>$1{,}6 \cdot 10^{-8}$</td></tr>
+                <tr><td>Kupfer</td><td>$1{,}7 \cdot 10^{-8}$</td></tr>
+                <tr><td>Eisen</td><td>$\approx 1 \cdot 10^{-7}$</td></tr>
+                <tr><td>Graphit</td><td>$\approx 1{,}4 \cdot 10^{-5}$</td></tr>
+                <tr><td>Glas (Kalk-Natron)</td><td>$\approx 10^{10}$ bis $10^{12}$</td></tr>
+                <tr><td>Teflon</td><td>$\gtrsim 10^{19}$</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p>Der Bereich überspannt rund 27 Größenordnungen. Beim Ohmschen Gesetz ist $R$ nur
+            für Stoffe konstant, deren $\sigma$ nicht von $E$ abhängt. Dioden, Glühlampen oder
+            Halbleiter folgen ihm nicht.</p>
+
+          <h2>Leistung und Joulesche Wärme</h2>
+          <p>Bewegt sich die Ladung $\mathrm{d}Q$ durch die Spannung $U$, wird die Arbeit
+            $\mathrm{d}W = U\,\mathrm{d}Q$ frei. Die Leistung ist</p>
+          $$ P = \frac{\mathrm{d}W}{\mathrm{d}t} = U I = R I^2 = \frac{U^2}{R}, \qquad [P] = \mathrm{W} = \mathrm{V\,A} $$
+          <p>Bei einem ohmschen Widerstand wird sie komplett in Wärme umgesetzt
+            (Joulesche Wärme). Bei gleichem Strom wächst die Leistung proportional
+            zum Widerstand, bei gleicher Spannung ist sie umgekehrt proportional zum
+            Widerstand.</p>
+
+          <h2>Kirchhoffsche Regeln</h2>
+          <p>Zur Berechnung von Netzwerken gibt es zwei Regeln. Die <em>Knotenregel</em> folgt aus
+            der Ladungserhaltung: In jeden Verzweigungspunkt fließt so viel Strom
+            hinein wie heraus, $\sum_k I_k = 0$ bei Vorzeichen für Hinein und Heraus. Die
+            <em>Maschenregel</em> folgt aus der Energieerhaltung (das Feld ist wirbelfrei):
+            Die Summe der Spannungen in einer geschlossenen Schleife ist null. Der Spannung
+            der Quelle ordnest du dabei das entgegengesetzte Vorzeichen zu wie den
+            Spannungsabfällen $RI$.</p>
+
+          <p>Aus beiden folgen die Schaltungsregeln. In <em>Reihe</em> ist der Strom gleich und die
+            Spannungen addieren sich, $R_\text{ges} = R_1 + R_2$. <em>Parallel</em> ist die
+            Spannung gleich und die Ströme addieren sich,
+            $\frac{1}{R_\text{ges}} = \frac{1}{R_1} + \frac{1}{R_2}$. Das sind genau die umgekehrten
+            Regeln wie bei Kondensatoren. Eine Reihenschaltung mit einem Potentiometer
+            liefert einen einstellbaren Spannungsteiler.</p>
+
+          <h2>Innenwiderstand und Leistungsanpassung</h2>
+          <p>Jede reale Quelle hat einen Innenwiderstand $R_i$. An der Last $R_a$ liegt deshalb
+            nicht die volle Quellenspannung $U_0$, sondern die Klemmenspannung</p>
+          $$ U_a = \frac{R_a}{R_a + R_i}\,U_0, \qquad I = \frac{U_0}{R_a + R_i}, \qquad I_\text{max} = \frac{U_0}{R_i} \text{ (Kurzschluss)} $$
+
+          <figure class="abbildung">
+            <svg class="abb" viewBox="0 0 360 175" role="img" aria-label="Stromkreis mit Quelle, Innenwiderstand und Lastwiderstand">
+<path class="kurve" d="M80 40L280 40M80 140L280 140M80 40L80 70M80 110L80 140M280 40L280 60M280 120L280 140" fill="none"/>
+<rect class="achse" x="150" y="31" width="50" height="18" fill="none"/>
+<rect class="achse" x="268" y="60" width="24" height="60" fill="none"/>
+<path class="achse" d="M70 70L90 70M76 80L84 80M70 100L90 100M76 110L84 110" fill="none" style="stroke-width:3"/>
+<text x="175" y="26" text-anchor="middle" class="klein">Innenwiderstand Ri</text>
+<text x="20" y="92" class="klein">Quelle U₀</text>
+<text x="298" y="94" class="klein">Last Ra</text>
+<text x="180" y="165" text-anchor="middle" class="klein">Klemmenspannung Ua liegt an der Last</text>
+</svg>
+            <figcaption>Abb. 2: Ersatzschaltbild einer realen Quelle. Der Innenwiderstand
+              liegt in Reihe zur idealen Quelle.</figcaption>
+          </figure>
+
+          <p>Die Leistung an der Last ist $P = U_a I = U_0^2 R_a/(R_a + R_i)^2$. Ableiten
+            nach $R_a$ und null setzen ergibt $R_a = R_i$. Bei dieser
+            <em>Leistungsanpassung</em> ist $P_\text{max} = U_0^2/(4R_i)$, der Wirkungsgrad
+            ($P$ an der Last geteilt durch die gesamte Leistung der Quelle) aber nur $50\,\%$.</p>
+
+          <figure class="abbildung">
+            <svg class="abb" viewBox="0 0 360 160" role="img" aria-label="Leistung an der Last in Abhängigkeit vom Lastwiderstand mit Maximum bei Ra gleich Ri">
+<path class="achse" d="M40 135L330 135M40 135L40 12" fill="none"/>
+<polyline class="kurve blau" points="41.2,124.1 42.4,114.1 43.6,105.1 44.8,97.0 46.0,89.6 47.2,82.8 48.5,76.7 49.7,71.1 50.9,66.0 52.1,61.4 53.3,57.2 54.5,53.3 55.7,49.8 56.9,46.7 58.1,43.8 59.3,41.1 60.5,38.7 61.8,36.5 63.0,34.6 64.2,32.8 65.4,31.2 66.6,29.7 67.8,28.4 69.0,27.2 70.2,26.1 71.4,25.2 72.6,24.3 73.8,23.6 75.0,22.9 76.2,22.3 77.5,21.8 78.7,21.4 79.9,21.1 81.1,20.8 82.3,20.5 83.5,20.3 84.7,20.2 85.9,20.1 87.1,20.0 88.3,20.0 89.5,20.0 90.8,20.1 92.0,20.2 93.2,20.3 94.4,20.4 95.6,20.6 96.8,20.7 98.0,21.0 99.2,21.2 100.4,21.4 101.6,21.7 102.8,22.0 104.0,22.2 105.3,22.6 106.5,22.9 107.7,23.2 108.9,23.5 110.1,23.9 111.3,24.2 112.5,24.6 113.7,25.0 114.9,25.3 116.1,25.7 117.3,26.1 118.5,26.5 119.8,26.9 121.0,27.3 122.2,27.7 123.4,28.1 124.6,28.6 125.8,29.0 127.0,29.4 128.2,29.8 129.4,30.2 130.6,30.7 131.8,31.1 133.0,31.5 134.2,31.9 135.5,32.4 136.7,32.8 137.9,33.2 139.1,33.6 140.3,34.1 141.5,34.5 142.7,34.9 143.9,35.3 145.1,35.8 146.3,36.2 147.5,36.6 148.8,37.0 150.0,37.4 151.2,37.8 152.4,38.3 153.6,38.7 154.8,39.1 156.0,39.5 157.2,39.9 158.4,40.3 159.6,40.7 160.8,41.1 162.0,41.5 163.2,41.9 164.5,42.3 165.7,42.7 166.9,43.1 168.1,43.5 169.3,43.9 170.5,44.3 171.7,44.7 172.9,45.0 174.1,45.4 175.3,45.8 176.5,46.2 177.8,46.6 179.0,46.9 180.2,47.3 181.4,47.7 182.6,48.0 183.8,48.4 185.0,48.8 186.2,49.1 187.4,49.5 188.6,49.8 189.8,50.2 191.0,50.5 192.2,50.9 193.5,51.2 194.7,51.6 195.9,51.9 197.1,52.2 198.3,52.6 199.5,52.9 200.7,53.2 201.9,53.6 203.1,53.9 204.3,54.2 205.5,54.5 206.8,54.9 208.0,55.2 209.2,55.5 210.4,55.8 211.6,56.1 212.8,56.4 214.0,56.7 215.2,57.0 216.4,57.3 217.6,57.7 218.8,58.0 220.0,58.2 221.2,58.5 222.5,58.8 223.7,59.1 224.9,59.4 226.1,59.7 227.3,60.0 228.5,60.3 229.7,60.6 230.9,60.8 232.1,61.1 233.3,61.4 234.5,61.7 235.8,61.9 237.0,62.2 238.2,62.5 239.4,62.8 240.6,63.0 241.8,63.3 243.0,63.6 244.2,63.8 245.4,64.1 246.6,64.3 247.8,64.6 249.0,64.8 250.2,65.1 251.5,65.3 252.7,65.6 253.9,65.8 255.1,66.1 256.3,66.3 257.5,66.6 258.7,66.8 259.9,67.1 261.1,67.3 262.3,67.5 263.5,67.8 264.8,68.0 266.0,68.2 267.2,68.5 268.4,68.7 269.6,68.9 270.8,69.1 272.0,69.4 273.2,69.6 274.4,69.8 275.6,70.0 276.8,70.2 278.0,70.5 279.2,70.7 280.5,70.9 281.7,71.1 282.9,71.3 284.1,71.5 285.3,71.7 286.5,72.0 287.7,72.2 288.9,72.4 290.1,72.6 291.3,72.8 292.5,73.0 293.8,73.2 295.0,73.4 296.2,73.6 297.4,73.8 298.6,74.0 299.8,74.2 301.0,74.4 302.2,74.5 303.4,74.7 304.6,74.9 305.8,75.1 307.0,75.3 308.2,75.5 309.5,75.7 310.7,75.9 311.9,76.0 313.1,76.2 314.3,76.4 315.5,76.6 316.7,76.8 317.9,76.9 319.1,77.1 320.3,77.3 321.5,77.5 322.8,77.7 324.0,77.8 325.2,78.0 326.4,78.2 327.6,78.3 328.8,78.5 330.0,78.7" fill="none"/>
+<path class="hilfslinie" d="M88.3 135L88.3 20" fill="none"/>
+<circle class="punkt kupfer" cx="88.3" cy="20" r="4"/>
+<text x="88" y="150" text-anchor="middle" class="klein">Ra = Ri</text>
+<text x="334" y="150" text-anchor="end" class="klein">Lastwiderstand Ra / Ri</text><text x="46" y="14" class="klein">P in Einheiten U₀²/Ri</text>
+<text x="200" y="30" class="klein">Maximum 1/4 bei Ra = Ri</text>
+</svg>
+            <figcaption>Abb. 3: Leistung an der Last in Einheiten von $U_0^2/R_i$. Das
+              Maximum liegt bei $R_a = R_i$ und beträgt $1/4$.</figcaption>
+          </figure>
+
+          <div class="merkkasten">
+            <span class="titel">Merke</span>
+            <p>$I = \mathrm{d}Q/\mathrm{d}t$, $\vec{j} = nq\vec{v}_D$, $\vec{j} = \sigma\vec{E}$, $R = \rho_S L/A$,
+              $U = RI$, $P = UI$. Reihe: $R = \sum R_i$, parallel: $1/R = \sum 1/R_i$. Knoten:
+              $\sum I = 0$, Masche: $\sum U = 0$. Leistungsanpassung bei $R_a = R_i$ mit
+              $50\,\%$ Wirkungsgrad. Das Ohmsche Gesetz gilt nur für Leiter mit konstantem $\sigma$.</p>
+          </div>
+        </section>
+
+        <section class="tab" id="beispiele" data-titel="Beispielrechnungen">
+
+          <div class="beispiel">
+            <h3>Beispiel 1: Driftgeschwindigkeit im Kupferdraht</h3>
+            <p><strong>Gegeben:</strong> Kupferdraht mit Durchmesser $d = 1{,}0\,\mathrm{mm}$, Strom $I = 5{,}0\,\mathrm{A}$,
+              $n = 8{,}49 \cdot 10^{28}\,\mathrm{m^{-3}}$ (ein freies Elektron pro Atom).<br>
+              <strong>Gesucht:</strong> Stromdichte und Driftgeschwindigkeit.</p>
+
+            <p><strong>1. Querschnitt.</strong>
+              $A = \pi (d/2)^2 = \pi (0{,}50 \cdot 10^{-3}\,\mathrm{m})^2 = 7{,}85 \cdot 10^{-7}\,\mathrm{m^2}$.</p>
+
+            <p><strong>2. Stromdichte.</strong>
+              $j = I/A = \frac{5{,}0\,\mathrm{A}}{7{,}85 \cdot 10^{-7}\,\mathrm{m^2}} = 6{,}4 \cdot 10^{6}\,\mathrm{A/m^2}$.</p>
+
+            <p><strong>3. Driftgeschwindigkeit.</strong>
+              $$ v_D = \frac{j}{n e} = \frac{6{,}37 \cdot 10^{6}\,\mathrm{A/m^2}}{8{,}49 \cdot 10^{28}\,\mathrm{m^{-3}} \cdot 1{,}602 \cdot 10^{-19}\,\mathrm{C}} = 4{,}7 \cdot 10^{-4}\,\mathrm{m/s} $$
+              Einheitencheck: $\mathrm{A\,m^{-2}/(m^{-3}\,C) = m/s}$ ✓</p>
+
+            <p><strong>Ergebnis und Plausibilität:</strong> Die Elektronen driften mit etwa
+              $0{,}47\,\mathrm{mm/s}$. Für einen Meter Draht brauchen sie gut eine halbe Stunde.
+              Die thermische Geschwindigkeit liegt bei rund $10^{5}\,\mathrm{m/s}$, also etwa acht
+              Größenordnungen darüber. Das passt zum Bild: Die Drift ist ein winziger
+              Zusatz zur ungeordneten Bewegung.</p>
+          </div>
+
+          <div class="beispiel">
+            <h3>Beispiel 2: Widerstand und Verlust einer Zuleitung</h3>
+            <p><strong>Gegeben:</strong> Kupferleitung mit der Gesamtleiterlänge (Hin- und Rückleiter) $L = 20\,\mathrm{m}$, Querschnitt $1{,}5\,\mathrm{mm^2}$,
+              $\rho_S = 1{,}7 \cdot 10^{-8}\,\Omega\,\mathrm{m}$, Strom $16\,\mathrm{A}$.<br>
+              <strong>Gesucht:</strong> $R$, Spannungsabfall und Verlustleistung.</p>
+
+            <p><strong>1. Widerstand.</strong>
+              $$ R = \rho_S\frac{L}{A} = 1{,}7 \cdot 10^{-8}\,\Omega\,\mathrm{m} \cdot \frac{20\,\mathrm{m}}{1{,}5 \cdot 10^{-6}\,\mathrm{m^2}} = 0{,}227\,\Omega $$</p>
+
+            <p><strong>2. Spannungsabfall und Leistung.</strong>
+              $$ U = R I = 0{,}227\,\Omega \cdot 16\,\mathrm{A} = 3{,}6\,\mathrm{V}, \qquad P = R I^2 = 0{,}227\,\Omega \cdot (16\,\mathrm{A})^2 = 58\,\mathrm{W} $$
+              Einheitencheck: $\Omega\,\mathrm{A^2} = \mathrm{W}$ ✓</p>
+
+            <p><strong>Ergebnis und Plausibilität:</strong> Von $230\,\mathrm{V}$ gehen $3{,}6\,\mathrm{V}$
+              ($1{,}6\,\%$) in der Leitung verloren, und es entstehen $58\,\mathrm{W}$ Wärme,
+              verteilt über $20\,\mathrm{m}$ Draht. Das ist bei $16\,\mathrm{A}$ noch unbedenklich.
+              Mit nur $0{,}75\,\mathrm{mm^2}$ wäre der Widerstand doppelt so groß und die Wärme
+              pro Meter ebenfalls.</p>
+          </div>
+
+          <div class="beispiel">
+            <h3>Beispiel 3: Batterie mit Innenwiderstand</h3>
+            <p><strong>Gegeben:</strong> $U_0 = 12\,\mathrm{V}$, $R_i = 0{,}50\,\Omega$, Last $R_a = 4{,}0\,\Omega$.<br>
+              <strong>Gesucht:</strong> Strom, Klemmenspannung, Leistung an der Last und Wirkungsgrad.</p>
+
+            <p><strong>1. Strom.</strong>
+              $I = \frac{U_0}{R_a + R_i} = \frac{12\,\mathrm{V}}{4{,}5\,\Omega} = 2{,}67\,\mathrm{A}$.</p>
+
+            <p><strong>2. Klemmenspannung.</strong>
+              $U_a = R_a I = 4{,}0\,\Omega \cdot 2{,}67\,\mathrm{A} = 10{,}7\,\mathrm{V}$. Die restlichen
+              $1{,}33\,\mathrm{V}$ fallen am Innenwiderstand ab.</p>
+
+            <p><strong>3. Leistung und Wirkungsgrad.</strong>
+              $$ P_a = U_a I = 10{,}7\,\mathrm{V} \cdot 2{,}67\,\mathrm{A} = 28{,}4\,\mathrm{W}, \qquad
+                 \eta = \frac{P_a}{U_0 I} = \frac{28{,}4\,\mathrm{W}}{32{,}0\,\mathrm{W}} = \frac{R_a}{R_a + R_i} = 0{,}89 $$
+              Einheitencheck: $\mathrm{V\,A = W}$ ✓</p>
+
+            <p><strong>Ergebnis und Plausibilität:</strong> Die Klemmenspannung ist
+              $1{,}3\,\mathrm{V}$ kleiner als die Quellenspannung. Der Kurzschlussstrom wäre
+              $12\,\mathrm{V}/0{,}50\,\Omega = 24\,\mathrm{A}$. Bei $R_a = R_i = 0{,}50\,\Omega$ gäbe es
+              maximale Leistung ($72\,\mathrm{W}$), aber nur $50\,\%$ Wirkungsgrad. Hier ist die
+              Last viel größer als der Innenwiderstand, deshalb geht die Leistung zwar nicht
+              ans Maximum, aber der Wirkungsgrad ist hoch.</p>
+          </div>
+        </section>
+
+        <section class="tab" id="aufgaben" data-titel="Aufgaben">
+
+          <p>Verwende, wenn nicht anders angegeben, $e = 1{,}602 \cdot 10^{-19}\,\mathrm{C}$ und
+            $m_e = 9{,}109 \cdot 10^{-31}\,\mathrm{kg}$.</p>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 1
+              <span class="schwierigkeit" data-stufe="leicht">leicht</span>
+            </h3>
+            <p>Eine Glühlampe trägt die Aufschrift $230\,\mathrm{V}$, $60\,\mathrm{W}$. Wie groß sind Strom und
+              Widerstand im Betrieb?</p>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>$I = P/U = \frac{60\,\mathrm{W}}{230\,\mathrm{V}} = 0{,}26\,\mathrm{A}$ und
+                $R = U/I = \frac{230\,\mathrm{V}}{0{,}261\,\mathrm{A}} = 882\,\Omega$, oder
+                $R = U^2/P = \frac{(230\,\mathrm{V})^2}{60\,\mathrm{W}} = 882\,\Omega$. Dieser Wert gilt für
+                den heißen Glühfaden. Kalt ist der Widerstand viel kleiner, deshalb fließt
+                beim Einschalten kurz mehr Strom.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 2
+              <span class="schwierigkeit" data-stufe="leicht">leicht</span>
+            </h3>
+            <p>Ein Tauchsieder mit $2{,}0\,\mathrm{kW}$ liegt an $230\,\mathrm{V}$. (a) Wie groß sind Strom und Widerstand?
+              (b) Wie lange braucht er, um $1{,}0\,\mathrm{kg}$ Wasser von $20\,{}^\circ\mathrm{C}$ auf
+              $100\,{}^\circ\mathrm{C}$ zu erhitzen ($c = 4186\,\mathrm{J/(kg\,K)}$, keine Verluste)?</p>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>(a) $I = P/U = 8{,}7\,\mathrm{A}$, $R = U^2/P = \frac{(230\,\mathrm{V})^2}{2000\,\mathrm{W}} = 26{,}5\,\Omega$.</p>
+              <p>(b) Nötige Wärme: $Q = c\,m\,\Delta T = 4186 \cdot 1{,}0 \cdot 80\,\mathrm{J} = 3{,}35 \cdot 10^{5}\,\mathrm{J}$.
+                Dauer $t = Q/P = 167\,\mathrm{s}$, knapp drei Minuten. In der Praxis dauert es etwas länger.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 3
+              <span class="schwierigkeit" data-stufe="mittel">mittel</span>
+            </h3>
+            <p>Kupfer hat die Leitfähigkeit $\sigma = 5{,}96 \cdot 10^{7}\,\mathrm{S/m}$ und
+              $n = 8{,}49 \cdot 10^{28}\,\mathrm{m^{-3}}$. (a) Bestimme die Stoßzeit $\tau$ nach dem
+              Drude-Modell. (b) Schätze die freie Weglänge mit der thermischen Geschwindigkeit
+              $\bar{v} = \sqrt{8k_BT/(\pi m_e)}$ bei $300\,\mathrm{K}$. (c) Vergleiche mit dem
+              Atomabstand von etwa $0{,}25\,\mathrm{nm}$.</p>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>(a) $\tau = \frac{\sigma m}{n e^2} = \frac{5{,}96 \cdot 10^{7} \cdot 9{,}109 \cdot 10^{-31}}{8{,}49 \cdot 10^{28} \cdot (1{,}602 \cdot 10^{-19})^2}\,\mathrm{s} = 2{,}5 \cdot 10^{-14}\,\mathrm{s}$.</p>
+              <p>(b) $\bar{v} = \sqrt{\frac{8 \cdot 1{,}381 \cdot 10^{-23} \cdot 300}{\pi \cdot 9{,}109 \cdot 10^{-31}}}\,\mathrm{m/s} = 1{,}08 \cdot 10^{5}\,\mathrm{m/s}$,
+                also $\Lambda = \bar{v}\tau = 2{,}7\,\mathrm{nm}$.</p>
+              <p>(c) Das sind etwa zehn Atomabstände. Das ist plausibel, hat aber einen Haken:
+                Die tatsächliche Geschwindigkeit der Leitungselektronen ist die Fermi-Geschwindigkeit
+                von etwa $1{,}6 \cdot 10^{6}\,\mathrm{m/s}$. Damit wäre $\Lambda \approx 40\,\mathrm{nm}$.
+                Das Drude-Modell liefert die richtige Größenordnung, aber nicht alle Details.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 4
+              <span class="schwierigkeit" data-stufe="mittel">mittel</span>
+            </h3>
+            <p>Eine Quelle $U_0 = 10\,\mathrm{V}$ speist $R_1 = 2{,}0\,\Omega$ in Reihe mit der Parallelschaltung
+              aus $R_2 = 6{,}0\,\Omega$ und $R_3 = 3{,}0\,\Omega$. Bestimme alle Ströme und Spannungen.</p>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>Parallelteil: $\frac{1}{R_{23}} = \frac16 + \frac13 = \frac12$, also $R_{23} = 2{,}0\,\Omega$.
+                Gesamt $R = R_1 + R_{23} = 4{,}0\,\Omega$, $I = U_0/R = 2{,}5\,\mathrm{A}$ durch $R_1$.</p>
+              <p>$U_1 = R_1 I = 5{,}0\,\mathrm{V}$, am Parallelteil bleiben $5{,}0\,\mathrm{V}$ (Maschenregel). Dann
+                $I_2 = \frac{5{,}0\,\mathrm{V}}{6{,}0\,\Omega} = 0{,}83\,\mathrm{A}$ und
+                $I_3 = \frac{5{,}0\,\mathrm{V}}{3{,}0\,\Omega} = 1{,}67\,\mathrm{A}$. Knotenregel: $0{,}83 + 1{,}67 = 2{,}5\,\mathrm{A}$ ✓.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 5
+              <span class="schwierigkeit" data-stufe="schwer">schwer</span>
+            </h3>
+            <p>Eine Batterie hat $U_0 = 9{,}0\,\mathrm{V}$ und $R_i = 2{,}0\,\Omega$. (a) Leite her, bei
+              welchem $R_a$ die Leistung an der Last maximal ist. (b) Berechne $P$ und den
+              Wirkungsgrad für $R_a = 2{,}0\,\Omega$ und für $R_a = 8{,}0\,\Omega$. (c) Wann ist
+              Leistungsanpassung sinnvoll, wann nicht?</p>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>(a) $P(R_a) = U_0^2\,\frac{R_a}{(R_a + R_i)^2}$. Ableiten:
+                $\frac{\mathrm{d}P}{\mathrm{d}R_a} \propto \frac{(R_a + R_i) - 2R_a}{(R_a + R_i)^3} = \frac{R_i - R_a}{(R_a + R_i)^3}$.
+                Null bei $R_a = R_i$. Für kleinere $R_a$ ist die Ableitung positiv, für größere negativ,
+                es ist ein Maximum.</p>
+              <p>(b) Bei $R_a = 2{,}0\,\Omega$: $P = 81 \cdot \frac{2{,}0}{16}\,\mathrm{W} = 10{,}1\,\mathrm{W}$ (das Maximum
+                $U_0^2/(4R_i) = 10{,}1\,\mathrm{W}$) und $\eta = 50\,\%$. Bei $8{,}0\,\Omega$:
+                $P = 81 \cdot \frac{8{,}0}{100}\,\mathrm{W} = 6{,}5\,\mathrm{W}$, $\eta = \frac{8{,}0}{10} = 80\,\%$.</p>
+              <p>(c) Anpassung lohnt, wenn es auf möglichst viel Leistung aus einer schwachen Quelle ankommt,
+                etwa bei Signalquellen und Antennen. Bei Energieversorgung zählt der Wirkungsgrad, dort
+                will man $R_a \gg R_i$.</p>
+              <p><strong>Zum Nachdenken:</strong> Warum würde ein Kraftwerk niemals nach Leistungsanpassung
+                betrieben?</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 6
+              <span class="schwierigkeit" data-stufe="schwer">schwer</span>
+            </h3>
+            <p>Ein Verbraucher mit $100\,\mathrm{kW}$ wird über eine Leitung mit insgesamt $R = 2{,}0\,\Omega$
+              versorgt. (a) Wie groß sind Strom und Leitungsverlust, wenn die Spannung am Verbraucher
+              $230\,\mathrm{V}$ beträgt? (b) Wie groß, wenn sie $23\,\mathrm{kV}$ beträgt? (c) Was folgt für
+              die Energieübertragung? (d) Ein Draht wird auf die doppelte Länge gezogen, sein Volumen
+              bleibt gleich. Wie ändert sich $R$?</p>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>(a) $I = P/U = \frac{100\,000\,\mathrm{W}}{230\,\mathrm{V}} = 435\,\mathrm{A}$ und
+                $P_V = R I^2 = 2{,}0 \cdot 435^2\,\mathrm{W} = 3{,}8 \cdot 10^{5}\,\mathrm{W}$. Der Verlust wäre fast das
+                Vierfache der Nutzleistung. Die Leitung würde $870\,\mathrm{V}$ abfallen lassen, die Quelle müsste
+                $1100\,\mathrm{V}$ und insgesamt $478\,\mathrm{kW}$ liefern, und $79\,\%$ davon gingen als Wärme
+                verloren. Die Übertragung wäre praktisch unbrauchbar.</p>
+              <p>(b) $I = \frac{100\,000\,\mathrm{W}}{23\,000\,\mathrm{V}} = 4{,}35\,\mathrm{A}$ und
+                $P_V = 2{,}0 \cdot 4{,}35^2\,\mathrm{W} = 38\,\mathrm{W}$, das sind $0{,}04\,\%$.</p>
+              <p>(c) Bei gleicher Leistung sinkt der Strom mit steigender Spannung, und der Verlust
+                sinkt mit dem Quadrat des Stroms. Deshalb nutzt man Hochspannung. Zehnfache
+                Spannung bedeutet hundertfach weniger Verlust.</p>
+              <p>(d) Länge $2L$, wegen konstantem Volumen $A/2$:
+                $R' = \rho_S\frac{2L}{A/2} = 4R$. Der Widerstand vervierfacht sich.</p>
+            </details>
+          </div>
+        </section>
+
+      </div></article>
+  </main>
+</body>
+</html>

@@ -1,0 +1,426 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="robots" content="noindex">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Magnetismus in Materie</title>
+  <meta name="description" content="Warum Eisen sich magnetisieren lässt, Wasser und Gold ein wenig abgestoßen werden und was die Magnetisierung mit dem Feld im Material macht.">
+
+  <link rel="stylesheet" href="../../css/stil.css">
+
+  <link rel="stylesheet" href="../../extern/katex/katex.min.css">
+  <script defer src="../../extern/katex/katex.min.js"></script>
+  <script defer src="../../extern/katex/contrib/auto-render.min.js" onload="starteFormeln()"></script>
+
+  <script src="../../js/daten.js"></script>
+  <script src="../../js/seite.js"></script>
+  <script src="../../js/effekte.js"></script>
+  <script type="application/json" id="symbole">
+  {
+    "D": "dielektrische Verschiebung",
+    "E": "elektrische Feldstärke",
+    "B": "magnetische Flussdichte",
+    "B_0": "Feld ohne Material",
+    "H": "magnetische Erregung",
+    "H_0": "Erregung der Spule",
+    "M": "Magnetisierung",
+    "χ_M": "magnetische Suszeptibilität",
+    "μ_r": "relative Permeabilität",
+    "μ_0": "magnetische Feldkonstante, ≈ 4π·10⁻⁷ N/A²",
+    "p_M": "magnetisches Dipolmoment",
+    "μ_B": "Bohrsches Magneton, 9,274·10⁻²⁴ J/T",
+    "k_B": "Boltzmann-Konstante, 1,381·10⁻²³ J/K",
+    "T": "absolute Temperatur",
+    "T_C": "Curie-Temperatur",
+    "C": "Curie-Konstante",
+    "V": "Volumen",
+    "n": "Windungen pro Länge",
+    "N": "Windungszahl",
+    "I": "Stromstärke",
+    "L": "Länge",
+    "l": "mittlere Länge des Eisenrings",
+    "s": "Breite des Luftspalts",
+    "W": "Energie",
+    "F": "Kraft",
+    "ρ": "Dichte",
+    "m": "Masse",
+    "g": "Erdbeschleunigung",
+    "z": "Ortskoordinate",
+    "j": "Stromdichte",
+    "j_M": "Magnetisierungsstromdichte",
+    "α": "Winkel gegen die Flächennormale",
+    "x": "Verhältnis aus Zeeman-Energie und thermischer Energie",
+    "H_c": "Koerzitivfeldstärke",
+    "ε_r": "relative Permittivität (Dielektrizitätszahl)",
+    "ε_0": "elektrische Feldkonstante",
+    "π": "Kreiszahl"
+  }
+  </script>
+</head>
+<body data-thema="magnetismus-materie">
+  <main>
+    <article class="thema">
+      <header>
+        <h1>Magnetismus in <span class="betont">Materie</span></h1>
+        <p class="untertitel">Warum ein Magnet an Eisen haftet, an Kupfer aber nicht, und warum ein Frosch im Magnetfeld schweben kann.</p>
+      </header>
+
+      <div class="tabs">
+
+        <section class="tab" id="verstehen" data-titel="Verstehen">
+
+          <p>Halte einen Magneten an einen Nagel, und er haftet. Halte ihn an
+            eine Kupfermünze oder an ein Stück Holz, und nichts passiert. Dabei
+            sind im Prinzip alle Stoffe magnetisch. Sie reagieren nur
+            sehr unterschiedlich auf ein Magnetfeld.</p>
+
+          <p>Der Grund liegt in den Atomen. Jedes Elektron verhält sich wie ein
+            winziger Stabmagnet, und umlaufende Elektronen erzeugen kleine
+            Kreisströme. In vielen Stoffen heben sich diese kleinen Magnete
+            gegenseitig auf. Legst du ein äußeres Feld an, antworten die Atome
+            auf drei grundverschiedene Arten.</p>
+
+          <figure class="abbildung">
+            <svg class="abb" viewBox="0 0 360 165" role="img" aria-label="Drei Kästen mit Pfeilen: ungeordnete Pfeile im Paramagneten, gleichgerichtete im Ferromagneten, entgegengesetzte im Diamagneten">
+<defs><marker id="pfeil-abb1" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path class="punkt blau" d="M0 0L10 5L0 10z"/></marker></defs>
+<rect class="achse" x="15" y="30" width="105" height="105" fill="none"/>
+<text x="67" y="20" text-anchor="middle" class="klein">Paramagnet</text>
+<path class="kurve blau" d="M42.0 52.9L32.0 43.1" marker-end="url(#pfeil-abb1)" fill="none" style="stroke-width:1.5"/>
+<path class="kurve blau" d="M37.4 85.0L36.6 71.0" marker-end="url(#pfeil-abb1)" fill="none" style="stroke-width:1.5"/>
+<path class="kurve blau" d="M35.0 114.7L39.0 101.3" marker-end="url(#pfeil-abb1)" fill="none" style="stroke-width:1.5"/>
+<path class="kurve blau" d="M60.5 50.5L73.5 45.5" marker-end="url(#pfeil-abb1)" fill="none" style="stroke-width:1.5"/>
+<path class="kurve blau" d="M67.4 85.0L66.6 71.0" marker-end="url(#pfeil-abb1)" fill="none" style="stroke-width:1.5"/>
+<path class="kurve blau" d="M60.8 111.3L73.2 104.7" marker-end="url(#pfeil-abb1)" fill="none" style="stroke-width:1.5"/>
+<path class="kurve blau" d="M90.1 46.7L103.9 49.3" marker-end="url(#pfeil-abb1)" fill="none" style="stroke-width:1.5"/>
+<path class="kurve blau" d="M103.8 76.5L90.2 79.5" marker-end="url(#pfeil-abb1)" fill="none" style="stroke-width:1.5"/>
+<path class="kurve blau" d="M90.4 110.4L103.6 105.6" marker-end="url(#pfeil-abb1)" fill="none" style="stroke-width:1.5"/>
+<rect class="achse" x="133" y="30" width="105" height="105" fill="none"/>
+<text x="185" y="20" text-anchor="middle" class="klein">Ferromagnet</text>
+<path class="kurve blau" d="M148.0 48.4L162.0 47.6" marker-end="url(#pfeil-abb1)" fill="none" style="stroke-width:1.5"/>
+<path class="kurve blau" d="M148.0 78.0L162.0 78.0" marker-end="url(#pfeil-abb1)" fill="none" style="stroke-width:1.5"/>
+<path class="kurve blau" d="M148.1 109.3L161.9 106.7" marker-end="url(#pfeil-abb1)" fill="none" style="stroke-width:1.5"/>
+<path class="kurve blau" d="M178.0 48.8L192.0 47.2" marker-end="url(#pfeil-abb1)" fill="none" style="stroke-width:1.5"/>
+<path class="kurve blau" d="M178.1 79.1L191.9 76.9" marker-end="url(#pfeil-abb1)" fill="none" style="stroke-width:1.5"/>
+<path class="kurve blau" d="M178.0 108.6L192.0 107.4" marker-end="url(#pfeil-abb1)" fill="none" style="stroke-width:1.5"/>
+<path class="kurve blau" d="M208.0 48.6L222.0 47.4" marker-end="url(#pfeil-abb1)" fill="none" style="stroke-width:1.5"/>
+<path class="kurve blau" d="M208.2 79.5L221.8 76.5" marker-end="url(#pfeil-abb1)" fill="none" style="stroke-width:1.5"/>
+<path class="kurve blau" d="M208.1 109.2L221.9 106.8" marker-end="url(#pfeil-abb1)" fill="none" style="stroke-width:1.5"/>
+<rect class="achse" x="251" y="30" width="105" height="105" fill="none"/>
+<text x="303" y="20" text-anchor="middle" class="klein">Diamagnet</text>
+<path class="kurve blau" d="M278.0 47.8L268.0 48.2" marker-end="url(#pfeil-abb1)" fill="none" style="stroke-width:1.5"/>
+<path class="kurve blau" d="M278.0 78.4L268.0 77.6" marker-end="url(#pfeil-abb1)" fill="none" style="stroke-width:1.5"/>
+<path class="kurve blau" d="M278.0 108.3L268.0 107.7" marker-end="url(#pfeil-abb1)" fill="none" style="stroke-width:1.5"/>
+<path class="kurve blau" d="M308.0 47.7L298.0 48.3" marker-end="url(#pfeil-abb1)" fill="none" style="stroke-width:1.5"/>
+<path class="kurve blau" d="M308.0 78.3L298.0 77.7" marker-end="url(#pfeil-abb1)" fill="none" style="stroke-width:1.5"/>
+<path class="kurve blau" d="M308.0 107.6L298.0 108.4" marker-end="url(#pfeil-abb1)" fill="none" style="stroke-width:1.5"/>
+<path class="kurve blau" d="M338.0 48.1L328.0 47.9" marker-end="url(#pfeil-abb1)" fill="none" style="stroke-width:1.5"/>
+<path class="kurve blau" d="M338.0 77.6L328.0 78.4" marker-end="url(#pfeil-abb1)" fill="none" style="stroke-width:1.5"/>
+<path class="kurve blau" d="M338.0 107.5L328.0 108.5" marker-end="url(#pfeil-abb1)" fill="none" style="stroke-width:1.5"/>
+<text x="180" y="155" text-anchor="middle" class="klein">Feld B nach rechts. Pfeile: magnetische Momente</text>
+</svg>
+            <figcaption>Abb. 1: Die kleinen magnetischen Momente der Atome im äußeren Feld.
+              Beim Paramagneten richten sie sich leicht aus, beim Ferromagneten fast
+              vollständig, beim Diamagneten zeigen sie gegen das Feld.</figcaption>
+          </figure>
+
+          <p><em>Paramagnetische</em> Stoffe, etwa Sauerstoff oder Gadoliniumsalze, haben Atome mit eigenem
+            magnetischen Moment. Im Feld richten sich diese Momente ein wenig aus, aber die
+            Wärmebewegung hält sie weitgehend durcheinander. Der Effekt ist winzig, das Feld
+            wird nur um einen winzigen Bruchteil (typisch $10^{-5}$ bis $10^{-3}$) verstärkt. <em>Diamagnetische</em> Stoffe
+            wie Wasser, Kupfer oder Gold haben keine eigenen Momente. Das Feld induziert sie, und
+            zwar so, dass sie dem Feld entgegenwirken. Diamagnete werden schwach abgestoßen.
+            Bei <em>Ferromagneten</em> wie Eisen, Nickel und Kobalt wirken die Atome zusammen und
+            richten sich gemeinsam aus. Das Feld im Inneren wird hundert- bis tausendfach
+            verstärkt.</p>
+
+          <div class="alltag">
+            <span class="titel">Aus dem Alltag</span>
+            <p>Ein Elektromagnet bekommt einen Eisenkern, weil Eisen das Feld der Spule enorm
+              verstärkt. Die Kreditkarte hat einen Magnetstreifen aus winzigen
+              ferromagnetischen Körnchen, die je nach Ausrichtung eine Null oder Eins
+              speichern. Hält man einen starken Magneten in die Nähe, wird die Information
+              überschrieben. Dass sich Wasser dagegen schwach abstoßen lässt, haben
+              Forscher mit Magneten von 16 Tesla sogar an lebenden Fröschen gezeigt: Das Tier
+              schwebte.</p>
+          </div>
+
+          <div class="merkkasten">
+            <span class="titel">Das Wichtigste in Kürze</span>
+            <p>Stoffe reagieren auf ein Magnetfeld auf drei Weisen. Diamagnete schwächen es ein
+              wenig ab und werden abgestoßen. Paramagnete verstärken es ein wenig und werden
+              angezogen. Ferromagnete verstärken es stark und können selbst dauerhaft magnetisch
+              bleiben, aber nur unterhalb einer bestimmten Temperatur.</p>
+          </div>
+        </section>
+
+        <section class="tab" id="vertiefung" data-titel="Vertiefung">
+
+          <h2>Magnetisierung und Suszeptibilität</h2>
+          <p>Eine Spule im Vakuum erzeugt das Feld
+            $$ B_0 = \mu_0 H_0, \qquad H_0 = nI $$
+             Bringst du Materie hinein, wird sie magnetisiert, und ihre
+            Momente ändern das Feld. Die <em>Magnetisierung</em> ist das Dipolmoment pro Volumen,
+            $\vec{M} = \frac{1}{V}\sum_i\vec{p}_M^{(i)}$. Damit gilt</p>
+          $$ \vec{B} = \mu_0\left(\vec{H}_0 + \vec{M}\right) = \mu_r\,\mu_0\vec{H}_0 $$
+          <p>Bei moderaten Feldern ist $\vec{M} = \chi_M\vec{H}_0$ mit der <em>Suszeptibilität</em>
+            $\chi_M$ (dimensionslos). Dann ist $\vec{B} = \mu_0(1 + \chi_M)\vec{H}_0$ und die
+            relative Permeabilität</p>
+          $$ \mu_r = 1 + \chi_M $$
+          <p>Das ist das magnetische Gegenstück zur Dielektrizitätszahl: $\vec{D} = \varepsilon_r\varepsilon_0\vec{E}$
+            und $\vec{B} = \mu_r\mu_0\vec{H}$. Mit den freien Strömen als Quellen gelten die Feldgleichungen in
+            Materie $\vec{\nabla}\times\vec{H} = \vec{j}_\text{frei}$ und $\vec{\nabla}\cdot\vec{B} = 0$. Die
+            Magnetisierung selbst entspricht gebundenen Strömen $\vec{j}_M = \vec{\nabla}\times\vec{M}$ (im Inneren
+            heben sich die Kreisströme benachbarter Atome auf, an der Oberfläche bleibt ein
+            Strombelag).</p>
+
+          <h2>Dia-, Para- und Ferromagnetismus</h2>
+          <div class="tabelle-huelle">
+            <table>
+              <thead><tr><th>Art</th><th>$\chi_M$</th><th>Ursache</th><th>Beispiele</th></tr></thead>
+              <tbody>
+                <tr><td>Diamagnetismus</td><td>$\lt 0$, $10^{-6}$ bis $10^{-4}$</td><td>induzierte Momente, Gegenfeld</td><td>Wasser ($-9 \cdot 10^{-6}$), Kupfer, Gold, Wismut ($-1{,}7 \cdot 10^{-4}$)</td></tr>
+                <tr><td>Paramagnetismus</td><td>$\gt 0$, $10^{-5}$ bis $10^{-3}$</td><td>permanente Atommomente, teilweise ausgerichtet</td><td>Sauerstoff, Gadoliniumsalze, Aluminium ($2 \cdot 10^{-5}$, dort durch Leitungselektronen)</td></tr>
+                <tr><td>Ferromagnetismus</td><td>$\gg 1$, bis $10^{5}$</td><td>kollektive Ausrichtung vieler Atome</td><td>Eisen, Kobalt, Nickel</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <p><strong>Diamagnetismus</strong> tritt in jedem Stoff auf, wird aber meist überdeckt. Ein
+            äußeres Feld induziert Momente, die ihm entgegengerichtet sind (Lenzsche Regel). Die Energie
+            eines Dipols im Feld ist $W = -\vec{p}_M\cdot\vec{B}$. Bei Diamagneten ist $\vec{p}_M$ gegen $\vec{B}$
+            gerichtet, $W \gt 0$ und am kleinsten, wo das Feld klein ist. Diamagnete werden deshalb aus dem Feld
+            herausgedrängt, Paramagnete in Bereiche hohen Feldes hineingezogen. Die Kraft auf ein Volumen $V$ ist
+            $F_z = \frac{\chi_M V}{\mu_0}\,B\,\frac{\partial B}{\partial z}$.</p>
+
+          <p><strong>Paramagnetismus.</strong> Atome mit permanentem Moment $p_M$ ordnen sich ohne Feld durch die
+            thermische Bewegung zufällig. Im Feld $B$ lohnt sich die Ausrichtung energetisch, aber nur
+            der Bruchteil $x = p_M B/(k_B T)$ wird erreicht. Für $x \ll 1$ erhält man das
+            <em>Curie-Gesetz</em> $\chi_M = C/T$: Die Suszeptibilität sinkt umgekehrt proportional zur
+            Temperatur.</p>
+
+          <figure class="abbildung">
+            <svg class="abb" viewBox="0 0 360 150" role="img" aria-label="Hysteresekurve eines Ferromagneten mit Neukurve, Sättigung, Remanenz und Koerzitivfeldstärke">
+<path class="achse" d="M40 80L330 80M185 12L185 148" fill="none"/>
+<polyline class="kurve blau" points="55.0,140.0 57.2,139.5 59.3,139.0 61.5,138.4 63.7,137.8 65.8,137.2 68.0,136.5 70.2,135.8 72.3,135.0 74.5,134.2 76.7,133.3 78.8,132.4 81.0,131.5 83.2,130.4 85.3,129.4 87.5,128.2 89.7,127.0 91.8,125.8 94.0,124.4 96.2,123.0 98.3,121.6 100.5,120.1 102.7,118.5 104.8,116.8 107.0,115.1 109.2,113.3 111.3,111.5 113.5,109.6 115.7,107.6 117.8,105.6 120.0,103.5 122.2,101.4 124.3,99.3 126.5,97.1 128.7,94.8 130.8,92.5 133.0,90.2 135.2,87.9 137.3,85.6 139.5,83.3 141.7,80.9 143.8,78.6 146.0,76.3 148.2,74.0 150.3,71.7 152.5,69.5 154.7,67.3 156.8,65.1 159.0,63.0 161.2,60.9 163.3,58.9 165.5,57.0 167.7,55.1 169.8,53.2 172.0,51.4 174.2,49.7 176.3,48.1 178.5,46.5 180.7,45.0 182.8,43.5 185.0,42.1 187.2,40.8 189.3,39.5 191.5,38.3 193.7,37.2 195.8,36.1 198.0,35.1 200.2,34.1 202.3,33.2 204.5,32.4 206.7,31.5 208.8,30.8 211.0,30.1 213.2,29.4 215.3,28.7 217.5,28.1 219.7,27.6 221.8,27.1 224.0,26.6 226.2,26.1 228.3,25.7 230.5,25.3 232.7,24.9 234.8,24.5 237.0,24.2 239.2,23.9 241.3,23.6 243.5,23.3 245.7,23.1 247.8,22.8 250.0,22.6 252.2,22.4 254.3,22.2 256.5,22.0 258.7,21.9 260.8,21.7 263.0,21.6 265.2,21.4 267.3,21.3 269.5,21.2 271.7,21.1 273.8,21.0 276.0,20.9 278.2,20.8 280.3,20.7 282.5,20.7 284.7,20.6 286.8,20.5 289.0,20.5 291.2,20.4 293.3,20.4 295.5,20.3 297.7,20.3 299.8,20.2 302.0,20.2 304.2,20.1 306.3,20.1 308.5,20.1 310.7,20.1 312.8,20.0 315.0,20.0" fill="none"/>
+<polyline class="kurve blau" points="315.0,20.0 312.8,20.5 310.7,21.0 308.5,21.6 306.3,22.2 304.2,22.8 302.0,23.5 299.8,24.2 297.7,25.0 295.5,25.8 293.3,26.7 291.2,27.6 289.0,28.5 286.8,29.6 284.7,30.6 282.5,31.8 280.3,33.0 278.2,34.2 276.0,35.6 273.8,37.0 271.7,38.4 269.5,39.9 267.3,41.5 265.2,43.2 263.0,44.9 260.8,46.7 258.7,48.5 256.5,50.4 254.3,52.4 252.2,54.4 250.0,56.5 247.8,58.6 245.7,60.7 243.5,62.9 241.3,65.2 239.2,67.5 237.0,69.8 234.8,72.1 232.7,74.4 230.5,76.7 228.3,79.1 226.2,81.4 224.0,83.7 221.8,86.0 219.7,88.3 217.5,90.5 215.3,92.7 213.2,94.9 211.0,97.0 208.8,99.1 206.7,101.1 204.5,103.0 202.3,104.9 200.2,106.8 198.0,108.6 195.8,110.3 193.7,111.9 191.5,113.5 189.3,115.0 187.2,116.5 185.0,117.9 182.8,119.2 180.7,120.5 178.5,121.7 176.3,122.8 174.2,123.9 172.0,124.9 169.8,125.9 167.7,126.8 165.5,127.6 163.3,128.5 161.2,129.2 159.0,129.9 156.8,130.6 154.7,131.3 152.5,131.9 150.3,132.4 148.2,132.9 146.0,133.4 143.8,133.9 141.7,134.3 139.5,134.7 137.3,135.1 135.2,135.5 133.0,135.8 130.8,136.1 128.7,136.4 126.5,136.7 124.3,136.9 122.2,137.2 120.0,137.4 117.8,137.6 115.7,137.8 113.5,138.0 111.3,138.1 109.2,138.3 107.0,138.4 104.8,138.6 102.7,138.7 100.5,138.8 98.3,138.9 96.2,139.0 94.0,139.1 91.8,139.2 89.7,139.3 87.5,139.3 85.3,139.4 83.2,139.5 81.0,139.5 78.8,139.6 76.7,139.6 74.5,139.7 72.3,139.7 70.2,139.8 68.0,139.8 65.8,139.9 63.7,139.9 61.5,139.9 59.3,139.9 57.2,140.0 55.0,140.0" fill="none"/>
+<polyline class="kurve kupfer" points="185.0,80.0 187.2,76.8 189.3,73.6 191.5,70.4 193.7,67.3 195.8,64.3 198.0,61.4 200.2,58.5 202.3,55.8 204.5,53.1 206.7,50.6 208.8,48.2 211.0,46.0 213.2,43.9 215.3,41.9 217.5,40.0 219.7,38.3 221.8,36.7 224.0,35.2 226.2,33.8 228.3,32.6 230.5,31.4 232.7,30.3 234.8,29.3 237.0,28.4 239.2,27.6 241.3,26.9 243.5,26.2 245.7,25.6 247.8,25.0 250.0,24.5 252.2,24.1 254.3,23.6 256.5,23.3 258.7,22.9 260.8,22.6 263.0,22.3 265.2,22.1 267.3,21.9 269.5,21.7 271.7,21.5 273.8,21.3 276.0,21.1 278.2,21.0 280.3,20.9 282.5,20.8 284.7,20.7 286.8,20.6 289.0,20.5 291.2,20.4 293.3,20.4 295.5,20.3 297.7,20.3 299.8,20.2 302.0,20.2 304.2,20.1 306.3,20.1 308.5,20.1 310.7,20.0 312.8,20.0 315.0,20.0" fill="none" style="stroke-dasharray:4 3"/>
+<text x="334" y="94" text-anchor="end" class="klein">H</text><text x="192" y="18" class="klein">M (bzw. B)</text>
+<text x="272" y="13" class="klein">Sättigung</text><text x="178" y="40" text-anchor="end" class="klein">Remanenz</text>
+<text x="232" y="96" class="klein">Hc</text><text x="138" y="74" text-anchor="end" class="klein">−Hc</text>
+<circle class="punkt" cx="185" cy="42.1" r="3"/><circle class="punkt" cx="141.7" cy="80" r="3"/><circle class="punkt" cx="227.5" cy="80" r="3"/>
+<text x="45" y="16" class="klein kupfer">Neukurve gestrichelt</text>
+</svg>
+            <figcaption>Abb. 2: Schematische Hysterese eines Ferromagneten. Die Neukurve (orange,
+              gestrichelt) führt in die Sättigung. Beim Zurückfahren auf $H = 0$ bleibt eine
+              Remanenz, erst bei $-H_c$ verschwindet die Magnetisierung.</figcaption>
+          </figure>
+
+          <h2>Ferromagnetismus, Domänen und Hysterese</h2>
+          <p>Beim Ferromagneten ist $\chi_M \gg 1$, weil die Atommomente sich gegenseitig ausrichten
+            (Austauschwechselwirkung, ein Quanteneffekt). Das Phänomen ist kollektiv: Es braucht viele Atome. Die Magnetisierung ist dabei nicht mehr linear in $H$, und $\chi_M \gg 1$ gilt nur im Anfangsbereich der Kurve.
+            Oberhalb der <em>Curie-Temperatur</em> $T_C$ siegt die Wärmebewegung, der Stoff wird paramagnetisch,
+            und $\chi_M$ folgt dem Curie-Weiss-Gesetz $\chi_M = C/(T - T_C)$. Für Eisen ist
+            $T_C = 1043\,\mathrm{K}$, für Kobalt $1388\,\mathrm{K}$, für Nickel $627\,\mathrm{K}$.</p>
+
+          <p>Ein Stück Eisen ist oft unmagnetisch, obwohl die Momente ausgerichtet sind. Der Grund sind
+            <em>Weißsche Bezirke</em> (Domänen), Bereiche mit einheitlicher Richtung, deren Richtungen
+            sich im Mittel aufheben. Ein äußeres Feld lässt die günstig ausgerichteten Bezirke wachsen und
+            dreht schließlich die anderen. Das ist die Neukurve $M(H)$ bis zur <em>Sättigung</em>, wenn alle
+            Momente ausgerichtet sind. Verringerst du das Feld wieder, bleibt die <em>Remanenz</em>, und erst bei
+            der <em>Koerzitivfeldstärke</em> $-H_c$ verschwindet die Magnetisierung. Die Kurve ist eine Schleife,
+            die <em>Hysterese</em>. Ihre Fläche (im $B$-$H$-Diagramm) ist die pro Zyklus in Wärme umgesetzte Energie je Volumen.
+            Weichmagnetische Werkstoffe (kleine Fläche) eignen sich für Transformatoren, hartmagnetische (große
+            Remanenz und $H_c$) für Dauermagnete.</p>
+
+          <div class="merkkasten">
+            <span class="titel">Merke</span>
+            <p>$\vec{B} = \mu_0(\vec{H} + \vec{M}) = \mu_r\mu_0\vec{H}$, $\mu_r = 1 + \chi_M$. Diamagnet:
+              $\chi_M \lt 0$, klein. Paramagnet: $\chi_M \gt 0$, klein, $\propto 1/T$. Ferromagnet:
+              $\chi_M \gg 1$, Hysterese, verschwindet oberhalb von $T_C$. Dia- und paramagnetische
+              Körper spüren nur eine sehr schwache Kraft (merklich erst bei $B\,\partial B/\partial z$ von
+              $10^2$ bis $10^3\,\mathrm{T^2/m}$), Ferromagnete werden stark angezogen.</p>
+          </div>
+        </section>
+
+        <section class="tab" id="beispiele" data-titel="Beispielrechnungen">
+
+          <div class="beispiel">
+            <h3>Beispiel 1: Spule mit Eisenkern</h3>
+            <p><strong>Gegeben:</strong> Spule mit $n = 2000\,\mathrm{m^{-1}}$ und $I = 2{,}0\,\mathrm{A}$, Eisenkern
+              mit $\mu_r = 200$ (weichmagnetisch, unterhalb der Sättigung).<br>
+              <strong>Gesucht:</strong> $H$, $B$ ohne und mit Kern und die Magnetisierung des Kerns.</p>
+
+            <p><strong>1. Erregung.</strong> $H_0 = nI = 2000\,\mathrm{m^{-1}} \cdot 2{,}0\,\mathrm{A} = 4000\,\mathrm{A/m}$.</p>
+
+            <p><strong>2. Felder.</strong>
+              $$ B_0 = \mu_0 H_0 = 4\pi \cdot 10^{-7}\,\mathrm{\tfrac{N}{A^2}} \cdot 4000\,\mathrm{\tfrac{A}{m}} = 5{,}0\,\mathrm{mT}, \qquad
+                 B = \mu_r B_0 = 200 \cdot 5{,}0\,\mathrm{mT} = 1{,}0\,\mathrm{T} $$</p>
+
+            <p><strong>3. Magnetisierung.</strong>
+              $$ M = \chi_M H_0 = (\mu_r - 1)\,H_0 = 199 \cdot 4000\,\mathrm{A/m} = 7{,}96 \cdot 10^{5}\,\mathrm{A/m} $$
+              Einheitencheck: $[\mu_0 H] = \mathrm{N/A^2 \cdot A/m = T}$ ✓</p>
+
+            <p><strong>Ergebnis und Plausibilität:</strong> Der Kern verstärkt das Feld um den Faktor $200$ auf
+              $1{,}0\,\mathrm{T}$. Das liegt unter der Sättigung von Eisen (etwa $2\,\mathrm{T}$), sodass
+              die Annahme eines konstanten $\mu_r$ noch trägt. Probe: $\mu_0 M = 1{,}0\,\mathrm{T}$, also $B \approx \mu_0 M$.
+              Der Beitrag des Kerns ($\mu_0 M = 1{,}0\,\mathrm{T}$) ist $199$ mal so groß wie das Feld der Spule
+              allein.</p>
+          </div>
+
+          <div class="beispiel">
+            <h3>Beispiel 2: Aluminium im Magnetfeld</h3>
+            <p><strong>Gegeben:</strong> Aluminium mit $\chi_M = 2{,}2 \cdot 10^{-5}$ in einem Feld
+              $B_0 = 0{,}50\,\mathrm{T}$.<br>
+              <strong>Gesucht:</strong> $M$ und die relative Änderung des Feldes.</p>
+
+            <p><strong>1. Erregung.</strong> $H_0 = B_0/\mu_0 = \frac{0{,}50\,\mathrm{T}}{4\pi \cdot 10^{-7}\,\mathrm{N/A^2}} = 3{,}98 \cdot 10^{5}\,\mathrm{A/m}$.</p>
+
+            <p><strong>2. Magnetisierung.</strong>
+              $M = \chi_M H_0 = 2{,}2 \cdot 10^{-5} \cdot 3{,}98 \cdot 10^{5}\,\mathrm{A/m} = 8{,}8\,\mathrm{A/m}$.</p>
+
+            <p><strong>3. Feldänderung.</strong>
+              $\Delta B = \mu_0 M = 1{,}1 \cdot 10^{-5}\,\mathrm{T}$, relativ $\Delta B/B_0 = \chi_M = 2{,}2 \cdot 10^{-5}$.
+              Einheitencheck: $\mathrm{A/m \cdot \mu_0 = T}$ ✓</p>
+
+            <p><strong>Ergebnis und Plausibilität:</strong> Das Feld wird nur um $0{,}002\,\%$ verstärkt, selbst bei
+              $0{,}5\,\mathrm{T}$. Ein solcher Effekt ist mit einem Handmagneten nicht zu spüren. Zum Vergleich: Bei
+              Eisen im Beispiel 1 sind es $19\,900\,\%$.</p>
+          </div>
+
+          <div class="beispiel">
+            <h3>Beispiel 3: Wann schwebt Wasser?</h3>
+            <p><strong>Gegeben:</strong> Wasser mit $\chi_M = -9{,}0 \cdot 10^{-6}$ und $\rho = 1000\,\mathrm{kg/m^3}$.<br>
+              <strong>Gesucht:</strong> Das nötige Produkt $B\,\partial B/\partial z$, damit die magnetische Kraft
+              das Gewicht ausgleicht, und die Kraft auf $1\,\mathrm{cm^3}$ bei $B\,\partial B/\partial z = 100\,\mathrm{T^2/m}$.</p>
+
+            <p><strong>1. Gleichgewicht.</strong> Aus $|F_z| = \frac{|\chi_M| V}{\mu_0}B\frac{\partial B}{\partial z} = \rho V g$:
+              $$ B\frac{\partial B}{\partial z} = \frac{\mu_0\rho g}{|\chi_M|} = \frac{4\pi \cdot 10^{-7} \cdot 1000 \cdot 9{,}81}{9{,}0 \cdot 10^{-6}}\,\mathrm{T^2/m} = 1370\,\mathrm{T^2/m} $$</p>
+
+            <p><strong>2. Kraft bei $100\,\mathrm{T^2/m}$.</strong>
+              $$ |F| = \frac{9{,}0 \cdot 10^{-6} \cdot 1{,}0 \cdot 10^{-6}\,\mathrm{m^3}}{4\pi \cdot 10^{-7}\,\mathrm{N/A^2}} \cdot 100\,\mathrm{T^2/m} = 7{,}2 \cdot 10^{-4}\,\mathrm{N} $$
+              Das Gewicht beträgt $9{,}8 \cdot 10^{-3}\,\mathrm{N}$.
+              Einheitencheck: $\mathrm{m^3 \cdot T^2/m \,/\,(N/A^2) = N}$ ✓ (mit $\mathrm{T = N/(A\,m)}$)</p>
+
+            <p><strong>Ergebnis und Plausibilität:</strong> Für Schweben braucht man $1370\,\mathrm{T^2/m}$, etwa das
+              Vierzehnfache des Wertes, den ein sehr starker Magnet mit $B \approx 10\,\mathrm{T}$ und
+              $\partial B/\partial z \approx 10\,\mathrm{T/m}$ liefert. Das erklärt, warum man Magnete mit $16\,\mathrm{T}$
+              und steilem Feldabfall am Rand benötigt. Die Kraft wirkt nach oben (aus dem Feld heraus), weil
+              $\chi_M \lt 0$ ist.</p>
+          </div>
+        </section>
+
+        <section class="tab" id="aufgaben" data-titel="Aufgaben">
+
+          <p>Verwende $\mu_0 = 4\pi \cdot 10^{-7}\,\mathrm{N/A^2}$.</p>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 1
+              <span class="schwierigkeit" data-stufe="leicht">leicht</span>
+            </h3>
+            <p>In einem Eisenstück mit $\mu_r = 800$ herrscht die Erregung $H = 500\,\mathrm{A/m}$. Wie groß sind
+              $B$ und $\chi_M$?</p>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>$\chi_M = \mu_r - 1 = 799$ und $B = \mu_r\mu_0 H = 800 \cdot 4\pi \cdot 10^{-7} \cdot 500\,\mathrm{T} = 0{,}50\,\mathrm{T}$.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 2
+              <span class="schwierigkeit" data-stufe="leicht">leicht</span>
+            </h3>
+            <p>Eine Spule mit $n = 1000\,\mathrm{m^{-1}}$ und $I = 0{,}50\,\mathrm{A}$ enthält einen Kern mit
+              $\mu_r = 500$. Berechne $B$ und die Magnetisierung $M$.</p>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>$H = nI = 500\,\mathrm{A/m}$, $B = \mu_r\mu_0 H = 500 \cdot 4\pi \cdot 10^{-7} \cdot 500\,\mathrm{T} = 0{,}31\,\mathrm{T}$.
+                $M = (\mu_r - 1)H = 499 \cdot 500\,\mathrm{A/m} = 2{,}5 \cdot 10^{5}\,\mathrm{A/m}$.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 3
+              <span class="schwierigkeit" data-stufe="mittel">mittel</span>
+            </h3>
+            <p>Ein Paramagnet hat bei $300\,\mathrm{K}$ die Suszeptibilität $2{,}0 \cdot 10^{-5}$ und folgt dem
+              Curie-Gesetz. (a) Wie groß ist $\chi_M$ bei $77\,\mathrm{K}$ (flüssiger Stickstoff)? (b) Berechne
+              $x = p_M B/(k_B T)$ für $p_M = \mu_B = 9{,}27 \cdot 10^{-24}\,\mathrm{J/T}$, $B = 1\,\mathrm{T}$ und
+              $T = 300\,\mathrm{K}$ und erkläre, warum $\chi_M$ so klein ist.</p>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>(a) $\chi_M \propto 1/T$: $\chi_M(77\,\mathrm{K}) = 2{,}0 \cdot 10^{-5} \cdot \frac{300}{77} = 7{,}8 \cdot 10^{-5}$.</p>
+              <p>(b) $x = \frac{9{,}27 \cdot 10^{-24}\,\mathrm{J/T} \cdot 1\,\mathrm{T}}{1{,}381 \cdot 10^{-23}\,\mathrm{J/K} \cdot 300\,\mathrm{K}} = 2{,}2 \cdot 10^{-3}$.
+                Selbst bei $1\,\mathrm{T}$ ist die magnetische Energie nur $0{,}2\,\%$ der thermischen.
+                Es richtet sich nur ein winziger Bruchteil der Momente aus, deshalb ist $\chi_M$
+                klein. Dazu kommt, dass die Zahl der Momente pro Volumen begrenzt ist, bei Gasen sogar sehr klein.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 4
+              <span class="schwierigkeit" data-stufe="mittel">mittel</span>
+            </h3>
+            <p>Ein Eisenring (mittlerer Umfang $l = 30\,\mathrm{cm}$, $\mu_r = 1000$) trägt $N = 200$ Windungen
+              mit $I = 1{,}0\,\mathrm{A}$. (a) Wie groß ist $B$ im Ring? (b) Wie groß ist $B$, wenn man einen
+              Luftspalt von $1{,}0\,\mathrm{mm}$ hineinsägt? Hinweis: $B$ bleibt im Eisen und im Spalt gleich, und
+              $\oint H\,\mathrm{d}s = NI$.</p>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>(a) $B = \frac{\mu_r\mu_0 N I}{l} = \frac{1000 \cdot 4\pi \cdot 10^{-7} \cdot 200 \cdot 1{,}0}{0{,}30}\,\mathrm{T} = 0{,}84\,\mathrm{T}$.</p>
+              <p>(b) $H_\text{Eisen} l + H_\text{Spalt}\,s = NI$ mit $H_\text{Eisen} = B/(\mu_r\mu_0)$ und
+                $H_\text{Spalt} = B/\mu_0$:
+                $B = \frac{\mu_0 N I}{l/\mu_r + s} = \frac{4\pi \cdot 10^{-7} \cdot 200}{3{,}0 \cdot 10^{-4} + 1{,}0 \cdot 10^{-3}}\,\mathrm{T} = 0{,}19\,\mathrm{T}$.</p>
+              <p>Der Spalt von $1\,\mathrm{mm}$ senkt das Feld auf weniger als ein Viertel, weil
+                er magnetisch so viel wirkt wie $1\,\mathrm{m}$ Eisen. Deshalb arbeiten Elektromagnete mit möglichst
+                kleinen Spalten.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 5
+              <span class="schwierigkeit" data-stufe="schwer">schwer</span>
+            </h3>
+            <p>Im Eisen ($\mu_r = 1000$) tritt das Feld $B = 1{,}0\,\mathrm{T}$ unter $85^\circ$ gegen die
+              Flächennormale an eine Grenzfläche zu Luft. Es gilt: Die Normalkomponente von $B$ und die
+              Tangentialkomponente von $H$ sind stetig. Bestimme Betrag und Richtung von $B$ in der Luft.</p>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>Im Eisen: $B_n = B\cos 85^\circ = 0{,}0872\,\mathrm{T}$ und $B_t = B\sin 85^\circ = 0{,}996\,\mathrm{T}$.
+                Stetig sind $B_n$ und $H_t = B_t/(\mu_r\mu_0)$. In der Luft gilt daher $B_n' = 0{,}0872\,\mathrm{T}$
+                und $B_t' = B_t/\mu_r = 9{,}96 \cdot 10^{-4}\,\mathrm{T}$.
+                Der Winkel gegen die Normale ist $\arctan(B_t'/B_n') = 0{,}65^\circ$ und der Betrag
+                $B' = 0{,}0872\,\mathrm{T}$.</p>
+              <p>Feldlinien treten aus hochpermeablem Material also fast senkrecht aus. Der Betrag fällt auf
+                $9\,\%$ ab, weil der größte Teil des Feldes tangential im Eisen lief. Das Brechungsgesetz lautet
+                $\tan\alpha_\text{Eisen}/\tan\alpha_\text{Luft} = \mu_r$.</p>
+              <p><strong>Zum Nachdenken:</strong> Wie schirmt ein Eisenblech damit Magnetfelder ab?</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 6
+              <span class="schwierigkeit" data-stufe="schwer">schwer</span>
+            </h3>
+            <p>Ein Wismutstück ($\chi_M = -1{,}7 \cdot 10^{-4}$) mit $V = 1{,}0\,\mathrm{cm^3}$ und
+              $\rho = 9{,}8\,\mathrm{g/cm^3}$ hängt am Rand eines Magneten mit $B\,\partial B/\partial z = 50\,\mathrm{T^2/m}$.
+              (a) Welche Kraft wirkt, und wohin? (b) Wie viel Prozent der Gewichtskraft ist das? (c) Was würde sich für ein
+              paramagnetisches Stück mit gleichem Betrag von $\chi_M$ ändern?</p>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>(a) $F = \frac{\chi_M V}{\mu_0}B\frac{\partial B}{\partial z} = \frac{-1{,}7 \cdot 10^{-4} \cdot 1{,}0 \cdot 10^{-6}}{4\pi \cdot 10^{-7}} \cdot 50\,\mathrm{N} = -6{,}8 \cdot 10^{-3}\,\mathrm{N}$.
+                Der Betrag ist $6{,}8\,\mathrm{mN}$, die Kraft zeigt aus dem Feld heraus, also zu kleinerem $B$ hin.</p>
+              <p>(b) Gewichtskraft $mg = 9{,}8 \cdot 10^{-3}\,\mathrm{kg} \cdot 9{,}81\,\mathrm{m/s^2} = 0{,}096\,\mathrm{N}$.
+                Das Verhältnis ist $\frac{6{,}8 \cdot 10^{-3}}{0{,}096} \approx 7\,\%$.</p>
+              <p>(c) Bei $\chi_M \gt 0$ kehrt sich das Vorzeichen um, die Kraft zieht das Stück in Richtung des
+                größeren Feldes. Der Betrag bleibt gleich.</p>
+              <p><strong>Zum Nachdenken:</strong> Wie verändert sich die Kraft, wenn du $B$ bei gleichem Verlauf
+                verdoppelst?</p>
+            </details>
+          </div>
+        </section>
+
+      </div></article>
+  </main>
+</body>
+</html>

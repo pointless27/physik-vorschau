@@ -73,6 +73,10 @@ function starteFormeln() {
     funktionentheorie: '<path d="M2.5 12h19M12 2.5v19"/><circle cx="12" cy="12" r="6.3"/><path d="M16.2 5.6l1.9 1.6-1.4 2.1"/>',
     astrophysik:   '<path d="M12 2.8l2.7 5.6 6.1.8-4.5 4.2 1.1 6.1L12 16.6l-5.4 2.9 1.1-6.1L3.2 9.2l6.1-.8z"/>',
     universum:     '<circle cx="12" cy="12" r="4.5"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3"/><path d="M8.6 10.2c2.2-1.1 4.6-1.1 6.8 0"/>',
+    landkarte:     '<circle cx="5" cy="5.5" r="2.2"/><circle cx="18.5" cy="8" r="2.2"/><circle cx="7" cy="18.5" r="2.2"/><circle cx="17" cy="19" r="2.2"/><path d="M6.8 7l9.6 0.8M5.6 7.7l1 8.6M16.6 9.8L8.7 17M18.2 10.2l-0.9 6.6"/>',
+    formelsammlung:'<path d="M6 3.5h12v17H6z"/><path d="M9 8h6M9 11.5h6M9 15h3.5"/>',
+    glossar:       '<path d="M5 4.5h10.5a3 3 0 0 1 3 3v12H8a3 3 0 0 1-3-3z"/><path d="M5 16.5a3 3 0 0 1 3-3h10.5"/><path d="M9 8.5h6"/>',
+    "energie-leiter": '<path d="M7 2.5v19M17 2.5v19M7 6h10M7 10h10M7 14h10M7 18h10"/>',
     alltag:        '<path d="M9.5 18h5M10.3 21h3.4"/><path d="M8.6 14.6a6 6 0 1 1 6.8 0c-.9.7-1.4 1.7-1.4 3.4h-4c0-1.7-.5-2.7-1.4-3.4z"/>',
     standard:      '<circle cx="12" cy="12" r="9"/><path d="M12 7.5v5l3 2"/>'
   };
@@ -265,9 +269,23 @@ function starteFormeln() {
     if (document.body.getAttribute("data-seite") === "universum") uni.setAttribute("aria-current", "page");
     var uniText = el("span", "menue-text");
     uniText.append(el("span", "menue-name", "Interaktives Universum"),
-      el("span", "menue-zeile", "3D-Modelle – in Vorbereitung"));
+      el("span", "menue-zeile", "Modelle zum Ausprobieren"));
     uni.append(iconElement("universum"), uniText);
     menue.append(uni);
+    /* Werkzeug-Seiten (SITE.extras): kompakt unter einer Zwischenzeile */
+    if (SITE.extras && SITE.extras.length) {
+      menue.append(el("p", "menue-gruppe", "Nachschlagen"));
+      var seiteId = document.body.getAttribute("data-seite");
+      SITE.extras.forEach(function (x) {
+        var a = el("a", "menue-eintrag menue-klein");
+        a.href = ROOT + x.datei;
+        if (x.id === seiteId) a.setAttribute("aria-current", "page");
+        var t = el("span", "menue-text");
+        t.append(el("span", "menue-name", x.name), el("span", "menue-zeile", x.zeile));
+        a.append(iconElement(x.id), t);
+        menue.append(a);
+      });
+    }
     var alle = el("a", "menue-alle", "Alle Bereiche im Überblick →");
     alle.href = ROOT + "themen/index.html";
     menue.append(alle);
@@ -339,6 +357,15 @@ function starteFormeln() {
             rest: " " + normiere([g.name, k.name, t.id].concat(t.stichworte || []).join(" "))
           });
         });
+      });
+    });
+    /* Werkzeug-Seiten (Landkarte, Formelsammlung …) */
+    (SITE.extras || []).forEach(function (x) {
+      suchBestand.push({
+        thema: { id: x.id, titel: x.name, datei: x.datei, status: "online" },
+        gebiet: { id: x.id, name: "Nachschlagen" }, kapitel: { name: x.zeile },
+        titel: " " + normiere(x.name),
+        rest: " " + normiere([x.zeile].concat(x.stichworte || []).join(" "))
       });
     });
     return suchBestand;

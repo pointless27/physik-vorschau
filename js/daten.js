@@ -41,6 +41,10 @@
               Themensuche im Kopf (z. B. ["Noether-Theorem"]). Die Suche
               findet nur Online-Themen über Titel, Fachgebiet, Kapitel, id
               und diese Stichworte, nie über den Seitentext.
+     braucht – optional (bei Online-Themen gepflegt), ids der Themen, die
+              man vorher kennen sollte. Nur die direkten Voraussetzungen
+              eintragen, nicht deren Voraussetzungen. Daraus zeichnet
+              themen/landkarte.html die Themen-Landkarte (js/landkarte.js).
 
    PRÜFEN: Die geplanten Themen außerhalb von Mechanik und Wärmelehre
    stammen aus den Datei- und Kapitelnamen der Mitschriften (Stand
@@ -101,6 +105,17 @@ var SITE = {
     }
   ],
 
+  /* Werkzeug-Seiten (Landkarte, Formelsammlung, Glossar, Energie-Leiter):
+     stehen im Menü „Themen“ unter „Nachschlagen“ und
+     werden von der Themensuche gefunden. id = data-seite im <body>
+     (markiert den Menüeintrag), Icon in ICONS (js/seite.js). */
+  extras: [
+    { id: "landkarte", name: "Themen-Landkarte", zeile: "Was baut worauf auf?", datei: "themen/landkarte.html", stichworte: ["Lernpfad", "Voraussetzungen", "Wissensgraph"] },
+    { id: "formelsammlung", name: "Formelsammlung", zeile: "Alle Merkkästen, zum Ausdrucken", datei: "themen/formelsammlung.html", stichworte: ["Formeln", "Spickzettel", "PDF", "drucken"] },
+    { id: "glossar", name: "Glossar", zeile: "Fachbegriffe und Formelzeichen", datei: "themen/glossar.html", stichworte: ["Begriffe", "Lexikon", "Formelzeichen", "Symbole", "Einheiten"] },
+    { id: "energie-leiter", name: "Energie-Leiter", zeile: "Von 10⁻²⁴ bis 10⁴⁸ Joule", datei: "themen/energie-leiter.html", stichworte: ["Energie", "Joule", "Größenordnung", "Umrechner", "kWh", "Kalorien"] }
+  ],
+
   fachgebiete: [
 
     /* =====================================================================
@@ -117,22 +132,22 @@ var SITE = {
           name: "Vektoren & Matrizen",
           themen: [
             { id: "vektoren", titel: "Vektorrechnung", datei: "themen/rechenmethoden/vektoren.html", status: "online" },
-            { id: "matrizen", titel: "Matrizen und Determinanten", datei: "themen/rechenmethoden/matrizen.html", status: "online" }
+            { id: "matrizen", titel: "Matrizen und Determinanten", datei: "themen/rechenmethoden/matrizen.html", status: "online", braucht: ["vektoren"] }
           ]
         },
         {
           name: "Koordinaten & Vektoranalysis",
           themen: [
-            { id: "koordinatensysteme", titel: "Krummlinige Koordinatensysteme", datei: "themen/rechenmethoden/koordinatensysteme.html", status: "online" },
-            { id: "differentialoperatoren", titel: "Gradient, Divergenz und Rotation", datei: "themen/rechenmethoden/differentialoperatoren.html", status: "online" },
-            { id: "operatoren-krummlinig", titel: "Differentialoperatoren in krummlinigen Koordinaten", datei: "themen/rechenmethoden/operatoren-krummlinig.html", status: "online" }
+            { id: "koordinatensysteme", titel: "Krummlinige Koordinatensysteme", datei: "themen/rechenmethoden/koordinatensysteme.html", status: "online", braucht: ["vektoren"] },
+            { id: "differentialoperatoren", titel: "Gradient, Divergenz und Rotation", datei: "themen/rechenmethoden/differentialoperatoren.html", status: "online", braucht: ["vektoren"] },
+            { id: "operatoren-krummlinig", titel: "Differentialoperatoren in krummlinigen Koordinaten", datei: "themen/rechenmethoden/operatoren-krummlinig.html", status: "online", braucht: ["koordinatensysteme", "differentialoperatoren"] }
           ]
         },
         {
           name: "Integrieren & Differentialgleichungen",
           themen: [
-            { id: "kurvenintegrale", titel: "Kurven-, Flächen- und Volumenintegrale", datei: "themen/rechenmethoden/kurvenintegrale.html", status: "online" },
-            { id: "integralsaetze", titel: "Die Integralsätze von Gauß und Stokes", datei: "themen/rechenmethoden/integralsaetze.html", status: "online" },
+            { id: "kurvenintegrale", titel: "Kurven-, Flächen- und Volumenintegrale", datei: "themen/rechenmethoden/kurvenintegrale.html", status: "online", braucht: ["koordinatensysteme"] },
+            { id: "integralsaetze", titel: "Die Integralsätze von Gauß und Stokes", datei: "themen/rechenmethoden/integralsaetze.html", status: "online", braucht: ["differentialoperatoren", "kurvenintegrale"] },
             { id: "dgl-physik", titel: "Differentialgleichungen in der Physik", datei: "themen/rechenmethoden/dgl-physik.html", status: "online" }
           ]
         }
@@ -156,61 +171,61 @@ var SITE = {
           name: "Kinematik",
           themen: [
             { id: "bewegung-1d", titel: "Bewegung in einer Dimension", datei: "themen/mechanik/bewegung-1d.html", status: "online" },
-            { id: "bewegung-3d", titel: "Bewegung in drei Dimensionen", datei: "themen/mechanik/bewegung-3d.html", status: "online" }
+            { id: "bewegung-3d", titel: "Bewegung in drei Dimensionen", datei: "themen/mechanik/bewegung-3d.html", status: "online", braucht: ["bewegung-1d", "vektoren"] }
           ]
         },
         {
           name: "Dynamik",
           themen: [
-            { id: "newton-axiome", titel: "Die Newtonschen Axiome", datei: "themen/mechanik/newton-axiome.html", status: "online" },
-            { id: "kraefte", titel: "Kräfte im Alltag: Gewicht, Reibung, Federn", datei: "themen/mechanik/kraefte.html", status: "online" }
+            { id: "newton-axiome", titel: "Die Newtonschen Axiome", datei: "themen/mechanik/newton-axiome.html", status: "online", braucht: ["bewegung-3d"] },
+            { id: "kraefte", titel: "Kräfte im Alltag: Gewicht, Reibung, Federn", datei: "themen/mechanik/kraefte.html", status: "online", braucht: ["newton-axiome"] }
           ]
         },
         {
           name: "Arbeit & Energie",
           themen: [
-            { id: "arbeit-leistung", titel: "Arbeit und Leistung", datei: "themen/mechanik/arbeit-leistung.html", status: "online" },
-            { id: "energieerhaltung", titel: "Energieformen und Energieerhaltung", datei: "themen/mechanik/energieerhaltung.html", status: "online" }
+            { id: "arbeit-leistung", titel: "Arbeit und Leistung", datei: "themen/mechanik/arbeit-leistung.html", status: "online", braucht: ["kraefte", "kurvenintegrale"] },
+            { id: "energieerhaltung", titel: "Energieformen und Energieerhaltung", datei: "themen/mechanik/energieerhaltung.html", status: "online", braucht: ["arbeit-leistung"] }
           ]
         },
         {
           name: "Impuls & Stöße",
           themen: [
-            { id: "impuls-schwerpunkt", titel: "Schwerpunkt und Impulserhaltung", datei: "themen/mechanik/impuls-schwerpunkt.html", status: "online" },
-            { id: "stoesse", titel: "Elastische und inelastische Stöße", datei: "themen/mechanik/stoesse.html", status: "online" }
+            { id: "impuls-schwerpunkt", titel: "Schwerpunkt und Impulserhaltung", datei: "themen/mechanik/impuls-schwerpunkt.html", status: "online", braucht: ["newton-axiome"] },
+            { id: "stoesse", titel: "Elastische und inelastische Stöße", datei: "themen/mechanik/stoesse.html", status: "online", braucht: ["impuls-schwerpunkt", "energieerhaltung"] }
           ]
         },
         {
           name: "Rotation",
           themen: [
-            { id: "drehbewegung", titel: "Drehbewegung: Drehmoment, Trägheitsmoment, Drehimpuls", datei: "themen/mechanik/drehbewegung.html", status: "online" },
-            { id: "rollbewegung", titel: "Rollbewegung", datei: "themen/mechanik/rollbewegung.html", status: "online" },
-            { id: "kreisel", titel: "Trägheitstensor und Kreisel", datei: "themen/mechanik/kreisel.html", status: "online" },
-            { id: "scheinkraefte", titel: "Scheinkräfte: Zentrifugal- und Corioliskraft", datei: "themen/mechanik/scheinkraefte.html", status: "online" }
+            { id: "drehbewegung", titel: "Drehbewegung: Drehmoment, Trägheitsmoment, Drehimpuls", datei: "themen/mechanik/drehbewegung.html", status: "online", braucht: ["impuls-schwerpunkt", "energieerhaltung"] },
+            { id: "rollbewegung", titel: "Rollbewegung", datei: "themen/mechanik/rollbewegung.html", status: "online", braucht: ["drehbewegung"] },
+            { id: "kreisel", titel: "Trägheitstensor und Kreisel", datei: "themen/mechanik/kreisel.html", status: "online", braucht: ["drehbewegung", "matrizen"] },
+            { id: "scheinkraefte", titel: "Scheinkräfte: Zentrifugal- und Corioliskraft", datei: "themen/mechanik/scheinkraefte.html", status: "online", braucht: ["drehbewegung"] }
           ]
         },
         {
           name: "Gravitation",
           themen: [
-            { id: "gravitation", titel: "Das Newtonsche Gravitationsgesetz", datei: "themen/mechanik/gravitation.html", status: "online" },
-            { id: "kepler", titel: "Planetenbewegung und die Keplerschen Gesetze", datei: "themen/mechanik/kepler.html", status: "online" }
+            { id: "gravitation", titel: "Das Newtonsche Gravitationsgesetz", datei: "themen/mechanik/gravitation.html", status: "online", braucht: ["energieerhaltung"] },
+            { id: "kepler", titel: "Planetenbewegung und die Keplerschen Gesetze", datei: "themen/mechanik/kepler.html", status: "online", braucht: ["gravitation", "drehbewegung"] }
           ]
         },
         {
           name: "Kontinuumsmechanik",
           themen: [
-            { id: "elastizitaet", titel: "Elastizität: Dehnung, Kompression und Scherung", datei: "themen/mechanik/elastizitaet.html", status: "online" },
-            { id: "ruhende-fluide", titel: "Ruhende Fluide: Druck und Auftrieb", datei: "themen/mechanik/ruhende-fluide.html", status: "online" },
-            { id: "stroemende-fluide", titel: "Strömende Fluide: Bernoulli und Viskosität", datei: "themen/mechanik/stroemende-fluide.html", status: "online" }
+            { id: "elastizitaet", titel: "Elastizität: Dehnung, Kompression und Scherung", datei: "themen/mechanik/elastizitaet.html", status: "online", braucht: ["kraefte"] },
+            { id: "ruhende-fluide", titel: "Ruhende Fluide: Druck und Auftrieb", datei: "themen/mechanik/ruhende-fluide.html", status: "online", braucht: ["kraefte"] },
+            { id: "stroemende-fluide", titel: "Strömende Fluide: Bernoulli und Viskosität", datei: "themen/mechanik/stroemende-fluide.html", status: "online", braucht: ["ruhende-fluide", "energieerhaltung"] }
           ]
         },
         {
           name: "Analytische Mechanik",
           art: "theorie",
           themen: [
-            { id: "lagrange", titel: "Der Lagrange-Formalismus", datei: "themen/mechanik/lagrange.html", status: "online" },
-            { id: "noether", titel: "Symmetrien und Erhaltungssätze", datei: "themen/mechanik/noether.html", status: "online" },
-            { id: "hamilton", titel: "Der Hamilton-Formalismus", datei: "themen/mechanik/hamilton.html", status: "online" }
+            { id: "lagrange", titel: "Der Lagrange-Formalismus", datei: "themen/mechanik/lagrange.html", status: "online", braucht: ["energieerhaltung", "koordinatensysteme", "dgl-physik"] },
+            { id: "noether", titel: "Symmetrien und Erhaltungssätze", datei: "themen/mechanik/noether.html", status: "online", braucht: ["lagrange", "drehbewegung"] },
+            { id: "hamilton", titel: "Der Hamilton-Formalismus", datei: "themen/mechanik/hamilton.html", status: "online", braucht: ["lagrange"] }
           ]
         }
       ]
@@ -225,34 +240,34 @@ var SITE = {
         {
           name: "Gase",
           themen: [
-            { id: "ideales-gas", titel: "Das ideale Gas und die kinetische Gastheorie", datei: "themen/thermodynamik/ideales-gas.html", status: "online" },
-            { id: "reale-gase", titel: "Reale Gase und die Van-der-Waals-Gleichung", datei: "themen/thermodynamik/reale-gase.html", status: "online" }
+            { id: "ideales-gas", titel: "Das ideale Gas und die kinetische Gastheorie", datei: "themen/thermodynamik/ideales-gas.html", status: "online", braucht: ["impuls-schwerpunkt", "ruhende-fluide"] },
+            { id: "reale-gase", titel: "Reale Gase und die Van-der-Waals-Gleichung", datei: "themen/thermodynamik/reale-gase.html", status: "online", braucht: ["ideales-gas"] }
           ]
         },
         {
           name: "Wärme & Energie",
           themen: [
-            { id: "waermekapazitaet", titel: "Wärmekapazität und Wärmetransport", datei: "themen/thermodynamik/waermekapazitaet.html", status: "online" },
-            { id: "transportphaenomene", titel: "Diffusion, Wärmeleitung und Viskosität", datei: "themen/thermodynamik/transportphaenomene.html", status: "online" },
-            { id: "hauptsaetze", titel: "Die Hauptsätze der Thermodynamik", datei: "themen/thermodynamik/hauptsaetze.html", status: "online" },
-            { id: "kreisprozesse", titel: "Kreisprozesse: Wärmekraftmaschine und Wärmepumpe", datei: "themen/thermodynamik/kreisprozesse.html", status: "online" }
+            { id: "waermekapazitaet", titel: "Wärmekapazität und Wärmetransport", datei: "themen/thermodynamik/waermekapazitaet.html", status: "online", braucht: ["ideales-gas"] },
+            { id: "transportphaenomene", titel: "Diffusion, Wärmeleitung und Viskosität", datei: "themen/thermodynamik/transportphaenomene.html", status: "online", braucht: ["waermekapazitaet", "stroemende-fluide"] },
+            { id: "hauptsaetze", titel: "Die Hauptsätze der Thermodynamik", datei: "themen/thermodynamik/hauptsaetze.html", status: "online", braucht: ["waermekapazitaet", "energieerhaltung"] },
+            { id: "kreisprozesse", titel: "Kreisprozesse: Wärmekraftmaschine und Wärmepumpe", datei: "themen/thermodynamik/kreisprozesse.html", status: "online", braucht: ["hauptsaetze"] }
           ]
         },
         {
           name: "Thermodynamische Potentiale",
           art: "theorie",
           themen: [
-            { id: "potentiale", titel: "Thermodynamische Potentiale und Maxwell-Relationen", datei: "themen/thermodynamik/potentiale.html", status: "online" },
-            { id: "phasenuebergaenge", titel: "Phasenübergänge", datei: "themen/thermodynamik/phasenuebergaenge.html", status: "online" }
+            { id: "potentiale", titel: "Thermodynamische Potentiale und Maxwell-Relationen", datei: "themen/thermodynamik/potentiale.html", status: "online", braucht: ["hauptsaetze"] },
+            { id: "phasenuebergaenge", titel: "Phasenübergänge", datei: "themen/thermodynamik/phasenuebergaenge.html", status: "online", braucht: ["potentiale", "reale-gase"] }
           ]
         },
         {
           name: "Statistische Physik",
           art: "theorie",
           themen: [
-            { id: "ensembles", titel: "Ensembles und Zustandssumme", datei: "themen/thermodynamik/ensembles.html", status: "online" },
-            { id: "quantenstatistik", titel: "Quantenstatistik: Fermi- und Bose-Gase", datei: "themen/thermodynamik/quantenstatistik.html", status: "online" },
-            { id: "ising", titel: "Das Ising-Modell: Simulation und Quantenphasenübergang", datei: "themen/thermodynamik/ising.html", status: "online", stichworte: ["Monte-Carlo", "Metropolis", "Wolff-Algorithmus", "Querfeld", "Heisenberg-Modell", "Hubbard-Modell", "Onsager"] }
+            { id: "ensembles", titel: "Ensembles und Zustandssumme", datei: "themen/thermodynamik/ensembles.html", status: "online", braucht: ["potentiale"] },
+            { id: "quantenstatistik", titel: "Quantenstatistik: Fermi- und Bose-Gase", datei: "themen/thermodynamik/quantenstatistik.html", status: "online", braucht: ["ensembles"] },
+            { id: "ising", titel: "Das Ising-Modell: Simulation und Quantenphasenübergang", datei: "themen/thermodynamik/ising.html", status: "online", braucht: ["ensembles", "phasenuebergaenge"], stichworte: ["Monte-Carlo", "Metropolis", "Wolff-Algorithmus", "Querfeld", "Heisenberg-Modell", "Hubbard-Modell", "Onsager"] }
           ]
         }
       ]
@@ -267,17 +282,17 @@ var SITE = {
         {
           name: "Schwingungen",
           themen: [
-            { id: "harmonische-schwingung", titel: "Der harmonische Oszillator", datei: "themen/schwingungen-wellen/harmonische-schwingung.html", status: "online" },
-            { id: "erzwungene-schwingung", titel: "Gedämpfte und erzwungene Schwingungen, Resonanz", datei: "themen/schwingungen-wellen/erzwungene-schwingung.html", status: "online" },
-            { id: "gekoppelte-schwingungen", titel: "Gekoppelte Schwingungen", datei: "themen/schwingungen-wellen/gekoppelte-schwingungen.html", status: "online" }
+            { id: "harmonische-schwingung", titel: "Der harmonische Oszillator", datei: "themen/schwingungen-wellen/harmonische-schwingung.html", status: "online", braucht: ["kraefte", "dgl-physik"] },
+            { id: "erzwungene-schwingung", titel: "Gedämpfte und erzwungene Schwingungen, Resonanz", datei: "themen/schwingungen-wellen/erzwungene-schwingung.html", status: "online", braucht: ["harmonische-schwingung"] },
+            { id: "gekoppelte-schwingungen", titel: "Gekoppelte Schwingungen", datei: "themen/schwingungen-wellen/gekoppelte-schwingungen.html", status: "online", braucht: ["harmonische-schwingung", "matrizen"] }
           ]
         },
         {
           name: "Wellen",
           themen: [
-            { id: "wellen", titel: "Wellen und die Wellengleichung", datei: "themen/schwingungen-wellen/wellen.html", status: "geplant" },
-            { id: "ueberlagerung", titel: "Überlagerung, stehende Wellen und Schwebung", datei: "themen/schwingungen-wellen/ueberlagerung.html", status: "geplant" },
-            { id: "schall", titel: "Schall und Doppler-Effekt", datei: "themen/schwingungen-wellen/schall.html", status: "geplant" }
+            { id: "wellen", titel: "Wellen und die Wellengleichung", datei: "themen/schwingungen-wellen/wellen.html", status: "online", braucht: ["gekoppelte-schwingungen"], stichworte: ["Wellengleichung", "Phasengeschwindigkeit", "Wellenlänge", "Dispersion", "Intensität"] },
+            { id: "ueberlagerung", titel: "Überlagerung, stehende Wellen und Schwebung", datei: "themen/schwingungen-wellen/ueberlagerung.html", status: "online", braucht: ["wellen"], stichworte: ["Interferenz", "stehende Welle", "Eigenschwingung", "Oberton", "Fourier", "Gruppengeschwindigkeit", "Reflexion"] },
+            { id: "schall", titel: "Schall und Doppler-Effekt", datei: "themen/schwingungen-wellen/schall.html", status: "online", braucht: ["wellen", "hauptsaetze"], stichworte: ["Schallgeschwindigkeit", "Dezibel", "Schallpegel", "Schalldruck", "Doppler-Effekt", "Machkegel", "Überschallknall", "Ultraschall"] }
           ]
         }
       ]
@@ -292,26 +307,26 @@ var SITE = {
         {
           name: "Elektrostatik",
           themen: [
-            { id: "coulomb", titel: "Ladung und Coulomb-Gesetz", datei: "themen/elektrodynamik/coulomb.html", status: "geplant" },
-            { id: "elektrisches-feld", titel: "Das elektrische Feld und der Satz von Gauß", datei: "themen/elektrodynamik/elektrisches-feld.html", status: "geplant" },
-            { id: "potential-spannung", titel: "Potential und Spannung", datei: "themen/elektrodynamik/potential-spannung.html", status: "geplant" },
-            { id: "kondensator", titel: "Kondensator und Dielektrika", datei: "themen/elektrodynamik/kondensator.html", status: "geplant" }
+            { id: "coulomb", titel: "Ladung und Coulomb-Gesetz", datei: "themen/elektrodynamik/coulomb.html", status: "online", braucht: ["gravitation"] },
+            { id: "elektrisches-feld", titel: "Das elektrische Feld und der Satz von Gauß", datei: "themen/elektrodynamik/elektrisches-feld.html", status: "online", braucht: ["coulomb", "integralsaetze"] },
+            { id: "potential-spannung", titel: "Potential und Spannung", datei: "themen/elektrodynamik/potential-spannung.html", status: "online", braucht: ["elektrisches-feld"] },
+            { id: "kondensator", titel: "Kondensator und Dielektrika", datei: "themen/elektrodynamik/kondensator.html", status: "online", braucht: ["potential-spannung"] }
           ]
         },
         {
           name: "Ströme & Magnetfelder",
           themen: [
-            { id: "strom-widerstand", titel: "Elektrischer Strom und Widerstand", datei: "themen/elektrodynamik/strom-widerstand.html", status: "geplant" },
-            { id: "magnetfeld", titel: "Magnetfelder und Lorentzkraft", datei: "themen/elektrodynamik/magnetfeld.html", status: "geplant" },
-            { id: "magnetostatik", titel: "Biot-Savart und das Ampèresche Gesetz", datei: "themen/elektrodynamik/magnetostatik.html", status: "geplant" },
-            { id: "magnetismus-materie", titel: "Magnetismus in Materie", datei: "themen/elektrodynamik/magnetismus-materie.html", status: "geplant" }
+            { id: "strom-widerstand", titel: "Elektrischer Strom und Widerstand", datei: "themen/elektrodynamik/strom-widerstand.html", status: "online", braucht: ["potential-spannung"] },
+            { id: "magnetfeld", titel: "Magnetfelder und Lorentzkraft", datei: "themen/elektrodynamik/magnetfeld.html", status: "online", braucht: ["strom-widerstand"] },
+            { id: "magnetostatik", titel: "Biot-Savart und das Ampèresche Gesetz", datei: "themen/elektrodynamik/magnetostatik.html", status: "online", braucht: ["magnetfeld", "integralsaetze"] },
+            { id: "magnetismus-materie", titel: "Magnetismus in Materie", datei: "themen/elektrodynamik/magnetismus-materie.html", status: "online", braucht: ["magnetostatik"] }
           ]
         },
         {
           name: "Zeitabhängige Felder",
           themen: [
-            { id: "induktion", titel: "Elektromagnetische Induktion", datei: "themen/elektrodynamik/induktion.html", status: "geplant" },
-            { id: "wechselstrom", titel: "Wechselstrom und Schwingkreis", datei: "themen/elektrodynamik/wechselstrom.html", status: "geplant" },
+            { id: "induktion", titel: "Elektromagnetische Induktion", datei: "themen/elektrodynamik/induktion.html", status: "online", braucht: ["magnetostatik"] },
+            { id: "wechselstrom", titel: "Wechselstrom und Schwingkreis", datei: "themen/elektrodynamik/wechselstrom.html", status: "online", braucht: ["induktion", "kondensator", "erzwungene-schwingung"] },
             { id: "maxwell", titel: "Die Maxwell-Gleichungen", datei: "themen/elektrodynamik/maxwell.html", status: "geplant" }
           ]
         },
@@ -663,8 +678,8 @@ var SITE = {
         {
           name: "Leben und Tod der Sterne",
           themen: [
-            { id: "sternentwicklung", titel: "Sternentwicklung: Vom Gasnebel zum Weißen Zwerg", datei: "themen/astrophysik/sternentwicklung.html", status: "online" },
-            { id: "sternleichen", titel: "Weiße Zwerge, Neutronensterne und Schwarze Löcher", datei: "themen/astrophysik/sternleichen.html", status: "online" }
+            { id: "sternentwicklung", titel: "Sternentwicklung: Vom Gasnebel zum Weißen Zwerg", datei: "themen/astrophysik/sternentwicklung.html", status: "online", braucht: ["gravitation", "ideales-gas"] },
+            { id: "sternleichen", titel: "Weiße Zwerge, Neutronensterne und Schwarze Löcher", datei: "themen/astrophysik/sternleichen.html", status: "online", braucht: ["sternentwicklung", "quantenstatistik"] }
           ]
         },
         {
@@ -701,9 +716,9 @@ var SITE = {
         {
           name: "Bewegung und Schwerkraft",
           themen: [
-            { id: "hammer-feder", titel: "Hammer und Feder auf dem Mond", datei: "themen/alltag/hammer-feder.html", status: "online", stichworte: ["Apollo 15", "freier Fall"] },
-            { id: "usain-bolt", titel: "Usain Bolts Weltrekord, nachgerechnet", datei: "themen/alltag/usain-bolt.html", status: "online", stichworte: ["Sprint", "100 Meter"] },
-            { id: "erde-rast", titel: "Warum spüren wir nicht, dass die Erde rast?", datei: "themen/alltag/erde-rast.html", status: "online", stichworte: ["Erdrotation", "Relativitätsprinzip"] }
+            { id: "hammer-feder", titel: "Hammer und Feder auf dem Mond", datei: "themen/alltag/hammer-feder.html", status: "online", braucht: ["bewegung-1d"], stichworte: ["Apollo 15", "freier Fall"] },
+            { id: "usain-bolt", titel: "Usain Bolts Weltrekord, nachgerechnet", datei: "themen/alltag/usain-bolt.html", status: "online", braucht: ["bewegung-1d"], stichworte: ["Sprint", "100 Meter"] },
+            { id: "erde-rast", titel: "Warum spüren wir nicht, dass die Erde rast?", datei: "themen/alltag/erde-rast.html", status: "online", braucht: ["bewegung-1d", "scheinkraefte"], stichworte: ["Erdrotation", "Relativitätsprinzip"] }
           ]
         },
         {

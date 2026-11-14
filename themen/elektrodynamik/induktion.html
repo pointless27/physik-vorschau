@@ -1,0 +1,563 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="robots" content="noindex">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Elektromagnetische Induktion</title>
+  <meta name="description" content="Wie ein sich änderndes Magnetfeld eine Spannung erzeugt: Faradaysches Gesetz, Lenzsche Regel, Wirbelströme, Selbstinduktion und die Energie im Magnetfeld einer Spule.">
+
+  <link rel="stylesheet" href="../../css/stil.css">
+
+  <link rel="stylesheet" href="../../extern/katex/katex.min.css">
+  <script defer src="../../extern/katex/katex.min.js"></script>
+  <script defer src="../../extern/katex/contrib/auto-render.min.js" onload="starteFormeln()"></script>
+
+  <script src="../../js/daten.js"></script>
+  <script src="../../js/seite.js"></script>
+  <script src="../../js/effekte.js"></script>
+  <script type="application/json" id="symbole">
+  {
+    "Φ_M": "magnetischer Fluss durch eine Fläche",
+    "Φ": "magnetischer Fluss",
+    "B": "magnetische Flussdichte",
+    "B_0": "Flussdichte im Feldgebiet",
+    "A": "Fläche der Schleife oder Spule",
+    "N": "Windungszahl",
+    "U_ind": "Induktionsspannung",
+    "U": "Spannung",
+    "U_0": "Quellenspannung",
+    "t": "Zeit",
+    "T": "Periodendauer",
+    "ω": "Kreisfrequenz der Drehung",
+    "f": "Frequenz",
+    "α": "Winkel zwischen Flächennormale und Feld",
+    "E": "elektrische Feldstärke",
+    "E_φ": "Umlauf-Komponente des Wirbelfeldes",
+    "s": "Wegelement entlang der Leiterschleife",
+    "l": "Länge des Leiterstabs",
+    "v": "Geschwindigkeit",
+    "x": "Ort des Stabes",
+    "q": "Ladung",
+    "F": "Kraft",
+    "F_L": "Lorentzkraft",
+    "I": "Stromstärke",
+    "I_0": "Anfangsstrom beim Ausschalten",
+    "I_max": "Endstrom beim Einschalten",
+    "R": "Widerstand (im Aufgabenteil auch Radius des Feldgebiets)",
+    "L": "Induktivität",
+    "n": "Windungen pro Länge",
+    "D": "Länge der Spule",
+    "V": "Volumen der Spule",
+    "τ": "Zeitkonstante L/R",
+    "P": "Leistung",
+    "W": "Energie im Magnetfeld",
+    "w": "Energiedichte",
+    "r": "Abstand von der Mittelachse",
+    "μ_0": "magnetische Feldkonstante, ≈ 4π·10⁻⁷ N/A²",
+    "ε_0": "elektrische Feldkonstante",
+    "C": "Kapazität",
+    "c": "Lichtgeschwindigkeit",
+    "k": "Abklingrate R/L",
+    "π": "Kreiszahl",
+    "a": "Kantenlänge",
+    "S": "Schalter im Stromkreis",
+    "y": "Hilfsgröße e^(−t/τ)"
+  }
+  </script>
+</head>
+<body data-thema="induktion">
+  <main>
+    <article class="thema">
+      <header>
+        <h1>Elektromagnetische <span class="betont">Induktion</span></h1>
+        <p class="untertitel">Warum ein Fahrraddynamo Licht macht, ohne dass eine Batterie drin steckt, und warum eine Spule sich gegen jede Stromänderung wehrt.</p>
+      </header>
+
+      <div class="tabs">
+
+        <section class="tab" id="verstehen" data-titel="Verstehen">
+
+          <p>Am Fahrrad drehst du mit dem Reifen einen kleinen Zylinder, und die Lampe leuchtet.
+            Im Dynamo steckt weder Batterie noch Steckdose. Er enthält nur einen Magneten und
+            eine Drahtspule. Du fährst langsamer, das Licht wird schwächer. Du hältst an, das
+            Licht geht aus. Offenbar entsteht die Spannung nur, solange sich etwas bewegt.</p>
+
+          <p>Genau das hat Michael Faraday 1831 gefunden. Ein Magnetfeld allein, das ruhig durch
+            eine Drahtschleife hindurchgeht, tut nichts. Die Spannung entsteht erst, wenn sich
+            das Feld <em>ändert</em>. Schiebst du einen Magneten in eine Spule hinein, zuckt ein
+            angeschlossenes Messgerät. Ziehst du ihn heraus, zuckt es in die andere Richtung. Hältst
+            du ihn still, auch mitten in der Spule, zeigt es null.</p>
+
+          <figure class="abbildung">
+            <svg class="abb" viewBox="0 0 360 170" role="img" aria-label="Ein Stabmagnet bewegt sich auf eine Drahtschleife zu, in der ein Strom fließt">
+<defs><marker id="pfeil-abb1" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto"><path class="punkt blau" d="M0 0L10 5L0 10z"/></marker></defs><defs><marker id="pfeil-abb1k" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto"><path class="punkt kupfer" d="M0 0L10 5L0 10z"/></marker></defs>
+<rect class="achse" x="30" y="70" width="55" height="30" fill="none"/>
+<rect class="flaeche" x="85" y="70" width="55" height="30"/><rect class="achse" x="85" y="70" width="55" height="30" fill="none"/>
+<text x="57" y="90" text-anchor="middle" class="klein">S</text><text x="112" y="90" text-anchor="middle" class="klein">N</text>
+<path class="kurve blau" d="M60 45L120 45" marker-end="url(#pfeil-abb1)" fill="none"/>
+<text x="90" y="36" text-anchor="middle" class="klein blau">v</text>
+<ellipse class="achse" cx="250" cy="85" rx="18" ry="55" fill="none" style="stroke-width:2.2"/>
+<path class="kurve kupfer" d="M250 30L262 31" marker-end="url(#pfeil-abb1k)" fill="none"/>
+<path class="kurve kupfer" d="M250 140L238 139" marker-end="url(#pfeil-abb1k)" fill="none"/>
+<text x="250" y="20" text-anchor="middle" class="klein kupfer">Induktionsstrom I</text>
+<path class="hilfslinie" d="M232 85L180 85"/><path class="kurve kupfer duenn" d="M240 100L200 100" marker-end="url(#pfeil-abb1k)" fill="none" style="stroke-dasharray:4 3"/>
+<text x="185" y="118" text-anchor="middle" class="klein kupfer">Gegenfeld B′</text>
+<text x="180" y="160" text-anchor="middle" class="klein">Der Magnet nähert sich: der Fluss durch die Schleife wächst</text>
+</svg>
+            <figcaption>Abb. 1: Ein Magnet nähert sich einer Drahtschleife. Durch die Schleife
+              gehen dabei immer mehr Feldlinien, und es fließt ein Strom, dessen eigenes Feld dem
+              des Magneten entgegenwirkt.</figcaption>
+          </figure>
+
+          <p>Man fasst das mit dem Begriff <em>magnetischer Fluss</em> zusammen. Er gibt an, wie
+            viel Magnetfeld durch die Fläche der Schleife hindurchtritt, grob gesagt die Zahl der
+            Feldlinien. Die Spannung hängt davon ab, wie schnell sich dieser Fluss ändert. Du kannst
+            ihn auf drei Arten verändern: den Magneten bewegen (das Feld ändert sich), die Schleife
+            bewegen oder verformen (die Fläche ändert sich) oder die Schleife drehen (der Winkel
+            zum Feld ändert sich). Mehr Windungen im Draht bedeuten mehr Spannung, denn jede
+            Windung trägt etwas bei.</p>
+
+          <div class="alltag">
+            <span class="titel">Aus dem Alltag</span>
+            <p>Ein Kraftwerksgenerator ist ein riesiger Dynamo: Dampf oder Wasser dreht Spulen
+              in einem Magnetfeld. Auch ein Induktionsherd nutzt den Effekt. Unter der Platte sitzt
+              eine Spule mit schnell wechselndem Strom. Ihr Feld induziert im Topfboden Ströme,
+              und diese heizen den Topf. Die Herdplatte selbst bleibt dabei fast kalt.</p>
+          </div>
+
+          <p>Auch die Richtung des Stroms ist festgelegt. Er fließt immer so, dass er seiner Ursache
+            entgegenwirkt. Das ist die <em>Lenzsche Regel</em>. Du kannst sie im Versuch sehen:
+            Ein Aluminiumring hängt an zwei Fäden. Näherst du einen Magneten, weicht der Ring aus,
+            ziehst du ihn weg, folgt der Ring. Dazu ist es egal, ob du den Nord- oder den Südpol
+            benutzt. Würde der Ring stattdessen auf den Magneten zufliegen, könnte man damit Energie
+            aus dem Nichts gewinnen. Die Natur erlaubt das nicht.</p>
+
+          <p>Dieselbe Bremswirkung gibt es in massiven Metallstücken. Dort fließen Ströme in
+            kleinen Kreisen, die <em>Wirbelströme</em>. Lässt du einen Magneten in einem Kupferrohr
+            fallen, sinkt er auffallend langsam, weil die induzierten Ströme ihn bremsen. Bei
+            Schnellbremsen von Zügen und Fahrzeugen wird das gezielt genutzt. Schlitze im Metall
+            unterbrechen die Kreise, dann bremst es kaum noch.</p>
+
+          <p>Schließlich wirkt die Induktion auch auf die Spule selbst. Schaltest du den Strom
+            ein, baut sich ein Magnetfeld auf. Das ist eine Änderung, also entsteht eine Spannung,
+            die dem Strom entgegenwirkt. Der Strom steigt deshalb nur allmählich an. Schaltest du
+            ab, will die Spule den Strom aufrechterhalten, und es springt ein Funke. Die Spule
+            verhält sich wie ein Schwungrad: Sie ist träge gegen Änderungen des Stroms.</p>
+
+          <div class="merkkasten">
+            <span class="titel">Das Wichtigste in Kürze</span>
+            <p>Ändert sich das Magnetfeld durch eine Leiterschleife, entsteht in ihr eine Spannung.
+              Je schneller die Änderung und je mehr Windungen, desto größer ist sie. Der induzierte
+              Strom wirkt seiner Ursache entgegen. Eine Spule wehrt sich dadurch gegen jede
+              Änderung ihres eigenen Stroms und speichert in ihrem Magnetfeld Energie.</p>
+          </div>
+        </section>
+
+        <section class="tab" id="vertiefung" data-titel="Vertiefung">
+
+          <p>Bisher waren alle Felder zeitlich konstant. Die Gleichungen der Elektro- und
+            Magnetostatik enthalten deshalb nur Ortsableitungen, und $\operatorname{rot}\vec{E} = 0$.
+            Hier lassen wir zeitabhängige Felder zu. Die erste Verallgemeinerung geht auf
+            Experimente von Faraday (1831) zurück.</p>
+
+          <h2>Magnetischer Fluss und Faradaysches Gesetz</h2>
+
+          <p>Der <em>magnetische Fluss</em> durch eine Fläche $A$ ist</p>
+          $$ \Phi_M = \int_A \vec{B} \cdot \mathrm{d}\vec{A}, \qquad [\Phi_M] = \mathrm{T\,m^2} = \mathrm{Wb}\ (\text{Weber}) . $$
+          <p>Der Versuch zeigt: Entlang einer geschlossenen Leiterschleife entsteht eine
+            Spannung, sobald sich $\Phi_M$ zeitlich ändert, gleichgültig wodurch. Das ist das
+            <em>Faradaysche Induktionsgesetz</em></p>
+          $$ U_\text{ind} = \oint \vec{E} \cdot \mathrm{d}\vec{s} = -\dot{\Phi}_M = -\frac{\mathrm{d}}{\mathrm{d}t} \int_A \vec{B} \cdot \mathrm{d}\vec{A} . $$
+          <p>Hat die Spule $N$ Windungen, wird der Fluss von jeder Windung erfasst, und es gilt
+            $U_\text{ind} = -N\dot{\Phi}_M$. Die Spannung wächst, wenn sich das Feld, die Fläche oder
+            der Winkel zwischen beiden schnell ändert. Das Minuszeichen enthält die Lenzsche Regel
+            (siehe unten).</p>
+
+          <h3>Bewegter Leiterstab</h3>
+          <p>Der einfachste Fall mit sich ändernder Fläche: Ein Leiterstab der Länge $l$ gleitet
+            mit der Geschwindigkeit $v$ über zwei Schienen, die an einem Ende verbunden sind
+            (Abb. 2). Das Feld $B$ ist homogen und steht senkrecht auf der Fläche. Die eingeschlossene
+            Fläche ist $A = l\,x(t)$, also</p>
+          $$ \Phi_M = B\,l\,x(t), \qquad U_\text{ind} = -\dot{\Phi}_M = -B\,l\,v . $$
+
+          <figure class="abbildung">
+            <svg class="abb" viewBox="0 0 360 175" role="img" aria-label="Ein Leiterstab gleitet mit Geschwindigkeit v über zwei Schienen in einem Magnetfeld, das in die Zeichenebene zeigt">
+<defs><marker id="pfeil-abb2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto"><path class="punkt kupfer" d="M0 0L10 5L0 10z"/></marker></defs>
+<rect class="flaeche" x="40" y="30" width="150" height="95"/>
+<path class="achse" d="M40 30L340 30M40 125L340 125M40 30L40 125"/>
+<text x="120" y="58" text-anchor="middle" class="klein" style="opacity:.5">×</text><text x="120" y="98" text-anchor="middle" class="klein" style="opacity:.5">×</text><text x="160" y="58" text-anchor="middle" class="klein" style="opacity:.5">×</text><text x="160" y="98" text-anchor="middle" class="klein" style="opacity:.5">×</text><text x="200" y="58" text-anchor="middle" class="klein" style="opacity:.5">×</text><text x="200" y="98" text-anchor="middle" class="klein" style="opacity:.5">×</text><text x="240" y="58" text-anchor="middle" class="klein" style="opacity:.5">×</text><text x="240" y="98" text-anchor="middle" class="klein" style="opacity:.5">×</text><text x="280" y="58" text-anchor="middle" class="klein" style="opacity:.5">×</text><text x="280" y="98" text-anchor="middle" class="klein" style="opacity:.5">×</text><text x="320" y="58" text-anchor="middle" class="klein" style="opacity:.5">×</text><text x="320" y="98" text-anchor="middle" class="klein" style="opacity:.5">×</text>
+<path class="kurve kupfer" d="M190 24L190 131" style="stroke-width:4"/>
+<path class="kurve kupfer" d="M196 78L250 78" marker-end="url(#pfeil-abb2)" fill="none"/>
+<text x="224" y="70" text-anchor="middle" class="klein kupfer">v</text>
+<path class="hilfslinie" d="M40 142L190 142"/><text x="115" y="158" text-anchor="middle" class="klein">x(t)</text>
+<path class="hilfslinie" d="M22 30L22 125"/><text x="14" y="82" text-anchor="middle" class="klein">l</text>
+<text x="100" y="82" text-anchor="middle" class="klein blau">Fläche A</text>
+<text x="340" y="165" text-anchor="end" class="klein">B zeigt in die Zeichenebene (×)</text>
+</svg>
+            <figcaption>Abb. 2: Leiterstab auf Schienen. Die blau markierte Fläche wächst mit
+              der Rate $l\,v$, und der Fluss wächst mit $B\,l\,v$.</figcaption>
+          </figure>
+
+          <p>Dasselbe Ergebnis folgt aus der Lorentzkraft. Auf ein Ladungsteilchen im Stab wirkt
+            $\vec{F}_L = q\,\vec{v} \times \vec{B}$, es wird entlang des Stabes verschoben. Die
+            Arbeit pro Ladung über die Stablänge ist $v B l$, das ist die induzierte Spannung
+            (Betrag). Für bewegte Leiter im statischen Feld sind beide Sichtweisen
+            gleichwertig.</p>
+
+          <h3>Der Wechselstromgenerator</h3>
+          <p>Wird eine Schleife (Fläche $A$, $N$ Windungen) mit der Kreisfrequenz $\omega$ im
+            homogenen Feld gedreht, ändert sich der Winkel $\alpha = \omega t$ zwischen der
+            Flächennormalen und $\vec{B}$:</p>
+          $$ \Phi_M = B A \cos(\omega t), \qquad U_\text{ind} = -N\dot{\Phi}_M = N B A\,\omega \sin(\omega t) . $$
+          <p>Das ist ein Wechselstromgenerator (Abb. 3). Die Spannung ist maximal, wo der Fluss
+            gerade null durchläuft, denn dort ändert er sich am schnellsten. Mit $f = 50\,\mathrm{Hz}$
+            kommt die Netzfrequenz heraus. Wie man mit solchen Wechselspannungen rechnet, steht im
+            Thema <a href="wechselstrom.html#wechselspannung">Wechselstrom und Schwingkreis</a>.</p>
+
+          <figure class="abbildung">
+            <svg class="abb" viewBox="0 0 360 170" role="img" aria-label="Fluss als Kosinus und induzierte Spannung als Sinus über eine Umdrehung">
+<path class="achse" d="M50 85L342 85M50 25L50 145"/>
+<text x="345" y="100" text-anchor="end" class="klein">t</text>
+<text x="56" y="22" class="klein">Φ, U (relativ)</text>
+<polyline class="kurve blau" fill="none" points="50.0,30.0 54.7,30.3 59.3,31.2 64.0,32.7 68.7,34.8 73.3,37.4 78.0,40.5 82.7,44.1 87.3,48.2 92.0,52.7 96.7,57.5 101.3,62.6 106.0,68.0 110.7,73.6 115.3,79.3 120.0,85.0 124.7,90.7 129.3,96.4 134.0,102.0 138.7,107.4 143.3,112.5 148.0,117.3 152.7,121.8 157.3,125.9 162.0,129.5 166.7,132.6 171.3,135.2 176.0,137.3 180.7,138.8 185.3,139.7 190.0,140.0 194.7,139.7 199.3,138.8 204.0,137.3 208.7,135.2 213.3,132.6 218.0,129.5 222.7,125.9 227.3,121.8 232.0,117.3 236.7,112.5 241.3,107.4 246.0,102.0 250.7,96.4 255.3,90.7 260.0,85.0 264.7,79.3 269.3,73.6 274.0,68.0 278.7,62.6 283.3,57.5 288.0,52.7 292.7,48.2 297.3,44.1 302.0,40.5 306.7,37.4 311.3,34.8 316.0,32.7 320.7,31.2 325.3,30.3 330.0,30.0"/>
+<polyline class="kurve kupfer" fill="none" points="50.0,85.0 54.7,79.3 59.3,73.6 64.0,68.0 68.7,62.6 73.3,57.5 78.0,52.7 82.7,48.2 87.3,44.1 92.0,40.5 96.7,37.4 101.3,34.8 106.0,32.7 110.7,31.2 115.3,30.3 120.0,30.0 124.7,30.3 129.3,31.2 134.0,32.7 138.7,34.8 143.3,37.4 148.0,40.5 152.7,44.1 157.3,48.2 162.0,52.7 166.7,57.5 171.3,62.6 176.0,68.0 180.7,73.6 185.3,79.3 190.0,85.0 194.7,90.7 199.3,96.4 204.0,102.0 208.7,107.4 213.3,112.5 218.0,117.3 222.7,121.8 227.3,125.9 232.0,129.5 236.7,132.6 241.3,135.2 246.0,137.3 250.7,138.8 255.3,139.7 260.0,140.0 264.7,139.7 269.3,138.8 274.0,137.3 278.7,135.2 283.3,132.6 288.0,129.5 292.7,125.9 297.3,121.8 302.0,117.3 306.7,112.5 311.3,107.4 316.0,102.0 320.7,96.4 325.3,90.7 330.0,85.0"/>
+<text x="62" y="36" class="klein blau">Φ = B A cos(ωt)</text>
+<text x="212" y="38" class="klein kupfer">U = N B A ω sin(ωt)</text>
+<path class="hilfslinie" d="M330 85L330 100"/><text x="330" y="113" text-anchor="middle" class="klein">T</text>
+<path class="hilfslinie" d="M190 85L190 100"/><text x="190" y="113" text-anchor="middle" class="klein">T/2</text>
+<text x="180" y="158" text-anchor="middle" class="klein">Wo sich der Fluss am steilsten ändert, ist der Betrag der Spannung am größten</text>
+</svg>
+            <figcaption>Abb. 3: Fluss und Induktionsspannung bei einer Umdrehung der Schleife.
+              Die Spannung ist die negative Ableitung des Flusses.</figcaption>
+          </figure>
+
+          <h2>Differentielle Form: das elektrische Wirbelfeld</h2>
+
+          <p>Ruht die Schleife und ändert sich nur das Magnetfeld, gilt mit dem Satz von Stokes
+            $\oint \vec{E} \cdot \mathrm{d}\vec{s} = \int (\operatorname{rot}\vec{E}) \cdot \mathrm{d}\vec{A}$:</p>
+          $$ \int_A (\operatorname{rot}\vec{E}) \cdot \mathrm{d}\vec{A} = -\int_A \dot{\vec{B}} \cdot \mathrm{d}\vec{A}
+             \quad\Longrightarrow\quad \operatorname{rot}\vec{E} = -\frac{\partial \vec{B}}{\partial t} . $$
+          <p>Diese Gleichung gilt an jedem Ort, auch im Vakuum und ohne Leiterschleife. Ein sich
+            änderndes Magnetfeld erzeugt also ein elektrisches <em>Wirbelfeld</em> (Abb. 4).</p>
+
+          <figure class="abbildung">
+            <svg class="abb" viewBox="0 0 360 170" role="img" aria-label="Geschlossene elektrische Feldlinien im Uhrzeigersinn um ein wachsendes Magnetfeld, das aus der Zeichenebene zeigt">
+<defs><marker id="pfeil-abb5" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto"><path class="punkt kupfer" d="M0 0L10 5L0 10z"/></marker></defs>
+<circle class="flaeche" cx="180" cy="85" r="40"/>
+<circle class="punkt blau" cx="156" cy="85" r="2"/><circle class="punkt blau" cx="180" cy="61" r="2"/><circle class="punkt blau" cx="180" cy="85" r="2"/><circle class="punkt blau" cx="180" cy="109" r="2"/><circle class="punkt blau" cx="204" cy="85" r="2"/>
+<path class="kurve kupfer duenn" d="M180 55 A30 30 0 1 1 177.4 55.1" marker-end="url(#pfeil-abb5)" fill="none"/><path class="kurve kupfer duenn" d="M180 33 A52 52 0 1 1 175.5 33.2" marker-end="url(#pfeil-abb5)" fill="none"/><path class="kurve kupfer duenn" d="M180 11 A74 74 0 1 1 173.6 11.3" marker-end="url(#pfeil-abb5)" fill="none"/>
+<text x="180" y="88" text-anchor="middle" class="klein halo" style="opacity:0"> </text>
+<text x="262" y="60" class="klein blau">B wächst, zeigt</text><text x="262" y="73" class="klein blau">aus der Zeichenebene</text>
+<text x="262" y="110" class="klein kupfer">E: geschlossene</text><text x="262" y="123" class="klein kupfer">Linien, rechtsherum</text>
+</svg>
+            <figcaption>Abb. 4: Ein wachsendes Magnetfeld (blaue Punkte, zeigt auf dich zu) umgibt
+              sich mit geschlossenen elektrischen Feldlinien. Sie laufen rechtsherum, weil das
+              Minuszeichen im Gesetz die Richtung festlegt.</figcaption>
+          </figure>
+
+          <p>Das E-Feld hat damit zwei Anteile. Das Feld ruhender Ladungen ist wirbelfrei
+            ($\operatorname{rot}\vec{E} = 0$), seine Feldlinien beginnen und enden an Ladungen, und es
+            besitzt ein Potential. Der Induktionsanteil ist quellenfrei, seine Feldlinien sind
+            geschlossen, und er lässt sich nicht als Gradient eines skalaren Potentials schreiben.
+            Die Spannung zwischen zwei Punkten hängt dann vom Weg ab.</p>
+
+          <h3>Beispiel: homogenes Feld im Kreis</h3>
+          <p>Ein zylindersymmetrisches Feld $B(t)$ fülle einen Kreis mit Radius $R$. Aus Symmetrie
+            hat das Wirbelfeld nur eine Umlaufkomponente $E_\varphi(r)$. Innerhalb des Kreises
+            ($r \lt R$) ist $\oint \vec{E} \cdot \mathrm{d}\vec{s} = 2\pi r E_\varphi$ und der Fluss
+            $\pi r^2 B$, außerhalb ist der Fluss $\pi R^2 B$. Daraus</p>
+          $$ \lvert E_\varphi \rvert = \frac{r}{2}\left|\frac{\mathrm{d}B}{\mathrm{d}t}\right| \quad (r \lt R), \qquad
+             \lvert E_\varphi \rvert = \frac{R^2}{2r}\left|\frac{\mathrm{d}B}{\mathrm{d}t}\right| \quad (r \gt R) . $$
+          <p>Auch außerhalb des Feldgebiets, wo $B = 0$ ist, gibt es ein elektrisches Feld.</p>
+
+          <h2>Lenzsche Regel und Wirbelströme</h2>
+
+          <p>Das Minus im Induktionsgesetz bedeutet: <em>Die Induktionsspannung und der von ihr
+            getriebene Strom sind stets so gerichtet, dass sie ihrer Ursache entgegenwirken.</em>
+            Die Begründung folgt der Kette Änderung von $B$, Spannung $U$, Strom $I$, Gegenfeld $B'$.
+            Wäre $B'$ gleichgerichtet mit $B$, würde die Änderung sich selbst verstärken, und Strom
+            und Feld wüchsen ohne Zufuhr von Energie ins Unendliche. Das widerspricht der
+            Energieerhaltung.</p>
+
+          <p><strong>Vorlesungsversuch:</strong> Ein Aluminiumring hängt als Pendel an zwei Fäden, ein
+            Stabmagnet wird entlang der Ringachse hinein- und herausbewegt. Bei Annäherung wird
+            der Ring abgestoßen, bei Entfernung angezogen, unabhängig davon, ob Nord- oder
+            Südpol vorn liegt.</p>
+
+          <p>Beim Leiterstab aus Abb. 2 zeigt sich die Lenzsche Regel als Bremskraft. Fließt der Strom
+            $I = B l v/R$ (Schleifenwiderstand $R$), wirkt auf den Stab die Kraft
+            $F = B I l = B^2 l^2 v/R$ gegen die Bewegung. Zum Halten der Geschwindigkeit muss man die
+            Leistung $P = F v = B^2 l^2 v^2/R$ aufbringen, und genau diese wird im Widerstand als Wärme
+            $U I = I^2 R$ frei. Die mechanische Arbeit wird vollständig in Wärme umgesetzt.</p>
+
+          <h3>Wirbelströme</h3>
+          <p>Induzierte Ströme fließen auch in massiven Metallstücken,
+            die sich im Feld bewegen oder von sich änderndem Feld durchsetzt werden. Diese
+            <em>Wirbelströme</em> verlaufen in geschlossenen Bahnen und erwärmen das Metall
+            (Joulesche Wärme).</p>
+
+          <p><strong>Vorlesungsversuch (Waltenhofensches Pendel):</strong> Eine Aluminiumscheibe
+            pendelt an einem langen Stab zwischen den Polschuhen eines Elektromagneten.
+            Ohne Strom schwingt sie fast ungedämpft. Mit Magnetstrom ist die Bewegung stark gedämpft,
+            denn die Wirbelströme wandeln die mechanische Energie in Wärme um. Sägt man viele Schlitze
+            senkrecht zur Bewegungsrichtung ins Blech, können sich nur schwache Wirbelströme
+            ausbilden, und die Dämpfung ist gering. Daher werden Eisenkerne von Transformatoren
+            aus gegeneinander isolierten Blechen geschichtet. Bei der Wirbelstrombremse nutzt man die
+            Bremswirkung gezielt, etwa als Schnellbremse elektrisch angetriebener Fahrzeuge.</p>
+
+          <h2>Selbstinduktion</h2>
+
+          <p>Ändert sich der Strom $I$ in einer Spule, ändert sich ihr eigenes Feld, und das
+            induziert eine Spannung in der Spule selbst. Da $B \propto I$ ist, ist auch der Fluss
+            proportional zum Strom (feste Geometrie, kein Eisen):</p>
+          $$ \Phi_M = L\,I, \qquad U_\text{ind} = -L\,\dot{I} . $$
+          <p>Die Konstante $L$ heißt <em>Induktivität</em>, Einheit Henry:
+            $1\,\mathrm{H} = 1\,\mathrm{V\,s/A}$. Für eine lange Spule mit $N$ Windungen, Länge $D$ und
+            Querschnitt $A$ ist $B = \mu_0 N I/D$, der Fluss durch alle Windungen
+            $\Phi_M = N B A = \mu_0 N^2 A I/D$, also</p>
+          $$ L = \frac{\mu_0 N^2 A}{D} = \mu_0\,n^2\,V, \qquad n = \frac{N}{D}, \quad V = A D . $$
+          <p>Die Induktivität wächst mit dem Volumen und dem Quadrat der Windungsdichte.</p>
+
+          <h3>Einschalten eines RL-Kreises</h3>
+          <p>Eine Quelle mit der Spannung $U_0$ speist eine Spule (Induktivität $L$, Widerstand $R$) über einen
+            Schalter. Nach dem Schließen gilt die Maschenregel $U_0 = R I - U_\text{ind}$, mit
+            $U_\text{ind} = -L\dot{I}$ also</p>
+          $$ U_0 = R\,I + L\,\dot{I} . $$
+          <p>Zeitliche Ableitung ergibt $\ddot{I} + k\,\dot{I} = 0$ mit $k = R/L$. Die Lösung dieser Gleichung ist
+            $\dot{I} = C_2\,\mathrm{e}^{-kt}$ und damit $I = C_3\,\mathrm{e}^{-kt} + C_4$. Mit den Randbedingungen
+            $I(0) = 0$ und $I(\infty) = U_0/R$ folgt</p>
+          $$ I(t) = \frac{U_0}{R}\left(1 - \mathrm{e}^{-t/\tau}\right), \qquad \tau = \frac{L}{R} . $$
+          <p>Zu Beginn wirkt die Selbstinduktionsspannung der Quelle voll entgegen
+            ($I = 0$, $\dot{I} = U_0/L$). Erst allmählich kann der Endstrom $I_\text{max} = U_0/R$ fließen. Nach
+            der Zeit $\tau$ sind $63\,\%$ erreicht (Abb. 5, links). Der Strom folgt der Spannung also
+            verzögert.</p>
+
+          <p><strong>Vorlesungsversuch (Selbstinduktion einer Spule):</strong> Man misst $I(t)$ nach dem Schließen von
+            $S$. Die Kurve folgt der oben berechneten Exponentialfunktion mit der Anfangstangente der Steigung $U_0/L$
+            und nähert sich waagerecht dem Maximalwert.</p>
+
+          <h3>Ausschalten</h3>
+          <p>Wird die Quelle überbrückt, sodass die Spule über den Widerstand weiterläuft, gilt
+            $R I + L\dot{I} = 0$, also</p>
+          $$ I(t) = I_0\,\mathrm{e}^{-t/\tau} . $$
+          <p>Der Strom bricht nicht sofort zusammen, sondern klingt mit derselben Zeitkonstante $\tau = L/R$ ab
+            (Abb. 5, rechts). Unterbricht man dagegen den Kreis hart, wird $\dot{I}$ sehr groß, und die
+            Selbstinduktionsspannung kann ein Vielfaches von $U_0$ erreichen. Das erklärt den
+            Funken am Schalter.</p>
+
+          <figure class="abbildung">
+            <div class="abb-reihe">
+              <svg class="abb" viewBox="0 0 320 170" role="img" aria-label="Anstieg des Stroms im RL-Kreis">
+<defs><marker id="pfeil-abb4a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto"><path class="punkt blau" d="M0 0L10 5L0 10z"/></marker></defs>
+<path class="achse" d="M45 125L305 125M45 125L45 20"/>
+<text x="306" y="141" text-anchor="end" class="klein">t</text><text x="52" y="22" class="klein">I</text>
+<polyline class="kurve blau" fill="none" points="45.0,125.0 49.0,117.4 53.0,110.4 57.0,104.0 61.0,98.1 65.0,92.6 69.0,87.6 73.0,83.0 77.0,78.8 81.0,74.9 85.0,71.3 89.0,68.0 93.0,64.9 97.0,62.2 101.0,59.6 105.0,57.2 109.0,55.0 113.0,53.0 117.0,51.2 121.0,49.5 125.0,47.9 129.0,46.5 133.0,45.2 137.0,44.0 141.0,42.9 145.0,41.8 149.0,40.9 153.0,40.0 157.0,39.2 161.0,38.5 165.0,37.8 169.0,37.2 173.0,36.6 177.0,36.1 181.0,35.6 185.0,35.1 189.0,34.7 193.0,34.4 197.0,34.0 201.0,33.7 205.0,33.4 209.0,33.1 213.0,32.9 217.0,32.6 221.0,32.4 225.0,32.2 229.0,32.1 233.0,31.9 237.0,31.7 241.0,31.6 245.0,31.5 249.0,31.4 253.0,31.2 257.0,31.1 261.0,31.1 265.0,31.0 269.0,30.9 273.0,30.8 277.0,30.8 281.0,30.7 285.0,30.6"/>
+<path class="hilfslinie" d="M45 30L305 30"/><text x="40" y="34" text-anchor="end" class="klein">U₀/R</text><path class="kurve kupfer duenn" d="M45 125L93 30" fill="none" style="stroke-dasharray:4 3"/><path class="hilfslinie" d="M93 125L93 65"/><circle class="punkt kupfer" cx="93" cy="65" r="3"/><text x="101" y="83" class="klein kupfer">63 % bei τ</text><text x="165" y="158" text-anchor="middle" class="klein">Einschalten. Gestrichelt: Anfangssteigung U₀/L</text><path class="achse" d="M93 125L93 129" style="stroke-width:1"/><text x="93" y="141" text-anchor="middle" class="klein">1τ</text><path class="achse" d="M141 125L141 129" style="stroke-width:1"/><text x="141" y="141" text-anchor="middle" class="klein">2τ</text><path class="achse" d="M189 125L189 129" style="stroke-width:1"/><text x="189" y="141" text-anchor="middle" class="klein">3τ</text><path class="achse" d="M237 125L237 129" style="stroke-width:1"/><text x="237" y="141" text-anchor="middle" class="klein">4τ</text></svg>
+              <svg class="abb" viewBox="0 0 320 170" role="img" aria-label="Abfall des Stroms im RL-Kreis">
+<defs><marker id="pfeil-abb4b" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto"><path class="punkt blau" d="M0 0L10 5L0 10z"/></marker></defs>
+<path class="achse" d="M45 125L305 125M45 125L45 20"/>
+<text x="306" y="141" text-anchor="end" class="klein">t</text><text x="52" y="22" class="klein">I</text>
+<polyline class="kurve blau" fill="none" points="45.0,30.0 49.0,37.6 53.0,44.6 57.0,51.0 61.0,56.9 65.0,62.4 69.0,67.4 73.0,72.0 77.0,76.2 81.0,80.1 85.0,83.7 89.0,87.0 93.0,90.1 97.0,92.8 101.0,95.4 105.0,97.8 109.0,100.0 113.0,102.0 117.0,103.8 121.0,105.5 125.0,107.1 129.0,108.5 133.0,109.8 137.0,111.0 141.0,112.1 145.0,113.2 149.0,114.1 153.0,115.0 157.0,115.8 161.0,116.5 165.0,117.2 169.0,117.8 173.0,118.4 177.0,118.9 181.0,119.4 185.0,119.9 189.0,120.3 193.0,120.6 197.0,121.0 201.0,121.3 205.0,121.6 209.0,121.9 213.0,122.1 217.0,122.4 221.0,122.6 225.0,122.8 229.0,122.9 233.0,123.1 237.0,123.3 241.0,123.4 245.0,123.5 249.0,123.6 253.0,123.8 257.0,123.9 261.0,123.9 265.0,124.0 269.0,124.1 273.0,124.2 277.0,124.2 281.0,124.3 285.0,124.4"/>
+<text x="40" y="34" text-anchor="end" class="klein">I₀</text><path class="kurve kupfer duenn" d="M45 30L93 125" fill="none" style="stroke-dasharray:4 3"/><path class="hilfslinie" d="M93 125L93 90"/><circle class="punkt kupfer" cx="93" cy="90" r="3"/><text x="101" y="84" class="klein kupfer">37 % bei τ</text><text x="165" y="158" text-anchor="middle" class="klein">Ausschalten. Gestrichelt: Anfangssteigung −I₀/τ</text><path class="achse" d="M93 125L93 129" style="stroke-width:1"/><text x="93" y="141" text-anchor="middle" class="klein">1τ</text><path class="achse" d="M141 125L141 129" style="stroke-width:1"/><text x="141" y="141" text-anchor="middle" class="klein">2τ</text><path class="achse" d="M189 125L189 129" style="stroke-width:1"/><text x="189" y="141" text-anchor="middle" class="klein">3τ</text><path class="achse" d="M237 125L237 129" style="stroke-width:1"/><text x="237" y="141" text-anchor="middle" class="klein">4τ</text></svg>
+            </div>
+            <figcaption>Abb. 5: Strom im RL-Kreis beim Einschalten (links) und Ausschalten
+              (rechts). Nach $\tau = L/R$ ist der Strom auf $63\,\%$ gestiegen bzw. auf $37\,\%$ gefallen.</figcaption>
+          </figure>
+
+          <h2>Energie des Magnetfelds</h2>
+
+          <p>Beim Abschalten steckt die im Widerstand umgesetzte Energie vorher im Magnetfeld der Spule. Mit
+            $I = I_0\,\mathrm{e}^{-t/\tau}$ wird sie berechnet über</p>
+          $$ W = \int_0^\infty U I\,\mathrm{d}t = \int_0^\infty R I^2\,\mathrm{d}t = R I_0^2 \int_0^\infty \mathrm{e}^{-2t/\tau}\,\mathrm{d}t
+             = R I_0^2 \cdot \frac{\tau}{2} = \frac{1}{2}\,L\,I_0^2 . $$
+          <p>Allgemein enthält eine Spule mit dem Strom $I$ die Energie</p>
+          $$ W = \frac{1}{2}\,L\,I^2 . $$
+          <p>Zum Vergleich: Ein auf die Spannung $U$ geladener Kondensator enthält $W = \tfrac{1}{2}\,C\,U^2$
+            im elektrischen Feld. Setzt man für die lange Spule $L = \mu_0 n^2 V$ und $B = \mu_0 n I$ ein,
+            ergibt sich $W = \tfrac{1}{2}\mu_0 n^2 V I^2 = \dfrac{B^2}{2\mu_0}\,V$. Die Energie sitzt also im Feld, mit
+            der Energiedichte</p>
+          $$ w = \frac{B^2}{2\mu_0} , $$
+          <p>das Gegenstück zu $w = \tfrac{1}{2}\varepsilon_0 E^2$ im elektrischen Feld. Die Herleitung gilt
+            hier für die lange Spule, die Formel gilt allgemein.</p>
+
+          <div class="merkkasten">
+            <span class="titel">Merke</span>
+            <p>Faraday: $U_\text{ind} = -N\dot{\Phi}_M$, differentiell $\operatorname{rot}\vec{E} = -\partial_t\vec{B}$.
+              Das Minus (Lenz) sorgt dafür, dass der induzierte Strom seiner Ursache entgegenwirkt.
+              Selbstinduktion: $\Phi_M = L I$, $U_\text{ind} = -L\dot{I}$, Lange Spule $L = \mu_0 n^2 V$.
+              RL-Kreis: $I(t) = \tfrac{U_0}{R}(1 - \mathrm{e}^{-t/\tau})$ mit $\tau = L/R$.
+              Energie im Magnetfeld: $W = \tfrac{1}{2}LI^2$, Dichte $B^2/(2\mu_0)$.</p>
+          </div>
+        </section>
+
+        <section class="tab" id="beispiele" data-titel="Beispielrechnungen">
+
+          <div class="beispiel">
+            <h3>Beispiel 1: Generator</h3>
+            <p><strong>Gegeben:</strong> Spule mit $N = 200$ Windungen, Fläche $A = 50\,\mathrm{cm^2}$, im homogenen Feld
+              $B = 0{,}30\,\mathrm{T}$, Drehfrequenz $f = 50\,\mathrm{Hz}$.<br>
+              <strong>Gesucht:</strong> Scheitelwert der Spannung.</p>
+
+            <p><strong>1. Kreisfrequenz.</strong> $\omega = 2\pi f = 2\pi \cdot 50\,\mathrm{s^{-1}} = 314{,}2\,\mathrm{s^{-1}}$.</p>
+
+            <p><strong>2. Fläche.</strong> $A = 50\,\mathrm{cm^2} = 50 \cdot 10^{-4}\,\mathrm{m^2} = 5{,}0 \cdot 10^{-3}\,\mathrm{m^2}$.</p>
+
+            <p><strong>3. Scheitelspannung.</strong>
+              $$ \hat{U} = N B A \omega = 200 \cdot 0{,}30\,\mathrm{T} \cdot 5{,}0 \cdot 10^{-3}\,\mathrm{m^2} \cdot 314{,}2\,\mathrm{s^{-1}} = 94{,}3\,\mathrm{V} $$
+              Einheitencheck: $\mathrm{T\,m^2/s = V}$ ✓</p>
+
+            <p><strong>Ergebnis und Plausibilität:</strong> Die Spannung schwingt zwischen $-94\,\mathrm{V}$ und
+              $+94\,\mathrm{V}$, der Effektivwert ist $94{,}3/\sqrt{2} = 66{,}7\,\mathrm{V}$. Für $230\,\mathrm{V}$ im Netz bräuchte man
+              entsprechend mehr Windungen oder ein stärkeres Feld.</p>
+          </div>
+
+          <div class="beispiel">
+            <h3>Beispiel 2: Leiterstab auf Schienen</h3>
+            <p><strong>Gegeben:</strong> Stab der Länge $l = 0{,}40\,\mathrm{m}$ mit $v = 5{,}0\,\mathrm{m/s}$ senkrecht zu
+              $B = 0{,}50\,\mathrm{T}$, Schleifenwiderstand $R = 0{,}20\,\Omega$.<br>
+              <strong>Gesucht:</strong> $U_\text{ind}$, $I$, Bremskraft und Leistung.</p>
+
+            <p><strong>1. Spannung.</strong> $U_\text{ind} = B l v = 0{,}50\,\mathrm{T} \cdot 0{,}40\,\mathrm{m} \cdot 5{,}0\,\mathrm{m/s} = 1{,}0\,\mathrm{V}$.</p>
+
+            <p><strong>2. Strom.</strong> $I = U_\text{ind}/R = 1{,}0\,\mathrm{V}/0{,}20\,\Omega = 5{,}0\,\mathrm{A}$.</p>
+
+            <p><strong>3. Kraft und Leistung.</strong>
+              $$ F = B I l = 0{,}50\,\mathrm{T} \cdot 5{,}0\,\mathrm{A} \cdot 0{,}40\,\mathrm{m} = 1{,}0\,\mathrm{N}, \qquad P = F v = 1{,}0\,\mathrm{N} \cdot 5{,}0\,\mathrm{m/s} = 5{,}0\,\mathrm{W} $$
+              Einheitencheck: $\mathrm{T\,A\,m = N}$ ✓</p>
+
+            <p><strong>Ergebnis und Plausibilität:</strong> Die Bremskraft beträgt $1{,}0\,\mathrm{N}$ und die
+              mechanische Leistung $5{,}0\,\mathrm{W}$. Probe: $U I = 1{,}0\,\mathrm{V} \cdot 5{,}0\,\mathrm{A} = 5{,}0\,\mathrm{W}$ stimmt,
+              die ganze Leistung wird im Widerstand zu Wärme.</p>
+          </div>
+
+          <div class="beispiel">
+            <h3>Beispiel 3: Spule am Gleichspannungsnetzteil</h3>
+            <p><strong>Gegeben:</strong> Lange Spule mit $N = 2000$, $D = 0{,}20\,\mathrm{m}$, $A = 10\,\mathrm{cm^2}$, ohne Eisen,
+              Widerstand $R = 5{,}0\,\Omega$, Quelle $U_0 = 10\,\mathrm{V}$.<br>
+              <strong>Gesucht:</strong> $L$, $\tau$, Endstrom, Strom nach $\tau$ und die gespeicherte Energie.</p>
+
+            <p><strong>1. Induktivität.</strong>
+              $$ L = \frac{\mu_0 N^2 A}{D} = \frac{4\pi \cdot 10^{-7}\,\mathrm{H/m} \cdot (2000)^2 \cdot 1{,}0 \cdot 10^{-3}\,\mathrm{m^2}}{0{,}20\,\mathrm{m}} = 25{,}1\,\mathrm{mH} $$</p>
+
+            <p><strong>2. Zeitkonstante und Endstrom.</strong>
+              $\tau = L/R = 25{,}1\,\mathrm{mH}/5{,}0\,\Omega = 5{,}03\,\mathrm{ms}$ und $I_\text{max} = U_0/R = 2{,}0\,\mathrm{A}$.</p>
+
+            <p><strong>3. Strom nach $\tau$.</strong>
+              $I(\tau) = 2{,}0\,\mathrm{A} \cdot (1 - \mathrm{e}^{-1}) = 1{,}26\,\mathrm{A}$.</p>
+
+            <p><strong>4. Energie bei $I_\text{max}$.</strong>
+              $W = \tfrac{1}{2} L I_\text{max}^2 = 0{,}5 \cdot 25{,}1 \cdot 10^{-3}\,\mathrm{H} \cdot (2{,}0\,\mathrm{A})^2 = 0{,}050\,\mathrm{J}$.
+              Einheitencheck: $\mathrm{H\,A^2 = V\,s\,A = J}$ ✓, und $\mathrm{H/\Omega = s}$ für $\tau$ ✓</p>
+
+            <p><strong>Ergebnis und Plausibilität:</strong> Der Strom erreicht nach etwa $5\tau \approx 25\,\mathrm{ms}$ praktisch den
+              Endwert. Probe über das Feld: $B = \mu_0 n I = 4\pi \cdot 10^{-7} \cdot 10^{4}\,\mathrm{m^{-1}} \cdot 2{,}0\,\mathrm{A} = 25{,}1\,\mathrm{mT}$,
+              $w = B^2/(2\mu_0) = 251\,\mathrm{J/m^3}$, mal Volumen $V = 2{,}0 \cdot 10^{-4}\,\mathrm{m^3}$ ergibt ebenfalls $0{,}050\,\mathrm{J}$ ✓.</p>
+          </div>
+        </section>
+
+        <section class="tab" id="aufgaben" data-titel="Aufgaben">
+
+          <p>Verwende $\mu_0 = 4\pi \cdot 10^{-7}\,\mathrm{N/A^2}$. Alle Felder sind homogen, sofern nichts anderes dasteht.</p>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 1
+              <span class="schwierigkeit" data-stufe="leicht">leicht</span>
+            </h3>
+            <p>Eine Spule mit $N = 20$ Windungen und der Querschnittsfläche $A = 25\,\mathrm{cm^2}$ steht senkrecht zu
+              einem Feld, das in $0{,}20\,\mathrm{s}$ gleichmäßig von $0$ auf $0{,}80\,\mathrm{T}$ steigt. Welche Spannung wird induziert?</p>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>Die Änderungsrate ist konstant: $U_\text{ind} = N A\,\Delta B/\Delta t = 20 \cdot 2{,}5 \cdot 10^{-3}\,\mathrm{m^2} \cdot
+                0{,}80\,\mathrm{T}/0{,}20\,\mathrm{s} = 0{,}20\,\mathrm{V}$. Das Vorzeichen (Minus) legt nur die Richtung fest.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 2
+              <span class="schwierigkeit" data-stufe="leicht">leicht</span>
+            </h3>
+            <p>Der Strom durch eine Spule mit $L = 0{,}20\,\mathrm{H}$ sinkt in $10\,\mathrm{ms}$ gleichmäßig von $2{,}0\,\mathrm{A}$ auf $0$.
+              (a) Wie groß ist die Induktionsspannung? (b) Wie viel Energie war im Magnetfeld gespeichert?</p>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>(a) $\lvert U_\text{ind} \rvert = L\,\lvert\Delta I\rvert/\Delta t = 0{,}20\,\mathrm{H} \cdot 2{,}0\,\mathrm{A}/0{,}010\,\mathrm{s} = 40\,\mathrm{V}$.
+                Sie wirkt dem Abfall entgegen, will den Strom also aufrechterhalten.<br>
+                (b) $W = \tfrac{1}{2} L I^2 = 0{,}5 \cdot 0{,}20\,\mathrm{H} \cdot (2{,}0\,\mathrm{A})^2 = 0{,}40\,\mathrm{J}$.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 3
+              <span class="schwierigkeit" data-stufe="mittel">mittel</span>
+            </h3>
+            <p>Ein Generator soll bei $f = 50\,\mathrm{Hz}$ eine Scheitelspannung von $325\,\mathrm{V}$ liefern (Effektivwert $230\,\mathrm{V}$).
+              Die Spulenfläche beträgt $A = 0{,}020\,\mathrm{m^2}$, das Feld $B = 0{,}50\,\mathrm{T}$. Wie viele Windungen sind nötig?</p>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>$\hat{U} = N B A \omega$ mit $\omega = 2\pi \cdot 50\,\mathrm{s^{-1}} = 314{,}2\,\mathrm{s^{-1}}$. Also
+                $N = \dfrac{\hat{U}}{B A \omega} = \dfrac{325\,\mathrm{V}}{0{,}50\,\mathrm{T} \cdot 0{,}020\,\mathrm{m^2} \cdot 314{,}2\,\mathrm{s^{-1}}} = 103{,}5$.
+                Es braucht mindestens $104$ Windungen. Probe: $\mathrm{T\,m^2/s = V}$ ✓.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 4
+              <span class="schwierigkeit" data-stufe="mittel">mittel</span>
+            </h3>
+            <p>Eine Spule mit $L = 0{,}50\,\mathrm{H}$ und $R = 20\,\Omega$ führt den Strom $I_0 = 1{,}5\,\mathrm{A}$. Die Quelle wird
+              abgetrennt, und die Spule schließt sich über ihren eigenen Widerstand. (a) Zeitkonstante? (b) Nach welcher Zeit
+              ist der Strom auf $0{,}10\,\mathrm{A}$ gefallen? (c) Welche Wärme entsteht insgesamt?</p>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>(a) $\tau = L/R = 0{,}50\,\mathrm{H}/20\,\Omega = 25\,\mathrm{ms}$.<br>
+                (b) Aus $I = I_0\,\mathrm{e}^{-t/\tau}$ folgt $t = \tau \ln(I_0/I) = 25\,\mathrm{ms} \cdot \ln 15 = 25\,\mathrm{ms} \cdot 2{,}708 = 67{,}7\,\mathrm{ms}$.<br>
+                (c) Die ganze Energie des Feldes wird zu Wärme: $W = \tfrac{1}{2} L I_0^2 = 0{,}5 \cdot 0{,}50\,\mathrm{H} \cdot (1{,}5\,\mathrm{A})^2 = 0{,}56\,\mathrm{J}$.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 5
+              <span class="schwierigkeit" data-stufe="schwer">schwer</span>
+            </h3>
+            <p>Ein homogenes Magnetfeld füllt einen Kreis vom Radius $R = 0{,}10\,\mathrm{m}$ und steigt gleichmäßig mit
+              $\mathrm{d}B/\mathrm{d}t = 0{,}50\,\mathrm{T/s}$. Das Feld zeigt aus der Zeichenebene heraus. (a) Wie groß ist die elektrische Feldstärke
+              bei $r = 0{,}05\,\mathrm{m}$ und bei $r = 0{,}25\,\mathrm{m}$? (b) Welche Spannung wird in einem kreisförmigen Ring mit
+              Radius $0{,}25\,\mathrm{m}$ um den Kreis induziert, und in welcher Richtung läuft das Wirbelfeld?</p>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>(a) Innen ($r \lt R$): $E = \tfrac{r}{2}\,\mathrm{d}B/\mathrm{d}t = 0{,}025\,\mathrm{m} \cdot 0{,}50\,\mathrm{T/s} = 0{,}0125\,\mathrm{V/m}$.
+                Außen ($r \gt R$): $E = \dfrac{R^2}{2r}\,\mathrm{d}B/\mathrm{d}t = \dfrac{0{,}010\,\mathrm{m^2}}{0{,}50\,\mathrm{m}} \cdot 0{,}50\,\mathrm{T/s} = 0{,}010\,\mathrm{V/m}$.<br>
+                (b) Es zählt der Fluss durch den Feldkreis: $U_\text{ind} = \pi R^2\,\mathrm{d}B/\mathrm{d}t = \pi \cdot 0{,}010\,\mathrm{m^2} \cdot 0{,}50\,\mathrm{T/s} = 15{,}7\,\mathrm{mV}$.
+                Probe: $2\pi r E = 2\pi \cdot 0{,}25\,\mathrm{m} \cdot 0{,}010\,\mathrm{V/m} = 15{,}7\,\mathrm{mV}$ ✓. Das wachsende Feld zeigt auf dich zu,
+                das Wirbelfeld läuft nach Lenz rechtsherum (im Uhrzeigersinn), sein Strom würde ein Gegenfeld in die Zeichenebene hinein erzeugen.</p>
+              <p><em>Zum Nachdenken:</em> Im Ring außerhalb des Feldes ist $B = 0$, trotzdem fließt ein Strom.
+                Das Magnetfeld muss nicht am Ort der Ladungen liegen, denn das Wirbelfeld $E$ reicht weit über das Feldgebiet hinaus.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 6
+              <span class="schwierigkeit" data-stufe="schwer">schwer</span>
+            </h3>
+            <p>Eine Spule mit $L = 0{,}40\,\mathrm{H}$ und $R = 8{,}0\,\Omega$ wird bei $t = 0$ an $U_0 = 24\,\mathrm{V}$ angeschlossen.
+              (a) Nach welcher Zeit speichert sie die Hälfte der Energie, die sie bei Endstrom enthält?
+              (b) Zu welchem Zeitpunkt nimmt der induktive Anteil der Spule ($U_L = L\dot{I}$, ohne den Widerstand) die größte Leistung $U_L I$ auf, und wie groß ist sie?</p>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>$\tau = L/R = 50\,\mathrm{ms}$, $I_\text{max} = U_0/R = 3{,}0\,\mathrm{A}$, $I(t) = I_\text{max}(1 - \mathrm{e}^{-t/\tau})$.<br>
+                (a) $W \propto I^2$: die halbe Endenergie bedeutet $I = I_\text{max}/\sqrt{2}$, also $1 - \mathrm{e}^{-t/\tau} = 0{,}7071$,
+                $\mathrm{e}^{-t/\tau} = 0{,}2929$ und $t = \tau \ln(1/0{,}2929) = 50\,\mathrm{ms} \cdot 1{,}228 = 61{,}4\,\mathrm{ms}$.<br>
+                (b) Die Spule hat die Spannung $U_L = U_0\,\mathrm{e}^{-t/\tau}$ und den Strom $I$, also
+                $P_L = U_L I = \dfrac{U_0^2}{R}\,\mathrm{e}^{-t/\tau}(1 - \mathrm{e}^{-t/\tau})$. Mit $y = \mathrm{e}^{-t/\tau}$ ist $y(1-y)$ maximal bei $y = \tfrac{1}{2}$,
+                also $t = \tau \ln 2 = 34{,}7\,\mathrm{ms}$ und $P_\text{max} = \dfrac{U_0^2}{4R} = \dfrac{(24\,\mathrm{V})^2}{4 \cdot 8{,}0\,\Omega} = 18\,\mathrm{W}$.</p>
+              <p><em>Zum Nachdenken:</em> Zu $t = 34{,}7\,\mathrm{ms}$ ist der Strom $1{,}5\,\mathrm{A}$, genau die Hälfte des Endwerts.
+                Bei $t \to \infty$ nimmt der induktive Anteil keine Leistung mehr auf, die Spule wirkt dann nur noch als Widerstand $R$.</p>
+            </details>
+          </div>
+        </section>
+
+      </div></article>
+  </main>
+</body>
+</html>

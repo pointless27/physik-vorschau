@@ -273,28 +273,21 @@
     }
   ];
 
-  /* Oberflächendetails, Koordinaten in Vielfachen des Radius:
-     [x, y, rx, ry, Drehung°, Farbe] */
-  var FLECKEN = {
-    merkur:  [[-0.35, -0.25, 0.2, 0.2, 0, "rgba(60,55,50,.35)"], [0.3, 0.15, 0.15, 0.15, 0, "rgba(60,55,50,.35)"],
-              [-0.1, 0.45, 0.13, 0.13, 0, "rgba(60,55,50,.3)"], [0.45, -0.4, 0.12, 0.12, 0, "rgba(60,55,50,.3)"]],
-    venus:   [[-0.2, -0.3, 0.7, 0.18, -15, "rgba(255,244,210,.35)"], [0.2, 0.35, 0.6, 0.15, -10, "rgba(255,244,210,.3)"]],
-    erde:    [[-0.3, -0.15, 0.32, 0.22, 30, "#4f9a5c"], [0.35, 0.3, 0.22, 0.34, -20, "#4f9a5c"],
-              [0.1, -0.5, 0.2, 0.12, 0, "#5ea767"], [0, -0.95, 0.45, 0.15, 0, "#f3f6fa"],
-              [0, 0.95, 0.4, 0.13, 0, "#f3f6fa"], [0.1, 0.05, 0.5, 0.05, -10, "rgba(255,255,255,.3)"]],
-    mond:    [[-0.3, -0.2, 0.22, 0.22, 0, "rgba(70,70,70,.35)"], [0.25, 0.3, 0.16, 0.16, 0, "rgba(70,70,70,.35)"],
-              [0.35, -0.35, 0.12, 0.12, 0, "rgba(70,70,70,.3)"], [-0.15, 0.45, 0.1, 0.1, 0, "rgba(70,70,70,.3)"]],
-    mars:    [[0, -0.88, 0.38, 0.14, 0, "#f6f1ec"], [0.2, 0.2, 0.35, 0.18, 20, "rgba(90,30,15,.35)"]],
-    jupiter: [[0, -0.71, 1, 0.07, 0, "#c9a274"], [0, -0.35, 1, 0.1, 0, "#a87a50"], [0, -0.03, 1, 0.05, 0, "#efdcbc"],
-              [0, 0.23, 1, 0.11, 0, "#a87a50"], [0, 0.585, 1, 0.065, 0, "#c9a274"], [0.35, 0.36, 0.2, 0.11, 0, "#c3593b"]],
-    saturn:  [[0, -0.42, 1, 0.08, 0, "#cfae73"], [0, 0.11, 1, 0.06, 0, "#dcc08a"], [0, 0.47, 1, 0.07, 0, "#c7a36a"]],
-    neptun:  [[-0.25, 0.2, 0.22, 0.12, 0, "rgba(20,30,90,.45)"], [0.1, -0.35, 0.3, 0.05, 0, "rgba(255,255,255,.5)"]]
-  };
+  /* Oberflächenbilder (bilder/sonnensystem/<id>.jpg): echte Karten von Solar System
+     Scope (CC BY 4.0, Nennung in credits.html), einmalig mit
+     werkzeuge/sonnensystem_bilder.py auf eine Kugel projiziert. Die Tag-Nacht-
+     Grenze legt das Modell darüber (dreht sich mit der Richtung zur Sonne). */
+  var BILDER = (document.currentScript && document.currentScript.src || "")
+    .replace(/js\/sonnensystem\.js.*$/, "") + "bilder/sonnensystem/";
+  var MIT_BILD = { merkur: 1, venus: 1, erde: 1, mond: 1, mars: 1, jupiter: 1, saturn: 1, uranus: 1, neptun: 1 };
 
-  /* Ringe: [rx, ry, Breite, Farbe] in Vielfachen des Radius; Drehung in Grad */
+  /* Ringe, Drehung in Grad (dreht auch das Planetenbild mit).
+     Saturn: zwei Bilder (hintere/vordere Hälfte), Breite = 2 · 2,35 Radien,
+     Seitenverhältnis wie die Bilder (512 × 164 px).
+     Uranus: dünne, blasse Linie [rx, ry, Breite, Farbe] in Vielfachen des Radius. */
   var RINGE = {
-    saturn: { drehung: -22, teile: [[2.15, 0.62, 0.22, "rgba(222,204,160,.9)"], [1.68, 0.48, 0.22, "rgba(190,168,122,.8)"]] },
-    uranus: { drehung: 80,  teile: [[1.7, 0.35, 0.07, "rgba(210,240,245,.55)"]] }
+    saturn: { drehung: -22, bild: { breite: 4.7, hoehe: 4.7 * 164 / 512 } },
+    uranus: { drehung: 80,  teile: [[1.7, 0.35, 0.035, "rgba(210,240,245,.32)"]] }
   };
 
   /* -----------------------------------------------------------------------
@@ -394,7 +387,10 @@
     var sonne = s("radialGradient", { id: "ss-sonne", cx: "45%", cy: "45%", r: "60%" }, defs);
     stopp(sonne, 0, "#fff3cf"); stopp(sonne, 0.55, "#f9b24a"); stopp(sonne, 1, "#e2780f");
     var nacht = s("linearGradient", { id: "ss-nacht", x1: 0, y1: 0, x2: 1, y2: 0 }, defs);
-    stopp(nacht, 0, "#000", 0); stopp(nacht, 0.47, "#000", 0); stopp(nacht, 0.6, "#000", 0.55); stopp(nacht, 1, "#000", 0.8);
+    stopp(nacht, 0, "#000", 0); stopp(nacht, 0.3, "#000", 0.04); stopp(nacht, 0.46, "#000", 0.22);
+    stopp(nacht, 0.54, "#000", 0.82); stopp(nacht, 0.66, "#000", 0.93); stopp(nacht, 1, "#000", 0.96);
+    var luft = s("radialGradient", { id: "ss-luft" }, defs);               /* Lufthülle der Erde */
+    stopp(luft, 0.9, "#7fb4ff", 0); stopp(luft, 0.93, "#7fb4ff", 0.32); stopp(luft, 1, "#7fb4ff", 0);
 
     KOERPER.forEach(function (k) {
       if (k.guertel || k.id === "sonne") return;
@@ -453,6 +449,14 @@
       var ring = RINGE[k.id];
       if (!ring) return;
       var g = s("g", { transform: "rotate(" + ring.drehung + ")" }, gruppe);
+      if (ring.bild) {
+        var b = ring.bild.breite * k.radius, hb = ring.bild.hoehe * k.radius;
+        s("image", {
+          href: BILDER + k.id + "-ring-" + (hinten ? "hinten" : "vorne") + ".png",
+          x: -b / 2, y: -hb / 2, width: b, height: hb
+        }, g);
+        return;
+      }
       ring.teile.forEach(function (t) {
         var rx = t[0] * k.radius, ry = t[1] * k.radius;
         s("path", {
@@ -472,18 +476,17 @@
       } else {
         ringHaelfte(gruppe, k, true);
         s("circle", { r: k.radius, fill: "url(#ss-farbe-" + k.id + ")" }, gruppe);
-        if (FLECKEN[k.id]) {
-          var details = s("g", { "clip-path": "url(#ss-clip-" + k.id + ")" }, gruppe);
-          FLECKEN[k.id].forEach(function (f) {
-            s("ellipse", {
-              cx: f[0] * k.radius, cy: f[1] * k.radius, rx: f[2] * k.radius, ry: f[3] * k.radius,
-              transform: f[4] ? "rotate(" + f[4] + " " + f[0] * k.radius + " " + f[1] * k.radius + ")" : "",
-              fill: f[5]
-            }, details);
-          });
+        if (MIT_BILD[k.id]) {
+          var r = k.radius, dreh = RINGE[k.id] ? RINGE[k.id].drehung : 0;
+          var oberflaeche = s("g", { "clip-path": "url(#ss-clip-" + k.id + ")" }, gruppe);
+          s("image", {
+            href: BILDER + k.id + ".jpg", x: -r, y: -r, width: 2 * r, height: 2 * r,
+            transform: dreh ? "rotate(" + dreh + ")" : ""
+          }, oberflaeche);
         }
         k.schatten = s("g", null, gruppe);
         s("circle", { r: k.radius, fill: "url(#ss-nacht)" }, k.schatten);
+        if (k.id === "erde") s("circle", { r: k.radius * 1.08, fill: "url(#ss-luft)" }, gruppe);
         ringHaelfte(gruppe, k, false);
       }
 
@@ -645,7 +648,9 @@
 
       var titel = h("h2");
       var punkt = h("span", "info-punkt");
-      punkt.style.background = "radial-gradient(circle at 35% 35%, " + k.farben[0] + ", " + k.farben[1] + ")";
+      punkt.style.background = MIT_BILD[k.id]
+        ? "url(\"" + BILDER + k.id + ".jpg\") center / cover"
+        : "radial-gradient(circle at 35% 35%, " + k.farben[0] + ", " + k.farben[1] + ")";
       titel.append(punkt, document.createTextNode(k.name));
 
       var daten = h("dl", "info-daten");

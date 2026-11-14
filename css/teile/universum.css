@@ -386,6 +386,561 @@
 .uni-schieber input:focus-visible { outline: 2px solid var(--uni-blau); outline-offset: 2px; }
 .uni-schieber-ende { font-size: 0.72rem; color: var(--uni-text-schwach); white-space: nowrap; }
 
+/* ----- Modell „Schwarzes Loch“ (js/universum/schwarzes-loch.js) ----- */
+.uni-loch .uni-info { width: min(25rem, calc(100% - 19rem)); }
+.uni-loch .uni-hinweis { right: 1rem; }
+.uni-loch.uni-mit-regler .uni-hinweis { bottom: 1rem; }
+.uni-hilfe { position: absolute; inset: 0; pointer-events: none; overflow: hidden; opacity: 0; transition: opacity 0.4s; }
+.uni-hilfe.an { opacity: 1; }
+.uni-hilfe svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+.uni-hilfe-schatten { fill: none; stroke: var(--uni-blau); stroke-width: 1.3; stroke-dasharray: 5 5; opacity: 0.85; }
+.uni-hilfe-horizont { fill: none; stroke: var(--uni-kupfer); stroke-width: 1.3; stroke-dasharray: 2 4; }
+.uni-schild.ohne-punkt .uni-schild-punkt { display: none; }
+.uni-schild.ohne-punkt .uni-schild-text { transform: translate(-50%, -50%); }
+.uni-schild.horizont .uni-schild-text { color: var(--uni-kupfer); }
+.uni-schild.horizont .uni-schild-punkt { background: var(--uni-kupfer); box-shadow: none; }
+
+.uni-einstellungen {
+  position: absolute;
+  right: 1rem;
+  top: 1rem;
+  width: 15.5rem;
+  padding: 0.75rem 0.85rem 0.85rem;
+  background: var(--uni-panel);
+  border: 1px solid var(--uni-linie);
+  border-radius: var(--radius-m);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+}
+.uni-einst-titel {
+  margin: 0 0 0.35rem;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--uni-blau);
+}
+.uni-einst-titel + .uni-wahl { margin-top: 0.1rem; }
+.uni-schalter + .uni-einst-titel { margin-top: 0.7rem; }
+.uni-schalter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.6rem;
+  width: 100%;
+  padding: 0.38rem 0;
+  border: none;
+  background: none;
+  color: var(--uni-text);
+  font: 500 0.86rem/1.2 var(--schrift-text);
+  text-align: left;
+  cursor: pointer;
+}
+.uni-schalter:disabled { opacity: 0.4; cursor: default; }
+.uni-schalter-bahn {
+  position: relative;
+  flex: none;
+  width: 2.1rem;
+  height: 1.15rem;
+  border-radius: 1rem;
+  border: 1px solid var(--uni-linie);
+  background: color-mix(in srgb, var(--uni-text) 12%, transparent);
+  transition: background 0.2s, border-color 0.2s;
+}
+.uni-schalter-bahn::after {
+  content: "";
+  position: absolute;
+  left: 0.12rem;
+  top: 0.1rem;
+  width: 0.85rem;
+  height: 0.85rem;
+  border-radius: 50%;
+  background: var(--uni-text-schwach);
+  transition: transform 0.2s, background 0.2s;
+}
+.uni-schalter[aria-pressed="true"] .uni-schalter-bahn { background: color-mix(in srgb, var(--uni-blau) 45%, transparent); border-color: var(--uni-blau); }
+.uni-schalter[aria-pressed="true"] .uni-schalter-bahn::after { transform: translateX(0.92rem); background: var(--uni-text); }
+.uni-schalter:hover .uni-schalter-text,
+.uni-schalter:focus-visible .uni-schalter-text { color: var(--uni-blau); }
+.uni-schalter:focus-visible { outline: none; }
+.uni-schalter:focus-visible .uni-schalter-bahn { box-shadow: 0 0 0 2px var(--uni-blau); }
+.uni-wahl { display: flex; gap: 0.3rem; transition: opacity 0.2s; }
+.uni-wahl.aus { opacity: 0.4; }
+.uni-wahl-knopf {
+  flex: 1;
+  padding: 0.35rem 0.2rem;
+  border-radius: var(--radius-s);
+  border: 1px solid var(--uni-linie);
+  background: none;
+  color: var(--uni-text-schwach);
+  font: 600 0.74rem/1 var(--schrift-text);
+  white-space: nowrap;
+  cursor: pointer;
+}
+.uni-wahl-knopf:hover,
+.uni-wahl-knopf:focus-visible { border-color: var(--uni-blau); color: var(--uni-text); outline: none; }
+.uni-wahl-knopf[aria-pressed="true"] { border-color: var(--uni-kupfer); color: var(--uni-kupfer); }
+.uni-knopf-optionen { display: none; }
+/* rechte Spalte: Einstellungen, Masse, Ansichten, beim Hineinfallen die Körpertafel */
+.uni-rechts {
+  position: absolute;
+  right: 1rem;
+  top: 1rem;
+  width: 16rem;
+  max-height: calc(100% - 5rem);
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  scrollbar-width: thin;
+  scrollbar-color: var(--uni-linie) transparent;
+}
+.uni-rechts > .uni-einstellungen { position: static; width: auto; flex: none; }
+.uni-rechts > .uni-koerper { flex: none; }
+.uni-einstellungen .uni-wahl + .uni-einst-titel { margin-top: 0.75rem; }
+.uni-einst-darstellung + .uni-einst-titel { margin-top: 0.75rem; }
+.uni-fall-modus .uni-einst-darstellung + .uni-einst-titel { margin-top: 0; }
+.uni-ansichten { display: grid; grid-template-columns: 1fr 1fr; gap: 0.3rem; }
+.uni-ansicht-knopf {
+  padding: 0.38rem 0.45rem;
+  border-radius: var(--radius-s);
+  border: 1px solid var(--uni-linie);
+  background: none;
+  color: var(--uni-text);
+  font: 600 0.74rem/1.15 var(--schrift-text);
+  text-align: left;
+  cursor: pointer;
+}
+.uni-ansicht-knopf:hover,
+.uni-ansicht-knopf:focus-visible { border-color: var(--uni-blau); color: var(--uni-blau); outline: none; }
+.uni-ansicht-knopf[aria-current="true"] { border-color: var(--uni-kupfer); color: var(--uni-kupfer); }
+.uni-einst-offen .uni-knopf-optionen { border-color: var(--uni-kupfer); color: var(--uni-kupfer); }
+
+.uni-schieber.uni-schieber-linse {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  width: min(26rem, 100%);
+  padding: 0.25rem 0.8rem;
+  border-radius: var(--radius-s);
+  border: 1px solid var(--uni-linie);
+  background: var(--uni-panel);
+}
+.uni-schieber.uni-schieber-linse[hidden] { display: none; }
+/* Hineinfallen: Körpertafel rechts, Steuerung unten */
+.uni-koerper, .uni-fall-zeile { display: none; }
+.uni-fall-modus .uni-einst-darstellung,
+.uni-fall-modus .uni-anzeige,
+.uni-fall-modus .uni-hilfe,
+.uni-fall-modus .uni-hinweis { display: none; }
+.uni-fall-modus .uni-koerper {
+  display: block;
+  padding: 0.75rem 0.85rem 0.85rem;
+  background: var(--uni-panel);
+  border: 1px solid var(--uni-linie);
+  border-radius: var(--radius-m);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+}
+.uni-koerper-bild {
+  position: relative;
+  height: 15rem;
+  margin: 0.15rem 0 0.6rem;
+  border-radius: var(--radius-s);
+  border: 1px solid var(--uni-linie);
+  background: color-mix(in srgb, var(--uni-himmel-all) 55%, transparent);
+  overflow: hidden;
+}
+.uni-koerper-bild canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.uni-koerper-mass {
+  position: absolute;
+  left: 0.6rem;
+  bottom: 1.7rem;
+  width: 0.35rem;
+  border: 2px solid var(--uni-text);
+  border-right: none;
+}
+.uni-koerper-mass-text {
+  position: absolute;
+  left: 0.6rem;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 0.72rem;
+  font-weight: 600;
+  white-space: nowrap;
+  color: var(--uni-text);
+}
+.uni-koerper-pfeil {
+  position: absolute;
+  left: 50%;
+  bottom: 0.3rem;
+  transform: translateX(-50%);
+  font-size: 0.7rem;
+  font-weight: 600;
+  white-space: nowrap;
+  color: var(--uni-kupfer);
+}
+.uni-koerper-pfeil::before { content: "↓ "; }
+.uni-koerper-werte {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.2rem 0.6rem;
+  margin: 0;
+  font-size: 0.78rem;
+  font-variant-numeric: tabular-nums;
+}
+.uni-koerper-werte dt { color: var(--uni-text-schwach); }
+.uni-koerper-werte dd { margin: 0; text-align: right; color: var(--uni-text); font-weight: 600; }
+.uni-koerper-status {
+  margin: 0.6rem 0 0;
+  font-family: var(--schrift-hand);
+  font-size: 1.12rem;
+  line-height: 1.2;
+  color: var(--uni-violett);
+}
+.uni-koerper.gefahr .uni-koerper-status { color: var(--uni-kupfer); }
+.uni-fall-modus .uni-fall-zeile {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  width: min(30rem, 100%);
+  padding: 0.55rem 0.75rem;
+  border-radius: var(--radius-m);
+  border: 1px solid var(--uni-linie);
+  background: var(--uni-panel);
+}
+.uni-fall-knoepfe { display: flex; flex-wrap: wrap; align-items: center; gap: 0.4rem; }
+.uni-fall-knoepfe .uni-wahl { flex: 1 1 12rem; }
+.uni-fall-knoepfe .uni-knopf { padding: 0.42rem 0.7rem; }
+.uni-schieber.uni-fall-regler { display: flex; align-items: center; gap: 0.6rem; padding: 0; border: none; background: none; }
+
+.uni-loch .uni-anzeige .uni-mass-text { font-weight: 600; }
+.uni-loch .uni-anzeige .uni-vergleich { margin-top: 0.2rem; }
+
+/* ----- Gravitations-Spielplatz (js/universum/spielplatz.js, 2D-Canvas) ----- */
+.spiel-buehne {
+  height: clamp(26rem, 72vh, 46rem);
+  margin-bottom: 0;
+  border-radius: var(--radius-l) var(--radius-l) 0 0;
+}
+.spiel-buehne .uni-leinwand canvas { cursor: crosshair; }
+.spiel-info {
+  position: absolute;
+  left: 1rem;
+  top: 1rem;
+  width: min(23rem, calc(100% - 2rem));
+  padding: 0.75rem 0.95rem 0.8rem;
+  background: var(--uni-panel);
+  border: 1px solid var(--uni-linie);
+  border-radius: var(--radius-m);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  pointer-events: none;
+}
+.spiel-titel { margin: 0 0 0.25rem; font-family: var(--schrift-titel); font-size: 1.35rem; font-weight: 600; line-height: 1.2; color: var(--uni-text); }
+.spiel-text { margin: 0 0 0.45rem; font-size: 0.85rem; line-height: 1.5; color: var(--uni-text); }
+.spiel-werte { margin: 0; font-size: 0.78rem; line-height: 1.45; color: var(--uni-text-schwach); font-variant-numeric: tabular-nums; }
+.spiel-hinweis {
+  position: absolute;
+  left: 50%;
+  bottom: 1rem;
+  transform: translateX(-50%);
+  margin: 0;
+  padding: 0.4rem 0.8rem;
+  border-radius: var(--radius-s);
+  background: var(--uni-panel);
+  border: 1px solid var(--uni-linie);
+  font-size: 0.8rem;
+  color: var(--uni-text);
+  white-space: nowrap;
+  pointer-events: none;
+  transition: opacity 0.8s;
+}
+.uni-benutzt .spiel-hinweis { opacity: 0; }
+/* Bedienung als schwebendes HUD (Wunsch des Betreibers 2026-11-14):
+   drei Milchglas-Tafeln über dem Bild, links Neuer Körper, Mitte Dock
+   mit Ablauf + Tempo, rechts Szene + Anzeigen. Eigene Akzentfarbe Lila:
+   inaktive Knöpfe dunkelgrau, aktive lila gefüllt. Alles nur innerhalb
+   .spiel-leiste, die anderen Universum-Modelle behalten Blau/Orange.
+   Grundform hier = schmale Bühne (Tafeln UNTER dem Bild, damit es am
+   Handy frei bleibt); das schwebende HUD steht in @container spiel
+   weiter unten (ab 66rem Bühnenbreite). */
+.spiel-rahmen { position: relative; container: spiel / inline-size; }
+.spiel-leiste {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0.6rem;
+  margin: 0 0 1rem;
+  padding: 0.7rem;
+  background: var(--uni-leiste);
+  border-radius: 0 0 var(--radius-l) var(--radius-l);
+  box-shadow: var(--schatten-m);
+  color: var(--uni-text);
+  position: relative;
+  z-index: 2;
+}
+.spiel-tafel {
+  min-width: 0;
+  padding: 0.75rem 0.85rem 0.85rem;
+  border: 1px solid var(--uni-glas-rand);
+  border-radius: var(--radius-l);
+  background: var(--uni-glas);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+}
+.spiel-tafel-titel {
+  margin: 0 0 0.55rem;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--uni-lila-hell);
+}
+.spiel-tafel-titel:not(:first-child) { margin-top: 0.85rem; }
+/* Dock: Start/Neu/Umkehren | Tempo */
+.spiel-dock {
+  order: -1;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem 0.7rem;
+  padding: 0.4rem;
+}
+.spiel-dock-trenner { width: 1px; height: 1.6rem; background: var(--uni-glas-rand); }
+.spiel-leiste .spiel-dock .uni-knopf .uni-knopf-text { display: none; }
+.spiel-leiste .spiel-dock .uni-knopf:first-child .uni-knopf-text { display: inline; }
+/* Neuer Körper: Knöpfe im 2er-Raster */
+.spiel-leiste .spiel-neu { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.35rem; }
+.spiel-leiste .spiel-neu .uni-wahl-knopf { justify-content: flex-start; min-width: 0; gap: 0.4rem; padding: 0.5rem 0.55rem; }
+/* Grundknopf der Leiste */
+.spiel-leiste .uni-knopf,
+.spiel-leiste .uni-wahl-knopf {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  padding: 0.5rem 0.8rem;
+  border: 1px solid transparent;
+  border-radius: var(--radius-s);
+  background: var(--uni-grau);
+  color: var(--uni-text);
+  font: 600 0.8rem/1 var(--schrift-text);
+  transition: background 0.15s, border-color 0.15s, color 0.15s, box-shadow 0.15s;
+}
+.spiel-leiste .uni-knopf:hover,
+.spiel-leiste .uni-wahl-knopf:hover { background: var(--uni-grau-hover); border-color: transparent; color: var(--uni-text); }
+.spiel-leiste .uni-knopf:focus-visible,
+.spiel-leiste .uni-wahl-knopf:focus-visible { outline: 2px solid var(--uni-lila-hell); outline-offset: 2px; }
+.spiel-leiste .uni-wahl-knopf svg {
+  width: 1rem;
+  height: 1rem;
+  flex: none;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.spiel-leiste .spiel-symbol-voll { fill: currentColor; stroke: none; }
+/* Szene: Aufklappliste mit eigenem Pfeil */
+.spiel-szene { position: relative; width: 100%; }
+.spiel-szene::after {
+  content: "";
+  position: absolute;
+  right: 0.95rem;
+  top: 50%;
+  width: 0.42rem;
+  height: 0.42rem;
+  border-right: 2px solid var(--uni-text-schwach);
+  border-bottom: 2px solid var(--uni-text-schwach);
+  transform: translateY(-70%) rotate(45deg);
+  pointer-events: none;
+}
+.spiel-szene-wahl {
+  -webkit-appearance: none;
+  appearance: none;
+  color-scheme: dark;
+  width: 100%;
+  padding: 0.55rem 2.6rem 0.55rem 0.85rem;
+  border: 1px solid var(--uni-glas-rand);
+  border-radius: var(--radius-s);
+  background: var(--uni-grau);
+  color: var(--uni-text);
+  font: 600 0.88rem/1.2 var(--schrift-text);
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+}
+.spiel-szene-wahl:hover { background: var(--uni-grau-hover); border-color: var(--uni-lila-hell); }
+.spiel-szene-wahl:focus-visible { outline: 2px solid var(--uni-lila-hell); outline-offset: 2px; }
+.spiel-szene-wahl option { background: var(--uni-leiste); color: var(--uni-text); }
+/* Ablauf: Start/Neu/Umkehren als zusammenhängende Gruppe */
+.spiel-reihe { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+.spiel-medien {
+  flex-wrap: nowrap;
+  gap: 0.2rem;
+}
+.spiel-leiste .spiel-medien .uni-knopf { background: transparent; padding: 0.55rem 0.7rem; }
+.spiel-leiste .spiel-medien .uni-knopf:hover { background: var(--uni-grau-hover); }
+.spiel-leiste .spiel-medien .uni-knopf:first-child { color: var(--uni-lila-hell); }
+.spiel-leiste.spiel-leiste .spiel-medien .uni-knopf:first-child:hover { color: var(--uni-text); }
+/* Tempo: Segmented Control */
+.spiel-tempo { display: flex; align-items: center; gap: 0.6rem; }
+.spiel-tempo-titel { font-size: 0.8rem; color: var(--uni-text-schwach); }
+.spiel-leiste .spiel-segment {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 0.15rem;
+  padding: 0.2rem;
+  border-radius: calc(var(--radius-s) + 0.2rem);
+  background: var(--uni-grau);
+}
+.spiel-leiste .spiel-segment .uni-wahl-knopf { min-width: 2.5rem; padding: 0.45rem 0.6rem; background: transparent; color: var(--uni-text-schwach); }
+.spiel-leiste .spiel-segment .uni-wahl-knopf:hover { background: var(--uni-grau-hover); color: var(--uni-text); }
+/* aktiv: lila gefüllt (Auswahl-Knöpfe und laufender Start-Knopf) */
+.spiel-leiste .uni-wahl-knopf[aria-pressed="true"],
+.spiel-leiste .uni-wahl-knopf[aria-pressed="true"]:hover,
+.spiel-laeuft .spiel-leiste .spiel-medien .uni-knopf:first-child,
+.spiel-laeuft .spiel-leiste .spiel-medien .uni-knopf:first-child:hover {
+  background: var(--uni-lila);
+  border-color: var(--uni-lila);
+  color: var(--uni-text);
+  box-shadow: 0 0 14px color-mix(in srgb, var(--uni-lila) 40%, transparent);
+}
+/* Anzeigen: Schalter in gleichmäßigem Raster */
+.spiel-schalter { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.35rem; }
+.spiel-leiste .spiel-schalter .uni-schalter {
+  width: 100%;
+  gap: 0.7rem;
+  padding: 0.5rem 0.7rem;
+  border-radius: var(--radius-s);
+  background: var(--uni-grau);
+  font-size: 0.82rem;
+  transition: background 0.15s;
+}
+.spiel-leiste .spiel-schalter .uni-schalter:hover { background: var(--uni-grau-hover); }
+.spiel-leiste .uni-schalter:hover .uni-schalter-text,
+.spiel-leiste .uni-schalter:focus-visible .uni-schalter-text { color: var(--uni-text); }
+.spiel-leiste .uni-schalter[aria-pressed="true"] .uni-schalter-bahn { background: var(--uni-lila); border-color: var(--uni-lila); }
+.spiel-leiste .uni-schalter[aria-pressed="true"] .uni-schalter-bahn::after { background: var(--uni-text); }
+.spiel-leiste .uni-schalter:focus-visible .uni-schalter-bahn { box-shadow: 0 0 0 2px var(--uni-lila-hell); }
+/* ausgewählter Körper: Werte und Knöpfe in der Infotafel */
+.spiel-auswahl { margin-top: 0.55rem; padding-top: 0.5rem; border-top: 1px solid var(--uni-linie); pointer-events: auto; }
+.spiel-auswahl[hidden] { display: none; }
+.spiel-auswahl-name { margin: 0 0 0.15rem; font-size: 0.85rem; font-weight: 600; color: var(--uni-kupfer); }
+.spiel-auswahl-werte { margin: 0 0 0.45rem; font-size: 0.78rem; line-height: 1.45; color: var(--uni-text); white-space: pre-line; font-variant-numeric: tabular-nums; }
+.spiel-auswahl-knoepfe { display: flex; flex-wrap: wrap; gap: 0.3rem; }
+.spiel-auswahl-knoepfe .uni-wahl-knopf { flex: 0 0 auto; padding: 0.3rem 0.55rem; }
+.spiel-auswahl-knoepfe .uni-wahl-knopf[hidden] { display: none; }
+/* Hinweis, solange die Ansicht mitdreht */
+.spiel-dreh {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.6rem;
+  margin-top: 0.45rem;
+  font-size: 0.78rem;
+  color: var(--uni-kupfer);
+  pointer-events: auto;
+}
+.spiel-dreh[hidden] { display: none; }
+.spiel-dreh .uni-wahl-knopf { flex: 0 0 auto; padding: 0.25rem 0.55rem; }
+/* Vollbild-Knopf oben rechts im Bild */
+.spiel-ecke {
+  position: absolute;
+  right: 1rem;
+  top: 1rem;
+  width: 2.4rem;
+  height: 2.4rem;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border-radius: var(--radius-s);
+  border: 1px solid var(--uni-linie);
+  background: var(--uni-panel);
+  color: var(--uni-text);
+  cursor: pointer;
+}
+.spiel-ecke svg { width: 1.2rem; height: 1.2rem; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.spiel-ecke:hover, .spiel-ecke:focus-visible { border-color: var(--uni-blau); color: var(--uni-blau); outline: none; }
+.spiel-ecke.an svg { transform: rotate(180deg); }
+/* Zoom und Zurücksetzen: Knöpfe unten rechts im Bild */
+.spiel-zoom {
+  position: absolute;
+  right: 1rem;
+  bottom: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+.spiel-zoom .spiel-ecke { position: static; }
+/* Vollbild: Bühne füllt den Bildschirm, Leiste unten (echtes Vollbild
+   über die Fullscreen-API, sonst Ersatz .spiel-vollbild, z. B. iPhone) */
+.spiel-rahmen:fullscreen,
+.spiel-rahmen.spiel-vollbild {
+  display: flex;
+  flex-direction: column;
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
+  background: var(--uni-himmel-all);
+}
+.spiel-rahmen.spiel-vollbild { position: fixed; inset: 0; z-index: 1000; }
+.spiel-vollbild-offen, .spiel-vollbild-offen body { overflow: hidden; }
+.spiel-rahmen:fullscreen .spiel-buehne,
+.spiel-rahmen.spiel-vollbild .spiel-buehne { flex: 1 1 auto; height: auto; min-height: 0; margin: 0; border-radius: 0; box-shadow: none; }
+.spiel-rahmen:fullscreen .spiel-leiste,
+.spiel-rahmen.spiel-vollbild .spiel-leiste { flex: none; margin: 0; border-radius: 0; max-height: 38vh; overflow-y: auto; box-shadow: none; }
+
+/* Mittlere Bühne: Dock oben, darunter zwei Tafeln nebeneinander */
+@container spiel (min-width: 36rem) {
+  .spiel-leiste { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .spiel-dock { grid-column: 1 / -1; }
+}
+/* Breite Bühne: schwebendes HUD über dem Bild. Die Leiste selbst ist
+   unsichtbar und lässt Klicks durch (pointer-events), nur die Tafeln
+   fangen sie ab. Steht nach den Vollbild-Regeln, damit es sie schlägt. */
+@container spiel (min-width: 66rem) {
+  .spiel-buehne { height: clamp(34rem, 78vh, 48rem); border-radius: var(--radius-l); }
+  .spiel-leiste,
+  .spiel-rahmen:fullscreen .spiel-leiste,
+  .spiel-rahmen.spiel-vollbild .spiel-leiste {
+    position: absolute;
+    left: 1rem;
+    right: 1rem;
+    bottom: 1rem;
+    z-index: 3;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 1rem;
+    max-height: none;
+    margin: 0;
+    padding: 0;
+    overflow: visible;
+    background: none;
+    border-radius: 0;
+    box-shadow: none;
+    pointer-events: none;
+  }
+  .spiel-tafel { pointer-events: auto; box-shadow: var(--uni-glas-schatten); }
+  .spiel-werkzeug { order: 0; width: 20rem; }
+  .spiel-ansicht { order: 2; width: 15rem; }
+  .spiel-dock { order: 1; flex-wrap: nowrap; gap: 0.6rem; padding: 0.35rem 0.5rem 0.35rem 0.35rem; border-radius: 999px; }
+  .spiel-leiste .spiel-dock .uni-knopf,
+  .spiel-leiste .spiel-dock .uni-wahl-knopf,
+  .spiel-leiste .spiel-dock .spiel-segment { border-radius: 999px; }
+  .spiel-schalter { grid-template-columns: minmax(0, 1fr); gap: 0.25rem; }
+  .spiel-leiste .spiel-schalter .uni-schalter { padding: 0.42rem 0.65rem; }
+  /* was sonst unten im Bild läge, rückt aus dem Weg */
+  .spiel-zoom { top: 4rem; bottom: auto; }
+  .spiel-hinweis { bottom: 5.4rem; }
+}
+@container spiel (max-width: 30rem) {
+  .spiel-tempo-titel { display: none; }
+}
+
 /* ----- Kleine Bildschirme ----- */
 @media (max-width: 52rem) {
   .uni-schieber {
@@ -429,6 +984,49 @@
   .uni-anzeige { font-size: 0.75rem; }
   .uni-unten { max-width: none; }
   .uni-hinweis { left: 50%; right: auto; transform: translateX(-50%); bottom: 10.6rem; font-size: 0.75rem; }
+  /* Schwarzes Loch */
+  .uni-loch .uni-info { width: auto; }
+  .uni-loch .uni-hinweis { left: 50%; right: auto; bottom: 7.6rem; }
+  .uni-loch.uni-mit-regler .uni-hinweis { bottom: 10.4rem; }
+  .uni-knopf-optionen { display: inline-flex; }
+  .uni-loch .uni-knopf:nth-child(4) .uni-knopf-text,
+  .uni-loch .uni-knopf-optionen .uni-knopf-text { display: none; }
+  .uni-einstellungen {
+    display: none;
+    top: auto;
+    bottom: 4.2rem;
+    left: 0.6rem;
+    right: 0.6rem;
+    width: auto;
+    z-index: 3;
+    background: color-mix(in srgb, var(--uni-himmel-all) 88%, transparent);
+  }
+  .uni-loch.uni-mit-regler .uni-einstellungen { bottom: 7rem; }
+  .uni-einst-offen .uni-einstellungen { display: block; }
+  .uni-loch .uni-hilfe .uni-schild-text { font-size: 1.05rem; }
+  .uni-schieber.uni-schieber-linse { width: auto; }
+  .uni-schieber.uni-fall-regler { padding: 0; border: none; background: none; }
+  .uni-rechts { display: contents; }
+  .uni-rechts > .uni-einstellungen { position: absolute; max-height: calc(100% - 5rem); overflow-y: auto; }
+  .uni-fall-modus .uni-einstellungen { bottom: 9.6rem; }
+  .uni-fall-modus .uni-koerper { position: absolute; top: 8.7rem; right: 0.6rem; width: 9.6rem; padding: 0.5rem 0.55rem 0.6rem; }
+  .uni-koerper-bild { height: 7rem; margin-bottom: 0.4rem; }
+  .uni-koerper-werte { grid-template-columns: 1fr; gap: 0; font-size: 0.7rem; }
+  .uni-koerper-werte dd { text-align: left; margin-bottom: 0.15rem; }
+  .uni-koerper-status { font-size: 0.95rem; margin-top: 0.35rem; }
+  .uni-fall-modus .uni-fall-zeile { width: auto; padding: 0.45rem 0.55rem; }
+  /* Spielplatz */
+  .spiel-buehne { margin-bottom: 0; }
+  .spiel-info { left: 0.6rem; top: 0.6rem; width: auto; right: 0.6rem; padding: 0.55rem 0.75rem 0.6rem; }
+  .spiel-text { display: none; }
+  .spiel-titel { font-size: 1.1rem; }
+  .spiel-leiste { margin-left: -0.4rem; margin-right: -0.4rem; padding: 0.5rem; }
+  .spiel-zoom { right: 0.6rem; bottom: 0.6rem; }
+  .spiel-zoom .spiel-ecke { width: 2.2rem; height: 2.2rem; }
+  .spiel-info { right: 3.6rem; }
+  .spiel-ecke { right: 0.6rem; top: 0.6rem; }
+  .spiel-hinweis { font-size: 0.72rem; left: 0.6rem; right: 3.6rem; bottom: 0.6rem; transform: none; white-space: normal; text-align: center; }
+  .spiel-rahmen.spiel-vollbild .spiel-leiste { max-height: 34vh; }
 }
 @media (max-width: 26rem) {
   .uni-knopf .uni-knopf-text { display: none; }

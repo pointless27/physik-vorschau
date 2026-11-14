@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="robots" content="noindex">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Themen-Landkarte – Physik verstehen</title>
+  <meta name="description" content="Alle Themen als Landkarte: Welche Themen brauchst du vorher, welche bauen darauf auf? Wähle ein Thema und sieh deinen Lernpfad.">
+
+  <link rel="stylesheet" href="../css/stil.css">
+  <script src="../js/daten.js"></script>
+  <script src="../js/seite.js"></script>
+  <script src="../js/effekte.js"></script>
+  <script src="../js/landkarte.js"></script>
+</head>
+<body data-seite="landkarte">
+  <main class="werkzeug-main">
+    <p class="oberzeile">Nachschlagen</p>
+    <h1>Themen-<span class="betont">Landkarte</span></h1>
+    <p class="hero-text seitenkopf-text" style="margin:0 0 1.5rem">
+      Physik baut aufeinander auf: Ohne Vektoren keine Kräfte, ohne
+      Energie kein Lagrange-Formalismus. Die Karte zeigt alle
+      <span id="karte-anzahl">bisherigen</span> Themen, die schon online
+      sind, und wie sie zusammenhängen. Wähl ein Thema aus, und du
+      siehst deinen Lernpfad dorthin.
+    </p>
+    <div id="landkarte" class="landkarte"></div>
+    <p class="karte-fuss">Jede Spalte ist ein Fachgebiet, die Linien führen
+      von einem Thema zu denen, die darauf aufbauen. Mit jedem neuen
+      Thema wächst die Karte von selbst.</p>
+  </main>
+</body>
+</html>

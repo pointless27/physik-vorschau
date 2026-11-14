@@ -1,0 +1,677 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="robots" content="noindex">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Ladung und Coulomb-Gesetz</title>
+  <meta name="description" content="Was elektrische Ladung ist, wie stark sich Ladungen anziehen oder abstoßen und wie daraus der Begriff des elektrischen Feldes entsteht.">
+
+  <link rel="stylesheet" href="../../css/stil.css">
+
+  <link rel="stylesheet" href="../../extern/katex/katex.min.css">
+  <script defer src="../../extern/katex/katex.min.js"></script>
+  <script defer src="../../extern/katex/contrib/auto-render.min.js" onload="starteFormeln()"></script>
+
+  <script src="../../js/daten.js"></script>
+  <script src="../../js/seite.js"></script>
+  <script src="../../js/effekte.js"></script>
+  <script type="application/json" id="symbole">
+  {
+    "N": "Anzahl der Ladungen",
+    "i": "Nummer der Ladung",
+    "j": "Stromdichte",
+    "x": "Ortskoordinate",
+    "β": "Winkel des Feldes gegen die x-Achse",
+    "δ": "Diracsche Deltafunktion",
+    "λ": "Bahnparameter entlang der Feldlinie",
+    "μ": "Vorsilbe Mikro, ein Millionstel",
+    "π": "Kreiszahl π ≈ 3,14159",
+    "F": "Kraft",
+    "Q": "Ladung (Quellladung)",
+    "q": "Probeladung",
+    "Q_1": "Ladung 1",
+    "Q_2": "Ladung 2",
+    "Q_i": "Ladung Nummer i",
+    "r": "Abstand",
+    "ε_0": "elektrische Feldkonstante, 8,854·10⁻¹² A s/(V m)",
+    "e": "Elementarladung, 1,602·10⁻¹⁹ C",
+    "E": "elektrische Feldstärke",
+    "ρ": "Raumladungsdichte",
+    "σ": "Flächenladungsdichte",
+    "R": "Ortsvektor des Aufpunkts",
+    "G": "Gravitationskonstante, 6,674·10⁻¹¹ m³/(kg s²)",
+    "m": "Masse",
+    "k": "Coulomb-Konstante 1/(4π ε₀) ≈ 8,99·10⁹ N m²/C²",
+    "a": "Abstand der Aufpunkt-Senkrechten von der Platte (Höhe über der Platte)",
+    "b": "Abstand zwischen Aufpunkt und Flächenelement",
+    "α": "Winkel zwischen Senkrechter und Verbindungslinie",
+    "φ": "Azimutwinkel um die Senkrechte",
+    "n": "Anzahl der Elementarladungen",
+    "A": "Fläche",
+    "d": "Abstand der Platten bzw. Kugeln",
+    "t": "Zeit",
+    "v": "Geschwindigkeit",
+    "g": "Erdbeschleunigung",
+    "θ": "Auslenkwinkel des Fadens",
+    "L": "Fadenlänge",
+    "T": "Fadenkraft",
+    "y": "Abstand von der Verbindungslinie der Ladungen",
+    "z": "Abstand auf der Achse",
+    "s": "Seitenlänge",
+    "Φ": "elektrischer Fluss",
+    "V": "Volumen",
+    "m_e": "Elektronenmasse",
+    "m_p": "Protonenmasse"
+  }
+  </script>
+</head>
+<body data-thema="coulomb">
+  <main>
+    <article class="thema">
+      <header>
+        <h1>Ladung und das <span class="betont">Coulomb-Gesetz</span></h1>
+        <p class="untertitel">Warum Haare nach dem Pullover abstehen, wie stark sich Ladungen anziehen und wie daraus der Begriff des Feldes wird.</p>
+      </header>
+
+      <div class="tabs">
+
+        <section class="tab" id="verstehen" data-titel="Verstehen">
+
+          <p>Zieh im Winter einen Wollpullover über den Kopf, und deine Haare
+            stehen ab. Reibst du einen Luftballon an den Haaren, bleibt er
+            danach an der Wand hängen. Beides ist dieselbe Erscheinung: Durch
+            das Reiben wandern winzige Teilchen von einem Material zum anderen,
+            und beide Seiten sind danach aufgeladen.</p>
+
+          <p>Es gibt zwei Sorten von Ladung, die man <em>positiv</em> und
+            <em>negativ</em> nennt. Gleichartige Ladungen stoßen sich ab,
+            verschiedenartige ziehen sich an. Die Ladung selbst kommt in
+            kleinen, unteilbaren Portionen vor: Ein Elektron trägt die kleinste
+            negative Ladung, ein Proton genau die entgegengesetzte positive.
+            Ein Körper ist neutral, wenn von beiden gleich viel da ist. Beim
+            Reiben verschiebst du nur Elektronen. Es entsteht keine Ladung aus
+            dem Nichts, und es geht keine verloren. Die Gesamtladung bleibt
+            erhalten.</p>
+
+          <figure class="abbildung">
+            <svg class="abb" viewBox="0 0 360 150" role="img" aria-label="Drei Paare von Kugeln: gleichnamige Ladungen stoßen sich ab, ungleichnamige ziehen sich an">
+<defs><marker id="pfeil-abb1" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto"><path class="punkt kupfer" d="M0 0L10 5L0 10z"/></marker></defs>
+<circle class="punkt kupfer" cx="75" cy="30" r="9"/><text x="75" y="34" text-anchor="middle" style="fill:#fff;font-weight:700">+</text>
+<circle class="punkt kupfer" cx="125" cy="30" r="9"/><text x="125" y="34" text-anchor="middle" style="fill:#fff;font-weight:700">+</text>
+<path class="kurve kupfer" d="M64 30L40 30" marker-end="url(#pfeil-abb1)" fill="none"/>
+<path class="kurve kupfer" d="M136 30L160 30" marker-end="url(#pfeil-abb1)" fill="none"/>
+<text x="100" y="62" text-anchor="middle">stoßen sich ab</text>
+<circle class="punkt blau" cx="235" cy="30" r="9"/><text x="235" y="34" text-anchor="middle" style="fill:#fff;font-weight:700">−</text>
+<circle class="punkt blau" cx="285" cy="30" r="9"/><text x="285" y="34" text-anchor="middle" style="fill:#fff;font-weight:700">−</text>
+<path class="kurve kupfer" d="M224 30L200 30" marker-end="url(#pfeil-abb1)" fill="none"/>
+<path class="kurve kupfer" d="M296 30L320 30" marker-end="url(#pfeil-abb1)" fill="none"/>
+<text x="260" y="62" text-anchor="middle">stoßen sich ab</text>
+<circle class="punkt kupfer" cx="145" cy="105" r="9"/><text x="145" y="109" text-anchor="middle" style="fill:#fff;font-weight:700">+</text>
+<circle class="punkt blau" cx="215" cy="105" r="9"/><text x="215" y="109" text-anchor="middle" style="fill:#fff;font-weight:700">−</text>
+<path class="kurve kupfer" d="M158 105L176 105" marker-end="url(#pfeil-abb1)" fill="none"/>
+<path class="kurve kupfer" d="M202 105L184 105" marker-end="url(#pfeil-abb1)" fill="none"/>
+<text x="180" y="138" text-anchor="middle">ziehen sich an</text>
+</svg>
+            <figcaption>Abb. 1: Gleichnamige Ladungen stoßen sich ab, ungleichnamige
+              ziehen sich an. Die Pfeile zeigen die Kraft auf jede Kugel.</figcaption>
+          </figure>
+
+          <p>Wie stark die Kraft ist, hat der Franzose Charles Augustin de
+            Coulomb 1785 mit einer Drehwaage gemessen. Verdoppelst du eine der
+            beiden Ladungen, verdoppelt sich die Kraft. Verdoppelst du den
+            Abstand, sinkt sie auf ein Viertel. Die Kraft fällt also wie
+            bei der Schwerkraft mit dem Quadrat des Abstands. Der Unterschied
+            zur Schwerkraft: Sie kann anziehen oder abstoßen, und sie ist
+            gewaltig viel stärker. Zwischen einem Elektron und einem Proton im
+            Wasserstoffatom ist die elektrische Anziehung rund $10^{39}$-mal
+            größer als die Anziehung durch die Masse.</p>
+
+          <div class="alltag">
+            <span class="titel">Aus dem Alltag</span>
+            <p>Dass du die Schwerkraft ständig spürst und die elektrische Kraft
+              kaum, liegt nicht an ihrer Stärke. Fast alles um dich herum ist
+              elektrisch neutral, positive und negative Ladung heben sich auf.
+              Die Erde zieht mit ihrer riesigen Masse an dir. Ein Ballon, an
+              dem nur ein winziger Bruchteil der Elektronen verschoben ist,
+              schafft es dagegen, der Schwerkraft zu trotzen und an der Wand zu
+              haften.</p>
+          </div>
+
+          <p>Ladungen wirken aus der Ferne aufeinander, ohne sich zu berühren.
+            Physiker denken das so: Jede Ladung verändert den Raum um sich herum.
+            Diese Veränderung heißt <em>elektrisches Feld</em>. Bringst du eine
+            zweite Ladung in diesen Raum, spürt sie das Feld an ihrem Ort und
+            erfährt eine Kraft. Das Feld sagt dir, in welche Richtung und wie
+            stark eine Ladung dort gezogen oder gedrückt würde.</p>
+
+          <div class="merkkasten">
+            <span class="titel">Das Wichtigste in Kürze</span>
+            <p>Es gibt positive und negative Ladung, und die Gesamtladung bleibt
+              erhalten. Gleichartige Ladungen stoßen sich ab, verschiedenartige
+              ziehen sich an. Die Kraft wächst mit dem Produkt der Ladungen und
+              nimmt mit dem Quadrat des Abstands ab. Das elektrische Feld
+              beschreibt, welche Kraft eine Ladung an einem Ort erfahren würde.</p>
+          </div>
+        </section>
+
+        <section class="tab" id="vertiefung" data-titel="Vertiefung">
+
+          <h2>Ladung</h2>
+          <p>Die Elektrostatik beschreibt Erscheinungen, die ruhende Ladungen
+            verursachen. Vier Eigenschaften der Ladung brauchst du als
+            Ausgangspunkt. Es gibt zwei Vorzeichen. Die Gesamtladung eines
+            abgeschlossenen Systems ist erhalten. Ladung ist quantisiert:
+            $Q = n e$ mit ganzzahligem $n$ und der Elementarladung
+            $e = 1{,}602\,176\,634 \cdot 10^{-19}\,\mathrm{C}$. Das Elektron hat $-e$,
+            das Proton $+e$, das Neutron $0$. Seit der Neudefinition des SI im
+            Jahr 2019 ist $e$ ein festgelegter Zahlenwert. Gemessen wird
+            stattdessen die Feldkonstante $\varepsilon_0$.</p>
+
+          <p>Die Ladung steckt in Teilchen mit Masse, ein Ladungstransport ist
+            also immer mit einem Massetransport verbunden. Die Erhaltung gilt
+            lokal: Mit der Ladungsdichte $\rho$ und der Stromdichte
+            $\vec{j}$ lautet sie
+            $\frac{\partial \rho}{\partial t} + \vec{\nabla} \cdot \vec{j} = 0$
+            (Kontinuitätsgleichung). Sie kommt beim Strom wieder vor. In der
+            Elektrostatik ruht alles, es gilt $\vec{j} = 0$.</p>
+
+          <h2>Das Coulomb-Gesetz</h2>
+          <p>Zwei Punktladungen $Q_1$ bei $\vec{r}_1$ und $Q_2$ bei $\vec{r}_2$
+            üben aufeinander die Kraft</p>
+          $$ \vec{F}_{12} = \frac{1}{4\pi\varepsilon_0}\,\frac{Q_1 Q_2}{|\vec{r}_{12}|^2}\,\hat{r}_{12}
+             = \frac{Q_1 Q_2}{4\pi\varepsilon_0}\,\frac{\vec{r}_1 - \vec{r}_2}{|\vec{r}_1 - \vec{r}_2|^3} $$
+          <p>aus, mit $\vec{r}_{12} = \vec{r}_1 - \vec{r}_2$ und
+            $\hat{r}_{12} = \vec{r}_{12}/|\vec{r}_{12}|$. Das ist die Kraft auf
+            Ladung 1. Für gleiche Vorzeichen ist $Q_1 Q_2 \gt 0$, und $\vec{F}_{12}$
+            zeigt von Ladung 2 weg: Abstoßung. Die Feldkonstante ist
+            $\varepsilon_0 = 8{,}854 \cdot 10^{-12}\,\mathrm{A\,s/(V\,m)}$. Der
+            Vorfaktor ist
+            $\frac{1}{4\pi\varepsilon_0} \approx 8{,}99 \cdot 10^{9}\,\mathrm{N\,m^2/C^2}$.
+            Zwei Ladungen von je $1\,\mathrm{C}$ im Abstand von $1\,\mathrm{m}$
+            würden sich also mit rund $9 \cdot 10^{9}\,\mathrm{N}$ abstoßen. Ein
+            Coulomb ist eine riesige Ladung, im Alltag hast du es mit
+            Nano- bis Mikrocoulomb zu tun.</p>
+
+          <div class="merkkasten">
+            <span class="titel">Eigenschaften der Coulomb-Kraft</span>
+            <p>(1) Sie ist proportional zu $Q_1 Q_2$. (2) Sie fällt mit
+              $1/r^2$ ab. (3) Sie wirkt längs der Verbindungslinie, ist also
+              eine Zentralkraft. (4) Sie hängt nur vom Differenzvektor
+              $\vec{r}_1 - \vec{r}_2$ ab, ist also translationsinvariant.
+              (5) Es gilt actio = reactio: $\vec{F}_{12} = -\vec{F}_{21}$.</p>
+          </div>
+
+          <p>Das Gesetz hat dieselbe Form wie das Newtonsche
+            Gravitationsgesetz $\vec{F}_{12} = -G\,m_1 m_2\,(\vec{r}_1 - \vec{r}_2)/|\vec{r}_1 - \vec{r}_2|^3$.
+            Zwei Unterschiede sind wichtig. Masse ist immer positiv, die
+            Gravitation daher immer anziehend. Und die Stärke:
+            $G \approx 6{,}67 \cdot 10^{-11}\,\mathrm{m^3/(kg\,s^2)}$ ist
+            winzig gegen $1/(4\pi\varepsilon_0)$. In Beispiel 1 siehst du das
+            Verhältnis für das Wasserstoffatom.</p>
+
+          <h2>Superposition und Ladungsverteilungen</h2>
+          <p>Experimentell gilt das <em>Superpositionsprinzip</em>: Die Kraft auf
+            eine Ladung durch mehrere andere ist die Vektorsumme der
+            Einzelkräfte. Zwei Ladungen stören sich nicht gegenseitig bei der
+            Wirkung auf eine dritte. Vektorsumme heißt, dass Beträge nur bei
+            parallelen Kräften addiert werden dürfen. Sonst musst du
+            komponentenweise rechnen (Beispiel 2).</p>
+
+          <p>Bei sehr vielen Ladungen beschreibt man sie durch die
+            <em>Raumladungsdichte</em> $\rho(\vec{r}) = \mathrm{d}Q/\mathrm{d}V$
+            (Ladung pro Volumen). Ein Volumenelement $\mathrm{d}V$ trägt die
+            Ladung $\mathrm{d}Q = \rho\,\mathrm{d}V$. Auf einer Fläche verwendet
+            man die Flächenladungsdichte $\sigma$ in $\mathrm{C/m^2}$. Eine
+            Punktladung bei $\vec{r}_0$ ist ein Spezialfall mit
+            $\rho(\vec{r}) = Q\,\delta^{(3)}(\vec{r} - \vec{r}_0)$.</p>
+
+          <h2>Das elektrische Feld</h2>
+          <p>Bei der Kraft auf eine Probeladung $q$ ist $q$ ein Faktor, der
+            sich abspalten lässt. Man definiert deshalb die
+            <em>elektrische Feldstärke</em> als Kraft pro Ladung:
+            $\vec{F} = q\,\vec{E}$. Für eine Punktladung $Q$ im Ursprung ist</p>
+          $$ \vec{E}(\vec{r}) = \frac{Q}{4\pi\varepsilon_0}\,\frac{\hat{r}}{r^2}, \qquad [E] = \frac{\mathrm{V}}{\mathrm{m}} = \frac{\mathrm{N}}{\mathrm{C}} $$
+          <p>Das Feld gehört zur Quellladung und hängt nicht davon ab, ob
+            irgendwo eine Probeladung sitzt. Faraday hat diesen Gedanken
+            eingeführt: Das Feld ist ein eigenes physikalisches Objekt, auch
+            wenn niemand es misst. Mit dem Superpositionsprinzip folgt für $N$
+            Punktladungen und für eine Verteilung am Aufpunkt $\vec{R}$:</p>
+          $$ \vec{E}(\vec{R}) = \frac{1}{4\pi\varepsilon_0} \sum_{i=1}^{N} Q_i\,\frac{\vec{R} - \vec{r}_i}{|\vec{R} - \vec{r}_i|^3},
+             \qquad
+             \vec{E}(\vec{R}) = \frac{1}{4\pi\varepsilon_0} \int_V \rho(\vec{r})\,\frac{\vec{R} - \vec{r}}{|\vec{R} - \vec{r}|^3}\,\mathrm{d}^3 r $$
+
+          <h2>Feldlinien</h2>
+          <p>Zeichnet man in jedem Punkt einen kurzen Pfeil in Feldrichtung und
+            verbindet sie, entstehen <em>Feldlinien</em>. Sie beginnen an
+            positiven Ladungen (den Quellen) und enden an negativen (den
+            Senken) oder im Unendlichen. Mathematisch ist eine Feldlinie die
+            Lösung der Differentialgleichung
+            $\mathrm{d}\vec{r}/\mathrm{d}\lambda \propto \vec{E}(\vec{r}(\lambda))$.
+            Wegen der Eindeutigkeit der Lösung schneiden sich zwei Feldlinien
+            nie, außer an Stellen mit $\vec{E} = 0$ oder an den Ladungen
+            selbst. Zwischen zwei gleichen Ladungen liegt so ein Nullpunkt.
+            Wo die Linien dichter liegen, ist das Feld stärker.</p>
+
+          <figure class="abbildung">
+            <svg class="abb" viewBox="0 0 360 200" role="img" aria-label="Feldlinien zweier entgegengesetzt gleicher Ladungen, die von der positiven zur negativen laufen">
+<path class="kurve blau duenn" d="M123.7 102.3 L127.6 103.4 L131.4 104.4 L135.3 105.4 L139.2 106.3 L143.1 107.2 L147.0 108.1 L150.9 109.0 L154.8 109.7 L158.8 110.4 L162.7 111.0 L166.7 111.5 L170.7 111.8 L174.7 112.1 L178.7 112.2 L182.7 112.2 L186.7 112.0 L190.7 111.7 L194.6 111.3 L198.6 110.8 L202.5 110.2 L206.5 109.5 L210.4 108.7 L214.3 107.8 L218.2 106.9 L222.1 106.0 L226.0 105.0 L229.9 104.0 L233.7 103.0 L236.6 102.2" fill="none"/>
+<path class="punkt blau" d="M185.7 112.2 L176.7 115.2 L176.6 109.2 z"/>
+<path class="kurve blau duenn" d="M121.4 106.4 L124.2 109.2 L127.1 112.0 L130.0 114.7 L132.9 117.4 L135.9 120.1 L139.0 122.6 L142.1 125.1 L145.4 127.5 L148.7 129.7 L152.1 131.8 L155.6 133.7 L159.3 135.4 L163.0 136.8 L166.8 138.0 L170.7 138.9 L174.7 139.5 L178.6 139.8 L182.6 139.7 L186.6 139.3 L190.6 138.6 L194.4 137.6 L198.2 136.4 L201.9 134.8 L205.5 133.1 L209.0 131.1 L212.4 129.0 L215.7 126.7 L218.9 124.3 L222.0 121.8 L225.0 119.2 L228.0 116.5 L230.9 113.8 L233.8 111.1 L236.7 108.3 L238.8 106.2" fill="none"/>
+<path class="punkt blau" d="M185.6 139.7 L176.7 142.8 L176.6 136.8 z"/>
+<path class="kurve blau duenn" d="M117.3 108.7 L118.4 112.5 L119.5 116.4 L120.7 120.2 L121.9 124.0 L123.2 127.8 L124.5 131.6 L126.0 135.3 L127.6 139.0 L129.3 142.6 L131.1 146.1 L133.1 149.6 L135.2 153.0 L137.5 156.3 L139.9 159.5 L142.5 162.5 L145.3 165.4 L148.2 168.1 L151.4 170.6 L154.7 172.9 L158.1 174.9 L161.7 176.6 L165.4 178.1 L169.3 179.2 L173.2 180.0 L177.2 180.4 L181.2 180.5 L185.2 180.2 L189.1 179.6 L193.0 178.6 L196.8 177.3 L200.4 175.6 L203.9 173.7 L207.3 171.6 L210.5 169.1 L213.5 166.5 L216.4 163.7 L219.0 160.8 L221.5 157.6 L223.9 154.4 L226.1 151.0 L228.1 147.6 L230.0 144.1 L231.7 140.5 L233.4 136.8 L234.9 133.1 L236.3 129.4 L237.6 125.6 L238.8 121.8 L240.0 118.0 L241.2 114.1 L242.2 110.3 L242.8 108.4" fill="none"/>
+<path class="punkt blau" d="M185.7 180.4 L176.7 183.5 L176.6 177.6 z"/>
+<path class="kurve blau duenn" d="M112.7 108.7 L111.7 112.6 L110.7 116.4 L109.8 120.3 L108.9 124.2 L108.0 128.1 L107.2 132.1 L106.5 136.0 L105.9 140.0 L105.3 143.9 L104.9 147.9 L104.5 151.9 L104.2 155.9 L104.0 159.8 L103.8 163.8 L103.8 167.8 L103.9 171.8 L104.2 175.8 L104.5 179.8 L104.9 183.8 L105.5 187.8 L106.2 191.7 L107.0 195.6 L107.6 198.0" fill="none"/>
+<path class="punkt blau" d="M105.1 144.9 L103.5 135.5 L109.5 136.4 z"/>
+<path class="kurve blau duenn" d="M252.4 198.0 L253.3 194.1 L254.1 190.2 L254.7 186.3 L255.2 182.3 L255.6 178.3 L255.9 174.3 L256.1 170.3 L256.2 166.3 L256.1 162.3 L256.0 158.3 L255.7 154.4 L255.4 150.4 L255.0 146.4 L254.5 142.4 L253.9 138.5 L253.2 134.5 L252.5 130.6 L251.7 126.7 L250.8 122.8 L249.9 118.9 L248.9 115.0 L248.0 111.1 L247.3 108.7" fill="none"/>
+<path class="punkt blau" d="M253.3 134.5 L257.6 143.0 L251.7 143.9 z"/>
+<path class="kurve blau duenn" d="M108.6 106.4 L105.8 109.2 L103.0 112.1 L100.2 114.9 L97.5 117.8 L94.7 120.7 L92.0 123.7 L89.3 126.6 L86.7 129.6 L84.0 132.6 L81.4 135.7 L78.9 138.7 L76.3 141.8 L73.8 145.0 L71.4 148.1 L68.9 151.3 L66.5 154.5 L64.2 157.7 L61.9 161.0 L59.6 164.3 L57.3 167.6 L55.1 170.9 L53.0 174.3 L50.9 177.7 L48.8 181.1 L46.8 184.6 L44.8 188.0 L42.8 191.5 L40.9 195.0 L39.3 198.1" fill="none"/>
+<path class="punkt blau" d="M77.9 139.9 L81.4 131.1 L86.0 134.9 z"/>
+<path class="kurve blau duenn" d="M320.7 198.1 L318.8 194.6 L316.9 191.1 L315.0 187.6 L313.0 184.1 L310.9 180.7 L308.9 177.3 L306.7 173.9 L304.6 170.5 L302.4 167.2 L300.1 163.9 L297.9 160.6 L295.5 157.3 L293.2 154.1 L290.8 150.9 L288.3 147.7 L285.9 144.6 L283.4 141.4 L280.8 138.4 L278.2 135.3 L275.6 132.3 L273.0 129.3 L270.3 126.3 L267.6 123.3 L264.9 120.4 L262.2 117.5 L259.4 114.6 L256.6 111.7 L253.8 108.9 L251.4 106.4" fill="none"/>
+<path class="punkt blau" d="M275.3 131.9 L283.4 136.8 L278.9 140.7 z"/>
+<path class="kurve blau duenn" d="M106.3 102.3 L102.4 103.4 L98.6 104.4 L94.7 105.5 L90.9 106.5 L87.0 107.6 L83.2 108.7 L79.3 109.8 L75.5 110.9 L71.6 112.0 L67.8 113.1 L64.0 114.3 L60.1 115.4 L56.3 116.6 L52.5 117.8 L48.7 119.0 L44.9 120.2 L41.0 121.4 L37.2 122.6 L33.4 123.9 L29.6 125.1 L25.8 126.4 L22.0 127.7 L18.3 129.0 L14.5 130.3 L10.7 131.6 L6.9 132.9 L3.2 134.2 L1.7 134.7" fill="none"/>
+<path class="punkt blau" d="M64.4 114.1 L72.2 108.7 L73.9 114.5 z"/>
+<path class="kurve blau duenn" d="M358.3 134.7 L354.5 133.4 L350.7 132.1 L346.9 130.7 L343.2 129.4 L339.4 128.1 L335.6 126.9 L331.8 125.6 L328.0 124.3 L324.2 123.1 L320.4 121.9 L316.6 120.6 L312.8 119.4 L308.9 118.2 L305.1 117.0 L301.3 115.9 L297.5 114.7 L293.6 113.6 L289.8 112.4 L286.0 111.3 L282.1 110.2 L278.3 109.1 L274.4 108.0 L270.6 106.9 L266.7 105.9 L262.9 104.8 L259.0 103.8 L255.1 102.7 L253.7 102.3" fill="none"/>
+<path class="punkt blau" d="M285.5 111.2 L295.0 110.8 L293.3 116.6 z"/>
+<path class="kurve blau duenn" d="M106.3 97.7 L102.4 96.6 L98.6 95.6 L94.7 94.5 L90.9 93.5 L87.0 92.4 L83.2 91.3 L79.3 90.2 L75.5 89.1 L71.6 88.0 L67.8 86.9 L64.0 85.7 L60.1 84.6 L56.3 83.4 L52.5 82.2 L48.7 81.0 L44.9 79.8 L41.0 78.6 L37.2 77.4 L33.4 76.1 L29.6 74.9 L25.8 73.6 L22.0 72.3 L18.3 71.0 L14.5 69.7 L10.7 68.4 L6.9 67.1 L3.2 65.8 L1.7 65.3" fill="none"/>
+<path class="punkt blau" d="M64.4 85.9 L73.9 85.5 L72.2 91.3 z"/>
+<path class="kurve blau duenn" d="M358.3 65.3 L354.5 66.6 L350.7 67.9 L346.9 69.3 L343.2 70.6 L339.4 71.9 L335.6 73.1 L331.8 74.4 L328.0 75.7 L324.2 76.9 L320.4 78.1 L316.6 79.4 L312.8 80.6 L308.9 81.8 L305.1 83.0 L301.3 84.1 L297.5 85.3 L293.6 86.4 L289.8 87.6 L286.0 88.7 L282.1 89.8 L278.3 90.9 L274.4 92.0 L270.6 93.1 L266.7 94.1 L262.9 95.2 L259.0 96.2 L255.1 97.3 L253.7 97.7" fill="none"/>
+<path class="punkt blau" d="M285.5 88.8 L293.3 83.4 L295.0 89.2 z"/>
+<path class="kurve blau duenn" d="M108.6 93.6 L105.8 90.8 L103.0 87.9 L100.2 85.1 L97.5 82.2 L94.7 79.3 L92.0 76.3 L89.3 73.4 L86.7 70.4 L84.0 67.4 L81.4 64.3 L78.9 61.3 L76.3 58.2 L73.8 55.0 L71.4 51.9 L68.9 48.7 L66.5 45.5 L64.2 42.3 L61.9 39.0 L59.6 35.7 L57.3 32.4 L55.1 29.1 L53.0 25.7 L50.9 22.3 L48.8 18.9 L46.8 15.4 L44.8 12.0 L42.8 8.5 L40.9 5.0 L39.3 1.9" fill="none"/>
+<path class="punkt blau" d="M77.9 60.1 L86.0 65.1 L81.4 68.9 z"/>
+<path class="kurve blau duenn" d="M320.7 1.9 L318.8 5.4 L316.9 8.9 L315.0 12.4 L313.0 15.9 L310.9 19.3 L308.9 22.7 L306.7 26.1 L304.6 29.5 L302.4 32.8 L300.1 36.1 L297.9 39.4 L295.5 42.7 L293.2 45.9 L290.8 49.1 L288.3 52.3 L285.9 55.4 L283.4 58.6 L280.8 61.6 L278.2 64.7 L275.6 67.7 L273.0 70.7 L270.3 73.7 L267.6 76.7 L264.9 79.6 L262.2 82.5 L259.4 85.4 L256.6 88.3 L253.8 91.1 L251.4 93.6" fill="none"/>
+<path class="punkt blau" d="M275.3 68.1 L278.9 59.3 L283.4 63.2 z"/>
+<path class="kurve blau duenn" d="M112.7 91.3 L111.7 87.4 L110.7 83.6 L109.8 79.7 L108.9 75.8 L108.0 71.9 L107.2 67.9 L106.5 64.0 L105.9 60.0 L105.3 56.1 L104.9 52.1 L104.5 48.1 L104.2 44.1 L104.0 40.2 L103.8 36.2 L103.8 32.2 L103.9 28.2 L104.2 24.2 L104.5 20.2 L104.9 16.2 L105.5 12.2 L106.2 8.3 L107.0 4.4 L107.6 2.0" fill="none"/>
+<path class="punkt blau" d="M105.1 55.1 L109.5 63.6 L103.5 64.5 z"/>
+<path class="kurve blau duenn" d="M252.4 2.0 L253.3 5.9 L254.1 9.8 L254.7 13.7 L255.2 17.7 L255.6 21.7 L255.9 25.7 L256.1 29.7 L256.2 33.7 L256.1 37.7 L256.0 41.7 L255.7 45.6 L255.4 49.6 L255.0 53.6 L254.5 57.6 L253.9 61.5 L253.2 65.5 L252.5 69.4 L251.7 73.3 L250.8 77.2 L249.9 81.1 L248.9 85.0 L248.0 88.9 L247.3 91.3" fill="none"/>
+<path class="punkt blau" d="M253.3 65.5 L251.7 56.1 L257.6 57.0 z"/>
+<path class="kurve blau duenn" d="M117.3 91.3 L118.4 87.5 L119.5 83.6 L120.7 79.8 L121.9 76.0 L123.2 72.2 L124.5 68.4 L126.0 64.7 L127.6 61.0 L129.3 57.4 L131.1 53.9 L133.1 50.4 L135.2 47.0 L137.5 43.7 L139.9 40.5 L142.5 37.5 L145.3 34.6 L148.2 31.9 L151.4 29.4 L154.7 27.1 L158.1 25.1 L161.7 23.4 L165.4 21.9 L169.3 20.8 L173.2 20.0 L177.2 19.6 L181.2 19.5 L185.2 19.8 L189.1 20.4 L193.0 21.4 L196.8 22.7 L200.4 24.4 L203.9 26.3 L207.3 28.4 L210.5 30.9 L213.5 33.5 L216.4 36.3 L219.0 39.2 L221.5 42.4 L223.9 45.6 L226.1 49.0 L228.1 52.4 L230.0 55.9 L231.7 59.5 L233.4 63.2 L234.9 66.9 L236.3 70.6 L237.6 74.4 L238.8 78.2 L240.0 82.0 L241.2 85.9 L242.2 89.7 L242.8 91.6" fill="none"/>
+<path class="punkt blau" d="M185.7 19.6 L176.6 22.4 L176.7 16.5 z"/>
+<path class="kurve blau duenn" d="M121.4 93.6 L124.2 90.8 L127.1 88.0 L130.0 85.3 L132.9 82.6 L135.9 79.9 L139.0 77.4 L142.1 74.9 L145.4 72.5 L148.7 70.3 L152.1 68.2 L155.6 66.3 L159.3 64.6 L163.0 63.2 L166.8 62.0 L170.7 61.1 L174.7 60.5 L178.6 60.2 L182.6 60.3 L186.6 60.7 L190.6 61.4 L194.4 62.4 L198.2 63.6 L201.9 65.2 L205.5 66.9 L209.0 68.9 L212.4 71.0 L215.7 73.3 L218.9 75.7 L222.0 78.2 L225.0 80.8 L228.0 83.5 L230.9 86.2 L233.8 88.9 L236.7 91.7 L238.8 93.8" fill="none"/>
+<path class="punkt blau" d="M185.6 60.3 L176.6 63.2 L176.7 57.2 z"/>
+<path class="kurve blau duenn" d="M123.7 97.7 L127.6 96.6 L131.4 95.6 L135.3 94.6 L139.2 93.7 L143.1 92.8 L147.0 91.9 L150.9 91.0 L154.8 90.3 L158.8 89.6 L162.7 89.0 L166.7 88.5 L170.7 88.2 L174.7 87.9 L178.7 87.8 L182.7 87.8 L186.7 88.0 L190.7 88.3 L194.6 88.7 L198.6 89.2 L202.5 89.8 L206.5 90.5 L210.4 91.3 L214.3 92.2 L218.2 93.1 L222.1 94.0 L226.0 95.0 L229.9 96.0 L233.7 97.0 L236.6 97.8" fill="none"/>
+<path class="punkt blau" d="M185.7 87.8 L176.6 90.8 L176.7 84.8 z"/>
+<circle class="punkt kupfer" cx="115" cy="100" r="7"/>
+<text x="115" y="104" text-anchor="middle" style="fill:#fff;font-weight:700">+</text>
+<circle class="punkt blau" cx="245" cy="100" r="7"/>
+<text x="245" y="104" text-anchor="middle" style="fill:#fff;font-weight:700">−</text>
+</svg>
+            <figcaption>Abb. 2: Feldlinien zweier entgegengesetzt gleicher Ladungen
+              (Dipol), aus dem Coulomb-Feld berechnet. Sie laufen von der
+              positiven (orange) zur negativen (blau) Ladung.</figcaption>
+          </figure>
+
+          <figure class="abbildung">
+            <svg class="abb" viewBox="0 0 360 200" role="img" aria-label="Feldlinien zweier gleicher positiver Ladungen, die auseinanderlaufen">
+<path class="kurve blau duenn" d="M108.7 102.3 L114.5 103.9 L120.3 105.5 L126.1 107.1 L131.8 108.8 L137.5 110.5 L143.2 112.4 L148.9 114.5 L154.3 117.0 L159.6 119.9 L164.4 123.5 L168.3 128.0 L171.2 133.2 L173.2 138.9 L174.4 144.8 L175.2 150.7 L175.8 156.7 L176.2 162.7 L176.5 168.7 L176.7 174.7 L176.8 180.7 L176.9 186.7 L177.0 192.7 L177.0 196.7" fill="none"/>
+<path class="punkt blau" d="M171.5 134.2 L165.0 127.3 L170.4 124.8z"/>
+<path class="kurve blau duenn" d="M106.4 106.4 L110.6 110.6 L114.8 114.9 L118.9 119.3 L122.9 123.7 L126.9 128.3 L130.6 133.0 L134.1 137.8 L137.3 142.9 L140.2 148.1 L142.8 153.6 L144.9 159.2 L146.7 164.9 L148.0 170.7 L149.1 176.6 L149.9 182.6 L150.5 188.6 L150.9 194.5 L151.0 196.5" fill="none"/>
+<path class="punkt blau" d="M141.5 150.8 L134.9 144.1 L140.2 141.4z"/>
+<path class="kurve blau duenn" d="M102.3 108.7 L103.9 114.5 L105.3 120.3 L106.7 126.2 L108.0 132.0 L109.1 137.9 L110.1 143.8 L110.9 149.8 L111.5 155.7 L111.9 161.7 L112.1 167.7 L112.1 173.7 L111.9 179.7 L111.6 185.7 L111.1 191.7 L110.4 197.7 L110.4 197.7" fill="none"/>
+<path class="punkt blau" d="M111.7 158.7 L108.0 150.0 L114.0 149.5z"/>
+<path class="kurve blau duenn" d="M97.7 108.7 L96.1 114.5 L94.5 120.3 L92.8 126.0 L91.0 131.7 L89.2 137.5 L87.2 143.1 L85.2 148.8 L83.0 154.4 L80.8 159.9 L78.5 165.5 L76.0 171.0 L73.5 176.4 L70.9 181.8 L68.2 187.2 L65.5 192.5 L62.7 197.8 L62.7 197.8" fill="none"/>
+<path class="punkt blau" d="M81.2 159.0 L81.7 149.5 L87.3 151.8z"/>
+<path class="kurve blau duenn" d="M93.6 106.4 L89.4 110.6 L85.1 114.8 L80.8 119.0 L76.5 123.1 L72.1 127.2 L67.7 131.3 L63.2 135.3 L58.8 139.3 L54.3 143.3 L49.7 147.2 L45.1 151.1 L40.5 154.9 L35.9 158.8 L31.2 162.5 L26.6 166.3 L21.8 170.0 L17.1 173.7 L12.4 177.4 L7.6 181.0 L2.8 184.6 L2.8 184.6" fill="none"/>
+<path class="punkt blau" d="M45.9 150.5 L50.8 142.3 L54.7 146.9z"/>
+<path class="kurve blau duenn" d="M91.3 102.3 L85.5 103.9 L79.7 105.4 L73.9 106.9 L68.1 108.4 L62.3 109.9 L56.5 111.4 L50.7 112.9 L44.8 114.3 L39.0 115.8 L33.2 117.2 L27.3 118.6 L21.5 120.0 L15.7 121.4 L9.8 122.7 L4.0 124.1 L2.0 124.5" fill="none"/>
+<path class="punkt blau" d="M41.9 115.0 L49.9 110.0 L51.4 115.8z"/>
+<path class="kurve blau duenn" d="M91.3 97.7 L85.5 96.1 L79.7 94.6 L73.9 93.1 L68.1 91.6 L62.3 90.1 L56.5 88.6 L50.7 87.1 L44.8 85.7 L39.0 84.2 L33.2 82.8 L27.3 81.4 L21.5 80.0 L15.7 78.6 L9.8 77.3 L4.0 75.9 L2.0 75.5" fill="none"/>
+<path class="punkt blau" d="M41.9 85.0 L51.4 84.2 L49.9 90.0z"/>
+<path class="kurve blau duenn" d="M93.6 93.6 L89.4 89.4 L85.1 85.2 L80.8 81.0 L76.5 76.9 L72.1 72.8 L67.7 68.7 L63.2 64.7 L58.8 60.7 L54.3 56.7 L49.7 52.8 L45.1 48.9 L40.5 45.1 L35.9 41.2 L31.2 37.5 L26.6 33.7 L21.8 30.0 L17.1 26.3 L12.4 22.6 L7.6 19.0 L2.8 15.4 L2.8 15.4" fill="none"/>
+<path class="punkt blau" d="M45.9 49.5 L54.7 53.1 L50.8 57.7z"/>
+<path class="kurve blau duenn" d="M97.7 91.3 L96.1 85.5 L94.5 79.7 L92.8 74.0 L91.0 68.3 L89.2 62.5 L87.2 56.9 L85.2 51.2 L83.0 45.6 L80.8 40.1 L78.5 34.5 L76.0 29.0 L73.5 23.6 L70.9 18.2 L68.2 12.8 L65.5 7.5 L62.7 2.2 L62.7 2.2" fill="none"/>
+<path class="punkt blau" d="M81.2 41.0 L87.3 48.2 L81.7 50.5z"/>
+<path class="kurve blau duenn" d="M102.3 91.3 L103.9 85.5 L105.3 79.7 L106.7 73.8 L108.0 68.0 L109.1 62.1 L110.1 56.2 L110.9 50.2 L111.5 44.3 L111.9 38.3 L112.1 32.3 L112.1 26.3 L111.9 20.3 L111.6 14.3 L111.1 8.3 L110.4 2.3 L110.4 2.3" fill="none"/>
+<path class="punkt blau" d="M111.7 41.3 L114.0 50.5 L108.0 50.0z"/>
+<path class="kurve blau duenn" d="M106.4 93.6 L110.6 89.4 L114.8 85.1 L118.9 80.7 L122.9 76.3 L126.9 71.7 L130.6 67.0 L134.1 62.2 L137.3 57.1 L140.2 51.9 L142.8 46.4 L144.9 40.8 L146.7 35.1 L148.0 29.3 L149.1 23.4 L149.9 17.4 L150.5 11.4 L150.9 5.5 L151.0 3.5" fill="none"/>
+<path class="punkt blau" d="M141.5 49.2 L140.2 58.6 L134.9 55.9z"/>
+<path class="kurve blau duenn" d="M108.7 97.7 L114.5 96.1 L120.3 94.5 L126.1 92.9 L131.8 91.2 L137.5 89.5 L143.2 87.6 L148.9 85.5 L154.3 83.0 L159.6 80.1 L164.4 76.5 L168.3 72.0 L171.2 66.8 L173.2 61.1 L174.4 55.2 L175.2 49.3 L175.8 43.3 L176.2 37.3 L176.5 31.3 L176.7 25.3 L176.8 19.3 L176.9 13.3 L177.0 7.3 L177.0 3.3" fill="none"/>
+<path class="punkt blau" d="M171.5 65.8 L170.4 75.2 L165.0 72.7z"/>
+<path class="kurve blau duenn" d="M268.7 102.3 L274.5 103.9 L280.3 105.4 L286.1 106.9 L291.9 108.4 L297.7 109.9 L303.5 111.4 L309.3 112.9 L315.2 114.3 L321.0 115.8 L326.8 117.2 L332.7 118.6 L338.5 120.0 L344.3 121.4 L350.2 122.7 L356.0 124.1 L358.0 124.5" fill="none"/>
+<path class="punkt blau" d="M318.1 115.0 L308.6 115.8 L310.1 110.0z"/>
+<path class="kurve blau duenn" d="M266.4 106.4 L270.6 110.6 L274.9 114.8 L279.2 119.0 L283.5 123.1 L287.9 127.2 L292.3 131.3 L296.8 135.3 L301.2 139.3 L305.7 143.3 L310.3 147.2 L314.9 151.1 L319.5 154.9 L324.1 158.8 L328.8 162.5 L333.4 166.3 L338.2 170.0 L342.9 173.7 L347.6 177.4 L352.4 181.0 L357.2 184.6 L357.2 184.6" fill="none"/>
+<path class="punkt blau" d="M314.1 150.5 L305.3 146.9 L309.2 142.3z"/>
+<path class="kurve blau duenn" d="M262.3 108.7 L263.9 114.5 L265.5 120.3 L267.2 126.0 L269.0 131.7 L270.8 137.5 L272.8 143.1 L274.8 148.8 L277.0 154.4 L279.2 159.9 L281.5 165.5 L284.0 171.0 L286.5 176.4 L289.1 181.8 L291.8 187.2 L294.5 192.5 L297.3 197.8 L297.3 197.8" fill="none"/>
+<path class="punkt blau" d="M278.8 159.0 L272.7 151.8 L278.3 149.5z"/>
+<path class="kurve blau duenn" d="M257.7 108.7 L256.1 114.5 L254.7 120.3 L253.3 126.2 L252.0 132.0 L250.9 137.9 L249.9 143.8 L249.1 149.8 L248.5 155.7 L248.1 161.7 L247.9 167.7 L247.9 173.7 L248.1 179.7 L248.4 185.7 L248.9 191.7 L249.6 197.7 L249.6 197.7" fill="none"/>
+<path class="punkt blau" d="M248.3 158.7 L246.0 149.5 L252.0 150.0z"/>
+<path class="kurve blau duenn" d="M253.6 106.4 L249.4 110.6 L245.2 114.9 L241.1 119.3 L237.1 123.7 L233.1 128.3 L229.4 133.0 L225.9 137.8 L222.7 142.9 L219.8 148.1 L217.2 153.6 L215.1 159.2 L213.3 164.9 L212.0 170.7 L210.9 176.6 L210.1 182.6 L209.5 188.6 L209.1 194.5 L209.0 196.5" fill="none"/>
+<path class="punkt blau" d="M218.5 150.8 L219.8 141.4 L225.1 144.1z"/>
+<path class="kurve blau duenn" d="M251.3 102.3 L245.5 103.9 L239.7 105.5 L233.9 107.1 L228.2 108.8 L222.5 110.5 L216.8 112.4 L211.1 114.5 L205.7 117.0 L200.4 119.9 L195.6 123.5 L191.7 128.0 L188.8 133.2 L186.8 138.9 L185.6 144.8 L184.8 150.7 L184.2 156.7 L183.8 162.7 L183.5 168.7 L183.3 174.7 L183.2 180.7 L183.1 186.7 L183.0 192.7 L183.0 196.7" fill="none"/>
+<path class="punkt blau" d="M188.5 134.2 L189.6 124.8 L195.0 127.3z"/>
+<path class="kurve blau duenn" d="M251.3 97.7 L245.5 96.1 L239.7 94.5 L233.9 92.9 L228.2 91.2 L222.5 89.5 L216.8 87.6 L211.1 85.5 L205.7 83.0 L200.4 80.1 L195.6 76.5 L191.7 72.0 L188.8 66.8 L186.8 61.1 L185.6 55.2 L184.8 49.3 L184.2 43.3 L183.8 37.3 L183.5 31.3 L183.3 25.3 L183.2 19.3 L183.1 13.3 L183.0 7.3 L183.0 3.3" fill="none"/>
+<path class="punkt blau" d="M188.5 65.8 L195.0 72.7 L189.6 75.2z"/>
+<path class="kurve blau duenn" d="M253.6 93.6 L249.4 89.4 L245.2 85.1 L241.1 80.7 L237.1 76.3 L233.1 71.7 L229.4 67.0 L225.9 62.2 L222.7 57.1 L219.8 51.9 L217.2 46.4 L215.1 40.8 L213.3 35.1 L212.0 29.3 L210.9 23.4 L210.1 17.4 L209.5 11.4 L209.1 5.5 L209.0 3.5" fill="none"/>
+<path class="punkt blau" d="M218.5 49.2 L225.1 55.9 L219.8 58.6z"/>
+<path class="kurve blau duenn" d="M257.7 91.3 L256.1 85.5 L254.7 79.7 L253.3 73.8 L252.0 68.0 L250.9 62.1 L249.9 56.2 L249.1 50.2 L248.5 44.3 L248.1 38.3 L247.9 32.3 L247.9 26.3 L248.1 20.3 L248.4 14.3 L248.9 8.3 L249.6 2.3 L249.6 2.3" fill="none"/>
+<path class="punkt blau" d="M248.3 41.3 L252.0 50.0 L246.0 50.5z"/>
+<path class="kurve blau duenn" d="M262.3 91.3 L263.9 85.5 L265.5 79.7 L267.2 74.0 L269.0 68.3 L270.8 62.5 L272.8 56.9 L274.8 51.2 L277.0 45.6 L279.2 40.1 L281.5 34.5 L284.0 29.0 L286.5 23.6 L289.1 18.2 L291.8 12.8 L294.5 7.5 L297.3 2.2 L297.3 2.2" fill="none"/>
+<path class="punkt blau" d="M278.8 41.0 L278.3 50.5 L272.7 48.2z"/>
+<path class="kurve blau duenn" d="M266.4 93.6 L270.6 89.4 L274.9 85.2 L279.2 81.0 L283.5 76.9 L287.9 72.8 L292.3 68.7 L296.8 64.7 L301.2 60.7 L305.7 56.7 L310.3 52.8 L314.9 48.9 L319.5 45.1 L324.1 41.2 L328.8 37.5 L333.4 33.7 L338.2 30.0 L342.9 26.3 L347.6 22.6 L352.4 19.0 L357.2 15.4 L357.2 15.4" fill="none"/>
+<path class="punkt blau" d="M314.1 49.5 L309.2 57.7 L305.3 53.1z"/>
+<path class="kurve blau duenn" d="M268.7 97.7 L274.5 96.1 L280.3 94.6 L286.1 93.1 L291.9 91.6 L297.7 90.1 L303.5 88.6 L309.3 87.1 L315.2 85.7 L321.0 84.2 L326.8 82.8 L332.7 81.4 L338.5 80.0 L344.3 78.6 L350.2 77.3 L356.0 75.9 L358.0 75.5" fill="none"/>
+<path class="punkt blau" d="M318.1 85.0 L310.1 90.0 L308.6 84.2z"/>
+<circle class="punkt kupfer" cx="100" cy="100" r="7"/>
+<text x="100" y="104" text-anchor="middle" style="fill:#fff;font-weight:700">+</text>
+<circle class="punkt kupfer" cx="260" cy="100" r="7"/>
+<text x="260" y="104" text-anchor="middle" style="fill:#fff;font-weight:700">+</text>
+</svg>
+            <figcaption>Abb. 3: Feldlinien zweier gleicher positiver Ladungen. In der
+              Mitte zwischen ihnen liegt ein Nullpunkt des Feldes, dort ist
+              $\vec{E} = 0$.</figcaption>
+          </figure>
+
+          <h2>Das Feld einer geladenen Platte</h2>
+          <p>Als Anwendung der Integralformel berechnest du das Feld einer
+            unendlich ausgedehnten Platte mit konstanter Flächenladungsdichte
+            $\sigma$. Der Aufpunkt liegt in der Höhe $a$ über der Platte. Ein
+            Flächenelement $\mathrm{d}A$ im Abstand $b$ trägt $\sigma\,\mathrm{d}A$
+            und liefert den Beitrag $\mathrm{d}E = \frac{\sigma\,\mathrm{d}A}{4\pi\varepsilon_0 b^2}$.</p>
+
+          <figure class="abbildung">
+            <svg class="abb" viewBox="0 0 360 190" role="img" aria-label="Seitenansicht einer geladenen Platte mit Aufpunkt in der Höhe a, Verbindungslinie b, Winkel alpha und dem Feldbeitrag von dA">
+<defs><marker id="pfeil-abb4" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto"><path class="punkt kupfer" d="M0 0L10 5L0 10z"/></marker></defs>
+<path class="achse" d="M20 160L340 160" fill="none" style="stroke-width:5"/>
+<path class="hilfslinie" d="M180 160L180 55" fill="none"/>
+<path class="kurve blau" d="M270 160L180 55" fill="none"/>
+<circle class="punkt kupfer" cx="180" cy="55" r="4"/>
+<circle class="punkt blau" cx="270" cy="160" r="3.5"/>
+<path class="kurve kupfer" d="M180 55L155 26" marker-end="url(#pfeil-abb4)" fill="none"/>
+<path class="hilfslinie" d="M180 55L180 26L155 26" fill="none"/>
+<text x="150" y="20" class="klein" text-anchor="end">dE (Beitrag von dA)</text>
+<text x="184" y="38" class="klein">dE senkrecht</text>
+<text x="188" y="84" class="klein">α</text>
+<text x="170" y="112" class="klein" text-anchor="end">a</text>
+<text x="236" y="102" class="klein">b</text>
+<text x="285" y="150" class="klein" text-anchor="middle">dA</text>
+<text x="30" y="182" class="klein">Platte mit Flächenladung σ (positiv)</text>
+</svg>
+            <figcaption>Abb. 4: Seitenansicht. Der Beitrag eines Flächenelements
+              dA zeigt von dA weg und hat eine senkrechte und eine waagerechte Komponente. Die
+              waagerechten heben sich bei Paaren gegenüberliegender Elemente auf.</figcaption>
+          </figure>
+
+          <p>Aus Symmetriegründen kürzen sich die waagerechten Anteile gegenüberliegender
+            Flächenelemente. Es bleibt die Komponente senkrecht zur Platte, der Faktor
+            $\cos\alpha$. Mit $a = b\cos\alpha$, also $1/b^2 = \cos^2\alpha / a^2$, und mit
+            Polarkoordinaten auf der Platte, $\mathrm{d}A = r\,\mathrm{d}r\,\mathrm{d}\varphi$,
+            $r = a\tan\alpha$ und $\mathrm{d}r = a\,\mathrm{d}\alpha/\cos^2\alpha$, gilt</p>
+          $$ \mathrm{d}E_\perp = \frac{\sigma}{4\pi\varepsilon_0}\,\frac{r\,\mathrm{d}r\,\mathrm{d}\varphi}{b^2}\cos\alpha
+             = \frac{\sigma}{4\pi\varepsilon_0}\,\sin\alpha\,\mathrm{d}\alpha\,\mathrm{d}\varphi $$
+          <p>Integrierst du $\varphi$ von $0$ bis $2\pi$ und $\alpha$ von $0$ bis
+            $\pi/2$, folgt</p>
+          $$ E_\perp = \frac{\sigma}{4\pi\varepsilon_0} \cdot 2\pi \cdot \int_0^{\pi/2} \sin\alpha\,\mathrm{d}\alpha = \frac{\sigma}{2\varepsilon_0} $$
+          <p>Das Feld einer unendlichen Platte ist unabhängig vom Abstand. Zwei
+            entgegengesetzt geladene Platten (Plattenkondensator) ergeben
+            zwischen sich die Summe beider Felder, $E = \sigma/\varepsilon_0$, und
+            außerhalb null. Für eine endlich große Platte gilt das nur, solange
+            der Abstand zur Platte klein gegen ihre Ausdehnung ist (die Ränder
+            werden vernachlässigt).</p>
+
+          <div class="merkkasten">
+            <span class="titel">Merke</span>
+            <p>Coulomb-Gesetz: $F = \frac{1}{4\pi\varepsilon_0}\frac{Q_1 Q_2}{r^2}$,
+              abstoßend bei gleichem Vorzeichen. Feld einer Punktladung:
+              $E = \frac{Q}{4\pi\varepsilon_0 r^2}$. Felder und Kräfte mehrerer
+              Ladungen addieren sich als Vektoren. Eine unendliche Platte erzeugt
+              $E = \sigma/(2\varepsilon_0)$, ein Plattenkondensator
+              $E = \sigma/\varepsilon_0$. Das Coulomb-Gesetz setzt ruhende Ladungen
+              und das Vakuum voraus.</p>
+          </div>
+        </section>
+
+        <section class="tab" id="beispiele" data-titel="Beispielrechnungen">
+
+          <div class="beispiel">
+            <h3>Beispiel 1: Elektrische Kraft und Schwerkraft im Wasserstoffatom</h3>
+            <p><strong>Gegeben:</strong> Abstand Elektron–Proton
+              $r = 5{,}29 \cdot 10^{-11}\,\mathrm{m}$, $m_e = 9{,}109 \cdot 10^{-31}\,\mathrm{kg}$,
+              $m_p = 1{,}673 \cdot 10^{-27}\,\mathrm{kg}$.<br>
+              <strong>Gesucht:</strong> beide Kräfte und ihr Verhältnis.</p>
+
+            <p><strong>1. Coulomb-Kraft.</strong>
+              $$ F_\text{el} = \frac{1}{4\pi\varepsilon_0}\frac{e^2}{r^2}
+                = 8{,}988 \cdot 10^{9}\,\mathrm{\tfrac{N\,m^2}{C^2}} \cdot \frac{(1{,}602 \cdot 10^{-19}\,\mathrm{C})^2}{(5{,}29 \cdot 10^{-11}\,\mathrm{m})^2}
+                = 8{,}24 \cdot 10^{-8}\,\mathrm{N} $$</p>
+
+            <p><strong>2. Gravitationskraft.</strong>
+              $$ F_\text{grav} = G\,\frac{m_e m_p}{r^2}
+                = 6{,}674 \cdot 10^{-11}\,\mathrm{\tfrac{m^3}{kg\,s^2}} \cdot \frac{9{,}109 \cdot 10^{-31}\,\mathrm{kg} \cdot 1{,}673 \cdot 10^{-27}\,\mathrm{kg}}{(5{,}29 \cdot 10^{-11}\,\mathrm{m})^2}
+                = 3{,}63 \cdot 10^{-47}\,\mathrm{N} $$</p>
+
+            <p><strong>3. Verhältnis.</strong>
+              $$ \frac{F_\text{el}}{F_\text{grav}} = \frac{8{,}24 \cdot 10^{-8}}{3{,}63 \cdot 10^{-47}} = 2{,}27 \cdot 10^{39} $$
+              Einheitencheck: Beide Kräfte in $\mathrm{N}$, das Verhältnis ist dimensionslos ✓</p>
+
+            <p><strong>Ergebnis und Plausibilität:</strong> Die elektrische Kraft
+              ist um den Faktor $2 \cdot 10^{39}$ stärker. Der Abstand kürzt sich
+              im Verhältnis heraus, es gilt für jeden Abstand. Deshalb bestimmt
+              in Atomen und Molekülen allein die Elektrik das Geschehen. Die
+              Größenordnung $10^{-8}\,\mathrm{N}$ ist für ein einzelnes
+              Elektron enorm: Sein Gewicht beträgt nur etwa $10^{-29}\,\mathrm{N}$.</p>
+          </div>
+
+          <div class="beispiel">
+            <h3>Beispiel 2: Feld zweier Ladungen mit Superposition</h3>
+            <p><strong>Gegeben:</strong> $Q_1 = +2{,}0\,\mu\mathrm{C}$ im Ursprung,
+              $Q_2 = -3{,}0\,\mu\mathrm{C}$ bei $x = 0{,}40\,\mathrm{m}$, $y = 0$. Der
+              Aufpunkt liegt bei $x = 0{,}20\,\mathrm{m}$, $y = 0{,}15\,\mathrm{m}$.<br>
+              <strong>Gesucht:</strong> Betrag und Richtung von $\vec{E}$ am Aufpunkt.</p>
+
+            <p><strong>1. Abstände.</strong> Beide Ladungen haben denselben Abstand
+              $r = \sqrt{0{,}20^2 + 0{,}15^2}\,\mathrm{m} = 0{,}25\,\mathrm{m}$.</p>
+
+            <p><strong>2. Beträge.</strong>
+              $$ E_1 = \frac{1}{4\pi\varepsilon_0}\frac{|Q_1|}{r^2} = 8{,}988 \cdot 10^{9}\,\mathrm{\tfrac{N\,m^2}{C^2}} \cdot \frac{2{,}0 \cdot 10^{-6}\,\mathrm{C}}{(0{,}25\,\mathrm{m})^2} = 2{,}88 \cdot 10^{5}\,\mathrm{V/m} $$
+              $$ E_2 = 8{,}988 \cdot 10^{9}\,\mathrm{\tfrac{N\,m^2}{C^2}} \cdot \frac{3{,}0 \cdot 10^{-6}\,\mathrm{C}}{(0{,}25\,\mathrm{m})^2} = 4{,}31 \cdot 10^{5}\,\mathrm{V/m} $$</p>
+
+            <p><strong>3. Richtungen.</strong> $\vec{E}_1$ zeigt von $Q_1$ weg, also
+              in Richtung $(0{,}20;\,0{,}15)/0{,}25 = (0{,}8;\,0{,}6)$. $\vec{E}_2$
+              zeigt zu $Q_2$ hin, also in Richtung $(0{,}20;\,-0{,}15)/0{,}25 = (0{,}8;\,-0{,}6)$.</p>
+
+            <p><strong>4. Komponenten und Summe.</strong>
+              $$ E_x = (2{,}88 \cdot 0{,}8 + 4{,}31 \cdot 0{,}8) \cdot 10^{5}\,\mathrm{V/m} = 5{,}75 \cdot 10^{5}\,\mathrm{V/m} $$
+              $$ E_y = (2{,}88 \cdot 0{,}6 - 4{,}31 \cdot 0{,}6) \cdot 10^{5}\,\mathrm{V/m} = -0{,}86 \cdot 10^{5}\,\mathrm{V/m} $$
+              $$ |\vec{E}| = \sqrt{5{,}75^2 + 0{,}86^2} \cdot 10^{5}\,\mathrm{V/m} = 5{,}82 \cdot 10^{5}\,\mathrm{V/m}, \qquad \tan\beta = \frac{-0{,}86}{5{,}75} \Rightarrow \beta = -8{,}5^\circ $$
+              Einheitencheck: $\mathrm{N\,m^2/C^2 \cdot C/m^2 = N/C = V/m}$ ✓</p>
+
+            <p><strong>Ergebnis und Plausibilität:</strong> $|\vec{E}| = 5{,}8 \cdot 10^{5}\,\mathrm{V/m}$,
+              die Richtung liegt $8{,}5^\circ$ unterhalb der $x$-Achse, also leicht
+              zur negativen Ladung hin. Das passt: Die stärkere negative Ladung
+              dominiert, und beide Beiträge haben eine nach rechts weisende
+              $x$-Komponente. Die Beträge dürfen nicht einfach addiert werden
+              ($2{,}88 + 4{,}31 = 7{,}19$ wäre falsch).</p>
+          </div>
+
+          <div class="beispiel">
+            <h3>Beispiel 3: Elektron im Plattenkondensator</h3>
+            <p><strong>Gegeben:</strong> Ein Plattenkondensator trägt die
+              Flächenladungsdichte $\sigma = 1{,}0\,\mu\mathrm{C/m^2}$. Ein Elektron
+              startet an der negativen Platte in Ruhe und durchläuft den Abstand
+              $d = 1{,}0\,\mathrm{cm}$.<br>
+              <strong>Gesucht:</strong> Feldstärke, Beschleunigung, Laufzeit, Endgeschwindigkeit.</p>
+
+            <p><strong>1. Feld.</strong>
+              $$ E = \frac{\sigma}{\varepsilon_0} = \frac{1{,}0 \cdot 10^{-6}\,\mathrm{C/m^2}}{8{,}854 \cdot 10^{-12}\,\mathrm{A\,s/(V\,m)}} = 1{,}13 \cdot 10^{5}\,\mathrm{V/m} $$</p>
+
+            <p><strong>2. Beschleunigung.</strong> Es gilt $F = eE$ und $a = F/m_e$:
+              $$ a = \frac{1{,}602 \cdot 10^{-19}\,\mathrm{C} \cdot 1{,}13 \cdot 10^{5}\,\mathrm{V/m}}{9{,}109 \cdot 10^{-31}\,\mathrm{kg}} = 1{,}99 \cdot 10^{16}\,\mathrm{m/s^2} $$
+              Das ist etwa $2 \cdot 10^{15}\,g$. Das Gewicht des Elektrons
+              kann man also vernachlässigen.</p>
+
+            <p><strong>3. Laufzeit und Endgeschwindigkeit.</strong> Aus $d = \tfrac12 a t^2$:
+              $$ t = \sqrt{\frac{2d}{a}} = \sqrt{\frac{2 \cdot 0{,}010\,\mathrm{m}}{1{,}99 \cdot 10^{16}\,\mathrm{m/s^2}}} = 1{,}0 \cdot 10^{-9}\,\mathrm{s}, \qquad v = a t = 2{,}0 \cdot 10^{7}\,\mathrm{m/s} $$</p>
+
+            <p><strong>Ergebnis und Plausibilität:</strong> Das Elektron braucht
+              etwa eine Nanosekunde und erreicht $2 \cdot 10^{7}\,\mathrm{m/s}$, rund
+              $7\,\%$ der Lichtgeschwindigkeit. Die relativistische Korrektur ist
+              daher klein, aber nicht ganz null. Die kinetische Energie ist
+              $\tfrac12 m_e v^2 = 1129\,\mathrm{eV}$, passend zu $eEd = e \cdot 1130\,\mathrm{V}$.
+              Einheitencheck: $\mathrm{C \cdot V/m \cdot m = J}$ ✓ (und $\mathrm{m/s^2}$ für $a$ aus $\mathrm{N/kg}$) ✓</p>
+          </div>
+        </section>
+
+        <section class="tab" id="aufgaben" data-titel="Aufgaben">
+
+          <p>Verwende, wenn nicht anders angegeben, Vakuum,
+            $\frac{1}{4\pi\varepsilon_0} = 8{,}988 \cdot 10^{9}\,\mathrm{N\,m^2/C^2}$,
+            $e = 1{,}602 \cdot 10^{-19}\,\mathrm{C}$ und $g = 9{,}81\,\mathrm{m/s^2}$.</p>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 1
+              <span class="schwierigkeit" data-stufe="leicht">leicht</span>
+            </h3>
+            <p>Zwei kleine Kugeln tragen jeweils $1{,}0\,\mathrm{nC}$ und haben den
+              Abstand $1{,}0\,\mathrm{cm}$. (a) Berechne die Kraft zwischen
+              ihnen. (b) Wie groß ist sie bei $4{,}0\,\mathrm{cm}$ Abstand?</p>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>(a) $F = 8{,}988 \cdot 10^{9}\,\mathrm{N\,m^2/C^2} \cdot \frac{(10^{-9}\,\mathrm{C})^2}{(0{,}010\,\mathrm{m})^2} = 8{,}99 \cdot 10^{-5}\,\mathrm{N}$.</p>
+              <p>(b) Der Abstand ist viermal so groß, die Kraft sinkt auf
+                $1/16$: $F = 5{,}6 \cdot 10^{-6}\,\mathrm{N}$.
+                Einheitencheck: $\mathrm{N\,m^2/C^2 \cdot C^2/m^2 = N}$ ✓</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 2
+              <span class="schwierigkeit" data-stufe="leicht">leicht</span>
+            </h3>
+            <p>Ein Körper trägt die Ladung $-1{,}0\,\mathrm{nC}$. (a) Wie viele
+              Elementarladungen sind das? (b) Ein zweiter Körper trägt dieselbe
+              Ladung. Stoßen sich die beiden ab oder ziehen sie sich an? Und wie
+              ist es, wenn der zweite stattdessen $+1{,}0\,\mathrm{nC}$ trägt?</p>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>(a) $n = |Q|/e = \frac{1{,}0 \cdot 10^{-9}\,\mathrm{C}}{1{,}602 \cdot 10^{-19}\,\mathrm{C}} = 6{,}2 \cdot 10^{9}$.
+                Es sind etwa sechs Milliarden Elementarladungen.</p>
+              <p>(b) Beide sind negativ geladen, haben also gleiches Vorzeichen und
+                stoßen sich ab. Trägt der zweite $+1{,}0\,\mathrm{nC}$, ziehen sie sich an.
+                Die Ladung $-1{,}0\,\mathrm{nC}$ bedeutet einen Überschuss von
+                $6{,}2 \cdot 10^{9}$ Elektronen.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 3
+              <span class="schwierigkeit" data-stufe="mittel">mittel</span>
+            </h3>
+            <p>Zwei gleich geladene Kugeln der Masse $0{,}50\,\mathrm{g}$ hängen an
+              zwei $1{,}00\,\mathrm{m}$ langen Fäden vom selben Aufhängepunkt. Im
+              Gleichgewicht haben sie den Abstand $d = 4{,}0\,\mathrm{cm}$.
+              (a) Zeichne die Kräfte auf eine Kugel und bestimme den Winkel
+              $\theta$ jedes Fadens gegen die Senkrechte. (b) Wie groß ist die
+              Ladung jeder Kugel?</p>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>(a) Auf eine Kugel wirken Gewicht $mg$ nach unten, die Fadenkraft
+                $T$ längs des Fadens und die Coulomb-Kraft $F$ waagerecht nach
+                außen. Mit dem halben Abstand $d/2$ gilt
+                $\sin\theta = \frac{d/2}{L} = 0{,}020$, also $\theta = 1{,}15^\circ$.</p>
+              <p>(b) Gleichgewicht: waagerecht $T\sin\theta = F$, senkrecht
+                $T\cos\theta = mg$, also $F = mg\tan\theta$:
+                $$ F = 0{,}50 \cdot 10^{-3}\,\mathrm{kg} \cdot 9{,}81\,\mathrm{m/s^2} \cdot \tan 1{,}15^\circ = 9{,}8 \cdot 10^{-5}\,\mathrm{N} $$
+                Aus $F = \frac{1}{4\pi\varepsilon_0}\frac{q^2}{d^2}$ folgt
+                $$ q = d\sqrt{\frac{F}{1/(4\pi\varepsilon_0)}} = 0{,}040\,\mathrm{m} \cdot \sqrt{\frac{9{,}8 \cdot 10^{-5}\,\mathrm{N}}{8{,}988 \cdot 10^{9}\,\mathrm{N\,m^2/C^2}}} = 4{,}2 \cdot 10^{-9}\,\mathrm{C} $$
+                Jede Kugel trägt etwa $4\,\mathrm{nC}$. Plausibel: Solche Ladungen
+                entstehen schon beim Reiben.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 4
+              <span class="schwierigkeit" data-stufe="mittel">mittel</span>
+            </h3>
+            <p>Drei gleiche Ladungen $Q = +2{,}0\,\mu\mathrm{C}$ sitzen in den Ecken
+              eines gleichseitigen Dreiecks mit der Seitenlänge $s = 0{,}30\,\mathrm{m}$.
+              (a) Wie groß ist die Kraft zwischen zwei Ladungen? (b) Bestimme
+              Betrag und Richtung der Gesamtkraft auf eine Ladung.</p>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>(a) $F_0 = 8{,}988 \cdot 10^{9}\,\mathrm{N\,m^2/C^2} \cdot \frac{(2{,}0 \cdot 10^{-6}\,\mathrm{C})^2}{(0{,}30\,\mathrm{m})^2} = 0{,}399\,\mathrm{N}$.</p>
+              <p>(b) Die beiden anderen Ladungen stoßen mit je $F_0$ ab, die
+                Kräfte schließen den Winkel $60^\circ$ ein. Ihre Komponenten
+                quer zur Winkelhalbierenden heben sich auf, die Komponenten
+                längs der Winkelhalbierenden addieren sich:
+                $$ F = 2F_0\cos 30^\circ = \sqrt{3}\,F_0 = 0{,}69\,\mathrm{N} $$
+                Die Kraft zeigt vom Mittelpunkt des Dreiecks weg nach außen.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 5
+              <span class="schwierigkeit" data-stufe="schwer">schwer</span>
+            </h3>
+            <p>Zwei gleiche Ladungen $Q$ sitzen bei $x = -a$ und $x = +a$. Auf der
+              $y$-Achse, also auf der Mittelsenkrechten, soll das Feld
+              untersucht werden. (a) Zeige, dass das Feld dort nur eine
+              $y$-Komponente hat, und gib sie an. (b) Bei welchem $y$ ist sie
+              am größten? (c) Berechne sie für $Q = 5{,}0\,\mathrm{nC}$,
+              $a = 3{,}0\,\mathrm{cm}$ und $y = 4{,}0\,\mathrm{cm}$.</p>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>(a) Die Abstände zu beiden Ladungen sind gleich,
+                $b = \sqrt{a^2 + y^2}$. Die $x$-Komponenten der beiden Beiträge
+                sind entgegengesetzt gleich und heben sich auf. Die
+                $y$-Komponenten addieren sich, jede mit dem Faktor $y/b$:
+                $$ E_y = 2\,\frac{Q}{4\pi\varepsilon_0}\,\frac{1}{b^2}\,\frac{y}{b} = \frac{2Q}{4\pi\varepsilon_0}\,\frac{y}{(a^2 + y^2)^{3/2}} $$</p>
+              <p>(b) Ableiten nach $y$ und null setzen:
+                $\frac{\mathrm{d}E_y}{\mathrm{d}y} \propto (a^2 + y^2)^{-3/2} - 3y^2 (a^2 + y^2)^{-5/2} = 0$,
+                also $a^2 + y^2 = 3y^2$ und damit $y = a/\sqrt{2}$. Dort ist
+                $E_y$ maximal (bei $y = 0$ ist das Feld null, für große $y$ fällt
+                es wie $1/y^2$).</p>
+              <p>(c) $E_y = 2 \cdot 8{,}988 \cdot 10^{9} \cdot 5{,}0 \cdot 10^{-9} \cdot \frac{0{,}040}{(0{,}030^2 + 0{,}040^2)^{3/2}}\,\mathrm{V/m}$
+                mit $(0{,}0025)^{3/2} = 1{,}25 \cdot 10^{-4}$ in $\mathrm{m^3}$:
+                $E_y = 2{,}88 \cdot 10^{4}\,\mathrm{V/m}$. Der Maximalwert bei
+                $y = 2{,}1\,\mathrm{cm}$ ist $3{,}8 \cdot 10^{4}\,\mathrm{V/m}$.
+                Für $y \gg a$ erhältst du $E_y \to \frac{2Q}{4\pi\varepsilon_0 y^2}$, also das
+                Feld einer einzigen Ladung $2Q$ in der Mitte.</p>
+              <p><strong>Zum Nachdenken:</strong> Warum zeigt das Maximum nicht
+                bei $y = 0$, obwohl man dort den kleinsten Abstand zu den Ladungen
+                hat?</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 6
+              <span class="schwierigkeit" data-stufe="schwer">schwer</span>
+            </h3>
+            <p>Eine kreisförmige Scheibe mit Radius $R$ trägt die konstante
+              Flächenladungsdichte $\sigma$. (a) Berechne das Feld auf der Achse im
+              Abstand $z$ über dem Mittelpunkt mit der Methode der Platte
+              (Winkel $\alpha$). (b) Zeige, dass für $R \to \infty$ das Feld der
+              unendlichen Platte herauskommt. (c) Zeige, dass für $z \gg R$ das
+              Feld einer Punktladung herauskommt. (d) Zahlenwerte:
+              $\sigma = 2{,}0\,\mu\mathrm{C/m^2}$, $R = 0{,}10\,\mathrm{m}$,
+              $z = 0{,}05\,\mathrm{m}$.</p>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>(a) Wie bei der Platte gilt
+                $\mathrm{d}E_\perp = \frac{\sigma}{4\pi\varepsilon_0}\sin\alpha\,\mathrm{d}\alpha\,\mathrm{d}\varphi$
+                mit $a = z$. Die Scheibe reicht nur bis zum Winkel $\alpha_0$ mit
+                $\tan\alpha_0 = R/z$. Integration:
+                $$ E = \frac{\sigma}{4\pi\varepsilon_0} \cdot 2\pi \int_0^{\alpha_0}\sin\alpha\,\mathrm{d}\alpha
+                   = \frac{\sigma}{2\varepsilon_0}\,(1 - \cos\alpha_0)
+                   = \frac{\sigma}{2\varepsilon_0}\left(1 - \frac{z}{\sqrt{z^2 + R^2}}\right) $$</p>
+              <p>(b) Für $R \to \infty$ geht $z/\sqrt{z^2 + R^2} \to 0$, es bleibt
+                $E = \sigma/(2\varepsilon_0)$.</p>
+              <p>(c) Für $z \gg R$ entwickelst du
+                $\frac{z}{\sqrt{z^2 + R^2}} = (1 + R^2/z^2)^{-1/2} \approx 1 - \frac{R^2}{2z^2}$,
+                also $E \approx \frac{\sigma}{2\varepsilon_0}\frac{R^2}{2z^2} = \frac{\sigma \pi R^2}{4\pi\varepsilon_0 z^2} = \frac{Q}{4\pi\varepsilon_0 z^2}$
+                mit der Gesamtladung $Q = \sigma\pi R^2$.</p>
+              <p>(d) $\frac{\sigma}{2\varepsilon_0} = 1{,}13 \cdot 10^{5}\,\mathrm{V/m}$ und
+                $1 - \frac{0{,}05}{\sqrt{0{,}05^2 + 0{,}10^2}} = 1 - 0{,}447 = 0{,}553$, also
+                $E = 6{,}2 \cdot 10^{4}\,\mathrm{V/m}$. Das ist etwas mehr als die Hälfte des
+                Wertes der unendlichen Platte. Bei $z = R/2$ deckt die Scheibe
+                den Winkelbereich bis $\alpha_0 = 63^\circ$ von $90^\circ$ ab.</p>
+              <p><strong>Zum Nachdenken:</strong> Welchen Wert liefert die Formel
+                für $z \to 0$, und wie verhält sich das Feld, wenn du die Scheibe
+                durchstößt?</p>
+            </details>
+          </div>
+        </section>
+
+      </div></article>
+  </main>
+</body>
+</html>

@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="robots" content="noindex">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Formelsammlung – Physik verstehen</title>
+  <meta name="description" content="Alle wichtigen Formeln aus den Merkkästen der Themenseiten, nach Fachgebieten geordnet. Zum Nachschlagen, Drucken oder als PDF.">
+
+  <link rel="stylesheet" href="../css/stil.css">
+  <link rel="stylesheet" href="../extern/katex/katex.min.css">
+  <script src="../js/daten.js"></script>
+  <script src="../js/seite.js"></script>
+  <script src="../js/effekte.js"></script>
+  <script defer src="../extern/katex/katex.min.js"></script>
+  <script defer src="../extern/katex/contrib/auto-render.min.js" onload="starteFormeln()"></script>
+  <script src="../js/formelsammlung-daten.js"></script>
+  <script src="../js/formelsammlung.js"></script>
+  <script type="application/json" id="symbole">{}</script>
+</head>
+<body data-seite="formelsammlung">
+  <main class="werkzeug-main">
+    <p class="oberzeile">Nachschlagen</p>
+    <h1><span class="betont">Formel</span>sammlung</h1>
+    <p class="hero-text seitenkopf-text" style="margin:0 0 0.6rem">
+      Die Merkkästen aller Themenseiten an einem Ort: die zentralen
+      Formeln, nach Fachgebieten geordnet. Zum schnellen Nachschlagen,
+      als Spickzettel für die Klausurvorbereitung oder ausgedruckt neben
+      den Übungsblättern. Fährst du mit der Maus über ein Formelzeichen,
+      erfährst du, was es bedeutet.
+    </p>
+    <p class="fs-anzahl" id="fs-anzahl"></p>
+    <div class="fs-leiste" id="fs-leiste"></div>
+    <p class="fs-druck-titel" id="fs-druck-titel">Formelsammlung</p>
+    <div id="formelsammlung" class="formelsammlung"></div>
+  </main>
+</body>
+</html>

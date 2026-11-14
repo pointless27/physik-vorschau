@@ -309,8 +309,8 @@
        - Blur-Text: Wörter einer Überschrift erscheinen nacheinander
          ([data-worte] an der Überschrift)
        - Count-Up: Zahlen zählen hoch, sobald sie sichtbar werden
-       - Spotlight: Lichtkegel folgt der Maus über Karten, dazu leichtes
-         3D-Kippen bei kleinen Karten
+       - Spotlight: heute nur noch leichtes 3D-Kippen bei kleinen Karten
+         (Lichtkegel 2026-11-14 entfernt, siehe effekte.css)
        - Partikel: ruhig driftende Punkte hinter dem Hero (Canvas)
      Alle Effekte beachten prefers-reduced-motion.
      --------------------------------------------------------------------- */

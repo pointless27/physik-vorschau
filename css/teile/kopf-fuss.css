@@ -158,6 +158,27 @@
 .menue-alle:hover { text-decoration: underline; }
 /* Zusatz-Eintrag unter den vier Bereichen (Interaktives Universum) */
 .menue-zusatz { margin-top: 0.3rem; border-top: 1px dashed var(--rand); border-radius: 0 0 var(--radius-m) var(--radius-m); }
+/* Gruppe „Nachschlagen“ (SITE.extras): kleinere Einträge unter einer Zwischenzeile */
+.menue-gruppe {
+  margin: 0.45rem 0.65rem 0.1rem;
+  padding-top: 0.45rem;
+  border-top: 1px dashed var(--rand);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-schwach);
+}
+.menue-klein { padding-top: 0.38rem; padding-bottom: 0.38rem; }
+.menue-klein .karten-icon { width: 1.9rem; height: 1.9rem; }
+.menue-klein .karten-icon svg { width: 1rem; height: 1rem; }
+.menue-klein .menue-name { font-size: 0.9rem; }
+.menue-klein .menue-zeile { font-size: 0.78rem; }
+/* langes Menü nur auf niedrigen Bildschirmen scrollbar (sonst würde
+   overflow die unsichtbare Brücke ::before abschneiden) */
+@media (max-height: 46rem) {
+  .themen-menue { max-height: calc(100vh - 5rem); overflow-y: auto; }
+}
 /* Themensuche (baueSuche() in seite.js): Lupen-Knopf wie "Themen",
    darunter eine Karte mit Eingabefeld und Treffern (gleiche Einträge wie
    im Menü). Rechtsbündig unter dem Knopf, am Handy über die ganze Kopfzeile. */

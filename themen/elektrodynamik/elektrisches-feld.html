@@ -1,0 +1,470 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="robots" content="noindex">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Das elektrische Feld und der Satz von Gauß</title>
+  <meta name="description" content="Elektrischer Fluss, Satz von Gauß und die Felder von Kugel, Draht und Platte: wie Symmetrie die Berechnung des Feldes einfach macht.">
+
+  <link rel="stylesheet" href="../../css/stil.css">
+
+  <link rel="stylesheet" href="../../extern/katex/katex.min.css">
+  <script defer src="../../extern/katex/katex.min.js"></script>
+  <script defer src="../../extern/katex/contrib/auto-render.min.js" onload="starteFormeln()"></script>
+
+  <script src="../../js/daten.js"></script>
+  <script src="../../js/seite.js"></script>
+  <script src="../../js/effekte.js"></script>
+  <script type="application/json" id="symbole">
+  {
+    "e": "Elementarladung, 1,602·10⁻¹⁹ C",
+    "μ": "Vorsilbe Mikro, ein Millionstel",
+    "E": "elektrische Feldstärke",
+    "Q": "Gesamtladung",
+    "ε_0": "elektrische Feldkonstante, 8,854·10⁻¹² A s/(V m)",
+    "Φ": "elektrischer Fluss",
+    "A": "Fläche",
+    "ρ": "Raumladungsdichte",
+    "ρ_0": "Ladungsdichte im Zentrum bzw. Konstante der Ladungsdichte",
+    "σ": "Flächenladungsdichte",
+    "λ": "Linienladungsdichte (Ladung pro Länge)",
+    "r": "Abstand von der Achse bzw. vom Mittelpunkt",
+    "R": "Kugelradius",
+    "R_1": "Radius des Innenleiters",
+    "R_2": "Innenradius des Außenleiters",
+    "L": "Länge",
+    "V": "Volumen",
+    "Ω": "Raumwinkel",
+    "n": "Normalenvektor",
+    "k": "Coulomb-Konstante 1/(4π ε₀)",
+    "Q_inn": "umschlossene Ladung",
+    "φ": "Potential",
+    "d": "Abstand",
+    "q": "Ladung",
+    "a": "Kantenlänge",
+    "F": "Kraft",
+    "t": "Zeit",
+    "π": "Kreiszahl"
+  }
+  </script>
+</head>
+<body data-thema="elektrisches-feld">
+  <main>
+    <article class="thema">
+      <header>
+        <h1>Das elektrische Feld und der <span class="betont">Satz von Gauß</span></h1>
+        <p class="untertitel">Wie viele Feldlinien aus einer Hülle kommen, verrät dir, wie viel Ladung darin steckt.</p>
+      </header>
+
+      <div class="tabs">
+
+        <section class="tab" id="verstehen" data-titel="Verstehen">
+
+          <p>Stell dir einen Gartenschlauch vor, der in einen geschlossenen
+            Plastiksack mündet. Aus dem Sack kommt Wasser heraus, aber nur,
+            weil im Inneren eine Quelle sitzt. Misst du an der Außenhaut, wie
+            viel Wasser pro Sekunde hindurchströmt, weißt du, wie stark die
+            Quelle ist, ohne in den Sack zu schauen. Ist keine Quelle drin,
+            fließt genauso viel hinein wie heraus.</p>
+
+          <p>Mit dem elektrischen Feld funktioniert das genauso. Ladungen sind
+            seine Quellen. Positive Ladungen senden Feldlinien aus, negative
+            nehmen sie auf. Legst du in Gedanken eine geschlossene Hülle um
+            einen Raumbereich, zählst du die Linien, die hinaus laufen, und
+            ziehst die ab, die hinein laufen. Das Ergebnis ist ein Maß für die
+            Gesamtladung im Inneren, und nur dafür.</p>
+
+          <figure class="abbildung">
+            <svg class="abb" viewBox="0 0 360 185" role="img" aria-label="Links eine Hülle mit positiver Ladung, aus der Feldlinien austreten, rechts eine leere Hülle, durch die Linien hindurchlaufen">
+<defs><marker id="pfeil-abb1" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto"><path class="punkt kupfer" d="M0 0L10 5L0 10z"/></marker></defs>
+<circle class="achse" cx="100" cy="85" r="40" fill="none" style="stroke-dasharray:4 3"/>
+<path class="kurve kupfer" d="M126.0 85.0L170.0 85.0" marker-end="url(#pfeil-abb1)" fill="none"/>
+<path class="kurve kupfer" d="M118.4 103.4L149.5 134.5" marker-end="url(#pfeil-abb1)" fill="none"/>
+<path class="kurve kupfer" d="M100.0 111.0L100.0 155.0" marker-end="url(#pfeil-abb1)" fill="none"/>
+<path class="kurve kupfer" d="M81.6 103.4L50.5 134.5" marker-end="url(#pfeil-abb1)" fill="none"/>
+<path class="kurve kupfer" d="M74.0 85.0L30.0 85.0" marker-end="url(#pfeil-abb1)" fill="none"/>
+<path class="kurve kupfer" d="M81.6 66.6L50.5 35.5" marker-end="url(#pfeil-abb1)" fill="none"/>
+<path class="kurve kupfer" d="M100.0 59.0L100.0 15.0" marker-end="url(#pfeil-abb1)" fill="none"/>
+<path class="kurve kupfer" d="M118.4 66.6L149.5 35.5" marker-end="url(#pfeil-abb1)" fill="none"/>
+<circle class="punkt kupfer" cx="100" cy="85" r="7"/><text x="100" y="89" text-anchor="middle" style="fill:#fff;font-weight:700">+</text>
+<text x="100" y="170" text-anchor="middle">mit Ladung innen</text>
+<circle class="achse" cx="260" cy="85" r="40" fill="none" style="stroke-dasharray:4 3"/>
+<path class="kurve kupfer" d="M190.0 63.0L330.0 63.0" marker-end="url(#pfeil-abb1)" fill="none"/>
+<path class="kurve kupfer" d="M190.0 85.0L330.0 85.0" marker-end="url(#pfeil-abb1)" fill="none"/>
+<path class="kurve kupfer" d="M190.0 107.0L330.0 107.0" marker-end="url(#pfeil-abb1)" fill="none"/>
+<text x="260" y="170" text-anchor="middle">ohne Ladung innen</text>
+</svg>
+            <figcaption>Abb. 1: Gedachte Hülle (gestrichelt). Links tritt netto Feld
+              aus, weil innen eine Ladung sitzt. Rechts läuft jede Linie hinein
+              und auf der anderen Seite wieder hinaus, der Nettofluss ist null.</figcaption>
+          </figure>
+
+          <p>Das ist der <em>Satz von Gauß</em>. Er sieht unscheinbar aus, macht
+            aber aus vielen Aufgaben einen Dreizeiler. Wenn die Anordnung
+            symmetrisch ist (Kugel, langer Draht, große Platte), weißt du schon,
+            dass das Feld überall auf der Hülle gleich stark und senkrecht zu
+            ihr ist. Dann musst du nur noch die Fläche der Hülle mit der
+            Feldstärke multiplizieren, und das ergibt die Ladung im Inneren.</p>
+
+          <div class="alltag">
+            <span class="titel">Aus dem Alltag</span>
+            <p>Wenn du bei Gewitter im Auto sitzt, bist du ziemlich sicher. Die
+              Karosserie ist ein geschlossener Metallkäfig. Im Inneren eines
+              solchen Käfigs ist das elektrische Feld null, egal wie stark es
+              außen ist. Dieselbe Idee schützt empfindliche Messgeräte und das
+              Signal im Koaxialkabel deiner Antenne vor Störungen von außen.</p>
+          </div>
+
+          <p>Zwei Ergebnisse lohnt es sich zu merken. Außerhalb einer
+            kugelförmigen Ladungsverteilung wirkt alles so, als säße die ganze
+            Ladung im Mittelpunkt. Und im Inneren einer leeren, nur außen
+            geladenen Kugelschale ist das Feld exakt null. Beides gilt nur,
+            weil das Feld mit dem Quadrat des Abstands abfällt.</p>
+
+          <div class="merkkasten">
+            <span class="titel">Das Wichtigste in Kürze</span>
+            <p>Der Fluss des elektrischen Feldes durch eine geschlossene Fläche
+              ist ein Maß für die Ladung in ihrem Inneren. Ladungen draußen
+              ändern den Nettofluss nicht. Bei Symmetrie erlaubt das, Felder
+              ohne Integral zu berechnen. In einem Metallkäfig ist das Feld
+              null.</p>
+          </div>
+        </section>
+
+        <section class="tab" id="vertiefung" data-titel="Vertiefung">
+
+          <h2>Der elektrische Fluss</h2>
+          <p>Der Fluss des Feldes durch eine Fläche ist das Flächenintegral der
+            Normalkomponente:</p>
+          $$ \Phi = \int_A \vec{E} \cdot \mathrm{d}\vec{A} $$
+          <p>Das Flächenelement $\mathrm{d}\vec{A} = \vec{n}\,\mathrm{d}A$ zeigt
+            bei geschlossenen Flächen nach außen. Für eine Punktladung $Q$ im
+            Ursprung ist $\vec{E} = \frac{Q}{4\pi\varepsilon_0 r^2}\hat{r}$. Auf
+            einer Kugel um sie gilt $\mathrm{d}A = r^2\,\mathrm{d}\Omega$ mit dem
+            Raumwinkelelement $\mathrm{d}\Omega$ und $\hat{r} \cdot \vec{n} = 1$,
+            also</p>
+          $$ \Phi = \oint \frac{Q}{4\pi\varepsilon_0 r^2}\, r^2\,\mathrm{d}\Omega = \frac{Q}{4\pi\varepsilon_0}\oint \mathrm{d}\Omega = \frac{Q}{\varepsilon_0} $$
+          <p>Der Radius kürzt sich heraus. Das liegt am $1/r^2$-Gesetz: Die
+            Feldstärke sinkt genauso, wie die Fläche wächst. Für eine beliebig
+            geformte Fläche um dieselbe Ladung ergibt sich derselbe Wert, denn
+            das Raumwinkelelement hängt nur von der Richtung ab. Liegt die
+            Ladung außerhalb, tritt jeder Strahl ein und wieder aus, die
+            Beiträge heben sich auf. Mit dem Superpositionsprinzip folgt für
+            beliebig viele Ladungen:</p>
+
+          <h2>Der Satz von Gauß</h2>
+          $$ \Phi = \oint_{\partial V} \vec{E} \cdot \mathrm{d}\vec{A} = \frac{Q_\text{inn}}{\varepsilon_0} = \frac{1}{\varepsilon_0}\int_V \rho\,\mathrm{d}V $$
+          <p>Der Fluss durch eine geschlossene Fläche hängt nur von der
+            eingeschlossenen Ladung ab, nicht von der Form der Fläche und nicht
+            von der Verteilung der Ladung im Inneren. Das ist die integrale Form
+            der ersten Maxwell-Gleichung. Die differentielle Form folgt mit dem
+            Gaußschen Integralsatz $\oint \vec{E}\cdot\mathrm{d}\vec{A} = \int_V \vec{\nabla}\cdot\vec{E}\,\mathrm{d}V$:</p>
+          $$ \int_V \vec{\nabla}\cdot\vec{E}\,\mathrm{d}V = \int_V \frac{\rho}{\varepsilon_0}\,\mathrm{d}V
+             \quad\Rightarrow\quad \vec{\nabla}\cdot\vec{E} = \frac{\rho}{\varepsilon_0} $$
+          <p>Die Gleichung muss für jedes Volumen gelten, also gilt sie punktweise.
+            Ladungen sind die Quellen des Feldes. Der Satz bestimmt das Feld
+            nicht allein, er legt nur die Divergenz fest. Erst mit Symmetrie
+            (oder mit $\vec{\nabla}\times\vec{E} = 0$ und Randbedingungen) wird
+            das Feld eindeutig.</p>
+
+          <h2>Anwendungen bei Symmetrie</h2>
+          <p>Der Ablauf ist immer gleich: Symmetrie liefert Richtung und
+            Abhängigkeit von $\vec{E}$, du wählst eine Gaußsche Fläche, auf
+            der $E$ konstant und senkrecht ist, und löst nach $E$ auf.</p>
+
+          <p><strong>Kugelsymmetrie.</strong> Mit einer Kugel vom Radius $r$ gilt
+            $4\pi r^2 E = Q_\text{inn}/\varepsilon_0$. Für eine Hohlkugel mit
+            Radius $R$ und Gesamtladung $Q$ auf der Oberfläche ist
+            $Q_\text{inn} = 0$ für $r \lt R$ und $Q$ für $r \gt R$:</p>
+          $$ E(r) = \begin{cases} 0 & r \lt R \\[2pt] \dfrac{Q}{4\pi\varepsilon_0 r^2} & r \gt R \end{cases} $$
+          <p>Im Inneren verschwindet das Feld, und das Potential ist konstant.
+            Das ist das Prinzip des <em>Faraday-Käfigs</em>. Für die homogen
+            geladene Vollkugel ($\rho = \text{const.}$, $Q = \frac43\pi R^3\rho$)
+            ist innen $Q_\text{inn} = Q\,r^3/R^3$:</p>
+          $$ E(r) = \begin{cases} \dfrac{Q\,r}{4\pi\varepsilon_0 R^3} & r \le R \\[2pt] \dfrac{Q}{4\pi\varepsilon_0 r^2} & r \ge R \end{cases} $$
+          <p>Das Feld wächst im Inneren linear, ist bei $r = R$ stetig und fällt
+            außen wie $1/r^2$.</p>
+
+          <figure class="abbildung">
+            <svg class="abb" viewBox="0 0 360 160" role="img" aria-label="Feldstärke über dem Abstand: Hohlkugel mit Sprung bei R, Vollkugel mit linearem Anstieg bis R und danach Abfall mit eins durch r Quadrat">
+<path class="achse" d="M40 130L330 130M40 130L40 12" fill="none"/>
+<path class="hilfslinie" d="M133.3 130L133.3 18" fill="none"/>
+<polyline class="kurve kupfer" points="40.0,130.0 42.3,130.0 44.7,130.0 47.0,130.0 49.3,130.0 51.7,130.0 54.0,130.0 56.3,130.0 58.7,130.0 61.0,130.0 63.3,130.0 65.7,130.0 68.0,130.0 70.3,130.0 72.7,130.0 75.0,130.0 77.3,130.0 79.7,130.0 82.0,130.0 84.3,130.0 86.7,130.0 89.0,130.0 91.3,130.0 93.7,130.0 96.0,130.0 98.3,130.0 100.7,130.0 103.0,130.0 105.3,130.0 107.7,130.0 110.0,130.0 112.3,130.0 114.7,130.0 117.0,130.0 119.3,130.0 121.7,130.0 124.0,130.0 126.3,130.0 128.7,130.0 131.0,130.0 133.3,130.0" fill="none" style="stroke-dasharray:5 3"/>
+<polyline class="kurve kupfer" points="133.3,40.0 135.7,44.3 138.0,48.4 140.3,52.1 142.7,55.6 145.0,58.9 147.3,61.9 149.7,64.8 152.0,67.5 154.3,70.0 156.7,72.4 159.0,74.6 161.3,76.7 163.7,78.7 166.0,80.6 168.3,82.4 170.7,84.1 173.0,85.7 175.3,87.2 177.7,88.6 180.0,90.0 182.3,91.3 184.7,92.5 187.0,93.7 189.3,94.8 191.7,95.9 194.0,96.9 196.3,97.9 198.7,98.9 201.0,99.8 203.3,100.6 205.7,101.4 208.0,102.2 210.3,103.0 212.7,103.7 215.0,104.4 217.3,105.1 219.7,105.7 222.0,106.3 224.3,106.9 226.7,107.5 229.0,108.1 231.3,108.6 233.7,109.1 236.0,109.6 238.3,110.1 240.7,110.5 243.0,111.0 245.3,111.4 247.7,111.8 250.0,112.2 252.3,112.6 254.7,113.0 257.0,113.4 259.3,113.7 261.7,114.0 264.0,114.4 266.3,114.7 268.7,115.0 271.0,115.3 273.3,115.6 275.7,115.9 278.0,116.2 280.3,116.4 282.7,116.7 285.0,116.9 287.3,117.2 289.7,117.4 292.0,117.7 294.3,117.9 296.7,118.1 299.0,118.3 301.3,118.5 303.7,118.7 306.0,118.9 308.3,119.1 310.7,119.3 313.0,119.5 315.3,119.7 317.7,119.8 320.0,120.0" fill="none" style="stroke-dasharray:5 3"/>
+<polyline class="kurve blau" points="40.0,130.0 42.3,127.8 44.7,125.5 47.0,123.2 49.3,121.0 51.7,118.8 54.0,116.5 56.3,114.2 58.7,112.0 61.0,109.8 63.3,107.5 65.7,105.2 68.0,103.0 70.3,100.8 72.7,98.5 75.0,96.2 77.3,94.0 79.7,91.8 82.0,89.5 84.3,87.2 86.7,85.0 89.0,82.8 91.3,80.5 93.7,78.2 96.0,76.0 98.3,73.8 100.7,71.5 103.0,69.2 105.3,67.0 107.7,64.8 110.0,62.5 112.3,60.2 114.7,58.0 117.0,55.8 119.3,53.5 121.7,51.2 124.0,49.0 126.3,46.8 128.7,44.5 131.0,42.2 133.3,40.0 135.7,44.3 138.0,48.4 140.3,52.1 142.7,55.6 145.0,58.9 147.3,61.9 149.7,64.8 152.0,67.5 154.3,70.0 156.7,72.4 159.0,74.6 161.3,76.7 163.7,78.7 166.0,80.6 168.3,82.4 170.7,84.1 173.0,85.7 175.3,87.2 177.7,88.6 180.0,90.0 182.3,91.3 184.7,92.5 187.0,93.7 189.3,94.8 191.7,95.9 194.0,96.9 196.3,97.9 198.7,98.9 201.0,99.8 203.3,100.6 205.7,101.4 208.0,102.2 210.3,103.0 212.7,103.7 215.0,104.4 217.3,105.1 219.7,105.7 222.0,106.3 224.3,106.9 226.7,107.5 229.0,108.1 231.3,108.6 233.7,109.1 236.0,109.6 238.3,110.1 240.7,110.5 243.0,111.0 245.3,111.4 247.7,111.8 250.0,112.2 252.3,112.6 254.7,113.0 257.0,113.4 259.3,113.7 261.7,114.0 264.0,114.4 266.3,114.7 268.7,115.0 271.0,115.3 273.3,115.6 275.7,115.9 278.0,116.2 280.3,116.4 282.7,116.7 285.0,116.9 287.3,117.2 289.7,117.4 292.0,117.7 294.3,117.9 296.7,118.1 299.0,118.3 301.3,118.5 303.7,118.7 306.0,118.9 308.3,119.1 310.7,119.3 313.0,119.5 315.3,119.7 317.7,119.8 320.0,120.0" fill="none"/>
+<text x="133" y="146" text-anchor="middle" class="klein">R</text>
+<text x="334" y="146" text-anchor="end" class="klein">Abstand r</text><text x="46" y="16" class="klein">E</text>
+<text x="141" y="30" class="klein kupfer">Hohlkugel</text><text x="193" y="70" class="klein blau">Vollkugel</text>
+</svg>
+            <figcaption>Abb. 2: Betrag des Feldes über dem Abstand vom Mittelpunkt, in
+              Einheiten von $Q/(4\pi\varepsilon_0 R^2)$. Die Hohlkugel (orange,
+              gestrichelt) hat innen kein Feld und springt bei $R$ auf den
+              Maximalwert. Die Vollkugel (blau) steigt linear an und erreicht bei $R$
+              denselben Wert. Außen sind beide Kurven gleich.</figcaption>
+          </figure>
+
+          <p><strong>Zylindersymmetrie.</strong> Eine lange gerade Linienladung
+            mit der Ladung pro Länge $\lambda$ hat ein radiales Feld. Als Gaußsche
+            Fläche dient ein Zylinder der Länge $L$ und des Radius $r$. Nur der
+            Mantel trägt zum Fluss bei, die Deckel nicht:</p>
+          $$ 2\pi r L\,E = \frac{\lambda L}{\varepsilon_0} \quad\Rightarrow\quad E(r) = \frac{\lambda}{2\pi\varepsilon_0 r} $$
+          <p>Das Feld fällt nur mit $1/r$, weil sich die Fläche nur mit $r$
+            vergrößert. Beim Koaxialkabel trägt der Innenleiter $+\lambda$ und der
+            Außenleiter (Innenradius $R_2$) $-\lambda$. Zwischen den Leitern
+            gilt die Formel, außerhalb von $R_2$ umschließt die Gaußsche Fläche
+            die Gesamtladung null, das Feld verschwindet. Der Innenleiter ist
+            vor äußeren Störungen abgeschirmt.</p>
+
+          <p><strong>Ebene Symmetrie.</strong> Für eine unendlich ausgedehnte
+            Platte mit $\sigma$ wählst du eine Gaußsche Dose, die die Platte
+            durchstößt. Das Feld zeigt auf beiden Seiten weg von der Platte, nur
+            die beiden Deckel mit der Fläche $A$ tragen bei:</p>
+          $$ 2AE = \frac{\sigma A}{\varepsilon_0} \quad\Rightarrow\quad E = \frac{\sigma}{2\varepsilon_0} $$
+          <p>Das stimmt mit dem Ergebnis aus der direkten Integration über das
+            Coulomb-Gesetz überein, ist aber in zwei Zeilen erledigt.</p>
+
+          <figure class="abbildung">
+            <svg class="abb" viewBox="0 0 360 170" role="img" aria-label="Geladene Platte mit einer Gaußschen Dose, deren zwei Deckflächen vom Feld senkrecht durchsetzt werden">
+<defs><marker id="pfeil-abb3" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto"><path class="punkt kupfer" d="M0 0L10 5L0 10z"/></marker></defs>
+<path class="achse" d="M20 85L340 85" fill="none" style="stroke-width:5"/>
+<rect class="hilfslinie" x="150" y="35" width="60" height="100" fill="none"/>
+<path class="kurve kupfer" d="M180 80L180 18" marker-end="url(#pfeil-abb3)" fill="none"/>
+<path class="kurve kupfer" d="M180 90L180 152" marker-end="url(#pfeil-abb3)" fill="none"/>
+<path class="kurve kupfer" d="M120 80L120 30" marker-end="url(#pfeil-abb3)" fill="none"/>
+<path class="kurve kupfer" d="M120 90L120 140" marker-end="url(#pfeil-abb3)" fill="none"/>
+<path class="kurve kupfer" d="M240 80L240 30" marker-end="url(#pfeil-abb3)" fill="none"/>
+<path class="kurve kupfer" d="M240 90L240 140" marker-end="url(#pfeil-abb3)" fill="none"/>
+<text x="250" y="46" class="klein">Gauß-Dose</text><text x="250" y="60" class="klein">(gestrichelt),</text><text x="250" y="74" class="klein">Deckfläche A</text>
+<text x="30" y="76" class="klein">Platte, σ</text>
+<text x="250" y="118" class="klein">E zeigt nach</text><text x="250" y="132" class="klein">beiden Seiten weg</text>
+</svg>
+            <figcaption>Abb. 3: Gaußsche Dose um ein Stück der Platte. Das Feld
+              durchsetzt nur die beiden Deckflächen, an den Seitenflächen ist
+              der Fluss null.</figcaption>
+          </figure>
+
+          <h2>Feld an Grenzflächen und im Leiter</h2>
+          <p>Trägt eine glatte Fläche die Flächenladung $\sigma$, legst du eine
+            flache Dose mit Deckfläche $\Delta A$ über die Fläche. Wird die Höhe
+            klein, trägt der Mantel nicht bei, und der Satz von Gauß liefert
+            für die Normalkomponente</p>
+          $$ \vec{n}\cdot\left(\vec{E}_\text{außen} - \vec{E}_\text{innen}\right) = \frac{\sigma}{\varepsilon_0} $$
+          <p>Sie springt also um $\sigma/\varepsilon_0$. Die Tangentialkomponente
+            ist stetig, das folgt aus $\vec{\nabla}\times\vec{E} = 0$ mit einem
+            schmalen Rechteck, das die Fläche durchsetzt. Beim Leiter ist das
+            Feld im Inneren null (sonst würden Ladungen fließen), das Feld
+            außen steht senkrecht auf der Oberfläche und hat den Betrag
+            $E = \sigma/\varepsilon_0$. Auch die Ladung eines Leiters sitzt
+            daher nur an der Oberfläche. Das erklärt den Faraday-Käfig für
+            beliebige Hohlräume: Ein Hohlraum im Leiter ist feldfrei, wenn
+            keine Ladung darin sitzt.</p>
+
+          <div class="merkkasten">
+            <span class="titel">Merke</span>
+            <p>$\oint \vec{E}\cdot\mathrm{d}\vec{A} = Q_\text{inn}/\varepsilon_0$ und
+              $\vec{\nabla}\cdot\vec{E} = \rho/\varepsilon_0$. Punkt: $E = Q/(4\pi\varepsilon_0 r^2)$,
+              Draht: $E = \lambda/(2\pi\varepsilon_0 r)$, Platte: $E = \sigma/(2\varepsilon_0)$.
+              Die Gaußsche Fläche muss die Symmetrie des Problems haben. Der Satz
+              gilt immer, bequem anwendbar ist er nur bei Symmetrie.</p>
+          </div>
+        </section>
+
+        <section class="tab" id="beispiele" data-titel="Beispielrechnungen">
+
+          <div class="beispiel">
+            <h3>Beispiel 1: Homogen geladene Vollkugel</h3>
+            <p><strong>Gegeben:</strong> $Q = 8{,}0\,\mathrm{nC}$ homogen verteilt in einer
+              Kugel mit $R = 2{,}0\,\mathrm{cm}$.<br>
+              <strong>Gesucht:</strong> $E$ bei $r = 1{,}0\,\mathrm{cm}$, $r = 2{,}0\,\mathrm{cm}$ und
+              $r = 6{,}0\,\mathrm{cm}$.</p>
+
+            <p><strong>1. Innen ($r \lt R$).</strong> Die umschlossene Ladung ist
+              $Q\,r^3/R^3$, also $E = \frac{Q\,r}{4\pi\varepsilon_0 R^3}$:
+              $$ E(1{,}0\,\mathrm{cm}) = 8{,}988 \cdot 10^{9}\,\mathrm{\tfrac{N\,m^2}{C^2}} \cdot \frac{8{,}0 \cdot 10^{-9}\,\mathrm{C} \cdot 0{,}010\,\mathrm{m}}{(0{,}020\,\mathrm{m})^3} = 8{,}99 \cdot 10^{4}\,\mathrm{V/m} $$</p>
+
+            <p><strong>2. Rand ($r = R$).</strong>
+              $$ E(2{,}0\,\mathrm{cm}) = 8{,}988 \cdot 10^{9} \cdot \frac{8{,}0 \cdot 10^{-9}}{(0{,}020)^2}\,\mathrm{V/m} = 1{,}80 \cdot 10^{5}\,\mathrm{V/m} $$</p>
+
+            <p><strong>3. Außen ($r \gt R$).</strong>
+              $$ E(6{,}0\,\mathrm{cm}) = 8{,}988 \cdot 10^{9} \cdot \frac{8{,}0 \cdot 10^{-9}}{(0{,}060)^2}\,\mathrm{V/m} = 2{,}0 \cdot 10^{4}\,\mathrm{V/m} $$
+              Einheitencheck: $\mathrm{N\,m^2/C^2 \cdot C/m^2 = N/C = V/m}$ ✓</p>
+
+            <p><strong>Ergebnis und Plausibilität:</strong> Bei $r = R/2$ ist das Feld halb
+              so groß wie am Rand, wie es die lineare Abhängigkeit verlangt
+              ($8{,}99 \cdot 10^{4} = \tfrac12 \cdot 1{,}80 \cdot 10^{5}$). Von $R$ auf $3R$
+              sinkt es auf $1/9$ ($1{,}80 \cdot 10^{5}/9 = 2{,}0 \cdot 10^{4}$).</p>
+          </div>
+
+          <div class="beispiel">
+            <h3>Beispiel 2: Feld einer langen Linienladung</h3>
+            <p><strong>Gegeben:</strong> Ein langer gerader Draht trägt $\lambda = 2{,}0\,\mathrm{nC/m}$.<br>
+              <strong>Gesucht:</strong> $E$ im Abstand $5{,}0\,\mathrm{cm}$ und $20\,\mathrm{cm}$ sowie die
+              Kraft auf ein Elektron im Abstand $5{,}0\,\mathrm{cm}$.</p>
+
+            <p><strong>1. Gaußscher Zylinder.</strong> Aus $2\pi r L E = \lambda L/\varepsilon_0$ folgt
+              $E = \lambda/(2\pi\varepsilon_0 r)$.</p>
+
+            <p><strong>2. Zahlen.</strong>
+              $$ E(5{,}0\,\mathrm{cm}) = \frac{2{,}0 \cdot 10^{-9}\,\mathrm{C/m}}{2\pi \cdot 8{,}854 \cdot 10^{-12}\,\mathrm{\tfrac{A\,s}{V\,m}} \cdot 0{,}050\,\mathrm{m}} = 719\,\mathrm{V/m} $$
+              $$ E(20\,\mathrm{cm}) = \frac{719\,\mathrm{V/m}}{4} = 180\,\mathrm{V/m} $$</p>
+
+            <p><strong>3. Kraft auf das Elektron.</strong>
+              $$ F = eE = 1{,}602 \cdot 10^{-19}\,\mathrm{C} \cdot 719\,\mathrm{V/m} = 1{,}15 \cdot 10^{-16}\,\mathrm{N} $$
+              Sie zeigt zum Draht hin, weil das Elektron negativ und der Draht positiv ist.
+              Einheitencheck: $\mathrm{C \cdot V/m = N}$ ✓</p>
+
+            <p><strong>Ergebnis und Plausibilität:</strong> Vervierfachst du den Abstand, sinkt das Feld auf
+              ein Viertel. Beim Punkt wäre es ein Sechzehntel. Das Feld eines
+              langen Drahtes reicht also weiter als das einer Punktladung.</p>
+          </div>
+
+          <div class="beispiel">
+            <h3>Beispiel 3: Fluss durch einen Würfel</h3>
+            <p><strong>Gegeben:</strong> Eine Punktladung $Q = 3{,}0\,\mathrm{nC}$ sitzt im Mittelpunkt
+              eines Würfels der Kantenlänge $a = 10\,\mathrm{cm}$.<br>
+              <strong>Gesucht:</strong> der Fluss durch den ganzen Würfel und durch eine Seitenfläche.</p>
+
+            <p><strong>1. Gesamtfluss.</strong>
+              $$ \Phi = \frac{Q}{\varepsilon_0} = \frac{3{,}0 \cdot 10^{-9}\,\mathrm{C}}{8{,}854 \cdot 10^{-12}\,\mathrm{\tfrac{A\,s}{V\,m}}} = 339\,\mathrm{V\,m} $$</p>
+
+            <p><strong>2. Eine Seitenfläche.</strong> Alle sechs Flächen sind gleichwertig:
+              $$ \Phi_1 = \frac{\Phi}{6} = 56{,}5\,\mathrm{V\,m} $$
+              Einheitencheck: $\mathrm{V/m \cdot m^2 = V\,m}$ ✓</p>
+
+            <p><strong>Ergebnis und Plausibilität:</strong> Die Kantenlänge spielt keine Rolle. Ein
+              Würfel mit $1\,\mathrm{m}$ Kante hätte denselben Gesamtfluss. Das
+              Feld ist in der Flächenmitte $E = \frac{Q}{4\pi\varepsilon_0 (a/2)^2} = 1{,}08 \cdot 10^{4}\,\mathrm{V/m}$,
+              mal $A = 0{,}01\,\mathrm{m^2}$ ergäbe $108\,\mathrm{V\,m}$. Das ist mehr als $56{,}5\,\mathrm{V\,m}$,
+              weil das Feld zum Rand der Fläche hin schwächer wird und schräg
+              durchtritt. Die Größenordnung passt.</p>
+          </div>
+        </section>
+
+        <section class="tab" id="aufgaben" data-titel="Aufgaben">
+
+          <p>Verwende Vakuum und $\varepsilon_0 = 8{,}854 \cdot 10^{-12}\,\mathrm{A\,s/(V\,m)}$.
+            Bei den Aufgaben zu Kugeln ist $\frac{1}{4\pi\varepsilon_0} = 8{,}988 \cdot 10^{9}\,\mathrm{N\,m^2/C^2}$.</p>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 1
+              <span class="schwierigkeit" data-stufe="leicht">leicht</span>
+            </h3>
+            <p>Ein Körper mit der Ladung $5{,}0\,\mathrm{nC}$ liegt in einem Karton. Wie groß ist der
+              elektrische Fluss durch die Kartonoberfläche? Ändert er sich, wenn
+              du eine zweite, neutrale Metallkugel in den Karton legst?</p>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>$\Phi = Q/\varepsilon_0 = \frac{5{,}0 \cdot 10^{-9}\,\mathrm{C}}{8{,}854 \cdot 10^{-12}\,\mathrm{A\,s/(V\,m)}} = 565\,\mathrm{V\,m}$.
+                Eine neutrale Kugel ändert die eingeschlossene Gesamtladung nicht,
+                der Fluss bleibt gleich (das Feld im Karton verändert sich zwar,
+                aber nicht der Gesamtfluss).</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 2
+              <span class="schwierigkeit" data-stufe="leicht">leicht</span>
+            </h3>
+            <p>Eine große Platte trägt die Flächenladungsdichte $3{,}0\,\mu\mathrm{C/m^2}$. Wie groß
+              ist das Feld in $1\,\mathrm{cm}$ und in $1\,\mathrm{m}$ Abstand (Rand vernachlässigt)?
+              Wie groß ist es zwischen zwei Platten mit $\pm 3{,}0\,\mu\mathrm{C/m^2}$?</p>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>Eine Platte: $E = \sigma/(2\varepsilon_0) = 1{,}69 \cdot 10^{5}\,\mathrm{V/m}$, unabhängig vom
+                Abstand, also in beiden Fällen gleich. Zwischen den beiden Platten
+                addieren sich die Felder: $E = \sigma/\varepsilon_0 = 3{,}39 \cdot 10^{5}\,\mathrm{V/m}$.
+                Außerhalb heben sie sich auf.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 3
+              <span class="schwierigkeit" data-stufe="mittel">mittel</span>
+            </h3>
+            <p>Eine Metallhohlkugel mit Radius $5{,}0\,\mathrm{cm}$ trägt die Ladung $-12\,\mathrm{nC}$.
+              (a) Bestimme $E$ bei $3{,}0\,\mathrm{cm}$ und bei $8{,}0\,\mathrm{cm}$ Abstand vom Mittelpunkt,
+              außen mit Richtung. (b) Wie groß ist die Flächenladungsdichte?</p>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>(a) Innen ist $E = 0$. Außen $E = \frac{|Q|}{4\pi\varepsilon_0 r^2} = 8{,}988 \cdot 10^{9} \cdot \frac{12 \cdot 10^{-9}}{(0{,}080)^2}\,\mathrm{V/m} = 1{,}69 \cdot 10^{4}\,\mathrm{V/m}$, zum
+                Mittelpunkt hin gerichtet, weil die Ladung negativ ist.</p>
+              <p>(b) $\sigma = \frac{Q}{4\pi R^2} = \frac{-12 \cdot 10^{-9}\,\mathrm{C}}{4\pi (0{,}050\,\mathrm{m})^2} = -3{,}8 \cdot 10^{-7}\,\mathrm{C/m^2}$.
+                Probe mit der Sprungbedingung: $\sigma/\varepsilon_0 = -4{,}3 \cdot 10^{4}\,\mathrm{V/m}$ ist der Sprung
+                von $0$ auf $E(R) = -4{,}3 \cdot 10^{4}\,\mathrm{V/m}$ (radial, negativ nach innen) ✓.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 4
+              <span class="schwierigkeit" data-stufe="mittel">mittel</span>
+            </h3>
+            <p>Ein Koaxialkabel hat einen Innenleiter mit Radius $R_1 = 1{,}0\,\mathrm{mm}$ und einen
+              Außenleiter mit Innenradius $R_2 = 4{,}0\,\mathrm{mm}$. Der Innenleiter trägt
+              $\lambda = 1{,}5\,\mathrm{nC/m}$, der Außenleiter $-\lambda$.
+              (a) Wie groß ist $E$ bei $r = 2{,}0\,\mathrm{mm}$ und bei $3{,}0\,\mathrm{mm}$? (b) Wie groß
+              ist $E$ bei $r = 10\,\mathrm{mm}$ (außerhalb)? Begründe.</p>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>(a) Im Spalt gilt $E = \lambda/(2\pi\varepsilon_0 r)$. Bei $2{,}0\,\mathrm{mm}$:
+                $\frac{1{,}5 \cdot 10^{-9}}{2\pi \cdot 8{,}854 \cdot 10^{-12} \cdot 0{,}0020}\,\mathrm{V/m} = 1{,}35 \cdot 10^{4}\,\mathrm{V/m}$.
+                Bei $3{,}0\,\mathrm{mm}$ sind es $\frac{2}{3}$ davon, $8{,}99 \cdot 10^{3}\,\mathrm{V/m}$.</p>
+              <p>(b) Eine Gaußsche Fläche mit $r = 10\,\mathrm{mm}$ umschließt $+\lambda L - \lambda L = 0$.
+                Also ist $E = 0$. Das Kabel strahlt kein Feld nach außen ab und
+                spürt umgekehrt keines von außen.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 5
+              <span class="schwierigkeit" data-stufe="schwer">schwer</span>
+            </h3>
+            <p>Eine Vollkugel mit Radius $R$ hat die Ladungsdichte $\rho(r) = \rho_0\,r/R$
+              (nimmt nach außen linear zu). (a) Berechne die Gesamtladung. (b) Bestimme
+              $E(r)$ innen und außen. (c) Zahlenwerte für $\rho_0 = 4{,}0\,\mu\mathrm{C/m^3}$ und
+              $R = 10\,\mathrm{cm}$: $E$ bei $r = 5{,}0\,\mathrm{cm}$ und $E(R)$.</p>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>(a) $Q = \int_0^R \rho_0 \frac{r}{R}\,4\pi r^2\,\mathrm{d}r = \frac{4\pi\rho_0}{R}\cdot\frac{R^4}{4} = \pi\rho_0 R^3$.</p>
+              <p>(b) Innen ist $Q_\text{inn}(r) = \pi\rho_0 r^4/R$, also
+                $4\pi r^2 E = \frac{\pi\rho_0 r^4}{\varepsilon_0 R}$ und
+                $E = \frac{\rho_0 r^2}{4\varepsilon_0 R}$ (quadratisch in $r$). Außen
+                $E = \frac{\pi\rho_0 R^3}{4\pi\varepsilon_0 r^2} = \frac{\rho_0 R^3}{4\varepsilon_0 r^2}$.
+                Bei $r = R$ stimmen beide Ausdrücke überein, $E = \rho_0 R/(4\varepsilon_0)$.</p>
+              <p>(c) $E(5{,}0\,\mathrm{cm}) = \frac{4{,}0 \cdot 10^{-6} \cdot (0{,}050)^2}{4 \cdot 8{,}854 \cdot 10^{-12} \cdot 0{,}10}\,\mathrm{V/m} = 2{,}82 \cdot 10^{3}\,\mathrm{V/m}$
+                und $E(R) = \frac{4{,}0 \cdot 10^{-6} \cdot 0{,}10}{4 \cdot 8{,}854 \cdot 10^{-12}}\,\mathrm{V/m} = 1{,}13 \cdot 10^{4}\,\mathrm{V/m}$.
+                Gesamtladung $Q = 1{,}26 \cdot 10^{-8}\,\mathrm{C}$.</p>
+              <p><strong>Zum Nachdenken:</strong> Warum wächst das Feld hier stärker als linear
+                in $r$, obwohl bei der homogenen Kugel genau das linear war?</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 6
+              <span class="schwierigkeit" data-stufe="schwer">schwer</span>
+            </h3>
+            <p>Eine Metallkugelschale (Innenradius $R_1$, Außenradius $R_2$) ist
+              neutral. In ihrem Zentrum sitzt eine Punktladung $+Q$.
+              (a) Welche Ladung sitzt auf der Innen- und welche auf der
+              Außenoberfläche der Schale? (b) Wie groß ist $E$ in den drei Bereichen
+              $r \lt R_1$, $R_1 \lt r \lt R_2$ und $r \gt R_2$?</p>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>(a) Im Metall ist $E = 0$. Eine Gaußsche Fläche mit $R_1 \lt r \lt R_2$
+                liegt im Metall und hat Fluss null, umschließt also die Gesamtladung null.
+                Auf der Innenfläche sitzt deshalb $-Q$. Die Schale ist insgesamt neutral,
+                also sitzt auf der Außenfläche $+Q$.</p>
+              <p>(b) $r \lt R_1$: $E = \frac{Q}{4\pi\varepsilon_0 r^2}$ (nur die Punktladung
+                zählt). $R_1 \lt r \lt R_2$: $E = 0$. $r \gt R_2$: umschlossen ist wieder $+Q$,
+                also $E = \frac{Q}{4\pi\varepsilon_0 r^2}$. Die Schale schirmt das
+                Feld der Ladung also nicht ab, sie reicht es nur nach außen durch.
+                Erdest du die Schale, wandert die äußere Ladung ab, und außen
+                ist das Feld null.</p>
+            </details>
+          </div>
+        </section>
+
+      </div></article>
+  </main>
+</body>
+</html>

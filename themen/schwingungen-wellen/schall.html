@@ -1,0 +1,1419 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="robots" content="noindex">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Schall und Doppler-Effekt</title>
+  <meta name="description" content="Schall als Druckwelle: wie schnell er ist, wie man Lautstärke in Dezibel misst, warum ein vorbeifahrendes Martinshorn den Ton wechselt und was beim Überschallknall passiert.">
+
+  <link rel="stylesheet" href="../../css/stil.css">
+
+  <link rel="stylesheet" href="../../extern/katex/katex.min.css">
+  <script defer src="../../extern/katex/katex.min.js"></script>
+  <script defer src="../../extern/katex/contrib/auto-render.min.js" onload="starteFormeln()"></script>
+
+  <script src="../../js/daten.js"></script>
+  <script src="../../js/seite.js"></script>
+  <script src="../../js/effekte.js"></script>
+  <script src="../../js/interaktiv.js"></script>
+  <script src="../../js/modelle/schall.js"></script>
+  <script type="application/json" id="symbole">
+  {
+    "ξ": "Auslenkung einer Luftschicht aus der Ruhelage",
+    "ξ_0": "Amplitude der Auslenkung",
+    "z": "Ort in Ausbreitungsrichtung",
+    "t": "Zeit",
+    "ω": "Kreisfrequenz",
+    "k": "Wellenzahl",
+    "λ": "Wellenlänge",
+    "f": "Frequenz der Quelle",
+    "f_1": "Frequenz vor dem Vorbeifahren",
+    "f_2": "Frequenz nach dem Vorbeifahren",
+    "c": "Schallgeschwindigkeit",
+    "v_Q": "Geschwindigkeit der Quelle",
+    "v_B": "Geschwindigkeit des Beobachters",
+    "v": "Geschwindigkeit",
+    "p": "Druck des Gases (ohne Schall)",
+    "p_s": "Schalldruck (Abweichung vom Ruhedruck)",
+    "p_amp": "Amplitude des Schalldrucks",
+    "p_eff": "Effektivwert des Schalldrucks",
+    "u": "Schallschnelle (Geschwindigkeit der Luftteilchen)",
+    "u_amp": "Amplitude der Schallschnelle",
+    "ρ": "Dichte",
+    "K": "Kompressionsmodul",
+    "κ": "Adiabatenexponent",
+    "R": "universelle Gaskonstante",
+    "M": "molare Masse",
+    "T": "absolute Temperatur",
+    "ϑ": "Temperatur in Grad Celsius",
+    "E": "Elastizitätsmodul",
+    "V": "Volumen",
+    "A": "Querschnittsfläche",
+    "F": "Kraft",
+    "Z": "Schallkennimpedanz",
+    "I": "Intensität",
+    "I_0": "Bezugsintensität (Hörschwelle)",
+    "I_1": "Intensität im Abstand r_1",
+    "I_2": "Intensität im Abstand r_2",
+    "β": "Schallpegel",
+    "P": "Schallleistung der Quelle",
+    "r": "Abstand von der Quelle",
+    "r_1": "erster Abstand",
+    "r_2": "zweiter Abstand",
+    "N": "Anzahl der Schallquellen",
+    "θ": "halber Öffnungswinkel des Machkegels",
+    "α": "Winkel zwischen Bewegung und Blickrichtung",
+    "h": "Flughöhe",
+    "x": "waagrechter Abstand",
+    "L": "Länge der Pfeife",
+    "s": "Strecke",
+    "n": "Brechzahl",
+    "μ": "Vorsilbe Mikro, ein Millionstel",
+    "π": "Kreiszahl"
+  }
+  </script>
+</head>
+<body data-thema="schall">
+  <main>
+    <article class="thema">
+      <header>
+        <h1>Schall und <span class="betont">Doppler-Effekt</span></h1>
+        <p class="untertitel">Was wir hören, sind winzige Druckschwankungen der Luft, die mit gut 340 Metern pro Sekunde zu uns laufen.</p>
+      </header>
+
+      <div class="tabs">
+
+        <section class="tab" id="verstehen" data-titel="Verstehen">
+
+          <p>Ein Blitz zuckt über den Himmel, und du fängst an zu zählen. Erst
+            nach sechs Sekunden grollt der Donner. Das Licht war praktisch
+            sofort da, der Schall aber braucht für einen Kilometer ungefähr drei
+            Sekunden. Das Gewitter ist also rund zwei Kilometer entfernt.</p>
+
+          <p>Schall ist eine Welle in der Luft. Eine Lautsprechermembran, die
+            nach vorne schwingt, schiebt die Luft vor sich zusammen. Schwingt sie
+            zurück, entsteht dort ein Bereich mit etwas weniger Luft. Diese
+            <em>Verdichtungen</em> und <em>Verdünnungen</em> laufen vom
+            Lautsprecher weg (Abb. 1). Die Luftteilchen selbst wandern dabei
+            nicht mit, sie schwingen nur ein winziges Stück vor und zurück, in
+            derselben Richtung, in der sich der Schall ausbreitet. Man nennt das
+            eine <em>Längswelle</em> oder longitudinale Welle. Im Ohr bringen die
+            Druckschwankungen das Trommelfell zum Mitschwingen. Ohne Luft gibt es
+            keinen Schall: Im Weltraum ist es still.</p>
+
+          <figure class="abbildung">
+<svg class="abb" viewBox="0 0 360 210" role="img" aria-label="Luftteilchen einer Schallwelle mit Verdichtungen und Verdünnungen, darunter der Schalldruck, der an den Verdichtungen am größten ist">
+<defs><marker id="pfeil-abb1-text" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto-start-reverse"><path class="punkt" d="M0 0L10 5L0 10z"/></marker><marker id="pfeil-abb1-blau" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto-start-reverse"><path class="punkt blau" d="M0 0L10 5L0 10z"/></marker></defs>
+<circle class="punkt" cx="12.1" cy="56.6" r="1.7"/>
+<circle class="punkt" cx="17.7" cy="32.4" r="1.7"/>
+<circle class="punkt" cx="16.1" cy="41" r="1.7"/>
+<circle class="punkt" cx="19.5" cy="50.9" r="1.7"/>
+<circle class="punkt" cx="18.9" cy="60.2" r="1.7"/>
+<circle class="punkt" cx="15.7" cy="71.2" r="1.7"/>
+<circle class="punkt" cx="18.2" cy="81.8" r="1.7"/>
+<circle class="punkt" cx="22.8" cy="28.6" r="1.7"/>
+<circle class="punkt" cx="25" cy="42.6" r="1.7"/>
+<circle class="punkt" cx="26.9" cy="51.5" r="1.7"/>
+<circle class="punkt" cx="27.1" cy="61.5" r="1.7"/>
+<circle class="punkt" cx="26.5" cy="69.3" r="1.7"/>
+<circle class="punkt" cx="27.1" cy="79.6" r="1.7"/>
+<circle class="punkt" cx="30.4" cy="32.7" r="1.7"/>
+<circle class="punkt" cx="31" cy="37.5" r="1.7"/>
+<circle class="punkt" cx="32" cy="53.3" r="1.7"/>
+<circle class="punkt" cx="31.4" cy="60.9" r="1.7"/>
+<circle class="punkt" cx="31.8" cy="70.1" r="1.7"/>
+<circle class="punkt" cx="32.7" cy="79" r="1.7"/>
+<circle class="punkt" cx="41.3" cy="30.6" r="1.7"/>
+<circle class="punkt" cx="41.4" cy="41.3" r="1.7"/>
+<circle class="punkt" cx="41.6" cy="52.5" r="1.7"/>
+<circle class="punkt" cx="37.9" cy="61.2" r="1.7"/>
+<circle class="punkt" cx="41.5" cy="72.5" r="1.7"/>
+<circle class="punkt" cx="39.7" cy="82.8" r="1.7"/>
+<circle class="punkt" cx="45" cy="31.5" r="1.7"/>
+<circle class="punkt" cx="46.6" cy="42.3" r="1.7"/>
+<circle class="punkt" cx="44.4" cy="48.5" r="1.7"/>
+<circle class="punkt" cx="48.4" cy="62.5" r="1.7"/>
+<circle class="punkt" cx="47.6" cy="67.1" r="1.7"/>
+<circle class="punkt" cx="44.7" cy="79.4" r="1.7"/>
+<circle class="punkt" cx="54" cy="28.6" r="1.7"/>
+<circle class="punkt" cx="50.9" cy="42.6" r="1.7"/>
+<circle class="punkt" cx="50.9" cy="50.8" r="1.7"/>
+<circle class="punkt" cx="52.1" cy="61.5" r="1.7"/>
+<circle class="punkt" cx="54.8" cy="72.7" r="1.7"/>
+<circle class="punkt" cx="54.9" cy="80" r="1.7"/>
+<circle class="punkt" cx="57.4" cy="28.7" r="1.7"/>
+<circle class="punkt" cx="57.2" cy="40.7" r="1.7"/>
+<circle class="punkt" cx="58.7" cy="47.9" r="1.7"/>
+<circle class="punkt" cx="57.7" cy="60.8" r="1.7"/>
+<circle class="punkt" cx="60.5" cy="66.8" r="1.7"/>
+<circle class="punkt" cx="60.8" cy="78.7" r="1.7"/>
+<circle class="punkt" cx="64.4" cy="32.8" r="1.7"/>
+<circle class="punkt" cx="64.9" cy="39.7" r="1.7"/>
+<circle class="punkt" cx="65.2" cy="51" r="1.7"/>
+<circle class="punkt" cx="65.3" cy="60.4" r="1.7"/>
+<circle class="punkt" cx="64.9" cy="73.1" r="1.7"/>
+<circle class="punkt" cx="65.6" cy="79.5" r="1.7"/>
+<circle class="punkt" cx="69.5" cy="28.2" r="1.7"/>
+<circle class="punkt" cx="70.2" cy="43.3" r="1.7"/>
+<circle class="punkt" cx="68.5" cy="50.3" r="1.7"/>
+<circle class="punkt" cx="70.4" cy="59.4" r="1.7"/>
+<circle class="punkt" cx="70.5" cy="66.6" r="1.7"/>
+<circle class="punkt" cx="68.7" cy="80.9" r="1.7"/>
+<circle class="punkt" cx="74.9" cy="30.9" r="1.7"/>
+<circle class="punkt" cx="74.6" cy="41.3" r="1.7"/>
+<circle class="punkt" cx="75.7" cy="51.4" r="1.7"/>
+<circle class="punkt" cx="73.7" cy="56.7" r="1.7"/>
+<circle class="punkt" cx="76.4" cy="71.2" r="1.7"/>
+<circle class="punkt" cx="74.9" cy="78.3" r="1.7"/>
+<circle class="punkt" cx="78.9" cy="30.6" r="1.7"/>
+<circle class="punkt" cx="78.8" cy="39" r="1.7"/>
+<circle class="punkt" cx="79.6" cy="49.1" r="1.7"/>
+<circle class="punkt" cx="79" cy="58.6" r="1.7"/>
+<circle class="punkt" cx="78.1" cy="71.9" r="1.7"/>
+<circle class="punkt" cx="80" cy="80.5" r="1.7"/>
+<circle class="punkt" cx="82.6" cy="28.7" r="1.7"/>
+<circle class="punkt" cx="82.6" cy="42.1" r="1.7"/>
+<circle class="punkt" cx="83.1" cy="47.8" r="1.7"/>
+<circle class="punkt" cx="82.3" cy="61.4" r="1.7"/>
+<circle class="punkt" cx="82.8" cy="68.8" r="1.7"/>
+<circle class="punkt" cx="83.1" cy="82.3" r="1.7"/>
+<circle class="punkt" cx="86" cy="32.5" r="1.7"/>
+<circle class="punkt" cx="87" cy="38.9" r="1.7"/>
+<circle class="punkt" cx="86.5" cy="52.7" r="1.7"/>
+<circle class="punkt" cx="85.8" cy="58.1" r="1.7"/>
+<circle class="punkt" cx="86" cy="70.2" r="1.7"/>
+<circle class="punkt" cx="87.3" cy="82.1" r="1.7"/>
+<circle class="punkt" cx="89.2" cy="27.8" r="1.7"/>
+<circle class="punkt" cx="89.9" cy="42.2" r="1.7"/>
+<circle class="punkt" cx="89.4" cy="52.1" r="1.7"/>
+<circle class="punkt" cx="89.3" cy="57.4" r="1.7"/>
+<circle class="punkt" cx="89.2" cy="72.1" r="1.7"/>
+<circle class="punkt" cx="89.5" cy="78.9" r="1.7"/>
+<circle class="punkt" cx="92.1" cy="29.4" r="1.7"/>
+<circle class="punkt" cx="91.7" cy="42.9" r="1.7"/>
+<circle class="punkt" cx="93" cy="46.5" r="1.7"/>
+<circle class="punkt" cx="93.1" cy="62.7" r="1.7"/>
+<circle class="punkt" cx="93" cy="69.5" r="1.7"/>
+<circle class="punkt" cx="91.8" cy="83" r="1.7"/>
+<circle class="punkt" cx="95.1" cy="31.7" r="1.7"/>
+<circle class="punkt" cx="94.6" cy="41.1" r="1.7"/>
+<circle class="punkt" cx="94.4" cy="48.5" r="1.7"/>
+<circle class="punkt" cx="94" cy="58.1" r="1.7"/>
+<circle class="punkt" cx="94.3" cy="70.6" r="1.7"/>
+<circle class="punkt" cx="94" cy="82.2" r="1.7"/>
+<circle class="punkt" cx="97" cy="32.8" r="1.7"/>
+<circle class="punkt" cx="97.2" cy="43" r="1.7"/>
+<circle class="punkt" cx="96.8" cy="52.8" r="1.7"/>
+<circle class="punkt" cx="97" cy="56.6" r="1.7"/>
+<circle class="punkt" cx="96.5" cy="67.7" r="1.7"/>
+<circle class="punkt" cx="96.8" cy="81.1" r="1.7"/>
+<circle class="punkt" cx="99.2" cy="29.4" r="1.7"/>
+<circle class="punkt" cx="98.5" cy="40.8" r="1.7"/>
+<circle class="punkt" cx="99.1" cy="48.3" r="1.7"/>
+<circle class="punkt" cx="99" cy="59.8" r="1.7"/>
+<circle class="punkt" cx="98.3" cy="69" r="1.7"/>
+<circle class="punkt" cx="99.1" cy="80.2" r="1.7"/>
+<circle class="punkt" cx="100.9" cy="27.7" r="1.7"/>
+<circle class="punkt" cx="101" cy="43" r="1.7"/>
+<circle class="punkt" cx="100" cy="52.3" r="1.7"/>
+<circle class="punkt" cx="101" cy="60.9" r="1.7"/>
+<circle class="punkt" cx="100.3" cy="66.8" r="1.7"/>
+<circle class="punkt" cx="100.6" cy="78.4" r="1.7"/>
+<circle class="punkt" cx="102.5" cy="29.5" r="1.7"/>
+<circle class="punkt" cx="101.9" cy="41.9" r="1.7"/>
+<circle class="punkt" cx="102" cy="46.9" r="1.7"/>
+<circle class="punkt" cx="101.9" cy="57.4" r="1.7"/>
+<circle class="punkt" cx="103" cy="73.3" r="1.7"/>
+<circle class="punkt" cx="102.5" cy="77.1" r="1.7"/>
+<circle class="punkt" cx="104.3" cy="28.7" r="1.7"/>
+<circle class="punkt" cx="104.7" cy="39" r="1.7"/>
+<circle class="punkt" cx="104.3" cy="50.6" r="1.7"/>
+<circle class="punkt" cx="104.3" cy="57.8" r="1.7"/>
+<circle class="punkt" cx="104.6" cy="67.4" r="1.7"/>
+<circle class="punkt" cx="104.4" cy="81.5" r="1.7"/>
+<circle class="punkt" cx="106.3" cy="27.1" r="1.7"/>
+<circle class="punkt" cx="106.9" cy="39.1" r="1.7"/>
+<circle class="punkt" cx="106.6" cy="52" r="1.7"/>
+<circle class="punkt" cx="107" cy="62.1" r="1.7"/>
+<circle class="punkt" cx="106.6" cy="69.5" r="1.7"/>
+<circle class="punkt" cx="107.1" cy="80" r="1.7"/>
+<circle class="punkt" cx="109.6" cy="29.4" r="1.7"/>
+<circle class="punkt" cx="108.8" cy="39.7" r="1.7"/>
+<circle class="punkt" cx="109.6" cy="50.3" r="1.7"/>
+<circle class="punkt" cx="109.1" cy="57" r="1.7"/>
+<circle class="punkt" cx="109.9" cy="69.5" r="1.7"/>
+<circle class="punkt" cx="109.1" cy="83.1" r="1.7"/>
+<circle class="punkt" cx="112.7" cy="32.8" r="1.7"/>
+<circle class="punkt" cx="112.1" cy="38.3" r="1.7"/>
+<circle class="punkt" cx="112.8" cy="47.4" r="1.7"/>
+<circle class="punkt" cx="112.9" cy="61.1" r="1.7"/>
+<circle class="punkt" cx="112.5" cy="72" r="1.7"/>
+<circle class="punkt" cx="112.3" cy="81.6" r="1.7"/>
+<circle class="punkt" cx="115.6" cy="27.2" r="1.7"/>
+<circle class="punkt" cx="114.6" cy="36.5" r="1.7"/>
+<circle class="punkt" cx="114.4" cy="51.9" r="1.7"/>
+<circle class="punkt" cx="114.5" cy="57.1" r="1.7"/>
+<circle class="punkt" cx="114.7" cy="72.7" r="1.7"/>
+<circle class="punkt" cx="116.2" cy="76.7" r="1.7"/>
+<circle class="punkt" cx="120" cy="27.3" r="1.7"/>
+<circle class="punkt" cx="119.9" cy="41.2" r="1.7"/>
+<circle class="punkt" cx="119.3" cy="53.2" r="1.7"/>
+<circle class="punkt" cx="117.9" cy="62.1" r="1.7"/>
+<circle class="punkt" cx="119.1" cy="71.9" r="1.7"/>
+<circle class="punkt" cx="118.1" cy="81.5" r="1.7"/>
+<circle class="punkt" cx="124.5" cy="31.7" r="1.7"/>
+<circle class="punkt" cx="122.7" cy="36.9" r="1.7"/>
+<circle class="punkt" cx="124.2" cy="50.4" r="1.7"/>
+<circle class="punkt" cx="122.3" cy="58.2" r="1.7"/>
+<circle class="punkt" cx="123.6" cy="68.2" r="1.7"/>
+<circle class="punkt" cx="122.9" cy="81.8" r="1.7"/>
+<circle class="punkt" cx="127.6" cy="29.1" r="1.7"/>
+<circle class="punkt" cx="127.6" cy="39" r="1.7"/>
+<circle class="punkt" cx="127.9" cy="47.1" r="1.7"/>
+<circle class="punkt" cx="127.6" cy="63.3" r="1.7"/>
+<circle class="punkt" cx="126.8" cy="71.7" r="1.7"/>
+<circle class="punkt" cx="128.7" cy="81.3" r="1.7"/>
+<circle class="punkt" cx="133.1" cy="31.2" r="1.7"/>
+<circle class="punkt" cx="133.5" cy="39.9" r="1.7"/>
+<circle class="punkt" cx="131.8" cy="52.8" r="1.7"/>
+<circle class="punkt" cx="133.9" cy="57.2" r="1.7"/>
+<circle class="punkt" cx="133.1" cy="72.9" r="1.7"/>
+<circle class="punkt" cx="133.8" cy="79.6" r="1.7"/>
+<circle class="punkt" cx="137.8" cy="27.8" r="1.7"/>
+<circle class="punkt" cx="139" cy="37.9" r="1.7"/>
+<circle class="punkt" cx="137.6" cy="48.7" r="1.7"/>
+<circle class="punkt" cx="140.4" cy="61.3" r="1.7"/>
+<circle class="punkt" cx="139.4" cy="68.6" r="1.7"/>
+<circle class="punkt" cx="140" cy="79.4" r="1.7"/>
+<circle class="punkt" cx="143.7" cy="30.6" r="1.7"/>
+<circle class="punkt" cx="142.8" cy="38" r="1.7"/>
+<circle class="punkt" cx="144.2" cy="49.9" r="1.7"/>
+<circle class="punkt" cx="144.1" cy="57.7" r="1.7"/>
+<circle class="punkt" cx="145.8" cy="68.8" r="1.7"/>
+<circle class="punkt" cx="146.7" cy="77.5" r="1.7"/>
+<circle class="punkt" cx="151.5" cy="29.9" r="1.7"/>
+<circle class="punkt" cx="152.6" cy="39.8" r="1.7"/>
+<circle class="punkt" cx="151.4" cy="52.3" r="1.7"/>
+<circle class="punkt" cx="152.1" cy="59.9" r="1.7"/>
+<circle class="punkt" cx="150.7" cy="72.5" r="1.7"/>
+<circle class="punkt" cx="153.1" cy="81.6" r="1.7"/>
+<circle class="punkt" cx="156.6" cy="29.8" r="1.7"/>
+<circle class="punkt" cx="158.8" cy="38.1" r="1.7"/>
+<circle class="punkt" cx="159.9" cy="51.2" r="1.7"/>
+<circle class="punkt" cx="156.7" cy="62.5" r="1.7"/>
+<circle class="punkt" cx="156.8" cy="67.8" r="1.7"/>
+<circle class="punkt" cx="158.8" cy="77.8" r="1.7"/>
+<circle class="punkt" cx="166.7" cy="32.5" r="1.7"/>
+<circle class="punkt" cx="166.6" cy="38.3" r="1.7"/>
+<circle class="punkt" cx="164.5" cy="48.7" r="1.7"/>
+<circle class="punkt" cx="163" cy="61.6" r="1.7"/>
+<circle class="punkt" cx="166.4" cy="67.1" r="1.7"/>
+<circle class="punkt" cx="164.2" cy="78.5" r="1.7"/>
+<circle class="punkt" cx="172.9" cy="30.6" r="1.7"/>
+<circle class="punkt" cx="171.3" cy="36.5" r="1.7"/>
+<circle class="punkt" cx="172" cy="49.6" r="1.7"/>
+<circle class="punkt" cx="172.5" cy="58" r="1.7"/>
+<circle class="punkt" cx="171.6" cy="73.2" r="1.7"/>
+<circle class="punkt" cx="170.3" cy="80.3" r="1.7"/>
+<circle class="punkt" cx="180.2" cy="28.4" r="1.7"/>
+<circle class="punkt" cx="181.2" cy="37.3" r="1.7"/>
+<circle class="punkt" cx="177.4" cy="52.9" r="1.7"/>
+<circle class="punkt" cx="178.8" cy="63.1" r="1.7"/>
+<circle class="punkt" cx="180.6" cy="71.9" r="1.7"/>
+<circle class="punkt" cx="180.2" cy="78.6" r="1.7"/>
+<circle class="punkt" cx="188.1" cy="31.1" r="1.7"/>
+<circle class="punkt" cx="187.9" cy="38.4" r="1.7"/>
+<circle class="punkt" cx="187.5" cy="53.2" r="1.7"/>
+<circle class="punkt" cx="184.8" cy="60.3" r="1.7"/>
+<circle class="punkt" cx="186" cy="70" r="1.7"/>
+<circle class="punkt" cx="187.5" cy="81.5" r="1.7"/>
+<circle class="punkt" cx="192.4" cy="30.5" r="1.7"/>
+<circle class="punkt" cx="194.5" cy="41" r="1.7"/>
+<circle class="punkt" cx="195.7" cy="47.8" r="1.7"/>
+<circle class="punkt" cx="192.1" cy="61.1" r="1.7"/>
+<circle class="punkt" cx="192.2" cy="73" r="1.7"/>
+<circle class="punkt" cx="194.9" cy="78.8" r="1.7"/>
+<circle class="punkt" cx="201.2" cy="30.7" r="1.7"/>
+<circle class="punkt" cx="200.7" cy="41" r="1.7"/>
+<circle class="punkt" cx="199.5" cy="48.7" r="1.7"/>
+<circle class="punkt" cx="201.9" cy="57" r="1.7"/>
+<circle class="punkt" cx="201.1" cy="71.8" r="1.7"/>
+<circle class="punkt" cx="200.3" cy="81.7" r="1.7"/>
+<circle class="punkt" cx="207.2" cy="28.4" r="1.7"/>
+<circle class="punkt" cx="205.7" cy="42.6" r="1.7"/>
+<circle class="punkt" cx="206.6" cy="50" r="1.7"/>
+<circle class="punkt" cx="207.1" cy="61.9" r="1.7"/>
+<circle class="punkt" cx="207.3" cy="68.8" r="1.7"/>
+<circle class="punkt" cx="208.9" cy="80.3" r="1.7"/>
+<circle class="punkt" cx="215.7" cy="29" r="1.7"/>
+<circle class="punkt" cx="213.3" cy="37.3" r="1.7"/>
+<circle class="punkt" cx="212.6" cy="47.2" r="1.7"/>
+<circle class="punkt" cx="215.2" cy="62" r="1.7"/>
+<circle class="punkt" cx="212.9" cy="67.8" r="1.7"/>
+<circle class="punkt" cx="215.2" cy="79.4" r="1.7"/>
+<circle class="punkt" cx="221.3" cy="32.2" r="1.7"/>
+<circle class="punkt" cx="219" cy="40.6" r="1.7"/>
+<circle class="punkt" cx="219.2" cy="49.3" r="1.7"/>
+<circle class="punkt" cx="220.6" cy="60.2" r="1.7"/>
+<circle class="punkt" cx="219.4" cy="67.9" r="1.7"/>
+<circle class="punkt" cx="218.5" cy="82" r="1.7"/>
+<circle class="punkt" cx="227.4" cy="32.1" r="1.7"/>
+<circle class="punkt" cx="225.6" cy="43.1" r="1.7"/>
+<circle class="punkt" cx="226.3" cy="50.4" r="1.7"/>
+<circle class="punkt" cx="227.7" cy="60.9" r="1.7"/>
+<circle class="punkt" cx="225.3" cy="71.3" r="1.7"/>
+<circle class="punkt" cx="226" cy="82.5" r="1.7"/>
+<circle class="punkt" cx="232" cy="30.7" r="1.7"/>
+<circle class="punkt" cx="232.1" cy="36.5" r="1.7"/>
+<circle class="punkt" cx="231.2" cy="51.1" r="1.7"/>
+<circle class="punkt" cx="231.1" cy="60.2" r="1.7"/>
+<circle class="punkt" cx="231.3" cy="67.9" r="1.7"/>
+<circle class="punkt" cx="231.3" cy="76.8" r="1.7"/>
+<circle class="punkt" cx="235.8" cy="31" r="1.7"/>
+<circle class="punkt" cx="237.3" cy="40.5" r="1.7"/>
+<circle class="punkt" cx="234.9" cy="52.7" r="1.7"/>
+<circle class="punkt" cx="236.3" cy="62" r="1.7"/>
+<circle class="punkt" cx="235.6" cy="66.9" r="1.7"/>
+<circle class="punkt" cx="234.7" cy="78.1" r="1.7"/>
+<circle class="punkt" cx="241.3" cy="30.3" r="1.7"/>
+<circle class="punkt" cx="241.2" cy="38.8" r="1.7"/>
+<circle class="punkt" cx="239.3" cy="51.4" r="1.7"/>
+<circle class="punkt" cx="240.5" cy="62.5" r="1.7"/>
+<circle class="punkt" cx="240.8" cy="73" r="1.7"/>
+<circle class="punkt" cx="239.8" cy="81.7" r="1.7"/>
+<circle class="punkt" cx="245" cy="32.1" r="1.7"/>
+<circle class="punkt" cx="243.9" cy="42.5" r="1.7"/>
+<circle class="punkt" cx="244" cy="51.8" r="1.7"/>
+<circle class="punkt" cx="242.9" cy="57.3" r="1.7"/>
+<circle class="punkt" cx="243.3" cy="67" r="1.7"/>
+<circle class="punkt" cx="244" cy="77.6" r="1.7"/>
+<circle class="punkt" cx="247.4" cy="31.4" r="1.7"/>
+<circle class="punkt" cx="247.6" cy="39.5" r="1.7"/>
+<circle class="punkt" cx="247.3" cy="48.6" r="1.7"/>
+<circle class="punkt" cx="247.1" cy="61.8" r="1.7"/>
+<circle class="punkt" cx="248.1" cy="67.8" r="1.7"/>
+<circle class="punkt" cx="247.1" cy="81.5" r="1.7"/>
+<circle class="punkt" cx="250.3" cy="29.1" r="1.7"/>
+<circle class="punkt" cx="249.8" cy="40.7" r="1.7"/>
+<circle class="punkt" cx="249.7" cy="46.5" r="1.7"/>
+<circle class="punkt" cx="249.6" cy="62" r="1.7"/>
+<circle class="punkt" cx="249.7" cy="69.7" r="1.7"/>
+<circle class="punkt" cx="249.7" cy="78" r="1.7"/>
+<circle class="punkt" cx="252.3" cy="29.3" r="1.7"/>
+<circle class="punkt" cx="252.2" cy="36.7" r="1.7"/>
+<circle class="punkt" cx="252.8" cy="47.7" r="1.7"/>
+<circle class="punkt" cx="252.1" cy="56.9" r="1.7"/>
+<circle class="punkt" cx="252.7" cy="69.6" r="1.7"/>
+<circle class="punkt" cx="252.1" cy="81.4" r="1.7"/>
+<circle class="punkt" cx="254.9" cy="29.3" r="1.7"/>
+<circle class="punkt" cx="255.7" cy="36.7" r="1.7"/>
+<circle class="punkt" cx="254.5" cy="48" r="1.7"/>
+<circle class="punkt" cx="254.6" cy="59.8" r="1.7"/>
+<circle class="punkt" cx="254.9" cy="70.9" r="1.7"/>
+<circle class="punkt" cx="254.5" cy="77.4" r="1.7"/>
+<circle class="punkt" cx="256.9" cy="31.6" r="1.7"/>
+<circle class="punkt" cx="257.1" cy="42" r="1.7"/>
+<circle class="punkt" cx="256.9" cy="53" r="1.7"/>
+<circle class="punkt" cx="256.9" cy="58.2" r="1.7"/>
+<circle class="punkt" cx="257.3" cy="72.2" r="1.7"/>
+<circle class="punkt" cx="256.6" cy="78.9" r="1.7"/>
+<circle class="punkt" cx="259.7" cy="31.3" r="1.7"/>
+<circle class="punkt" cx="258.5" cy="40.6" r="1.7"/>
+<circle class="punkt" cx="258.6" cy="46.7" r="1.7"/>
+<circle class="punkt" cx="258.5" cy="57.7" r="1.7"/>
+<circle class="punkt" cx="259.3" cy="66.9" r="1.7"/>
+<circle class="punkt" cx="258.7" cy="82.8" r="1.7"/>
+<circle class="punkt" cx="261" cy="33.3" r="1.7"/>
+<circle class="punkt" cx="261.5" cy="42.1" r="1.7"/>
+<circle class="punkt" cx="260.4" cy="53.1" r="1.7"/>
+<circle class="punkt" cx="261.1" cy="58.6" r="1.7"/>
+<circle class="punkt" cx="260.5" cy="73.1" r="1.7"/>
+<circle class="punkt" cx="261.4" cy="78.6" r="1.7"/>
+<circle class="punkt" cx="262.8" cy="27.3" r="1.7"/>
+<circle class="punkt" cx="263.2" cy="38.8" r="1.7"/>
+<circle class="punkt" cx="262.5" cy="53" r="1.7"/>
+<circle class="punkt" cx="263.2" cy="61.7" r="1.7"/>
+<circle class="punkt" cx="263" cy="72.3" r="1.7"/>
+<circle class="punkt" cx="262.8" cy="83" r="1.7"/>
+<circle class="punkt" cx="264.6" cy="29.4" r="1.7"/>
+<circle class="punkt" cx="265" cy="42" r="1.7"/>
+<circle class="punkt" cx="264.5" cy="48.4" r="1.7"/>
+<circle class="punkt" cx="265.2" cy="61.5" r="1.7"/>
+<circle class="punkt" cx="264.8" cy="71.5" r="1.7"/>
+<circle class="punkt" cx="264.5" cy="79.9" r="1.7"/>
+<circle class="punkt" cx="266.5" cy="31.5" r="1.7"/>
+<circle class="punkt" cx="267.7" cy="39.8" r="1.7"/>
+<circle class="punkt" cx="266.7" cy="51.2" r="1.7"/>
+<circle class="punkt" cx="267.8" cy="58.2" r="1.7"/>
+<circle class="punkt" cx="267.9" cy="71" r="1.7"/>
+<circle class="punkt" cx="267.2" cy="82.6" r="1.7"/>
+<circle class="punkt" cx="270.3" cy="32.8" r="1.7"/>
+<circle class="punkt" cx="269.6" cy="38.8" r="1.7"/>
+<circle class="punkt" cx="269.7" cy="47" r="1.7"/>
+<circle class="punkt" cx="269.2" cy="63.2" r="1.7"/>
+<circle class="punkt" cx="269.2" cy="70.5" r="1.7"/>
+<circle class="punkt" cx="270.1" cy="77.1" r="1.7"/>
+<circle class="punkt" cx="271.9" cy="28.2" r="1.7"/>
+<circle class="punkt" cx="273.1" cy="37.6" r="1.7"/>
+<circle class="punkt" cx="271.8" cy="50.6" r="1.7"/>
+<circle class="punkt" cx="273.8" cy="58.1" r="1.7"/>
+<circle class="punkt" cx="272.9" cy="68" r="1.7"/>
+<circle class="punkt" cx="273.4" cy="79.4" r="1.7"/>
+<circle class="punkt" cx="276.8" cy="30.7" r="1.7"/>
+<circle class="punkt" cx="275.4" cy="40.2" r="1.7"/>
+<circle class="punkt" cx="275.2" cy="47.7" r="1.7"/>
+<circle class="punkt" cx="275.3" cy="62.3" r="1.7"/>
+<circle class="punkt" cx="277.2" cy="66.7" r="1.7"/>
+<circle class="punkt" cx="277.1" cy="77.9" r="1.7"/>
+<circle class="punkt" cx="279.8" cy="27.1" r="1.7"/>
+<circle class="punkt" cx="280.8" cy="38.1" r="1.7"/>
+<circle class="punkt" cx="280.3" cy="50.8" r="1.7"/>
+<circle class="punkt" cx="280.9" cy="61.8" r="1.7"/>
+<circle class="punkt" cx="280.2" cy="68.9" r="1.7"/>
+<circle class="punkt" cx="278.9" cy="79.6" r="1.7"/>
+<circle class="punkt" cx="284.5" cy="32.3" r="1.7"/>
+<circle class="punkt" cx="283.4" cy="42.2" r="1.7"/>
+<circle class="punkt" cx="284.1" cy="50.3" r="1.7"/>
+<circle class="punkt" cx="283" cy="61.6" r="1.7"/>
+<circle class="punkt" cx="284.2" cy="68.9" r="1.7"/>
+<circle class="punkt" cx="284.4" cy="77" r="1.7"/>
+<circle class="punkt" cx="288.7" cy="31.6" r="1.7"/>
+<circle class="punkt" cx="289.3" cy="41" r="1.7"/>
+<circle class="punkt" cx="288.5" cy="48" r="1.7"/>
+<circle class="punkt" cx="288.4" cy="63.5" r="1.7"/>
+<circle class="punkt" cx="287.6" cy="69.5" r="1.7"/>
+<circle class="punkt" cx="287.9" cy="78" r="1.7"/>
+<circle class="punkt" cx="295" cy="33" r="1.7"/>
+<circle class="punkt" cx="296" cy="42.6" r="1.7"/>
+<circle class="punkt" cx="295.8" cy="50.8" r="1.7"/>
+<circle class="punkt" cx="293.9" cy="60.3" r="1.7"/>
+<circle class="punkt" cx="295.7" cy="73.1" r="1.7"/>
+<circle class="punkt" cx="294.2" cy="83.1" r="1.7"/>
+<circle class="punkt" cx="299.6" cy="31.9" r="1.7"/>
+<circle class="punkt" cx="301.6" cy="43.5" r="1.7"/>
+<circle class="punkt" cx="301.6" cy="48.5" r="1.7"/>
+<circle class="punkt" cx="298.4" cy="57.8" r="1.7"/>
+<circle class="punkt" cx="299.1" cy="71.6" r="1.7"/>
+<circle class="punkt" cx="300.5" cy="80.1" r="1.7"/>
+<circle class="punkt" cx="307.1" cy="26.8" r="1.7"/>
+<circle class="punkt" cx="305.8" cy="38.4" r="1.7"/>
+<circle class="punkt" cx="307" cy="48.9" r="1.7"/>
+<circle class="punkt" cx="305.2" cy="61.7" r="1.7"/>
+<circle class="punkt" cx="305.2" cy="67.2" r="1.7"/>
+<circle class="punkt" cx="304.3" cy="79.4" r="1.7"/>
+<circle class="punkt" cx="313.7" cy="27.6" r="1.7"/>
+<circle class="punkt" cx="314.6" cy="41.4" r="1.7"/>
+<circle class="punkt" cx="314.2" cy="53.4" r="1.7"/>
+<circle class="punkt" cx="311.1" cy="59.1" r="1.7"/>
+<circle class="punkt" cx="312.4" cy="68.7" r="1.7"/>
+<circle class="punkt" cx="312.7" cy="80.2" r="1.7"/>
+<circle class="punkt" cx="321" cy="29" r="1.7"/>
+<circle class="punkt" cx="319.2" cy="38.5" r="1.7"/>
+<circle class="punkt" cx="320.8" cy="52.7" r="1.7"/>
+<circle class="punkt" cx="318.2" cy="58.6" r="1.7"/>
+<circle class="punkt" cx="317.2" cy="72.1" r="1.7"/>
+<circle class="punkt" cx="319.5" cy="77.4" r="1.7"/>
+<circle class="punkt" cx="324.9" cy="30.3" r="1.7"/>
+<circle class="punkt" cx="325.1" cy="36.9" r="1.7"/>
+<circle class="punkt" cx="326.3" cy="51.9" r="1.7"/>
+<circle class="punkt" cx="327.8" cy="63.4" r="1.7"/>
+<circle class="punkt" cx="324.3" cy="73.4" r="1.7"/>
+<circle class="punkt" cx="324.2" cy="77.8" r="1.7"/>
+<circle class="punkt" cx="332.9" cy="29.5" r="1.7"/>
+<circle class="punkt" cx="333.9" cy="36.9" r="1.7"/>
+<circle class="punkt" cx="332.8" cy="47.2" r="1.7"/>
+<circle class="punkt" cx="335.1" cy="58.2" r="1.7"/>
+<circle class="punkt" cx="332.5" cy="69.4" r="1.7"/>
+<circle class="punkt" cx="333.3" cy="76.8" r="1.7"/>
+<circle class="punkt" cx="341.8" cy="30.9" r="1.7"/>
+<circle class="punkt" cx="342.4" cy="42.9" r="1.7"/>
+<circle class="punkt" cx="339.2" cy="48.2" r="1.7"/>
+<circle class="punkt" cx="342.3" cy="61.8" r="1.7"/>
+<circle class="punkt" cx="342.5" cy="70.1" r="1.7"/>
+<circle class="punkt" cx="339.9" cy="80.4" r="1.7"/>
+<path class="kurve blau duenn" d="M262 14H322" marker-end="url(#pfeil-abb1-blau)"/>
+<text class="blau" x="256" y="18" text-anchor="end">Ausbreitung</text>
+<text x="14" y="18">Luftteilchen</text>
+<text class="klein" x="100" y="102" text-anchor="middle">Verdichtung</text>
+<text class="klein" x="260" y="102" text-anchor="middle">Verdichtung</text>
+<text class="klein" x="180" y="102" text-anchor="middle">Verdünnung</text>
+<path class="achse" d="M14 160H348" marker-end="url(#pfeil-abb1-text)"/>
+<text x="14" y="124">Schalldruck</text>
+<path class="kurve kupfer" d="M14 185.3 L15 185.5 L16 185.7 L17 185.8 L18 185.9 L19 186 L20 186 L21 186 L22 185.9 L23 185.8 L24 185.7 L25 185.5 L26 185.3 L27 185 L28 184.7 L29 184.4 L30 184 L31 183.6 L32 183.2 L33 182.7 L34 182.2 L35 181.6 L36 181 L37 180.4 L38 179.8 L39 179.1 L40 178.4 L41 177.6 L42 176.9 L43 176.1 L44 175.3 L45 174.4 L46 173.6 L47 172.7 L48 171.8 L49 170.9 L50 169.9 L51 169 L52 168 L53 167.1 L54 166.1 L55 165.1 L56 164.1 L57 163.1 L58 162 L59 161 L60 160 L61 159 L62 158 L63 156.9 L64 155.9 L65 154.9 L66 153.9 L67 152.9 L68 152 L69 151 L70 150.1 L71 149.1 L72 148.2 L73 147.3 L74 146.4 L75 145.6 L76 144.7 L77 143.9 L78 143.1 L79 142.4 L80 141.6 L81 140.9 L82 140.2 L83 139.6 L84 139 L85 138.4 L86 137.8 L87 137.3 L88 136.8 L89 136.4 L90 136 L91 135.6 L92 135.3 L93 135 L94 134.7 L95 134.5 L96 134.3 L97 134.2 L98 134.1 L99 134 L100 134 L101 134 L102 134.1 L103 134.2 L104 134.3 L105 134.5 L106 134.7 L107 135 L108 135.3 L109 135.6 L110 136 L111 136.4 L112 136.8 L113 137.3 L114 137.8 L115 138.4 L116 139 L117 139.6 L118 140.2 L119 140.9 L120 141.6 L121 142.4 L122 143.1 L123 143.9 L124 144.7 L125 145.6 L126 146.4 L127 147.3 L128 148.2 L129 149.1 L130 150.1 L131 151 L132 152 L133 152.9 L134 153.9 L135 154.9 L136 155.9 L137 156.9 L138 158 L139 159 L140 160 L141 161 L142 162 L143 163.1 L144 164.1 L145 165.1 L146 166.1 L147 167.1 L148 168 L149 169 L150 169.9 L151 170.9 L152 171.8 L153 172.7 L154 173.6 L155 174.4 L156 175.3 L157 176.1 L158 176.9 L159 177.6 L160 178.4 L161 179.1 L162 179.8 L163 180.4 L164 181 L165 181.6 L166 182.2 L167 182.7 L168 183.2 L169 183.6 L170 184 L171 184.4 L172 184.7 L173 185 L174 185.3 L175 185.5 L176 185.7 L177 185.8 L178 185.9 L179 186 L180 186 L181 186 L182 185.9 L183 185.8 L184 185.7 L185 185.5 L186 185.3 L187 185 L188 184.7 L189 184.4 L190 184 L191 183.6 L192 183.2 L193 182.7 L194 182.2 L195 181.6 L196 181 L197 180.4 L198 179.8 L199 179.1 L200 178.4 L201 177.6 L202 176.9 L203 176.1 L204 175.3 L205 174.4 L206 173.6 L207 172.7 L208 171.8 L209 170.9 L210 169.9 L211 169 L212 168 L213 167.1 L214 166.1 L215 165.1 L216 164.1 L217 163.1 L218 162 L219 161 L220 160 L221 159 L222 158 L223 156.9 L224 155.9 L225 154.9 L226 153.9 L227 152.9 L228 152 L229 151 L230 150.1 L231 149.1 L232 148.2 L233 147.3 L234 146.4 L235 145.6 L236 144.7 L237 143.9 L238 143.1 L239 142.4 L240 141.6 L241 140.9 L242 140.2 L243 139.6 L244 139 L245 138.4 L246 137.8 L247 137.3 L248 136.8 L249 136.4 L250 136 L251 135.6 L252 135.3 L253 135 L254 134.7 L255 134.5 L256 134.3 L257 134.2 L258 134.1 L259 134 L260 134 L261 134 L262 134.1 L263 134.2 L264 134.3 L265 134.5 L266 134.7 L267 135 L268 135.3 L269 135.6 L270 136 L271 136.4 L272 136.8 L273 137.3 L274 137.8 L275 138.4 L276 139 L277 139.6 L278 140.2 L279 140.9 L280 141.6 L281 142.4 L282 143.1 L283 143.9 L284 144.7 L285 145.6 L286 146.4 L287 147.3 L288 148.2 L289 149.1 L290 150.1 L291 151 L292 152 L293 152.9 L294 153.9 L295 154.9 L296 155.9 L297 156.9 L298 158 L299 159 L300 160 L301 161 L302 162 L303 163.1 L304 164.1 L305 165.1 L306 166.1 L307 167.1 L308 168 L309 169 L310 169.9 L311 170.9 L312 171.8 L313 172.7 L314 173.6 L315 174.4 L316 175.3 L317 176.1 L318 176.9 L319 177.6 L320 178.4 L321 179.1 L322 179.8 L323 180.4 L324 181 L325 181.6 L326 182.2 L327 182.7 L328 183.2 L329 183.6 L330 184 L331 184.4 L332 184.7 L333 185 L334 185.3 L335 185.5 L336 185.7 L337 185.8 L338 185.9 L339 186 L340 186"/>
+<text x="346" y="154" text-anchor="end">Ort</text>
+<text class="klein" x="346" y="204" text-anchor="end">Achse: Luftdruck ohne Schall</text>
+</svg>
+            <figcaption>Abb. 1: Momentaufnahme einer Schallwelle. Oben die
+              Luftteilchen: An den Verdichtungen drängen sie sich, an den
+              Verdünnungen ist Platz. Unten der Schalldruck, also wie weit der
+              Luftdruck dort vom normalen Wert abweicht. Das ganze Muster läuft
+              nach rechts.</figcaption>
+          </figure>
+
+          <p>Diese Schwankungen sind erstaunlich klein. Bei einem normalen
+            Gespräch ändert sich der Luftdruck nur um weniger als
+            ein Millionstel. Trotzdem hört unser Ohr noch Töne, die eine
+            Million Mal schwächer sind als ein Gespräch, und verträgt umgekehrt
+            Lärm, der zehn Millionen Mal stärker ist. Um diese riesige Spanne handlich zu
+            machen, misst man die Lautstärke in <em>Dezibel</em> (dB): Jede
+            Stufe von 10 dB bedeutet die zehnfache Schallleistung. Gefühlt wird
+            es dabei nur etwa doppelt so laut.</p>
+
+          <div class="alltag">
+            <span class="titel">Beispiel</span>
+            <p>Ein Krankenwagen fährt mit Martinshorn an dir vorbei. Solange er
+              auf dich zukommt, klingt das Horn höher, als es eigentlich ist. In
+              dem Moment, in dem er vorbeifährt, kippt der Ton nach unten. Der
+              Fahrer selbst hört die ganze Zeit denselben Ton.</p>
+          </div>
+
+          <p>Das ist der <em>Doppler-Effekt</em>. Die Quelle sendet die
+            Wellenberge in festem Takt aus, fährt aber ihren eigenen Bergen
+            hinterher. Vor ihr werden die Berge deshalb zusammengeschoben, hinter
+            ihr auseinandergezogen (Abb. 2). Wo die Berge enger liegen, kommen
+            mehr pro Sekunde bei dir an, und du hörst einen höheren Ton.</p>
+
+          <figure class="abbildung">
+<div class="abb-reihe">
+<svg class="abb" viewBox="0 0 220 195" role="img" aria-label="Wellenberge einer ruhenden Schallquelle als gleichabständige Kreise um die Quelle">
+<defs><marker id="pfeil-abb2a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto-start-reverse"><path class="punkt kupfer" d="M0 0L10 5L0 10z"/></marker></defs>
+<circle class="kurve blau duenn" cx="110" cy="88" r="15"/>
+<circle class="kurve blau duenn" cx="110" cy="88" r="30"/>
+<circle class="kurve blau duenn" cx="110" cy="88" r="45"/>
+<circle class="kurve blau duenn" cx="110" cy="88" r="60"/>
+<circle class="kurve blau duenn" cx="110" cy="88" r="75"/>
+<circle class="punkt kupfer" cx="110" cy="88" r="4"/>
+<text class="klein" x="110" y="182" text-anchor="middle">überall derselbe Abstand</text>
+</svg>
+<svg class="abb" viewBox="0 0 220 195" role="img" aria-label="Wellenberge einer nach rechts fahrenden Schallquelle: vorne eng zusammengeschoben, hinten auseinandergezogen">
+<defs><marker id="pfeil-abb2b" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto-start-reverse"><path class="punkt kupfer" d="M0 0L10 5L0 10z"/></marker></defs>
+<circle class="kurve blau duenn" cx="127.5" cy="88" r="15"/>
+<circle class="kurve blau duenn" cx="120" cy="88" r="30"/>
+<circle class="kurve blau duenn" cx="112.5" cy="88" r="45"/>
+<circle class="kurve blau duenn" cx="105" cy="88" r="60"/>
+<circle class="kurve blau duenn" cx="97.5" cy="88" r="75"/>
+<circle class="punkt kupfer" cx="135" cy="88" r="4"/>
+<path class="kurve kupfer duenn" d="M141 88H161" marker-end="url(#pfeil-abb2b)"/>
+<text class="klein" x="8" y="182">weit: tieferer Ton</text>
+<text class="klein" x="212" y="182" text-anchor="end">eng: höherer Ton</text>
+</svg>
+</div>
+            <figcaption>Abb. 2: Wellenberge einer Schallquelle (Punkt) als
+              Kreise. Links steht die Quelle still. Rechts fährt sie mit halber
+              Schallgeschwindigkeit nach rechts: Jeder Kreis hat seinen
+              Mittelpunkt dort, wo die Quelle beim Aussenden war.</figcaption>
+          </figure>
+
+          <p>Fliegt ein Flugzeug schneller als der Schall, überholt es seine
+            eigenen Wellen. Die Wellenberge stauen sich zu einem Kegel, der hinter
+            dem Flugzeug herzieht. Streicht dieser Kegel über dich hinweg, hörst
+            du einen lauten Knall. Er entsteht also nicht einmalig beim
+            „Durchbrechen der Schallmauer“, sondern begleitet das Flugzeug, solange
+            es schneller als der Schall fliegt.</p>
+
+          <div class="merkkasten">
+            <span class="titel">Merke</span>
+            <p>Schall ist eine Druckwelle, bei der die Teilchen in
+              Ausbreitungsrichtung hin und her schwingen. In Luft läuft er etwa
+              340 Meter pro Sekunde. Die Lautstärke misst man in Dezibel, plus
+              10 dB heißt zehnfache Leistung. Bewegen sich Quelle und Hörer
+              aufeinander zu, klingt der Ton höher, entfernen sie sich, tiefer.</p>
+          </div>
+        </section>
+
+        <section class="tab" id="vertiefung" data-titel="Vertiefung">
+
+          <h2 id="druckwelle">Schall als Druckwelle</h2>
+          <p>Schall in Gasen und Flüssigkeiten ist eine longitudinale Welle: Die
+            Auslenkung $\xi(z,t)$ einer dünnen Schicht des Mediums zeigt in
+            dieselbe Richtung $z$, in die die Welle läuft. Ein Fluid setzt einer
+            Scherung keine rücktreibende Kraft entgegen, deshalb gibt es darin
+            keine Querwellen. Wir leiten die
+            Wellengleichung für eine Gassäule mit Querschnitt $A$ her, ähnlich wie
+            für die <a href="wellen.html#federkette">Federkette</a>.</p>
+
+          <p>Die Schicht zwischen $z$ und $z + \mathrm{d}z$ wird um $\xi(z,t)$
+            verschoben, ihre rechte Grenze um $\xi(z + \mathrm{d}z, t)$. Ihr
+            Volumen ändert sich deshalb um
+            $\mathrm{d}V = A\,[\xi(z+\mathrm{d}z) - \xi(z)] = A\,\frac{\partial \xi}{\partial z}\,\mathrm{d}z$,
+            relativ also um $\partial\xi/\partial z$. Wie stark der Druck auf eine
+            Volumenänderung reagiert, sagt der <em>Kompressionsmodul</em>
+            $K = -V\,\mathrm{d}p/\mathrm{d}V$. Die Abweichung vom Ruhedruck, der
+            <em>Schalldruck</em>, ist damit</p>
+          $$ p_\text{s} = -K\,\frac{\partial \xi}{\partial z} $$
+          <p>Auf die Schicht wirkt links der Druck $p + p_\text{s}(z)$, rechts
+            $p + p_\text{s}(z + \mathrm{d}z)$. Die Nettokraft ist
+            $F = -A\,\frac{\partial p_\text{s}}{\partial z}\,\mathrm{d}z = A K\,\frac{\partial^2 \xi}{\partial z^2}\,\mathrm{d}z$,
+            die Masse $\rho A\,\mathrm{d}z$. Newtons zweites Gesetz liefert die
+            Wellengleichung</p>
+          $$ \frac{\partial^2 \xi}{\partial t^2} = \frac{K}{\rho}\,\frac{\partial^2 \xi}{\partial z^2}
+             \quad\Rightarrow\quad c = \sqrt{\frac{K}{\rho}} $$
+          <p>Für die Schallgeschwindigkeit schreiben wir $c$, wie in der Akustik
+            üblich (in der Vorlesung $v_\text{Schall}$). Wie bei allen
+            mechanischen Wellen steht unter der Wurzel eine Steifigkeit geteilt
+            durch eine Massendichte. Im dünnen Stab tritt an die Stelle von $K$
+            der Elastizitätsmodul $E$, weil sich der Stab seitlich frei
+            verformen kann.</p>
+
+          <h2 id="schallgeschwindigkeit">Die Schallgeschwindigkeit in Gasen</h2>
+          <p>Für ein Gas fehlt noch $K$. Isaac Newton nahm an, dass die
+            Temperatur in der Schallwelle konstant bleibt. Dann gilt $pV$ = const,
+            also $\mathrm{d}p/\mathrm{d}V = -p/V$ und $K = p$. Für Luft bei
+            $20\,{}^\circ\mathrm{C}$ mit $p = 1{,}013\cdot10^5\,\mathrm{Pa}$ und
+            $\rho = 1{,}204\,\mathrm{kg/m^3}$ ergibt das
+            $\sqrt{p/\rho} = 290\,\mathrm{m/s}$. Gemessen werden aber
+            $343\,\mathrm{m/s}$, rund 18 % mehr.</p>
+
+          <p>Den Fehler fand Laplace: Die Verdichtungen wechseln so schnell, dass
+            keine Wärme zwischen warmen und kalten Stellen fließen kann. Bei
+            $1\,\mathrm{kHz}$ liegen Verdichtung und Verdünnung
+            $17\,\mathrm{cm}$ auseinander, in der halben Periode von
+            $0{,}5\,\mathrm{ms}$ kommt die Wärmeleitung in Luft aber nur etwa
+            $0{,}1\,\mathrm{mm}$ weit. Die Zustandsänderung ist also
+            <a href="../thermodynamik/hauptsaetze.html#vertiefung">adiabatisch</a>:
+            $pV^\kappa$ = const. Daraus folgt
+            $\mathrm{d}p/\mathrm{d}V = -\kappa p/V$ und $K = \kappa p$. Mit der
+            Gasgleichung $p/\rho = RT/M$ wird daraus</p>
+          $$ c = \sqrt{\frac{\kappa p}{\rho}} = \sqrt{\frac{\kappa R T}{M}} $$
+          <p>Für Luft ist $\kappa = 1{,}40$, und
+            $\sqrt{1{,}40}\cdot290\,\mathrm{m/s} = 343\,\mathrm{m/s}$ passt genau.
+            Der Druck allein spielt dabei keine Rolle, denn mit $p$ steigt auch
+            $\rho$ im selben Verhältnis. Auf einem hohen Berg
+            ist der Schall bei gleicher Temperatur genauso schnell wie im Tal.
+            Es kommt auf die Temperatur an, $c \propto \sqrt{T}$, und auf die
+            Masse der Moleküle. Um $0\,{}^\circ\mathrm{C}$ gilt in guter
+            Näherung</p>
+          $$ c \approx \Big(331{,}3 + 0{,}606\cdot\frac{\vartheta}{{}^\circ\mathrm{C}}\Big)\,\mathrm{m/s} $$
+          <p>mit der Celsius-Temperatur $\vartheta$. In Helium mit seinen leichten
+            Atomen ist der Schall fast dreimal so schnell wie in Luft, in
+            Flüssigkeiten und Festkörpern noch schneller, weil sie viel steifer
+            sind:</p>
+
+          <div class="tabelle-huelle">
+            <table>
+              <thead><tr><th>Medium</th><th>Formel</th><th>Schallgeschwindigkeit</th></tr></thead>
+              <tbody>
+                <tr><td>Luft, $0\,{}^\circ\mathrm{C}$</td><td>$\sqrt{\kappa RT/M}$</td><td>$331\,\mathrm{m/s}$</td></tr>
+                <tr><td>Luft, $20\,{}^\circ\mathrm{C}$</td><td>$\sqrt{\kappa RT/M}$</td><td>$343\,\mathrm{m/s}$</td></tr>
+                <tr><td>Helium, $20\,{}^\circ\mathrm{C}$</td><td>$\sqrt{\kappa RT/M}$, $\kappa = 5/3$</td><td>$1007\,\mathrm{m/s}$</td></tr>
+                <tr><td>Wasser, $20\,{}^\circ\mathrm{C}$</td><td>$\sqrt{K/\rho}$</td><td>$1480\,\mathrm{m/s}$</td></tr>
+                <tr><td>Stahl, dünner Stab</td><td>$\sqrt{E/\rho}$</td><td>etwa $5200\,\mathrm{m/s}$</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="merkkasten">
+            <span class="titel">Merke</span>
+            <p>Schall gehorcht der Wellengleichung mit $c = \sqrt{K/\rho}$. In
+              Gasen läuft er adiabatisch, $K = \kappa p$, also
+              $c = \sqrt{\kappa RT/M}$: unabhängig vom Druck, proportional zu
+              $\sqrt{T}$. In Luft bei $20\,{}^\circ\mathrm{C}$ sind es
+              $343\,\mathrm{m/s}$.</p>
+          </div>
+
+          <h2 id="schalldruck">Schalldruck und Schallschnelle</h2>
+          <p>Für eine harmonische Welle $\xi = \xi_0 \sin(\omega t - kz)$ gibt es
+            drei Größen, die man leicht verwechselt. Die Auslenkung $\xi$ sagt,
+            wie weit eine Luftschicht verschoben ist. Ihre Geschwindigkeit heißt
+            <em>Schallschnelle</em>,</p>
+          $$ u = \frac{\partial \xi}{\partial t} = \omega\,\xi_0 \cos(\omega t - kz) $$
+          <p>Sie ist winzig und hat mit der Schallgeschwindigkeit $c$, mit der das
+            Muster wandert, nichts zu tun. Der Schalldruck folgt aus
+            $p_\text{s} = -K\,\partial\xi/\partial z$:</p>
+          $$ p_\text{s} = K k\,\xi_0 \cos(\omega t - kz) = \rho c\,\omega\,\xi_0 \cos(\omega t - kz) = \rho c\,u $$
+          <p>Im zweiten Schritt steckt $K = \rho c^2$ und $k = \omega/c$.
+            Schalldruck und Schnelle schwingen also im Gleichtakt, die Auslenkung
+            ist um eine Viertelperiode dagegen verschoben (Abb. 3). Wo die
+            Schichten am dichtesten liegen, sind sie gerade nicht ausgelenkt, die
+            Nachbarn links und rechts sind aber auf sie zu verschoben.</p>
+
+          <figure class="abbildung">
+<svg class="abb" viewBox="0 0 360 250" role="img" aria-label="Momentaufnahme einer Schallwelle: oben die Lage der Luftschichten, darunter Auslenkung und Schalldruck. Wo die Schichten am dichtesten liegen, ist die Auslenkung null und der Schalldruck am größten">
+<defs><marker id="pfeil-abb3-text" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto-start-reverse"><path class="punkt" d="M0 0L10 5L0 10z"/></marker></defs>
+<path class="achse" d="M24.8 14V44"/>
+<path class="achse" d="M36.2 14V44"/>
+<path class="achse" d="M47.1 14V44"/>
+<path class="achse" d="M57.2 14V44"/>
+<path class="achse" d="M66.3 14V44"/>
+<path class="achse" d="M74.3 14V44"/>
+<path class="achse" d="M81.1 14V44"/>
+<path class="achse" d="M86.6 14V44"/>
+<path class="achse" d="M91 14V44"/>
+<path class="achse" d="M94.4 14V44"/>
+<path class="achse" d="M97.2 14V44"/>
+<path class="achse" d="M99.6 14V44"/>
+<path class="achse" d="M101.9 14V44"/>
+<path class="achse" d="M104.5 14V44"/>
+<path class="achse" d="M107.7 14V44"/>
+<path class="achse" d="M111.8 14V44"/>
+<path class="achse" d="M116.9 14V44"/>
+<path class="achse" d="M123.2 14V44"/>
+<path class="achse" d="M130.8 14V44"/>
+<path class="achse" d="M139.5 14V44"/>
+<path class="achse" d="M149.3 14V44"/>
+<path class="achse" d="M160 14V44"/>
+<path class="achse" d="M171.2 14V44"/>
+<path class="achse" d="M182.7 14V44"/>
+<path class="achse" d="M194.1 14V44"/>
+<path class="achse" d="M205.1 14V44"/>
+<path class="achse" d="M215.4 14V44"/>
+<path class="achse" d="M224.7 14V44"/>
+<path class="achse" d="M232.9 14V44"/>
+<path class="achse" d="M239.9 14V44"/>
+<path class="achse" d="M245.6 14V44"/>
+<path class="achse" d="M250.2 14V44"/>
+<path class="achse" d="M253.9 14V44"/>
+<path class="achse" d="M256.7 14V44"/>
+<path class="achse" d="M259.2 14V44"/>
+<path class="achse" d="M261.5 14V44"/>
+<path class="achse" d="M264 14V44"/>
+<path class="achse" d="M267.1 14V44"/>
+<path class="achse" d="M270.9 14V44"/>
+<path class="achse" d="M275.8 14V44"/>
+<path class="achse" d="M281.9 14V44"/>
+<path class="achse" d="M289.2 14V44"/>
+<path class="achse" d="M297.8 14V44"/>
+<path class="achse" d="M307.4 14V44"/>
+<path class="achse" d="M317.9 14V44"/>
+<path class="achse" d="M329 14V44"/>
+<path class="achse" d="M340.5 14V44"/>
+<text class="klein" x="16" y="58">Luftschichten</text>
+<path class="hilfslinie" d="M100 48V232"/>
+<path class="hilfslinie" d="M260 48V232"/>
+<path class="achse" d="M14 110H348" marker-end="url(#pfeil-abb3-text)"/>
+<path class="kurve blau" d="M14 116.1 L15 115.1 L16 114.1 L17 113.1 L18 112 L19 111 L20 110 L21 109 L22 108 L23 106.9 L24 105.9 L25 104.9 L26 103.9 L27 102.9 L28 102 L29 101 L30 100.1 L31 99.1 L32 98.2 L33 97.3 L34 96.4 L35 95.6 L36 94.7 L37 93.9 L38 93.1 L39 92.4 L40 91.6 L41 90.9 L42 90.2 L43 89.6 L44 89 L45 88.4 L46 87.8 L47 87.3 L48 86.8 L49 86.4 L50 86 L51 85.6 L52 85.3 L53 85 L54 84.7 L55 84.5 L56 84.3 L57 84.2 L58 84.1 L59 84 L60 84 L61 84 L62 84.1 L63 84.2 L64 84.3 L65 84.5 L66 84.7 L67 85 L68 85.3 L69 85.6 L70 86 L71 86.4 L72 86.8 L73 87.3 L74 87.8 L75 88.4 L76 89 L77 89.6 L78 90.2 L79 90.9 L80 91.6 L81 92.4 L82 93.1 L83 93.9 L84 94.7 L85 95.6 L86 96.4 L87 97.3 L88 98.2 L89 99.1 L90 100.1 L91 101 L92 102 L93 102.9 L94 103.9 L95 104.9 L96 105.9 L97 106.9 L98 108 L99 109 L100 110 L101 111 L102 112 L103 113.1 L104 114.1 L105 115.1 L106 116.1 L107 117.1 L108 118 L109 119 L110 119.9 L111 120.9 L112 121.8 L113 122.7 L114 123.6 L115 124.4 L116 125.3 L117 126.1 L118 126.9 L119 127.6 L120 128.4 L121 129.1 L122 129.8 L123 130.4 L124 131 L125 131.6 L126 132.2 L127 132.7 L128 133.2 L129 133.6 L130 134 L131 134.4 L132 134.7 L133 135 L134 135.3 L135 135.5 L136 135.7 L137 135.8 L138 135.9 L139 136 L140 136 L141 136 L142 135.9 L143 135.8 L144 135.7 L145 135.5 L146 135.3 L147 135 L148 134.7 L149 134.4 L150 134 L151 133.6 L152 133.2 L153 132.7 L154 132.2 L155 131.6 L156 131 L157 130.4 L158 129.8 L159 129.1 L160 128.4 L161 127.6 L162 126.9 L163 126.1 L164 125.3 L165 124.4 L166 123.6 L167 122.7 L168 121.8 L169 120.9 L170 119.9 L171 119 L172 118 L173 117.1 L174 116.1 L175 115.1 L176 114.1 L177 113.1 L178 112 L179 111 L180 110 L181 109 L182 108 L183 106.9 L184 105.9 L185 104.9 L186 103.9 L187 102.9 L188 102 L189 101 L190 100.1 L191 99.1 L192 98.2 L193 97.3 L194 96.4 L195 95.6 L196 94.7 L197 93.9 L198 93.1 L199 92.4 L200 91.6 L201 90.9 L202 90.2 L203 89.6 L204 89 L205 88.4 L206 87.8 L207 87.3 L208 86.8 L209 86.4 L210 86 L211 85.6 L212 85.3 L213 85 L214 84.7 L215 84.5 L216 84.3 L217 84.2 L218 84.1 L219 84 L220 84 L221 84 L222 84.1 L223 84.2 L224 84.3 L225 84.5 L226 84.7 L227 85 L228 85.3 L229 85.6 L230 86 L231 86.4 L232 86.8 L233 87.3 L234 87.8 L235 88.4 L236 89 L237 89.6 L238 90.2 L239 90.9 L240 91.6 L241 92.4 L242 93.1 L243 93.9 L244 94.7 L245 95.6 L246 96.4 L247 97.3 L248 98.2 L249 99.1 L250 100.1 L251 101 L252 102 L253 102.9 L254 103.9 L255 104.9 L256 105.9 L257 106.9 L258 108 L259 109 L260 110 L261 111 L262 112 L263 113.1 L264 114.1 L265 115.1 L266 116.1 L267 117.1 L268 118 L269 119 L270 119.9 L271 120.9 L272 121.8 L273 122.7 L274 123.6 L275 124.4 L276 125.3 L277 126.1 L278 126.9 L279 127.6 L280 128.4 L281 129.1 L282 129.8 L283 130.4 L284 131 L285 131.6 L286 132.2 L287 132.7 L288 133.2 L289 133.6 L290 134 L291 134.4 L292 134.7 L293 135 L294 135.3 L295 135.5 L296 135.7 L297 135.8 L298 135.9 L299 136 L300 136 L301 136 L302 135.9 L303 135.8 L304 135.7 L305 135.5 L306 135.3 L307 135 L308 134.7 L309 134.4 L310 134 L311 133.6 L312 133.2 L313 132.7 L314 132.2 L315 131.6 L316 131 L317 130.4 L318 129.8 L319 129.1 L320 128.4 L321 127.6 L322 126.9 L323 126.1 L324 125.3 L325 124.4 L326 123.6 L327 122.7 L328 121.8 L329 120.9 L330 119.9 L331 119 L332 118 L333 117.1 L334 116.1 L335 115.1 L336 114.1 L337 113.1 L338 112 L339 111 L340 110"/>
+<text class="blau" x="16" y="78">Auslenkung ξ</text>
+<text class="klein" x="346" y="126" text-anchor="end">Ort</text>
+<path class="achse" d="M14 196H348" marker-end="url(#pfeil-abb3-text)"/>
+<path class="kurve kupfer" d="M14 221.3 L15 221.5 L16 221.7 L17 221.8 L18 221.9 L19 222 L20 222 L21 222 L22 221.9 L23 221.8 L24 221.7 L25 221.5 L26 221.3 L27 221 L28 220.7 L29 220.4 L30 220 L31 219.6 L32 219.2 L33 218.7 L34 218.2 L35 217.6 L36 217 L37 216.4 L38 215.8 L39 215.1 L40 214.4 L41 213.6 L42 212.9 L43 212.1 L44 211.3 L45 210.4 L46 209.6 L47 208.7 L48 207.8 L49 206.9 L50 205.9 L51 205 L52 204 L53 203.1 L54 202.1 L55 201.1 L56 200.1 L57 199.1 L58 198 L59 197 L60 196 L61 195 L62 194 L63 192.9 L64 191.9 L65 190.9 L66 189.9 L67 188.9 L68 188 L69 187 L70 186.1 L71 185.1 L72 184.2 L73 183.3 L74 182.4 L75 181.6 L76 180.7 L77 179.9 L78 179.1 L79 178.4 L80 177.6 L81 176.9 L82 176.2 L83 175.6 L84 175 L85 174.4 L86 173.8 L87 173.3 L88 172.8 L89 172.4 L90 172 L91 171.6 L92 171.3 L93 171 L94 170.7 L95 170.5 L96 170.3 L97 170.2 L98 170.1 L99 170 L100 170 L101 170 L102 170.1 L103 170.2 L104 170.3 L105 170.5 L106 170.7 L107 171 L108 171.3 L109 171.6 L110 172 L111 172.4 L112 172.8 L113 173.3 L114 173.8 L115 174.4 L116 175 L117 175.6 L118 176.2 L119 176.9 L120 177.6 L121 178.4 L122 179.1 L123 179.9 L124 180.7 L125 181.6 L126 182.4 L127 183.3 L128 184.2 L129 185.1 L130 186.1 L131 187 L132 188 L133 188.9 L134 189.9 L135 190.9 L136 191.9 L137 192.9 L138 194 L139 195 L140 196 L141 197 L142 198 L143 199.1 L144 200.1 L145 201.1 L146 202.1 L147 203.1 L148 204 L149 205 L150 205.9 L151 206.9 L152 207.8 L153 208.7 L154 209.6 L155 210.4 L156 211.3 L157 212.1 L158 212.9 L159 213.6 L160 214.4 L161 215.1 L162 215.8 L163 216.4 L164 217 L165 217.6 L166 218.2 L167 218.7 L168 219.2 L169 219.6 L170 220 L171 220.4 L172 220.7 L173 221 L174 221.3 L175 221.5 L176 221.7 L177 221.8 L178 221.9 L179 222 L180 222 L181 222 L182 221.9 L183 221.8 L184 221.7 L185 221.5 L186 221.3 L187 221 L188 220.7 L189 220.4 L190 220 L191 219.6 L192 219.2 L193 218.7 L194 218.2 L195 217.6 L196 217 L197 216.4 L198 215.8 L199 215.1 L200 214.4 L201 213.6 L202 212.9 L203 212.1 L204 211.3 L205 210.4 L206 209.6 L207 208.7 L208 207.8 L209 206.9 L210 205.9 L211 205 L212 204 L213 203.1 L214 202.1 L215 201.1 L216 200.1 L217 199.1 L218 198 L219 197 L220 196 L221 195 L222 194 L223 192.9 L224 191.9 L225 190.9 L226 189.9 L227 188.9 L228 188 L229 187 L230 186.1 L231 185.1 L232 184.2 L233 183.3 L234 182.4 L235 181.6 L236 180.7 L237 179.9 L238 179.1 L239 178.4 L240 177.6 L241 176.9 L242 176.2 L243 175.6 L244 175 L245 174.4 L246 173.8 L247 173.3 L248 172.8 L249 172.4 L250 172 L251 171.6 L252 171.3 L253 171 L254 170.7 L255 170.5 L256 170.3 L257 170.2 L258 170.1 L259 170 L260 170 L261 170 L262 170.1 L263 170.2 L264 170.3 L265 170.5 L266 170.7 L267 171 L268 171.3 L269 171.6 L270 172 L271 172.4 L272 172.8 L273 173.3 L274 173.8 L275 174.4 L276 175 L277 175.6 L278 176.2 L279 176.9 L280 177.6 L281 178.4 L282 179.1 L283 179.9 L284 180.7 L285 181.6 L286 182.4 L287 183.3 L288 184.2 L289 185.1 L290 186.1 L291 187 L292 188 L293 188.9 L294 189.9 L295 190.9 L296 191.9 L297 192.9 L298 194 L299 195 L300 196 L301 197 L302 198 L303 199.1 L304 200.1 L305 201.1 L306 202.1 L307 203.1 L308 204 L309 205 L310 205.9 L311 206.9 L312 207.8 L313 208.7 L314 209.6 L315 210.4 L316 211.3 L317 212.1 L318 212.9 L319 213.6 L320 214.4 L321 215.1 L322 215.8 L323 216.4 L324 217 L325 217.6 L326 218.2 L327 218.7 L328 219.2 L329 219.6 L330 220 L331 220.4 L332 220.7 L333 221 L334 221.3 L335 221.5 L336 221.7 L337 221.8 L338 221.9 L339 222 L340 222"/>
+<text class="kupfer" x="16" y="164">Schalldruck</text>
+<text class="klein" x="346" y="212" text-anchor="end">Ort</text>
+<text class="klein halo" x="104" y="244">Verdichtung</text>
+<text class="klein halo" x="264" y="244">Verdichtung</text>
+</svg>
+            <figcaption>Abb. 3: Dieselbe Schallwelle in drei Bildern. Oben die
+              Lage gleichmäßig verteilter Luftschichten, darunter ihre Auslenkung
+              $\xi$ (positiv = nach rechts) und der Schalldruck $p_\text{s}$. An
+              den Verdichtungen ist $\xi = 0$, links davon positiv, rechts negativ,
+              und der Druck am größten.</figcaption>
+          </figure>
+
+          <p>Das Verhältnis $Z = p_\text{s}/u = \rho c$ heißt
+            <em>Schallkennimpedanz</em>. Es ist dieselbe Größe wie der
+            <a href="ueberlagerung.html#uebergang">Wellenwiderstand</a> der
+            Seilwelle und bestimmt, wie viel Schall an einer Grenzfläche
+            reflektiert wird. Luft hat $Z \approx 413\,\mathrm{kg/(m^2 s)}$,
+            Wasser $1{,}48\cdot10^6\,\mathrm{kg/(m^2 s)}$, gut 3500-mal so viel.
+            Deshalb wird Schall an einer Wasseroberfläche fast vollständig
+            zurückgeworfen; nur etwa ein Tausendstel der Leistung gelangt hinein.
+            Wer taucht, hört Gespräche am Ufer kaum.</p>
+
+          <h2 id="pegel">Intensität und Schallpegel</h2>
+          <p>Die <a href="wellen.html#energie">Intensität</a> einer Welle ist die
+            mittlere Leistung pro Fläche. Für Schall gilt</p>
+          $$ I = \tfrac12\,\rho c\,\omega^2 \xi_0^2 = \frac{p_\text{amp}^2}{2\rho c} = \frac{p_\text{eff}^2}{\rho c} $$
+          <p>mit der Amplitude $p_\text{amp} = \rho c\,\omega\,\xi_0$ und dem
+            Effektivwert $p_\text{eff} = p_\text{amp}/\sqrt2$ des Schalldrucks.
+            Eine Quelle, die die Leistung $P$ gleichmäßig in alle Richtungen
+            abgibt, erzeugt im Abstand $r$ die Intensität
+            $I = P/(4\pi r^2)$.</p>
+
+          <p>Das Ohr hört bei $1\,\mathrm{kHz}$ ab etwa
+            $I_0 = 10^{-12}\,\mathrm{W/m^2}$, ab etwa $10\,\mathrm{W/m^2}$ tut es
+            weh. Über diese dreizehn Zehnerpotenzen hinweg empfinden wir nicht
+            die Intensität selbst, sondern eher ihren Logarithmus. Daher misst
+            man den <em>Schallpegel</em></p>
+          $$ \beta = 10\,\lg\frac{I}{I_0}\ \mathrm{dB} = 20\,\lg\frac{p_\text{eff}}{20\,\mu\mathrm{Pa}}\ \mathrm{dB} $$
+          <p>Die zweite Form folgt aus $I \propto p_\text{eff}^2$, denn zu $I_0$
+            gehört in Luft $p_\text{eff} = \sqrt{I_0\,\rho c} \approx 20\,\mu\mathrm{Pa}$.
+            Einige Faustregeln ergeben sich direkt: Doppelte Intensität sind
+            $+3\,\mathrm{dB}$ ($10\lg 2 = 3{,}01$), zehnfache $+10\,\mathrm{dB}$.
+            Zwei gleich laute Quellen zusammen sind also nur 3 dB lauter als
+            eine. Doppelter Abstand zu einer Kugelwelle bedeutet ein Viertel der
+            Intensität, also $-6\,\mathrm{dB}$.</p>
+
+          <div class="tabelle-huelle">
+            <table>
+              <thead><tr><th>Schallquelle (typisch)</th><th>Pegel</th><th>Intensität</th></tr></thead>
+              <tbody>
+                <tr><td>Hörschwelle bei 1 kHz</td><td>$0\,\mathrm{dB}$</td><td>$10^{-12}\,\mathrm{W/m^2}$</td></tr>
+                <tr><td>Blätterrauschen</td><td>$20\,\mathrm{dB}$</td><td>$10^{-10}\,\mathrm{W/m^2}$</td></tr>
+                <tr><td>normales Gespräch</td><td>$60\,\mathrm{dB}$</td><td>$10^{-6}\,\mathrm{W/m^2}$</td></tr>
+                <tr><td>Hauptverkehrsstraße</td><td>$80\,\mathrm{dB}$</td><td>$10^{-4}\,\mathrm{W/m^2}$</td></tr>
+                <tr><td>Presslufthammer aus der Nähe</td><td>$100\,\mathrm{dB}$</td><td>$10^{-2}\,\mathrm{W/m^2}$</td></tr>
+                <tr><td>Schmerzgrenze</td><td>$130\,\mathrm{dB}$</td><td>$10\,\mathrm{W/m^2}$</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <p>Wie klein die Bewegungen dabei sind, zeigt ein Gespräch mit
+            $60\,\mathrm{dB}$ bei $1\,\mathrm{kHz}$: Aus
+            $I = 10^{-6}\,\mathrm{W/m^2}$ folgt
+            $p_\text{amp} = \sqrt{2\rho c I} = 0{,}029\,\mathrm{Pa}$, knapp drei
+            Zehnmillionstel des Luftdrucks, und
+            $\xi_0 = p_\text{amp}/(\rho c\,\omega) = 11\,\mathrm{nm}$. Die
+            Empfindlichkeit des Ohrs hängt stark von der Frequenz ab; am besten
+            hört es zwischen etwa 2 und 5 kHz. Messgeräte gewichten den Pegel
+            deshalb oft nach der Hörkurve, angegeben als dB(A). Hörbar ist
+            Schall zwischen etwa 20 Hz und 20 kHz, darüber spricht man von
+            <em>Ultraschall</em>.</p>
+
+          <div class="merkkasten">
+            <span class="titel">Merke</span>
+            <p>Schalldruck und Schallschnelle hängen über die Impedanz
+              $Z = \rho c$ zusammen, $p_\text{s} = Z u$. Die Intensität ist
+              $I = p_\text{amp}^2/(2\rho c)$, der Pegel
+              $\beta = 10\lg(I/I_0)\,\mathrm{dB}$ mit
+              $I_0 = 10^{-12}\,\mathrm{W/m^2}$. Doppelte Intensität:
+              $+3\,\mathrm{dB}$, doppelter Abstand: $-6\,\mathrm{dB}$.</p>
+          </div>
+
+          <h2 id="doppler">Der Doppler-Effekt</h2>
+          <p>Bewegen sich Quelle oder Beobachter durch die Luft, hört der
+            Beobachter eine andere Frequenz $f'$, als die Quelle aussendet. Den
+            Effekt sagte Christian Doppler 1842 voraus. Wichtig ist, dass Schall
+            ein Medium hat: Alle Geschwindigkeiten messen wir relativ zur ruhenden
+            Luft, und es macht einen Unterschied, wer sich bewegt.</p>
+
+          <h3 id="bewegte-quelle">Bewegte Quelle</h3>
+          <p>Die Quelle fährt mit $v_Q$ auf einen ruhenden Beobachter zu und
+            sendet mit der Frequenz $f$. Zwischen zwei Wellenbergen vergeht die
+            Zeit $1/f$. Der erste Berg ist in dieser Zeit um $c/f$ vorgelaufen,
+            die Quelle ist ihm aber um $v_Q/f$ hinterhergefahren, bevor sie den
+            zweiten aussendet (Abb. 4). Vor der Quelle ist die Wellenlänge daher
+            verkürzt:</p>
+          $$ \lambda' = \frac{c - v_Q}{f}
+             \quad\Rightarrow\quad f' = \frac{c}{\lambda'} = \frac{f}{1 - v_Q/c} $$
+          <p>Hinter der Quelle ist $\lambda' = (c + v_Q)/f$ und
+            $f' = f/(1 + v_Q/c)$.</p>
+
+          <figure class="abbildung">
+<svg class="abb" viewBox="0 0 360 190" role="img" aria-label="Ein Wellenberg, den die Quelle eine Periode früher ausgesandt hat, ist ein Kreis. Die Quelle ist inzwischen nach rechts gefahren, deshalb ist der Abstand zum Kreis vorne kleiner und hinten größer">
+<defs><marker id="pfeil-abb4-text" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto-start-reverse"><path class="punkt" d="M0 0L10 5L0 10z"/></marker><marker id="pfeil-abb4-kupfer" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto-start-reverse"><path class="punkt kupfer" d="M0 0L10 5L0 10z"/></marker></defs>
+<path class="hilfslinie" d="M20 92H340"/>
+<circle class="kurve blau" cx="150" cy="92" r="75"/>
+<circle class="kurve" cx="150" cy="92" r="4" style="stroke-width:1.5"/>
+<circle class="punkt kupfer" cx="180" cy="92" r="4.5"/>
+<path class="kurve kupfer duenn" d="M155 110H178" marker-end="url(#pfeil-abb4-kupfer)"/>
+<text class="klein kupfer" x="165.0" y="125" text-anchor="middle">Weg der Quelle</text>
+<text class="klein" x="142" y="84" text-anchor="end">vorher</text>
+<text class="klein kupfer" x="188" y="84">jetzt</text>
+<path class="achse" d="M182 66H223" marker-start="url(#pfeil-abb4-text)" marker-end="url(#pfeil-abb4-text)"/>
+<text class="klein halo" x="202.5" y="60" text-anchor="middle">λ vorne</text>
+<path class="achse" d="M77 46H178" marker-start="url(#pfeil-abb4-text)" marker-end="url(#pfeil-abb4-text)"/>
+<path class="hilfslinie" d="M180 42V84"/>
+<text class="klein halo" x="127.5" y="40" text-anchor="middle">λ hinten</text>
+<text x="150" y="183" text-anchor="middle" class="blau klein">Wellenberg, eine Periode alt</text>
+<text class="klein" x="300" y="86" text-anchor="middle">Beobachter</text><text class="klein" x="300" y="106" text-anchor="middle">vorne</text>
+<text class="klein" x="40" y="86" text-anchor="middle">Beobachter</text><text class="klein" x="40" y="106" text-anchor="middle">hinten</text>
+</svg>
+            <figcaption>Abb. 4: Herleitung für die bewegte Quelle. Der blaue Kreis
+              ist ein Wellenberg, den die Quelle vor einer Periode ausgesandt hat
+              (Mittelpunkt: Ort der Quelle damals). Jetzt sendet sie den nächsten
+              aus. Vorne ist der Abstand zwischen beiden um den Weg der Quelle
+              $v_Q/f$ kürzer als $\lambda = c/f$, hinten um denselben Weg
+              länger.</figcaption>
+          </figure>
+
+          <h3 id="bewegter-beobachter">Bewegter Beobachter</h3>
+          <p>Jetzt ruht die Quelle, und der Beobachter läuft mit $v_B$ auf sie zu.
+            Die Wellenlänge in der Luft ist unverändert $\lambda = c/f$, aber die
+            Wellenberge kommen ihm mit $c + v_B$ entgegen. Pro Sekunde trifft er
+            daher auf</p>
+          $$ f' = \frac{c + v_B}{\lambda} = f\Big(1 + \frac{v_B}{c}\Big) $$
+          <p>Wellenberge. Entfernt er sich, ist es $f' = f\,(1 - v_B/c)$. Beide
+            Fälle fasst eine Formel zusammen, in der $v_Q$ und $v_B$ positiv
+            zählen, wenn sich Quelle und Beobachter <em>aufeinander zu</em>
+            bewegen:</p>
+          $$ f' = f\,\frac{c + v_B}{c - v_Q} $$
+
+          <p>Für kleine Geschwindigkeiten sind beide Fälle fast gleich,
+            $f' \approx f\,(1 + v/c)$. Bei großen Geschwindigkeiten gehen sie
+            weit auseinander (Abb. 5): Fährt die Quelle mit $c$ heran, wird
+            $f'$ unendlich, weil sich alle Berge vor ihr stauen. Läuft der
+            Beobachter mit $c$ auf eine ruhende Quelle zu, hört er nur die
+            doppelte Frequenz. Bei Licht gibt es kein Medium, und nach der
+            Relativitätstheorie zählt nur die Relativgeschwindigkeit. Das Ergebnis,
+            $f' = f\sqrt{(1 + v/c)/(1 - v/c)}$, liegt genau zwischen den beiden
+            Schallformeln: Es ist ihr geometrisches Mittel.</p>
+
+          <figure class="abbildung">
+<svg class="abb" viewBox="0 0 360 245" role="img" aria-label="Verhältnis von gehörter zu ausgesandter Frequenz über dem Tempo. Nähert sich die Quelle, wächst es über alle Grenzen, nähert sich der Beobachter, nur linear. Beim Entfernen fallen beide Kurven ab">
+<defs><marker id="pfeil-abb5-text" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto-start-reverse"><path class="punkt" d="M0 0L10 5L0 10z"/></marker></defs>
+<path class="achse" d="M50.0 210H348.0" marker-end="url(#pfeil-abb5-text)"/>
+<path class="achse" d="M50.0 210V16" marker-end="url(#pfeil-abb5-text)"/>
+<path class="achse" d="M120 210v4"/><text class="klein" x="120" y="226" text-anchor="middle">0,2</text>
+<path class="achse" d="M190 210v4"/><text class="klein" x="190" y="226" text-anchor="middle">0,4</text>
+<path class="achse" d="M260 210v4"/><text class="klein" x="260" y="226" text-anchor="middle">0,6</text>
+<path class="achse" d="M330 210v4"/><text class="klein" x="330" y="226" text-anchor="middle">0,8</text>
+<text class="klein" x="50.0" y="226" text-anchor="middle">0</text>
+<path class="achse" d="M46.0 165h4"/><text class="klein" x="42.0" y="169" text-anchor="end">1</text>
+<path class="achse" d="M46.0 120h4"/><text class="klein" x="42.0" y="124" text-anchor="end">2</text>
+<path class="achse" d="M46.0 75h4"/><text class="klein" x="42.0" y="79" text-anchor="end">3</text>
+<path class="achse" d="M46.0 30h4"/><text class="klein" x="42.0" y="34" text-anchor="end">4</text>
+<path class="hilfslinie" d="M50.0 165H330.0"/>
+<text x="344.0" y="242" text-anchor="end">Tempo / c</text>
+<text x="58.0" y="24">f′ / f</text>
+<path class="kurve blau" d="M50 165 L51.8 164.8 L53.5 164.5 L55.2 164.3 L57 164.1 L58.8 163.8 L60.5 163.6 L62.2 163.4 L64 163.1 L65.8 162.9 L67.5 162.6 L69.2 162.4 L71 162.1 L72.8 161.9 L74.5 161.6 L76.2 161.4 L78 161.1 L79.8 160.8 L81.5 160.5 L83.2 160.3 L85 160 L86.8 159.7 L88.5 159.4 L90.2 159.2 L92 158.9 L93.8 158.6 L95.5 158.3 L97.2 158 L99 157.7 L100.8 157.4 L102.5 157.1 L104.2 156.7 L106 156.4 L107.8 156.1 L109.5 155.8 L111.2 155.5 L113 155.1 L114.8 154.8 L116.5 154.4 L118.2 154.1 L120 153.8 L121.8 153.4 L123.5 153 L125.2 152.7 L127 152.3 L128.8 151.9 L130.5 151.6 L132.2 151.2 L134 150.8 L135.8 150.4 L137.5 150 L139.2 149.6 L141 149.2 L142.8 148.8 L144.5 148.4 L146.2 147.9 L148 147.5 L149.8 147.1 L151.5 146.6 L153.2 146.2 L155 145.7 L156.8 145.3 L158.5 144.8 L160.2 144.3 L162 143.8 L163.8 143.3 L165.5 142.8 L167.2 142.3 L169 141.8 L170.8 141.3 L172.5 140.8 L174.2 140.2 L176 139.7 L177.8 139.1 L179.5 138.6 L181.2 138 L183 137.4 L184.8 136.8 L186.5 136.2 L188.2 135.6 L190 135 L191.8 134.4 L193.5 133.7 L195.2 133.1 L197 132.4 L198.8 131.7 L200.5 131.1 L202.2 130.4 L204 129.6 L205.8 128.9 L207.5 128.2 L209.2 127.4 L211 126.7 L212.8 125.9 L214.5 125.1 L216.2 124.3 L218 123.5 L219.8 122.6 L221.5 121.8 L223.2 120.9 L225 120 L226.8 119.1 L228.5 118.2 L230.2 117.2 L232 116.2 L233.8 115.3 L235.5 114.3 L237.2 113.2 L239 112.2 L240.8 111.1 L242.5 110 L244.2 108.9 L246 107.7 L247.8 106.6 L249.5 105.3 L251.2 104.1 L253 102.9 L254.8 101.6 L256.5 100.2 L258.2 98.9 L260 97.5 L261.8 96.1 L263.5 94.6 L265.2 93.1 L267 91.6 L268.8 90 L270.5 88.4 L272.2 86.7 L274 85 L275.8 83.2 L277.5 81.4 L279.2 79.6 L281 77.6 L282.8 75.7 L284.5 73.6 L286.2 71.5 L288 69.4 L289.8 67.1 L291.5 64.8 L293.2 62.5 L295 60 L296.8 57.5 L298.5 54.8 L300.2 52.1 L302 49.3 L303.8 46.4 L305.5 43.3 L307.2 40.2 L309 36.9 L310.8 33.5 L312.5 30"/>
+<path class="kurve kupfer" d="M50 165 L51.8 164.8 L53.5 164.6 L55.2 164.3 L57 164.1 L58.8 163.9 L60.5 163.7 L62.2 163.4 L64 163.2 L65.8 163 L67.5 162.8 L69.2 162.5 L71 162.3 L72.8 162.1 L74.5 161.8 L76.2 161.6 L78 161.4 L79.8 161.2 L81.5 160.9 L83.2 160.7 L85 160.5 L86.8 160.3 L88.5 160.1 L90.2 159.8 L92 159.6 L93.8 159.4 L95.5 159.2 L97.2 158.9 L99 158.7 L100.8 158.5 L102.5 158.2 L104.2 158 L106 157.8 L107.8 157.6 L109.5 157.3 L111.2 157.1 L113 156.9 L114.8 156.7 L116.5 156.4 L118.2 156.2 L120 156 L121.8 155.8 L123.5 155.6 L125.2 155.3 L127 155.1 L128.8 154.9 L130.5 154.7 L132.2 154.4 L134 154.2 L135.8 154 L137.5 153.8 L139.2 153.5 L141 153.3 L142.8 153.1 L144.5 152.8 L146.2 152.6 L148 152.4 L149.8 152.2 L151.5 151.9 L153.2 151.7 L155 151.5 L156.8 151.3 L158.5 151.1 L160.2 150.8 L162 150.6 L163.8 150.4 L165.5 150.2 L167.2 149.9 L169 149.7 L170.8 149.5 L172.5 149.2 L174.2 149 L176 148.8 L177.8 148.6 L179.5 148.3 L181.2 148.1 L183 147.9 L184.8 147.7 L186.5 147.4 L188.2 147.2 L190 147 L191.8 146.8 L193.5 146.6 L195.2 146.3 L197 146.1 L198.8 145.9 L200.5 145.7 L202.2 145.4 L204 145.2 L205.8 145 L207.5 144.8 L209.2 144.5 L211 144.3 L212.8 144.1 L214.5 143.8 L216.2 143.6 L218 143.4 L219.8 143.2 L221.5 142.9 L223.2 142.7 L225 142.5 L226.8 142.3 L228.5 142.1 L230.2 141.8 L232 141.6 L233.8 141.4 L235.5 141.2 L237.2 140.9 L239 140.7 L240.8 140.5 L242.5 140.2 L244.2 140 L246 139.8 L247.8 139.6 L249.5 139.3 L251.2 139.1 L253 138.9 L254.8 138.7 L256.5 138.4 L258.2 138.2 L260 138 L261.8 137.8 L263.5 137.6 L265.2 137.3 L267 137.1 L268.8 136.9 L270.5 136.7 L272.2 136.4 L274 136.2 L275.8 136 L277.5 135.8 L279.2 135.5 L281 135.3 L282.8 135.1 L284.5 134.9 L286.2 134.6 L288 134.4 L289.8 134.2 L291.5 133.9 L293.2 133.7 L295 133.5 L296.8 133.3 L298.5 133.1 L300.2 132.8 L302 132.6 L303.8 132.4 L305.5 132.2 L307.2 131.9 L309 131.7 L310.8 131.5 L312.5 131.2 L314.2 131 L316 130.8 L317.8 130.6 L319.5 130.3 L321.2 130.1 L323 129.9 L324.8 129.7 L326.5 129.4 L328.2 129.2 L330 129"/>
+<path class="kurve blau" style="stroke-dasharray:6 4" d="M50 165 L51.8 165.2 L53.5 165.4 L55.2 165.7 L57 165.9 L58.8 166.1 L60.5 166.3 L62.2 166.5 L64 166.7 L65.8 166.9 L67.5 167.1 L69.2 167.3 L71 167.5 L72.8 167.7 L74.5 167.9 L76.2 168.1 L78 168.3 L79.8 168.5 L81.5 168.7 L83.2 168.9 L85 169.1 L86.8 169.3 L88.5 169.5 L90.2 169.6 L92 169.8 L93.8 170 L95.5 170.2 L97.2 170.4 L99 170.5 L100.8 170.7 L102.5 170.9 L104.2 171 L106 171.2 L107.8 171.4 L109.5 171.5 L111.2 171.7 L113 171.9 L114.8 172 L116.5 172.2 L118.2 172.3 L120 172.5 L121.8 172.7 L123.5 172.8 L125.2 173 L127 173.1 L128.8 173.3 L130.5 173.4 L132.2 173.6 L134 173.7 L135.8 173.9 L137.5 174 L139.2 174.1 L141 174.3 L142.8 174.4 L144.5 174.6 L146.2 174.7 L148 174.8 L149.8 175 L151.5 175.1 L153.2 175.3 L155 175.4 L156.8 175.5 L158.5 175.6 L160.2 175.8 L162 175.9 L163.8 176 L165.5 176.2 L167.2 176.3 L169 176.4 L170.8 176.5 L172.5 176.7 L174.2 176.8 L176 176.9 L177.8 177 L179.5 177.2 L181.2 177.3 L183 177.4 L184.8 177.5 L186.5 177.6 L188.2 177.7 L190 177.9 L191.8 178 L193.5 178.1 L195.2 178.2 L197 178.3 L198.8 178.4 L200.5 178.5 L202.2 178.6 L204 178.8 L205.8 178.9 L207.5 179 L209.2 179.1 L211 179.2 L212.8 179.3 L214.5 179.4 L216.2 179.5 L218 179.6 L219.8 179.7 L221.5 179.8 L223.2 179.9 L225 180 L226.8 180.1 L228.5 180.2 L230.2 180.3 L232 180.4 L233.8 180.5 L235.5 180.6 L237.2 180.7 L239 180.8 L240.8 180.9 L242.5 181 L244.2 181.1 L246 181.2 L247.8 181.2 L249.5 181.3 L251.2 181.4 L253 181.5 L254.8 181.6 L256.5 181.7 L258.2 181.8 L260 181.9 L261.8 182 L263.5 182 L265.2 182.1 L267 182.2 L268.8 182.3 L270.5 182.4 L272.2 182.5 L274 182.6 L275.8 182.6 L277.5 182.7 L279.2 182.8 L281 182.9 L282.8 183 L284.5 183.1 L286.2 183.1 L288 183.2 L289.8 183.3 L291.5 183.4 L293.2 183.5 L295 183.5 L296.8 183.6 L298.5 183.7 L300.2 183.8 L302 183.8 L303.8 183.9 L305.5 184 L307.2 184.1 L309 184.1 L310.8 184.2 L312.5 184.3 L314.2 184.4 L316 184.4 L317.8 184.5 L319.5 184.6 L321.2 184.6 L323 184.7 L324.8 184.8 L326.5 184.9 L328.2 184.9 L330 185"/>
+<path class="kurve kupfer" style="stroke-dasharray:6 4" d="M50 165 L51.8 165.2 L53.5 165.4 L55.2 165.7 L57 165.9 L58.8 166.1 L60.5 166.3 L62.2 166.6 L64 166.8 L65.8 167 L67.5 167.2 L69.2 167.5 L71 167.7 L72.8 167.9 L74.5 168.2 L76.2 168.4 L78 168.6 L79.8 168.8 L81.5 169.1 L83.2 169.3 L85 169.5 L86.8 169.7 L88.5 169.9 L90.2 170.2 L92 170.4 L93.8 170.6 L95.5 170.8 L97.2 171.1 L99 171.3 L100.8 171.5 L102.5 171.8 L104.2 172 L106 172.2 L107.8 172.4 L109.5 172.7 L111.2 172.9 L113 173.1 L114.8 173.3 L116.5 173.6 L118.2 173.8 L120 174 L121.8 174.2 L123.5 174.4 L125.2 174.7 L127 174.9 L128.8 175.1 L130.5 175.3 L132.2 175.6 L134 175.8 L135.8 176 L137.5 176.2 L139.2 176.5 L141 176.7 L142.8 176.9 L144.5 177.2 L146.2 177.4 L148 177.6 L149.8 177.8 L151.5 178.1 L153.2 178.3 L155 178.5 L156.8 178.7 L158.5 178.9 L160.2 179.2 L162 179.4 L163.8 179.6 L165.5 179.8 L167.2 180.1 L169 180.3 L170.8 180.5 L172.5 180.8 L174.2 181 L176 181.2 L177.8 181.4 L179.5 181.7 L181.2 181.9 L183 182.1 L184.8 182.3 L186.5 182.6 L188.2 182.8 L190 183 L191.8 183.2 L193.5 183.4 L195.2 183.7 L197 183.9 L198.8 184.1 L200.5 184.3 L202.2 184.6 L204 184.8 L205.8 185 L207.5 185.2 L209.2 185.5 L211 185.7 L212.8 185.9 L214.5 186.2 L216.2 186.4 L218 186.6 L219.8 186.8 L221.5 187.1 L223.2 187.3 L225 187.5 L226.8 187.7 L228.5 187.9 L230.2 188.2 L232 188.4 L233.8 188.6 L235.5 188.8 L237.2 189.1 L239 189.3 L240.8 189.5 L242.5 189.8 L244.2 190 L246 190.2 L247.8 190.4 L249.5 190.7 L251.2 190.9 L253 191.1 L254.8 191.3 L256.5 191.6 L258.2 191.8 L260 192 L261.8 192.2 L263.5 192.4 L265.2 192.7 L267 192.9 L268.8 193.1 L270.5 193.3 L272.2 193.6 L274 193.8 L275.8 194 L277.5 194.2 L279.2 194.5 L281 194.7 L282.8 194.9 L284.5 195.2 L286.2 195.4 L288 195.6 L289.8 195.8 L291.5 196.1 L293.2 196.3 L295 196.5 L296.8 196.7 L298.5 196.9 L300.2 197.2 L302 197.4 L303.8 197.6 L305.5 197.8 L307.2 198.1 L309 198.3 L310.8 198.5 L312.5 198.8 L314.2 199 L316 199.2 L317.8 199.4 L319.5 199.7 L321.2 199.9 L323 200.1 L324.8 200.3 L326.5 200.6 L328.2 200.8 L330 201"/>
+<path class="kurve blau" d="M68 40H92"/><text class="klein" x="98" y="44">Quelle nähert sich</text>
+<path class="kurve kupfer" d="M68 57H92"/><text class="klein" x="98" y="61">Beobachter nähert sich</text>
+<path class="kurve blau" style="stroke-dasharray:6 4" d="M68 74H92"/><text class="klein" x="98" y="78">Quelle entfernt sich</text>
+<path class="kurve kupfer" style="stroke-dasharray:6 4" d="M68 91H92"/><text class="klein" x="98" y="95">Beobachter entfernt sich</text>
+</svg>
+            <figcaption>Abb. 5: Gehörte Frequenz $f'$ im Verhältnis zur
+              ausgesandten $f$, aufgetragen über dem Tempo in Einheiten der
+              Schallgeschwindigkeit. Blau bewegt sich die Quelle, orange der
+              Beobachter; durchgezogen aufeinander zu, gestrichelt
+              voneinander weg. Für kleine Tempi liegen die Kurven fast
+              aufeinander.</figcaption>
+          </figure>
+
+          <h3 id="doppler-schraeg">Vorbeifahrt und Echo</h3>
+          <p>Fährt die Quelle nicht genau auf dich zu, zählt nur die Komponente
+            ihrer Geschwindigkeit in deine Richtung, $v_Q\cos\alpha$. Ein Auto, das
+            in einigem Abstand vorbeifährt, gleitet daher von der hohen zur tiefen
+            Frequenz. Den Ton, den die Quelle genau beim Vorbeifahren aussendet
+            ($\cos\alpha = 0$), hörst du mit der unveränderten Frequenz $f$,
+            wegen der Laufzeit des Schalls aber erst einen Moment später. Je näher du an der Straße stehst, desto
+            abrupter springt der Ton. Aus der Frequenz $f_1$ vorher und $f_2$
+            nachher lässt sich das Tempo bestimmen (Beispiel 3).</p>
+
+          <p>Beim Echo wirkt der Effekt zweimal. Ein Hindernis, das sich mit $v$
+            nähert, empfängt als bewegter Beobachter $f(1 + v/c)$ und wirft diese
+            Frequenz als bewegte Quelle zurück:</p>
+          $$ f'' = f\,\frac{c + v}{c - v} \approx f\Big(1 + \frac{2v}{c}\Big) $$
+          <p>Dasselbe Ergebnis gilt, wenn umgekehrt der Sender auf eine ruhende
+            Wand zufliegt. So messen Fledermäuse ihr Tempo gegenüber der Beute,
+            Ultraschallgeräte die Geschwindigkeit des Bluts in einer Ader und die
+            Polizei mit Radarwellen das Tempo von Autos.</p>
+
+          <div class="merkkasten">
+            <span class="titel">Merke</span>
+            <p>Doppler-Effekt beim Schall, Geschwindigkeiten relativ zur Luft und
+              positiv aufeinander zu: $f' = f\,(c + v_B)/(c - v_Q)$. Eine bewegte
+              Quelle verändert die Wellenlänge, ein bewegter Beobachter nur die
+              Rate, mit der er die Berge trifft. Beim Echo verdoppelt sich die
+              Verschiebung näherungsweise, $\Delta f \approx 2fv/c$.</p>
+          </div>
+
+          <h2 id="machkegel">Schneller als der Schall</h2>
+          <p>Das Verhältnis von Quellgeschwindigkeit und Schallgeschwindigkeit
+            heißt <em>Machzahl</em>, $\mathrm{Ma} = v_Q/c$. Was mit den
+            Wellenbergen passiert, wenn sie über 1 steigt, zeigt die Animation.</p>
+
+          <figure class="interaktiv" data-modell="machkegel">
+            <span class="titel">Zum Ausprobieren</span>
+            <figcaption>Wellenberge einer Schallquelle (oranger Punkt), die alle
+              Perioden einen Berg aussendet. Wähle das Tempo und drücke
+              „Abspielen“ oder schiebe die Zeit von Hand. Oben stehen die
+              Frequenzen, die ruhende Beobachter weit vorne und weit hinten hören.
+              Bei Ma 1 stauen sich die Berge an der Quelle, bei Ma 1,5 entsteht der
+              Machkegel (orange Linien).</figcaption>
+          </figure>
+
+          <p>Bei $\mathrm{Ma} \gt 1$ kommt die Quelle vor ihren eigenen Wellen
+            an. Ein Wellenberg, der vor der Zeit $t$ ausgesandt wurde, ist ein
+            Kreis (im Raum eine Kugel) mit Radius $ct$. Sein Mittelpunkt liegt
+            $v_Q t$ hinter der heutigen Position der Quelle. Alle diese Kugeln
+            berühren einen Kegel mit der Spitze an der Quelle (Abb. 6). Aus dem
+            rechtwinkligen Dreieck liest man den halben Öffnungswinkel ab:</p>
+          $$ \sin\theta = \frac{c\,t}{v_Q\,t} = \frac{c}{v_Q} = \frac{1}{\mathrm{Ma}} $$
+
+          <figure class="abbildung">
+<svg class="abb" viewBox="0 0 360 200" role="img" aria-label="Wellenberge einer Quelle mit doppelter Schallgeschwindigkeit. Alle Kreise berühren zwei Geraden, die von der Quelle schräg nach hinten laufen: den Machkegel. Ein rechtwinkliges Dreieck zeigt, dass der Sinus des Kegelwinkels gleich c t durch v t ist">
+<defs><marker id="pfeil-abb6-kupfer" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto-start-reverse"><path class="punkt kupfer" d="M0 0L10 5L0 10z"/></marker></defs>
+<path class="hilfslinie" d="M14 100H346"/>
+<circle class="kurve blau duenn" cx="255" cy="100" r="22.5"/>
+<circle class="punkt" cx="255" cy="100" r="1.8"/>
+<circle class="kurve blau duenn" cx="210" cy="100" r="45"/>
+<circle class="punkt" cx="210" cy="100" r="1.8"/>
+<circle class="kurve blau duenn" cx="165" cy="100" r="67.5"/>
+<circle class="punkt" cx="165" cy="100" r="1.8"/>
+<circle class="kurve blau duenn" cx="120" cy="100" r="90"/>
+<circle class="punkt" cx="120" cy="100" r="1.8"/>
+<path class="kurve kupfer" d="M300 100L140.7 8"/>
+<path class="kurve kupfer" d="M300 100L140.7 192"/>
+<path class="kurve" style="stroke-width:1.6" d="M120 100L165 22.1"/>
+<path class="achse" d="M171.9 26.1L167.9 33L161 29"/>
+<text class="halo" x="134.5" y="63" text-anchor="end">c t</text>
+<text class="halo" x="210.0" y="118" text-anchor="middle">v<tspan class="klein" dy="3">Q</tspan><tspan dy="-3"> t</tspan></text>
+<path class="achse" d="M262 100A38 38 0 0 1 267.1 81"/>
+<text x="248" y="95" class="halo">θ</text>
+<circle class="punkt kupfer" cx="300" cy="100" r="4.5"/>
+<path class="kurve kupfer duenn" d="M307 100H334" marker-end="url(#pfeil-abb6-kupfer)"/>
+<text class="klein kupfer" x="302" y="120">Quelle</text>
+<text class="klein kupfer halo" x="221.4" y="50">Machkegel</text>
+</svg>
+            <figcaption>Abb. 6: Machkegel bei $\mathrm{Ma} = 2$. Die Punkte
+              markieren, wo die Quelle die einzelnen Wellenberge ausgesandt hat.
+              Der Radius $ct$ des ältesten Bergs steht senkrecht auf der
+              Kegelfläche; mit der Strecke $v_Q t$ bildet er ein rechtwinkliges
+              Dreieck mit $\sin\theta = 1/\mathrm{Ma}$, hier $\theta = 30^\circ$.</figcaption>
+          </figure>
+
+          <p>Auf dem Kegel überlagern sich alle Wellenberge zu einer schmalen
+            Front mit einem plötzlichen Drucksprung, einer <em>Stoßwelle</em>.
+            Sie zieht mit dem Flugzeug mit und streicht als „Knallteppich“ über
+            den Boden; meist hört man zwei kurz aufeinanderfolgende Knalle, je
+            einen von Bug und Heck. Auch der Knall einer Peitsche ist ein kleiner
+            Überschallknall: Die Spitze erreicht für einen Moment mehr als
+            Schallgeschwindigkeit. Dasselbe Prinzip gilt für Licht. Fliegt ein
+            geladenes Teilchen in Wasser schneller als das Licht dort
+            ($c/n$), strahlt es auf einem Kegel bläuliches Tscherenkow-Licht ab.</p>
+
+          <div class="merkkasten">
+            <span class="titel">Merke</span>
+            <p>Bei Überschall ($\mathrm{Ma} = v_Q/c \gt 1$) liegen die Wellenberge
+              auf einem Kegel mit $\sin\theta = 1/\mathrm{Ma}$. Er wandert mit der
+              Quelle mit; wo er vorbeistreicht, hört man den Überschallknall.</p>
+          </div>
+        </section>
+
+        <section class="tab" id="beispiele" data-titel="Beispielrechnungen">
+
+          <div class="beispiel">
+            <h3>Beispiel 1: Gewitter im Winter und im Sommer</h3>
+            <p><strong>Gegeben:</strong> Zwischen Blitz und Donner vergehen
+              $t = 6{,}0\,\mathrm{s}$. Lufttemperatur einmal
+              $-10\,{}^\circ\mathrm{C}$, einmal $30\,{}^\circ\mathrm{C}$. Luft:
+              $\kappa = 1{,}40$, $M = 28{,}97\,\mathrm{g/mol}$,
+              $R = 8{,}314\,\mathrm{J/(mol\,K)}$.<br>
+              <strong>Gesucht:</strong> Schallgeschwindigkeit bei beiden
+              Temperaturen, Entfernung des Blitzes und wie gut die Faustregel
+              „drei Sekunden pro Kilometer“ ist.</p>
+
+            <p><strong>1. Temperaturen in Kelvin.</strong>
+              $T_1 = 263{,}15\,\mathrm{K}$, $T_2 = 303{,}15\,\mathrm{K}$.</p>
+
+            <p><strong>2. Schallgeschwindigkeiten.</strong> Mit
+              $M = 0{,}02897\,\mathrm{kg/mol}$:
+              $$ c_1 = \sqrt{\frac{\kappa R T_1}{M}} = \sqrt{\frac{1{,}40\cdot8{,}314\,\mathrm{J/(mol\,K)}\cdot263{,}15\,\mathrm{K}}{0{,}02897\,\mathrm{kg/mol}}} = \sqrt{1{,}057\cdot10^5\,\mathrm{m^2/s^2}} = 325{,}2\,\mathrm{m/s} $$
+              $$ c_2 = \sqrt{\frac{1{,}40\cdot8{,}314\,\mathrm{J/(mol\,K)}\cdot303{,}15\,\mathrm{K}}{0{,}02897\,\mathrm{kg/mol}}} = 349{,}0\,\mathrm{m/s} $$
+              Einheitencheck: $\mathrm{J/kg} = \mathrm{kg\,m^2/(s^2\,kg)} = \mathrm{m^2/s^2}$ ✓</p>
+
+            <p><strong>3. Entfernung.</strong> Das Licht braucht für einige
+              Kilometer nur Mikrosekunden, die Verzögerung ist also die Laufzeit
+              des Schalls:
+              $$ s_1 = c_1 t = 325{,}2\,\mathrm{m/s}\cdot6{,}0\,\mathrm{s} = 1951\,\mathrm{m}, \qquad s_2 = 349{,}0\,\mathrm{m/s}\cdot6{,}0\,\mathrm{s} = 2094\,\mathrm{m} $$</p>
+
+            <p><strong>4. Faustregel.</strong> Sie liefert
+              $6{,}0\,\mathrm{s}/(3\,\mathrm{s/km}) = 2{,}0\,\mathrm{km}$, gehört also
+              zu $c = 333\,\mathrm{m/s}$, das ist Luft bei etwa
+              $3\,{}^\circ\mathrm{C}$.</p>
+
+            <p><strong>Ergebnis und Plausibilität:</strong> Der Blitz ist im Winter
+              rund $1{,}95\,\mathrm{km}$, im Sommer $2{,}09\,\mathrm{km}$ entfernt.
+              Die Faustregel liegt in beiden Fällen um weniger als 5 % daneben,
+              deutlich weniger als die Unsicherheit beim Zählen. Die
+              Schallgeschwindigkeit ändert sich um gut $0{,}6\,\mathrm{m/s}$ pro
+              Grad, zwischen beiden Tagen um $24\,\mathrm{m/s}$; das passt zu
+              $40\cdot0{,}606\,\mathrm{m/s} = 24\,\mathrm{m/s}$.</p>
+          </div>
+
+          <div class="beispiel">
+            <h3>Beispiel 2: Wie laut ist es weiter weg?</h3>
+            <p><strong>Gegeben:</strong> Ein Lautsprecher hängt hoch an einem Mast
+              und strahlt gleichmäßig in alle Richtungen. In $r_1 = 2{,}0\,\mathrm{m}$
+              Abstand misst man $\beta_1 = 90\,\mathrm{dB}$. Reflexionen und
+              Dämpfung in der Luft werden vernachlässigt,
+              $\rho c = 413\,\mathrm{kg/(m^2 s)}$.<br>
+              <strong>Gesucht:</strong> Schallleistung $P$, Pegel in
+              $r_2 = 20\,\mathrm{m}$, Schalldruckamplitude dort, Pegel mit einem
+              zweiten gleichen Lautsprecher daneben und der Abstand, in dem der
+              Pegel auf $50\,\mathrm{dB}$ gefallen ist.</p>
+
+            <p><strong>1. Intensität und Leistung.</strong>
+              $$ I_1 = I_0\cdot10^{\beta_1/10\,\mathrm{dB}} = 10^{-12}\,\mathrm{W/m^2}\cdot10^{9} = 1{,}0\cdot10^{-3}\,\mathrm{W/m^2} $$
+              $$ P = 4\pi r_1^2\,I_1 = 4\pi\,(2{,}0\,\mathrm{m})^2\cdot1{,}0\cdot10^{-3}\,\mathrm{W/m^2} = 0{,}050\,\mathrm{W} $$</p>
+
+            <p><strong>2. Pegel in 20 m.</strong> Zehnfacher Abstand heißt
+              hundertstel Intensität:
+              $$ I_2 = I_1\,\Big(\frac{r_1}{r_2}\Big)^2 = 1{,}0\cdot10^{-5}\,\mathrm{W/m^2}, \qquad
+                 \beta_2 = 10\,\lg\frac{10^{-5}}{10^{-12}}\,\mathrm{dB} = 70\,\mathrm{dB} $$</p>
+
+            <p><strong>3. Schalldruck in 20 m.</strong>
+              $$ p_\text{amp} = \sqrt{2\rho c\,I_2} = \sqrt{2\cdot413\,\mathrm{kg/(m^2 s)}\cdot1{,}0\cdot10^{-5}\,\mathrm{W/m^2}} = 0{,}091\,\mathrm{Pa} $$
+              Einheitencheck: $\mathrm{kg/(m^2 s)}\cdot\mathrm{kg/s^3} = \mathrm{kg^2/(m^2 s^4)} = \mathrm{(N/m^2)^2} = \mathrm{Pa^2}$ ✓</p>
+
+            <p><strong>4. Zwei Lautsprecher.</strong> Die Intensitäten addieren
+              sich (die Quellen sind nicht kohärent):
+              $$ \beta = 10\,\lg\frac{2\cdot10^{-5}}{10^{-12}}\,\mathrm{dB} = 70\,\mathrm{dB} + 10\lg2\,\mathrm{dB} = 73\,\mathrm{dB} $$</p>
+
+            <p><strong>5. Abstand für 50 dB.</strong> Das sind $40\,\mathrm{dB}$
+              weniger als in $2\,\mathrm{m}$, also ein Zehntausendstel der Intensität
+              und damit der hundertfache Abstand:
+              $$ r = r_1\,\sqrt{10^{4}} = 2{,}0\,\mathrm{m}\cdot100 = 200\,\mathrm{m} $$</p>
+
+            <p><strong>Ergebnis und Plausibilität:</strong> Der Lautsprecher
+              strahlt nur $50\,\mathrm{mW}$ Schall ab; Lautsprecher wandeln meist
+              nur etwa ein Prozent der elektrischen Leistung in Schall um. In
+              $20\,\mathrm{m}$ sind es noch $70\,\mathrm{dB}$, pro Verdopplung des
+              Abstands $6\,\mathrm{dB}$ weniger. In Wirklichkeit fällt der Pegel
+              über $200\,\mathrm{m}$ wegen Absorption in der Luft und Hindernissen
+              noch etwas stärker.</p>
+          </div>
+
+          <div class="beispiel">
+            <h3>Beispiel 3: Ein Rennwagen fährt vorbei</h3>
+            <p><strong>Gegeben:</strong> An der Rennstrecke hörst du das Motorgeräusch
+              eines Wagens, der dicht an dir vorbeifährt, mit
+              $f_1 = 1180\,\mathrm{Hz}$ beim Heranfahren und mit
+              $f_2 = 830\,\mathrm{Hz}$ beim Wegfahren.
+              $c = 343\,\mathrm{m/s}$, kein Wind.<br>
+              <strong>Gesucht:</strong> Tempo $v_Q$ des Wagens und Frequenz $f$, die
+              der Fahrer hört.</p>
+
+            <p><strong>1. Ansatz.</strong> Bewegte Quelle, ruhender Beobachter:
+              $$ f_1 = \frac{f}{1 - v_Q/c}, \qquad f_2 = \frac{f}{1 + v_Q/c} $$</p>
+
+            <p><strong>2. Verhältnis bilden.</strong> Dabei fällt $f$ heraus:
+              $$ \frac{f_1}{f_2} = \frac{c + v_Q}{c - v_Q}
+                 \quad\Rightarrow\quad f_1 (c - v_Q) = f_2 (c + v_Q)
+                 \quad\Rightarrow\quad v_Q = c\,\frac{f_1 - f_2}{f_1 + f_2} $$</p>
+
+            <p><strong>3. Einsetzen.</strong>
+              $$ v_Q = 343\,\mathrm{m/s}\cdot\frac{1180\,\mathrm{Hz} - 830\,\mathrm{Hz}}{1180\,\mathrm{Hz} + 830\,\mathrm{Hz}} = 343\,\mathrm{m/s}\cdot\frac{350}{2010} = 59{,}7\,\mathrm{m/s} = 215\,\mathrm{km/h} $$
+              Einheitencheck: Der Bruch ist dimensionslos, $v_Q$ hat die Einheit
+              von $c$ ✓</p>
+
+            <p><strong>4. Frequenz des Motors.</strong>
+              $$ f = f_1\,\Big(1 - \frac{v_Q}{c}\Big) = 1180\,\mathrm{Hz}\cdot\Big(1 - \frac{59{,}7}{343}\Big) = 1180\,\mathrm{Hz}\cdot0{,}826 = 975\,\mathrm{Hz} $$
+              Probe mit dem zweiten Ton:
+              $f_2 = f/(1 + v_Q/c) = 975\,\mathrm{Hz}/1{,}174 = 830\,\mathrm{Hz}$ ✓</p>
+
+            <p><strong>Ergebnis und Plausibilität:</strong> Der Wagen fährt rund
+              $215\,\mathrm{km/h}$, wie es auf einer Rennstrecke mit langer
+              Geraden üblich ist. Der
+              Fahrer hört $975\,\mathrm{Hz}$. Diese Frequenz ist nicht der
+              Mittelwert $1005\,\mathrm{Hz}$ der beiden gehörten Töne, denn
+              Erhöhung und Absenkung sind bei der bewegten Quelle nicht
+              symmetrisch. Der Ton fällt beim Vorbeifahren um das Verhältnis
+              $1180/830 = 1{,}42$, musikalisch fast genau ein Tritonus (eine
+              Quinte wäre 1,5).</p>
+          </div>
+        </section>
+
+        <section class="tab" id="aufgaben" data-titel="Aufgaben">
+          <p>Wenn nichts anderes angegeben ist: Luft bei $20\,{}^\circ\mathrm{C}$
+            mit $c = 343\,\mathrm{m/s}$ und $\rho c = 413\,\mathrm{kg/(m^2 s)}$,
+            $I_0 = 10^{-12}\,\mathrm{W/m^2}$, kein Wind, keine Dämpfung in der
+            Luft. Geschwindigkeiten sind relativ zur Luft gemessen.</p>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 1
+              <span class="schwierigkeit" data-stufe="leicht">leicht</span>
+            </h3>
+            <p>Ein Echolot an der Unterseite eines Schiffs sendet einen kurzen
+              Ultraschallpuls mit $f = 50\,\mathrm{kHz}$ senkrecht nach unten. Das
+              Echo vom Meeresboden kommt nach $0{,}80\,\mathrm{s}$ zurück. Im
+              Meerwasser ist $c = 1480\,\mathrm{m/s}$.</p>
+            <ol type="a">
+              <li>Wie tief ist das Meer an dieser Stelle?</li>
+              <li>Welche Wellenlänge hat der Puls im Wasser, und welche hätte er in
+                Luft?</li>
+            </ol>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>a) Der Puls läuft hin und zurück, die Tiefe ist die halbe Strecke:
+                $s = \tfrac12\,c\,t = \tfrac12\cdot1480\,\mathrm{m/s}\cdot0{,}80\,\mathrm{s} = 592\,\mathrm{m}$.</p>
+              <p>b) Im Wasser
+                $\lambda = c/f = 1480\,\mathrm{m/s}/(5{,}0\cdot10^4\,\mathrm{s^{-1}}) = 2{,}96\,\mathrm{cm}$,
+                in Luft $343\,\mathrm{m/s}/(5{,}0\cdot10^4\,\mathrm{s^{-1}}) = 6{,}9\,\mathrm{mm}$.
+                Die Frequenz bleibt beim Übergang gleich, die Wellenlänge ändert sich
+                mit $c$.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 2
+              <span class="schwierigkeit" data-stufe="leicht">leicht</span>
+            </h3>
+            <p>In einer Werkhalle läuft eine Maschine, die am Arbeitsplatz einen
+              Pegel von $80\,\mathrm{dB}$ erzeugt.</p>
+            <ol type="a">
+              <li>Zwei weitere, gleich laute Maschinen werden eingeschaltet. Welcher
+                Pegel herrscht jetzt?</li>
+              <li>Wie viele solche Maschinen bräuchte man für $90\,\mathrm{dB}$?</li>
+              <li>Eine einzelne Maschine strahle als Kugelwelle. Um wie viel dB sinkt
+                ihr Pegel, wenn du dich von $1\,\mathrm{m}$ auf $4\,\mathrm{m}$
+                entfernst?</li>
+            </ol>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>a) Die Intensitäten addieren sich, $I = 3 I_1$:
+                $\beta = 80\,\mathrm{dB} + 10\lg3\,\mathrm{dB} = 80\,\mathrm{dB} + 4{,}8\,\mathrm{dB} = 84{,}8\,\mathrm{dB}$.</p>
+              <p>b) $+10\,\mathrm{dB}$ heißt zehnfache Intensität, also
+                $N = 10$ Maschinen.</p>
+              <p>c) $I \propto 1/r^2$, vierfacher Abstand gibt ein Sechzehntel:
+                $\Delta\beta = 10\lg(1/16)\,\mathrm{dB} = -12\,\mathrm{dB}$
+                (zweimal $-6\,\mathrm{dB}$ für zweimal Verdoppeln).</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 3
+              <span class="schwierigkeit" data-stufe="mittel">mittel</span>
+            </h3>
+            <p>Helium ist ein einatomiges Gas mit $\kappa = 5/3$ und
+              $M = 4{,}003\,\mathrm{g/mol}$.</p>
+            <ol type="a">
+              <li>Berechne die Schallgeschwindigkeit in Helium bei
+                $20\,{}^\circ\mathrm{C}$.</li>
+              <li>Eine beidseitig offene Pfeife ist $L = 0{,}50\,\mathrm{m}$ lang
+                (Mündungskorrektur vernachlässigt). Welchen Grundton hat sie mit
+                Luft, welchen mit Helium gefüllt?</li>
+              <li>Zum Nachdenken: Nach einem Atemzug Helium klingt die Stimme
+                piepsig. Die Stimmlippen schwingen dabei aber kaum schneller. Wie
+                passt das zusammen?</li>
+            </ol>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>a) $c = \sqrt{\dfrac{\kappa RT}{M}} = \sqrt{\dfrac{\frac53\cdot8{,}314\,\mathrm{J/(mol\,K)}\cdot293{,}15\,\mathrm{K}}{4{,}003\cdot10^{-3}\,\mathrm{kg/mol}}} = \sqrt{1{,}015\cdot10^6\,\mathrm{m^2/s^2}} = 1007\,\mathrm{m/s}$,
+                knapp dreimal so viel wie in Luft.</p>
+              <p>b) Bei zwei offenen Enden passt im Grundton eine halbe Wellenlänge
+                in die Pfeife (siehe <a href="ueberlagerung.html#pfeifen">Luftsäulen</a>):
+                $f_1 = c/(2L)$. Mit Luft
+                $343\,\mathrm{m/s}/1{,}00\,\mathrm{m} = 343\,\mathrm{Hz}$, mit Helium
+                $1007\,\mathrm{Hz}$, also um den Faktor $2{,}94$ höher, gut
+                anderthalb Oktaven.</p>
+              <p>c) Die Tonhöhe der Stimme legen die Stimmlippen fest, ihre
+                Frequenz hängt von Spannung und Masse der Stimmlippen ab und
+                kaum vom Gas. Der Rachen- und Mundraum wirkt aber wie eine Pfeife:
+                Seine Eigenfrequenzen (die Formanten) bestimmen, welche Obertöne
+                verstärkt werden. In Helium liegen diese Resonanzen fast dreimal so
+                hoch. Der Grundton bleibt, die Klangfarbe verschiebt sich zu hohen
+                Obertönen, und das hören wir als „Mickymaus-Stimme“.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 4
+              <span class="schwierigkeit" data-stufe="mittel">mittel</span>
+            </h3>
+            <p>Ein Ton mit $f = 1{,}0\,\mathrm{kHz}$ hat einmal den Pegel der
+              Hörschwelle ($0\,\mathrm{dB}$), einmal den der Schmerzgrenze
+              ($130\,\mathrm{dB}$).</p>
+            <ol type="a">
+              <li>Berechne jeweils die Schalldruckamplitude $p_\text{amp}$.</li>
+              <li>Wie weit werden die Luftschichten jeweils ausgelenkt
+                ($\xi_0$)? Vergleiche mit dem Durchmesser eines Atoms, etwa
+                $10^{-10}\,\mathrm{m}$.</li>
+              <li>Wie groß ist die Amplitude $u_\text{amp}$ der Schallschnelle an
+                der Schmerzgrenze?</li>
+            </ol>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>a) $p_\text{amp} = \sqrt{2\rho c\,I}$. Hörschwelle:
+                $\sqrt{2\cdot413\cdot10^{-12}}\,\mathrm{Pa} = 2{,}9\cdot10^{-5}\,\mathrm{Pa}$.
+                Schmerzgrenze ($I = 10\,\mathrm{W/m^2}$):
+                $\sqrt{2\cdot413\cdot10}\,\mathrm{Pa} = 91\,\mathrm{Pa}$, weniger als
+                ein Promille des Luftdrucks.</p>
+              <p>b) $\xi_0 = p_\text{amp}/(\rho c\,\omega)$ mit
+                $\omega = 2\pi\cdot1000\,\mathrm{s^{-1}} = 6283\,\mathrm{s^{-1}}$.
+                Hörschwelle:
+                $\xi_0 = \dfrac{2{,}9\cdot10^{-5}\,\mathrm{Pa}}{413\,\mathrm{kg/(m^2 s)}\cdot6283\,\mathrm{s^{-1}}} = 1{,}1\cdot10^{-11}\,\mathrm{m}$,
+                ein Zehntel eines Atomdurchmessers. Schmerzgrenze:
+                $\xi_0 = 3{,}5\cdot10^{-5}\,\mathrm{m} = 35\,\mu\mathrm{m}$, etwa die
+                Dicke eines Haars.</p>
+              <p>c) $u_\text{amp} = \omega\,\xi_0 = p_\text{amp}/(\rho c) = 91\,\mathrm{Pa}/413\,\mathrm{kg/(m^2 s)} = 0{,}22\,\mathrm{m/s}$.
+                Selbst bei schmerzhaftem Lärm pendelt die Luft also nur mit gut
+                $20\,\mathrm{cm/s}$ hin und her, langsamer als ein Spaziergänger,
+                während das Wellenmuster mit $343\,\mathrm{m/s}$ läuft.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 5
+              <span class="schwierigkeit" data-stufe="schwer">schwer</span>
+            </h3>
+            <p>Eine Fledermaus fliegt mit $8{,}0\,\mathrm{m/s}$ senkrecht auf eine
+              Felswand zu und ruft mit $f = 40{,}0\,\mathrm{kHz}$.</p>
+            <ol type="a">
+              <li>Mit welcher Frequenz kommt der Ruf an der Wand an?</li>
+              <li>Mit welcher Frequenz hört die Fledermaus das Echo? Wie groß ist
+                die Verschiebung $\Delta f$?</li>
+              <li>Zeige, dass die Fledermaus aus $f$ und der Echofrequenz $f''$ ihr
+                Tempo als $v = c\,(f'' - f)/(f'' + f)$ bestimmen kann.</li>
+              <li>Ein Ultraschallgerät misst mit $f = 5{,}0\,\mathrm{MHz}$ den
+                Blutfluss in einer Ader. Das Blut fließt mit $0{,}40\,\mathrm{m/s}$,
+                der Schallstrahl trifft unter $60^\circ$ zur Flussrichtung, im
+                Gewebe ist $c = 1540\,\mathrm{m/s}$. Wie groß ist die
+                Frequenzverschiebung des Echos? Warum kann man sie hören?</li>
+            </ol>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>a) Die Fledermaus ist eine bewegte Quelle, die Wand ein ruhender
+                Beobachter:
+                $f' = \dfrac{f}{1 - v/c} = \dfrac{40{,}0\,\mathrm{kHz}}{1 - 8{,}0/343} = 40{,}96\,\mathrm{kHz}$.</p>
+              <p>b) Die Wand wirft $f'$ als ruhende Quelle zurück, die Fledermaus
+                fliegt als bewegter Beobachter darauf zu:
+                $f'' = f'\,(1 + v/c) = f\,\dfrac{c + v}{c - v} = 40{,}0\,\mathrm{kHz}\cdot\dfrac{351}{335} = 41{,}91\,\mathrm{kHz}$,
+                also $\Delta f = 1{,}91\,\mathrm{kHz}$. Die Näherung
+                $2fv/c = 1{,}87\,\mathrm{kHz}$ liegt 2 % darunter.</p>
+              <p>c) Aus $f''(c - v) = f\,(c + v)$ folgt
+                $v\,(f'' + f) = c\,(f'' - f)$, also
+                $v = c\,\dfrac{f'' - f}{f'' + f}$. Probe:
+                $343\,\mathrm{m/s}\cdot\dfrac{1{,}91}{81{,}91} = 8{,}0\,\mathrm{m/s}$ ✓</p>
+              <p>d) Nur die Komponente $v\cos60^\circ = 0{,}20\,\mathrm{m/s}$ in
+                Strahlrichtung zählt. Weil $v \ll c$, genügt die Näherung:
+                $\Delta f = \dfrac{2 f\,v\cos\alpha}{c} = \dfrac{2\cdot5{,}0\cdot10^6\,\mathrm{s^{-1}}\cdot0{,}20\,\mathrm{m/s}}{1540\,\mathrm{m/s}} = 1{,}3\,\mathrm{kHz}$.
+                Das Gerät mischt das Echo mit der Sendefrequenz; dabei entsteht eine
+                <a href="ueberlagerung.html#wellengruppen">Schwebung</a> mit genau
+                dieser Differenzfrequenz, und $1{,}3\,\mathrm{kHz}$ liegt mitten im
+                Hörbereich. Das typische Rauschen beim Doppler-Ultraschall ist
+                der Blutfluss, hörbar gemacht.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 6
+              <span class="schwierigkeit" data-stufe="schwer">schwer</span>
+            </h3>
+            <p>Ein Überschallflugzeug fliegt waagrecht in $h = 12\,\mathrm{km}$
+              Höhe mit $\mathrm{Ma} = 2{,}0$. Dort ist die Luft
+              $-56{,}5\,{}^\circ\mathrm{C}$ kalt. Nimm vereinfachend an, dass die
+              Schallgeschwindigkeit bis zum Boden denselben Wert hat wie in
+              Flughöhe.</p>
+            <ol type="a">
+              <li>Wie groß ist die Schallgeschwindigkeit in Flughöhe
+                ($\kappa = 1{,}40$, $M = 28{,}97\,\mathrm{g/mol}$), und wie schnell
+                fliegt das Flugzeug in km/h?</li>
+              <li>Wie groß ist der halbe Öffnungswinkel des Machkegels?</li>
+              <li>Das Flugzeug fliegt genau über dich hinweg. Wie lange danach hörst
+                du den Knall, und wie weit ist es dann schon geflogen?</li>
+              <li>Zum Nachdenken: In Wirklichkeit ist die Luft am Boden wärmer.
+                Wie verändert das den Kegel auf seinem Weg nach unten?</li>
+            </ol>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>a) $T = 216{,}65\,\mathrm{K}$:
+                $c = \sqrt{\dfrac{1{,}40\cdot8{,}314\,\mathrm{J/(mol\,K)}\cdot216{,}65\,\mathrm{K}}{0{,}02897\,\mathrm{kg/mol}}} = 295\,\mathrm{m/s}$.
+                Das Flugzeug fliegt $v_Q = 2{,}0\cdot295\,\mathrm{m/s} = 590\,\mathrm{m/s}$, rund $2100\,\mathrm{km/h}$.</p>
+              <p>b) $\sin\theta = 1/\mathrm{Ma} = 0{,}50$, also $\theta = 30^\circ$.</p>
+              <p>c) Der Kegel erreicht dich, wenn die Kegelfläche durch deinen Ort
+                geht. Ist das Flugzeug dann die waagrechte Strecke $x$ weiter, gilt
+                $\tan\theta = h/x$:
+                $$ x = \frac{h}{\tan\theta} = \frac{12\,\mathrm{km}}{\tan30^\circ} = 20{,}8\,\mathrm{km}, \qquad
+                   t = \frac{x}{v_Q} = \frac{2{,}08\cdot10^4\,\mathrm{m}}{590\,\mathrm{m/s}} = 35\,\mathrm{s} $$
+                Den Knall hörst du also erst gut eine halbe Minute nach dem Überflug,
+                wenn das Flugzeug schon fast $21\,\mathrm{km}$ weiter ist.</p>
+              <p>d) Nach unten wird die Luft wärmer, $c$ wächst. Der Schall läuft
+                unten schneller, deshalb wird die Front gebrochen und biegt nach
+                oben ab, so wie Licht an einer Grenzfläche. Der Kegel wird unten
+                steiler, und seitlich der Flugbahn kann er den Boden ganz verfehlen.
+                Wäre die Schallgeschwindigkeit am Boden sogar größer als die
+                Fluggeschwindigkeit, käme dort überhaupt kein Knall an.
+                Der Knallteppich ist deshalb nur einige Dutzend Kilometer breit,
+                und die Ankunftszeit aus c) ist nur eine Abschätzung.</p>
+            </details>
+          </div>
+        </section>
+
+      </div></article>
+  </main>
+</body>
+</html>

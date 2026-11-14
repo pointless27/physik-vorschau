@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="robots" content="noindex">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Gravitations-Spielplatz – Physik verstehen</title>
+  <meta name="description" content="Ein Sandkasten für die Schwerkraft: Wirf Planeten um Sterne, lass Galaxien verschmelzen, füttere ein Schwarzes Loch und gib Planeten eigene Monde.">
+
+  <link rel="stylesheet" href="../../css/stil.css">
+  <script src="../../js/daten.js"></script>
+  <script src="../../js/seite.js"></script>
+  <script src="../../js/effekte.js"></script>
+  <script src="../../js/universum/spielplatz.js"></script>
+</head>
+<body data-seite="universum">
+  <main class="uni-main">
+    <p class="oberzeile">Interaktives Universum</p>
+    <h1>Gravitations-<span class="betont">Spielplatz</span></h1>
+    <p class="hero-text seitenkopf-text" style="margin:0">
+      Hier gilt nur ein Gesetz: Jeder Körper zieht jeden anderen an, umso
+      stärker, je schwerer beide sind und je näher sie sich kommen. Wähl
+      eine Szene, drück auf „Start“ und wirf selbst Planeten hinein.
+    </p>
+    <div class="uni-buehne spiel-buehne" data-universum="spielplatz" tabindex="0" role="region"
+         aria-label="Gravitations-Spielplatz: Körper, die sich gegenseitig anziehen. Leertaste startet und hält an, R setzt die Szene zurück, F schaltet das Vollbild um, Ziehen mit der Maus oder dem Finger wirft einen neuen Körper, Antippen einer freien Stelle setzt ihn auf eine Kreisbahn, Antippen eines Körpers wählt ihn aus.">
+      <div class="uni-leinwand"></div>
+      <p class="uni-ersatz">Dieser Spielplatz braucht JavaScript und ein
+        Canvas-Element. Dein Browser unterstützt das leider nicht.</p>
+    </div>
+
+    <div class="uni-lesetext">
+      <h2 id="so-gehts">So spielst du</h2>
+      <p>Wähl unten in der Leiste eine Szene und drück auf „Start“. Um
+        einen neuen Körper hineinzuwerfen, drückst du auf die Stelle, an der
+        er starten soll, und ziehst in die Richtung, in die er fliegen soll.
+        Je weiter du ziehst, desto schneller ist er. Die gestrichelte Linie
+        zeigt schon vorher, wohin er fliegen wird. Unter „Neuer Körper“
+        wählst du einen Mond, einen Planeten, einen Stern, ein Schwarzes
+        Loch, eine ganze Galaxie mit 500 Sternen oder eine Staubwolke aus
+        60 winzigen Teilchen.</p>
+      <p>Einen Mond setzt du dicht neben einen Planeten. Er landet dann
+        automatisch so nah am Planeten, dass dieser ihn festhalten kann.
+        Weiter draußen würde ihn der Stern wegziehen, denn jeder Planet
+        hält Monde nur in einem kleinen Bereich um sich herum (der
+        Hill-Sphäre). Planeten dicht am Stern haben deshalb gar keinen Platz
+        für einen Mond, so wie Merkur und Venus im Sonnensystem.</p>
+      <p>Tippst du nur kurz auf eine freie Stelle, startet der Körper genau
+        auf einer Kreisbahn um den Körper, der dort am stärksten zieht. Von
+        Hand ist das schwer, denn für einen Kreis muss die Geschwindigkeit
+        nach Betrag und Richtung genau passen. Beim Ziehen siehst du deshalb
+        zwei Hilfen. Der gestrichelte Pfeil „Kreisbahn“ zeigt die passende
+        Geschwindigkeit. Der gepunktete Kreis „Flucht“ zeigt die
+        Fluchtgeschwindigkeit, das √2-Fache der Kreisbahngeschwindigkeit:
+        Endet dein Pfeil außerhalb, fliegt der Körper davon und kommt nie
+        zurück, egal in welche Richtung du wirfst. Endet er innerhalb, bleibt
+        er auf einer Ellipse gebunden. Neben dem Pfeil steht, welche Bahn
+        herauskommt.</p>
+      <ul>
+        <li><strong>Antippen</strong> eines Körpers zeigt seine Bahn: Abstand,
+          Geschwindigkeit, ob er gebunden ist, die Form der Ellipse und die
+          Umlaufzeit. Dort kannst du ihn mit der Kamera verfolgen, die
+          Ansicht mit ihm mitdrehen lassen oder ihn entfernen.</li>
+        <li><strong>Verschieben</strong> mit der rechten Maustaste (oder mit
+          gedrückter Umschalttaste), auf dem Handy mit zwei Fingern.
+          <strong>Zoomen</strong> mit dem Mausrad, zwei Fingern oder den
+          Knöpfen unten rechts im Bild. Der Knopf mit dem Fadenkreuz holt
+          die Ansicht zurück.</li>
+        <li><strong>Vollbild</strong> über das Symbol oben rechts oder die
+          Taste F. Außerdem: Leertaste startet und hält an, R setzt die
+          Szene zurück.</li>
+        <li><strong>Pfeile v und a</strong> zeigen für jeden Körper, wohin
+          er gerade fliegt (blau, die Geschwindigkeit v) und wohin ihn die
+          Schwerkraft zieht (orange, die Beschleunigung a). Der orange Pfeil
+          zeigt immer zum anziehenden Körper, der blaue fast nie. Auf einer
+          Kreisbahn stehen beide senkrecht aufeinander: Die Schwerkraft lenkt
+          den Körper nur um, er wird weder schneller noch langsamer. Auf einer
+          Ellipse ist das anders. Zeigt a etwas nach vorn, wird der Körper
+          schneller (er fällt dem Stern entgegen), zeigt a etwas nach hinten,
+          wird er langsamer.</li>
+        <li><strong>Feldgitter</strong> verbiegt ein Gitter in Richtung der
+          Anziehung. Es ist nur eine Sehhilfe: Wo es stark gekrümmt ist,
+          ist die Schwerkraft groß.</li>
+        <li><strong>Mitdrehen</strong> (in der Tafel eines angetippten
+          Körpers) dreht die Ansicht so, dass dieser Körper immer an derselben
+          Stelle bleibt. So siehst du alles aus einem
+          <a href="../mechanik/scheinkraefte.html">rotierenden Bezugssystem</a>,
+          wie in der Szene „Trojaner“. Mit „Aus“ oben in der Tafel hörst du
+          wieder auf.</li>
+      </ul>
+
+      <h2 id="was-passiert">Was hier gerechnet wird</h2>
+      <p>Für jedes Paar von Körpern berechnet dein Browser die Anziehung nach
+        dem <a href="../mechanik/gravitation.html">Newtonschen Gravitationsgesetz</a>
+        und daraus, wie sich alle Körper im nächsten winzigen Zeitschritt
+        bewegen. Kommen sich zwei Körper sehr nahe, werden die Schritte
+        automatisch kürzer, damit die Rechnung genau bleibt. Wie genau, zeigt
+        die Energie oben links: Ohne Zusammenstöße müsste sie exakt gleich
+        bleiben. Sind Galaxien im Spiel, steht dort stattdessen „Halo
+        bremst“, denn dann geht absichtlich Energie verloren. Stoßen zwei Körper zusammen, verschmelzen sie. Ihr
+        Gesamtimpuls bleibt dabei erhalten, ein Teil der Bewegungsenergie
+        wird aber zu Wärme.</p>
+      <p>Probier „Zeit umkehren“: Alle Geschwindigkeiten drehen sich um, und
+        die Körper laufen ihre Bahnen exakt rückwärts zurück, denn Newtons
+        Gesetze unterscheiden nicht zwischen vorwärts und rückwärts. Bei der
+        Szene „Chaos“ klappt das nur eine Weile. Dort wachsen selbst die
+        winzigen Rundungsfehler des Computers so schnell an, dass die
+        Rückreise irgendwann ganz anders verläuft.</p>
+      <div class="alltag">
+        <p>Für zwei Körper lässt sich die Bahn exakt ausrechnen: Es sind die
+          Ellipsen der <a href="../mechanik/kepler.html">Keplerschen
+          Gesetze</a>. Schon ab drei Körpern gibt es keine allgemeine Formel
+          mehr. Man muss Schritt für Schritt rechnen, genau wie hier.</p>
+      </div>
+
+      <h2 id="szenen">Die Szenen</h2>
+      <p><strong>Planeten.</strong> Innen kreisen die Planeten schneller als
+        außen, genau wie im Sonnensystem. Der Komet ist fern vom Stern
+        langsam und saust in Sternnähe vorbei.</p>
+      <p><strong>Doppelstern.</strong> Die meisten Sterne haben einen Partner.
+        Beide umkreisen den gemeinsamen Schwerpunkt, der leichtere Stern auf
+        dem größeren Kreis. Planeten finden dort nur dicht an einem der
+        Sterne oder weit außen eine stabile Bahn.</p>
+      <p><strong>Swing-by.</strong> Vom Planeten aus gesehen kommt die Sonde
+        genauso schnell wieder heraus, wie sie hineingeflogen ist. Weil der
+        Planet sich aber selbst bewegt und die Sonde ein Stück mitnimmt, ist
+        sie danach von außen gesehen viel schneller. Der Planet wird dabei
+        ein unmessbar kleines bisschen langsamer.</p>
+      <p><strong>Trojaner.</strong> Ein Riesenplanet umkreist einen Stern, und
+        die Ansicht dreht sich mit. 60 Grad vor und hinter dem Planeten
+        liegen die Lagrange-Punkte L4 und L5, an denen sich die Anziehung
+        von Stern und Planet und die Fliehkraft im mitdrehenden System
+        ausgleichen. Brocken dort bleiben gefangen und pendeln auf
+        kaulquappenförmigen Bahnen. Beim Jupiter kennt man über zehntausend
+        solcher Trojaner.</p>
+      <p><strong>Galaxien.</strong> Zwei Spiralgalaxien mit je 700 Sternen.
+        Der größte Teil ihrer Masse ist unsichtbar: ein Halo aus Dunkler
+        Materie, der weit über die Sterne hinausreicht. Darum laufen die
+        Sterne außen fast genauso schnell um wie innen (flache
+        Rotationskurve), anders als die Planeten um einen Stern. Beim
+        Vorbeiflug zieht die andere Galaxie an der näheren Seite stärker als
+        an der fernen. Diese Gezeitenkraft reißt lange Schweife heraus, so
+        wie es Alar und Juri Toomre 1972 mit einer ganz ähnlichen Rechnung
+        zum ersten Mal gezeigt haben. Die Halos durchdringen sich dabei und
+        bremsen einander ab (dynamische Reibung). Die Galaxien fallen wieder
+        zusammen und verschmelzen nach einigen Umläufen zu einer runden,
+        elliptischen Galaxie ohne Spiralarme. So wird es in einigen
+        Milliarden Jahren vielleicht auch der Milchstraße und der
+        Andromeda-Galaxie ergehen. Zusammenstöße zwischen den Sternen gibt es
+        dabei praktisch nicht, so leer ist eine Galaxie.</p>
+      <p><strong>Schwarzes Loch.</strong> Um das Schwarze Loch kreist eine
+        Scheibe aus Gas, die umso heißer glüht, je näher sie ihm kommt. Den
+        schwarzen Fleck in der Mitte nennt man den Schatten. Er ist etwa
+        2,6-mal so groß wie der Horizont, weil das Loch auch Licht in seiner
+        Nähe einfängt. Hier zeigt sich ein Effekt der
+        <a href="schwarzes-loch.html">Allgemeinen Relativitätstheorie</a>:
+        Näher als drei Schwarzschild-Radien gibt es keine stabile Kreisbahn.
+        Das Gas am Innenrand stürzt deshalb nach kurzer Zeit hinein, und das
+        Loch wird schwerer. Der Stern weiter außen läuft auf keiner festen
+        Ellipse, seine Bahn dreht sich bei jedem Umlauf ein Stück weiter
+        (Periheldrehung) und zeichnet eine Rosette. Beim Stern S2, der das
+        Schwarze Loch im Zentrum der Milchstraße umkreist, hat man genau
+        diese Drehung 2020 gemessen. Der zweite Stern kommt dem Loch zu nah.
+        Die Anziehung auf seiner Vorderseite ist dann so viel größer als auf
+        der Rückseite, dass sie ihn in einen langen Strom aus Gas zerreißt.
+        Ein Teil davon fliegt davon, der Rest fällt in die Scheibe. Achte
+        auch auf die Sterne im Hintergrund: In der Nähe des Lochs werden sie
+        nach außen geschoben, weil es ihr Licht ablenkt
+        (Gravitationslinse).</p>
+      <p><strong>Chaos.</strong> Das „pythagoreische Dreikörperproblem“ von
+        1913: Drei Sterne starten in Ruhe an den Ecken eines Dreiecks mit
+        den Seiten 3, 4 und 5. Erst nach vielen engen Begegnungen bilden zwei
+        von ihnen ein Paar, und der dritte fliegt davon. Wie genau, hängt
+        empfindlich von jeder Kleinigkeit ab.</p>
+      <p><strong>Stern und Leer.</strong> Zum Selberbauen: ein einzelner
+        Stern, um den du Planeten und Monde kreisen lässt, oder ein ganz
+        leerer Raum für deine eigenen Sterne, Schwarzen Löcher und
+        Galaxien.</p>
+
+      <h2 id="modell">Was am Modell vereinfacht ist</h2>
+      <p>Alles spielt sich in einer Ebene ab, und die Zahlen sind
+        Modelleinheiten statt Kilogramm und Kilometer. Die Größen der Körper
+        sind stark übertrieben, sonst sähe man sie nicht. Staubteilchen und
+        die Sterne der Galaxien spüren die Körper, ziehen aber selbst nicht
+        an. Zwischen Sternen, Planeten und Monden gilt exakt Newtons
+        Gravitationsgesetz. Für die anderen beiden Arten gibt es
+        Ersatzgesetze:</p>
+      <ul>
+        <li><strong>Schwarzes Loch:</strong> Die Relativitätstheorie für
+          viele Körper zugleich zu rechnen, wäre viel zu aufwendig. Der
+          Spielplatz nimmt deshalb ein abgewandeltes Newton-Gesetz (nach
+          Paczyński und Wiita, 1980), bei dem man vom Abstand den
+          Schwarzschild-Radius abzieht. Es trifft die innerste stabile Bahn
+          bei drei Schwarzschild-Radien genau, die Periheldrehung nur
+          ungefähr. Die Lichtgeschwindigkeit ist hier viel kleiner als in
+          Wirklichkeit, damit man den Horizont überhaupt sieht.</li>
+        <li><strong>Galaxie:</strong> Ihr Halo ist kein Punkt, sondern eine
+          ausgedehnte Wolke. Wie stark er zieht, hängt deshalb davon ab, wie
+          viel Masse innerhalb des Abstands liegt. Die Bremswirkung der Halos
+          ist stark vereinfacht. In echten Galaxien entstehen die Spiralarme,
+          weil die Sterne einander anziehen. Das fehlt hier, darum ist das
+          Spiralmuster aufgemalt. Es dreht sich langsamer als die Sterne, und
+          die Sterne leuchten auf, wenn sie hindurchlaufen, so wie junge,
+          helle Sterne in echten Spiralarmen.</li>
+      </ul>
+    </div>
+  </main>
+</body>
+</html>

@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="robots" content="noindex">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Energie-Leiter – Physik verstehen</title>
+  <meta name="description" content="Vom WLAN-Photon bis zu verschmelzenden Schwarzen Löchern: 72 Zehnerpotenzen Energie auf einer Leiter, mit Umrechner für Joule, Kilowattstunden, Kalorien und Elektronenvolt.">
+
+  <link rel="stylesheet" href="../css/stil.css">
+  <script src="../js/daten.js"></script>
+  <script src="../js/seite.js"></script>
+  <script src="../js/effekte.js"></script>
+  <script src="../js/energie-leiter.js"></script>
+</head>
+<body data-seite="energie-leiter">
+  <main class="werkzeug-main">
+    <p class="oberzeile">Nachschlagen</p>
+    <h1>Die <span class="betont">Energie</span>-Leiter</h1>
+    <p class="hero-text seitenkopf-text" style="margin:0 0 1.5rem">
+      Ein Joule ist ungefähr die Energie, mit der du einen Apfel einen
+      Meter hochhebst. Von dort aus geht es auf dieser Leiter 24
+      Zehnerpotenzen hinab zu einzelnen Lichtteilchen und fast 48 hinauf bis
+      zu verschmelzenden Schwarzen Löchern. Jede Sprosse ist ein echtes
+      Beispiel, und zwischen zwei Sprossen steht, wie viel mehr Energie
+      es von der einen zur nächsten ist.
+    </p>
+
+    <section class="el-rechner" aria-labelledby="el-rechner-titel">
+      <h2 id="el-rechner-titel">Wo liegt deine Energie?</h2>
+      <p class="el-rechner-text">Gib eine Energie ein, zum Beispiel deine
+        Stromrechnung in kWh oder den Brennwert auf einer Verpackung in kcal.
+        Große Zahlen gehen auch so: <code>3e8</code> oder <code>10^20</code>.</p>
+      <div class="el-eingabe">
+        <label class="el-feld"><span>Wert</span>
+          <input id="el-zahl" type="text" inputmode="decimal" value="1" autocomplete="off" spellcheck="false"></label>
+        <label class="el-feld"><span>Einheit</span>
+          <select id="el-einheit"></select></label>
+      </div>
+      <div id="el-ergebnis" class="el-ergebnis" aria-live="polite"></div>
+    </section>
+
+    <div id="el-achse" class="el-achse" aria-label="Übersicht der Leiter von 10 hoch minus 24 bis 10 hoch 48 Joule"></div>
+    <div id="el-leiter" class="el-leiter"></div>
+
+    <div class="merkkasten el-merke">
+      <span class="titel">Was du mitnehmen kannst</span>
+      <p>Energie kommt in sehr verschiedenen Mengen vor, aber immer in
+        derselben Einheit. Einzelne Teilchen tragen winzige Beträge, die man
+        lieber in Elektronenvolt angibt. Im Alltag reichen Joule,
+        Kilowattstunden und Kalorien. Dass in der Masse selbst die größten
+        Energiemengen stecken, zeigt Einsteins E&nbsp;=&nbsp;mc²: Die
+        Ruheenergie eines einzigen Protons ist rund hundert Millionen Mal
+        größer als die Energie, die beim Verbrennen eines Moleküls frei
+        wird.</p>
+    </div>
+  </main>
+</body>
+</html>

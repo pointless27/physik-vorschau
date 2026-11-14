@@ -1,0 +1,477 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="robots" content="noindex">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Kondensator und Dielektrika</title>
+  <meta name="description" content="Wie ein Kondensator Ladung und Energie speichert, wie Kapazität von der Geometrie abhängt und was ein Dielektrikum im Inneren bewirkt.">
+
+  <link rel="stylesheet" href="../../css/stil.css">
+
+  <link rel="stylesheet" href="../../extern/katex/katex.min.css">
+  <script defer src="../../extern/katex/katex.min.js"></script>
+  <script defer src="../../extern/katex/contrib/auto-render.min.js" onload="starteFormeln()"></script>
+
+  <script src="../../js/daten.js"></script>
+  <script src="../../js/seite.js"></script>
+  <script src="../../js/effekte.js"></script>
+  <script type="application/json" id="symbole">
+  {
+    "a": "Konstante (Steigung des Potentials)",
+    "b": "Konstante (Potential bei x = 0)",
+    "i": "Nummer des Kondensators",
+    "n": "Normalenvektor der Oberfläche",
+    "s": "Weg zwischen den Leitern",
+    "μ": "Vorsilbe Mikro, ein Millionstel",
+    "ρ_P": "Dichte der gebundenen Ladung (Polarisationsladung)",
+    "ρ_frei": "Dichte der freien Ladung",
+    "χ": "elektrische Suszeptibilität",
+    "C": "Kapazität",
+    "C_0": "Kapazität ohne Dielektrikum",
+    "C_1": "Kapazität des Kondensators 1",
+    "C_2": "Kapazität des Kondensators 2",
+    "C_i": "Kapazität des Kondensators Nummer i",
+    "Q": "Ladung auf den Platten",
+    "U": "Spannung",
+    "U_0": "Spannung ohne Dielektrikum bzw. Anfangsspannung",
+    "U_1": "Spannung am Kondensator 1",
+    "U_2": "Spannung am Kondensator 2",
+    "E": "elektrische Feldstärke",
+    "E_0": "Feldstärke ohne Dielektrikum",
+    "ε_0": "elektrische Feldkonstante, 8,854·10⁻¹² A s/(V m)",
+    "ε_r": "relative Permittivität (Dielektrizitätszahl)",
+    "ε": "Permittivität ε₀ ε_r",
+    "A": "Plattenfläche",
+    "d": "Plattenabstand",
+    "σ": "Flächenladungsdichte der freien Ladung",
+    "W": "gespeicherte Energie",
+    "W_0": "Energie ohne Dielektrikum",
+    "u": "Energiedichte",
+    "V": "Volumen",
+    "P": "Polarisation (Dipolmoment pro Volumen)",
+    "D": "dielektrische Verschiebung",
+    "p": "Dipolmoment",
+    "φ": "Potential",
+    "x": "Ortskoordinate zwischen den Platten",
+    "R_1": "Innenradius",
+    "R_2": "Außenradius",
+    "R": "Radius",
+    "r": "Abstand vom Mittelpunkt",
+    "I": "Strom",
+    "t": "Zeit",
+    "π": "Kreiszahl"
+  }
+  </script>
+</head>
+<body data-thema="kondensator">
+  <main>
+    <article class="thema">
+      <header>
+        <h1>Kondensator und <span class="betont">Dielektrika</span></h1>
+        <p class="untertitel">Zwei Leiter, die Ladung und Energie speichern: vom Blitzgerät der Kamera bis zum Touchscreen deines Smartphones.</p>
+      </header>
+
+      <div class="tabs">
+
+        <section class="tab" id="verstehen" data-titel="Verstehen">
+
+          <p>Wenn du mit einer Kamera im Dunkeln ein Foto mit Blitz machst, braucht
+            die Blitzröhre auf einmal viel mehr Energie, als die kleine Batterie in
+            diesem Augenblick liefern könnte. Die Lösung ist ein Kondensator.
+            Er wird in Ruhe aufgeladen und entlädt sich dann in einem Bruchteil
+            einer Sekunde.</p>
+
+          <p>Ein Kondensator besteht im einfachsten Fall aus zwei Metallplatten
+            mit kleinem Abstand. Verbindest du sie mit einer Batterie, wandern
+            Elektronen von der einen Platte auf die andere. Die eine Platte wird
+            positiv, die andere negativ, und zwischen ihnen entsteht ein
+            gleichmäßiges Feld. Dort steckt die Energie. Wie viel Ladung der
+            Kondensator bei einer bestimmten Spannung aufnimmt, sagt seine
+            <em>Kapazität</em>. Sie wird in Farad gemessen. Große Platten mit
+            kleinem Abstand fassen viel Ladung. Die gespeicherte Energie nimmt
+            mit dem Quadrat der Spannung zu: Doppelte Spannung heißt vierfache
+            Energie.</p>
+
+          <figure class="abbildung">
+            <svg class="abb" viewBox="0 0 360 165" role="img" aria-label="Plattenkondensator an einer Batterie mit Fläche A, Abstand d und homogenem Feld">
+<path class="achse" d="M150 30L150 120M210 30L210 120" fill="none" style="stroke-width:5"/>
+<path class="kurve" d="M150 75L100 75L100 112M100 122L100 150L260 150L260 75L210 75" fill="none"/>
+<path class="achse" d="M90 112L110 112M95 122L105 122" fill="none" style="stroke-width:3"/>
+<text x="20" y="118" class="klein">Batterie U</text>
+<text x="150" y="22" text-anchor="middle" class="klein">+Q</text><text x="210" y="22" text-anchor="middle" class="klein">−Q</text>
+<text x="180" y="138" text-anchor="middle" class="klein">Abstand d</text>
+<text x="180" y="52" text-anchor="middle" class="klein">Fläche A</text>
+<defs><marker id="pfeil-abb1" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto"><path class="punkt kupfer" d="M0 0L10 5L0 10z"/></marker></defs>
+<path class="kurve kupfer" d="M156 70L204 70" marker-end="url(#pfeil-abb1)" fill="none"/><path class="kurve kupfer" d="M156 85L204 85" marker-end="url(#pfeil-abb1)" fill="none"/><path class="kurve kupfer" d="M156 100L204 100" marker-end="url(#pfeil-abb1)" fill="none"/>
+<text x="275" y="80" class="klein">Feld E = U/d</text><text x="275" y="94" class="klein">C = ε₀ A/d</text>
+</svg>
+            <figcaption>Abb. 1: Plattenkondensator an einer Batterie. Die Kapazität
+              wächst mit der Fläche und sinkt mit dem Abstand.</figcaption>
+          </figure>
+
+          <p>Schiebst du zwischen die Platten einen Isolator, etwa Glas oder
+            Kunststoff, kann der Kondensator bei gleicher Spannung mehr
+            Ladung speichern. Im Isolator richten sich die Moleküle ein wenig
+            im Feld aus, und das schwächt es ab. Solche Stoffe heißen
+            <em>Dielektrika</em>. Für das Feld und die Spannung heißt das: Sie
+            werden kleiner, wenn die Ladung gleich bleibt. Die Kapazität wächst
+            um einen Materialfaktor, der bei Luft knapp eins und bei Wasser
+            rund 80 ist.</p>
+
+          <div class="alltag">
+            <span class="titel">Aus dem Alltag</span>
+            <p>Ein Touchscreen misst an vielen Stellen die Kapazität unter dem
+              Glas. Dein Finger ist leitfähig und verändert das Feld an dieser
+              Stelle, also die Kapazität. Daraus erkennt das Gerät, wo du das
+              Display berührst. In alten Radios stellst du den Sender mit einem
+              Drehkondensator ein: Beim Drehen schieben sich zwei Plattenpakete
+              mehr oder weniger weit ineinander, und damit ändert sich die
+              wirksame Fläche und die Kapazität.</p>
+          </div>
+
+          <div class="merkkasten">
+            <span class="titel">Das Wichtigste in Kürze</span>
+            <p>Ein Kondensator speichert Ladung und Energie in seinem Feld. Seine
+              Kapazität hängt nur von der Geometrie ab und wächst mit
+              einem Dielektrikum. Parallel geschaltete Kondensatoren
+              fassen mehr, in Reihe geschaltete weniger.</p>
+          </div>
+        </section>
+
+        <section class="tab" id="vertiefung" data-titel="Vertiefung">
+
+          <h2>Kapazität</h2>
+          <p>Ein Kondensator besteht aus zwei Leitern mit den Ladungen $+Q$ und $-Q$.
+            Das Feld ist proportional zur Ladung, und damit auch die Spannung
+            $U = \int \vec{E}\cdot\mathrm{d}\vec{s}$ zwischen den Leitern. Der Quotient ist eine
+            Konstante der Anordnung, die <em>Kapazität</em>:</p>
+          $$ Q = C\,U, \qquad [C] = \mathrm{F} = \frac{\mathrm{C}}{\mathrm{V}} $$
+          <p>Im Prinzip stellt jede Anordnung zweier Leiter einen Kondensator
+            dar. Bei einem Plattenkondensator gibt es zwei Wege zum Ergebnis.
+            Zwischen den Platten ist keine Ladung, also gilt
+            $\Delta\varphi = 0$, in einer Dimension $\mathrm{d}^2\varphi/\mathrm{d}x^2 = 0$. Die Lösung
+            $\varphi(x) = ax + b$ mit $\varphi(0) - \varphi(d) = U$ ist</p>
+          $$ \varphi(x) = \frac{U}{d}\,(d - x), \qquad E = -\frac{\partial\varphi}{\partial x} = \frac{U}{d} $$
+          <p>Das Feld ist homogen. Der Satz von Gauß liefert außerdem
+            $E = \sigma/\varepsilon_0 = Q/(\varepsilon_0 A)$. Gleichsetzen ergibt</p>
+          $$ C = \varepsilon_0\,\frac{A}{d} $$
+          <p>Die Kapazität wächst mit der Fläche und sinkt mit dem Abstand. Die
+            Randeffekte (das Feld wölbt sich am Rand aus) sind vernachlässigt, was
+            für $d \ll \sqrt{A}$ gut stimmt. Die Einheit der Feldkonstante lässt sich als
+            $\mathrm{F/m}$ schreiben.</p>
+
+          <h2>Parallel- und Reihenschaltung</h2>
+          <p>Bei <em>Parallelschaltung</em> liegt an allen dieselbe Spannung, die
+            Ladungen addieren sich: $Q = (C_1 + C_2)U$. Bei <em>Reihenschaltung</em> ist die
+            Ladung auf allen gleich (sie wird durch Influenz erzwungen), und die
+            Spannungen addieren sich: $U = Q/C_1 + Q/C_2$.</p>
+          $$ C_\text{parallel} = \sum_i C_i, \qquad \frac{1}{C_\text{Reihe}} = \sum_i \frac{1}{C_i} $$
+          <p>Parallel addiert man effektiv die Flächen, in Reihe die Abstände. Die
+            Reihenkapazität ist deshalb kleiner als jede Einzelkapazität.</p>
+
+          <figure class="abbildung">
+            <svg class="abb" viewBox="0 0 360 165" role="img" aria-label="Links zwei Kondensatoren parallel, rechts zwei Kondensatoren in Reihe">
+<path class="kurve" d="M34 40L110 40M34 120L110 120" fill="none"/>
+<circle class="kurve" cx="30" cy="40" r="4" fill="none"/><circle class="kurve" cx="30" cy="120" r="4" fill="none"/>
+<path class="kurve" d="M60 40L60 66M60 94L60 120" fill="none"/><path class="achse" d="M48 66L72 66M48 94L72 94" fill="none" style="stroke-width:3"/>
+<path class="kurve" d="M90 40L90 66M90 94L90 120" fill="none"/><path class="achse" d="M78 66L102 66M78 94L102 94" fill="none" style="stroke-width:3"/>
+<text x="70" y="150" text-anchor="middle">parallel: C = C₁ + C₂</text>
+<path class="achse" d="M236 62L236 98M244 62L244 98" fill="none" style="stroke-width:3"/>
+<path class="achse" d="M286 62L286 98M294 62L294 98" fill="none" style="stroke-width:3"/>
+<path class="kurve" d="M204 80L236 80M244 80L286 80M294 80L326 80" fill="none"/>
+<circle class="kurve" cx="200" cy="80" r="4" fill="none"/><circle class="kurve" cx="330" cy="80" r="4" fill="none"/>
+<text x="270" y="150" text-anchor="middle">in Reihe: 1/C = 1/C₁ + 1/C₂</text>
+</svg>
+            <figcaption>Abb. 2: Parallelschaltung (links) und Reihenschaltung (rechts)
+              zweier Kondensatoren.</figcaption>
+          </figure>
+
+          <h2>Energie und Energiedichte</h2>
+          <p>Beim Aufladen wird Ladung gegen die schon vorhandene Spannung
+            transportiert. Das Ladungselement $\mathrm{d}Q$ kostet bei der Spannung
+            $U = Q/C$ die Arbeit $\mathrm{d}W = U\,\mathrm{d}Q = (Q/C)\,\mathrm{d}Q$. Integration
+            von $0$ bis $Q$ ergibt</p>
+          $$ W = \frac{Q^2}{2C} = \frac{1}{2}\,C\,U^2 = \frac{1}{2}\,Q\,U $$
+          <p>Das gilt für jeden Kondensator. Beim Plattenkondensator mit
+            $C = \varepsilon_0 A/d$ und $U = E\,d$ wird daraus
+            $W = \frac12 \varepsilon_0 E^2\,A d = \frac12 \varepsilon_0 E^2 V$ mit dem Feldvolumen
+            $V = Ad$. Die Energie sitzt also im Feld, mit der <em>Energiedichte</em></p>
+          $$ u = \frac{W}{V} = \frac{1}{2}\,\varepsilon_0 E^2 $$
+          <p>Diese Formel gilt im Vakuum für beliebige elektrische Felder, auch für das
+            Feld einer elektromagnetischen Welle. In einem Dielektrikum ist
+            $u = \tfrac12 \varepsilon_0\varepsilon_r E^2$.</p>
+
+          <h2>Leiter im Feld</h2>
+          <p>In einem Leiter verschieben sich freie Ladungen, bis sie das äußere Feld
+            im Inneren kompensieren. Deshalb ist das Innere eines Leiters
+            feldfrei, die Ladung sitzt nur auf der Oberfläche, die Oberfläche ist eine
+            Äquipotentialfläche, und die Feldlinien stoßen senkrecht auf sie. Bei
+            den Kondensatorplatten erklärt das auch die Reihenschaltung: Die
+            Ladung einer Platte erzeugt durch Influenz die entgegengesetzte auf der
+            nächsten.</p>
+
+          <h2>Dielektrika</h2>
+          <p>Im Experiment sinkt die Spannung eines geladenen, von der Quelle
+            getrennten Kondensators auf $U = U_0/\varepsilon_r$, wenn du ein
+            Dielektrikum einschiebst, und das Feld ebenso: $E = E_0/\varepsilon_r$.
+            Mit $Q = \text{const.}$ folgt</p>
+          $$ C = \frac{Q}{U} = \varepsilon_r\,\frac{Q}{U_0} = \varepsilon_r\,C_0 = \varepsilon_r\varepsilon_0\,\frac{A}{d} $$
+          <p>Die <em>relative Permittivität</em> $\varepsilon_r \ge 1$ ist dimensionslos. Mikroskopisch
+            verschiebt das Feld in den Atomen die Ladungen oder richtet vorhandene
+            Dipole aus. Das Medium erhält pro Volumen ein Dipolmoment, die
+            <em>Polarisation</em> $\vec{P}$. Im Inneren heben sich die Ladungen auf, an den
+            Oberflächen bleibt eine gebundene Flächenladung $\sigma_P = \vec{n}\cdot\vec{P}$, die ein
+            Gegenfeld $E_P = -P/\varepsilon_0$ erzeugt. Allgemein gilt für die Polarisationsladungsdichte
+            $\rho_P = -\vec{\nabla}\cdot\vec{P}$ und damit
+            $\vec{\nabla}\cdot(\varepsilon_0\vec{E} + \vec{P}) = \rho_\text{frei}$.</p>
+
+          <figure class="abbildung">
+            <svg class="abb" viewBox="0 0 360 160" role="img" aria-label="Kondensator mit Dielektrikum, dessen Dipole sich ausrichten und an den Oberflächen gebundene Ladungen erzeugen">
+<defs><marker id="pfeil-abb2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto"><path class="punkt kupfer" d="M0 0L10 5L0 10z"/></marker></defs>
+<path class="achse" d="M60 25L60 135M300 25L300 135" fill="none" style="stroke-width:5"/>
+<rect class="flaeche" x="100" y="35" width="160" height="90"/>
+<circle class="punkt blau" cx="114" cy="55" r="4"/><circle class="punkt kupfer" cx="126" cy="55" r="4"/>
+<circle class="punkt blau" cx="114" cy="85" r="4"/><circle class="punkt kupfer" cx="126" cy="85" r="4"/>
+<circle class="punkt blau" cx="114" cy="115" r="4"/><circle class="punkt kupfer" cx="126" cy="115" r="4"/>
+<circle class="punkt blau" cx="154" cy="55" r="4"/><circle class="punkt kupfer" cx="166" cy="55" r="4"/>
+<circle class="punkt blau" cx="154" cy="85" r="4"/><circle class="punkt kupfer" cx="166" cy="85" r="4"/>
+<circle class="punkt blau" cx="154" cy="115" r="4"/><circle class="punkt kupfer" cx="166" cy="115" r="4"/>
+<circle class="punkt blau" cx="194" cy="55" r="4"/><circle class="punkt kupfer" cx="206" cy="55" r="4"/>
+<circle class="punkt blau" cx="194" cy="85" r="4"/><circle class="punkt kupfer" cx="206" cy="85" r="4"/>
+<circle class="punkt blau" cx="194" cy="115" r="4"/><circle class="punkt kupfer" cx="206" cy="115" r="4"/>
+<circle class="punkt blau" cx="234" cy="55" r="4"/><circle class="punkt kupfer" cx="246" cy="55" r="4"/>
+<circle class="punkt blau" cx="234" cy="85" r="4"/><circle class="punkt kupfer" cx="246" cy="85" r="4"/>
+<circle class="punkt blau" cx="234" cy="115" r="4"/><circle class="punkt kupfer" cx="246" cy="115" r="4"/>
+<text x="60" y="20" text-anchor="middle" class="klein">+Q frei</text><text x="300" y="20" text-anchor="middle" class="klein">−Q frei</text>
+<text x="180" y="150" text-anchor="middle" class="klein">Dielektrikum: Dipole richten sich aus</text>
+<text x="180" y="32" text-anchor="middle" class="klein">gebundene Ladung an den Oberflächen</text>
+</svg>
+            <figcaption>Abb. 3: Im Dielektrikum richten sich die Dipole aus. Im Inneren
+              neutralisieren sie sich, an den Oberflächen bleibt gebundene Ladung,
+              die das Feld der freien Ladung teilweise aufhebt.</figcaption>
+          </figure>
+
+          <p>Man führt die <em>dielektrische Verschiebung</em>
+            $\vec{D} = \varepsilon_0\vec{E} + \vec{P}$ ein, deren Quellen nur die
+            freien Ladungen sind: $\vec{\nabla}\cdot\vec{D} = \rho_\text{frei}$. In linearen
+            Medien gilt $\vec{P} = \varepsilon_0\chi\vec{E}$ und $\vec{D} = \varepsilon_0\varepsilon_r\vec{E}$ mit
+            $\varepsilon_r = 1 + \chi$. Beim Kondensator ist $D = \sigma$ (die freie Flächenladung),
+            $U = Ed = \frac{d}{\varepsilon_0\varepsilon_r}D$ und damit
+            $C = \varepsilon_0\varepsilon_r A/d$.</p>
+
+          <p>Auch die Energie ändert sich. Bleibt $Q$ fest, sinkt $U$, und mit
+            $W = Q^2/(2C)$ sinkt $W$ auf $W_0/\varepsilon_r$. Die Differenz holt sich das
+            Dielektrikum: Es wird in den Kondensator hineingezogen. Bleibt dagegen
+            $U$ fest (Quelle angeschlossen), steigt $W = \frac12 CU^2$ auf $\varepsilon_r W_0$,
+            und die Quelle liefert zusätzliche Ladung.</p>
+
+          <div class="merkkasten">
+            <span class="titel">Merke</span>
+            <p>$Q = CU$, Plattenkondensator $C = \varepsilon_r\varepsilon_0 A/d$. Parallel: $C = \sum C_i$,
+              in Reihe: $1/C = \sum 1/C_i$. Energie $W = \frac12 CU^2 = \frac12 QU$,
+              Energiedichte $u = \frac12\varepsilon_0 E^2$. Ein Dielektrikum vergrößert $C$ um $\varepsilon_r$
+              und verkleinert bei festem $Q$ das Feld um $\varepsilon_r$. Randeffekte
+              werden vernachlässigt.</p>
+          </div>
+        </section>
+
+        <section class="tab" id="beispiele" data-titel="Beispielrechnungen">
+
+          <div class="beispiel">
+            <h3>Beispiel 1: Plattenkondensator</h3>
+            <p><strong>Gegeben:</strong> $A = 100\,\mathrm{cm^2}$, $d = 1{,}0\,\mathrm{mm}$, Vakuum, $U = 12\,\mathrm{V}$.<br>
+              <strong>Gesucht:</strong> $C$, $Q$, $E$ und die gespeicherte Energie.</p>
+
+            <p><strong>1. Kapazität.</strong>
+              $$ C = \varepsilon_0\frac{A}{d} = 8{,}854 \cdot 10^{-12}\,\mathrm{\tfrac{F}{m}} \cdot \frac{0{,}0100\,\mathrm{m^2}}{1{,}0 \cdot 10^{-3}\,\mathrm{m}} = 8{,}85 \cdot 10^{-11}\,\mathrm{F} = 88{,}5\,\mathrm{pF} $$</p>
+
+            <p><strong>2. Ladung und Feld.</strong>
+              $$ Q = CU = 88{,}5\,\mathrm{pF} \cdot 12\,\mathrm{V} = 1{,}06\,\mathrm{nC}, \qquad E = \frac{U}{d} = \frac{12\,\mathrm{V}}{1{,}0 \cdot 10^{-3}\,\mathrm{m}} = 1{,}2 \cdot 10^{4}\,\mathrm{V/m} $$</p>
+
+            <p><strong>3. Energie.</strong>
+              $$ W = \tfrac12 CU^2 = \tfrac12 \cdot 8{,}85 \cdot 10^{-11}\,\mathrm{F} \cdot (12\,\mathrm{V})^2 = 6{,}4 \cdot 10^{-9}\,\mathrm{J} $$
+              Einheitencheck: $\mathrm{F \cdot V^2 = C\,V = J}$ ✓</p>
+
+            <p><strong>Ergebnis und Plausibilität:</strong> $88{,}5\,\mathrm{pF}$ ist typisch für
+              Platten dieser Größe. Die Energie von $6{,}4\,\mathrm{nJ}$ ist winzig: Ein Plattenkondensator ohne
+              Dielektrikum speichert wenig Energie. Praktische Kondensatoren erreichen große
+              Kapazitäten über kleine Abstände, große Flächen (aufgewickelte Folien) und
+              Dielektrika. Zur Kontrolle: $W = \frac12 \varepsilon_0 E^2 Ad = 6{,}4 \cdot 10^{-9}\,\mathrm{J}$ ✓.</p>
+          </div>
+
+          <div class="beispiel">
+            <h3>Beispiel 2: Parallel und in Reihe</h3>
+            <p><strong>Gegeben:</strong> $C_1 = 4{,}0\,\mu\mathrm{F}$ und $C_2 = 12\,\mu\mathrm{F}$, jeweils an $24\,\mathrm{V}$.<br>
+              <strong>Gesucht:</strong> Gesamtkapazität, Ladung und Energie für beide Schaltungen sowie die
+              Spannungsaufteilung in Reihe.</p>
+
+            <p><strong>1. Parallel.</strong>
+              $$ C = C_1 + C_2 = 16\,\mu\mathrm{F}, \quad Q = CU = 16\,\mu\mathrm{F} \cdot 24\,\mathrm{V} = 384\,\mu\mathrm{C}, \quad W = \tfrac12 CU^2 = 4{,}6\,\mathrm{mJ} $$</p>
+
+            <p><strong>2. Reihe.</strong>
+              $$ \frac{1}{C} = \frac{1}{4{,}0\,\mu\mathrm{F}} + \frac{1}{12\,\mu\mathrm{F}} = \frac{4}{12\,\mu\mathrm{F}} \Rightarrow C = 3{,}0\,\mu\mathrm{F} $$
+              $$ Q = CU = 3{,}0\,\mu\mathrm{F} \cdot 24\,\mathrm{V} = 72\,\mu\mathrm{C}, \quad W = \tfrac12 CU^2 = 0{,}86\,\mathrm{mJ} $$</p>
+
+            <p><strong>3. Spannungen in Reihe.</strong> Beide tragen $72\,\mu\mathrm{C}$:
+              $$ U_1 = \frac{Q}{C_1} = \frac{72\,\mu\mathrm{C}}{4{,}0\,\mu\mathrm{F}} = 18\,\mathrm{V}, \qquad U_2 = \frac{72\,\mu\mathrm{C}}{12\,\mu\mathrm{F}} = 6{,}0\,\mathrm{V} $$
+              Einheitencheck: $\mathrm{C/F = V}$ ✓</p>
+
+            <p><strong>Ergebnis und Plausibilität:</strong> Parallel ist die Gesamtkapazität größer als die
+              größte Einzelkapazität, in Reihe kleiner als die kleinste. Die Spannungen in Reihe
+              addieren sich zu $18 + 6 = 24\,\mathrm{V}$. Die kleinere Kapazität bekommt die größere
+              Spannung.</p>
+          </div>
+
+          <div class="beispiel">
+            <h3>Beispiel 3: Dielektrikum einschieben</h3>
+            <p><strong>Gegeben:</strong> Ein Plattenkondensator mit $A = 200\,\mathrm{cm^2}$ und
+              $d = 0{,}50\,\mathrm{mm}$ wird auf $U_0 = 100\,\mathrm{V}$ geladen und von der Quelle
+              getrennt. Dann füllt man den Zwischenraum mit einem Dielektrikum, $\varepsilon_r = 4{,}0$.<br>
+              <strong>Gesucht:</strong> $C_0$, $Q$, neue Spannung und Energien.</p>
+
+            <p><strong>1. Vorher.</strong>
+              $$ C_0 = \varepsilon_0\frac{A}{d} = 8{,}854 \cdot 10^{-12} \cdot \frac{0{,}0200}{5{,}0 \cdot 10^{-4}}\,\mathrm{F} = 354\,\mathrm{pF} $$
+              $$ Q = C_0 U_0 = 35{,}4\,\mathrm{nC}, \qquad W_0 = \tfrac12 C_0 U_0^2 = 1{,}77\,\mu\mathrm{J} $$</p>
+
+            <p><strong>2. Nachher.</strong> Die Ladung bleibt gleich, die Kapazität wächst auf
+              $C = \varepsilon_r C_0 = 1417\,\mathrm{pF}$:
+              $$ U = \frac{Q}{C} = \frac{U_0}{\varepsilon_r} = 25\,\mathrm{V}, \qquad W = \frac{Q^2}{2C} = \frac{W_0}{\varepsilon_r} = 0{,}44\,\mu\mathrm{J} $$
+              Einheitencheck: $\mathrm{C^2/F = J}$ ✓</p>
+
+            <p><strong>3. Feldstärke.</strong> $E_0 = U_0/d = 2{,}0 \cdot 10^{5}\,\mathrm{V/m}$, danach
+              $E = U/d = 5{,}0 \cdot 10^{4}\,\mathrm{V/m}$.</p>
+
+            <p><strong>Ergebnis und Plausibilität:</strong> Die Spannung und das Feld sinken auf ein Viertel,
+              die Energie ebenfalls. Die fehlenden $\tfrac34 W_0 = 1{,}33\,\mu\mathrm{J}$ erscheinen als
+              Arbeit, mit der das Feld das Dielektrikum hineinzieht. Würdest du es von Hand
+              einschieben, müsstest du es sogar bremsen.</p>
+          </div>
+        </section>
+
+        <section class="tab" id="aufgaben" data-titel="Aufgaben">
+
+          <p>Verwende Vakuum und $\varepsilon_0 = 8{,}854 \cdot 10^{-12}\,\mathrm{F/m}$, wenn nichts anderes angegeben ist.</p>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 1
+              <span class="schwierigkeit" data-stufe="leicht">leicht</span>
+            </h3>
+            <p>Ein Plattenkondensator hat quadratische Platten mit Fläche $0{,}050\,\mathrm{m^2}$ im Abstand
+              $2{,}0\,\mathrm{mm}$. Berechne die Kapazität. Wie ändert sie sich, wenn du den Abstand
+              verdoppelst?</p>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>$C = \varepsilon_0 A/d = 8{,}854 \cdot 10^{-12} \cdot \frac{0{,}050}{2{,}0 \cdot 10^{-3}}\,\mathrm{F} = 2{,}2 \cdot 10^{-10}\,\mathrm{F} = 221\,\mathrm{pF}$.
+                Bei doppeltem Abstand halbiert sich die Kapazität auf $111\,\mathrm{pF}$.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 2
+              <span class="schwierigkeit" data-stufe="leicht">leicht</span>
+            </h3>
+            <p>Ein Elektrolytkondensator hat $470\,\mu\mathrm{F}$ und ist auf $16\,\mathrm{V}$ geladen. Wie
+              viel Ladung und Energie sind gespeichert?</p>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>$Q = CU = 470 \cdot 10^{-6}\,\mathrm{F} \cdot 16\,\mathrm{V} = 7{,}5 \cdot 10^{-3}\,\mathrm{C}$.
+                $W = \tfrac12 CU^2 = \tfrac12 \cdot 470 \cdot 10^{-6} \cdot 16^2\,\mathrm{J} = 0{,}060\,\mathrm{J}$.
+                Zur Kontrolle: $W = \tfrac12 QU = 0{,}5 \cdot 7{,}52 \cdot 10^{-3} \cdot 16\,\mathrm{J} = 0{,}060\,\mathrm{J}$ ✓.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 3
+              <span class="schwierigkeit" data-stufe="mittel">mittel</span>
+            </h3>
+            <p>Luft hält höchstens etwa $3 \cdot 10^{6}\,\mathrm{V/m}$ aus, dann schlägt ein Funke durch.
+              (a) Welche Energiedichte hat ein Feld dieser Stärke? (b) Welche maximale Spannung verträgt
+              ein Luftkondensator mit $d = 1{,}0\,\mathrm{mm}$? (c) Welche Energie speichert er dann bei
+              $A = 100\,\mathrm{cm^2}$?</p>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>(a) $u = \tfrac12 \varepsilon_0 E^2 = \tfrac12 \cdot 8{,}854 \cdot 10^{-12} \cdot (3 \cdot 10^{6})^2\,\mathrm{J/m^3} = 39{,}8\,\mathrm{J/m^3}$.</p>
+              <p>(b) $U_\text{max} = E d = 3 \cdot 10^{6}\,\mathrm{V/m} \cdot 1{,}0 \cdot 10^{-3}\,\mathrm{m} = 3000\,\mathrm{V}$.</p>
+              <p>(c) $V = Ad = 0{,}0100 \cdot 1{,}0 \cdot 10^{-3}\,\mathrm{m^3} = 1{,}0 \cdot 10^{-5}\,\mathrm{m^3}$, also
+                $W = uV = 4{,}0 \cdot 10^{-4}\,\mathrm{J}$. Kontrolle: $C = 88{,}5\,\mathrm{pF}$ und
+                $\tfrac12 CU^2 = 0{,}5 \cdot 8{,}85 \cdot 10^{-11} \cdot 9 \cdot 10^{6}\,\mathrm{J} = 4{,}0 \cdot 10^{-4}\,\mathrm{J}$ ✓.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 4
+              <span class="schwierigkeit" data-stufe="mittel">mittel</span>
+            </h3>
+            <p>Ein Kugelkondensator besteht aus einer inneren Kugel mit Radius $R_1$ (Ladung $+Q$)
+              und einer konzentrischen Hohlkugel mit Innenradius $R_2$ (Ladung $-Q$).
+              (a) Bestimme das Feld im Zwischenraum und die Spannung. (b) Leite die Kapazität her.
+              (c) Zahlenwert für $R_1 = 1{,}0\,\mathrm{cm}$, $R_2 = 2{,}0\,\mathrm{cm}$. (d) Welcher Wert
+              ergibt sich für $R_2 \to \infty$, und wie groß ist damit die Kapazität der Erde
+              ($R = 6371\,\mathrm{km}$)?</p>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>(a) Gauß im Zwischenraum: $E = \frac{Q}{4\pi\varepsilon_0 r^2}$. Die Spannung ist
+                $U = \int_{R_1}^{R_2} E\,\mathrm{d}r = \frac{Q}{4\pi\varepsilon_0}\left(\frac{1}{R_1} - \frac{1}{R_2}\right)$.</p>
+              <p>(b) $C = \frac{Q}{U} = 4\pi\varepsilon_0\,\frac{R_1 R_2}{R_2 - R_1}$.</p>
+              <p>(c) $C = 4\pi \cdot 8{,}854 \cdot 10^{-12} \cdot \frac{0{,}010 \cdot 0{,}020}{0{,}010}\,\mathrm{F} = 2{,}2 \cdot 10^{-12}\,\mathrm{F} = 2{,}2\,\mathrm{pF}$.</p>
+              <p>(d) Für $R_2 \to \infty$ bleibt $C = 4\pi\varepsilon_0 R_1$ (die Kugel gegen
+                Unendlich). Für die Erde sind das $4\pi \cdot 8{,}854 \cdot 10^{-12} \cdot 6{,}371 \cdot 10^{6}\,\mathrm{F} = 7{,}1 \cdot 10^{-4}\,\mathrm{F}$,
+                also $709\,\mu\mathrm{F}$. Die Erde fasst nicht mehr als ein mittelgroßer Elektrolytkondensator.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 5
+              <span class="schwierigkeit" data-stufe="schwer">schwer</span>
+            </h3>
+            <p>Ein Plattenkondensator ($A = 100\,\mathrm{cm^2}$) ist zwischen den Platten auf $3{,}0\,\mathrm{mm}$
+              Abstand teilweise gefüllt: Auf $1{,}0\,\mathrm{mm}$ ist Vakuum, auf $2{,}0\,\mathrm{mm}$ ein
+              Dielektrikum mit $\varepsilon_r = 5{,}0$, beide Schichten parallel zu den Platten. (a) Berechne die
+              Kapazität als Reihenschaltung. (b) Vergleiche mit dem leeren Kondensator. (c) Welche Spannung
+              liegt bei $100\,\mathrm{V}$ Gesamtspannung an der Vakuumschicht?</p>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>(a) Die beiden Schichten sind zwei Kondensatoren in Reihe:
+                $C_1 = \varepsilon_0 A/d_1 = 8{,}854 \cdot 10^{-12} \cdot \frac{0{,}010}{1{,}0 \cdot 10^{-3}}\,\mathrm{F} = 88{,}5\,\mathrm{pF}$
+                und $C_2 = \varepsilon_r\varepsilon_0 A/d_2 = 221\,\mathrm{pF}$. Dann
+                $\frac{1}{C} = \frac{1}{88{,}5} + \frac{1}{221}\,\mathrm{pF^{-1}}$, also $C = 63{,}2\,\mathrm{pF}$.</p>
+              <p>(b) Leer wären es $\varepsilon_0 A/(3{,}0\,\mathrm{mm}) = 29{,}5\,\mathrm{pF}$. Das Dielektrikum
+                macht aus dem Kondensator mehr als den doppelten Wert.</p>
+              <p>(c) Beide Schichten tragen dieselbe Ladung. Die Spannung teilt sich im Verhältnis
+                $1/C$: $U_1 = U\,\frac{C_2}{C_1 + C_2} = 100\,\mathrm{V} \cdot \frac{221}{309{,}5} = 71{,}4\,\mathrm{V}$ liegen
+                an der Vakuumschicht, nur $28{,}6\,\mathrm{V}$ am Dielektrikum. Das Feld im Vakuum ist also
+                $\varepsilon_r = 5$ mal so groß wie im Dielektrikum.</p>
+              <p><strong>Zum Nachdenken:</strong> Warum ist es gefährlich, wenn in einem dielektrisch
+                gefüllten Kondensator ein dünner Luftspalt bleibt?</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 6
+              <span class="schwierigkeit" data-stufe="schwer">schwer</span>
+            </h3>
+            <p>Ein Kondensator mit $6{,}0\,\mu\mathrm{F}$ wird auf $100\,\mathrm{V}$ geladen und von der Quelle
+              getrennt. Dann verbindest du ihn parallel mit einem ungeladenen Kondensator von
+              $3{,}0\,\mu\mathrm{F}$. (a) Welche Spannung stellt sich ein? (b) Wie groß sind die
+              Energien vorher und nachher? (c) Wohin ist die Differenz verschwunden?</p>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>(a) Die Ladung bleibt erhalten: $Q = 6{,}0\,\mu\mathrm{F} \cdot 100\,\mathrm{V} = 600\,\mu\mathrm{C}$,
+                die Gesamtkapazität ist $9{,}0\,\mu\mathrm{F}$. Also $U = Q/C = 66{,}7\,\mathrm{V}$.</p>
+              <p>(b) Vorher $W_1 = \tfrac12 \cdot 6{,}0 \cdot 10^{-6} \cdot 100^2\,\mathrm{J} = 30\,\mathrm{mJ}$,
+                nachher $W_2 = \tfrac12 \cdot 9{,}0 \cdot 10^{-6} \cdot (66{,}7)^2\,\mathrm{J} = 20\,\mathrm{mJ}$.</p>
+              <p>(c) Ein Drittel der Energie, $10\,\mathrm{mJ}$, geht verloren. Sie wird
+                beim Umladen in Wärme im Draht, in Strahlung und im Funken beim Schließen
+                umgesetzt. Das gilt unabhängig vom Widerstand der Leitung, ein
+                kleinerer Widerstand ändert nur, wie schnell es passiert.</p>
+              <p><strong>Zum Nachdenken:</strong> Bei welchem Verhältnis der Kapazitäten ginge die
+                Hälfte der Energie verloren?</p>
+            </details>
+          </div>
+        </section>
+
+      </div></article>
+  </main>
+</body>
+</html>

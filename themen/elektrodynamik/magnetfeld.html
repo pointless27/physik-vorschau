@@ -1,0 +1,478 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="robots" content="noindex">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Magnetfelder und Lorentzkraft</title>
+  <meta name="description" content="Was ein Magnetfeld ist, warum es keine magnetischen Monopole gibt und wie die Lorentzkraft Teilchen auf Kreisbahnen zwingt.">
+
+  <link rel="stylesheet" href="../../css/stil.css">
+
+  <link rel="stylesheet" href="../../extern/katex/katex.min.css">
+  <script defer src="../../extern/katex/katex.min.js"></script>
+  <script defer src="../../extern/katex/contrib/auto-render.min.js" onload="starteFormeln()"></script>
+
+  <script src="../../js/daten.js"></script>
+  <script src="../../js/seite.js"></script>
+  <script src="../../js/effekte.js"></script>
+  <script type="application/json" id="symbole">
+  {
+    "H": "magnetische Erregung",
+    "c": "Lichtgeschwindigkeit, 3,00·10⁸ m/s",
+    "g": "Fallbeschleunigung, 9,81 m/s²",
+    "ε_0": "elektrische Feldkonstante",
+    "μ": "Vorsilbe Mikro, ein Millionstel",
+    "μ_r": "relative Permeabilität",
+    "ρ": "Ladungsdichte",
+    "B": "magnetische Flussdichte (Magnetfeld)",
+    "B_0": "Magnetfeld im Aufbau",
+    "F": "Kraft",
+    "F_L": "Lorentzkraft",
+    "q": "Ladung des Teilchens",
+    "e": "Elementarladung, 1,602·10⁻¹⁹ C",
+    "m": "Masse des Teilchens",
+    "v": "Geschwindigkeit",
+    "v_∥": "Geschwindigkeitskomponente parallel zum Magnetfeld",
+    "v_⊥": "Geschwindigkeitskomponente senkrecht zum Magnetfeld",
+    "E": "elektrische Feldstärke",
+    "R": "Radius der Kreisbahn",
+    "U": "Beschleunigungsspannung",
+    "ω": "Kreisfrequenz",
+    "ω_c": "Zyklotronfrequenz",
+    "f": "Frequenz",
+    "T": "Umlaufdauer",
+    "I": "Stromstärke",
+    "I_1": "Strom im Leiter 1",
+    "I_2": "Strom im Leiter 2",
+    "L": "Länge des Leiterstücks",
+    "r": "Abstand der Leiter",
+    "μ_0": "magnetische Feldkonstante, ≈ 4π·10⁻⁷ N/A²",
+    "Φ_M": "magnetischer Fluss",
+    "A": "Fläche",
+    "N": "Windungszahl",
+    "p_M": "magnetisches Dipolmoment",
+    "M": "Drehmoment",
+    "θ": "Winkel",
+    "α": "Winkel zwischen Geschwindigkeit und Magnetfeld",
+    "h": "Ganghöhe der Schraubenbahn",
+    "E_kin": "kinetische Energie",
+    "W": "Arbeit",
+    "π": "Kreiszahl",
+    "u": "atomare Masseneinheit, 1,661·10⁻²⁷ kg",
+    "m_e": "Elektronenmasse",
+    "m_p": "Protonenmasse",
+    "a": "Länge der Schleife",
+    "b": "Breite der Schleife",
+    "d": "Abstand"
+  }
+  </script>
+</head>
+<body data-thema="magnetfeld">
+  <main>
+    <article class="thema">
+      <header>
+        <h1>Magnetfelder und die <span class="betont">Lorentzkraft</span></h1>
+        <p class="untertitel">Warum Kompassnadeln zeigen, was ein Magnet nie sein kann und wie Teilchen auf Kreisbahnen laufen.</p>
+      </header>
+
+      <div class="tabs">
+
+        <section class="tab" id="verstehen" data-titel="Verstehen">
+
+          <p>Ein Magnet am Kühlschrank hält Zettel fest, ohne etwas zu
+            berühren. Wie bei der elektrischen Kraft wirkt etwas aus der Ferne,
+            hier ein <em>Magnetfeld</em>. Jeder Magnet hat einen Nord- und einen
+            Südpol. Gleiche Pole stoßen sich ab, verschiedene ziehen sich an,
+            und die Erde selbst ist ein riesiger Magnet, dessen Feld die
+            Kompassnadel ausrichtet.</p>
+
+          <p>Ein wichtiger Unterschied zur Elektrik: Man hat noch nie einen
+            einzelnen Nordpol ohne Südpol gefunden. Brichst du einen Stabmagneten
+            in der Mitte durch, erhältst du nicht einen Nord- und einen
+            Südpol getrennt, sondern zwei kleinere Magnete, jeder wieder mit
+            beiden Polen. Die Feldlinien eines Magneten sind deshalb immer
+            geschlossen. Sie laufen außen vom Nord- zum Südpol und innen im
+            Magneten zurück.</p>
+
+          <figure class="abbildung">
+            <svg class="abb" viewBox="0 0 360 190" role="img" aria-label="Feldlinien eines Stabmagneten: außen vom Nordpol zum Südpol, geschlossene Schleifen">
+<rect class="flaeche" x="160" y="86" width="20" height="18"/><rect class="flaeche" x="180" y="86" width="20" height="18" style="fill:var(--akzent-2)"/>
+<text x="170" y="99" text-anchor="middle" class="klein" style="fill:#fff">S</text><text x="190" y="99" text-anchor="middle" class="klein" style="fill:#fff">N</text>
+<polyline class="kurve blau duenn" points="190.2,85.4 190.6,84.4 190.9,83.4 191.2,82.3 191.4,81.3 191.5,80.2 191.5,79.1 191.5,78.0 191.5,76.9 191.3,75.9 191.1,74.8 190.8,73.8 190.5,72.8 190.0,71.8 189.5,70.9 189.0,70.0 188.4,69.2 187.7,68.4 187.0,67.7 186.2,67.1 185.4,66.6 184.6,66.1 183.7,65.7 182.8,65.4 181.9,65.2 180.9,65.0 180.0,65.0 179.1,65.0 178.1,65.2 177.2,65.4 176.3,65.7 175.4,66.1 174.6,66.6 173.8,67.1 173.0,67.7 172.3,68.4 171.6,69.2 171.0,70.0 170.5,70.9 170.0,71.8 169.5,72.8 169.2,73.8 168.9,74.8 168.7,75.9 168.5,76.9 168.5,78.0 168.5,79.1 168.5,80.2 168.6,81.3 168.8,82.3 169.1,83.4 169.4,84.4 169.8,85.4" fill="none" style="stroke-width:1.5"/>
+<path class="punkt blau" d="M186.0 66.0 L193.8 71.4 L189.0 75.0z"/>
+<polyline class="kurve blau duenn" points="190.2,104.6 190.6,105.6 190.9,106.6 191.2,107.7 191.4,108.7 191.5,109.8 191.5,110.9 191.5,112.0 191.5,113.1 191.3,114.1 191.1,115.2 190.8,116.2 190.5,117.2 190.0,118.2 189.5,119.1 189.0,120.0 188.4,120.8 187.7,121.6 187.0,122.3 186.2,122.9 185.4,123.4 184.6,123.9 183.7,124.3 182.8,124.6 181.9,124.8 180.9,125.0 180.0,125.0 179.1,125.0 178.1,124.8 177.2,124.6 176.3,124.3 175.4,123.9 174.6,123.4 173.8,122.9 173.0,122.3 172.3,121.6 171.6,120.8 171.0,120.0 170.5,119.1 170.0,118.2 169.5,117.2 169.2,116.2 168.9,115.2 168.7,114.1 168.5,113.1 168.5,112.0 168.5,110.9 168.5,109.8 168.6,108.7 168.8,107.7 169.1,106.6 169.4,105.6 169.8,104.6" fill="none" style="stroke-width:1.5"/>
+<path class="punkt blau" d="M186.0 124.0 L189.0 115.0 L193.8 118.6z"/>
+<polyline class="kurve blau duenn" points="194.4,85.2 195.4,83.8 196.3,82.3 197.2,80.8 198.0,79.1 198.8,77.4 199.4,75.6 200.0,73.7 200.5,71.8 200.8,69.8 201.0,67.9 201.2,65.9 201.1,63.9 201.0,61.9 200.7,59.9 200.3,58.0 199.8,56.1 199.2,54.3 198.4,52.5 197.5,50.8 196.5,49.2 195.4,47.7 194.2,46.3 192.8,45.0 191.4,43.9 189.9,42.9 188.4,42.0 186.8,41.3 185.1,40.7 183.4,40.3 181.7,40.1 180.0,40.0 178.3,40.1 176.6,40.3 174.9,40.7 173.2,41.3 171.6,42.0 170.1,42.9 168.6,43.9 167.2,45.0 165.8,46.3 164.6,47.7 163.5,49.2 162.5,50.8 161.6,52.5 160.8,54.3 160.2,56.1 159.7,58.0 159.3,59.9 159.0,61.9 158.9,63.9 158.8,65.9 159.0,67.9 159.2,69.8 159.5,71.8 160.0,73.7 160.6,75.6 161.2,77.4 162.0,79.1 162.8,80.8 163.7,82.3 164.6,83.8 165.6,85.2" fill="none" style="stroke-width:1.5"/>
+<path class="punkt blau" d="M196.1 48.1 L202.9 54.6 L197.6 57.4z"/>
+<polyline class="kurve blau duenn" points="194.4,104.8 195.4,106.2 196.3,107.7 197.2,109.2 198.0,110.9 198.8,112.6 199.4,114.4 200.0,116.3 200.5,118.2 200.8,120.2 201.0,122.1 201.2,124.1 201.1,126.1 201.0,128.1 200.7,130.1 200.3,132.0 199.8,133.9 199.2,135.7 198.4,137.5 197.5,139.2 196.5,140.8 195.4,142.3 194.2,143.7 192.8,145.0 191.4,146.1 189.9,147.1 188.4,148.0 186.8,148.7 185.1,149.3 183.4,149.7 181.7,149.9 180.0,150.0 178.3,149.9 176.6,149.7 174.9,149.3 173.2,148.7 171.6,148.0 170.1,147.1 168.6,146.1 167.2,145.0 165.8,143.7 164.6,142.3 163.5,140.8 162.5,139.2 161.6,137.5 160.8,135.7 160.2,133.9 159.7,132.0 159.3,130.1 159.0,128.1 158.9,126.1 158.8,124.1 159.0,122.1 159.2,120.2 159.5,118.2 160.0,116.3 160.6,114.4 161.2,112.6 162.0,110.9 162.8,109.2 163.7,107.7 164.6,106.2 165.6,104.8" fill="none" style="stroke-width:1.5"/>
+<path class="punkt blau" d="M196.1 141.9 L197.6 132.6 L202.9 135.4z"/>
+<polyline class="kurve blau duenn" points="197.3,85.5 199.0,83.8 200.6,81.9 202.2,79.9 203.8,77.7 205.2,75.4 206.6,73.0 207.9,70.4 209.0,67.7 210.1,64.9 210.9,62.1 211.6,59.1 212.2,56.1 212.5,53.1 212.7,50.0 212.7,46.9 212.5,43.8 212.1,40.8 211.4,37.8 210.6,34.9 209.6,32.0 208.4,29.3 207.1,26.7 205.5,24.2 203.8,21.9 201.9,19.7 199.8,17.8 197.7,16.0 195.4,14.4 193.0,13.1 190.5,12.0 187.9,11.1 185.3,10.5 182.7,10.1 180.0,10.0 177.3,10.1 174.7,10.5 172.1,11.1 169.5,12.0 167.0,13.1 164.6,14.4 162.3,16.0 160.2,17.8 158.1,19.7 156.2,21.9 154.5,24.2 152.9,26.7 151.6,29.3 150.4,32.0 149.4,34.9 148.6,37.8 147.9,40.8 147.5,43.8 147.3,46.9 147.3,50.0 147.5,53.1 147.8,56.1 148.4,59.1 149.1,62.1 149.9,64.9 151.0,67.7 152.1,70.4 153.4,73.0 154.8,75.4 156.2,77.7 157.8,79.9 159.4,81.9 161.0,83.8 162.7,85.5" fill="none" style="stroke-width:1.5"/>
+<path class="punkt blau" d="M207.6 27.5 L214.0 34.5 L208.5 36.9z"/>
+<polyline class="kurve blau duenn" points="197.3,104.5 199.0,106.2 200.6,108.1 202.2,110.1 203.8,112.3 205.2,114.6 206.6,117.0 207.9,119.6 209.0,122.3 210.1,125.1 210.9,127.9 211.6,130.9 212.2,133.9 212.5,136.9 212.7,140.0 212.7,143.1 212.5,146.2 212.1,149.2 211.4,152.2 210.6,155.1 209.6,158.0 208.4,160.7 207.1,163.3 205.5,165.8 203.8,168.1 201.9,170.3 199.8,172.2 197.7,174.0 195.4,175.6 193.0,176.9 190.5,178.0 187.9,178.9 185.3,179.5 182.7,179.9 180.0,180.0 177.3,179.9 174.7,179.5 172.1,178.9 169.5,178.0 167.0,176.9 164.6,175.6 162.3,174.0 160.2,172.2 158.1,170.3 156.2,168.1 154.5,165.8 152.9,163.3 151.6,160.7 150.4,158.0 149.4,155.1 148.6,152.2 147.9,149.2 147.5,146.2 147.3,143.1 147.3,140.0 147.5,136.9 147.8,133.9 148.4,130.9 149.1,127.9 149.9,125.1 151.0,122.3 152.1,119.6 153.4,117.0 154.8,114.6 156.2,112.3 157.8,110.1 159.4,108.1 161.0,106.2 162.7,104.5" fill="none" style="stroke-width:1.5"/>
+<path class="punkt blau" d="M207.6 162.5 L208.5 153.1 L214.0 155.5z"/>
+</svg>
+            <figcaption>Abb. 1: Feldlinien eines Stabmagneten (als Dipolfeld berechnet).
+              Außen laufen sie vom Nord- zum Südpol und schließen sich im
+              Inneren des Magneten (nicht gezeichnet). Quellen oder Senken gibt es nicht.</figcaption>
+          </figure>
+
+          <p>Magnetfelder entstehen auch durch bewegte Ladung. Durch einen
+            Draht fließender Strom ist von einem Magnetfeld umgeben. Umgekehrt
+            übt ein Magnetfeld auf bewegte Ladungen eine Kraft aus, die
+            <em>Lorentzkraft</em>. Sie hat eine Besonderheit: Sie zeigt immer
+            senkrecht zur Bewegungsrichtung. Ein Teilchen wird damit nicht
+            schneller oder langsamer, nur abgelenkt. Bei gleichmäßigem Feld
+            läuft es deshalb auf einem Kreis. Je stärker das Feld, desto enger
+            der Kreis, und je schneller das Teilchen, desto weiter.</p>
+
+          <div class="alltag">
+            <span class="titel">Aus dem Alltag</span>
+            <p>Das Nordlicht entsteht, weil das Erdmagnetfeld geladene Teilchen
+              vom Sonnenwind auf spiralförmige Bahnen zwingt. Sie folgen den
+              Feldlinien zu den Polen und treffen dort auf die obere Atmosphäre.
+              In älteren Röhrenfernsehern lenkten Magnetspulen den
+              Elektronenstrahl auf jeden Punkt des Schirms.</p>
+          </div>
+
+          <div class="merkkasten">
+            <span class="titel">Das Wichtigste in Kürze</span>
+            <p>Magnetfelder haben keine Quellen: Es gibt keine einzelnen Pole,
+              die Feldlinien sind geschlossen. Das Feld wirkt nur auf bewegte
+              Ladungen, und die Kraft steht senkrecht auf der Bewegung. Sie
+              ändert die Richtung des Teilchens, nicht seine Geschwindigkeit.</p>
+          </div>
+        </section>
+
+        <section class="tab" id="vertiefung" data-titel="Vertiefung">
+
+          <h2>Das Magnetfeld</h2>
+          <p>Ruhende Dauermagnete und Ströme erzeugen Magnetfelder. Die Feldgröße
+            $\vec{B}$ (hier kurz Magnetfeld genannt, in vielen Büchern
+            magnetische Flussdichte oder Induktion) wird in Tesla gemessen:
+            $1\,\mathrm{T} = 1\,\mathrm{V\,s/m^2}$. Eine kleinere Einheit ist das Gauß,
+            $1\,\mathrm{G} = 10^{-4}\,\mathrm{T}$. Das Erdfeld hat etwa $50\,\mu\mathrm{T}$,
+            ein Kühlschrankmagnet etwa $5\,\mathrm{mT}$, ein MRT-Gerät $1{,}5\,\mathrm{T}$, und
+            der Rekord für ein Dauerfeld im Labor liegt bei über $40\,\mathrm{T}$
+            (kurzzeitig erreichte man $100\,\mathrm{T}$). Der <em>magnetische Fluss</em> durch
+            eine Fläche ist $\Phi_M = \int_A \vec{B}\cdot\mathrm{d}\vec{A}$.</p>
+
+          <p>Weil es keine Monopole gibt, ist der Fluss durch jede geschlossene Fläche null:
+            Es treten genauso viele Feldlinien ein wie aus. Mit dem Satz von Gauß folgt</p>
+          $$ \oint \vec{B}\cdot\mathrm{d}\vec{A} = 0 \quad\Rightarrow\quad \vec{\nabla}\cdot\vec{B} = 0 $$
+          <p>Das Feld hat keine Quellen. Im Gegensatz zum elektrischen Feld
+            ($\vec{\nabla}\cdot\vec{E} = \rho/\varepsilon_0$) ist $\vec{B}$ ein reines Wirbelfeld.
+            Seine Wirbel sind die Ströme, siehe <em>Biot-Savart und das Ampèresche Gesetz</em>.
+            Historisch hat man die Kraft zwischen zwei Magnetpolen wie das Coulomb-Gesetz
+            beschrieben (Mitchell 1750) und aus ihr die magnetische Erregung $\vec{H}$ abgeleitet,
+            mit $\vec{B} = \mu_r\mu_0\vec{H}$ in Materie. Die Pole sind aber nur ein Hilfsbild.
+            Physikalisch zählen Ströme und magnetische Dipole.</p>
+
+          <h2>Die Lorentzkraft</h2>
+          <p>Auf eine Ladung $q$ mit der Geschwindigkeit $\vec{v}$ wirkt im Magnetfeld die Kraft</p>
+          $$ \vec{F}_L = q\,\vec{v}\times\vec{B} $$
+          <p>Sie steht senkrecht auf $\vec{v}$ und $\vec{B}$ (Rechte-Hand-Regel für positives $q$,
+            Daumen $\vec{v}$, Zeigefinger $\vec{B}$, Mittelfinger $\vec{F}$). Parallel zum Feld
+            ist die Kraft null. Zusammen mit dem elektrischen Feld gilt die Kraft
+            $\vec{F} = q\left(\vec{E} + \vec{v}\times\vec{B}\right)$, die Newton-Lorentz-Kraft. Weil
+            $\vec{F}_L \perp \vec{v}$ ist, leistet sie keine Arbeit:
+            $\vec{F}_L\cdot\vec{v} = 0$. Der Betrag der Geschwindigkeit ändert sich nicht.</p>
+
+          <h2>Bahn im homogenen Feld</h2>
+          <p>Steht $\vec{v}$ senkrecht auf $\vec{B}$, wirkt $F_L = qvB$ als Zentripetalkraft
+            $mv^2/R$:</p>
+          $$ qvB = \frac{m v^2}{R} \quad\Rightarrow\quad R = \frac{m v}{q B}, \qquad
+             \omega_c = \frac{v}{R} = \frac{q B}{m}, \qquad T = \frac{2\pi m}{q B} $$
+          <p>Die Umlaufdauer $T$ hängt nicht von der Geschwindigkeit ab. Das ist das Prinzip
+            des Zyklotrons: Schnellere Teilchen laufen auf größeren Kreisen, brauchen aber
+            gleich lang. Hat $\vec{v}$ auch eine Komponente $v_\parallel$ parallel zu $\vec{B}$, bleibt
+            diese unverändert, und die Bahn wird eine Schraubenlinie mit dem Radius
+            $R = m v_\perp/(qB)$ und der Ganghöhe $h = v_\parallel T$.</p>
+
+          <figure class="abbildung">
+            <svg class="abb" viewBox="0 0 360 170" role="img" aria-label="Kreisbahn eines positiven Teilchens im Magnetfeld, das in die Seite zeigt, mit Geschwindigkeit und Lorentzkraft">
+<defs><marker id="pfeil-abb2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto"><path class="punkt kupfer" d="M0 0L10 5L0 10z"/></marker></defs>
+<text x="40" y="25" text-anchor="middle" class="klein" style="opacity:.45">×</text>
+<text x="40" y="65" text-anchor="middle" class="klein" style="opacity:.45">×</text>
+<text x="40" y="105" text-anchor="middle" class="klein" style="opacity:.45">×</text>
+<text x="40" y="145" text-anchor="middle" class="klein" style="opacity:.45">×</text>
+<text x="80" y="25" text-anchor="middle" class="klein" style="opacity:.45">×</text>
+<text x="80" y="65" text-anchor="middle" class="klein" style="opacity:.45">×</text>
+<text x="80" y="105" text-anchor="middle" class="klein" style="opacity:.45">×</text>
+<text x="80" y="145" text-anchor="middle" class="klein" style="opacity:.45">×</text>
+<text x="120" y="25" text-anchor="middle" class="klein" style="opacity:.45">×</text>
+<text x="120" y="65" text-anchor="middle" class="klein" style="opacity:.45">×</text>
+<text x="120" y="105" text-anchor="middle" class="klein" style="opacity:.45">×</text>
+<text x="120" y="145" text-anchor="middle" class="klein" style="opacity:.45">×</text>
+<text x="160" y="25" text-anchor="middle" class="klein" style="opacity:.45">×</text>
+<text x="160" y="65" text-anchor="middle" class="klein" style="opacity:.45">×</text>
+<text x="160" y="105" text-anchor="middle" class="klein" style="opacity:.45">×</text>
+<text x="160" y="145" text-anchor="middle" class="klein" style="opacity:.45">×</text>
+<text x="200" y="25" text-anchor="middle" class="klein" style="opacity:.45">×</text>
+<text x="200" y="65" text-anchor="middle" class="klein" style="opacity:.45">×</text>
+<text x="200" y="105" text-anchor="middle" class="klein" style="opacity:.45">×</text>
+<text x="200" y="145" text-anchor="middle" class="klein" style="opacity:.45">×</text>
+<text x="240" y="25" text-anchor="middle" class="klein" style="opacity:.45">×</text>
+<text x="240" y="65" text-anchor="middle" class="klein" style="opacity:.45">×</text>
+<text x="240" y="105" text-anchor="middle" class="klein" style="opacity:.45">×</text>
+<text x="240" y="145" text-anchor="middle" class="klein" style="opacity:.45">×</text>
+<text x="280" y="25" text-anchor="middle" class="klein" style="opacity:.45">×</text>
+<text x="280" y="65" text-anchor="middle" class="klein" style="opacity:.45">×</text>
+<text x="280" y="105" text-anchor="middle" class="klein" style="opacity:.45">×</text>
+<text x="280" y="145" text-anchor="middle" class="klein" style="opacity:.45">×</text>
+<text x="320" y="25" text-anchor="middle" class="klein" style="opacity:.45">×</text>
+<text x="320" y="65" text-anchor="middle" class="klein" style="opacity:.45">×</text>
+<text x="320" y="105" text-anchor="middle" class="klein" style="opacity:.45">×</text>
+<text x="320" y="145" text-anchor="middle" class="klein" style="opacity:.45">×</text>
+<circle class="kurve blau" cx="180" cy="85" r="55" fill="none"/>
+<circle class="punkt kupfer" cx="180" cy="140" r="5"/>
+<path class="kurve kupfer" d="M180 140L220 140" marker-end="url(#pfeil-abb2)" fill="none"/>
+<path class="kurve kupfer" d="M180 140L180 105" marker-end="url(#pfeil-abb2)" fill="none"/>
+<text x="227" y="144" class="klein">v</text><text x="186" y="114" class="klein">F</text><text x="30" y="158" class="klein">Kraft F = q v × B zeigt zum Mittelpunkt</text>
+<path class="hilfslinie" d="M180 85L180 140" fill="none"/><text x="168" y="115" class="klein" text-anchor="end">R</text>
+<text x="30" y="18" class="klein">B zeigt in die Seite (×)</text>
+</svg>
+            <figcaption>Abb. 2: Ein positives Teilchen im Magnetfeld, das in die Seite hinein
+              zeigt. Die Lorentzkraft weist zum Mittelpunkt der Kreisbahn.</figcaption>
+          </figure>
+
+          <h2>Anwendungen</h2>
+          <p><strong>Massenspektrometer.</strong> Ionen mit der Ladung $q$ durchlaufen die Spannung $U$
+            und haben dann $\tfrac12 m v^2 = qU$. Im Magnetfeld folgen sie einem Kreis mit
+            $R = \frac{1}{B}\sqrt{\frac{2mU}{q}}$. Verschiedene Massen landen an
+            verschiedenen Stellen. <strong>Geschwindigkeitsfilter.</strong> Ein elektrisches und ein
+            magnetisches Feld, senkrecht zueinander und zur Flugrichtung, lassen nur Teilchen
+            mit $qE = qvB$ geradeaus fliegen, also $v = E/B$. <strong>Elektronenoptik.</strong>
+            Spulen mit Polschuhen wirken wie Linsen für Elektronenstrahlen und sind die Grundlage
+            des Elektronenmikroskops.</p>
+
+          <h2>Kraft auf Leiter und zwischen Leitern</h2>
+          <p>In einem Leiter bewegen sich Ladungsträger mit $\vec{v}_D$ durch das Feld, die
+            Summe der Lorentzkräfte ergibt auf ein Leiterstück $\mathrm{d}\vec{L}$ in Stromrichtung
+            die Kraft</p>
+          $$ \mathrm{d}\vec{F} = I\,\mathrm{d}\vec{L}\times\vec{B}, \qquad F = I L B \;\; (\vec{L} \perp \vec{B}) $$
+          <p>Verläuft der Leiter parallel zu $\vec{B}$, ist die Kraft null. Das Magnetfeld eines
+            langen geraden Leiters mit dem Strom $I_2$ ist im Abstand $r$ tangential mit
+            $B = \frac{\mu_0 I_2}{2\pi r}$ (Herleitung mit dem Ampèreschen Gesetz in
+            <em>Biot-Savart und das Ampèresche Gesetz</em>). Ein zweiter, paralleler Leiter
+            mit dem Strom $I_1$ erfährt dadurch die Kraft pro Länge</p>
+          $$ \frac{F}{L} = \frac{\mu_0 I_1 I_2}{2\pi r} $$
+          <p>Gleichgerichtete Ströme ziehen sich an, entgegengesetzte stoßen sich ab. Bis 2019
+            definierte man das Ampere über diese Kraft: $1\,\mathrm{A}$ ist der Strom,
+            der bei $1\,\mathrm{m}$ Abstand eine Kraft von $2 \cdot 10^{-7}\,\mathrm{N}$ je Meter
+            erzeugt. Seitdem ist das Ampere über die Elementarladung festgelegt, und
+            $\mu_0$ ist nur noch näherungsweise $4\pi \cdot 10^{-7}\,\mathrm{N/A^2}$.</p>
+
+          <figure class="abbildung">
+            <svg class="abb" viewBox="0 0 360 160" role="img" aria-label="Zwei parallele Leiter mit gleichgerichteten Strömen, die sich anziehen">
+<defs><marker id="pfeil-abb3" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto"><path class="punkt kupfer" d="M0 0L10 5L0 10z"/></marker></defs>
+<circle class="achse" cx="120" cy="80" r="14" fill="none"/><circle class="punkt" cx="120" cy="80" r="3"/>
+<circle class="achse" cx="240" cy="80" r="14" fill="none"/><circle class="punkt" cx="240" cy="80" r="3"/>
+<path class="kurve kupfer" d="M138 80L172 80" marker-end="url(#pfeil-abb3)" fill="none"/>
+<path class="kurve kupfer" d="M222 80L188 80" marker-end="url(#pfeil-abb3)" fill="none"/>
+<text x="120" y="56" text-anchor="middle" class="klein">I₁ (aus der Seite)</text><text x="240" y="56" text-anchor="middle" class="klein">I₂ (aus der Seite)</text>
+<path class="hilfslinie" d="M120 112L240 112" fill="none"/><text x="180" y="128" text-anchor="middle" class="klein">Abstand r</text>
+<text x="180" y="150" text-anchor="middle" class="klein">gleichgerichtete Ströme ziehen sich an</text>
+</svg>
+            <figcaption>Abb. 3: Zwei parallele Leiter mit Strömen in dieselbe Richtung (aus der
+              Seite heraus). Die Kräfte zeigen aufeinander zu.</figcaption>
+          </figure>
+
+          <div class="merkkasten">
+            <span class="titel">Merke</span>
+            <p>$\vec{\nabla}\cdot\vec{B} = 0$ (keine Monopole). $\vec{F} = q\vec{v}\times\vec{B}$ leistet keine
+              Arbeit. Kreisbahn: $R = mv/(qB)$, $\omega_c = qB/m$. Leiter: $\mathrm{d}\vec{F} = I\,\mathrm{d}\vec{L}\times\vec{B}$.
+              Parallele Leiter: $F/L = \mu_0 I_1 I_2/(2\pi r)$. Gleichgerichtete Ströme ziehen
+              sich an.</p>
+          </div>
+        </section>
+
+        <section class="tab" id="beispiele" data-titel="Beispielrechnungen">
+
+          <div class="beispiel">
+            <h3>Beispiel 1: Elektron auf der Kreisbahn</h3>
+            <p><strong>Gegeben:</strong> Ein Elektron wird durch $U = 300\,\mathrm{V}$ beschleunigt und
+              tritt senkrecht in ein Feld $B = 1{,}0\,\mathrm{mT}$ ein.<br>
+              <strong>Gesucht:</strong> Geschwindigkeit, Bahnradius und Umlaufdauer.</p>
+
+            <p><strong>1. Geschwindigkeit.</strong>
+              $$ v = \sqrt{\frac{2eU}{m_e}} = \sqrt{\frac{2 \cdot 1{,}602 \cdot 10^{-19}\,\mathrm{C} \cdot 300\,\mathrm{V}}{9{,}109 \cdot 10^{-31}\,\mathrm{kg}}} = 1{,}03 \cdot 10^{7}\,\mathrm{m/s} $$</p>
+
+            <p><strong>2. Radius.</strong>
+              $$ R = \frac{m_e v}{eB} = \frac{9{,}109 \cdot 10^{-31}\,\mathrm{kg} \cdot 1{,}03 \cdot 10^{7}\,\mathrm{m/s}}{1{,}602 \cdot 10^{-19}\,\mathrm{C} \cdot 1{,}0 \cdot 10^{-3}\,\mathrm{T}} = 5{,}8 \cdot 10^{-2}\,\mathrm{m} $$
+              Einheitencheck: $\mathrm{kg\,m/s \,/\,(C\,T)}$ mit $\mathrm{T} = \mathrm{kg/(C\,s)}$ ergibt $\mathrm{m}$ ✓</p>
+
+            <p><strong>3. Umlaufdauer.</strong>
+              $$ T = \frac{2\pi m_e}{eB} = \frac{2\pi \cdot 9{,}109 \cdot 10^{-31}}{1{,}602 \cdot 10^{-19} \cdot 1{,}0 \cdot 10^{-3}}\,\mathrm{s} = 3{,}6 \cdot 10^{-8}\,\mathrm{s} $$</p>
+
+            <p><strong>Ergebnis und Plausibilität:</strong> Der Radius von etwa $6\,\mathrm{cm}$ passt zu
+              einem Fadenstrahlrohr, mit dem man Bahnen dieser Größe im Praktikum sieht. Die Probe:
+              $T = 2\pi R/v = 2\pi \cdot 0{,}0584/1{,}03 \cdot 10^{7}\,\mathrm{s} = 3{,}6 \cdot 10^{-8}\,\mathrm{s}$ ✓.</p>
+          </div>
+
+          <div class="beispiel">
+            <h3>Beispiel 2: Massenspektrometer</h3>
+            <p><strong>Gegeben:</strong> Einfach geladene Kohlenstoff-Ionen $^{12}\mathrm{C}^+$ und
+              $^{13}\mathrm{C}^+$ ($12\,\mathrm{u}$ und $13\,\mathrm{u}$) werden durch $U = 2000\,\mathrm{V}$
+              beschleunigt und treten senkrecht in $B = 0{,}20\,\mathrm{T}$ ein.<br>
+              <strong>Gesucht:</strong> beide Bahnradien und ihr Abstand auf dem Detektor.</p>
+
+            <p><strong>1. Radius allgemein.</strong> Aus $qU = \tfrac12 mv^2$ und $R = mv/(qB)$:
+              $R = \frac{1}{B}\sqrt{\frac{2mU}{q}}$.</p>
+
+            <p><strong>2. Zahlen.</strong> Mit $m = 12 \cdot 1{,}661 \cdot 10^{-27}\,\mathrm{kg}$:
+              $$ R_{12} = \frac{1}{0{,}20\,\mathrm{T}}\sqrt{\frac{2 \cdot 1{,}993 \cdot 10^{-26}\,\mathrm{kg} \cdot 2000\,\mathrm{V}}{1{,}602 \cdot 10^{-19}\,\mathrm{C}}} = 0{,}112\,\mathrm{m} $$
+              $$ R_{13} = R_{12}\sqrt{\frac{13}{12}} = 0{,}116\,\mathrm{m} $$</p>
+
+            <p><strong>3. Abstand.</strong> Die Ionen treffen nach einem Halbkreis auf den Detektor, der
+              Abstand ist $2(R_{13} - R_{12}) = 2 \cdot 4{,}5\,\mathrm{mm} = 9{,}1\,\mathrm{mm}$.
+              Einheitencheck: $\sqrt{\mathrm{kg\,V/C}}/\mathrm{T} = \sqrt{\mathrm{J/C \cdot kg/C}}/\mathrm{T} = \mathrm{m}$ ✓</p>
+
+            <p><strong>Ergebnis und Plausibilität:</strong> $R \propto \sqrt{m}$, also wächst der
+              Radius bei $8{,}3\,\%$ mehr Masse um $4{,}0\,\%$. Der Abstand von
+              $9\,\mathrm{mm}$ ist leicht auflösbar. Das Gerät trennt Isotope.</p>
+          </div>
+
+          <div class="beispiel">
+            <h3>Beispiel 3: Kräfte auf und zwischen Leitern</h3>
+            <p><strong>Gegeben:</strong> (a) Ein $20\,\mathrm{cm}$ langer Leiter mit $8{,}0\,\mathrm{A}$ steht
+              senkrecht zu $B = 0{,}40\,\mathrm{T}$. (b) Zwei parallele Leiter im Abstand
+              $2{,}0\,\mathrm{cm}$ führen je $10\,\mathrm{A}$.<br>
+              <strong>Gesucht:</strong> die Kraft in (a) und die Kraft je Meter in (b).</p>
+
+            <p><strong>1. Leiter im Feld.</strong>
+              $F = I L B = 8{,}0\,\mathrm{A} \cdot 0{,}20\,\mathrm{m} \cdot 0{,}40\,\mathrm{T} = 0{,}64\,\mathrm{N}$.</p>
+
+            <p><strong>2. Zwei Leiter.</strong>
+              $$ \frac{F}{L} = \frac{\mu_0 I^2}{2\pi r} = \frac{4\pi \cdot 10^{-7}\,\mathrm{N/A^2} \cdot (10\,\mathrm{A})^2}{2\pi \cdot 0{,}020\,\mathrm{m}} = 1{,}0 \cdot 10^{-3}\,\mathrm{N/m} $$
+              Einheitencheck: $\mathrm{N/A^2 \cdot A^2/m = N/m}$ ✓, und $\mathrm{T\,A\,m} = \mathrm{N}$ ✓</p>
+
+            <p><strong>Ergebnis und Plausibilität:</strong> Die Kraft in (a) ist spürbar, sie
+              entspricht dem Gewicht von $65\,\mathrm{g}$. Zwischen den Leitern wirkt dagegen nur
+              $1\,\mathrm{mN}$ je Meter, obwohl $10\,\mathrm{A}$ fließen. Deshalb war die
+              Definition des Ampere über diese Kraft nur mit Strömen von $1\,\mathrm{A}$ und
+              $1\,\mathrm{m}$ Abstand eine Präzisionsmessung ($2 \cdot 10^{-7}\,\mathrm{N/m}$).</p>
+          </div>
+        </section>
+
+        <section class="tab" id="aufgaben" data-titel="Aufgaben">
+
+          <p>Verwende $e = 1{,}602 \cdot 10^{-19}\,\mathrm{C}$, $m_e = 9{,}109 \cdot 10^{-31}\,\mathrm{kg}$,
+            $m_p = 1{,}673 \cdot 10^{-27}\,\mathrm{kg}$ und $\mu_0 = 4\pi \cdot 10^{-7}\,\mathrm{N/A^2}$.</p>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 1
+              <span class="schwierigkeit" data-stufe="leicht">leicht</span>
+            </h3>
+            <p>Ein Proton fliegt mit $2{,}0 \cdot 10^{6}\,\mathrm{m/s}$ senkrecht zu einem Feld
+              von $0{,}50\,\mathrm{T}$. Wie groß sind Kraft und Bahnradius?</p>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>$F = qvB = 1{,}602 \cdot 10^{-19} \cdot 2{,}0 \cdot 10^{6} \cdot 0{,}50\,\mathrm{N} = 1{,}6 \cdot 10^{-13}\,\mathrm{N}$.
+                $R = \frac{m_p v}{eB} = \frac{1{,}673 \cdot 10^{-27} \cdot 2{,}0 \cdot 10^{6}}{1{,}602 \cdot 10^{-19} \cdot 0{,}50}\,\mathrm{m} = 4{,}2\,\mathrm{cm}$.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 2
+              <span class="schwierigkeit" data-stufe="leicht">leicht</span>
+            </h3>
+            <p>Ein Elektron mit $1{,}0 \cdot 10^{6}\,\mathrm{m/s}$ fliegt senkrecht zum Erdfeld
+              ($50\,\mu\mathrm{T}$). Wie groß ist der Radius der Bahn? Wie verhält sich die Kraft zur
+              Gewichtskraft des Elektrons?</p>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>$R = \frac{m_e v}{eB} = \frac{9{,}109 \cdot 10^{-31} \cdot 1{,}0 \cdot 10^{6}}{1{,}602 \cdot 10^{-19} \cdot 50 \cdot 10^{-6}}\,\mathrm{m} = 0{,}114\,\mathrm{m}$.
+                Die Kraft ist $F = evB = 8{,}0 \cdot 10^{-18}\,\mathrm{N}$, die Gewichtskraft
+                $m_e g = 8{,}9 \cdot 10^{-30}\,\mathrm{N}$. Die Lorentzkraft ist rund $10^{12}$-mal größer.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 3
+              <span class="schwierigkeit" data-stufe="mittel">mittel</span>
+            </h3>
+            <p>In einem Geschwindigkeitsfilter ist $E = 2{,}0 \cdot 10^{4}\,\mathrm{V/m}$ und
+              $B = 0{,}10\,\mathrm{T}$. (a) Welche Geschwindigkeit passiert den Filter? (b) Ein
+              einfach geladenes Ion mit $v$ aus (a) tritt in ein weiteres Feld
+              $B_0 = 0{,}25\,\mathrm{T}$ ein und läuft auf einem Kreis mit Radius $11{,}6\,\mathrm{cm}$.
+              Welche Masse hat es?</p>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>(a) Aus $qE = qvB$: $v = E/B = 2{,}0 \cdot 10^{5}\,\mathrm{m/s}$, unabhängig von
+                Masse und Ladung.</p>
+              <p>(b) $R = \frac{mv}{eB_0}$ ergibt $m = \frac{eB_0 R}{v} = \frac{1{,}602 \cdot 10^{-19} \cdot 0{,}25 \cdot 0{,}116}{2{,}0 \cdot 10^{5}}\,\mathrm{kg} = 2{,}3 \cdot 10^{-26}\,\mathrm{kg}$,
+                also $14\,\mathrm{u}$. Das passt zu einfach geladenem Stickstoff (Isotop mit der Massenzahl 14).
+                Einheitencheck: $\mathrm{C\,T\,m/(m/s) = kg}$ ✓</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 4
+              <span class="schwierigkeit" data-stufe="mittel">mittel</span>
+            </h3>
+            <p>Ein Zyklotron arbeitet mit $B = 1{,}5\,\mathrm{T}$ für Protonen. (a) Welche Frequenz muss
+              die Beschleunigungsspannung haben? (b) Welche Energie haben die Protonen am Rand bei
+              $R = 0{,}50\,\mathrm{m}$? (c) Warum bleibt die Frequenz bei wachsender Energie gleich?</p>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>(a) $f = \frac{\omega_c}{2\pi} = \frac{eB}{2\pi m_p} = \frac{1{,}602 \cdot 10^{-19} \cdot 1{,}5}{2\pi \cdot 1{,}673 \cdot 10^{-27}}\,\mathrm{Hz} = 2{,}3 \cdot 10^{7}\,\mathrm{Hz} = 22{,}9\,\mathrm{MHz}$.</p>
+              <p>(b) $v = eBR/m_p$ und $E_\text{kin} = \frac{(eBR)^2}{2m_p} = \frac{(1{,}602 \cdot 10^{-19} \cdot 1{,}5 \cdot 0{,}50)^2}{2 \cdot 1{,}673 \cdot 10^{-27}}\,\mathrm{J} = 4{,}3 \cdot 10^{-12}\,\mathrm{J} = 26{,}9\,\mathrm{MeV}$.</p>
+              <p>(c) Die Umlaufdauer $T = 2\pi m/(eB)$ enthält die Geschwindigkeit nicht. Schnellere
+                Protonen laufen auf größeren Kreisen und brauchen gleich lang. Bei etwa $27\,\mathrm{MeV}$
+                ist $v \approx 0{,}24\,c$ (nichtrelativistisch noch brauchbar, die Masse steigt aber um
+                etwa $3\,\%$). Bei höheren Energien muss man die Frequenz anpassen.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 5
+              <span class="schwierigkeit" data-stufe="schwer">schwer</span>
+            </h3>
+            <p>Ein Elektron mit $3{,}0 \cdot 10^{6}\,\mathrm{m/s}$ tritt unter $30^\circ$ gegen die
+              Feldrichtung in ein homogenes Feld $B = 2{,}0\,\mathrm{mT}$ ein. (a) Zerlege die
+              Geschwindigkeit. (b) Berechne Radius und Ganghöhe der Schraubenbahn.
+              (c) Welche Energie hat das Elektron, und ändert sie sich?</p>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>(a) $v_\perp = v\sin 30^\circ = 1{,}5 \cdot 10^{6}\,\mathrm{m/s}$ und
+                $v_\parallel = v\cos 30^\circ = 2{,}6 \cdot 10^{6}\,\mathrm{m/s}$.</p>
+              <p>(b) $R = \frac{m_e v_\perp}{eB} = \frac{9{,}109 \cdot 10^{-31} \cdot 1{,}5 \cdot 10^{6}}{1{,}602 \cdot 10^{-19} \cdot 2{,}0 \cdot 10^{-3}}\,\mathrm{m} = 4{,}3\,\mathrm{mm}$.
+                Die Umlaufdauer ist $T = \frac{2\pi m_e}{eB} = 1{,}79 \cdot 10^{-8}\,\mathrm{s}$, die
+                Ganghöhe $h = v_\parallel T = 2{,}6 \cdot 10^{6} \cdot 1{,}79 \cdot 10^{-8}\,\mathrm{m} = 4{,}6\,\mathrm{cm}$.</p>
+              <p>(c) $E_\text{kin} = \tfrac12 m_e v^2 = 4{,}1 \cdot 10^{-18}\,\mathrm{J} = 26\,\mathrm{eV}$. Sie
+                ändert sich nicht, weil die Lorentzkraft keine Arbeit leistet.</p>
+              <p><strong>Zum Nachdenken:</strong> Was passiert mit der Bahn, wenn das Feld in
+                Flugrichtung stärker wird (wie in den Polgebieten der Erde)?</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 6
+              <span class="schwierigkeit" data-stufe="schwer">schwer</span>
+            </h3>
+            <p>Eine rechteckige Spule mit $N = 20$ Windungen ($a = 5{,}0\,\mathrm{cm}$,
+              $b = 8{,}0\,\mathrm{cm}$) führt $I = 0{,}50\,\mathrm{A}$ und hängt drehbar in einem
+              homogenen Feld $B = 0{,}30\,\mathrm{T}$. (a) Berechne das magnetische Dipolmoment
+              $p_M = NIA$. (b) Wie groß ist das maximale Drehmoment? (c) Welche Arbeit kostet es,
+              die Spule aus der günstigsten in die ungünstigste Lage zu drehen?</p>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>(a) Fläche $A = ab = 4{,}0 \cdot 10^{-3}\,\mathrm{m^2}$, also
+                $p_M = 20 \cdot 0{,}50\,\mathrm{A} \cdot 4{,}0 \cdot 10^{-3}\,\mathrm{m^2} = 0{,}040\,\mathrm{A\,m^2}$.</p>
+              <p>(b) Die Kräfte auf die beiden Seiten der Länge $b$ sind $F = N I b B$ und bilden ein
+                Kräftepaar mit dem Hebelarm $a\sin\theta$. Also $M = N I A B\sin\theta = p_M B\sin\theta$,
+                maximal $0{,}040 \cdot 0{,}30\,\mathrm{N\,m} = 1{,}2 \cdot 10^{-2}\,\mathrm{N\,m}$ bei $\theta = 90^\circ$.
+                Die Seiten der Länge $a$ liefern nur Kräfte, die sich aufheben.</p>
+              <p>(c) Die Energie ist $W_\text{pot} = -p_M B\cos\theta$. Von $\theta = 0$ nach
+                $180^\circ$ steigt sie um $2 p_M B = 2 \cdot 0{,}040 \cdot 0{,}30\,\mathrm{J} = 0{,}024\,\mathrm{J}$.</p>
+              <p><strong>Zum Nachdenken:</strong> Wie unterscheidet sich das Drehmoment einer Spule im
+                Magnetfeld von dem eines elektrischen Dipols im elektrischen Feld?</p>
+            </details>
+          </div>
+        </section>
+
+      </div></article>
+  </main>
+</body>
+</html>

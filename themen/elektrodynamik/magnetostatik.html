@@ -1,0 +1,435 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="robots" content="noindex">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Biot-Savart und das Ampèresche Gesetz</title>
+  <meta name="description" content="Wie ein Strom sein Magnetfeld erzeugt: Ampèresches Gesetz, Biot-Savart, Feld von Draht, Spule und Kreisschleife.">
+
+  <link rel="stylesheet" href="../../css/stil.css">
+
+  <link rel="stylesheet" href="../../extern/katex/katex.min.css">
+  <script defer src="../../extern/katex/katex.min.js"></script>
+  <script defer src="../../extern/katex/contrib/auto-render.min.js" onload="starteFormeln()"></script>
+
+  <script src="../../js/daten.js"></script>
+  <script src="../../js/seite.js"></script>
+  <script src="../../js/effekte.js"></script>
+  <script type="application/json" id="symbole">
+  {
+    "C": "geschlossener Weg",
+    "V": "Volumen",
+    "V_2": "Volumen der Stromverteilung",
+    "e": "Einheitsvektor vom Aufpunkt zur Quelle",
+    "y": "Ortskoordinate",
+    "μ": "Vorsilbe Mikro, ein Millionstel",
+    "B": "magnetische Flussdichte (Magnetfeld)",
+    "I": "Stromstärke",
+    "j": "Stromdichte",
+    "μ_0": "magnetische Feldkonstante, ≈ 4π·10⁻⁷ N/A²",
+    "r": "Abstand von der Drahtachse bzw. Abstand zum Aufpunkt",
+    "R": "Radius von Draht bzw. Schleife",
+    "R_0": "Radius des Drahtes",
+    "s": "Wegelement bzw. Bogenlänge",
+    "n": "Windungen pro Länge",
+    "N": "Windungszahl",
+    "L": "Länge der Spule",
+    "A": "Vektorpotential bzw. Fläche",
+    "z": "Ort auf der Achse",
+    "α": "Winkel zwischen Verbindungslinie und Senkrechter",
+    "β": "Winkel zwischen Draht und Verbindungslinie",
+    "φ": "Azimutwinkel",
+    "p_M": "magnetisches Dipolmoment",
+    "d": "Abstand der Spulen bzw. Drähte",
+    "Φ_M": "magnetischer Fluss",
+    "ε_0": "elektrische Feldkonstante",
+    "U": "Spannung",
+    "x": "Ortskoordinate",
+    "f": "Funktion",
+    "ρ": "Ladungsdichte",
+    "t": "Zeit",
+    "π": "Kreiszahl",
+    "T": "Tesla",
+    "r_1": "Abstand zum ersten Draht",
+    "r_2": "Abstand zum zweiten Draht",
+    "θ": "Winkel",
+    "e_12": "Einheitsvektor von Aufpunkt zur Quelle"
+  }
+  </script>
+</head>
+<body data-thema="magnetostatik">
+  <main>
+    <article class="thema">
+      <header>
+        <h1>Biot-Savart und das <span class="betont">Ampèresche Gesetz</span></h1>
+        <p class="untertitel">Wie ein Strom sein Magnetfeld erzeugt, und warum die Feldlinien den Draht umkreisen.</p>
+      </header>
+
+      <div class="tabs">
+
+        <section class="tab" id="verstehen" data-titel="Verstehen">
+
+          <p>Im Jahr 1820 stellte der Däne Hans Christian Ørsted bei einem
+            Vortrag fest, dass eine Kompassnadel ausschlägt, wenn er neben ihr
+            einen Strom einschaltet. Strom macht also Magnetismus. Das war die
+            erste Verbindung zwischen Elektrizität und Magnetismus, und sie hat
+            sich als Grundlage fast jeder Technik von Elektromotoren bis
+            Lautsprechern erwiesen.</p>
+
+          <p>Das Feld um einen geraden Draht lässt sich leicht beschreiben. Es
+            läuft in Kreisen um den Draht, und zwar in der Richtung, in die sich
+            die Finger deiner rechten Hand krümmen, wenn der Daumen in
+            Stromrichtung zeigt. Es wird mit dem Abstand schwächer, und zwar
+            umgekehrt proportional: In doppelter Entfernung ist es nur halb
+            so stark.</p>
+
+          <figure class="abbildung">
+            <svg class="abb" viewBox="0 0 360 170" role="img" aria-label="Draht im Querschnitt mit Strom aus der Seite heraus und kreisförmigen Feldlinien gegen den Uhrzeigersinn">
+<circle class="flaeche" cx="120" cy="85" r="16"/><circle class="punkt" cx="120" cy="85" r="3"/>
+<circle class="kurve blau duenn" cx="120" cy="85" r="35" fill="none" style="stroke-width:1.5"/>
+<path class="punkt blau" d="M141.2 56.7 L149.7 61.0 L145.5 65.2z"/>
+<path class="punkt blau" d="M84.9 80.8 L84.3 71.3 L90.1 72.8z"/>
+<path class="punkt blau" d="M133.9 117.5 L126.0 122.7 L124.4 117.0z"/>
+<circle class="kurve blau duenn" cx="120" cy="85" r="55" fill="none" style="stroke-width:1.5"/>
+<path class="punkt blau" d="M155.4 42.6 L163.8 46.8 L159.6 51.1z"/>
+<path class="punkt blau" d="M65.6 75.6 L65.0 66.1 L70.8 67.7z"/>
+<path class="punkt blau" d="M139.1 136.8 L131.1 142.1 L129.6 136.3z"/>
+<circle class="kurve blau duenn" cx="120" cy="85" r="75" fill="none" style="stroke-width:1.5"/>
+<path class="punkt blau" d="M169.5 28.4 L178.0 32.7 L173.7 36.9z"/>
+<path class="punkt blau" d="M46.3 70.4 L45.7 60.9 L51.5 62.5z"/>
+<path class="punkt blau" d="M144.2 156.2 L136.3 161.4 L134.8 155.6z"/>
+<text x="120" y="115" text-anchor="middle" class="klein">I</text>
+<text x="222" y="62" class="klein">Der Weg umschließt I.</text><text x="222" y="88" class="klein">B zeigt entlang des Weges,</text><text x="222" y="104" class="klein">überall gleich groß.</text>
+</svg>
+            <figcaption>Abb. 1: Blick entlang des Drahtes, der Strom kommt aus der Seite
+              heraus auf dich zu. Die Feldlinien sind Kreise um den Draht, die
+              Pfeile zeigen gegen den Uhrzeigersinn.</figcaption>
+          </figure>
+
+          <p>Formst du den Draht zu einer Schleife, laufen die Feldlinien innen
+            alle in dieselbe Richtung und verstärken sich. Wickelst du viele
+            Schleifen hintereinander, entsteht eine <em>Spule</em>. In ihrem
+            Inneren ist das Feld stark und gleichmäßig, außen fast null. Das Feld
+            einer langen Spule sieht aus wie das eines Stabmagneten. Ein Elektromagnet
+            ist nichts anderes als eine Spule, oft mit Eisenkern. Anders als beim
+            Dauermagneten kannst du Stärke und Richtung seines Feldes über den
+            Strom jederzeit verändern, und das macht ihn technisch so nützlich.</p>
+
+          <div class="alltag">
+            <span class="titel">Aus dem Alltag</span>
+            <p>Ein Türklingel-Magnet, der Anker eines Relais oder der Kran, der
+              auf dem Schrottplatz Autos hebt, sind alles Spulen. Schaltest du den
+              Strom aus, verschwindet das Feld, und der Schrott fällt herunter.
+              Ein Dauermagnet könnte das nicht.</p>
+          </div>
+
+          <div class="merkkasten">
+            <span class="titel">Das Wichtigste in Kürze</span>
+            <p>Ströme erzeugen Magnetfelder, die den Strom in Kreisen umlaufen.
+              Das Feld eines geraden Drahtes nimmt mit dem Abstand ab. Eine lange
+              Spule erzeugt im Inneren ein starkes, gleichmäßiges Feld. Je mehr
+              Windungen und je mehr Strom, desto stärker das Feld.</p>
+          </div>
+        </section>
+
+        <section class="tab" id="vertiefung" data-titel="Vertiefung">
+
+          <h2>Das Ampèresche Gesetz</h2>
+          <p>Da $\vec{B}$ keine Quellen hat ($\vec{\nabla}\cdot\vec{B} = 0$), aber geschlossene
+            Feldlinien um Ströme bildet, ist es ein Wirbelfeld mit
+            $\vec{\nabla}\times\vec{B} \ne 0$. Experimentell findet man
+            $\vec{\nabla}\times\vec{B} = \mu_0\vec{j}$ mit der magnetischen Feldkonstante
+            $\mu_0 \approx 4\pi \cdot 10^{-7}\,\mathrm{N/A^2}$. Mit dem Satz von Stokes folgt die
+            integrale Form:</p>
+          $$ \oint_C \vec{B}\cdot\mathrm{d}\vec{s} = \mu_0 \int_A \vec{j}\cdot\mathrm{d}\vec{A} = \mu_0 I_\text{umschlossen} $$
+          <p>Wie der Satz von Gauß in der Elektrostatik ist das Ampèresche Gesetz bei Symmetrie das
+            schnellste Werkzeug. Du wählst einen Weg $C$, auf dem $B$ konstant und tangential
+            ist, und löst nach $B$ auf.</p>
+
+          <p><strong>Gerader Draht.</strong> Als Weg dient ein Kreis mit Radius $r$ um die Drahtachse.
+            Für den Draht mit dem Radius $R_0$, der den Strom $I$ gleichmäßig verteilt trägt, ist
+            außen ($r \ge R_0$) der ganze Strom umschlossen und innen ($r \lt R_0$) nur der Anteil
+            $I\,r^2/R_0^2$:</p>
+          $$ B(r) = \begin{cases} \dfrac{\mu_0 I}{2\pi R_0^2}\,r & r \le R_0 \\[4pt] \dfrac{\mu_0 I}{2\pi r} & r \ge R_0 \end{cases} $$
+
+          <figure class="abbildung">
+            <svg class="abb" viewBox="0 0 360 160" role="img" aria-label="Betrag des Magnetfeldes über dem Abstand von der Drahtachse: innen linear ansteigend, außen mit eins durch r abfallend">
+<path class="achse" d="M40 135L330 135M40 135L40 12" fill="none"/>
+<polyline class="kurve blau" points="40.0,135.0 41.8,132.4 43.6,129.8 45.4,127.1 47.2,124.5 49.1,121.9 50.9,119.2 52.7,116.6 54.5,114.0 56.3,111.4 58.1,108.8 59.9,106.1 61.8,103.5 63.6,100.9 65.4,98.2 67.2,95.6 69.0,93.0 70.8,90.4 72.6,87.8 74.4,85.1 76.2,82.5 78.1,79.9 79.9,77.2 81.7,74.6 83.5,72.0 85.3,69.4 87.1,66.8 88.9,64.1 90.8,61.5 92.6,58.9 94.4,56.2 96.2,53.6 98.0,51.0 99.8,48.4 101.6,45.8 103.4,43.1 105.2,40.5 107.1,37.9 108.9,35.2 110.7,32.6 112.5,30.0 114.3,32.6 116.1,35.0 117.9,37.3 119.8,39.5 121.6,41.7 123.4,43.7 125.2,45.6 127.0,47.5 128.8,49.3 130.6,51.0 132.4,52.6 134.2,54.2 136.1,55.8 137.9,57.2 139.7,58.6 141.5,60.0 143.3,61.3 145.1,62.6 146.9,63.8 148.8,65.0 150.6,66.1 152.4,67.3 154.2,68.3 156.0,69.4 157.8,70.4 159.6,71.4 161.4,72.3 163.2,73.2 165.1,74.1 166.9,75.0 168.7,75.8 170.5,76.7 172.3,77.5 174.1,78.2 175.9,79.0 177.8,79.7 179.6,80.5 181.4,81.2 183.2,81.8 185.0,82.5 186.8,83.1 188.6,83.8 190.4,84.4 192.2,85.0 194.1,85.6 195.9,86.2 197.7,86.7 199.5,87.3 201.3,87.8 203.1,88.3 204.9,88.8 206.8,89.3 208.6,89.8 210.4,90.3 212.2,90.8 214.0,91.2 215.8,91.7 217.6,92.1 219.4,92.6 221.2,93.0 223.1,93.4 224.9,93.8 226.7,94.2 228.5,94.6 230.3,95.0 232.1,95.4 233.9,95.7 235.8,96.1 237.6,96.5 239.4,96.8 241.2,97.2 243.0,97.5 244.8,97.8 246.6,98.2 248.4,98.5 250.2,98.8 252.1,99.1 253.9,99.4 255.7,99.7 257.5,100.0 259.3,100.3 261.1,100.6 262.9,100.9 264.8,101.1 266.6,101.4 268.4,101.7 270.2,101.9 272.0,102.2 273.8,102.4 275.6,102.7 277.4,102.9 279.2,103.2 281.1,103.4 282.9,103.7 284.7,103.9 286.5,104.1 288.3,104.3 290.1,104.6 291.9,104.8 293.8,105.0 295.6,105.2 297.4,105.4 299.2,105.6 301.0,105.8 302.8,106.0 304.6,106.2 306.4,106.4 308.2,106.6 310.1,106.8 311.9,107.0 313.7,107.2 315.5,107.4 317.3,107.5 319.1,107.7 320.9,107.9 322.8,108.1 324.6,108.2 326.4,108.4 328.2,108.6 330.0,108.8" fill="none"/>
+<path class="hilfslinie" d="M112.5 135L112.5 30" fill="none"/>
+<text x="112" y="150" text-anchor="middle" class="klein">R₀ (Drahtoberfläche)</text>
+<text x="334" y="150" text-anchor="end" class="klein">Abstand r</text><text x="46" y="14" class="klein">B</text>
+<text x="72" y="112" class="klein">innen</text><text x="72" y="126" class="klein">∝ r</text><text x="185" y="76" class="klein">außen ∝ 1/r</text>
+</svg>
+            <figcaption>Abb. 2: Betrag des Feldes eines Drahtes. Innen wächst es linear,
+              an der Oberfläche liegt das Maximum, außen fällt es wie $1/r$.</figcaption>
+          </figure>
+
+          <p><strong>Lange Spule.</strong> Eine Spule mit der Länge $L$, der Windungszahl $N$ und
+            $n = N/L$ Windungen pro Meter. Als Weg nimmst du ein Rechteck, das mit einer langen
+            Seite im Inneren liegt und mit der anderen weit außen. Außen ist das Feld vernachlässigbar,
+            die kurzen Seiten tragen nichts bei:</p>
+          $$ B L = \mu_0 N I \quad\Rightarrow\quad B = \mu_0 n I $$
+          <p>Das Feld ist im Inneren homogen. Die Formel gilt für $L \gg R$. Bei $n = 1000\,\mathrm{m^{-1}}$ und
+            $I = 10\,\mathrm{A}$ sind es $B = 12{,}6\,\mathrm{mT}$. Eine Ringspule (Toroid) mit dem Radius $r$
+            hat ebenso $B = \mu_0 N I/(2\pi r)$, und das Feld bleibt ganz im Inneren.</p>
+
+          <h2>Vektorpotential</h2>
+          <p>Für das elektrische Feld gibt es das Skalarpotential. Beim Magnetfeld geht das nicht,
+            weil $\oint\vec{B}\cdot\mathrm{d}\vec{s}$ im Allgemeinen nicht null ist. Stattdessen schreibt man
+            $\vec{B} = \vec{\nabla}\times\vec{A}$, womit $\vec{\nabla}\cdot\vec{B} = 0$ von selbst erfüllt ist.
+            Das Vektorpotential $\vec{A}$ ist nicht eindeutig: $\vec{A}' = \vec{A} + \vec{\nabla}f$
+            liefert dasselbe $\vec{B}$. Die Coulomb-Eichung $\vec{\nabla}\cdot\vec{A} = 0$ macht aus dem
+            Ampèreschen Gesetz drei Poisson-Gleichungen, $\Delta\vec{A} = -\mu_0\vec{j}$, mit der Lösung</p>
+          $$ \vec{A}(\vec{r}_1) = \frac{\mu_0}{4\pi}\int \frac{\vec{j}(\vec{r}_2)}{r_{12}}\,\mathrm{d}V_2 $$
+          <p>Genau wie $\varphi$ aus $\rho$ folgt. Das Vektorpotential eines geraden Drahtes zeigt in
+            Stromrichtung und nimmt logarithmisch mit dem Abstand ab ($A_z \propto -\ln r$), genau wie das Potential einer Linienladung.</p>
+
+          <h2>Das Gesetz von Biot-Savart</h2>
+          <p>Aus $\vec{B} = \vec{\nabla}\times\vec{A}$ folgt durch Rotation des Integranden mit
+            $\vec{\nabla}_1(1/r_{12}) = \hat{e}_{12}/r_{12}^2$ (mit $\hat{e}_{12}$ vom Aufpunkt zur Quelle):</p>
+          $$ \vec{B}(\vec{r}_1) = \frac{\mu_0}{4\pi}\int \frac{\hat{e}_{12}\times\vec{j}(\vec{r}_2)}{r_{12}^2}\,\mathrm{d}V_2 $$
+          <p>Zeigt $\hat{e}$ stattdessen von der Quelle zum Aufpunkt, ändert sich das Vorzeichen.
+            Beim dünnen Draht ist $\vec{j}\,\mathrm{d}V = I\,\mathrm{d}\vec{s}$. Mit dem Einheitsvektor
+            $\hat{r}$ vom Stromelement zum Aufpunkt und dem Abstand $r$ ist das übliche
+            <em>Biot-Savart-Gesetz</em></p>
+          $$ \mathrm{d}\vec{B} = \frac{\mu_0 I}{4\pi}\,\frac{\mathrm{d}\vec{s}\times\hat{r}}{r^2} $$
+          <p>Ein Stromelement erzeugt also ein Feld, das senkrecht auf dem Element und dem
+            Verbindungsvektor steht und mit $1/r^2$ abfällt. Das ist das magnetische Gegenstück
+            zum Coulomb-Gesetz, aber mit Kreuzprodukt.</p>
+
+          <p><strong>Gerader Draht aus Biot-Savart.</strong> Ein Drahtstück $\mathrm{d}z$ im Abstand $r$
+            vom Aufpunkt (senkrechter Abstand $R$ zum Draht, Winkel $\alpha$ zwischen $R$ und $r$)
+            liefert $\mathrm{d}B = \frac{\mu_0 I}{4\pi}\frac{\cos\alpha\,\mathrm{d}z}{r^2}$. Mit $r = R/\cos\alpha$
+            und $z = R\tan\alpha$, also $\mathrm{d}z = R\,\mathrm{d}\alpha/\cos^2\alpha$, wird daraus
+            $\mathrm{d}B = \frac{\mu_0 I}{4\pi R}\cos\alpha\,\mathrm{d}\alpha$. Für den unendlich langen Draht
+            integrierst du von $-\pi/2$ bis $\pi/2$:</p>
+          $$ B = \frac{\mu_0 I}{4\pi R}\,\Big[\sin\alpha\Big]_{-\pi/2}^{\pi/2} = \frac{\mu_0 I}{2\pi R} $$
+          <p>Das stimmt mit dem Ergebnis aus dem Ampèreschen Gesetz überein. Das Experiment dazu: Ein
+            Draht durch eine waagerechte Platte mit Eisenspänen. Fließt Strom, ordnen sich die
+            Späne in Kreisen um den Draht.</p>
+
+          <h2>Kreisschleife und magnetisches Dipolmoment</h2>
+          <p>Eine Schleife mit dem Radius $R$ liegt in der $(x,y)$-Ebene. Auf der Achse im Abstand $z$ stehen
+            $\mathrm{d}\vec{s}$ und der Verbindungsvektor senkrecht, also $\mathrm{d}B = \frac{\mu_0 I}{4\pi}\frac{\mathrm{d}s}{r^2}$
+            mit $r^2 = R^2 + z^2$. Die radialen Anteile heben sich bei gegenüberliegenden Elementen auf, es bleibt
+            $\mathrm{d}B_z = \mathrm{d}B\cos\alpha$ mit $\cos\alpha = R/r$. Mit $\mathrm{d}s = R\,\mathrm{d}\varphi$ und
+            Integration über $2\pi$:</p>
+          $$ B_z = \frac{\mu_0 I}{2}\,\frac{R^2}{(R^2 + z^2)^{3/2}}, \qquad B_z(0) = \frac{\mu_0 I}{2R}, \qquad B_z \approx \frac{\mu_0 I R^2}{2 z^3} \;\; (z \gg R) $$
+          <p>Im Fernfeld schreibst du $B_z \approx \frac{\mu_0}{2\pi}\frac{I A}{z^3}$ mit $A = \pi R^2$. Das ist
+            dieselbe Form wie das Feld eines elektrischen Dipols auf der Achse. Man definiert deshalb das
+            <em>magnetische Dipolmoment</em> $\vec{p}_M = I\,\vec{A}$, wobei $\vec{A}$ die Fläche als
+            Vektor in Richtung der Flächennormalen ist (Daumen der rechten Hand zeigt in
+            $\vec{p}_M$, wenn die Finger der Stromrichtung folgen).</p>
+
+          <h2>Helmholtz-Spulenpaar</h2>
+          <p>Zwei Ringspulen mit Radius $R$ im Abstand $d = R$, vom Strom $I$ gleichsinnig durchflossen, haben
+            auf der Achse (Ursprung in der Mitte zwischen den Spulen)</p>
+          $$ B_z = \frac{\mu_0 I R^2}{2}\left( \left[R^2 + \left(z + \tfrac{d}{2}\right)^2\right]^{-3/2} + \left[R^2 + \left(z - \tfrac{d}{2}\right)^2\right]^{-3/2} \right) $$
+          <p>Bei $d = R$ verschwindet die zweite Ableitung bei $z = 0$, das Feld ist dort besonders homogen:
+            $B_z \approx \left(\tfrac45\right)^{3/2}\frac{\mu_0 I}{R}\left(1 - \frac{144}{125}\left[\frac{z}{R}\right]^4\right)$
+            mit $\left(\tfrac45\right)^{3/2} = 0{,}716$. Mit $N$ Windungen je Spule ist $B = 0{,}716\,\mu_0 N I/R$.
+            Drei Paare senkrecht zueinander kompensieren das Erdfeld oder erzeugen definierte Felder in einem
+            Experiment.</p>
+
+          <figure class="abbildung">
+            <svg class="abb" viewBox="0 0 360 160" role="img" aria-label="Feld auf der Achse zweier Spulen im Abstand R: Einzelspulen als gestrichelte Glocken, Summe mit flachem Plateau in der Mitte">
+<path class="achse" d="M40 135L330 135M40 135L40 12" fill="none"/>
+<polyline class="kurve" points="40.0,130.9 41.2,130.8 42.4,130.7 43.6,130.6 44.8,130.4 46.0,130.3 47.2,130.2 48.5,130.1 49.7,129.9 50.9,129.8 52.1,129.6 53.3,129.5 54.5,129.3 55.7,129.2 56.9,129.0 58.1,128.8 59.3,128.6 60.5,128.5 61.8,128.3 63.0,128.1 64.2,127.8 65.4,127.6 66.6,127.4 67.8,127.2 69.0,126.9 70.2,126.7 71.4,126.4 72.6,126.1 73.8,125.8 75.0,125.5 76.2,125.2 77.5,124.9 78.7,124.6 79.9,124.2 81.1,123.9 82.3,123.5 83.5,123.1 84.7,122.7 85.9,122.3 87.1,121.8 88.3,121.3 89.5,120.9 90.8,120.4 92.0,119.8 93.2,119.3 94.4,118.7 95.6,118.1 96.8,117.5 98.0,116.9 99.2,116.2 100.4,115.5 101.6,114.8 102.8,114.0 104.0,113.2 105.3,112.4 106.5,111.5 107.7,110.6 108.9,109.7 110.1,108.8 111.3,107.8 112.5,106.7 113.7,105.6 114.9,104.5 116.1,103.4 117.3,102.1 118.5,100.9 119.8,99.6 121.0,98.3 122.2,96.9 123.4,95.5 124.6,94.0 125.8,92.5 127.0,91.0 128.2,89.4 129.4,87.8 130.6,86.2 131.8,84.6 133.0,82.9 134.2,81.2 135.5,79.5 136.7,77.8 137.9,76.0 139.1,74.3 140.3,72.6 141.5,71.0 142.7,69.3 143.9,67.7 145.1,66.2 146.3,64.7 147.5,63.3 148.8,62.0 150.0,60.7 151.2,59.6 152.4,58.5 153.6,57.6 154.8,56.8 156.0,56.2 157.2,55.7 158.4,55.3 159.6,55.1 160.8,55.0 162.0,55.1 163.2,55.3 164.5,55.7 165.7,56.2 166.9,56.8 168.1,57.6 169.3,58.5 170.5,59.6 171.7,60.7 172.9,62.0 174.1,63.3 175.3,64.7 176.5,66.2 177.8,67.7 179.0,69.3 180.2,71.0 181.4,72.6 182.6,74.3 183.8,76.0 185.0,77.8 186.2,79.5 187.4,81.2 188.6,82.9 189.8,84.6 191.0,86.2 192.2,87.8 193.5,89.4 194.7,91.0 195.9,92.5 197.1,94.0 198.3,95.5 199.5,96.9 200.7,98.3 201.9,99.6 203.1,100.9 204.3,102.1 205.5,103.4 206.8,104.5 208.0,105.6 209.2,106.7 210.4,107.8 211.6,108.8 212.8,109.7 214.0,110.6 215.2,111.5 216.4,112.4 217.6,113.2 218.8,114.0 220.0,114.8 221.2,115.5 222.5,116.2 223.7,116.9 224.9,117.5 226.1,118.1 227.3,118.7 228.5,119.3 229.7,119.8 230.9,120.4 232.1,120.9 233.3,121.3 234.5,121.8 235.8,122.3 237.0,122.7 238.2,123.1 239.4,123.5 240.6,123.9 241.8,124.2 243.0,124.6 244.2,124.9 245.4,125.2 246.6,125.5 247.8,125.8 249.0,126.1 250.2,126.4 251.5,126.7 252.7,126.9 253.9,127.2 255.1,127.4 256.3,127.6 257.5,127.8 258.7,128.1 259.9,128.3 261.1,128.5 262.3,128.6 263.5,128.8 264.8,129.0 266.0,129.2 267.2,129.3 268.4,129.5 269.6,129.6 270.8,129.8 272.0,129.9 273.2,130.1 274.4,130.2 275.6,130.3 276.8,130.4 278.0,130.6 279.2,130.7 280.5,130.8 281.7,130.9 282.9,131.0 284.1,131.1 285.3,131.2 286.5,131.3 287.7,131.4 288.9,131.5 290.1,131.6 291.3,131.6 292.5,131.7 293.8,131.8 295.0,131.9 296.2,132.0 297.4,132.0 298.6,132.1 299.8,132.2 301.0,132.2 302.2,132.3 303.4,132.4 304.6,132.4 305.8,132.5 307.0,132.5 308.2,132.6 309.5,132.6 310.7,132.7 311.9,132.7 313.1,132.8 314.3,132.8 315.5,132.9 316.7,132.9 317.9,133.0 319.1,133.0 320.3,133.0 321.5,133.1 322.8,133.1 324.0,133.2 325.2,133.2 326.4,133.2 327.6,133.3 328.8,133.3 330.0,133.3" fill="none" style="stroke-dasharray:4 3"/>
+<polyline class="kurve" points="40.0,133.3 41.2,133.3 42.4,133.3 43.6,133.2 44.8,133.2 46.0,133.2 47.2,133.1 48.5,133.1 49.7,133.0 50.9,133.0 52.1,133.0 53.3,132.9 54.5,132.9 55.7,132.8 56.9,132.8 58.1,132.7 59.3,132.7 60.5,132.6 61.8,132.6 63.0,132.5 64.2,132.5 65.4,132.4 66.6,132.4 67.8,132.3 69.0,132.2 70.2,132.2 71.4,132.1 72.6,132.0 73.8,132.0 75.0,131.9 76.2,131.8 77.5,131.7 78.7,131.6 79.9,131.6 81.1,131.5 82.3,131.4 83.5,131.3 84.7,131.2 85.9,131.1 87.1,131.0 88.3,130.9 89.5,130.8 90.8,130.7 92.0,130.6 93.2,130.4 94.4,130.3 95.6,130.2 96.8,130.1 98.0,129.9 99.2,129.8 100.4,129.6 101.6,129.5 102.8,129.3 104.0,129.2 105.3,129.0 106.5,128.8 107.7,128.6 108.9,128.5 110.1,128.3 111.3,128.1 112.5,127.8 113.7,127.6 114.9,127.4 116.1,127.2 117.3,126.9 118.5,126.7 119.8,126.4 121.0,126.1 122.2,125.8 123.4,125.5 124.6,125.2 125.8,124.9 127.0,124.6 128.2,124.2 129.4,123.9 130.6,123.5 131.8,123.1 133.0,122.7 134.2,122.3 135.5,121.8 136.7,121.3 137.9,120.9 139.1,120.4 140.3,119.8 141.5,119.3 142.7,118.7 143.9,118.1 145.1,117.5 146.3,116.9 147.5,116.2 148.8,115.5 150.0,114.8 151.2,114.0 152.4,113.2 153.6,112.4 154.8,111.5 156.0,110.6 157.2,109.7 158.4,108.8 159.6,107.8 160.8,106.7 162.0,105.6 163.2,104.5 164.5,103.4 165.7,102.1 166.9,100.9 168.1,99.6 169.3,98.3 170.5,96.9 171.7,95.5 172.9,94.0 174.1,92.5 175.3,91.0 176.5,89.4 177.8,87.8 179.0,86.2 180.2,84.6 181.4,82.9 182.6,81.2 183.8,79.5 185.0,77.8 186.2,76.0 187.4,74.3 188.6,72.6 189.8,71.0 191.0,69.3 192.2,67.7 193.5,66.2 194.7,64.7 195.9,63.3 197.1,62.0 198.3,60.7 199.5,59.6 200.7,58.5 201.9,57.6 203.1,56.8 204.3,56.2 205.5,55.7 206.8,55.3 208.0,55.1 209.2,55.0 210.4,55.1 211.6,55.3 212.8,55.7 214.0,56.2 215.2,56.8 216.4,57.6 217.6,58.5 218.8,59.6 220.0,60.7 221.2,62.0 222.5,63.3 223.7,64.7 224.9,66.2 226.1,67.7 227.3,69.3 228.5,71.0 229.7,72.6 230.9,74.3 232.1,76.0 233.3,77.8 234.5,79.5 235.8,81.2 237.0,82.9 238.2,84.6 239.4,86.2 240.6,87.8 241.8,89.4 243.0,91.0 244.2,92.5 245.4,94.0 246.6,95.5 247.8,96.9 249.0,98.3 250.2,99.6 251.5,100.9 252.7,102.1 253.9,103.4 255.1,104.5 256.3,105.6 257.5,106.7 258.7,107.8 259.9,108.8 261.1,109.7 262.3,110.6 263.5,111.5 264.8,112.4 266.0,113.2 267.2,114.0 268.4,114.8 269.6,115.5 270.8,116.2 272.0,116.9 273.2,117.5 274.4,118.1 275.6,118.7 276.8,119.3 278.0,119.8 279.2,120.4 280.5,120.9 281.7,121.3 282.9,121.8 284.1,122.3 285.3,122.7 286.5,123.1 287.7,123.5 288.9,123.9 290.1,124.2 291.3,124.6 292.5,124.9 293.8,125.2 295.0,125.5 296.2,125.8 297.4,126.1 298.6,126.4 299.8,126.7 301.0,126.9 302.2,127.2 303.4,127.4 304.6,127.6 305.8,127.8 307.0,128.1 308.2,128.3 309.5,128.5 310.7,128.6 311.9,128.8 313.1,129.0 314.3,129.2 315.5,129.3 316.7,129.5 317.9,129.6 319.1,129.8 320.3,129.9 321.5,130.1 322.8,130.2 324.0,130.3 325.2,130.4 326.4,130.6 327.6,130.7 328.8,130.8 330.0,130.9" fill="none" style="stroke-dasharray:4 3"/>
+<polyline class="kurve blau" points="40.0,129.2 41.2,129.1 42.4,129.0 43.6,128.8 44.8,128.7 46.0,128.5 47.2,128.3 48.5,128.2 49.7,128.0 50.9,127.8 52.1,127.6 53.3,127.4 54.5,127.2 55.7,127.0 56.9,126.8 58.1,126.6 59.3,126.3 60.5,126.1 61.8,125.8 63.0,125.6 64.2,125.3 65.4,125.0 66.6,124.8 67.8,124.5 69.0,124.1 70.2,123.8 71.4,123.5 72.6,123.2 73.8,122.8 75.0,122.4 76.2,122.0 77.5,121.6 78.7,121.2 79.9,120.8 81.1,120.3 82.3,119.9 83.5,119.4 84.7,118.9 85.9,118.4 87.1,117.8 88.3,117.2 89.5,116.7 90.8,116.0 92.0,115.4 93.2,114.7 94.4,114.0 95.6,113.3 96.8,112.6 98.0,111.8 99.2,111.0 100.4,110.1 101.6,109.3 102.8,108.3 104.0,107.4 105.3,106.4 106.5,105.4 107.7,104.3 108.9,103.2 110.1,102.0 111.3,100.8 112.5,99.6 113.7,98.3 114.9,96.9 116.1,95.5 117.3,94.1 118.5,92.6 119.8,91.0 121.0,89.4 122.2,87.7 123.4,86.0 124.6,84.3 125.8,82.5 127.0,80.6 128.2,78.7 129.4,76.7 130.6,74.7 131.8,72.6 133.0,70.6 134.2,68.4 135.5,66.3 136.7,64.1 137.9,61.9 139.1,59.7 140.3,57.5 141.5,55.3 142.7,53.1 143.9,50.9 145.1,48.7 146.3,46.6 147.5,44.5 148.8,42.5 150.0,40.5 151.2,38.6 152.4,36.8 153.6,35.0 154.8,33.4 156.0,31.8 157.2,30.4 158.4,29.1 159.6,27.8 160.8,26.7 162.0,25.7 163.2,24.8 164.5,24.0 165.7,23.3 166.9,22.7 168.1,22.2 169.3,21.8 170.5,21.5 171.7,21.2 172.9,21.0 174.1,20.8 175.3,20.7 176.5,20.6 177.8,20.6 179.0,20.5 180.2,20.5 181.4,20.5 182.6,20.5 183.8,20.5 185.0,20.5 186.2,20.5 187.4,20.5 188.6,20.5 189.8,20.5 191.0,20.5 192.2,20.6 193.5,20.6 194.7,20.7 195.9,20.8 197.1,21.0 198.3,21.2 199.5,21.5 200.7,21.8 201.9,22.2 203.1,22.7 204.3,23.3 205.5,24.0 206.8,24.8 208.0,25.7 209.2,26.7 210.4,27.8 211.6,29.1 212.8,30.4 214.0,31.8 215.2,33.4 216.4,35.0 217.6,36.8 218.8,38.6 220.0,40.5 221.2,42.5 222.5,44.5 223.7,46.6 224.9,48.7 226.1,50.9 227.3,53.1 228.5,55.3 229.7,57.5 230.9,59.7 232.1,61.9 233.3,64.1 234.5,66.3 235.8,68.4 237.0,70.6 238.2,72.6 239.4,74.7 240.6,76.7 241.8,78.7 243.0,80.6 244.2,82.5 245.4,84.3 246.6,86.0 247.8,87.7 249.0,89.4 250.2,91.0 251.5,92.6 252.7,94.1 253.9,95.5 255.1,96.9 256.3,98.3 257.5,99.6 258.7,100.8 259.9,102.0 261.1,103.2 262.3,104.3 263.5,105.4 264.8,106.4 266.0,107.4 267.2,108.3 268.4,109.3 269.6,110.1 270.8,111.0 272.0,111.8 273.2,112.6 274.4,113.3 275.6,114.0 276.8,114.7 278.0,115.4 279.2,116.0 280.5,116.7 281.7,117.2 282.9,117.8 284.1,118.4 285.3,118.9 286.5,119.4 287.7,119.9 288.9,120.3 290.1,120.8 291.3,121.2 292.5,121.6 293.8,122.0 295.0,122.4 296.2,122.8 297.4,123.2 298.6,123.5 299.8,123.8 301.0,124.1 302.2,124.5 303.4,124.8 304.6,125.0 305.8,125.3 307.0,125.6 308.2,125.8 309.5,126.1 310.7,126.3 311.9,126.6 313.1,126.8 314.3,127.0 315.5,127.2 316.7,127.4 317.9,127.6 319.1,127.8 320.3,128.0 321.5,128.2 322.8,128.3 324.0,128.5 325.2,128.7 326.4,128.8 327.6,129.0 328.8,129.1 330.0,129.2" fill="none" style=""/>
+<text x="334" y="150" text-anchor="end" class="klein">Ort z auf der Achse (Einheit R)</text><text x="46" y="14" class="klein">B</text>
+<text x="250" y="28" class="klein blau">Summe beider Spulen</text><text x="250" y="42" class="klein">Einzelspulen gestrichelt</text>
+</svg>
+            <figcaption>Abb. 3: Feld auf der Achse eines Helmholtz-Paars (Spulen bei $z = \pm R/2$). Die
+              Summe (blau) hat in der Mitte ein flaches Plateau.</figcaption>
+          </figure>
+
+          <div class="merkkasten">
+            <span class="titel">Merke</span>
+            <p>$\oint \vec{B}\cdot\mathrm{d}\vec{s} = \mu_0 I$. Draht: $B = \mu_0 I/(2\pi r)$. Lange Spule:
+              $B = \mu_0 n I$. Biot-Savart: $\mathrm{d}\vec{B} = \frac{\mu_0 I}{4\pi}\frac{\mathrm{d}\vec{s}\times\hat{r}}{r^2}$.
+              Schleifenmitte: $B = \mu_0 I/(2R)$. Dipolmoment $\vec{p}_M = I\vec{A}$. Helmholtz-Paar:
+              $B = 0{,}716\,\mu_0 N I/R$ in der Mitte, nahezu homogen.</p>
+          </div>
+        </section>
+
+        <section class="tab" id="beispiele" data-titel="Beispielrechnungen">
+
+          <div class="beispiel">
+            <h3>Beispiel 1: Dicker Draht</h3>
+            <p><strong>Gegeben:</strong> Ein Kupferdraht mit $R_0 = 2{,}0\,\mathrm{mm}$ führt $I = 30\,\mathrm{A}$,
+              gleichmäßig über den Querschnitt verteilt.<br>
+              <strong>Gesucht:</strong> $B$ bei $r = 1{,}0\,\mathrm{mm}$ (innen), an der Oberfläche und bei
+              $r = 1{,}0\,\mathrm{cm}$.</p>
+
+            <p><strong>1. Innen.</strong>
+              $$ B = \frac{\mu_0 I r}{2\pi R_0^2} = \frac{4\pi \cdot 10^{-7}\,\mathrm{N/A^2} \cdot 30\,\mathrm{A} \cdot 1{,}0 \cdot 10^{-3}\,\mathrm{m}}{2\pi \cdot (2{,}0 \cdot 10^{-3}\,\mathrm{m})^2} = 1{,}5 \cdot 10^{-3}\,\mathrm{T} $$</p>
+
+            <p><strong>2. Oberfläche.</strong>
+              $B = \frac{\mu_0 I}{2\pi R_0} = \frac{2 \cdot 10^{-7}\,\mathrm{N/A^2} \cdot 30\,\mathrm{A}}{2{,}0 \cdot 10^{-3}\,\mathrm{m}} = 3{,}0 \cdot 10^{-3}\,\mathrm{T}$.</p>
+
+            <p><strong>3. Außen.</strong>
+              $B = \frac{2 \cdot 10^{-7} \cdot 30}{1{,}0 \cdot 10^{-2}}\,\mathrm{T} = 6{,}0 \cdot 10^{-4}\,\mathrm{T}$.
+              Einheitencheck: $\mathrm{N/A^2 \cdot A/m = N/(A\,m) = T}$ ✓</p>
+
+            <p><strong>Ergebnis und Plausibilität:</strong> Das Feld steigt bis zur Oberfläche auf
+              $3{,}0\,\mathrm{mT}$ und fällt dann ab. Bei $r = 1\,\mathrm{cm}$ ist es auf ein Fünftel gesunken
+              ($R_0/r = 0{,}2$), das ist immer noch das Zwölffache des Erdfeldes.</p>
+          </div>
+
+          <div class="beispiel">
+            <h3>Beispiel 2: Lange Spule</h3>
+            <p><strong>Gegeben:</strong> $N = 500$ Windungen auf $L = 25\,\mathrm{cm}$, $I = 2{,}0\,\mathrm{A}$.<br>
+              <strong>Gesucht:</strong> Feld im Inneren und Vergleich mit dem Erdfeld.</p>
+
+            <p><strong>1. Windungsdichte.</strong> $n = N/L = \frac{500}{0{,}25\,\mathrm{m}} = 2000\,\mathrm{m^{-1}}$.</p>
+
+            <p><strong>2. Feld.</strong>
+              $$ B = \mu_0 n I = 4\pi \cdot 10^{-7}\,\mathrm{\tfrac{N}{A^2}} \cdot 2000\,\mathrm{m^{-1}} \cdot 2{,}0\,\mathrm{A} = 5{,}0 \cdot 10^{-3}\,\mathrm{T} $$
+              Einheitencheck: $\mathrm{N/A^2 \cdot A/m = T}$ ✓</p>
+
+            <p><strong>Ergebnis und Plausibilität:</strong> $5{,}0\,\mathrm{mT}$ ist rund das
+              Hundertfache des Erdfeldes. Voraussetzung $L \gg R$ muss erfüllt sein, die Spule soll also
+              deutlich dünner als $25\,\mathrm{cm}$ sein. Eine Verdopplung des Stroms verdoppelt das Feld.</p>
+          </div>
+
+          <div class="beispiel">
+            <h3>Beispiel 3: Kreisschleife und Helmholtz-Paar</h3>
+            <p><strong>Gegeben:</strong> (a) Eine Schleife mit $R = 5{,}0\,\mathrm{cm}$ und $I = 3{,}0\,\mathrm{A}$.
+              (b) Ein Helmholtz-Paar mit $R = 15\,\mathrm{cm}$, $N = 100$ Windungen je Spule und $I = 1{,}0\,\mathrm{A}$.<br>
+              <strong>Gesucht:</strong> $B$ in der Mitte der Schleife, auf der Achse bei $z = 10\,\mathrm{cm}$
+              und in der Mitte des Paares.</p>
+
+            <p><strong>1. Schleife, Mitte.</strong>
+              $B = \frac{\mu_0 I}{2R} = \frac{4\pi \cdot 10^{-7} \cdot 3{,}0}{2 \cdot 0{,}050}\,\mathrm{T} = 3{,}8 \cdot 10^{-5}\,\mathrm{T}$.</p>
+
+            <p><strong>2. Schleife, Achse.</strong>
+              $$ B_z = \frac{\mu_0 I R^2}{2(R^2 + z^2)^{3/2}} = \frac{4\pi \cdot 10^{-7} \cdot 3{,}0 \cdot (0{,}050)^2}{2\,(0{,}0125)^{3/2}}\,\mathrm{T} = 3{,}4 \cdot 10^{-6}\,\mathrm{T} $$</p>
+
+            <p><strong>3. Helmholtz-Paar.</strong>
+              $B = 0{,}716\,\frac{\mu_0 N I}{R} = 0{,}716 \cdot \frac{4\pi \cdot 10^{-7} \cdot 100 \cdot 1{,}0}{0{,}15}\,\mathrm{T} = 6{,}0 \cdot 10^{-4}\,\mathrm{T}$.
+              Einheitencheck: $\mathrm{N/A^2 \cdot A/m = T}$ ✓</p>
+
+            <p><strong>Ergebnis und Plausibilität:</strong> Bei $z = 2R$ ist das Feld auf ein Elftel des
+              Mittenwertes gefallen ($3{,}4$ gegen $37{,}7\,\mu\mathrm{T}$), nach $(1 + 4)^{-3/2} = 0{,}089$
+              wie berechnet. Das Helmholtz-Paar liefert $0{,}60\,\mathrm{mT}$, das Zwölffache des Erdfeldes,
+              homogen auf einigen Zentimetern.</p>
+          </div>
+        </section>
+
+        <section class="tab" id="aufgaben" data-titel="Aufgaben">
+
+          <p>Verwende $\mu_0 = 4\pi \cdot 10^{-7}\,\mathrm{N/A^2}$ und, wo nötig, das Erdfeld $50\,\mu\mathrm{T}$.</p>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 1
+              <span class="schwierigkeit" data-stufe="leicht">leicht</span>
+            </h3>
+            <p>Ein langer gerader Draht führt $100\,\mathrm{A}$. Wie groß ist $B$ im Abstand $5{,}0\,\mathrm{cm}$?
+              Wie verhält es sich zum Erdfeld?</p>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>$B = \frac{\mu_0 I}{2\pi r} = \frac{2 \cdot 10^{-7} \cdot 100}{0{,}050}\,\mathrm{T} = 4{,}0 \cdot 10^{-4}\,\mathrm{T}$,
+                also das Achtfache des Erdfeldes. Ein Kompass in dieser Nähe wäre nutzlos.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 2
+              <span class="schwierigkeit" data-stufe="leicht">leicht</span>
+            </h3>
+            <p>Eine lange Spule soll bei $I = 5{,}0\,\mathrm{A}$ im Inneren $0{,}10\,\mathrm{T}$ erzeugen. Wie viele
+              Windungen pro Meter braucht sie? Ist das realistisch?</p>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>$n = \frac{B}{\mu_0 I} = \frac{0{,}10\,\mathrm{T}}{4\pi \cdot 10^{-7} \cdot 5{,}0\,\mathrm{N/A}} = 1{,}6 \cdot 10^{4}\,\mathrm{m^{-1}}$.
+                Das sind etwa 16 Windungen pro Millimeter, also nur mit sehr dünnem Draht in mehreren Lagen
+                möglich. Praktisch nimmt man einen Eisenkern oder höhere Ströme.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 3
+              <span class="schwierigkeit" data-stufe="mittel">mittel</span>
+            </h3>
+            <p>Eine Ringspule (Toroid) mit $N = 1000$ Windungen und mittlerem Radius $10\,\mathrm{cm}$ führt
+              $2{,}0\,\mathrm{A}$. (a) Leite mit dem Ampèreschen Gesetz das Feld im Inneren her.
+              (b) Berechne $B$. (c) Wie groß ist das Feld außerhalb?</p>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>(a) Als Weg dient ein Kreis mit Radius $r$ im Inneren der Wicklung. Er umschließt $N$ mal den
+                Strom $I$: $2\pi r B = \mu_0 N I$, also $B = \frac{\mu_0 N I}{2\pi r}$.</p>
+              <p>(b) $B = \frac{4\pi \cdot 10^{-7} \cdot 1000 \cdot 2{,}0}{2\pi \cdot 0{,}10}\,\mathrm{T} = 4{,}0 \cdot 10^{-3}\,\mathrm{T}$.</p>
+              <p>(c) Ein Kreis außerhalb des Ringes umschließt den Nettostrom null ($N$ Windungen
+                hin, $N$ zurück): $B = 0$ außerhalb, sofern man Streufelder vernachlässigt.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 4
+              <span class="schwierigkeit" data-stufe="mittel">mittel</span>
+            </h3>
+            <p>Bei welchem Abstand $z$ auf der Achse einer Kreisschleife (Radius $R$) ist das Feld auf die
+              Hälfte des Wertes in der Mitte gefallen? Gib $z/R$ an.</p>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>Gefordert ist $\frac{B_z(z)}{B_z(0)} = \frac{R^3}{(R^2 + z^2)^{3/2}} = \frac12$, also
+                $(1 + z^2/R^2)^{3/2} = 2$, $1 + z^2/R^2 = 2^{2/3} = 1{,}587$ und damit
+                $z/R = \sqrt{0{,}587} = 0{,}77$. Schon bei etwa drei Vierteln des Radius sinkt das
+                Feld auf die Hälfte.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 5
+              <span class="schwierigkeit" data-stufe="schwer">schwer</span>
+            </h3>
+            <p>Eine Doppelleitung besteht aus zwei langen parallelen Drähten im Abstand $d = 2{,}0\,\mathrm{cm}$, die
+              je $10\,\mathrm{A}$ in entgegengesetzter Richtung führen. (a) Wie groß ist $B$ genau in der Mitte
+              zwischen den Drähten? (b) Wie groß ist $B$ auf der Verbindungslinie, $3{,}0\,\mathrm{cm}$
+              vom näheren Draht entfernt, außerhalb? (c) Warum werden Hin- und Rückleiter oft
+              verdrillt?</p>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>(a) In der Mitte haben beide Felder dieselbe Richtung (der Strom hin und zurück erzeugt dort
+                gleichgerichtete Felder). Jeder Draht liefert bei $r = 1{,}0\,\mathrm{cm}$:
+                $\frac{2 \cdot 10^{-7} \cdot 10}{0{,}010}\,\mathrm{T} = 2{,}0 \cdot 10^{-4}\,\mathrm{T}$, zusammen
+                $4{,}0 \cdot 10^{-4}\,\mathrm{T}$.</p>
+              <p>(b) Außen haben die Felder entgegengesetzte Richtung. Abstände $r_1 = 3{,}0\,\mathrm{cm}$ und
+                $r_2 = 5{,}0\,\mathrm{cm}$:
+                $B = 2 \cdot 10^{-7} \cdot 10 \cdot \left(\frac{1}{0{,}030} - \frac{1}{0{,}050}\right)\,\mathrm{T} = 2{,}7 \cdot 10^{-5}\,\mathrm{T}$.</p>
+              <p>(c) Außerhalb ist das Feld viel schwächer und fällt mit $1/r^2$ statt $1/r$ ab. Beim
+                Verdrillen wechselt die Orientierung ständig, die Felder heben sich im Mittel noch besser
+                auf, und ein von außen einfallendes Feld induziert in aufeinanderfolgenden Schleifen
+                entgegengesetzte Spannungen.</p>
+              <p><strong>Zum Nachdenken:</strong> Wie verändert sich das Feld in großer Entfernung, wenn
+                du den Abstand $d$ halbierst? (Antwort: Es halbiert sich, denn es wächst mit $d/r^2$.)</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 6
+              <span class="schwierigkeit" data-stufe="schwer">schwer</span>
+            </h3>
+            <p>Eine Kreisschleife mit $R = 5{,}0\,\mathrm{cm}$ führt $I = 3{,}0\,\mathrm{A}$. (a) Berechne das
+              Dipolmoment. (b) Vergleiche das exakte Feld bei $z = 50\,\mathrm{cm}$ mit der Dipolnäherung.
+              (c) Wie groß ist die relative Abweichung, und wovon hängt sie ab?</p>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>(a) $p_M = I\pi R^2 = 3{,}0 \cdot \pi \cdot (0{,}050)^2\,\mathrm{A\,m^2} = 2{,}36 \cdot 10^{-2}\,\mathrm{A\,m^2}$.</p>
+              <p>(b) Exakt: $B_z = \frac{\mu_0 I R^2}{2(R^2 + z^2)^{3/2}} = 3{,}714 \cdot 10^{-8}\,\mathrm{T}$.
+                Näherung: $B_z \approx \frac{\mu_0 p_M}{2\pi z^3} = 3{,}770 \cdot 10^{-8}\,\mathrm{T}$.</p>
+              <p>(c) Die Näherung ist um $1{,}5\,\%$ zu groß. Die Abweichung beträgt näherungsweise
+                $\tfrac32 (R/z)^2$ (aus der Reihenentwicklung des Nenners), hier
+                $\tfrac32 \cdot 0{,}01 = 1{,}5\,\%$. Sie wird also klein, wenn $z \gg R$.</p>
+              <p><strong>Zum Nachdenken:</strong> Wie groß wäre die Abweichung bei $z = 2R$? (Antwort: etwa $40\,\%$, exakt $5^{3/2}/8 - 1$.)</p>
+            </details>
+          </div>
+        </section>
+
+      </div></article>
+  </main>
+</body>
+</html>

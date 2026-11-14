@@ -27,8 +27,7 @@
   margin: 0;
 }
 /* Einziger Knopf im Hero (Entscheidung 2026-11-12): springt zu #themen.
-   Flach im Akzent, der weiche blaue Schatten --schatten-l ist das
-   "Leuchten" – bewusst kein Glow-Fleck. */
+   Ganz flach im Akzent, ohne Schatten (2026-11-14: kein Leuchten mehr). */
 .hero-knopf {
   display: inline-flex;
   align-items: center;
@@ -41,11 +40,10 @@
   font-weight: 600;
   font-size: 1rem;
   text-decoration: none;
-  box-shadow: var(--schatten-l);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition: background 0.2s ease;
 }
 .hero-knopf svg { width: 1.05rem; height: 1.05rem; transition: transform 0.2s ease; }
-.hero-knopf:hover { transform: translateY(-2px); box-shadow: var(--schatten-l), var(--schatten-m); }
+.hero-knopf:hover { background: color-mix(in srgb, var(--akzent) 85%, var(--text)); }
 .hero-knopf:hover svg { transform: translateY(2px); }
 .hero-knopf:focus-visible { outline: 2px solid var(--akzent); outline-offset: 3px; }
 
@@ -62,7 +60,10 @@
   width: 100%;
   height: auto;
   aspect-ratio: 1;
+  /* clip statt hidden: sonst gilt das SVG als Scroll-Behälter, wird beim
+     Klick neben die Körper fokussiert und bekommt einen Fokusrahmen */
   overflow: hidden;
+  overflow: clip;
   touch-action: manipulation;
   -webkit-tap-highlight-color: transparent;
   /* leichte Neigung zur Maus (Winkel aus js/sonnensystem.js, max. ±4°) */
@@ -97,7 +98,8 @@
   cursor: pointer;
 }
 .sonnensystem .treffer { fill: transparent; cursor: pointer; }
-.sonnensystem [tabindex]:focus { outline: none; }
+.sonnensystem [tabindex]:focus,
+.sonnensystem:focus { outline: none; }
 .sonnensystem .asteroiden {
   fill: none;
   stroke: currentColor;
@@ -231,7 +233,7 @@
   width: 0.45rem;
   height: 0.45rem;
   border-radius: 50%;
-  background: var(--akzent-2);
+  background: var(--akzent-lila);
 }
 .info-links { margin-top: 1.2rem; }
 .info-links ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.3rem; }
@@ -319,17 +321,18 @@
 .aufbau-gruppe {
   margin: 0 0 0.6rem;
   padding: 0 0.2rem 0.15rem;
-  border-bottom: 1.5px solid var(--akzent-2);
+  border-bottom: 1.5px solid var(--akzent-lila);
   font-family: var(--schrift-hand);
   font-size: 1.3rem;
   line-height: 1.2;
-  color: var(--akzent-2);
+  color: var(--akzent-lila);
   text-align: center;
 }
 .aufbau-gruppe-alle    { grid-column: 1; }
 .aufbau-gruppe-studium { grid-column: 2 / 5; }
-/* Jede Ebene hat ihre Farbe (Variablen --ebene-* in Abschnitt 1): Streifen
-   oben, Icon im getönten Quadrat, Fläche ganz leicht eingefärbt. */
+/* Jede Ebene hat ihre Farbe (Variablen --ebene-* in variablen.css), aber
+   nur als flacher Akzent (2026-11-14): dünne Linie oben und Strichfarbe
+   des Icons. Keine getönten Flächen, keine Schatten. */
 [data-ebene="verstehen"]  { --ebene: var(--ebene-verstehen); }
 [data-ebene="vertiefung"] { --ebene: var(--ebene-vertiefung); }
 [data-ebene="beispiele"]  { --ebene: var(--ebene-beispiele); }
@@ -338,10 +341,8 @@
   padding: 1.1rem 1.2rem 1.15rem;
   border-radius: var(--radius-l);
   background: var(--flaeche);
-  background: color-mix(in srgb, var(--ebene, var(--akzent)) 4%, var(--flaeche));
   border: 1px solid var(--rand);
-  border-top: 3px solid var(--ebene, var(--akzent));
-  box-shadow: var(--schatten-s);
+  border-top: 2px solid var(--ebene, var(--akzent));
 }
 .aufbau-icon {
   display: grid;
@@ -351,8 +352,7 @@
   margin-bottom: 0.75rem;
   border-radius: var(--radius-s);
   color: var(--ebene, var(--akzent));
-  background: var(--flaeche-2);
-  background: color-mix(in srgb, var(--ebene, var(--akzent)) 13%, var(--flaeche));
+  border: 1px solid var(--rand);
 }
 .aufbau-icon svg { width: 1.55rem; height: 1.55rem; }
 .aufbau-ebene h3 { margin: 0 0 0.4rem; font-size: 1.15rem; color: var(--text); }
@@ -367,7 +367,7 @@
     font-family: var(--schrift-hand);
     font-size: 1.15rem;
     line-height: 1.2;
-    color: var(--akzent-2);
+    color: var(--akzent-lila);
   }
 }
 @media (max-width: 34rem) {   /* Handy: kompakt 2 × 2, damit die Themen bald folgen */
@@ -412,14 +412,13 @@
   border-radius: var(--radius-l);
   background: var(--flaeche);
   border: 1px solid var(--rand);
-  box-shadow: var(--schatten-s);
   text-decoration: none;
   color: var(--text);
-  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  transition: transform 0.2s ease, border-color 0.2s ease;
 }
+/* Beim Überfahren nur ein dünner Rand in der Bereichsfarbe, kein Schatten */
 .gebiet-karte:hover {
   transform: translateY(-3px);
-  box-shadow: var(--schatten-m);
   border-color: var(--karten-farbe, var(--akzent));
 }
 /* Bereichs-Karten (Startseite, Themenübersicht) und die Links "Weitere

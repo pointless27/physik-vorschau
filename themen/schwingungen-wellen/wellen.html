@@ -1,0 +1,922 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="robots" content="noindex">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Wellen und die Wellengleichung</title>
+  <meta name="description" content="Was eine Welle ist, wie man sie mit Wellenlänge, Frequenz und Wellenzahl beschreibt, woher die Wellengleichung kommt und wie Wellen Energie transportieren.">
+
+  <link rel="stylesheet" href="../../css/stil.css">
+
+  <link rel="stylesheet" href="../../extern/katex/katex.min.css">
+  <script defer src="../../extern/katex/katex.min.js"></script>
+  <script defer src="../../extern/katex/contrib/auto-render.min.js" onload="starteFormeln()"></script>
+
+  <script src="../../js/daten.js"></script>
+  <script src="../../js/seite.js"></script>
+  <script src="../../js/effekte.js"></script>
+  <script type="application/json" id="symbole">
+  {
+    "ξ": "Auslenkung aus der Ruhelage",
+    "ξ_j": "Auslenkung der j-ten Masse",
+    "z": "Ort in Ausbreitungsrichtung",
+    "x": "Ortskoordinate",
+    "y": "Ortskoordinate",
+    "t": "Zeit",
+    "t_1": "Zeitpunkt",
+    "A": "Amplitude",
+    "a": "Koeffizient des Kosinusanteils",
+    "b": "Koeffizient des Sinusanteils",
+    "c": "komplexe Amplitude",
+    "ω": "Kreisfrequenz",
+    "ω_0": "Eigenkreisfrequenz einer Masse an einer Feder",
+    "k": "Wellenzahl",
+    "λ": "Wellenlänge",
+    "T": "Periodendauer",
+    "f": "Frequenz",
+    "v": "Ausbreitungsgeschwindigkeit",
+    "v_ph": "Phasengeschwindigkeit",
+    "v_0": "Ausbreitungsgeschwindigkeit langer Wellen",
+    "φ": "Phase",
+    "m": "Masse",
+    "D": "Federkonstante",
+    "j": "Nummer der Masse in der Kette",
+    "F": "Spannkraft der Saite",
+    "μ": "Masse pro Länge (Längendichte)",
+    "ρ": "Dichte",
+    "E": "Elastizitätsmodul",
+    "K": "Kompressionsmodul",
+    "κ": "Adiabatenexponent",
+    "p": "Druck",
+    "g": "Wellenform (beliebige Funktion)",
+    "h": "Wellenform (beliebige Funktion)",
+    "r": "Abstand von der Quelle",
+    "η": "Energiedichte",
+    "I": "Intensität (Energieflussdichte)",
+    "P": "Leistung",
+    "d": "Durchmesser",
+    "L": "Länge",
+    "u": "Hilfsvariable",
+    "N": "Anzahl der Massen",
+    "e": "Eulersche Zahl",
+    "i": "imaginäre Einheit",
+    "e_x": "Einheitsvektor in x-Richtung",
+    "n": "Brechzahl",
+    "π": "Kreiszahl"
+  }
+  </script>
+</head>
+<body data-thema="wellen">
+  <main>
+    <article class="thema">
+      <header>
+        <h1>Wellen und die <span class="betont">Wellengleichung</span></h1>
+        <p class="untertitel">Eine Welle trägt Energie über weite Strecken, obwohl jedes Teilchen fast an seinem Platz bleibt.</p>
+      </header>
+
+      <div class="tabs">
+
+        <section class="tab" id="verstehen" data-titel="Verstehen">
+
+          <p>Im vollen Stadion springt eine Gruppe von Zuschauern auf, reißt die
+            Arme hoch und setzt sich wieder. Ihre Nachbarn tun es ihnen einen
+            Augenblick später nach, dann deren Nachbarn. Eine La-Ola-Welle läuft
+            einmal rund um die Tribüne, und doch hat niemand seinen Platz
+            verlassen. Jeder Mensch bewegt sich nur kurz auf und ab. Was wandert,
+            ist die Bewegung selbst.</p>
+
+          <p>Genau das ist eine <em>Welle</em>: eine Schwingung, die von einem Ort
+            zum nächsten weitergegeben wird. Dazu braucht es Nachbarn, die
+            miteinander verbunden sind. Im Seil zieht jedes Stück am nächsten, in
+            der Luft drückt jede Luftschicht auf die folgende. Die Teilchen
+            schwingen um ihre Ruhelage, die Welle aber läuft weiter und nimmt
+            Energie mit. Deshalb kann eine Meereswelle, die auf der anderen Seite
+            des Ozeans entstanden ist, am Strand eine Sandburg umwerfen.</p>
+
+          <p>Ein Schnappschuss einer gleichmäßigen Welle sieht aus wie eine
+            Sinuskurve (Abb. 1). Der Abstand von einem Wellenberg zum nächsten
+            heißt <em>Wellenlänge</em>, die größte Auslenkung heißt
+            <em>Amplitude</em>. Bleibst du an einem festen Ort stehen, ziehen die
+            Berge in festem Takt an dir vorbei. Wie oft das pro Sekunde passiert,
+            ist die <em>Frequenz</em>.</p>
+
+          <figure class="abbildung">
+<svg class="abb" viewBox="0 0 360 200" role="img" aria-label="Momentaufnahme einer Sinuswelle mit eingezeichneter Wellenlänge zwischen zwei Wellenbergen, Amplitude und Laufrichtung nach rechts">
+<defs><marker id="pfeil-abb1-text" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto-start-reverse"><path class="punkt" d="M0 0L10 5L0 10z"/></marker><marker id="pfeil-abb1-blau" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto-start-reverse"><path class="punkt blau" d="M0 0L10 5L0 10z"/></marker><marker id="pfeil-abb1-kupfer" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto-start-reverse"><path class="punkt kupfer" d="M0 0L10 5L0 10z"/></marker></defs>
+<path class="achse" d="M30 105H348" marker-end="url(#pfeil-abb1-text)"/>
+<path class="achse" d="M40 175V22" marker-end="url(#pfeil-abb1-text)"/>
+<text x="47" y="24">Auslenkung</text>
+<text x="346" y="123" text-anchor="end">Ort</text>
+<path class="kurve blau" d="M40 105 L40.5 103.9 L41 102.8 L41.5 101.6 L42 100.5 L42.5 99.4 L43 98.3 L43.5 97.2 L44 96.1 L44.5 95 L45 93.9 L45.5 92.9 L46 91.8 L46.5 90.8 L47 89.7 L47.5 88.7 L48 87.6 L48.5 86.6 L49 85.6 L49.5 84.6 L50 83.7 L50.5 82.7 L51 81.8 L51.5 80.9 L52 80 L52.5 79.1 L53 78.2 L53.5 77.3 L54 76.5 L54.5 75.7 L55 74.9 L55.5 74.1 L56 73.4 L56.5 72.7 L57 72 L57.5 71.3 L58 70.6 L58.5 70 L59 69.4 L59.5 68.8 L60 68.3 L60.5 67.7 L61 67.2 L61.5 66.8 L62 66.3 L62.5 65.9 L63 65.5 L63.5 65.1 L64 64.8 L64.5 64.5 L65 64.2 L65.5 63.9 L66 63.7 L66.5 63.5 L67 63.4 L67.5 63.2 L68 63.1 L68.5 63.1 L69 63 L69.5 63 L70 63 L70.5 63.1 L71 63.1 L71.5 63.2 L72 63.4 L72.5 63.5 L73 63.7 L73.5 63.9 L74 64.2 L74.5 64.5 L75 64.8 L75.5 65.1 L76 65.5 L76.5 65.9 L77 66.3 L77.5 66.8 L78 67.2 L78.5 67.7 L79 68.3 L79.5 68.8 L80 69.4 L80.5 70 L81 70.6 L81.5 71.3 L82 72 L82.5 72.7 L83 73.4 L83.5 74.1 L84 74.9 L84.5 75.7 L85 76.5 L85.5 77.3 L86 78.2 L86.5 79.1 L87 80 L87.5 80.9 L88 81.8 L88.5 82.7 L89 83.7 L89.5 84.6 L90 85.6 L90.5 86.6 L91 87.6 L91.5 88.7 L92 89.7 L92.5 90.8 L93 91.8 L93.5 92.9 L94 93.9 L94.5 95 L95 96.1 L95.5 97.2 L96 98.3 L96.5 99.4 L97 100.5 L97.5 101.6 L98 102.8 L98.5 103.9 L99 105 L99.5 106.1 L100 107.2 L100.5 108.4 L101 109.5 L101.5 110.6 L102 111.7 L102.5 112.8 L103 113.9 L103.5 115 L104 116.1 L104.5 117.1 L105 118.2 L105.5 119.2 L106 120.3 L106.5 121.3 L107 122.4 L107.5 123.4 L108 124.4 L108.5 125.4 L109 126.3 L109.5 127.3 L110 128.2 L110.5 129.1 L111 130 L111.5 130.9 L112 131.8 L112.5 132.7 L113 133.5 L113.5 134.3 L114 135.1 L114.5 135.9 L115 136.6 L115.5 137.3 L116 138 L116.5 138.7 L117 139.4 L117.5 140 L118 140.6 L118.5 141.2 L119 141.7 L119.5 142.3 L120 142.8 L120.5 143.2 L121 143.7 L121.5 144.1 L122 144.5 L122.5 144.9 L123 145.2 L123.5 145.5 L124 145.8 L124.5 146.1 L125 146.3 L125.5 146.5 L126 146.6 L126.5 146.8 L127 146.9 L127.5 146.9 L128 147 L128.5 147 L129 147 L129.5 146.9 L130 146.9 L130.5 146.8 L131 146.6 L131.5 146.5 L132 146.3 L132.5 146.1 L133 145.8 L133.5 145.5 L134 145.2 L134.5 144.9 L135 144.5 L135.5 144.1 L136 143.7 L136.5 143.2 L137 142.8 L137.5 142.3 L138 141.7 L138.5 141.2 L139 140.6 L139.5 140 L140 139.4 L140.5 138.7 L141 138 L141.5 137.3 L142 136.6 L142.5 135.9 L143 135.1 L143.5 134.3 L144 133.5 L144.5 132.7 L145 131.8 L145.5 130.9 L146 130 L146.5 129.1 L147 128.2 L147.5 127.3 L148 126.3 L148.5 125.4 L149 124.4 L149.5 123.4 L150 122.4 L150.5 121.3 L151 120.3 L151.5 119.2 L152 118.2 L152.5 117.1 L153 116.1 L153.5 115 L154 113.9 L154.5 112.8 L155 111.7 L155.5 110.6 L156 109.5 L156.5 108.4 L157 107.2 L157.5 106.1 L158 105 L158.5 103.9 L159 102.8 L159.5 101.6 L160 100.5 L160.5 99.4 L161 98.3 L161.5 97.2 L162 96.1 L162.5 95 L163 93.9 L163.5 92.9 L164 91.8 L164.5 90.8 L165 89.7 L165.5 88.7 L166 87.6 L166.5 86.6 L167 85.6 L167.5 84.6 L168 83.7 L168.5 82.7 L169 81.8 L169.5 80.9 L170 80 L170.5 79.1 L171 78.2 L171.5 77.3 L172 76.5 L172.5 75.7 L173 74.9 L173.5 74.1 L174 73.4 L174.5 72.7 L175 72 L175.5 71.3 L176 70.6 L176.5 70 L177 69.4 L177.5 68.8 L178 68.3 L178.5 67.7 L179 67.2 L179.5 66.8 L180 66.3 L180.5 65.9 L181 65.5 L181.5 65.1 L182 64.8 L182.5 64.5 L183 64.2 L183.5 63.9 L184 63.7 L184.5 63.5 L185 63.4 L185.5 63.2 L186 63.1 L186.5 63.1 L187 63 L187.5 63 L188 63 L188.5 63.1 L189 63.1 L189.5 63.2 L190 63.4 L190.5 63.5 L191 63.7 L191.5 63.9 L192 64.2 L192.5 64.5 L193 64.8 L193.5 65.1 L194 65.5 L194.5 65.9 L195 66.3 L195.5 66.8 L196 67.2 L196.5 67.7 L197 68.3 L197.5 68.8 L198 69.4 L198.5 70 L199 70.6 L199.5 71.3 L200 72 L200.5 72.7 L201 73.4 L201.5 74.1 L202 74.9 L202.5 75.7 L203 76.5 L203.5 77.3 L204 78.2 L204.5 79.1 L205 80 L205.5 80.9 L206 81.8 L206.5 82.7 L207 83.7 L207.5 84.6 L208 85.6 L208.5 86.6 L209 87.6 L209.5 88.7 L210 89.7 L210.5 90.8 L211 91.8 L211.5 92.9 L212 93.9 L212.5 95 L213 96.1 L213.5 97.2 L214 98.3 L214.5 99.4 L215 100.5 L215.5 101.6 L216 102.8 L216.5 103.9 L217 105 L217.5 106.1 L218 107.2 L218.5 108.4 L219 109.5 L219.5 110.6 L220 111.7 L220.5 112.8 L221 113.9 L221.5 115 L222 116.1 L222.5 117.1 L223 118.2 L223.5 119.2 L224 120.3 L224.5 121.3 L225 122.4 L225.5 123.4 L226 124.4 L226.5 125.4 L227 126.3 L227.5 127.3 L228 128.2 L228.5 129.1 L229 130 L229.5 130.9 L230 131.8 L230.5 132.7 L231 133.5 L231.5 134.3 L232 135.1 L232.5 135.9 L233 136.6 L233.5 137.3 L234 138 L234.5 138.7 L235 139.4 L235.5 140 L236 140.6 L236.5 141.2 L237 141.7 L237.5 142.3 L238 142.8 L238.5 143.2 L239 143.7 L239.5 144.1 L240 144.5 L240.5 144.9 L241 145.2 L241.5 145.5 L242 145.8 L242.5 146.1 L243 146.3 L243.5 146.5 L244 146.6 L244.5 146.8 L245 146.9 L245.5 146.9 L246 147 L246.5 147 L247 147 L247.5 146.9 L248 146.9 L248.5 146.8 L249 146.6 L249.5 146.5 L250 146.3 L250.5 146.1 L251 145.8 L251.5 145.5 L252 145.2 L252.5 144.9 L253 144.5 L253.5 144.1 L254 143.7 L254.5 143.2 L255 142.8 L255.5 142.3 L256 141.7 L256.5 141.2 L257 140.6 L257.5 140 L258 139.4 L258.5 138.7 L259 138 L259.5 137.3 L260 136.6 L260.5 135.9 L261 135.1 L261.5 134.3 L262 133.5 L262.5 132.7 L263 131.8 L263.5 130.9 L264 130 L264.5 129.1 L265 128.2 L265.5 127.3 L266 126.3 L266.5 125.4 L267 124.4 L267.5 123.4 L268 122.4 L268.5 121.3 L269 120.3 L269.5 119.2 L270 118.2 L270.5 117.1 L271 116.1 L271.5 115 L272 113.9 L272.5 112.8 L273 111.7 L273.5 110.6 L274 109.5 L274.5 108.4 L275 107.2 L275.5 106.1 L276 105 L276.5 103.9 L277 102.8 L277.5 101.6 L278 100.5 L278.5 99.4 L279 98.3 L279.5 97.2 L280 96.1 L280.5 95 L281 93.9 L281.5 92.9 L282 91.8 L282.5 90.8 L283 89.7 L283.5 88.7 L284 87.6 L284.5 86.6 L285 85.6 L285.5 84.6 L286 83.7 L286.5 82.7 L287 81.8 L287.5 80.9 L288 80 L288.5 79.1 L289 78.2 L289.5 77.3 L290 76.5 L290.5 75.7 L291 74.9 L291.5 74.1 L292 73.4 L292.5 72.7 L293 72 L293.5 71.3 L294 70.6 L294.5 70 L295 69.4 L295.5 68.8 L296 68.3 L296.5 67.7 L297 67.2 L297.5 66.8 L298 66.3 L298.5 65.9 L299 65.5 L299.5 65.1 L300 64.8 L300.5 64.5 L301 64.2 L301.5 63.9 L302 63.7 L302.5 63.5 L303 63.4 L303.5 63.2 L304 63.1 L304.5 63.1 L305 63 L305.5 63 L306 63 L306.5 63.1 L307 63.1 L307.5 63.2 L308 63.4 L308.5 63.5 L309 63.7 L309.5 63.9 L310 64.2 L310.5 64.5 L311 64.8 L311.5 65.1 L312 65.5 L312.5 65.9 L313 66.3 L313.5 66.8 L314 67.2 L314.5 67.7 L315 68.3 L315.5 68.8 L316 69.4 L316.5 70 L317 70.6 L317.5 71.3 L318 72 L318.5 72.7 L319 73.4 L319.5 74.1 L320 74.9 L320.5 75.7 L321 76.5 L321.5 77.3 L322 78.2 L322.5 79.1 L323 80 L323.5 80.9 L324 81.8 L324.5 82.7 L325 83.7 L325.5 84.6 L326 85.6 L326.5 86.6 L327 87.6 L327.5 88.7 L328 89.7 L328.5 90.8 L329 91.8 L329.5 92.9 L330 93.9 L330.5 95 L331 96.1 L331.5 97.2 L332 98.3 L332.5 99.4 L333 100.5 L333.5 101.6 L334 102.8 L334.5 103.9 L335 105"/>
+<path class="hilfslinie" d="M69.5 63V43"/>
+<path class="hilfslinie" d="M187.5 63V43"/>
+<path class="achse" d="M71.5 49H185.5" marker-start="url(#pfeil-abb1-text)" marker-end="url(#pfeil-abb1-text)"/>
+<text class="halo" x="128.5" y="44" text-anchor="middle">Wellenlänge λ</text>
+<path class="hilfslinie" d="M232.5 105H260.5"/>
+<path class="kurve kupfer duenn" d="M246.5 105V145" marker-end="url(#pfeil-abb1-kupfer)"/>
+<text class="kupfer" x="246.5" y="165" text-anchor="middle">Amplitude A</text>
+<path class="kurve blau duenn" d="M250 40H310" marker-end="url(#pfeil-abb1-blau)"/>
+<text class="blau" x="280" y="32" text-anchor="middle">läuft mit v</text>
+</svg>
+            <figcaption>Abb. 1: Momentaufnahme einer Welle. Ein Wellenberg und
+              der nächste liegen eine Wellenlänge auseinander; das ganze Muster
+              wandert mit der Geschwindigkeit $v$ nach rechts.</figcaption>
+          </figure>
+
+          <p>Daraus folgt eine einfache Beziehung. Während einer Schwingung rückt
+            die Welle genau um eine Wellenlänge vor. Schwingt sie $f$-mal pro
+            Sekunde, legt sie in einer Sekunde $f$ Wellenlängen zurück:</p>
+          $$ v = \lambda \cdot f $$
+          <p>Ein Ton von $440\,\mathrm{Hz}$ hat in Luft ($v \approx 343\,\mathrm{m/s}$)
+            eine Wellenlänge von etwa $78\,\mathrm{cm}$.</p>
+
+          <p>Wellen gibt es in zwei Grundformen (Abb. 2). Schwingen die Teilchen
+            quer zur Laufrichtung wie beim geschüttelten Seil, heißt die Welle
+            <em>transversal</em>. Schwingen sie längs der Laufrichtung, entstehen
+            abwechselnd dichte und dünne Zonen. So eine <em>longitudinale</em>
+            Welle ist der Schall in der Luft. Wasserwellen sind eine Mischung:
+            Dort laufen die Wasserteilchen auf kleinen Kreisen.</p>
+
+          <figure class="abbildung">
+<svg class="abb" viewBox="0 0 360 225" role="img" aria-label="Oben Teilchen, die quer zur Ausbreitung ausgelenkt sind und eine Sinuskurve bilden; unten Luftschichten, die längs verschoben sind und dichte und dünne Zonen bilden">
+<defs><marker id="pfeil-abb2-text" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto-start-reverse"><path class="punkt" d="M0 0L10 5L0 10z"/></marker><marker id="pfeil-abb2-blau" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto-start-reverse"><path class="punkt blau" d="M0 0L10 5L0 10z"/></marker><marker id="pfeil-abb2-kupfer" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto-start-reverse"><path class="punkt kupfer" d="M0 0L10 5L0 10z"/></marker></defs>
+<text x="20" y="18">transversal (Seil)</text>
+<path class="hilfslinie" d="M24 55H336"/>
+<circle class="punkt blau" cx="30" cy="55" r="3.2"/>
+<circle class="punkt blau" cx="42" cy="47.6" r="3.2"/>
+<circle class="punkt blau" cx="54" cy="41.8" r="3.2"/>
+<circle class="punkt blau" cx="66" cy="39.1" r="3.2"/>
+<circle class="punkt blau" cx="78" cy="40" r="3.2"/>
+<circle class="punkt blau" cx="90" cy="44.4" r="3.2"/>
+<circle class="punkt blau" cx="102" cy="51.2" r="3.2"/>
+<circle class="punkt blau" cx="114" cy="58.8" r="3.2"/>
+<circle class="punkt blau" cx="126" cy="65.6" r="3.2"/>
+<circle class="punkt blau" cx="138" cy="70" r="3.2"/>
+<circle class="punkt blau" cx="150" cy="70.9" r="3.2"/>
+<circle class="punkt blau" cx="162" cy="68.2" r="3.2"/>
+<circle class="punkt blau" cx="174" cy="62.4" r="3.2"/>
+<circle class="punkt blau" cx="186" cy="55" r="3.2"/>
+<circle class="punkt blau" cx="198" cy="47.6" r="3.2"/>
+<circle class="punkt blau" cx="210" cy="41.8" r="3.2"/>
+<circle class="punkt blau" cx="222" cy="39.1" r="3.2"/>
+<circle class="punkt blau" cx="234" cy="40" r="3.2"/>
+<circle class="punkt blau" cx="246" cy="44.4" r="3.2"/>
+<circle class="punkt blau" cx="258" cy="51.2" r="3.2"/>
+<circle class="punkt blau" cx="270" cy="58.8" r="3.2"/>
+<circle class="punkt blau" cx="282" cy="65.6" r="3.2"/>
+<circle class="punkt blau" cx="294" cy="70" r="3.2"/>
+<circle class="punkt blau" cx="306" cy="70.9" r="3.2"/>
+<circle class="punkt blau" cx="318" cy="68.2" r="3.2"/>
+<circle class="punkt blau" cx="330" cy="62.4" r="3.2"/>
+<path class="kurve kupfer duenn" d="M138 25V85" marker-start="url(#pfeil-abb2-kupfer)" marker-end="url(#pfeil-abb2-kupfer)"/>
+<text class="kupfer klein" x="145" y="91">Schwingung</text>
+<path class="kurve blau duenn" d="M268 95H330" marker-end="url(#pfeil-abb2-blau)"/>
+<text class="blau klein" x="268" y="89">Ausbreitung</text>
+<text x="20" y="128">longitudinal (Schall)</text>
+<path class="kurve blau" d="M30 150V190"/>
+<path class="kurve blau" d="M37.8 150V190"/>
+<path class="kurve blau" d="M46.6 150V190"/>
+<path class="kurve blau" d="M57.1 150V190"/>
+<path class="kurve blau" d="M69.6 150V190"/>
+<path class="kurve blau" d="M84 150V190"/>
+<path class="kurve blau" d="M99.8 150V190"/>
+<path class="kurve blau" d="M116.2 150V190"/>
+<path class="kurve blau" d="M132 150V190"/>
+<path class="kurve blau" d="M146.4 150V190"/>
+<path class="kurve blau" d="M158.9 150V190"/>
+<path class="kurve blau" d="M169.4 150V190"/>
+<path class="kurve blau" d="M178.2 150V190"/>
+<path class="kurve blau" d="M186 150V190"/>
+<path class="kurve blau" d="M193.8 150V190"/>
+<path class="kurve blau" d="M202.6 150V190"/>
+<path class="kurve blau" d="M213.1 150V190"/>
+<path class="kurve blau" d="M225.6 150V190"/>
+<path class="kurve blau" d="M240 150V190"/>
+<path class="kurve blau" d="M255.8 150V190"/>
+<path class="kurve blau" d="M272.2 150V190"/>
+<path class="kurve blau" d="M288 150V190"/>
+<path class="kurve blau" d="M302.4 150V190"/>
+<path class="kurve blau" d="M314.9 150V190"/>
+<path class="kurve blau" d="M325.4 150V190"/>
+<path class="kurve blau" d="M334.2 150V190"/>
+<path class="kurve kupfer duenn" d="M116 200H160" marker-start="url(#pfeil-abb2-kupfer)" marker-end="url(#pfeil-abb2-kupfer)"/>
+<text class="kupfer klein" x="138" y="214" text-anchor="middle">Schwingung</text>
+<path class="kurve blau duenn" d="M268 214H330" marker-end="url(#pfeil-abb2-blau)"/>
+<text class="blau klein" x="268" y="208">Ausbreitung</text>
+<text class="klein" x="186" y="144" text-anchor="middle">dicht</text>
+<text class="klein" x="108.0" y="144" text-anchor="middle">dünn</text>
+</svg>
+            <figcaption>Abb. 2: Oben schwingen die Teilchen quer zur
+              Ausbreitung (transversal), unten längs dazu (longitudinal). Unten
+              entstehen dabei dichte und dünne Bereiche, die mitwandern.</figcaption>
+          </figure>
+
+          <div class="alltag">
+            <span class="titel">Aus dem Alltag</span>
+            <p>Bei einem Erdbeben kommen zwei Wellen an. Zuerst die schnellere
+              longitudinale P-Welle, die den Boden kurz stauchen und dehnen lässt,
+              einige Sekunden später die langsamere transversale S-Welle, die
+              seitlich rüttelt. Aus dem Zeitabstand der beiden bestimmen
+              Erdbebenwarten, wie weit der Herd entfernt ist.</p>
+          </div>
+
+          <div class="merkkasten">
+            <span class="titel">Das Wichtigste in Kürze</span>
+            <p>Eine Welle ist eine Schwingung, die sich ausbreitet. Sie
+              transportiert Energie, aber kein Material. Wellenlänge mal Frequenz
+              ergibt die Ausbreitungsgeschwindigkeit, und die hängt nur vom
+              Medium ab, nicht davon, wie stark du die Welle anregst.</p>
+          </div>
+        </section>
+
+        <section class="tab" id="vertiefung" data-titel="Vertiefung">
+
+          <h2 id="wellenarten">Von der Schwingung zur Welle</h2>
+          <p>Beim Thema <a href="gekoppelte-schwingungen.html">gekoppelte
+            Schwingungen</a> haben wir Ketten aus $N$ Massen untersucht, die über
+            Federen miteinander verbunden sind. Jede Masse gibt ihre Bewegung über
+            die Feder an die Nachbarn weiter. Ist die Kette sehr lang, wandert eine
+            Störung von Masse zu Masse: Die Schwingungsenergie legt den Abstand
+            $\Delta z$ zweier Nachbarn in der Zeit $\Delta t = \Delta z/v$ zurück.
+            Das ist eine mechanische <em>Welle</em>, eine Schwingung, die sich im
+            Raum ausbreitet.</p>
+          <p>Steht die Schwingungsrichtung senkrecht zur Ausbreitungsrichtung,
+            heißt die Welle <em>transversal</em> (Seilwelle, Licht als
+            elektromagnetische Welle). Liegt sie parallel dazu, heißt sie
+            <em>longitudinal</em> (Schall in Luft). Wasserwellen an der Oberfläche
+            mischen beide Anteile. Gase und Flüssigkeiten tragen nur
+            longitudinale Wellen, weil sie einer Scherung keine Rückstellkraft
+            entgegensetzen; in Festkörpern gibt es beide Arten.</p>
+
+          <h2 id="harmonische-welle">Die harmonische Welle</h2>
+          <p>Ein anschaulicher Versuch aus der Vorlesung: Ein Sandpendel schwingt
+            mit $\xi = A\sin(\omega t)$ quer über einer Platte, die gleichmäßig mit
+            der Geschwindigkeit $v$ unter ihm weggezogen wird. Der Sand zeichnet
+            eine Sinuskurve. Für einen Beobachter, der auf der Platte mitfährt,
+            läuft die Schwingung mit $v$ in $+z$-Richtung davon. Was am Ort $z$
+            ankommt, hat das Pendel um die Laufzeit $z/v$ früher getan:</p>
+          $$ \xi(z,t) = A \sin\!\Big(\omega\Big(t - \frac{z}{v}\Big)\Big) $$
+          <p>Die <em>Wellenlänge</em> $\lambda$ ist der Abstand zweier
+            gleichwertiger Punkte, an denen das Argument des Sinus sich um $2\pi$
+            unterscheidet. Die <em>Phasengeschwindigkeit</em> $v_\text{ph}$ ist
+            die Geschwindigkeit, mit der sich eine feste Phase ausbreitet, zum
+            Beispiel ein Wellenkamm. In einer Periode $T = 2\pi/\omega$ rückt der
+            Kamm um eine Wellenlänge vor, also $\lambda = v_\text{ph}T$. Mit der
+            <em>Wellenzahl</em></p>
+          $$ k = \frac{2\pi}{\lambda} = \frac{\omega}{v_\text{ph}} $$
+          <p>schreibt sich die harmonische Welle besonders symmetrisch:</p>
+          $$ \xi(z,t) = A\sin(\omega t - kz), \qquad v_\text{ph} = \frac{\omega}{k} = \lambda f $$
+          <p>Die Wellenzahl zählt die Phase pro Meter, so wie $\omega$ die Phase
+            pro Sekunde zählt. Man kann die Welle auf zwei Arten lesen (Abb. 3).
+            An einem festen Ort $z_0$ sieht man eine harmonische Schwingung
+            $\xi = A\sin(\omega t - \varphi)$ mit der Periode $T$ und der Phase
+            $\varphi = kz_0$. Zu einem festen Zeitpunkt $t_0$ sieht man ein
+            räumlich periodisches Muster mit der Periode $\lambda = 2\pi/k$.</p>
+
+          <figure class="abbildung">
+            <div class="abb-reihe">
+<svg class="abb" viewBox="0 0 180 130" role="img" aria-label="Momentaufnahme einer harmonischen Welle über dem Ort z mit eingezeichneter Wellenlänge">
+<defs><marker id="pfeil-abb4a-text" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto-start-reverse"><path class="punkt" d="M0 0L10 5L0 10z"/></marker><marker id="pfeil-abb4a-blau" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto-start-reverse"><path class="punkt blau" d="M0 0L10 5L0 10z"/></marker><marker id="pfeil-abb4a-kupfer" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto-start-reverse"><path class="punkt kupfer" d="M0 0L10 5L0 10z"/></marker></defs>
+<path class="achse" d="M16 70H170" marker-end="url(#pfeil-abb4a-text)"/>
+<path class="achse" d="M22 118V16" marker-end="url(#pfeil-abb4a-text)"/>
+<text x="28" y="18">ξ</text>
+<text x="168" y="87" text-anchor="end">z</text>
+<path class="kurve blau" d="M22 70 L22.5 68.3 L23 66.6 L23.5 65 L24 63.3 L24.5 61.7 L25 60.1 L25.5 58.5 L26 57 L26.5 55.5 L27 54 L27.5 52.6 L28 51.3 L28.5 50 L29 48.8 L29.5 47.6 L30 46.5 L30.5 45.5 L31 44.6 L31.5 43.7 L32 43 L32.5 42.3 L33 41.7 L33.5 41.2 L34 40.8 L34.5 40.4 L35 40.2 L35.5 40 L36 40 L36.5 40 L37 40.2 L37.5 40.4 L38 40.8 L38.5 41.2 L39 41.7 L39.5 42.3 L40 43 L40.5 43.7 L41 44.6 L41.5 45.5 L42 46.5 L42.5 47.6 L43 48.8 L43.5 50 L44 51.3 L44.5 52.6 L45 54 L45.5 55.5 L46 57 L46.5 58.5 L47 60.1 L47.5 61.7 L48 63.3 L48.5 65 L49 66.6 L49.5 68.3 L50 70 L50.5 71.7 L51 73.4 L51.5 75 L52 76.7 L52.5 78.3 L53 79.9 L53.5 81.5 L54 83 L54.5 84.5 L55 86 L55.5 87.4 L56 88.7 L56.5 90 L57 91.2 L57.5 92.4 L58 93.5 L58.5 94.5 L59 95.4 L59.5 96.3 L60 97 L60.5 97.7 L61 98.3 L61.5 98.8 L62 99.2 L62.5 99.6 L63 99.8 L63.5 100 L64 100 L64.5 100 L65 99.8 L65.5 99.6 L66 99.2 L66.5 98.8 L67 98.3 L67.5 97.7 L68 97 L68.5 96.3 L69 95.4 L69.5 94.5 L70 93.5 L70.5 92.4 L71 91.2 L71.5 90 L72 88.7 L72.5 87.4 L73 86 L73.5 84.5 L74 83 L74.5 81.5 L75 79.9 L75.5 78.3 L76 76.7 L76.5 75 L77 73.4 L77.5 71.7 L78 70 L78.5 68.3 L79 66.6 L79.5 65 L80 63.3 L80.5 61.7 L81 60.1 L81.5 58.5 L82 57 L82.5 55.5 L83 54 L83.5 52.6 L84 51.3 L84.5 50 L85 48.8 L85.5 47.6 L86 46.5 L86.5 45.5 L87 44.6 L87.5 43.7 L88 43 L88.5 42.3 L89 41.7 L89.5 41.2 L90 40.8 L90.5 40.4 L91 40.2 L91.5 40 L92 40 L92.5 40 L93 40.2 L93.5 40.4 L94 40.8 L94.5 41.2 L95 41.7 L95.5 42.3 L96 43 L96.5 43.7 L97 44.6 L97.5 45.5 L98 46.5 L98.5 47.6 L99 48.8 L99.5 50 L100 51.3 L100.5 52.6 L101 54 L101.5 55.5 L102 57 L102.5 58.5 L103 60.1 L103.5 61.7 L104 63.3 L104.5 65 L105 66.6 L105.5 68.3 L106 70 L106.5 71.7 L107 73.4 L107.5 75 L108 76.7 L108.5 78.3 L109 79.9 L109.5 81.5 L110 83 L110.5 84.5 L111 86 L111.5 87.4 L112 88.7 L112.5 90 L113 91.2 L113.5 92.4 L114 93.5 L114.5 94.5 L115 95.4 L115.5 96.3 L116 97 L116.5 97.7 L117 98.3 L117.5 98.8 L118 99.2 L118.5 99.6 L119 99.8 L119.5 100 L120 100 L120.5 100 L121 99.8 L121.5 99.6 L122 99.2 L122.5 98.8 L123 98.3 L123.5 97.7 L124 97 L124.5 96.3 L125 95.4 L125.5 94.5 L126 93.5 L126.5 92.4 L127 91.2 L127.5 90 L128 88.7 L128.5 87.4 L129 86 L129.5 84.5 L130 83 L130.5 81.5 L131 79.9 L131.5 78.3 L132 76.7 L132.5 75 L133 73.4 L133.5 71.7 L134 70 L134.5 68.3 L135 66.6 L135.5 65 L136 63.3 L136.5 61.7 L137 60.1 L137.5 58.5 L138 57 L138.5 55.5 L139 54 L139.5 52.6 L140 51.3 L140.5 50 L141 48.8 L141.5 47.6 L142 46.5 L142.5 45.5 L143 44.6 L143.5 43.7 L144 43 L144.5 42.3 L145 41.7 L145.5 41.2 L146 40.8 L146.5 40.4 L147 40.2 L147.5 40 L148 40 L148.5 40 L149 40.2 L149.5 40.4 L150 40.8 L150.5 41.2 L151 41.7 L151.5 42.3 L152 43 L152.5 43.7 L153 44.6 L153.5 45.5 L154 46.5 L154.5 47.6 L155 48.8 L155.5 50 L156 51.3 L156.5 52.6 L157 54 L157.5 55.5 L158 57 L158.5 58.5 L159 60.1 L159.5 61.7 L160 63.3"/>
+<path class="hilfslinie" d="M78 70V110M134 70V110"/>
+<path class="achse" d="M80 104H132" marker-start="url(#pfeil-abb4a-text)" marker-end="url(#pfeil-abb4a-text)"/>
+<text x="106" y="120" text-anchor="middle">λ</text>
+</svg>
+<svg class="abb" viewBox="0 0 180 130" role="img" aria-label="Zeitverlauf der Auslenkung an einem festen Ort mit eingezeichneter Periodendauer">
+<defs><marker id="pfeil-abb4b-text" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto-start-reverse"><path class="punkt" d="M0 0L10 5L0 10z"/></marker><marker id="pfeil-abb4b-blau" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto-start-reverse"><path class="punkt blau" d="M0 0L10 5L0 10z"/></marker><marker id="pfeil-abb4b-kupfer" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto-start-reverse"><path class="punkt kupfer" d="M0 0L10 5L0 10z"/></marker></defs>
+<path class="achse" d="M16 70H170" marker-end="url(#pfeil-abb4b-text)"/>
+<path class="achse" d="M22 118V16" marker-end="url(#pfeil-abb4b-text)"/>
+<text x="28" y="18">ξ</text>
+<text x="168" y="87" text-anchor="end">t</text>
+<path class="kurve kupfer" d="M22 98 L22.5 97.3 L23 96.6 L23.5 95.7 L24 94.8 L24.5 93.9 L25 92.8 L25.5 91.7 L26 90.5 L26.5 89.2 L27 87.9 L27.5 86.5 L28 85.1 L28.5 83.6 L29 82.1 L29.5 80.5 L30 78.9 L30.5 77.3 L31 75.7 L31.5 74 L32 72.3 L32.5 70.7 L33 69 L33.5 67.3 L34 65.6 L34.5 64 L35 62.3 L35.5 60.7 L36 59.1 L36.5 57.6 L37 56.1 L37.5 54.6 L38 53.2 L38.5 51.8 L39 50.5 L39.5 49.3 L40 48.1 L40.5 47 L41 45.9 L41.5 45 L42 44.1 L42.5 43.3 L43 42.5 L43.5 41.9 L44 41.4 L44.5 40.9 L45 40.5 L45.5 40.3 L46 40.1 L46.5 40 L47 40 L47.5 40.1 L48 40.3 L48.5 40.6 L49 41 L49.5 41.5 L50 42 L50.5 42.7 L51 43.4 L51.5 44.3 L52 45.2 L52.5 46.1 L53 47.2 L53.5 48.3 L54 49.5 L54.5 50.8 L55 52.1 L55.5 53.5 L56 54.9 L56.5 56.4 L57 57.9 L57.5 59.5 L58 61.1 L58.5 62.7 L59 64.3 L59.5 66 L60 67.7 L60.5 69.3 L61 71 L61.5 72.7 L62 74.4 L62.5 76 L63 77.7 L63.5 79.3 L64 80.9 L64.5 82.4 L65 83.9 L65.5 85.4 L66 86.8 L66.5 88.2 L67 89.5 L67.5 90.7 L68 91.9 L68.5 93 L69 94.1 L69.5 95 L70 95.9 L70.5 96.7 L71 97.5 L71.5 98.1 L72 98.6 L72.5 99.1 L73 99.5 L73.5 99.7 L74 99.9 L74.5 100 L75 100 L75.5 99.9 L76 99.7 L76.5 99.4 L77 99 L77.5 98.5 L78 98 L78.5 97.3 L79 96.6 L79.5 95.7 L80 94.8 L80.5 93.9 L81 92.8 L81.5 91.7 L82 90.5 L82.5 89.2 L83 87.9 L83.5 86.5 L84 85.1 L84.5 83.6 L85 82.1 L85.5 80.5 L86 78.9 L86.5 77.3 L87 75.7 L87.5 74 L88 72.3 L88.5 70.7 L89 69 L89.5 67.3 L90 65.6 L90.5 64 L91 62.3 L91.5 60.7 L92 59.1 L92.5 57.6 L93 56.1 L93.5 54.6 L94 53.2 L94.5 51.8 L95 50.5 L95.5 49.3 L96 48.1 L96.5 47 L97 45.9 L97.5 45 L98 44.1 L98.5 43.3 L99 42.5 L99.5 41.9 L100 41.4 L100.5 40.9 L101 40.5 L101.5 40.3 L102 40.1 L102.5 40 L103 40 L103.5 40.1 L104 40.3 L104.5 40.6 L105 41 L105.5 41.5 L106 42 L106.5 42.7 L107 43.4 L107.5 44.3 L108 45.2 L108.5 46.1 L109 47.2 L109.5 48.3 L110 49.5 L110.5 50.8 L111 52.1 L111.5 53.5 L112 54.9 L112.5 56.4 L113 57.9 L113.5 59.5 L114 61.1 L114.5 62.7 L115 64.3 L115.5 66 L116 67.7 L116.5 69.3 L117 71 L117.5 72.7 L118 74.4 L118.5 76 L119 77.7 L119.5 79.3 L120 80.9 L120.5 82.4 L121 83.9 L121.5 85.4 L122 86.8 L122.5 88.2 L123 89.5 L123.5 90.7 L124 91.9 L124.5 93 L125 94.1 L125.5 95 L126 95.9 L126.5 96.7 L127 97.5 L127.5 98.1 L128 98.6 L128.5 99.1 L129 99.5 L129.5 99.7 L130 99.9 L130.5 100 L131 100 L131.5 99.9 L132 99.7 L132.5 99.4 L133 99 L133.5 98.5 L134 98 L134.5 97.3 L135 96.6 L135.5 95.7 L136 94.8 L136.5 93.9 L137 92.8 L137.5 91.7 L138 90.5 L138.5 89.2 L139 87.9 L139.5 86.5 L140 85.1 L140.5 83.6 L141 82.1 L141.5 80.5 L142 78.9 L142.5 77.3 L143 75.7 L143.5 74 L144 72.3 L144.5 70.7 L145 69 L145.5 67.3 L146 65.6 L146.5 64 L147 62.3 L147.5 60.7 L148 59.1 L148.5 57.6 L149 56.1 L149.5 54.6 L150 53.2 L150.5 51.8 L151 50.5 L151.5 49.3 L152 48.1 L152.5 47 L153 45.9 L153.5 45 L154 44.1 L154.5 43.3 L155 42.5 L155.5 41.9 L156 41.4 L156.5 40.9 L157 40.5 L157.5 40.3 L158 40.1 L158.5 40 L159 40 L159.5 40.1 L160 40.3"/>
+<path class="hilfslinie" d="M32.7 70V110M88.7 70V110"/>
+<path class="achse" d="M34.7 104H86.7" marker-start="url(#pfeil-abb4b-text)" marker-end="url(#pfeil-abb4b-text)"/>
+<text x="60.7" y="120" text-anchor="middle">T</text>
+</svg>
+            </div>
+            <figcaption>Abb. 3: Dieselbe harmonische Welle zweimal gelesen. Links
+              eine Momentaufnahme $\xi(z)$ mit der räumlichen Periode $\lambda$,
+              rechts der Zeitverlauf $\xi(t)$ an einem festen Ort mit der
+              Periode $T$.</figcaption>
+          </figure>
+
+          <p>Das Vorzeichen im Argument verrät die Laufrichtung. Bei
+            $\omega t - kz$ bleibt die Phase konstant, wenn $z$ mit $t$ wächst:
+            Die Welle läuft nach $+z$. Bei $\omega t + kz$ läuft sie nach $-z$.
+            Wie beim Oszillator ist die komplexe Schreibweise oft bequemer.
+            Eine reelle harmonische Welle lässt sich schreiben als</p>
+          $$ \xi(z,t) = c\,e^{i(\omega t - kz)} + c^*e^{-i(\omega t - kz)} = a\cos(\omega t - kz) + b\sin(\omega t - kz) $$
+          <p>mit $a = c + c^*$ und $b = i(c - c^*)$. Meist rechnet man nur mit
+            $c\,e^{i(\omega t - kz)}$ und nimmt am Ende den Realteil.</p>
+
+          <div class="merkkasten">
+            <span class="titel">Merke</span>
+            <p>Harmonische Welle in $+z$-Richtung:
+              $\xi(z,t) = A\sin(\omega t - kz)$ mit $k = 2\pi/\lambda$,
+              $\omega = 2\pi/T$ und $v_\text{ph} = \omega/k = \lambda f$.</p>
+          </div>
+
+          <h2 id="wellengleichung">Die Wellengleichung</h2>
+          <p>Leitet man die harmonische Welle zweimal ab, erhält man
+            $\partial^2\xi/\partial z^2 = -k^2\xi$ und
+            $\partial^2\xi/\partial t^2 = -\omega^2\xi$. Beide Ableitungen sind
+            also proportional zueinander, mit dem Faktor $k^2/\omega^2 = 1/v_\text{ph}^2$.
+            Das ist die eindimensionale <em>Wellengleichung</em>:</p>
+          $$ \frac{\partial^2 \xi}{\partial z^2} = \frac{1}{v_\text{ph}^2}\,\frac{\partial^2 \xi}{\partial t^2} $$
+          <p>Umgekehrt liest man aus einer Wellengleichung sofort die
+            Ausbreitungsgeschwindigkeit ab. Woher sie physikalisch kommt, zeigt
+            die Federkette.</p>
+
+          <h3 id="federkette">Herleitung aus der Federkette</h3>
+          <p>Gleiche Massen $m$ sitzen im Abstand $\Delta z$ und sind durch Federn
+            mit der Konstante $D$ verbunden (Abb. 4). Die Masse $j$ ist um $\xi_j$
+            aus ihrer Ruhelage $z_j = j\,\Delta z$ verschoben. Die rechte Feder ist
+            um $\xi_{j+1} - \xi_j$ gedehnt und zieht nach rechts, die linke ist
+            um $\xi_j - \xi_{j-1}$ gedehnt und zieht nach links:</p>
+          $$ m\ddot\xi_j = D(\xi_{j+1} - \xi_j) - D(\xi_j - \xi_{j-1}) = D(\xi_{j+1} - 2\xi_j + \xi_{j-1}) $$
+
+          <figure class="abbildung">
+<svg class="abb" viewBox="0 0 360 170" role="img" aria-label="Drei Massen einer Federkette mit Ruhelagen im Abstand Delta z und ihren Auslenkungen xi j minus 1, xi j und xi j plus 1">
+<defs><marker id="pfeil-abb3-text" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto-start-reverse"><path class="punkt" d="M0 0L10 5L0 10z"/></marker><marker id="pfeil-abb3-blau" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto-start-reverse"><path class="punkt blau" d="M0 0L10 5L0 10z"/></marker><marker id="pfeil-abb3-kupfer" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto-start-reverse"><path class="punkt kupfer" d="M0 0L10 5L0 10z"/></marker></defs>
+<path class="kurve schwach" d="M8 70 L10.9 70 L12.4 76 L15.3 64 L18.2 76 L21.1 64 L24 76 L27 64 L29.9 76 L32.8 64 L35.7 76 L38.6 64 L40.1 70 L43 70"/>
+<path class="kurve" d="M69 70 L75.6 70 L78.9 76 L85.6 64 L92.2 76 L98.8 64 L105.4 76 L112.1 64 L118.7 76 L125.3 64 L131.9 76 L138.6 64 L145.2 76 L151.8 64 L158.4 76 L165.1 64 L168.4 70 L175 70"/>
+<path class="kurve" d="M201 70 L207.1 70 L210.2 76 L216.3 64 L222.4 76 L228.6 64 L234.7 76 L240.8 64 L246.9 76 L253.1 64 L259.2 76 L265.3 64 L271.4 76 L277.6 64 L283.7 76 L289.8 64 L292.9 70 L299 70"/>
+<path class="kurve schwach" d="M325 70 L327.7 70 L329.1 76 L331.8 64 L334.4 76 L337.1 64 L339.9 76 L342.6 64 L345.2 76 L347.9 64 L349.3 70 L352 70"/>
+<path class="hilfslinie" d="M70 40V128"/>
+<rect class="wagen" x="43" y="56" width="26" height="28"/>
+<text class="klein" x="70" y="34" text-anchor="middle">Masse j − 1</text>
+<path class="kurve kupfer duenn" d="M70 108H56" marker-end="url(#pfeil-abb3-kupfer)"/>
+<text class="kupfer" x="63" y="130" text-anchor="middle">ξ<tspan dy="3" style="font-size:10px">j−1</tspan></text>
+<path class="hilfslinie" d="M180 40V128"/>
+<rect class="wagen" x="175" y="56" width="26" height="28"/>
+<text class="klein" x="180" y="34" text-anchor="middle">Masse j</text>
+<path class="kurve kupfer duenn" d="M180 108H188" marker-end="url(#pfeil-abb3-kupfer)"/>
+<text class="kupfer" x="184" y="130" text-anchor="middle">ξ<tspan dy="3" style="font-size:10px">j</tspan></text>
+<path class="hilfslinie" d="M290 40V128"/>
+<rect class="wagen" x="299" y="56" width="26" height="28"/>
+<text class="klein" x="290" y="34" text-anchor="middle">Masse j + 1</text>
+<path class="kurve kupfer duenn" d="M290 108H312" marker-end="url(#pfeil-abb3-kupfer)"/>
+<text class="kupfer" x="301" y="130" text-anchor="middle">ξ<tspan dy="3" style="font-size:10px">j+1</tspan></text>
+<path class="achse" d="M72 145H178" marker-start="url(#pfeil-abb3-text)" marker-end="url(#pfeil-abb3-text)"/>
+<text x="125.0" y="161" text-anchor="middle">Δz</text>
+<text class="klein" x="235.0" y="56" text-anchor="middle">D</text>
+<text class="klein" x="125.0" y="56" text-anchor="middle">D</text>
+</svg>
+            <figcaption>Abb. 4: Ausschnitt aus einer langen Federkette. Die
+              gestrichelten Linien markieren die Ruhelagen im Abstand $\Delta z$,
+              die orangen Pfeile die Auslenkungen $\xi_j$ längs der Kette. Die
+              Welle, die so entsteht, ist longitudinal.</figcaption>
+          </figure>
+
+          <p>Ist die Wellenlänge viel größer als $\Delta z$, ändern sich die
+            Auslenkungen von Masse zu Masse nur wenig. Dann ersetzt man $\xi_j(t)$
+            durch eine glatte Funktion $\xi(z,t)$ und entwickelt nach Taylor:</p>
+          $$ \xi_{j\pm1} = \xi \pm \Delta z\,\frac{\partial \xi}{\partial z} + \frac{\Delta z^2}{2}\,\frac{\partial^2 \xi}{\partial z^2} \pm \dots
+             \quad\Rightarrow\quad \xi_{j+1} - 2\xi_j + \xi_{j-1} \approx \Delta z^2\,\frac{\partial^2 \xi}{\partial z^2} $$
+          <p>Eingesetzt entsteht die Wellengleichung</p>
+          $$ \frac{\partial^2 \xi}{\partial t^2} = \frac{D\,\Delta z^2}{m}\,\frac{\partial^2 \xi}{\partial z^2},
+             \qquad v_0 = \Delta z\sqrt{\frac{D}{m}} = \sqrt{\frac{D\,\Delta z}{m/\Delta z}} $$
+          <p>Die letzte Form zeigt das allgemeine Muster: Im Zähler steht die
+            Steifigkeit des Mediums ($D\,\Delta z$ ist die Kraft, die ein Federglied
+            um seine eigene Länge dehnen würde), im Nenner die Masse pro Länge.
+            Steife und leichte Medien leiten Wellen schnell.</p>
+
+          <h3 id="saite">Die gespannte Saite</h3>
+          <p>Für die transversale Welle auf einer Saite mit Spannkraft $F$ und
+            Längendichte $\mu$ (Masse pro Länge) geht es ebenso. Ein kurzes
+            Stück zwischen $z$ und $z + \mathrm{d}z$ wird an beiden Enden mit $F$
+            gezogen, aber bei gekrümmter Saite in leicht verschiedene
+            Richtungen. Für kleine Auslenkungen ist die Querkomponente der
+            Kraft $F\,\partial\xi/\partial z$, die Nettokraft auf das Stück also
+            $F\big(\partial_z\xi(z + \mathrm{d}z) - \partial_z\xi(z)\big) = F\,\partial_z^2\xi\,\mathrm{d}z$.
+            Newton liefert</p>
+          $$ \mu\,\mathrm{d}z\,\frac{\partial^2 \xi}{\partial t^2} = F\,\frac{\partial^2 \xi}{\partial z^2}\,\mathrm{d}z
+             \quad\Rightarrow\quad v = \sqrt{\frac{F}{\mu}} $$
+          <p>Eine Gitarrensaite klingt höher, wenn du sie stärker spannst, und die
+            dicken Basssaiten sind schwer, damit die Wellen langsam laufen. Nach
+            demselben Muster ergeben sich die Geschwindigkeiten in anderen
+            Medien:</p>
+
+          <div class="tabelle-huelle">
+            <table>
+              <thead><tr><th>Medium</th><th>Wellenart</th><th>Geschwindigkeit</th><th>Beispiel</th></tr></thead>
+              <tbody>
+                <tr><td>gespannte Saite</td><td>transversal</td><td>$\sqrt{F/\mu}$</td><td>Gitarrensaite: einige $100\,\mathrm{m/s}$</td></tr>
+                <tr><td>dünner Stab</td><td>longitudinal</td><td>$\sqrt{E/\rho}$</td><td>Stahl: $5200\,\mathrm{m/s}$</td></tr>
+                <tr><td>Flüssigkeit</td><td>longitudinal</td><td>$\sqrt{K/\rho}$</td><td>Wasser: $1480\,\mathrm{m/s}$</td></tr>
+                <tr><td>Gas</td><td>longitudinal</td><td>$\sqrt{\kappa p/\rho}$</td><td>Luft bei $20\,{}^\circ\mathrm{C}$: $343\,\mathrm{m/s}$</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p>Dabei ist $E$ der Elastizitätsmodul, $K$ der Kompressionsmodul,
+            $\rho$ die Dichte, $p$ der Druck und $\kappa$ der Adiabatenexponent
+            des Gases. Mehr dazu auf der Seite <a href="schall.html#schallgeschwindigkeit">Schall und Doppler-Effekt</a>.</p>
+
+          <h2 id="dalembert">Allgemeine Lösung und Überlagerung</h2>
+          <p>Die Wellengleichung hat weit mehr Lösungen als Sinuswellen. Jede zweimal
+            differenzierbare Funktion $g$ der Kombination $z - vt$ ist eine
+            Lösung. Mit $u = z - vt$ gilt nach der Kettenregel
+            $\partial_z^2\,g(u) = g''(u)$ und $\partial_t^2\,g(u) = v^2 g''(u)$,
+            und das erfüllt die Gleichung. Ebenso löst jede Funktion von $z + vt$
+            die Gleichung. Die allgemeine Lösung (nach d'Alembert) ist die Summe</p>
+          $$ \xi(z,t) = g(z - vt) + h(z + vt) $$
+          <p>Der erste Teil ist eine Form, die unverändert nach rechts läuft
+            (Abb. 5), der zweite eine, die nach links läuft. Ein Seilpuls behält
+            also seine Gestalt und verschiebt sich nur. Welche Funktionen $g$ und
+            $h$ vorliegen, legen die Anfangsauslenkung und die
+            Anfangsgeschwindigkeit fest.</p>
+
+          <figure class="abbildung">
+<svg class="abb" viewBox="0 0 360 140" role="img" aria-label="Ein glockenförmiger Puls zu drei Zeitpunkten, jeweils um dieselbe Strecke nach rechts verschoben, bei gleicher Form">
+<defs><marker id="pfeil-abb5-text" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto-start-reverse"><path class="punkt" d="M0 0L10 5L0 10z"/></marker><marker id="pfeil-abb5-blau" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto-start-reverse"><path class="punkt blau" d="M0 0L10 5L0 10z"/></marker><marker id="pfeil-abb5-kupfer" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto-start-reverse"><path class="punkt kupfer" d="M0 0L10 5L0 10z"/></marker></defs>
+<path class="achse" d="M14 120H348" marker-end="url(#pfeil-abb5-text)"/>
+<text x="346" y="138" text-anchor="end">z</text>
+<path class="kurve schwach" d="M18 120 L19 120 L20 120 L21 120 L22 120 L23 120 L24 120 L25 120 L26 120 L27 119.9 L28 119.9 L29 119.9 L30 119.9 L31 119.8 L32 119.8 L33 119.7 L34 119.6 L35 119.4 L36 119.2 L37 119 L38 118.7 L39 118.4 L40 117.9 L41 117.4 L42 116.7 L43 115.9 L44 115 L45 113.9 L46 112.6 L47 111.1 L48 109.4 L49 107.5 L50 105.3 L51 102.9 L52 100.3 L53 97.4 L54 94.2 L55 90.9 L56 87.4 L57 83.8 L58 80.1 L59 76.4 L60 72.6 L61 69 L62 65.5 L63 62.2 L64 59.2 L65 56.5 L66 54.2 L67 52.4 L68 51.1 L69 50.3 L70 50 L71 50.3 L72 51.1 L73 52.4 L74 54.2 L75 56.5 L76 59.2 L77 62.2 L78 65.5 L79 69 L80 72.6 L81 76.4 L82 80.1 L83 83.8 L84 87.4 L85 90.9 L86 94.2 L87 97.4 L88 100.3 L89 102.9 L90 105.3 L91 107.5 L92 109.4 L93 111.1 L94 112.6 L95 113.9 L96 115 L97 115.9 L98 116.7 L99 117.4 L100 117.9 L101 118.4 L102 118.7 L103 119 L104 119.2 L105 119.4 L106 119.6 L107 119.7 L108 119.8 L109 119.8 L110 119.9 L111 119.9 L112 119.9 L113 119.9 L114 120 L115 120 L116 120 L117 120 L118 120 L119 120 L120 120 L121 120 L122 120"/>
+<text class="klein" x="70" y="136" text-anchor="middle">t = 0</text>
+<path class="kurve schwach" d="M123 120 L124 120 L125 120 L126 120 L127 120 L128 120 L129 120 L130 120 L131 120 L132 119.9 L133 119.9 L134 119.9 L135 119.9 L136 119.8 L137 119.8 L138 119.7 L139 119.6 L140 119.4 L141 119.2 L142 119 L143 118.7 L144 118.4 L145 117.9 L146 117.4 L147 116.7 L148 115.9 L149 115 L150 113.9 L151 112.6 L152 111.1 L153 109.4 L154 107.5 L155 105.3 L156 102.9 L157 100.3 L158 97.4 L159 94.2 L160 90.9 L161 87.4 L162 83.8 L163 80.1 L164 76.4 L165 72.6 L166 69 L167 65.5 L168 62.2 L169 59.2 L170 56.5 L171 54.2 L172 52.4 L173 51.1 L174 50.3 L175 50 L176 50.3 L177 51.1 L178 52.4 L179 54.2 L180 56.5 L181 59.2 L182 62.2 L183 65.5 L184 69 L185 72.6 L186 76.4 L187 80.1 L188 83.8 L189 87.4 L190 90.9 L191 94.2 L192 97.4 L193 100.3 L194 102.9 L195 105.3 L196 107.5 L197 109.4 L198 111.1 L199 112.6 L200 113.9 L201 115 L202 115.9 L203 116.7 L204 117.4 L205 117.9 L206 118.4 L207 118.7 L208 119 L209 119.2 L210 119.4 L211 119.6 L212 119.7 L213 119.8 L214 119.8 L215 119.9 L216 119.9 L217 119.9 L218 119.9 L219 120 L220 120 L221 120 L222 120 L223 120 L224 120 L225 120 L226 120 L227 120"/>
+<text class="klein" x="175" y="136" text-anchor="middle">t = t₁</text>
+<path class="kurve blau" d="M228 120 L229 120 L230 120 L231 120 L232 120 L233 120 L234 120 L235 120 L236 120 L237 119.9 L238 119.9 L239 119.9 L240 119.9 L241 119.8 L242 119.8 L243 119.7 L244 119.6 L245 119.4 L246 119.2 L247 119 L248 118.7 L249 118.4 L250 117.9 L251 117.4 L252 116.7 L253 115.9 L254 115 L255 113.9 L256 112.6 L257 111.1 L258 109.4 L259 107.5 L260 105.3 L261 102.9 L262 100.3 L263 97.4 L264 94.2 L265 90.9 L266 87.4 L267 83.8 L268 80.1 L269 76.4 L270 72.6 L271 69 L272 65.5 L273 62.2 L274 59.2 L275 56.5 L276 54.2 L277 52.4 L278 51.1 L279 50.3 L280 50 L281 50.3 L282 51.1 L283 52.4 L284 54.2 L285 56.5 L286 59.2 L287 62.2 L288 65.5 L289 69 L290 72.6 L291 76.4 L292 80.1 L293 83.8 L294 87.4 L295 90.9 L296 94.2 L297 97.4 L298 100.3 L299 102.9 L300 105.3 L301 107.5 L302 109.4 L303 111.1 L304 112.6 L305 113.9 L306 115 L307 115.9 L308 116.7 L309 117.4 L310 117.9 L311 118.4 L312 118.7 L313 119 L314 119.2 L315 119.4 L316 119.6 L317 119.7 L318 119.8 L319 119.8 L320 119.9 L321 119.9 L322 119.9 L323 119.9 L324 120 L325 120 L326 120 L327 120 L328 120 L329 120 L330 120 L331 120 L332 120"/>
+<text class="klein" x="280" y="136" text-anchor="middle">t = 2t₁</text>
+<path class="kurve blau duenn" d="M76 42H169" marker-end="url(#pfeil-abb5-blau)"/>
+<text class="blau klein" x="122.5" y="36" text-anchor="middle">v·t₁</text>
+<path class="kurve blau duenn" d="M181 42H274" marker-end="url(#pfeil-abb5-blau)"/>
+<text class="blau klein" x="227.5" y="36" text-anchor="middle">v·t₁</text>
+</svg>
+            <figcaption>Abb. 5: Ein Puls $\xi = g(z - vt)$ zu drei Zeitpunkten. Die
+              Form bleibt gleich, sie rückt in der Zeit $t_1$ um die Strecke
+              $v t_1$ weiter.</figcaption>
+          </figure>
+
+          <p>Weil die Wellengleichung linear ist, gilt das
+            <em>Superpositionsprinzip</em>: Erfüllen zwei Funktionen die
+            Gleichung, dann auch ihre Summe. Damit kann man umgekehrt jede
+            Wellenform, etwa eine Rechteckwelle, als Summe vieler harmonischer
+            Wellen schreiben (harmonische Analyse, Fourier-Zerlegung) und jede
+            Teilwelle für sich behandeln. Darum lohnt es sich, die harmonische
+            Welle so genau zu kennen. Was passiert, wenn zwei Wellen
+            zusammentreffen, behandelt das Thema
+            <a href="ueberlagerung.html">Überlagerung</a>.</p>
+
+          <h2 id="raum">Wellen im Raum</h2>
+          <p>In drei Dimensionen ersetzt der <a href="../rechenmethoden/differentialoperatoren.html">Laplace-Operator</a>
+            die zweite Ortsableitung:</p>
+          $$ \Delta\vec\xi = \frac{1}{v_\text{ph}^2}\,\frac{\partial^2 \vec\xi}{\partial t^2},
+             \qquad \Delta = \frac{\partial^2}{\partial x^2} + \frac{\partial^2}{\partial y^2} + \frac{\partial^2}{\partial z^2} $$
+          <p>Die einfachste Lösung ist die <em>ebene Welle</em>. Sie läuft in die
+            Richtung des <em>Wellenvektors</em> $\vec k = (k_x, k_y, k_z)$ mit
+            $|\vec k| = 2\pi/\lambda$:</p>
+          $$ \vec\xi(\vec r, t) = \vec A\sin(\omega t - \vec k\cdot\vec r) $$
+          <p>Alle Punkte mit gleichem $\vec k\cdot\vec r$ schwingen im Gleichtakt.
+            Diese Flächen gleicher Phase, die <em>Wellenfronten</em>, sind Ebenen
+            senkrecht zu $\vec k$ (Abb. 6, links). Einsetzen gibt
+            $|\vec k|^2 = \omega^2/v_\text{ph}^2$, also wieder
+            $v_\text{ph} = \omega/k$.</p>
+          <p>Eine kleine Quelle, die in alle Richtungen gleich abstrahlt, erzeugt
+            dagegen eine <em>Kugelwelle</em> mit kugelförmigen Wellenfronten
+            (Abb. 6, rechts). Für eine Funktion, die nur vom Abstand $r$ abhängt,
+            gilt in <a href="../rechenmethoden/operatoren-krummlinig.html">Kugelkoordinaten</a>
+            $\Delta\xi = \frac{1}{r}\,\partial_r^2(r\xi)$. Die Wellengleichung wird
+            damit zur eindimensionalen Gleichung für $r\xi$, und es folgt (für eine
+            skalare Größe wie den Schalldruck; für die Auslenkung selbst gilt es
+            in großem Abstand von der Quelle)</p>
+          $$ \xi(r,t) = \frac{1}{r}\,g(r - vt) $$
+          <p>Die Amplitude einer auslaufenden Kugelwelle nimmt also wie $1/r$ ab.
+            Weiter unten sehen wir, dass das genau die Energieerhaltung
+            widerspiegelt.</p>
+
+          <figure class="abbildung">
+            <div class="abb-reihe">
+<svg class="abb" viewBox="0 0 180 178" role="img" aria-label="Parallele gerade Wellenfronten, senkrecht dazu der Pfeil des Wellenvektors">
+<defs><marker id="pfeil-abb6a-text" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto-start-reverse"><path class="punkt" d="M0 0L10 5L0 10z"/></marker><marker id="pfeil-abb6a-blau" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto-start-reverse"><path class="punkt blau" d="M0 0L10 5L0 10z"/></marker><marker id="pfeil-abb6a-kupfer" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto-start-reverse"><path class="punkt kupfer" d="M0 0L10 5L0 10z"/></marker></defs>
+<path class="kurve schwach" d="M10 66.5L66 163.5"/>
+<path class="kurve blau" d="M27.4 56.5L83.4 153.5"/>
+<path class="kurve schwach" d="M44.7 46.5L100.7 143.5"/>
+<path class="kurve blau" d="M62 36.5L118 133.5"/>
+<path class="kurve schwach" d="M79.3 26.5L135.3 123.5"/>
+<path class="kurve blau" d="M96.6 16.5L152.6 113.5"/>
+<path class="kurve kupfer duenn" d="M51 107.5L143.7 54" marker-end="url(#pfeil-abb6a-kupfer)"/>
+<text class="kupfer halo" x="149.7" y="76" style="font-style:italic">k</text>
+<path class="kurve kupfer duenn" d="M148.7 63h9" marker-end="url(#pfeil-abb6a-kupfer)"/>
+<text x="90" y="168" text-anchor="middle">ebene Welle</text>
+</svg>
+<svg class="abb" viewBox="0 0 180 178" role="img" aria-label="Konzentrische Kreise um eine punktförmige Quelle mit Pfeilen nach außen">
+<defs><marker id="pfeil-abb6b-text" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto-start-reverse"><path class="punkt" d="M0 0L10 5L0 10z"/></marker><marker id="pfeil-abb6b-blau" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto-start-reverse"><path class="punkt blau" d="M0 0L10 5L0 10z"/></marker><marker id="pfeil-abb6b-kupfer" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto-start-reverse"><path class="punkt kupfer" d="M0 0L10 5L0 10z"/></marker></defs>
+<circle class="kurve schwach" cx="90" cy="82" r="16"/>
+<circle class="kurve blau" cx="90" cy="82" r="32"/>
+<circle class="kurve schwach" cx="90" cy="82" r="48"/>
+<circle class="kurve blau" cx="90" cy="82" r="64"/>
+<circle class="punkt kupfer" cx="90" cy="82" r="3.5"/>
+<path class="kurve kupfer duenn" d="M97.5 79.3L159.5 56.7" marker-end="url(#pfeil-abb6b-kupfer)"/>
+<path class="kurve kupfer duenn" d="M83.9 76.9L33.3 34.4" marker-end="url(#pfeil-abb6b-kupfer)"/>
+<path class="kurve kupfer duenn" d="M88.6 89.9L77.2 154.9" marker-end="url(#pfeil-abb6b-kupfer)"/>
+<text x="90" y="168" text-anchor="middle">Kugelwelle</text>
+</svg>
+            </div>
+            <figcaption>Abb. 6: Wellenfronten (Flächen gleicher Phase). Links eine
+              ebene Welle, deren Fronten senkrecht auf dem Wellenvektor stehen.
+              Rechts eine Kugelwelle, die von einer punktförmigen Quelle nach
+              allen Seiten läuft.</figcaption>
+          </figure>
+
+          <p>Bei transversalen Wellen steht die Auslenkung $\vec A$ senkrecht auf
+            $\vec k$, und ihre Richtung ist eine zusätzliche Eigenschaft der Welle,
+            die <em>Polarisation</em>. Läuft die Welle in $z$-Richtung, kann sie in
+            $x$- oder $y$-Richtung schwingen. Die Welle
+            $\vec\xi = A\,\hat e_x\sin(\omega t - kz)$ ist
+            <em>linear polarisiert</em>. Überlagert man zwei solche Wellen in $x$-
+            und $y$-Richtung mit einer Phasenverschiebung, läuft die Spitze von
+            $\vec\xi$ auf einer Ellipse (elliptische Polarisation); die lineare
+            Polarisation ist davon ein Spezialfall. Longitudinale Wellen haben
+            keine Polarisation.</p>
+
+          <h2 id="energie">Energietransport und Intensität</h2>
+          <p>Ein Saitenstück der Länge $\mathrm{d}z$ hat die kinetische Energie
+            $\tfrac12\mu\,\mathrm{d}z\,(\partial_t\xi)^2$. Außerdem ist es gedehnt,
+            weil die schräge Saite etwas länger ist als $\mathrm{d}z$. Für kleine
+            Neigungen ist die Verlängerung $\tfrac12(\partial_z\xi)^2\mathrm{d}z$,
+            die Spannkraft verrichtet dabei die Arbeit
+            $\tfrac12F(\partial_z\xi)^2\mathrm{d}z$. Die Energiedichte (Energie pro
+            Länge) ist daher</p>
+          $$ \eta = \tfrac12\mu\Big(\frac{\partial \xi}{\partial t}\Big)^2 + \tfrac12F\Big(\frac{\partial \xi}{\partial z}\Big)^2 $$
+          <p>Für eine nach rechts laufende Welle $\xi = g(z - vt)$ ist
+            $\partial_t\xi = -v\,g'$ und $\partial_z\xi = g'$. Mit $\mu v^2 = F$
+            sind beide Anteile an jedem Ort und zu jeder Zeit gleich groß. Anders
+            als beim einzelnen Oszillator pendelt die Energie hier nicht zwischen
+            kinetischer und potentieller Form hin und her, sondern beide wandern
+            gemeinsam mit der Welle. Für die harmonische Welle
+            $\xi = A\sin(\omega t - kz)$ ist der zeitliche Mittelwert von
+            $\cos^2$ gleich $\tfrac12$, also</p>
+          $$ \bar\eta = \tfrac12\mu\,\omega^2A^2 $$
+          <p>Diese Energie fließt mit der Geschwindigkeit $v$. Die mittlere
+            Leistung, die durch einen Punkt der Saite strömt, ist
+            $P = \bar\eta\,v = \tfrac12\mu v\,\omega^2A^2$. Für Wellen im Raum
+            ersetzt man die Längendichte durch die Dichte $\rho$ und bezieht auf
+            die Fläche. Die <em>Intensität</em> (Energieflussdichte, Leistung pro
+            Fläche senkrecht zur Ausbreitung) ist</p>
+          $$ I = \bar\eta\,v = \tfrac12\rho\,v\,\omega^2A^2 $$
+          <p>Sie wächst mit dem Quadrat der Amplitude und dem Quadrat der
+            Frequenz. Bei einer Kugelwelle verteilt sich die Leistung $P$ der
+            Quelle auf die Kugelfläche $4\pi r^2$, also
+            $I = P/(4\pi r^2) \propto 1/r^2$. Wegen $I \propto A^2$ fällt die
+            Amplitude wie $1/r$, wie es die Lösung oben schon gezeigt hat.</p>
+
+          <div class="merkkasten">
+            <span class="titel">Merke</span>
+            <p>Die Wellengleichung
+              $\partial_z^2\xi = \frac{1}{v^2}\partial_t^2\xi$ hat die allgemeine
+              Lösung $g(z - vt) + h(z + vt)$. Die Geschwindigkeit folgt aus
+              Steifigkeit durch Massendichte, etwa $v = \sqrt{F/\mu}$ für die
+              Saite. Die Intensität ist $I = \tfrac12\rho v\,\omega^2A^2$, bei der
+              Kugelwelle fällt sie wie $1/r^2$.</p>
+          </div>
+
+          <h2 id="dispersion">Wenn die Kette körnig wird: Dispersion</h2>
+          <p>Die Herleitung aus der Federkette setzte voraus, dass die
+            Wellenlänge viel größer als $\Delta z$ ist. Ohne diese Näherung kann
+            man die Kette exakt lösen. Mit dem Ansatz
+            $\xi_j = c\,e^{i(\omega t - kj\Delta z)}$ wird aus der
+            Bewegungsgleichung</p>
+          $$ -m\omega^2 = D\big(e^{-ik\Delta z} - 2 + e^{ik\Delta z}\big) = -2D\big(1 - \cos(k\Delta z)\big) = -4D\sin^2\!\frac{k\Delta z}{2} $$
+          <p>und damit die <em>Dispersionsrelation</em> der Kette</p>
+          $$ \omega(k) = 2\omega_0\,\Big|\sin\frac{k\Delta z}{2}\Big|, \qquad \omega_0 = \sqrt{\frac{D}{m}} $$
+          <p>Für kleine $k$ ist $\sin x \approx x$ und $\omega \approx \omega_0\Delta z\,k = v_0 k$:
+            Das ist der lineare Zusammenhang der Wellengleichung. Für kürzere
+            Wellen biegt die Kurve ab (Abb. 7) und erreicht bei $k = \pi/\Delta z$,
+            also $\lambda = 2\Delta z$, die Grenzfrequenz $2\omega_0$, die schon
+            bei den gekoppelten Schwingungen auftauchte. Kürzere Wellen als zwei
+            Gitterabstände ergeben keine neuen Bewegungsmuster.</p>
+
+          <figure class="abbildung">
+<svg class="abb" viewBox="0 0 360 215" role="img" aria-label="Kreisfrequenz über Wellenzahl: Die Kurve der Kette steigt zuerst wie eine Gerade und flacht dann bis zur Grenzfrequenz 2 omega 0 bei k gleich pi durch Delta z ab">
+<defs><marker id="pfeil-abb7-text" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto-start-reverse"><path class="punkt" d="M0 0L10 5L0 10z"/></marker><marker id="pfeil-abb7-blau" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto-start-reverse"><path class="punkt blau" d="M0 0L10 5L0 10z"/></marker><marker id="pfeil-abb7-kupfer" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto-start-reverse"><path class="punkt kupfer" d="M0 0L10 5L0 10z"/></marker></defs>
+<path class="achse" d="M55 185H345" marker-end="url(#pfeil-abb7-text)"/>
+<path class="achse" d="M55 191V18" marker-end="url(#pfeil-abb7-text)"/>
+<text x="61" y="20">Kreisfrequenz ω</text>
+<text x="343" y="215" text-anchor="end">Wellenzahl k</text>
+<path class="kurve blau" d="M55 185 L56.3 183.9 L57.6 182.8 L58.9 181.7 L60.2 180.6 L61.5 179.5 L62.8 178.4 L64.1 177.3 L65.4 176.2 L66.7 175.1 L68 174 L69.3 172.9 L70.6 171.8 L71.9 170.7 L73.2 169.6 L74.5 168.5 L75.8 167.5 L77.1 166.4 L78.4 165.3 L79.7 164.2 L81 163.1 L82.3 162 L83.6 160.9 L84.9 159.8 L86.2 158.8 L87.5 157.7 L88.8 156.6 L90.1 155.5 L91.4 154.5 L92.7 153.4 L94 152.3 L95.3 151.2 L96.6 150.2 L97.9 149.1 L99.2 148.1 L100.5 147 L101.8 145.9 L103.1 144.9 L104.4 143.8 L105.7 142.8 L107 141.7 L108.3 140.7 L109.6 139.7 L110.9 138.6 L112.2 137.6 L113.5 136.5 L114.8 135.5 L116.1 134.5 L117.4 133.5 L118.7 132.4 L120 131.4 L121.3 130.4 L122.6 129.4 L123.9 128.4 L125.2 127.4 L126.5 126.4 L127.8 125.4 L129.1 124.4 L130.4 123.4 L131.7 122.4 L133 121.4 L134.3 120.5 L135.6 119.5 L136.9 118.5 L138.2 117.6 L139.5 116.6 L140.8 115.6 L142.1 114.7 L143.4 113.7 L144.7 112.8 L146 111.9 L147.3 110.9 L148.6 110 L149.9 109.1 L151.2 108.1 L152.5 107.2 L153.8 106.3 L155.1 105.4 L156.4 104.5 L157.7 103.6 L159 102.7 L160.3 101.8 L161.6 100.9 L162.9 100.1 L164.2 99.2 L165.5 98.3 L166.8 97.5 L168.1 96.6 L169.4 95.8 L170.7 94.9 L172 94.1 L173.3 93.2 L174.6 92.4 L175.9 91.6 L177.2 90.8 L178.5 90 L179.8 89.2 L181.1 88.4 L182.4 87.6 L183.7 86.8 L185 86 L186.3 85.2 L187.6 84.5 L188.9 83.7 L190.2 82.9 L191.5 82.2 L192.8 81.5 L194.1 80.7 L195.4 80 L196.7 79.3 L198 78.5 L199.3 77.8 L200.6 77.1 L201.9 76.4 L203.2 75.7 L204.5 75.1 L205.8 74.4 L207.1 73.7 L208.4 73 L209.7 72.4 L211 71.7 L212.3 71.1 L213.6 70.5 L214.9 69.8 L216.2 69.2 L217.5 68.6 L218.8 68 L220.1 67.4 L221.4 66.8 L222.7 66.2 L224 65.6 L225.3 65.1 L226.6 64.5 L227.9 63.9 L229.2 63.4 L230.5 62.9 L231.8 62.3 L233.1 61.8 L234.4 61.3 L235.7 60.8 L237 60.3 L238.3 59.8 L239.6 59.3 L240.9 58.8 L242.2 58.3 L243.5 57.9 L244.8 57.4 L246.1 57 L247.4 56.5 L248.7 56.1 L250 55.7 L251.3 55.2 L252.6 54.8 L253.9 54.4 L255.2 54 L256.5 53.7 L257.8 53.3 L259.1 52.9 L260.4 52.5 L261.7 52.2 L263 51.9 L264.3 51.5 L265.6 51.2 L266.9 50.9 L268.2 50.6 L269.5 50.3 L270.8 50 L272.1 49.7 L273.4 49.4 L274.7 49.1 L276 48.9 L277.3 48.6 L278.6 48.4 L279.9 48.1 L281.2 47.9 L282.5 47.7 L283.8 47.5 L285.1 47.3 L286.4 47.1 L287.7 46.9 L289 46.7 L290.3 46.6 L291.6 46.4 L292.9 46.2 L294.2 46.1 L295.5 46 L296.8 45.8 L298.1 45.7 L299.4 45.6 L300.7 45.5 L302 45.4 L303.3 45.3 L304.6 45.3 L305.9 45.2 L307.2 45.2 L308.5 45.1 L309.8 45.1 L311.1 45 L312.4 45 L313.7 45 L315 45"/>
+<path class="kurve kupfer" d="M55 185L220.5 45" style="stroke-dasharray:6 4"/>
+<text class="kupfer klein" x="125" y="111" text-anchor="end">ω = v₀k</text>
+<path class="hilfslinie" d="M55 45H325"/>
+<path class="hilfslinie" d="M315 185V45"/>
+<text class="blau klein halo" x="216.2" y="91.2">Kette</text>
+<path class="achse" d="M185 185v4"/><text class="klein" x="185" y="201" text-anchor="middle">π/(2Δz)</text>
+<path class="achse" d="M315 185v4"/><text class="klein" x="315" y="201" text-anchor="middle">π/Δz</text>
+<path class="achse" d="M55 185v4"/><text class="klein" x="55" y="201" text-anchor="middle">0</text>
+<path class="achse" d="M55 115h-4"/><text class="klein" x="47" y="119" text-anchor="end">ω₀</text>
+<path class="achse" d="M55 45h-4"/><text class="klein" x="47" y="49" text-anchor="end">2ω₀</text>
+</svg>
+            <figcaption>Abb. 7: Dispersionsrelation der Federkette (blau). Für
+              lange Wellen (kleines $k$) folgt sie der Geraden $\omega = v_0k$
+              (orange gestrichelt) der Wellengleichung, für kurze Wellen biegt sie
+              ab und endet bei der Grenzfrequenz $2\omega_0$.</figcaption>
+          </figure>
+
+          <p>Die Phasengeschwindigkeit $v_\text{ph} = \omega/k$ hängt jetzt von
+            der Wellenlänge ab: Kurze Wellen laufen langsamer als lange. Diese
+            Erscheinung heißt <em>Dispersion</em>. Ein Puls aus vielen
+            Wellenlängen behält dann seine Form nicht mehr, sondern zerfließt.
+            Dispersion tritt in vielen Medien auf, zum Beispiel bei Licht in Glas
+            (Brechzahl $n(\lambda)$, deshalb zerlegt ein Prisma weißes Licht) und
+            bei Wasserwellen. Wie schnell sich dann Energie und Information
+            ausbreiten, beschreibt die Gruppengeschwindigkeit
+            $v_\text{gr} = \mathrm{d}\omega/\mathrm{d}k$, die beim Thema
+            <a href="ueberlagerung.html#wellengruppen">Überlagerung</a> genauer behandelt wird. Ohne Dispersion sind beide
+            Geschwindigkeiten gleich.</p>
+
+          <div class="merkkasten">
+            <span class="titel">Merke</span>
+            <p>Gilt $\omega = vk$ für alle Wellenlängen, laufen alle Wellen gleich
+              schnell und Pulse behalten ihre Form. Bei einer Kette aus Massen
+              ist $\omega = 2\omega_0|\sin(k\Delta z/2)|$: Die Wellengleichung ist
+              der Grenzfall langer Wellen, kurze Wellen zeigen Dispersion.</p>
+          </div>
+        </section>
+
+        <section class="tab" id="beispiele" data-titel="Beispielrechnungen">
+
+          <div class="beispiel">
+            <h3>Beispiel 1: Welle auf einer Gitarrensaite</h3>
+            <p><strong>Gegeben:</strong> Stahlsaite mit Durchmesser
+              $d = 0{,}30\,\mathrm{mm}$, Dichte $\rho = 7850\,\mathrm{kg/m^3}$,
+              Spannkraft $F = 70\,\mathrm{N}$. Auf ihr läuft eine harmonische Welle
+              mit $f = 440\,\mathrm{Hz}$.<br>
+              <strong>Gesucht:</strong> Längendichte $\mu$, Geschwindigkeit $v$,
+              Wellenlänge $\lambda$, Wellenzahl $k$ und die Zeit, die ein Puls für
+              die schwingende Länge $L = 0{,}648\,\mathrm{m}$ braucht.</p>
+
+            <p><strong>1. Längendichte.</strong> Masse pro Länge ist Dichte mal
+              Querschnitt:
+              $$ \mu = \rho\,\frac{\pi d^2}{4} = 7850\,\mathrm{\frac{kg}{m^3}}\cdot\frac{\pi\,(3{,}0\cdot10^{-4}\,\mathrm{m})^2}{4} = 5{,}55\cdot10^{-4}\,\mathrm{kg/m} $$</p>
+
+            <p><strong>2. Geschwindigkeit.</strong>
+              $$ v = \sqrt{\frac{F}{\mu}} = \sqrt{\frac{70\,\mathrm{N}}{5{,}55\cdot10^{-4}\,\mathrm{kg/m}}} = 355\,\mathrm{m/s} $$
+              Einheitencheck: $\sqrt{\mathrm{N/(kg/m)}} = \sqrt{\mathrm{kg\,m\,s^{-2}\cdot m/kg}} = \mathrm{m/s}$ ✓</p>
+
+            <p><strong>3. Wellenlänge und Wellenzahl.</strong>
+              $$ \lambda = \frac{v}{f} = \frac{355\,\mathrm{m/s}}{440\,\mathrm{s^{-1}}} = 0{,}807\,\mathrm{m}, \qquad
+                 k = \frac{2\pi}{\lambda} = \frac{2\pi}{0{,}807\,\mathrm{m}} = 7{,}78\,\mathrm{m^{-1}} $$</p>
+
+            <p><strong>4. Laufzeit über die Saite.</strong>
+              $$ t = \frac{L}{v} = \frac{0{,}648\,\mathrm{m}}{355\,\mathrm{m/s}} = 1{,}82\cdot10^{-3}\,\mathrm{s} = 1{,}82\,\mathrm{ms} $$</p>
+
+            <p><strong>Ergebnis und Plausibilität:</strong> Die Welle läuft mit gut
+              $350\,\mathrm{m/s}$, also etwa so schnell wie Schall in Luft, und
+              braucht knapp $2\,\mathrm{ms}$ über die Saite. Die Wellenlänge auf der
+              Saite ($81\,\mathrm{cm}$) ist eine andere als die des Tons in der Luft
+              ($78\,\mathrm{cm}$), weil die Frequenz gleich ist, die
+              Geschwindigkeiten aber verschieden sind.</p>
+          </div>
+
+          <div class="beispiel">
+            <h3>Beispiel 2: Eine Wellenfunktion lesen</h3>
+            <p><strong>Gegeben:</strong> Eine Seilwelle wird beschrieben durch
+              $\xi(z,t) = 4{,}0\,\mathrm{cm}\cdot\sin\!\big(50\,\mathrm{s^{-1}}\,t - 2{,}5\,\mathrm{m^{-1}}\,z\big)$.<br>
+              <strong>Gesucht:</strong> Laufrichtung, Wellenlänge, Frequenz,
+              Phasengeschwindigkeit, die größte Quergeschwindigkeit eines
+              Seilstücks und die Auslenkung bei $z = 1{,}0\,\mathrm{m}$ zur Zeit
+              $t = 0{,}10\,\mathrm{s}$.</p>
+
+            <p><strong>1. Ablesen.</strong> Vergleich mit
+              $\xi = A\sin(\omega t - kz)$: $A = 4{,}0\,\mathrm{cm}$,
+              $\omega = 50\,\mathrm{s^{-1}}$, $k = 2{,}5\,\mathrm{m^{-1}}$. Das Minuszeichen
+              zwischen $\omega t$ und $kz$ heißt: Die Welle läuft in $+z$-Richtung.</p>
+
+            <p><strong>2. Wellenlänge, Frequenz, Geschwindigkeit.</strong>
+              $$ \lambda = \frac{2\pi}{k} = \frac{2\pi}{2{,}5\,\mathrm{m^{-1}}} = 2{,}51\,\mathrm{m}, \qquad
+                 f = \frac{\omega}{2\pi} = \frac{50\,\mathrm{s^{-1}}}{2\pi} = 7{,}96\,\mathrm{Hz} $$
+              $$ v_\text{ph} = \frac{\omega}{k} = \frac{50\,\mathrm{s^{-1}}}{2{,}5\,\mathrm{m^{-1}}} = 20\,\mathrm{m/s} $$
+              Einheitencheck: $\mathrm{s^{-1}}/\mathrm{m^{-1}} = \mathrm{m/s}$ ✓. Kontrolle: $\lambda f = 2{,}51\,\mathrm{m}\cdot7{,}96\,\mathrm{s^{-1}} = 20\,\mathrm{m/s}$ ✓</p>
+
+            <p><strong>3. Quergeschwindigkeit.</strong> Ein Seilstück am Ort $z$
+              bewegt sich mit
+              $$ \frac{\partial \xi}{\partial t} = A\omega\cos(\omega t - kz), \qquad
+                 \Big(\frac{\partial \xi}{\partial t}\Big)_\text{max} = A\omega = 0{,}040\,\mathrm{m}\cdot50\,\mathrm{s^{-1}} = 2{,}0\,\mathrm{m/s} $$</p>
+
+            <p><strong>4. Auslenkung an einem Punkt.</strong> Das Argument ist
+              $50\cdot0{,}10 - 2{,}5\cdot1{,}0 = 2{,}5$ (im Bogenmaß):
+              $$ \xi(1{,}0\,\mathrm{m};\ 0{,}10\,\mathrm{s}) = 4{,}0\,\mathrm{cm}\cdot\sin(2{,}5) = 4{,}0\,\mathrm{cm}\cdot0{,}598 = 2{,}4\,\mathrm{cm} $$</p>
+
+            <p><strong>Ergebnis und Plausibilität:</strong> Die Welle läuft mit
+              $20\,\mathrm{m/s}$ nach rechts, das Seil selbst bewegt sich höchstens
+              mit $2{,}0\,\mathrm{m/s}$ quer dazu. Beide Geschwindigkeiten sind
+              verschiedene Dinge: Die eine gehört zum Muster, die andere zum
+              Material. Ihr Verhältnis $A\omega/v = kA = 0{,}10$ ist die größte
+              Steigung des Seils; sie ist klein, wie es die Herleitung der
+              Wellengleichung verlangt.</p>
+          </div>
+
+          <div class="beispiel">
+            <h3>Beispiel 3: Wie viel Leistung trägt eine Seilwelle?</h3>
+            <p><strong>Gegeben:</strong> Ein Seil mit $\mu = 0{,}25\,\mathrm{kg/m}$ ist
+              mit $F = 40\,\mathrm{N}$ gespannt. Ein Ende wird harmonisch mit
+              $f = 5{,}0\,\mathrm{Hz}$ und der Amplitude $A = 5{,}0\,\mathrm{cm}$ auf und ab
+              bewegt.<br>
+              <strong>Gesucht:</strong> Geschwindigkeit, Wellenlänge, mittlere
+              Energiedichte und mittlere Leistung der Welle.</p>
+
+            <p><strong>1. Geschwindigkeit und Wellenlänge.</strong>
+              $$ v = \sqrt{\frac{F}{\mu}} = \sqrt{\frac{40\,\mathrm{N}}{0{,}25\,\mathrm{kg/m}}} = 12{,}6\,\mathrm{m/s}, \qquad
+                 \lambda = \frac{v}{f} = \frac{12{,}6\,\mathrm{m/s}}{5{,}0\,\mathrm{s^{-1}}} = 2{,}53\,\mathrm{m} $$</p>
+
+            <p><strong>2. Mittlere Energiedichte.</strong> Mit
+              $\omega = 2\pi f = 31{,}4\,\mathrm{s^{-1}}$:
+              $$ \bar\eta = \tfrac12\mu\,\omega^2A^2 = \tfrac12\cdot0{,}25\,\mathrm{\frac{kg}{m}}\cdot(31{,}4\,\mathrm{s^{-1}})^2\cdot(0{,}050\,\mathrm{m})^2 = 0{,}308\,\mathrm{J/m} $$
+              Einheitencheck: $\mathrm{kg\,m^{-1}\,s^{-2}\,m^2} = \mathrm{kg\,m^2\,s^{-2}/m} = \mathrm{J/m}$ ✓</p>
+
+            <p><strong>3. Mittlere Leistung.</strong>
+              $$ P = \bar\eta\,v = 0{,}308\,\mathrm{J/m}\cdot12{,}6\,\mathrm{m/s} = 3{,}9\,\mathrm{W} $$</p>
+
+            <p><strong>Ergebnis und Plausibilität:</strong> Die Hand muss im Mittel
+              knapp $4\,\mathrm{W}$ aufbringen, das ist mit dem Arm gut machbar. Auf
+              jeder Wellenlänge stecken $0{,}308\,\mathrm{J/m}\cdot2{,}53\,\mathrm{m} = 0{,}78\,\mathrm{J}$.
+              Verdoppelt man die Frequenz bei gleicher Amplitude, vervierfacht sich
+              die Leistung, weil $P \propto \omega^2$.</p>
+          </div>
+        </section>
+
+        <section class="tab" id="aufgaben" data-titel="Aufgaben">
+          <p>Alle Wellen laufen ungedämpft, die Auslenkungen sind klein gegen die
+            Wellenlänge. Winkel im Argument von Sinus und Kosinus stehen im
+            Bogenmaß.</p>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 1
+              <span class="schwierigkeit" data-stufe="leicht">leicht</span>
+            </h3>
+            <p>Ein Korken auf dem See hebt und senkt sich alle $2{,}5\,\mathrm{s}$.
+              Zwei benachbarte Wellenkämme sind $6{,}0\,\mathrm{m}$ voneinander
+              entfernt.</p>
+            <ol type="a">
+              <li>Wie groß sind Frequenz und Ausbreitungsgeschwindigkeit der Wellen?</li>
+              <li>Gib Wellenzahl $k$ und Kreisfrequenz $\omega$ an.</li>
+            </ol>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>a) $f = 1/T = 1/(2{,}5\,\mathrm{s}) = 0{,}40\,\mathrm{Hz}$ und
+                $v = \lambda f = 6{,}0\,\mathrm{m}\cdot0{,}40\,\mathrm{s^{-1}} = 2{,}4\,\mathrm{m/s}$.</p>
+              <p>b) $k = 2\pi/\lambda = 2\pi/(6{,}0\,\mathrm{m}) = 1{,}05\,\mathrm{m^{-1}}$ und
+                $\omega = 2\pi/T = 2\pi/(2{,}5\,\mathrm{s}) = 2{,}51\,\mathrm{s^{-1}}$. Kontrolle:
+                $\omega/k = 2{,}4\,\mathrm{m/s}$ ✓</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 2
+              <span class="schwierigkeit" data-stufe="leicht">leicht</span>
+            </h3>
+            <p>Eine Welle wird beschrieben durch
+              $\xi(z,t) = 2{,}0\,\mathrm{cm}\cdot\cos\!\big(4{,}0\,\mathrm{m^{-1}}\,z + 12\,\mathrm{s^{-1}}\,t\big)$.</p>
+            <ol type="a">
+              <li>In welche Richtung läuft die Welle, und wie schnell?</li>
+              <li>Berechne Wellenlänge und Periodendauer.</li>
+            </ol>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>a) Die Phase $kz + \omega t$ bleibt konstant, wenn $z$ mit
+                wachsendem $t$ abnimmt: Die Welle läuft in $-z$-Richtung. Die
+                Geschwindigkeit ist $v = \omega/k = 12\,\mathrm{s^{-1}}/4{,}0\,\mathrm{m^{-1}} = 3{,}0\,\mathrm{m/s}$.</p>
+              <p>b) $\lambda = 2\pi/k = 2\pi/(4{,}0\,\mathrm{m^{-1}}) = 1{,}57\,\mathrm{m}$ und
+                $T = 2\pi/\omega = 2\pi/(12\,\mathrm{s^{-1}}) = 0{,}52\,\mathrm{s}$.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 3
+              <span class="schwierigkeit" data-stufe="mittel">mittel</span>
+            </h3>
+            <p>Eine $12\,\mathrm{m}$ lange Wäscheleine mit der Längendichte
+              $\mu = 0{,}060\,\mathrm{kg/m}$ ist zwischen zwei Pfosten gespannt. Du
+              schlägst an einem Ende kurz auf die Leine. Der Puls läuft zum
+              anderen Pfosten, wird dort reflektiert und ist nach $0{,}80\,\mathrm{s}$
+              wieder bei dir.</p>
+            <ol type="a">
+              <li>Wie schnell läuft der Puls, und mit welcher Kraft ist die Leine gespannt?</li>
+              <li>Welche Spannkraft wäre nötig, damit der Puls doppelt so schnell läuft?</li>
+            </ol>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>a) Der Puls legt hin und zurück $24\,\mathrm{m}$ zurück:
+                $v = 24\,\mathrm{m}/0{,}80\,\mathrm{s} = 30\,\mathrm{m/s}$. Aus $v = \sqrt{F/\mu}$ folgt
+                $F = \mu v^2 = 0{,}060\,\mathrm{kg/m}\cdot(30\,\mathrm{m/s})^2 = 54\,\mathrm{N}$.</p>
+              <p>b) Wegen $v \propto \sqrt F$ braucht die doppelte Geschwindigkeit
+                die vierfache Kraft, also $216\,\mathrm{N}$.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 4
+              <span class="schwierigkeit" data-stufe="mittel">mittel</span>
+            </h3>
+            <p>Prüfe, welche der folgenden Funktionen die Wellengleichung mit
+              $v = 3\,\mathrm{m/s}$ erfüllen ($z$ in Metern, $t$ in Sekunden, alle
+              Zahlen ohne Einheit eingesetzt).</p>
+            <ol type="a">
+              <li>$\xi = (z - 3t)^3$</li>
+              <li>$\xi = \sin z\cdot\cos(3t)$</li>
+              <li>$\xi = e^{-(z^2 - 9t^2)}$</li>
+              <li>$\xi = \sin(3z - t)$</li>
+            </ol>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>Zu prüfen ist $\partial_z^2\xi = \frac19\,\partial_t^2\xi$.</p>
+              <p>a) Ja. Es ist eine Funktion von $z - 3t$ allein, also eine nach rechts
+                laufende Lösung. Direkt: $\partial_z^2\xi = 6(z - 3t)$,
+                $\partial_t^2\xi = 54(z - 3t)$, und $54/9 = 6$ ✓</p>
+              <p>b) Ja. $\partial_z^2\xi = -\sin z\cos 3t$ und
+                $\frac19\partial_t^2\xi = \frac19\cdot(-9)\sin z\cos 3t$, beides gleich.
+                Mit $\sin z\cos 3t = \frac12[\sin(z - 3t) + \sin(z + 3t)]$ ist das die
+                Summe zweier gegenläufiger Wellen (eine stehende Welle).</p>
+              <p>c) Nein. Mit $\xi = e^{-u}$, $u = z^2 - 9t^2$ ist
+                $\partial_z^2\xi = (4z^2 - 2)\,\xi$, aber
+                $\frac19\partial_t^2\xi = \frac19(324t^2 + 18)\,\xi = (36t^2 + 2)\,\xi$.
+                Die beiden stimmen nicht überein. Die Funktion hängt nicht über $z - 3t$
+                oder $z + 3t$ allein von Ort und Zeit ab, sondern über das Produkt
+                $(z - 3t)(z + 3t)$.</p>
+              <p>d) Nein, nicht mit dieser Geschwindigkeit. Es ist eine harmonische
+                Welle mit $k = 3\,\mathrm{m^{-1}}$ und $\omega = 1\,\mathrm{s^{-1}}$, also
+                $v = \omega/k = \frac13\,\mathrm{m/s}$. Sie löst die Wellengleichung mit
+                diesem $v$, nicht mit $3\,\mathrm{m/s}$.</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 5
+              <span class="schwierigkeit" data-stufe="schwer">schwer</span>
+            </h3>
+            <p>Ein einfaches Modell für Schall in einem Aluminiumkristall: eine
+              Kette aus Atomen der Masse $m = 27\,\mathrm{u} = 4{,}48\cdot10^{-26}\,\mathrm{kg}$
+              im Abstand $\Delta z = 0{,}29\,\mathrm{nm}$, verbunden durch Federn mit
+              $D = 20\,\mathrm{N/m}$.</p>
+            <ol type="a">
+              <li>Berechne $\omega_0$ und die Geschwindigkeit $v_0$ langer Wellen.</li>
+              <li>Wie groß sind die Grenzfrequenz (als Kreisfrequenz und als Frequenz
+                $f$) und die kürzeste sinnvolle Wellenlänge?</li>
+              <li>Wie groß ist die Phasengeschwindigkeit bei $k = \pi/(2\Delta z)$, im
+                Verhältnis zu $v_0$?</li>
+            </ol>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>a) $\omega_0 = \sqrt{D/m} = \sqrt{20\,\mathrm{N/m}/4{,}48\cdot10^{-26}\,\mathrm{kg}} = 2{,}11\cdot10^{13}\,\mathrm{s^{-1}}$
+                und $v_0 = \Delta z\,\omega_0 = 0{,}29\cdot10^{-9}\,\mathrm{m}\cdot2{,}11\cdot10^{13}\,\mathrm{s^{-1}} = 6{,}1\cdot10^3\,\mathrm{m/s}$.
+                Das liegt nahe am gemessenen Wert für Längswellen im
+                ausgedehnten Aluminium (rund $6400\,\mathrm{m/s}$).</p>
+              <p>b) $\omega_\text{max} = 2\omega_0 = 4{,}22\cdot10^{13}\,\mathrm{s^{-1}}$, also
+                $f_\text{max} = \omega_\text{max}/(2\pi) = 6{,}7\cdot10^{12}\,\mathrm{Hz} = 6{,}7\,\mathrm{THz}$.
+                Sie gehört zu $k = \pi/\Delta z$, also
+                $\lambda_\text{min} = 2\Delta z = 0{,}58\,\mathrm{nm}$.</p>
+              <p>c) Bei $k = \pi/(2\Delta z)$ ist $\omega = 2\omega_0\sin(\pi/4) = \sqrt2\,\omega_0$ und
+                $$ v_\text{ph} = \frac{\omega}{k} = \frac{\sqrt2\,\omega_0\cdot2\Delta z}{\pi} = \frac{2\sqrt2}{\pi}\,v_0 = 0{,}90\,v_0 = 5{,}5\cdot10^3\,\mathrm{m/s} $$
+                Bei einer Wellenlänge von nur vier Atomabständen ist die Welle
+                also 10 % langsamer als lange Wellen.</p>
+              <p><em>Zum Nachdenken:</em> Hörbarer Schall hat Wellenlängen von
+                Zentimetern bis Metern, viele Millionen Atomabstände. Warum spürt er
+                von der Dispersion der Kette praktisch nichts?</p>
+            </details>
+          </div>
+
+          <div class="aufgabe">
+            <h3>Aufgabe 6
+              <span class="schwierigkeit" data-stufe="schwer">schwer</span>
+            </h3>
+            <p>Ein kleiner Lautsprecher strahlt bei $f = 500\,\mathrm{Hz}$ die
+              Schallleistung $P = 0{,}50\,\mathrm{W}$ gleichmäßig in alle Richtungen
+              ab. Luft: $\rho = 1{,}2\,\mathrm{kg/m^3}$, $v = 343\,\mathrm{m/s}$.</p>
+            <ol type="a">
+              <li>Berechne die Intensität in $2{,}0\,\mathrm{m}$ und in $20\,\mathrm{m}$ Abstand.</li>
+              <li>Wie weit schwingen die Luftteilchen in $2{,}0\,\mathrm{m}$ Abstand hin und her
+                (Amplitude $A$)?</li>
+              <li>Zeige mit der Energieerhaltung, dass die Amplitude einer
+                Kugelwelle wie $1/r$ abnimmt, und vergleiche mit der Lösung
+                $\xi = \frac1r\,g(r - vt)$.</li>
+            </ol>
+            <details class="loesung">
+              <summary>Lösung anzeigen</summary>
+              <p>a) Die Leistung verteilt sich auf die Kugelfläche:
+                $I(2{,}0\,\mathrm{m}) = \dfrac{0{,}50\,\mathrm{W}}{4\pi\,(2{,}0\,\mathrm{m})^2} = 9{,}9\cdot10^{-3}\,\mathrm{W/m^2}$
+                und $I(20\,\mathrm{m}) = 9{,}9\cdot10^{-5}\,\mathrm{W/m^2}$, hundertmal weniger
+                beim zehnfachen Abstand.</p>
+              <p>b) Aus $I = \frac12\rho v\,\omega^2A^2$ mit $\omega = 2\pi\cdot500\,\mathrm{s^{-1}} = 3142\,\mathrm{s^{-1}}$:
+                $$ A = \sqrt{\frac{2I}{\rho v\,\omega^2}} = \sqrt{\frac{2\cdot9{,}9\cdot10^{-3}\,\mathrm{W/m^2}}{1{,}2\,\mathrm{kg/m^3}\cdot343\,\mathrm{m/s}\cdot(3142\,\mathrm{s^{-1}})^2}} = 2{,}2\cdot10^{-6}\,\mathrm{m} $$
+                Die Luft schwingt also nur um gut zwei Mikrometer, obwohl der Ton
+                recht laut ist.</p>
+              <p>c) Ohne Dämpfung strömt durch jede Kugelschale dieselbe Leistung:
+                $4\pi r^2\cdot\frac12\rho v\,\omega^2A(r)^2 = P$ ist unabhängig von $r$.
+                Also $A(r)^2 \propto 1/r^2$ und $A(r) \propto 1/r$. Genau diesen Faktor
+                $1/r$ vor der laufenden Form $g(r - vt)$ liefert die Lösung der
+                Wellengleichung in Kugelkoordinaten.</p>
+              <p><em>Zum Nachdenken:</em> Eine lange, gerade Straße strahlt
+                Verkehrslärm als Zylinderwelle ab. Wie hängen dort Intensität und
+                Amplitude vom Abstand ab?</p>
+            </details>
+          </div>
+        </section>
+
+      </div></article>
+  </main>
+</body>
+</html>
